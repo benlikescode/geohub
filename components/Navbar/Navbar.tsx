@@ -2,10 +2,12 @@ import { FC } from 'react'
 import { StyledNavbar } from '.'
 import { BellIcon } from '@heroicons/react/outline'
 import { Avatar, Button, Icon, Searchbar } from '../System'
+import { selectUser } from '../../redux/user'
+import { useSelector } from 'react-redux'
+import { UserType } from '../../types'
 
 const Navbar: FC = () => {
-  const avatar = "https://images.clipartlogo.com/files/istock/previews/9726/97260923-eiffel-tower-icon-paris-sign.jpg"
-  const name = "BenZ"
+  const user: UserType = useSelector(selectUser)
 
   return (
     <StyledNavbar>
@@ -19,8 +21,8 @@ const Navbar: FC = () => {
           </Icon>
         </Button>  
         <div className="userInfo">
-          <Avatar url={avatar} alt="" size={30}/>
-          <span className="username">{name}</span>
+          <Avatar url={user.avatar} alt="" size={30}/>
+          <span className="username">{user.name}</span>
         </div>
       </div>
     </StyledNavbar>

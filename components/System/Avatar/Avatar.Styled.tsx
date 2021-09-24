@@ -10,7 +10,7 @@ const StyledAvatar = styled.div<StyledProps>`
   width: ${({ size }) => size ? size : '32'}px;
   position: relative;
   cursor: pointer;
-  
+
   img {
     position: absolute;
     top: 0;
@@ -21,6 +21,7 @@ const StyledAvatar = styled.div<StyledProps>`
     border-radius: 50%;
     height: 100%;
     width: 100%;
+    border: 2px solid #fff;
   }
   
   .defaultAvatar {
