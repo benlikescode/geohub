@@ -9,9 +9,21 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroicons/react": "^1.0.4",
+    "@react-google-maps/api": "^2.4.0",
+    "@types/google-map-react": "^2.1.3",
+    "@types/styled-components": "^5.1.14",
+    "dotenv": "^10.0.0",
+    "google-map-react": "^2.1.10",
+    "heroicons": "^1.0.4",
+    "mongoose": "^6.0.7",
     "next": "11.1.2",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-google-maps": "^9.4.5",
+    "react-google-streetview": "^0.0.9",
+    "react-streetview": "^1.1.1",
+    "styled-components": "^5.3.1"
   },
   "devDependencies": {
     "@types/react": "17.0.24",
