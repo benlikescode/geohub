@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 type StyledProps = {
-  type: 'solidGreen' | 'solidPink' | 'solidBlack' | 'ghost' | 'icon' | 'iconRounded'
+  type: 'solidGreen' | 'solidPink' | 'solidBlack' | 'solidBlue' | 'ghost' | 'icon' | 'iconRounded'
   primaryColor?: string
   secondaryColor?: string
   isDisabled?: boolean
@@ -10,7 +10,8 @@ type StyledProps = {
 
 const StyledButton = styled.div<StyledProps>`
   width: ${({ width }) => width ? width : 'fit-content'};
-
+  cursor: ${({ isDisabled }) => isDisabled && 'not-allowed'};
+  
   button {
     display: flex;
     position: relative;
@@ -35,6 +36,13 @@ const StyledButton = styled.div<StyledProps>`
       type === 'solidPink' && 
       !isDisabled && `
         background-color: #9D174D;
+        color: #fff;
+    `}
+
+    ${({ type, isDisabled }) => 
+      type === 'solidBlue' && 
+      !isDisabled && `
+        background-color: #2356BB;
         color: #fff;
     `}
 
@@ -85,11 +93,9 @@ const StyledButton = styled.div<StyledProps>`
       isDisabled && `
         background-color: var(--gray-800);
         color: #fff;
-        cursor: not-allowed;
+        pointer-events: none;
         opacity: 0.5;
     `}
-
-    
   }
 `
 
