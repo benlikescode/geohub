@@ -12,7 +12,7 @@ const StyledIcon = styled.div<StyledProps>`
   
   svg {
     height: ${({ size }) => size ? size : '16'}px;
-    color: ${({ fill }) => fill ? fill : '#fff'};
+    color: ${({ fill }) => fill ? fill : '#8D8F92'};
   }
 `
 

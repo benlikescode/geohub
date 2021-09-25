@@ -5,11 +5,11 @@ const StyledNavbar = styled.div`
   align-items: center;
   justify-content: space-between;
   height: 60px;
-  background-color: #262626;
   position: sticky;
   top: 0;
   z-index: 20;
   padding: 0 40px;
+  border-bottom: var(--border);
 
   .title {
     color: #fff;

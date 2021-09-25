@@ -150,15 +150,18 @@
   --pink-800: #9D174D;
   --pink-900: #831843;
 
-  --border: 1px solid var(--gray-300);
+  --border: 1px solid #34373A;
   --modalPadding: 15px;
-  --header: #1F2937;
-  --subHeader: #4B5563;
-  --iconColorLight: #6B7280;
-  --iconColorDark: #374151;
-  --hoverLight: #F9FAFB;
-  --hoverNormal: #F3F4F6;
-  --hoverDark: #E5E7EB;
+  --iconColor: #8D8F92;
+  --activeColor: #A5ADFF;
+  --color1: #fff;
+  --color2: #DADBDD;
+  --color3: #BABABA;
+  --background1: #1E2023;
+  --background2: #262626;
+  --background3: #34373A;
+
+  
 }
 
 html,
@@ -168,8 +171,8 @@ body {
   font-family: var(--font-family1);
   font-weight: 500;
   min-height: 100vh;
-  background-color: #343434;
-  color: #fff;
+  background-color: var(--background1);
+  color: var(--color1);
 }
 
 a {
