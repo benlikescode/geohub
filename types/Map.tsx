@@ -1,4 +1,4 @@
-import { CoordinateType } from "."
+import { LocationType } from "."
 
 type Map = {
   id: string
@@ -6,7 +6,7 @@ type Map = {
   description: string
   usersPlayed: number
   likes: number
-  locations: CoordinateType[]
+  locations: LocationType[]
   previewImg: string
 }
 

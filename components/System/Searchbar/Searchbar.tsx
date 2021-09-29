@@ -12,7 +12,7 @@ const Searchbar: FC<Props> = ({ placeholder }) => {
 
   return (
     <StyledSearchbar>
-      <Icon size={24}>
+      <Icon size={20} fill="var(--color2)">
         <SearchIcon />
       </Icon>
       <input 

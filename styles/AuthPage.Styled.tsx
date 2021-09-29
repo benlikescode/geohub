@@ -31,7 +31,7 @@ const StyledAuthPage = styled.div`
 
 
   .divider {
-    border-top: var(--border);
+    border-top: var(--borderLight);
     position: relative;
     left: auto;
     right: auto;
@@ -54,7 +54,7 @@ const StyledAuthPage = styled.div`
   }
 
   .provider {
-    border: var(--border);
+    border: var(--borderLight);
     border-radius: 4px;
     display: flex;
     align-items: center;
@@ -66,7 +66,7 @@ const StyledAuthPage = styled.div`
     height: 100%;
     width: 45px;
     position: relative;
-    border-right: var(--border);
+    border-right: var(--borderLight);
 
     img {
       position: absolute;

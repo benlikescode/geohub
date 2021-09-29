@@ -1,22 +1,28 @@
 import { FC, useEffect, useRef, useState } from 'react'
 import { StyledMap } from '.'
 import GoogleMapReact from 'google-map-react'
-import { CoordinateType } from '../../types'
+import { LocationType } from '../../types'
 import Marker from 'google-map-react'
 import { Button } from '../System/Button'
 import { useRouter } from 'next/router'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectGame, updateGuess, updateView } from '../../redux/game'
 
 type Props = {
-  coordinate: CoordinateType
+  coordinate: LocationType
   zoom: number
 }
 
 const Map: FC<Props> = ({ coordinate, zoom }) => {
   const [map, setMap] = useState<google.maps.Map>()
   const [marker, setMarker] = useState<google.maps.Marker>()
+  const [mapHeight, setMapHeight] = useState(200)
+  const [mapWidth, setMapWidth] = useState(400)
   const [hasGuessed, setHasGuessed] = useState(false)
   const prevMarkersRef = useRef<google.maps.Marker[]>([])
   const router = useRouter()
+  const dispatch = useDispatch()
+  const game = useSelector(selectGame)
 
 
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
@@ -38,13 +44,21 @@ const Map: FC<Props> = ({ coordinate, zoom }) => {
     clearMarkers(prevMarkersRef.current)
 
     window.google.maps.event.addListener(map, "click", (e: any) => {
-      const marker = createMarker({ lat: e.latLng.lat(), lng: e.latLng.lng() }, map)
+      const location = {
+        lat: e.latLng.lat(), 
+        lng: e.latLng.lng()
+      }
+      dispatch(updateGuess({
+        guessedLocation: location
+      }))
+
+      const marker = createMarker(location, map)
       clearMarkers(prevMarkersRef.current)
       prevMarkersRef.current.push(marker)
     });
   }
 
-  const createMarker = (position: CoordinateType, map: google.maps.Map) => {
+  const createMarker = (position: LocationType, map: google.maps.Map) => {
     const image = {
       url: "https://www.geoguessr.com/images/auto/30/30/ce/0/plain/pin/5683bfb6646c1a1089483512d66e70d5.png",
       size: new google.maps.Size(30, 30),
@@ -66,29 +80,43 @@ const Map: FC<Props> = ({ coordinate, zoom }) => {
     }
   }
 
+  const handleMapHover = () => {
+    setMapHeight(400)
+    setMapWidth(600)
+  }
+
+  const handleMapLeave = () => {
+    setMapHeight(200)
+    setMapWidth(400)
+  }
+
   const handleSubmitGuess = () => {
-    router.push('/result/1')
+    dispatch(updateView({
+      currView: 'Result'
+    }))
   }
 
   return (
-    <StyledMap>
-      <div id="guessMap" className="map">
-        <GoogleMapReact 
-          bootstrapURLKeys={GoogleMapConfig}
-          defaultCenter={coordinate} 
-          defaultZoom={zoom}
-          yesIWantToUseGoogleMapApiInternals
-          onGoogleApiLoaded={handleApiLoaded}
-        >
-        </GoogleMapReact>
-        <div className="controls">Controls</div>
-      </div>   
-      <Button 
-      type="solidGreen" 
-      width="100%" 
-      isDisabled={!hasGuessed}
-      callback={handleSubmitGuess}
-      >Submit Guess</Button> 
+    <StyledMap mapHeight={mapHeight} mapWidth={mapWidth}>
+      <div className="guessMapWrapper" onMouseOver={handleMapHover} onMouseLeave={handleMapLeave}>
+        <div id="guessMap" className="map">
+          <GoogleMapReact 
+            bootstrapURLKeys={GoogleMapConfig}
+            defaultCenter={coordinate} 
+            defaultZoom={zoom}
+            yesIWantToUseGoogleMapApiInternals
+            onGoogleApiLoaded={handleApiLoaded}
+          >
+          </GoogleMapReact>
+          <div className="controls">Controls</div>
+        </div>   
+        <Button 
+        type="solidBlue" 
+        width="100%" 
+        isDisabled={!hasGuessed}
+        callback={handleSubmitGuess}
+        >Submit Guess</Button> 
+      </div>  
     </StyledMap>
   )
 }

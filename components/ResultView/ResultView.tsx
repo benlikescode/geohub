@@ -1,30 +1,56 @@
 import { FC } from 'react'
 import { StyledResultView } from '.'
-import { ResultType } from '../../types'
+import { LocationType, ResultType } from '../../types'
 import { ResultMap } from '../ResultMap'
 import { ResultsCard } from '../ResultsCard'
 
-const ResultView: FC = () => {
+type Props = {
+  guessedLocation: LocationType
+  actualLocation: LocationType
+  currRound: number
+}
 
-  const locations = [
-    {lat: 40, lng: 45},
-    {lat: 60, lng: 45},
-    {lat: 80, lng: 45},
-    {lat: -40, lng: 45},
-    {lat: 45, lng: 75}
-  ]
+const ResultView: FC<Props> = ({ guessedLocation, actualLocation, currRound }) => {
 
-  const result: ResultType = {
-    round: 3,
-    distanceAway: 567,
-    points: 100
+  const getResultData = () => {
+    const result: ResultType = {
+      round: currRound,
+      distanceAway: getDistance(guessedLocation, actualLocation),
+      points: getPoints()
+    }
+    return result
+  }
+
+  const getDistance = (loc1: LocationType, loc2: LocationType) => {
+    const earthRadius = 3958.8
+
+    const lat1Radians = loc1.lat * (Math.PI/180)
+    const lat2Radians = loc2.lat * (Math.PI/180)
+
+    const diffLat = lat2Radians - lat1Radians 
+    const diffLng = (loc2.lng - loc1.lng) * (Math.PI/180)
+
+    const distance = 2 * earthRadius * Math.asin(Math.sqrt(Math.sin(diffLat/2)*Math.sin(diffLat/2)+Math.cos(lat1Radians)*Math.cos(lat2Radians)*Math.sin(diffLng/2)*Math.sin(diffLng/2)))
+    return Math.round(distance)
+  }
+
+  const getPoints = () => {
+    const distance = getDistance(guessedLocation, actualLocation)
+    const score = 5000 - distance
+
+    if (score < 0) {
+      return 0
+    }
+
+    return score
+   
   }
 
   return (
     <StyledResultView>
-      <ResultMap locations={locations} />
+      <ResultMap guessedLocations={[guessedLocation]} actualLocations={[actualLocation]} />
       <div className="resultsWrapper">
-        <ResultsCard result={result}/>
+        <ResultsCard result={getResultData()}/>
       </div>
     </StyledResultView>
   )

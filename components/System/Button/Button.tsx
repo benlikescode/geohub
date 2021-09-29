@@ -10,11 +10,12 @@ type Props = {
   className?: string
   children?: ReactNode
   width?: string
+  isRound?: boolean
 }
 
-const Button: FC<Props> = ({ type, callback, primaryColor, secondaryColor, isDisabled, className, children, width }) => {
+const Button: FC<Props> = ({ type, callback, primaryColor, secondaryColor, isDisabled, className, children, width, isRound }) => {
   return (
-    <StyledButton type={type} primaryColor={primaryColor} secondaryColor={secondaryColor} isDisabled={isDisabled} width={width}>
+    <StyledButton type={type} primaryColor={primaryColor} secondaryColor={secondaryColor} isDisabled={isDisabled} width={width} isRound={isRound}>
       <button onClick={callback ? (e) => callback(e) : undefined} className={className}>
         {children}
       </button>

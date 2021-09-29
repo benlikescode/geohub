@@ -22,7 +22,7 @@ const StyledInput = styled.div`
       width: 100%;
       box-sizing: border-box;
       color: var(--gray-800);
-      border: var(--border);
+      border: var(--borderLight);
       outline: none;
       font-size: 1rem;
       

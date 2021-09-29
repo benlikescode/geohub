@@ -12,7 +12,7 @@ const Game: FC = () => {
 
   return (
     <StyledGame>
-      <StreetView coordinate={coord} zoom={11} />      
+      <StreetView location={coord} zoom={11} />      
       <Map coordinate={coord} zoom={8} />
       
     </StyledGame>

@@ -1,14 +1,14 @@
 import { FC } from 'react'
 import { StyledStreetView } from '.'
 import GoogleMapReact from 'google-map-react'
-import { CoordinateType } from '../../types'
+import { LocationType } from '../../types'
 
 type Props = {
-  coordinate: CoordinateType
+  location: LocationType
   zoom: number
 }
 
-const Map: FC<Props> = ({ coordinate, zoom }) => {
+const Map: FC<Props> = ({ location, zoom }) => {
 
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
 
@@ -24,7 +24,7 @@ const Map: FC<Props> = ({ coordinate, zoom }) => {
         disableDefaultUI: true, 
       }
     )
-    sv.getPanorama({location: coordinate, radius: 50}, processSVData)
+    sv.getPanorama({location: location, radius: 50}, processSVData)
 
     function processSVData(data: any, status: any) {
         var marker = new maps.Marker({
@@ -46,7 +46,7 @@ const Map: FC<Props> = ({ coordinate, zoom }) => {
       <div id="map"></div>
       <GoogleMapReact 
         bootstrapURLKeys={GoogleMapConfig}
-        defaultCenter={coordinate} 
+        defaultCenter={location} 
         defaultZoom={zoom}
         yesIWantToUseGoogleMapApiInternals
         onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}

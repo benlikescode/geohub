@@ -1,19 +1,26 @@
 import styled from 'styled-components'
 
-const StyledMap = styled.div`
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  
+type StyledProps = {
+  mapHeight: number
+  mapWidth: number
+}
 
+const StyledMap = styled.div<StyledProps>`
+  .guessMapWrapper {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
   .map {
     position: relative;
-    height: 400px;
-    width: 600px;
+    height: ${({ mapHeight }) => mapHeight ? mapHeight : '400'}px;
+    width: ${({ mapWidth }) => mapWidth ? mapWidth : '600'}px;
+    opacity: ${({ mapHeight }) => mapHeight === 200 ? 0.5 : 1};
   }
 
   .controls {

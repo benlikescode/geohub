@@ -6,6 +6,7 @@ type StyledProps = {
   secondaryColor?: string
   isDisabled?: boolean
   width?: string
+  isRound?: boolean
 }
 
 const StyledButton = styled.div<StyledProps>`
@@ -17,11 +18,11 @@ const StyledButton = styled.div<StyledProps>`
     position: relative;
     align-items: center;
     justify-content: center;
-    border-radius: 3px;
-    height: 42px;
+    border-radius: ${({ isRound }) => isRound ? '20' : '3'}px;
+    height: 35px;
     padding: 0 25px;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 500;
     width: 100%;
     user-select: none;
 
@@ -42,7 +43,7 @@ const StyledButton = styled.div<StyledProps>`
     ${({ type, isDisabled }) => 
       type === 'solidBlue' && 
       !isDisabled && `
-        background-color: #2356BB;
+        background-color: #0072FF;
         color: #fff;
     `}
 

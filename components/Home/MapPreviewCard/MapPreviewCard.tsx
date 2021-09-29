@@ -23,7 +23,7 @@ const MapPreviewCard: FC<Props> = ({ map }) => {
       <div className="contentWrapper">
         <div className="mapName">{map.name}</div>
         <div className="mapDescription">{map.description}</div>
-        <Button type="solidBlue" width="50%" callback={handlePlayClick}>Play</Button>
+        <Button type="solidBlue" width="45%" callback={handlePlayClick} isRound>Play</Button>
       </div>
      
       <div className="statsFooter">
