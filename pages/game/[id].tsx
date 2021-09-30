@@ -12,6 +12,7 @@ import { selectGame } from '../../redux/game'
 import { useSelector } from 'react-redux'
 import { FinalResultsView } from '../../components/FinalResultsView'
 import { StreetViewControls } from '../../components/StreetViewControls'
+import { GameStatus } from '../../components/GameStatus'
 
 const GamePage: NextPage = () => {
   const game = useSelector(selectGame)
@@ -30,7 +31,8 @@ const GamePage: NextPage = () => {
     {game.currView === 'Game' &&
     <>
       <StreetView location={locations[game.round - 1] || locations[0]} zoom={11} setCompassHeading={setCompassHeading}/>      
-      <StreetViewControls compassHeading={compassHeading}/>
+      <StreetViewControls compassHeading={compassHeading} />
+      <GameStatus />
       <Map 
         coordinate={locations[game.round - 1] || locations[0]} 
         zoom={8} 
