@@ -6,10 +6,13 @@ type StyledProps = {
 
 const StyledStreetViewControls = styled.div<StyledProps>`
   position: absolute;
-  bottom: 30px;
-  left: 5px;
+  bottom: 50px;
+  left: 15px;
   z-index: 1;
-  height: 200px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
 
   .compass {
     width: 70px;

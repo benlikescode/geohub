@@ -75,10 +75,9 @@ const StyledButton = styled.div<StyledProps>`
     type === 'iconRounded' && 
     !isDisabled && `
       border-radius: 50%;
-      border: var(--border);
-      background-color: transparent;
-      height: 38px;
-      width: 38px;
+      background-color: var(--background1);
+      height: 40px;
+      width: 40px;
       padding: 0;
     `}
 
