@@ -13,7 +13,7 @@ const StyledStreetViewControls = styled.div<StyledProps>`
   align-items: center;
   flex-direction: column;
   gap: 15px;
-
+  
   .compass {
     width: 70px;
     height: 70px;
@@ -32,8 +32,6 @@ const StyledStreetViewControls = styled.div<StyledProps>`
       color: black;
     }
   }
- 
-  
 `
 
 export default StyledStreetViewControls

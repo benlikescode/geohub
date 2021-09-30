@@ -33,6 +33,7 @@ const GamePage: NextPage = () => {
       <StreetView location={locations[game.round - 1] || locations[0]} zoom={11} setCompassHeading={setCompassHeading}/>      
       <StreetViewControls compassHeading={compassHeading} />
       <GameStatus />
+   
       <Map 
         coordinate={locations[game.round - 1] || locations[0]} 
         zoom={8} 
@@ -50,15 +51,8 @@ const GamePage: NextPage = () => {
       <>
         <FinalResultsView guessedLocations={game.guessedLocations} actualLocations={locations}/>
       </>
-    }
-
-    
-     
-   
-    
-    </>
-   
-   
+    } 
+    </> 
   )
 }
 
