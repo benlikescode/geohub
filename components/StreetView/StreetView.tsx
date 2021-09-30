@@ -1,14 +1,20 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { StyledStreetView } from '.'
 import GoogleMapReact from 'google-map-react'
 import { LocationType } from '../../types'
+import { useDispatch } from 'react-redux'
+import { updateCompass } from '../../redux/game'
+import { useDebounce } from '../../utils/hooks/useDebounce'
 
 type Props = {
   location: LocationType
   zoom: number
+  setCompassHeading: (compassHeading: number) => void
 }
 
-const Map: FC<Props> = ({ location, zoom }) => {
+const Map: FC<Props> = ({ location, zoom, setCompassHeading }) => {
+  const [ch, setCh] = useState(0)
+  useDebounce(() => setCompassHeading(ch), 50, [ch])
 
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
 
@@ -26,14 +32,13 @@ const Map: FC<Props> = ({ location, zoom }) => {
         },
         zoomControlOptions: {
           position: google.maps.ControlPosition.BOTTOM_LEFT,
-        },
-
-        
+        },       
         addressControl: false,
-        linksControl: true,
-        panControl: true,
+        linksControl: false,
+        panControl: false,
         enableCloseButton: false,
-        styles: [ { featureType: "road", stylers: [ { visibility: "off" } ] },{ } ]
+        zoomControl: false,
+        fullscreenControl: false,
       }
     )
     panorama.setOptions({
@@ -43,17 +48,20 @@ const Map: FC<Props> = ({ location, zoom }) => {
 
     function processSVData(data: any, status: any) {
       var marker = new maps.Marker({
-          position: data.location.latLng,
-          map: map,
-          title: data.location.description
-      });
+        position: data.location.latLng,
+        map: map,
+        title: data.location.description
+      })
       panorama.setPano(data.location.pano)
       panorama.setPov({
-          heading: 270,
-          pitch: 0
-      });
+        heading: 0,
+        pitch: 0
+      })
       panorama.setVisible(true)
     }
+    panorama.addListener('pov_changed', () => {
+      setCh(panorama.getPov().heading)
+    })
   }
 
   return (
