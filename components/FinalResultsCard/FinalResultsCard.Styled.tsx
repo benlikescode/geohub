@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const StyledResultsCard = styled.div`
+const StyledFinalResultsCard = styled.div`
   background-color: var(--background2);
   border-radius: 4px;
   display: flex;
@@ -18,6 +18,7 @@ const StyledResultsCard = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 25px;
+    width: 500px;
   }
 
   .textWrapper {
@@ -45,4 +46,4 @@ const StyledResultsCard = styled.div`
   
 `
 
-export default StyledResultsCard
+export default StyledFinalResultsCard

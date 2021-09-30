@@ -6,7 +6,8 @@ import Marker from 'google-map-react'
 import { Button } from '../System/Button'
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectGame, updateGuess, updateView } from '../../redux/game'
+import { addGuess, selectGame, updateGuess, updateView } from '../../redux/game'
+import { getMapTheme } from '../../utils/helperFunctions'
 
 type Props = {
   coordinate: LocationType
@@ -38,6 +39,7 @@ const Map: FC<Props> = ({ coordinate, zoom }) => {
         zoom: 2,
         center: { lat: 0, lng: 0 },
         disableDefaultUI: true,
+        styles: getMapTheme('Light')
       }   
     )
 
@@ -49,7 +51,7 @@ const Map: FC<Props> = ({ coordinate, zoom }) => {
         lng: e.latLng.lng()
       }
       dispatch(updateGuess({
-        guessedLocation: location
+        currGuess: location
       }))
 
       const marker = createMarker(location, map)
@@ -91,8 +93,14 @@ const Map: FC<Props> = ({ coordinate, zoom }) => {
   }
 
   const handleSubmitGuess = () => {
+    const guesses: LocationType[] = game.guessedLocations
+    console.log(guesses)
+
     dispatch(updateView({
       currView: 'Result'
+    }))
+    dispatch(addGuess({
+      guessedLocations: game.currGuess
     }))
   }
 

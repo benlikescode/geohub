@@ -4,7 +4,7 @@ const StyledStreetView = styled.div`
 position: relative;
 
   #map {
-    height: calc(100vh - 60px);
+    height: 100vh;
     width: 100%;
   }
 `

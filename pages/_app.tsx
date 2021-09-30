@@ -14,7 +14,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <Navbar />
         <Component {...pageProps} />
       </PersistGate>
     </Provider> 

@@ -10,32 +10,16 @@ import { LocationType } from '../../types'
 import { ResultView } from '../../components/ResultView'
 import { selectGame } from '../../redux/game'
 import { useSelector } from 'react-redux'
+import { FinalResultsView } from '../../components/FinalResultsView'
 
 const GamePage: NextPage = () => {
   const game = useSelector(selectGame)
 
-/*
-  const [locations, setLocations] = useState<LocationType[]>([])
-
-  useEffect(() => {
-    setLocations(
-      generateUS()
-    )
-  }, [])
-
-  const coord = {
-    lat: 25,
-    lng: 30
-  } 
-
-  console.log(locations)
-  */
-
   const locations = [
+    {lat: 36.56128686060616, lng: -91.12202786978625},
     {lat: 35.77289217620601, lng: -85.09555176667031},
     {lat: 35.9128264152442, lng: -87.61140660553662},
     {lat: 36.24188381208464, lng: -88.28262971203432},
-    {lat: 36.56128686060616, lng: -91.12202786978625},
     {lat: 37.17057338007954, lng: -92.55305293592208},
   ]
 
@@ -50,10 +34,17 @@ const GamePage: NextPage = () => {
       />
     </>
     }
+
     {game.currView === 'Result' &&
-     <>
-     <ResultView guessedLocation={game.guessedLocation} actualLocation={locations[game.round - 1] || locations[0]} currRound={game.round}/>
-   </>
+      <>
+        <ResultView guessedLocation={game.currGuess} actualLocation={locations[game.round - 1] || locations[0]} currRound={game.round}/>
+      </>
+    }
+
+    {game.currView === 'FinalResults' &&
+      <>
+        <FinalResultsView guessedLocations={game.guessedLocations} actualLocations={locations}/>
+      </>
     }
 
     

@@ -1,6 +1,6 @@
 type Result = {
-  round: number
-  distanceAway: number
+  round?: number
+  distanceAway?: number
   points: number
 }
 

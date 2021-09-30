@@ -4,8 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { StyledResultsCard } from '.'
 import { nextRound, selectGame } from '../../redux/game'
 import { ResultType } from '../../types'
-import { Button, Icon } from '../System'
-import { ProgressBar } from '../System/ProgressBar'
+import { Button, Icon, ProgressBar } from '../System'
 
 type Props = {
   result: ResultType
@@ -14,17 +13,33 @@ type Props = {
 const ResultsCard: FC<Props> = ({ result }) => {
 
   const calculateProgress = () => {
-    return (result.points / 5000) * 100
+    const progress = (result.points / 5000) * 100
+
+    if (progress < 1) {
+      return 1
+    }
+
+    return progress
   }
 
   const dispatch = useDispatch()
   const game = useSelector(selectGame)
 
   const handleNextRound = () => {
-    dispatch(nextRound({
-      round: game.round + 1,
-      currView: 'Game'
-    }))
+    if (game.round === 5) {
+      dispatch(nextRound({
+        currView: 'FinalResults',
+        totalPoints: game.totalPoints + result.points
+      }))
+    }
+    else {
+      dispatch(nextRound({
+        round: game.round + 1,
+        currView: 'Game',
+        totalPoints: game.totalPoints + result.points
+      }))
+    }
+  
   }
 
   return (
@@ -44,7 +59,9 @@ const ResultsCard: FC<Props> = ({ result }) => {
           </div>
         </div>
         <ProgressBar progress={calculateProgress()}/>
-        <Button type="solidPink" callback={handleNextRound}>Next Round</Button>
+        <Button type="solidBlue" callback={handleNextRound} isRound>
+          {game.round === 5 ? 'View Results' : 'Next Round'}
+        </Button>
       </div>
     </StyledResultsCard>
   )

@@ -6,10 +6,10 @@ type StyledProps = {
 }
 
 const StyledProgressBar = styled.div<StyledProps>`
-  height: 30px;
+  height: 20px;
   width: 100%;
   border-radius: 50rem;
-  background: #676767;
+  background: var(--background3);
 
   .progress {
     width: ${({ progress }) => progress}%;

@@ -2,6 +2,7 @@ import { FC, useEffect, useRef, useState } from 'react'
 import { StyledResultMap } from '.'
 import GoogleMapReact from 'google-map-react'
 import { LocationType } from '../../types'
+import { getMapTheme } from '../../utils/helperFunctions'
 
 type Props = {
   guessedLocations: LocationType[]
@@ -27,6 +28,7 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations }) => {
         zoom: 2,
         center: deafultCoords,
         disableDefaultUI: true,
+        styles: getMapTheme('')
       }   
     )
 
@@ -35,13 +37,34 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations }) => {
     }
 
     for (const location of actualLocations) {
-      createMarker(location, map, '')
+      const marker = createMarker(location, map, '')
+      marker.addListener("click", () => {
+        window.open(`http://www.google.com/maps?layer=c&cbll=${location.lat},${location.lng}`, '_blank')   
+      })
     } 
 
-    const path = new google.maps.Polyline({
-      path: [guessedLocations[0], actualLocations[0]],
-      map: map
-    })
+    const lineSymbol = {
+      path: "M 0,-1 0,1",
+      strokeOpacity: 1,
+      scale: 2,
+    }
+
+    for (let i = 0; i < actualLocations.length; i++) {
+      new google.maps.Polyline({
+        path: [guessedLocations[i], actualLocations[i]],
+        map: map,
+        strokeOpacity: 0,
+        icons: [
+          {
+            icon: lineSymbol,
+            offset: "0",
+            repeat: "10px",
+          },
+        ],    
+      })
+    }
+
+    
   }
 
   const createMarker = (position: LocationType, map: google.maps.Map, markerImage: string) => {
@@ -53,7 +76,7 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations }) => {
       return new window.google.maps.Marker({
         position: position,
         map: map,
-        icon: image 
+        icon: image
       })
     }
 

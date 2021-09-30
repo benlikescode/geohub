@@ -20,26 +20,41 @@ const Map: FC<Props> = ({ location, zoom }) => {
   const handleApiLoaded = (map: any, maps: any) => {
     var sv = new maps.StreetViewService()
     var panorama = new maps.StreetViewPanorama(
-      document.getElementById('map'), {     
-        disableDefaultUI: true, 
+      document.getElementById('map'), {  
+        panControlOptions: {
+          position: google.maps.ControlPosition.BOTTOM_LEFT,
+        },
+        zoomControlOptions: {
+          position: google.maps.ControlPosition.BOTTOM_LEFT,
+        },
+
+        
+        addressControl: false,
+        linksControl: true,
+        panControl: true,
+        enableCloseButton: false,
+        styles: [ { featureType: "road", stylers: [ { visibility: "off" } ] },{ } ]
       }
     )
+    panorama.setOptions({
+      showRoadLabels: false
+    })
     sv.getPanorama({location: location, radius: 50}, processSVData)
 
     function processSVData(data: any, status: any) {
-        var marker = new maps.Marker({
-            position: data.location.latLng,
-            map: map,
-            title: data.location.description
-        });
-        panorama.setPano(data.location.pano)
-        panorama.setPov({
-            heading: 270,
-            pitch: 0
-        });
-        panorama.setVisible(true)
+      var marker = new maps.Marker({
+          position: data.location.latLng,
+          map: map,
+          title: data.location.description
+      });
+      panorama.setPano(data.location.pano)
+      panorama.setPov({
+          heading: 270,
+          pitch: 0
+      });
+      panorama.setVisible(true)
     }
-  };
+  }
 
   return (
     <StyledStreetView>
