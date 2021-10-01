@@ -322,3 +322,61 @@ export const getGuessMapDimensions = (size: number) => {
   }
   return { width: 400, height: 250 }
 }
+
+export const getResultMapValues = (guessedLocations: LocationType[], actualLocations: LocationType[]) => {
+  let center: LocationType = {lat: 0, lng: 0}
+  let zoom = 2
+
+  // if we are showing results of 1 round
+  if (actualLocations.length === 1) {
+    const guessedLocation = guessedLocations[0]
+    const actualLocation = actualLocations[0]
+
+    let distance = getDistance(guessedLocation, actualLocation)
+    if (distance >= 15000) {
+      actualLocation.lng = actualLocation.lng - 360
+    }
+    console.log("HERE")
+    console.log(distance)
+
+    center = {
+      lat: (actualLocation.lat + guessedLocation.lat) / 2,
+      lng: (actualLocation.lng + guessedLocation.lng) / 2
+    }
+
+    if (distance < 2000) {
+      zoom = 6
+    }
+    else if (distance < 4000) {
+      zoom = 4
+    }
+    else if (distance < 6000) {
+      zoom = 4
+    }
+    else if (distance < 8000) {
+      zoom = 3
+    }
+    else if (distance < 10000) {
+      zoom = 3
+    }
+    else if (distance < 12000) {
+      zoom = 2
+    }
+    else if (distance < 15000) {
+      zoom = 2
+    }
+    else {
+      zoom = 3
+    }
+    console.log(guessedLocation)
+    console.log(actualLocation)
+    console.log(center)
+
+    return {center, zoom}
+
+  }
+  // if we make it here, we are showing results for entire game
+  // thus we can just return the default values of zoom = 2 and {lat = 0, lng = 0}
+  console.log(zoom)
+  return {center, zoom}
+}
