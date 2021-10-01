@@ -12,11 +12,13 @@ type GameState = {
   totalPoints: number
   currView: 'Game' | 'Results' | 'FinalResults'
   compassHeading: number
+  atStart: boolean
+  guessMapSize: number
 }
 
 const initialState: GameState = {
   id: '',
-  map: '',
+  map: 'World',
   round: 1,
   currGuess: {lat: 0, lng: 0},
   guessedLocations: [],
@@ -24,7 +26,9 @@ const initialState: GameState = {
   roundPoints: 0,
   totalPoints: 0,
   currView: 'Game',
-  compassHeading: 0
+  compassHeading: 0, 
+  atStart: false,
+  guessMapSize: 1
 }
 
 
@@ -77,7 +81,13 @@ export const gameSlice = createSlice({
     },
     updateCompass: (state, action) => {
       state.compassHeading = action.payload.compassHeading
-    }
+    },
+    returnToStart: (state, action) => {
+      state.atStart = action.payload.atStart
+    },
+    updateGuessMapSize: (state, action) => {
+      state.guessMapSize = action.payload.guessMapSize
+    },
   }
 })
 
@@ -89,7 +99,9 @@ export const {
   updateView, 
   addGuess,
   newGame,
-  updateCompass
+  updateCompass,
+  returnToStart,
+  updateGuessMapSize
 } = gameSlice.actions
 
 export const selectGame = (state: any) => state.game

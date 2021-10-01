@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 import { StyledMap } from '.'
 import GoogleMapReact from 'google-map-react'
 import { LocationType } from '../../types'
@@ -6,8 +6,10 @@ import Marker from 'google-map-react'
 import { Button } from '../System/Button'
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
-import { addGuess, selectGame, updateGuess, updateView } from '../../redux/game'
-import { getMapTheme } from '../../utils/helperFunctions'
+import { addGuess, selectGame, updateGuess, updateGuessMapSize, updateView } from '../../redux/game'
+import { getGuessMapDimensions, getMapTheme } from '../../utils/helperFunctions'
+import { ChevronDownIcon, ChevronUpIcon, LocationMarkerIcon } from '@heroicons/react/outline'
+import { Icon } from '../System'
 
 type Props = {
   coordinate: LocationType
@@ -15,13 +17,11 @@ type Props = {
 }
 
 const Map: FC<Props> = ({ coordinate, zoom }) => {
-  const [map, setMap] = useState<google.maps.Map>()
-  const [marker, setMarker] = useState<google.maps.Marker>()
-  const [mapHeight, setMapHeight] = useState(200)
-  const [mapWidth, setMapWidth] = useState(400)
+  const [mapHeight, setMapHeight] = useState(180)
+  const [mapWidth, setMapWidth] = useState(300)
+  const [hovering, setHovering] = useState(false)
   const [hasGuessed, setHasGuessed] = useState(false)
   const prevMarkersRef = useRef<google.maps.Marker[]>([])
-  const router = useRouter()
   const dispatch = useDispatch()
   const game = useSelector(selectGame)
 
@@ -83,13 +83,16 @@ const Map: FC<Props> = ({ coordinate, zoom }) => {
   }
 
   const handleMapHover = () => {
-    setMapHeight(400)
-    setMapWidth(600)
+    setHovering(true)
+    const { width, height } = getGuessMapDimensions(game.guessMapSize)
+    setMapHeight(height)
+    setMapWidth(width)
   }
 
   const handleMapLeave = () => {
-    setMapHeight(200)
-    setMapWidth(400)
+    setHovering(false)
+    setMapHeight(180)
+    setMapWidth(300)
   }
 
   const handleSubmitGuess = () => {
@@ -104,20 +107,44 @@ const Map: FC<Props> = ({ coordinate, zoom }) => {
     }))
   }
 
+  const changeMapSize = (change: 'increase' | 'decrease') => {
+    if (change === 'increase') {
+      dispatch(updateGuessMapSize({
+        guessMapSize: game.guessMapSize + 1
+      }))
+    }
+    else {
+      dispatch(updateGuessMapSize({
+        guessMapSize: game.guessMapSize - 1
+      }))
+    }
+    handleMapHover()
+
+  }
+
   return (
     <StyledMap mapHeight={mapHeight} mapWidth={mapWidth}>
       <div className="guessMapWrapper" onMouseOver={handleMapHover} onMouseLeave={handleMapLeave}>
-        <div id="guessMap" className="map">
-          <GoogleMapReact 
-            bootstrapURLKeys={GoogleMapConfig}
-            defaultCenter={coordinate} 
-            defaultZoom={zoom}
-            yesIWantToUseGoogleMapApiInternals
-            onGoogleApiLoaded={handleApiLoaded}
-          >
-          </GoogleMapReact>
-          <div className="controls">Controls</div>
-        </div>   
+      {hovering &&
+          <div className="controls">
+            <button className="controlBtn" onClick={() => changeMapSize('increase')}>
+              <Icon size={16} fill="#fff">
+                <ChevronUpIcon />
+              </Icon>
+            </button>
+
+            <button className="controlBtn" onClick={() => changeMapSize('decrease')}>
+              <Icon size={16} fill="#fff">
+                <ChevronDownIcon />
+              </Icon>
+            </button>
+          </div>
+        }
+        <div id="guessMap" className="map"></div> 
+        
+        
+
+
         <Button 
         type="solidBlue" 
         width="100%" 
@@ -125,6 +152,14 @@ const Map: FC<Props> = ({ coordinate, zoom }) => {
         callback={handleSubmitGuess}
         >Submit Guess</Button> 
       </div>  
+      <GoogleMapReact 
+            bootstrapURLKeys={GoogleMapConfig}
+            defaultCenter={coordinate} 
+            defaultZoom={zoom}
+            yesIWantToUseGoogleMapApiInternals
+            onGoogleApiLoaded={handleApiLoaded}
+          >
+          </GoogleMapReact>
     </StyledMap>
   )
 }

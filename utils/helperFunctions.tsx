@@ -309,3 +309,16 @@ export const getPoints = (distance: number) => {
 
   return Math.round(score)
 }
+
+export const getGuessMapDimensions = (size: number) => {
+  if (size === 2) {
+    return { width: 500, height: 300 }
+  }
+  if (size === 3) {
+    return { width: 600, height: 400 }
+  }
+  if (size === 4) {
+    return { width: 800, height: 500 }
+  }
+  return { width: 400, height: 250 }
+}

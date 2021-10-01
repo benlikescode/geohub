@@ -17,22 +17,28 @@ const StyledMap = styled.div<StyledProps>`
   }
   
   .map {
-    position: relative;
-    height: ${({ mapHeight }) => mapHeight ? mapHeight : '400'}px;
-    width: ${({ mapWidth }) => mapWidth ? mapWidth : '600'}px;
-    opacity: ${({ mapHeight }) => mapHeight === 200 ? 0.5 : 1};
+    height: ${({ mapHeight }) => mapHeight}px;
+    width: ${({ mapWidth }) => mapWidth}px;
+    opacity: ${({ mapWidth }) => mapWidth === 300 ? 0.5 : 1};
+    border-radius: 4px;
   }
 
   .controls {
-    position: absolute;
-    top: 0;
-    left: 0;
+    
+    display: flex;
+    align-items: center;
+    gap: 5px;  
   }
 
   img[src="https://www.geoguessr.com/images/auto/30/30/ce/0/plain/pin/5683bfb6646c1a1089483512d66e70d5.png"] {
-    
     border-radius: 50%;
-   
+  }
+
+  .controlBtn {
+    height: 24px;
+    width: 24px;
+    background: var(--background1);
+    border-radius: 50%;
   }
 `
 
