@@ -2,7 +2,7 @@ import { FC, useEffect, useRef, useState } from 'react'
 import { StyledResultMap } from '.'
 import GoogleMapReact from 'google-map-react'
 import { LocationType } from '../../types'
-import { getMapTheme } from '../../utils/helperFunctions'
+import { getMapTheme, getResultMapValues } from '../../utils/helperFunctions'
 
 type Props = {
   guessedLocations: LocationType[]
@@ -23,25 +23,36 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations }) => {
   }
 
   const handleApiLoaded = () => {
+    const { center, zoom } = getResultMapValues(guessedLocations, actualLocations)
     const map = new window.google.maps.Map(
       document.getElementById("resultMap") as HTMLElement, {
-        zoom: 2,
-        center: deafultCoords,
+        zoom: zoom,
+        center: center,
         disableDefaultUI: true,
         styles: getMapTheme('')
       }   
     )
 
     for (const location of guessedLocations) {
-      createMarker(location, map, 'https://www.geoguessr.com/images/auto/30/30/ce/0/plain/pin/5683bfb6646c1a1089483512d66e70d5.png')
+      createMarker(location, map, 'https://www.geoguessr.com/images/auto/30/30/ce/0/plain/pin/c2fe16562d9ad321687532d53b067e75.png')
     }
 
-    for (const location of actualLocations) {
-      const marker = createMarker(location, map, '')
-      marker.addListener("click", () => {
-        window.open(`http://www.google.com/maps?layer=c&cbll=${location.lat},${location.lng}`, '_blank')   
-      })
-    } 
+    for (let i = 0; i < actualLocations.length; i++) {
+      // if we are generating just the round marker
+      if (actualLocations.length === 1) {
+        const marker = createMarker(actualLocations[i], map, '')
+        marker.addListener("click", () => {
+          window.open(`http://www.google.com/maps?layer=c&cbll=${actualLocations[i].lat},${actualLocations[i].lng}`, '_blank')   
+        })
+      }
+      // if we are generating all the round markers => we want to generate the numbered markers
+      else {
+        const marker = createMarker(actualLocations[i], map, `/images/finalMarker${i + 1}.png`)
+        marker.addListener("click", () => {
+          window.open(`http://www.google.com/maps?layer=c&cbll=${actualLocations[i].lat},${actualLocations[i].lng}`, '_blank')   
+        })
+      }
+    }
 
     const lineSymbol = {
       path: "M 0,-1 0,1",
