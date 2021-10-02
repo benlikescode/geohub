@@ -8,6 +8,7 @@ type Map = {
   likes: number
   locations: LocationType[]
   previewImg: string
+  creator: string
 }
 
 export default Map
