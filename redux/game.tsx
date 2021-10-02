@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { LocationType } from '../types'
+import { GameSettingsType, LocationType } from '../types'
 
 type GameState = {
   id: string
@@ -14,6 +14,7 @@ type GameState = {
   compassHeading: number
   atStart: boolean
   guessMapSize: number
+  gameSettings: GameSettingsType
 }
 
 const initialState: GameState = {
@@ -28,9 +29,9 @@ const initialState: GameState = {
   currView: 'Game',
   compassHeading: 0, 
   atStart: false,
-  guessMapSize: 1
+  guessMapSize: 1,
+  gameSettings: {timeLimit: 0, canMove: true, canPan: true, canZoom: true}
 }
-
 
 export const gameSlice = createSlice({
   name: 'game',
@@ -88,6 +89,9 @@ export const gameSlice = createSlice({
     updateGuessMapSize: (state, action) => {
       state.guessMapSize = action.payload.guessMapSize
     },
+    updateGameSettings: (state, action) => {
+      state.gameSettings = action.payload.gameSettings
+    }
   }
 })
 
@@ -101,7 +105,8 @@ export const {
   newGame,
   updateCompass,
   returnToStart,
-  updateGuessMapSize
+  updateGuessMapSize,
+  updateGameSettings
 } = gameSlice.actions
 
 export const selectGame = (state: any) => state.game
