@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import { MapPreviewCard } from '../components/Home/MapPreviewCard'
+import { Navbar, Sidebar, Layout } from '../components/Layout/'
 import StyledHomePage from '../styles/HomePage.Styled'
 import { MapType } from '../types'
 
@@ -19,7 +20,8 @@ const Home: NextPage = () => {
     usersPlayed: 60123,
     likes: 9251,
     locations: [testLocation],
-    previewImg: '/images/worldMap.jpg'
+    previewImg: '/images/worldMap.jpg',
+    creator: 'GeoHub'
   }
 
   const testMap2: MapType = {
@@ -29,7 +31,8 @@ const Home: NextPage = () => {
     usersPlayed: 60123,
     likes: 9251,
     locations: [testLocation],
-    previewImg: '/images/LandmarksMap.jfif'
+    previewImg: '/images/LandmarksMap.jfif',
+    creator: 'GeoHub'
   }
 
   const testMap3: MapType = {
@@ -39,7 +42,8 @@ const Home: NextPage = () => {
     usersPlayed: 60123,
     likes: 9251,
     locations: [testLocation],
-    previewImg: '/images/CanadaMap.jpg'
+    previewImg: '/images/CanadaMap.jpg',
+    creator: 'GeoHub'
   }
 
   const testMap4: MapType = {
@@ -49,17 +53,30 @@ const Home: NextPage = () => {
     usersPlayed: 60123,
     likes: 9251,
     locations: [testLocation],
-    previewImg: '/images/UnitedStatesMap.jpg'
+    previewImg: '/images/UnitedStatesMap.jpg',
+    creator: 'GeoHub'
   }
 
   return (
     <StyledHomePage>
-      <div className="mapPreviewSection">
-        <MapPreviewCard map={testMap} />
-        <MapPreviewCard map={testMap2} />
-        <MapPreviewCard map={testMap3} />
-        <MapPreviewCard map={testMap4} />
-      </div>
+      <Navbar />
+      <Layout hasSidebar>
+        <div>
+          <Sidebar />
+        </div>
+
+        <main>
+          <div className="mapPreviewSection">
+            <MapPreviewCard map={testMap} />
+            <MapPreviewCard map={testMap2} />
+            <MapPreviewCard map={testMap3} />
+            <MapPreviewCard map={testMap4} />
+          </div>
+        </main>
+       
+       
+      </Layout>
+    
      
     </StyledHomePage>
   )
