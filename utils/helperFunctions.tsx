@@ -1,4 +1,4 @@
-import { LocationType } from "../types"
+import { GameSettingsType, LocationType } from "../types"
 
 export const helloWorld = () => {
   console.log("Hello World")
@@ -379,4 +379,13 @@ export const getResultMapValues = (guessedLocations: LocationType[], actualLocat
   // thus we can just return the default values of zoom = 2 and {lat = 0, lng = 0}
   console.log(zoom)
   return {center, zoom}
+}
+
+export const formatSettingsLabel = (settings: GameSettingsType) => {
+  let formattedLabel = ''
+  if (settings.timeLimit === 0 && settings.canMove && settings.canPan && settings.canZoom) {
+    formattedLabel = 'Default Settings'
+  }
+
+  return formattedLabel
 }
