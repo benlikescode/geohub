@@ -18,6 +18,7 @@ const StyledButton = styled.div<StyledProps>`
     position: relative;
     align-items: center;
     justify-content: center;
+    gap: 8px;
     border-radius: ${({ isRound }) => isRound ? '20' : '3'}px;
     height: 35px;
     padding: 0 25px;

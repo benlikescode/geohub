@@ -2,8 +2,8 @@ import styled from 'styled-components'
 
 const StyledCheckbox = styled.div`
   background: var(--background3);
-  height: 25px;
-  width: 25px;
+  height: 24px;
+  width: 24px;
   border-radius: 4px;
   display: flex;
   align-items: center;

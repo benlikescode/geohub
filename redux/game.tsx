@@ -8,6 +8,7 @@ type GameState = {
   currGuess: LocationType,
   guessedLocations: LocationType[]
   actualLocations: LocationType[]
+  roundTimes: number[]
   roundPoints: number
   totalPoints: number
   currView: 'Game' | 'Results' | 'FinalResults'
@@ -24,13 +25,14 @@ const initialState: GameState = {
   currGuess: {lat: 0, lng: 0},
   guessedLocations: [],
   actualLocations: [],
+  roundTimes: [],
   roundPoints: 0,
   totalPoints: 0,
   currView: 'Game',
   compassHeading: 0, 
   atStart: false,
   guessMapSize: 1,
-  gameSettings: {timeLimit: 0, canMove: true, canPan: true, canZoom: true}
+  gameSettings: {timeLimit: 61, canMove: true, canPan: true, canZoom: true}
 }
 
 export const gameSlice = createSlice({
@@ -62,6 +64,7 @@ export const gameSlice = createSlice({
       state.round = action.payload.round 
       state.currView = action.payload.currView
       state.totalPoints = action.payload.totalPoints
+      state.currGuess = {lat: 0, lng: 0}
     },
     updateView: (state, action) => {
       state.currView = action.payload.currView
@@ -69,16 +72,18 @@ export const gameSlice = createSlice({
     addGuess: (state, action) => {
       state.guessedLocations = [...state.guessedLocations, action.payload.guessedLocations]
     },
-    newGame: (state, action) => {
+    resetGame: (state, action) => {
       state.id = action.payload.id
       state.map = action.payload.map
       state.round = 1
-      state.currGuess = {lat: 0, lng: 0},
+      state.currGuess = {lat: 0, lng: 0}
       state.guessedLocations = []
       state.actualLocations = []
+      state.roundTimes = []
       state.roundPoints = 0
       state.totalPoints = 0
       state.currView = 'Game'
+      state.gameSettings = {timeLimit: 61, canMove: true, canPan: true, canZoom: true}
     },
     updateCompass: (state, action) => {
       state.compassHeading = action.payload.compassHeading
@@ -91,6 +96,9 @@ export const gameSlice = createSlice({
     },
     updateGameSettings: (state, action) => {
       state.gameSettings = action.payload.gameSettings
+    },
+    updateRoundTimes: (state, action) => {
+      state.roundTimes = [...state.roundTimes, action.payload.roundTimes]
     }
   }
 })
@@ -102,11 +110,12 @@ export const {
   nextRound, 
   updateView, 
   addGuess,
-  newGame,
+  resetGame,
   updateCompass,
   returnToStart,
   updateGuessMapSize,
-  updateGameSettings
+  updateGameSettings,
+  updateRoundTimes
 } = gameSlice.actions
 
 export const selectGame = (state: any) => state.game

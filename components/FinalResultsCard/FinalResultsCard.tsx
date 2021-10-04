@@ -2,7 +2,7 @@ import { SparklesIcon } from '@heroicons/react/outline'
 import React, { FC } from 'react'
 import { useDispatch } from 'react-redux'
 import { StyledFinalResultsCard } from '.'
-import { newGame, updateView } from '../../redux/game'
+import { resetGame, updateView } from '../../redux/game'
 import { Icon, Button, ProgressBar, FlexGroup } from '../System'
 
 type Props = {
@@ -23,7 +23,7 @@ const FinalResultsCard: FC<Props> = ({ totalPoints }) => {
   }
 
   const handlePlayAgain = () => {
-    dispatch(newGame({
+    dispatch(resetGame({
       id: '12345',
       map: 'World'
     }))

@@ -393,9 +393,9 @@ export const formatSettingsLabel = (settings: GameSettingsType) => {
 
 // sliderVal will be in range of 0 - 60
 export const formatTimeLimit = (sliderVal: number) => {
-  const time = (sliderVal * 10) + 10
+  const time = Math.floor(sliderVal * 10)
   const mins = Math.floor(time / 60)
-  const secs = time - (mins * 60)
+  const secs =  Math.floor(time - (mins * 60)) 
 
   if (secs === 0) {
     return `${mins}:${secs}0` 
@@ -407,4 +407,8 @@ export const formatTimeLimit = (sliderVal: number) => {
   }
 
   return `${mins}:${secs}`
+}
+
+export const formatTimer = (time: number) => {
+  
 }

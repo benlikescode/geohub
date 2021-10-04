@@ -14,7 +14,7 @@ const GameSettings: FC = () => {
   const [movingChecked, setMovingChecked] = useState(true)
   const [panningChecked, setPanningChecked] = useState(true)
   const [zoomingChecked, setZoomingChecked] = useState(true)
-  const [sliderVal, setSliderVal] = useState(0)
+  const [sliderVal, setSliderVal] = useState(61)
   const router = useRouter()
   const dispatch = useDispatch()
 
@@ -81,15 +81,15 @@ const GameSettings: FC = () => {
           <div className="buttonsWrapper">
             <Button type="ghost">
               <Icon size={24}>
-                <UserIcon />
-                <span>Single Player</span>
+                <UserIcon />           
               </Icon>
+              <span>Single Player</span>
             </Button>
             <Button type="ghost">
               <Icon size={24}>
                 <UserGroupIcon />
-                <span>Challenge</span>
               </Icon>
+              <span>Challenge</span>
             </Button>
           </div>  
         </div>
