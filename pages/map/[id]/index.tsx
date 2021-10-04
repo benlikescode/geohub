@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import { Navbar, Layout, Sidebar } from '../../../components/Layout'
+import { GameSettings } from '../../../components/GameSettings'
 
 const MapPage: NextPage = () => {
 
@@ -14,7 +15,7 @@ const MapPage: NextPage = () => {
         </div>
 
         <main>
-          <span>Cool Map, Let's Go!</span>
+          <GameSettings />
         </main>
        
        

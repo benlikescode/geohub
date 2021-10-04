@@ -58,8 +58,8 @@ const StyledButton = styled.div<StyledProps>`
       type === 'ghost' && 
       !isDisabled && `
         background-color: transparent;
-        border: 1px solid #6B7280;
-        
+        border: var(--border);
+        color: #fff;
     `}
 
     ${({ type, isDisabled }) => 
