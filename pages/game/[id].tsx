@@ -2,14 +2,13 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
-import { Game } from '../../components/Game'
 import { StreetView } from '../../components/StreetView'
 import { Map } from '../../components/Map'
 import { generateLocations, generateUS, testLocation } from '../../utils/helperFunctions'
 import { LocationType } from '../../types'
 import { ResultView } from '../../components/ResultView'
-import { selectGame } from '../../redux/game'
-import { useSelector } from 'react-redux'
+import { resetGame, selectGame } from '../../redux/game'
+import { useDispatch, useSelector } from 'react-redux'
 import { FinalResultsView } from '../../components/FinalResultsView'
 import { StreetViewControls } from '../../components/StreetViewControls'
 import { GameStatus } from '../../components/GameStatus'
@@ -17,6 +16,7 @@ import { GameStatus } from '../../components/GameStatus'
 const GamePage: NextPage = () => {
   const game = useSelector(selectGame)
   const [compassHeading, setCompassHeading] = useState(0)
+  const dispatch = useDispatch()
 
   const locations = [
     {lat: 36.56128686060616, lng: -91.12202786978625},
@@ -25,6 +25,15 @@ const GamePage: NextPage = () => {
     {lat: -1.263813190243825, lng: 36.88701095392188},
     {lat: 37.17057338007954, lng: -92.55305293592208},
   ]
+
+  useEffect(() => {
+    // load random locations
+    return () => {
+      dispatch(resetGame({}))
+    }
+  }, [])
+
+ 
 
   return (
     <>
