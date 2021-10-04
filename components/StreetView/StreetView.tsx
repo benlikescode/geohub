@@ -43,7 +43,9 @@ const StreetView: FC<Props> = ({ location, zoom, setCompassHeading }) => {
       }
     )
     panorama.setOptions({
-      showRoadLabels: false
+      showRoadLabels: false,
+      clickToGo: game.gameSettings.canMove,
+      scrollwheel: game.gameSettings.canZoom,
     })
 
     panorama.addListener('pov_changed', () => {
@@ -56,6 +58,7 @@ const StreetView: FC<Props> = ({ location, zoom, setCompassHeading }) => {
         heading: 0,
         pitch: 0
       })
+      panorama.setZoom(0)
       panorama.setVisible(true)
     }
 
