@@ -381,6 +381,7 @@ export const getResultMapValues = (guessedLocations: LocationType[], actualLocat
   return {center, zoom}
 }
 
+// still have to add the rest of the cases here...
 export const formatSettingsLabel = (settings: GameSettingsType) => {
   let formattedLabel = ''
   if (settings.timeLimit === 0 && settings.canMove && settings.canPan && settings.canZoom) {
@@ -388,4 +389,22 @@ export const formatSettingsLabel = (settings: GameSettingsType) => {
   }
 
   return formattedLabel
+}
+
+// sliderVal will be in range of 0 - 60
+export const formatTimeLimit = (sliderVal: number) => {
+  const time = (sliderVal * 10) + 10
+  const mins = Math.floor(time / 60)
+  const secs = time - (mins * 60)
+
+  if (secs === 0) {
+    return `${mins}:${secs}0` 
+  }
+
+  // replace 10:10 with infinity
+  if (mins === 10 && secs === 10) {
+    return '∞'
+  }
+
+  return `${mins}:${secs}`
 }
