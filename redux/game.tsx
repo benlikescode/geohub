@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { GameSettingsType, LocationType } from '../types'
+import { GameSettingsType, LocationType, RoundResultType } from '../types'
 
 type GameState = {
   id: string
@@ -14,8 +14,8 @@ type GameState = {
   currView: 'Game' | 'Results' | 'FinalResults'
   compassHeading: number
   atStart: boolean
-  guessMapSize: number
   gameSettings: GameSettingsType
+  roundResults: RoundResultType[]
 }
 
 const initialState: GameState = {
@@ -31,8 +31,8 @@ const initialState: GameState = {
   currView: 'Game',
   compassHeading: 0, 
   atStart: false,
-  guessMapSize: 1,
-  gameSettings: {timeLimit: 61, canMove: true, canPan: true, canZoom: true}
+  gameSettings: {timeLimit: 61, canMove: true, canPan: true, canZoom: true},
+  roundResults: []
 }
 
 export const gameSlice = createSlice({
@@ -91,14 +91,14 @@ export const gameSlice = createSlice({
     returnToStart: (state, action) => {
       state.atStart = action.payload.atStart
     },
-    updateGuessMapSize: (state, action) => {
-      state.guessMapSize = action.payload.guessMapSize
-    },
     updateGameSettings: (state, action) => {
       state.gameSettings = action.payload.gameSettings
     },
     updateRoundTimes: (state, action) => {
       state.roundTimes = [...state.roundTimes, action.payload.roundTimes]
+    },
+    updateRoundResults: (state, action) => {
+      state.roundResults = [state.roundResults, action.payload.newResult]
     }
   }
 })
@@ -113,9 +113,9 @@ export const {
   resetGame,
   updateCompass,
   returnToStart,
-  updateGuessMapSize,
   updateGameSettings,
-  updateRoundTimes
+  updateRoundTimes,
+  updateRoundResults
 } = gameSlice.actions
 
 export const selectGame = (state: any) => state.game

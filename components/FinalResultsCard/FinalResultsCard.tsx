@@ -1,4 +1,5 @@
 import { SparklesIcon } from '@heroicons/react/outline'
+import { useRouter } from 'next/router'
 import React, { FC } from 'react'
 import { useDispatch } from 'react-redux'
 import { StyledFinalResultsCard } from '.'
@@ -11,7 +12,7 @@ type Props = {
 
 const FinalResultsCard: FC<Props> = ({ totalPoints }) => {
   const dispatch = useDispatch()
-
+  const router = useRouter()
   const calculateProgress = () => {
     const progress = (totalPoints / 25000) * 100
 
@@ -30,9 +31,7 @@ const FinalResultsCard: FC<Props> = ({ totalPoints }) => {
   }
 
   const handleDetailedResults = () => {
-    dispatch(updateView({
-      currView: 'DetailedResults'
-    }))
+    router.push(`/results/1`)
   }
 
   return (

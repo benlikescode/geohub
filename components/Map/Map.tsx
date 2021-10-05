@@ -6,11 +6,11 @@ import Marker from 'google-map-react'
 import { Button } from '../System/Button'
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
-import { addGuess, selectGame, updateGuess, updateGuessMapSize, updateView } from '../../redux/game'
+import { addGuess, selectGame, updateGuess, updateView } from '../../redux/game'
 import { getGuessMapDimensions, getMapTheme } from '../../utils/helperFunctions'
 import { ChevronDownIcon, ChevronUpIcon, LocationMarkerIcon } from '@heroicons/react/outline'
 import { Icon } from '../System'
-import { selectUser } from '../../redux/user'
+import { selectUser, updateGuessMapSize } from '../../redux/user'
 
 type Props = {
   coordinate: LocationType
@@ -97,7 +97,7 @@ const Map: FC<Props> = ({ coordinate, zoom }) => {
 
   const handleMapHover = () => {
     setHovering(true)
-    const { width, height } = getGuessMapDimensions(game.guessMapSize)
+    const { width, height } = getGuessMapDimensions(user.guessMapSize)
     setMapHeight(height)
     setMapWidth(width)
   }
@@ -123,12 +123,12 @@ const Map: FC<Props> = ({ coordinate, zoom }) => {
   const changeMapSize = (change: 'increase' | 'decrease') => {
     if (change === 'increase') {
       dispatch(updateGuessMapSize({
-        guessMapSize: game.guessMapSize + 1
+        guessMapSize: user.guessMapSize + 1
       }))
     }
     else {
       dispatch(updateGuessMapSize({
-        guessMapSize: game.guessMapSize - 1
+        guessMapSize: user.guessMapSize - 1
       }))
     }
     handleMapHover()
@@ -155,9 +155,6 @@ const Map: FC<Props> = ({ coordinate, zoom }) => {
         }
         <div id="guessMap" className="map"></div> 
         
-        
-
-
         <Button 
         type="solidBlue" 
         width="100%" 

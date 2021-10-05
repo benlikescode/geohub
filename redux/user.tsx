@@ -1,10 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = {
+type UserState = {
+  id: string
+  name: string
+  email: string
+  avatar: string
+  guessMapSize: number
+}
+
+const initialState: UserState = {
   id: '',
   name: '',
   email: '',
-  avatar: ''
+  avatar: '',
+  guessMapSize: 1
 }
 
 export const userSlice = createSlice({
@@ -26,13 +35,23 @@ export const userSlice = createSlice({
     updateEmail: (state, action) => {
       state.email = action.payload.email
     },
+    updateGuessMapSize: (state, action) => {
+      state.guessMapSize = action.payload.guessMapSize
+    },
     logOutUser: state => {
       state.id = ''
     }
   }
 })
 
-export const { updateUser, updateAvatar, updateUsername, updateEmail, logOutUser } = userSlice.actions
+export const { 
+  updateUser, 
+  updateAvatar, 
+  updateUsername, 
+  updateEmail,
+  updateGuessMapSize, 
+  logOutUser 
+} = userSlice.actions
 
 export const selectUser = (state: any) => state.user
 
