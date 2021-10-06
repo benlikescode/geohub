@@ -12,11 +12,15 @@ const GameStatus: FC = () => {
   const hasTimeLimit = game.gameSettings.timeLimit !== 61
   const dispatch = useDispatch()
 
+  if (hasTimeLimit) {
+    useInterval(() => {
+      setTimeLeft(timeLeft - 1)
+    }, timeLeft !== 0 ? 1000 : null)
+  }
 
-  useInterval(() => {
-    setTimeLeft(timeLeft - 1)
-  }, timeLeft !== 0 ? 1000 : null)
 
+  
+/*
   useEffect(() => {
     if (timeLeft === 0) {
       dispatch(updateView({
@@ -35,7 +39,7 @@ const GameStatus: FC = () => {
     }
   }, [])
   
-
+*/
 
 
   return (
