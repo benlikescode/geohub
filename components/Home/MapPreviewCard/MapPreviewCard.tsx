@@ -11,7 +11,7 @@ type Props = {
 const MapPreviewCard: FC<Props> = ({ map }) => {
 
   const handlePlayClick = () => {
-    console.log("TEST")
+    
   }
 
   return (

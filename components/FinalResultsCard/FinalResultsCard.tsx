@@ -24,10 +24,11 @@ const FinalResultsCard: FC<Props> = ({ totalPoints }) => {
   }
 
   const handlePlayAgain = () => {
+    router.push(`/map/1`)
     dispatch(resetGame({
       id: '12345',
       map: 'World'
-    }))
+    }))  
   }
 
   const handleDetailedResults = () => {

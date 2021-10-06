@@ -48,6 +48,7 @@ const GameSettings: FC = () => {
     
     router.push(`/game/1`)
   }
+  
 
   return (
     <StyledGameSettings>

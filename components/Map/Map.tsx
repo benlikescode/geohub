@@ -110,7 +110,6 @@ const Map: FC<Props> = ({ coordinate, zoom }) => {
 
   const handleSubmitGuess = () => {
     const guesses: LocationType[] = game.guessedLocations
-    console.log(guesses)
 
     dispatch(updateView({
       currView: 'Result'

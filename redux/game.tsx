@@ -99,6 +99,9 @@ export const gameSlice = createSlice({
     },
     updateRoundResults: (state, action) => {
       state.roundResults = [state.roundResults, action.payload.newResult]
+    },
+    updateActualLocations: (state, action) => {
+      state.actualLocations = [state.actualLocations, action.payload.actualLocation]
     }
   }
 })
@@ -115,7 +118,8 @@ export const {
   returnToStart,
   updateGameSettings,
   updateRoundTimes,
-  updateRoundResults
+  updateRoundResults,
+  updateActualLocations
 } = gameSlice.actions
 
 export const selectGame = (state: any) => state.game
