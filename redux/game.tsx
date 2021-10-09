@@ -1,24 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { GameSettingsType, LocationType, RoundResultType } from '../types'
+import { GameType } from '../types'
 
-type GameState = {
-  id: string
-  map: string
-  round: number
-  currGuess: LocationType,
-  guessedLocations: LocationType[]
-  actualLocations: LocationType[]
-  roundTimes: number[]
-  roundPoints: number
-  totalPoints: number
-  currView: 'Game' | 'Results' | 'FinalResults'
-  compassHeading: number
-  atStart: boolean
-  gameSettings: GameSettingsType
-  roundResults: RoundResultType[]
-}
-
-const initialState: GameState = {
+const initialState: GameType = {
   id: '',
   map: 'World',
   round: 1,
@@ -98,10 +81,10 @@ export const gameSlice = createSlice({
       state.roundTimes = [...state.roundTimes, action.payload.roundTimes]
     },
     updateRoundResults: (state, action) => {
-      state.roundResults = [state.roundResults, action.payload.newResult]
+      state.roundResults = [...state.roundResults, action.payload.newResult]
     },
     updateActualLocations: (state, action) => {
-      state.actualLocations = [state.actualLocations, action.payload.actualLocation]
+      state.actualLocations = [...state.actualLocations, action.payload.actualLocation]
     }
   }
 })
