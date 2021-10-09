@@ -1,10 +1,10 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { StyledOldStreetView } from '.'
-import GoogleMapReact from 'google-map-react'
 import { LocationType } from '../../types'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectGame, updateCompass } from '../../redux/game'
+import { selectGame, updateActualLocations, updateCompass } from '../../redux/game'
 import { useDebounce } from '../../utils/hooks/useDebounce'
+import { Loader } from '@googlemaps/js-api-loader';
 
 type Props = {
   location: LocationType
@@ -15,45 +15,44 @@ type Props = {
 const StreetView: FC<Props> = ({ location, zoom, setCompassHeading }) => {
   const [ch, setCh] = useState(0)
   //useDebounce(() => setCompassHeading(ch), 50, [ch])
-
   const game = useSelector(selectGame)
-
-  useEffect(() => {
-    console.log("Return Back To Start")
-   
-  }, [game.atStart])
-
+  const dispatch = useDispatch()
+  const googlemap = useRef(null)
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
 
-  const GoogleMapConfig = {
-    key: googleKey,
-    libraries: 'places'
-  }
+  useEffect(() => {
+    const loader = new Loader({
+      apiKey: googleKey,
+      version: 'weekly',
+    })
+  
+    loader.load().then(() => {   
+      onLoad()
+    })
+  }, [])
 
-  const handleApiLoaded = (map: any, maps: any) => {
-    var sv = new maps.StreetViewService()
-    var panorama = new maps.StreetViewPanorama(
-      document.getElementById('map'), {         
-        addressControl: false,
-        linksControl: false,
-        panControl: false,
-        enableCloseButton: false,
-        zoomControl: false,
-        fullscreenControl: false,
-      }
-    )
+  const onLoad = () => {
+    const sv = new window.google.maps.StreetViewService()
+    const panorama = new window.google.maps.StreetViewPanorama(googlemap.current!, {
+      addressControl: false,
+      enableCloseButton: false,
+      zoomControl: false,
+      fullscreenControl: false,
+    })  
     panorama.setOptions({
       showRoadLabels: false,
       clickToGo: game.gameSettings.canMove,
       scrollwheel: game.gameSettings.canZoom,
     })
 
-    panorama.addListener('pov_changed', () => {
-      setCh(panorama.getPov().heading)
-    })
-
     const processSVData = (data: any, status: any) => {
       panorama.setPano(data.location.pano)
+
+      // dispatching to redux, the updated real location (that is within radius of location)
+      dispatch(updateActualLocations({
+        actualLocation: {lat: data.location.latLng?.lat(), lng: data.location.latLng?.lng()}
+      }))
+      
       panorama.setPov({
         heading: 0,
         pitch: 0
@@ -62,20 +61,15 @@ const StreetView: FC<Props> = ({ location, zoom, setCompassHeading }) => {
       panorama.setVisible(true)
     }
 
-    sv.getPanorama({location: location, radius: 100000, source: 'outdoor'}, processSVData)
+    sv.getPanorama({location: location, radius: 500000}, processSVData)
   }
+
+ 
 
   return (
     <StyledOldStreetView>
-      <div id="map"></div>
-      <GoogleMapReact 
-        bootstrapURLKeys={GoogleMapConfig}
-        defaultCenter={location} 
-        defaultZoom={zoom}
-        yesIWantToUseGoogleMapApiInternals
-        onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
-      >
-      </GoogleMapReact>
+      <div id="map" ref={googlemap}></div>
+      
     </StyledOldStreetView>
   )
 }

@@ -625,10 +625,17 @@
     lodash.snakecase "^4.1.1"
     p-defer "^3.0.0"
 
-"@googlemaps/js-api-loader@1.12.3", "@googlemaps/js-api-loader@^1.7.0":
+"@googlemaps/js-api-loader@1.12.3":
   version "1.12.3"
   resolved "https://registry.yarnpkg.com/@googlemaps/js-api-loader/-/js-api-loader-1.12.3.tgz#fb329f750399850d6a938a2c02b703b3a22fea47"
   integrity sha512-u+MA+iZ2863YgugRRJH2EgI6exUIFq9yC7QEOj2VZkWE9d/FR4QmxNW5zaJBu4scglkI9O+E6yByj+7d06N7Sg==
+  dependencies:
+    fast-deep-equal "^3.1.3"
+
+"@googlemaps/js-api-loader@^1.7.0":
+  version "1.12.5"
+  resolved "https://registry.yarnpkg.com/@googlemaps/js-api-loader/-/js-api-loader-1.12.5.tgz#ed7856fc42bc5539e76eafe0d6c825bf6bc5fc90"
+  integrity sha512-3SwYXmNQ3lHbkOwyFGdEJyp1wEAKa2P9xuTOmJAxY9M2N4nPxv7CqoskKX8lsgUbsxzRFYU/DYEtaEQ6ZdLXAQ==
   dependencies:
     fast-deep-equal "^3.1.3"
 

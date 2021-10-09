@@ -14,9 +14,10 @@ type Props = {
 
 const StreetView: FC<Props> = ({ location, zoom, setCompassHeading }) => {
   const [ch, setCh] = useState(0)
-  useDebounce(() => setCompassHeading(ch), 50, [ch])
-  const game = useSelector(selectGame)
+  //useDebounce(() => setCompassHeading(ch), 50, [ch])
   const dispatch = useDispatch()
+
+  const game = useSelector(selectGame)
 
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
 
@@ -26,50 +27,55 @@ const StreetView: FC<Props> = ({ location, zoom, setCompassHeading }) => {
   }
 
   const handleApiLoaded = (map: any, maps: any) => {
-    const sv: google.maps.StreetViewService = new maps.StreetViewService()
-
-    const panorama: google.maps.StreetViewPanorama = new maps.StreetViewPanorama(
-      document.getElementById('map') as HTMLElement,
-      {
-        position: location,
-        showRoadLabels: false,
-        clickToGo: game.gameSettings.canMove,
-        scrollwheel: game.gameSettings.canZoom, 
+    var sv = new maps.StreetViewService()
+    var panorama = new maps.StreetViewPanorama(
+      document.getElementById('map'), {         
         addressControl: false,
+        linksControl: false,
+        panControl: false,
         enableCloseButton: false,
         zoomControl: false,
         fullscreenControl: false,
       }
     )
-    
-    const processSVData = ({ data }: google.maps.StreetViewResponse) => {
-      const location = data.location!
-      //console.log(location.latLng?.lat(), location.latLng?.lng())
-      dispatch(updateActualLocations({
-        actualLocation: {lat: location.latLng?.lat(), lng: location.latLng?.lng()}
-      }))
-    
-      panorama.setPano(location.pano as string)
-      panorama.setPov({
-        heading: 0,
-        pitch: 0,
-      })
-      panorama.setZoom(0)
-      panorama.setVisible(true)  
+    panorama.setOptions({
+      showRoadLabels: false,
+      clickToGo: game.gameSettings.canMove,
+      scrollwheel: game.gameSettings.canZoom,
+    })
+    /*
+    panorama.addListener('pov_changed', () => {
+      setCh(panorama.getPov().heading)
+    })
+    */
+
+    const processSVData = (data: any, status: any) => {
+      if (data == null) {
+        alert('There was an error loading the round :(')
+        return dispatch(updateActualLocations({
+          actualLocation: {lat: 0, lng: 0}
+        }))
+      }
+      else {
+        dispatch(updateActualLocations({
+          actualLocation: {lat: data.location.latLng?.lat(), lng: data.location.latLng?.lng()}
+        }))
+        panorama.setPano(data.location.pano)
+        panorama.setPov({
+          heading: 0,
+          pitch: 0
+        })
+        panorama.setZoom(0)
+        panorama.setVisible(true)
+      }
+      
     }
 
-    // should also be able to specify a preference and source for this but...
-    sv.getPanorama({ location: location, radius: 1000000})
-      .then(processSVData)
-      .catch((e) =>
-        console.error("Street View data not found for this location.")
-      )
+   
+      sv.getPanorama({location: location, radius: 10000,}, processSVData)
+    
+   
 
-    /*
-      panorama.addListener('pov_changed', () => {
-        setCh(panorama.getPov().heading)
-      })
-    */
   }
 
   return (

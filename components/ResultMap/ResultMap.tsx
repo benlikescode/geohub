@@ -3,16 +3,26 @@ import { StyledResultMap } from '.'
 import GoogleMapReact from 'google-map-react'
 import { LocationType } from '../../types'
 import { getMapTheme, getResultMapValues } from '../../utils/helperFunctions'
+import { selectGame } from '../../redux/game'
+import { useSelector } from 'react-redux'
 
 type Props = {
   guessedLocations: LocationType[]
   actualLocations: LocationType[]
+  isFinalResults?: boolean
 }
 
-const ResultMap: FC<Props> = ({ guessedLocations, actualLocations }) => {
+const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, isFinalResults }) => {
+  const game = useSelector(selectGame)
   const deafultCoords = {
     lat: 0, 
     lng: 0
+  }
+
+  const lineSymbol = {
+    path: "M 0,-1 0,1",
+    strokeOpacity: 1,
+    scale: 2,
   }
  
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
@@ -33,49 +43,43 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations }) => {
       }   
     )
 
-    for (const location of guessedLocations) {
-      createMarker(location, map, 'https://www.geoguessr.com/images/auto/30/30/ce/0/plain/pin/c2fe16562d9ad321687532d53b067e75.png')
-    }
-
-    for (let i = 0; i < actualLocations.length; i++) {
-      // if we are generating just the round marker
-      if (actualLocations.length === 1) {
-        const marker = createMarker(actualLocations[i], map, '')
-        marker.addListener("click", () => {
-          window.open(`http://www.google.com/maps?layer=c&cbll=${actualLocations[i].lat},${actualLocations[i].lng}`, '_blank')   
-        })
-      }
-      // if we are generating all the round markers => we want to generate the numbered markers
-      else {
+    // if we are showing the final results page, load all the round markers. Otherwise, simply load the current round markers
+    if (isFinalResults) {
+      for (let i = 0; i < actualLocations.length; i++) {
+        createMarker(guessedLocations[i], map, 'https://www.geoguessr.com/images/auto/30/30/ce/0/plain/pin/c2fe16562d9ad321687532d53b067e75.png')
         const marker = createMarker(actualLocations[i], map, `/images/finalMarker${i + 1}.png`)
         marker.addListener("click", () => {
           window.open(`http://www.google.com/maps?layer=c&cbll=${actualLocations[i].lat},${actualLocations[i].lng}`, '_blank')   
         })
+
+        // generating the lines between guessed and actual markers
+        new google.maps.Polyline({
+          path: [guessedLocations[i], actualLocations[i]],
+          map: map,
+          strokeOpacity: 0,
+          icons: [
+            {icon: lineSymbol, offset: "0", repeat: "10px"},
+          ],    
+        })
       }
     }
+    else {
+      const roundIdx = game.round - 1
+      createMarker(guessedLocations[roundIdx], map, 'https://www.geoguessr.com/images/auto/30/30/ce/0/plain/pin/c2fe16562d9ad321687532d53b067e75.png')
+      const marker = createMarker(actualLocations[roundIdx], map, '')
+      marker.addListener("click", () => {
+        window.open(`http://www.google.com/maps?layer=c&cbll=${actualLocations[roundIdx].lat},${actualLocations[roundIdx].lng}`, '_blank')   
+      })
 
-    const lineSymbol = {
-      path: "M 0,-1 0,1",
-      strokeOpacity: 1,
-      scale: 2,
-    }
-
-    for (let i = 0; i < actualLocations.length; i++) {
       new google.maps.Polyline({
-        path: [guessedLocations[i], actualLocations[i]],
+        path: [guessedLocations[roundIdx], actualLocations[roundIdx]],
         map: map,
         strokeOpacity: 0,
         icons: [
-          {
-            icon: lineSymbol,
-            offset: "0",
-            repeat: "10px",
-          },
+          {icon: lineSymbol, offset: "0", repeat: "10px"},
         ],    
       })
-    }
-
-    
+    }    
   }
 
   const createMarker = (position: LocationType, map: google.maps.Map, markerImage: string) => {
@@ -95,7 +99,6 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations }) => {
       position: position,
       map: map,
     })
-
   }
 
   return (

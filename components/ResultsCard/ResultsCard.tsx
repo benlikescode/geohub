@@ -11,6 +11,8 @@ type Props = {
 }
 
 const ResultsCard: FC<Props> = ({ result }) => {
+  const game = useSelector(selectGame)
+  const dispatch = useDispatch()
 
   const calculateProgress = () => {
     const progress = (result.points / 5000) * 100
@@ -21,10 +23,7 @@ const ResultsCard: FC<Props> = ({ result }) => {
 
     return progress
   }
-
-  const dispatch = useDispatch()
-  const game = useSelector(selectGame)
-
+  
   const handleNextRound = () => {
     if (game.round === 5) {
       dispatch(nextRound({
@@ -38,8 +37,7 @@ const ResultsCard: FC<Props> = ({ result }) => {
         currView: 'Game',
         totalPoints: game.totalPoints + result.points
       }))
-    }
-  
+    } 
   }
 
   return (
