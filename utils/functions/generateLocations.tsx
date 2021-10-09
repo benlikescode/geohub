@@ -24,17 +24,37 @@ radius > 0.10 => random location from outer suburbs of the city
 radius ~= 0.10 => random location in the greater area of the city
 radius < 0.05 => random location in downtown area of the city
 
+returns a single random location (if given 1 location) or 
+an array of random locations (if given more than 1 location)
+
 */
-export const getRandomLocationInRadius = (location: LocationType, radius = 0.10) => {
-  const centerLat = location.lat
-  const centerLng = location.lng
+export const getRandomLocationsInRadius = (locations: LocationType[], radius = 0.10) => {
+  if (locations.length > 1) {
+    const newLocations: LocationType[] = []
+
+    for (let i = 0; i < locations.length; i++) {
+      const centerLat = locations[i].lat
+      const centerLng = locations[i].lng
+
+      const randomLocation: LocationType = {
+        lat: randomRange(centerLat - radius, centerLat + radius),
+        lng: randomRange(centerLng - radius, centerLng + radius)
+      }
+      newLocations.push(randomLocation)
+    }
+
+    return newLocations
+  }
+  
+  const centerLat = locations[0].lat
+  const centerLng = locations[0].lng
 
   const randomLocation: LocationType = {
     lat: randomRange(centerLat - radius, centerLat + radius),
     lng: randomRange(centerLng - radius, centerLng + radius)
   }
-
-  return [randomLocation]
+  
+  return randomLocation
 }
 
 export const generateLocations = (map: string, numLocations = 5) => {
@@ -98,95 +118,15 @@ export const generateCanada = (numLocations = 5) => {
 
 }
 
-export const generateUSCity = (cityIdx: number, numLocations = 1) => {
-  const locations: LocationType[] = []
-
-  for (let i = 0; i < numLocations; i++) {
-    switch(cityIdx) {
-
-      // New York City
-      case 0:
-        locations.push({
-          lat: randomRange(40, 41),
-          lng: randomRange(-74, -73)
-        })
-        break
-
-      // Chicago
-      case 1:
-        locations.push({
-          lat: randomRange(41.85, 41.89),
-          lng: randomRange(-87.63, -87.61)
-        })
-        break
-      
-      // Los Angeles
-      case 2:
-        locations.push({
-          lat: randomRange(33.62, 34.17),
-          lng: randomRange(-118.36, -117.65)
-        })
-        break
-      
-      // Houston
-      default:
-        locations.push({
-          lat: randomRange(29.68, 29.81),
-          lng: randomRange(-95.45, -95.27)
-        })
-    }
-  } 
-
-  return locations
-}
-
-
-
-
-
-
-const USCities: LocationType[] = [
-  // New York (0)
-  {lat: randomRange(40, 41), lng: randomRange(-74, -73)},
-
-  // Chicago (1)
-  {lat: randomRange(41.85, 41.89), lng: randomRange(-87.63, -87.61)},
-
-  // Los Angeles (2)
-  {lat: randomRange(33.62, 34.17), lng: randomRange(-118.36, -117.65)},
-
-  // San Francisco (3)
-  {lat: randomRange(37.73, 37.80), lng: randomRange(-122.50, -122.40)},
-
-  // Houston (4)
-  {lat: randomRange(29.68, 29.81), lng: randomRange(-95.45, -95.27)},
-
-  // Dallas (5)
-  {lat: randomRange(32.68562, 32.892273), lng: randomRange(-96.975623, -96.625448)},
-
-  // Austin (6)
-  {lat: randomRange(30.240086, 30.326064), lng: randomRange(-97.777971, -97.677726)},
-
-  // Miami (7)
-  {lat: randomRange(25.725065, 25.927172), lng: randomRange(-80.298374, -80.126681)},
-
-
-
-
-  
-]
-
-export const USCities2: LocationType[] = [
+export const USCities: LocationType[] = [
   {lat: 39.983334, lng: -82.983330}, // Columbus
   {lat: 30.266666, lng: -97.733330}, // Austin
   {lat: 32.779167, lng: -96.808891}, // Dallas
   {lat: 29.749907, lng: -95.358421}, // Houston
+  {lat: 25.82, lng: -80.20}, // Miami
   {lat: 39.983334, lng: -82.983330}, // Columbus
   {lat: 39.983334, lng: -82.983330}, // Columbus
   {lat: 39.983334, lng: -82.983330}, // Columbus
-  {lat: 39.983334, lng: -82.983330}, // Columbus
-
-
 ]
 
 export const CanadaCities: LocationType[] = [
@@ -197,4 +137,39 @@ export const CanadaCities: LocationType[] = [
   {lat: 45.420, lng: -75.710}, // Ottawa
   {lat: 53.570, lng: -113.540}, // Edmonton
   {lat: 44.670, lng: -63.610}, // Halifax
+]
+
+export const Europe: LocationType[] = [
+  {lat: 46.227638, lng: 2.213749}, // France
+  {lat: 55.378051, lng: -3.435973}, // United Kingdom
+  {lat: 40.463667, lng: -3.74922}, // Spain
+  {lat: 41.87194, lng: 12.56738}, // Italy
+  {lat: 45.943161, lng: 24.96676}, // Romania
+  {lat: 49.817492, lng: 15.472962}, // Czech Republic
+]
+
+export const Columbia: LocationType[] = [
+  {lat: 4.652973, lng: -74.083758}, // Bogota Cluster
+  {lat: 6.241842, lng: -75.582878}, // Mendellin Cluster
+]
+
+export const Brazil: LocationType[] = [
+  {lat: -22.380556, lng: -49.036122}, // Sao Paulo Center
+  {lat: -19.920422, lng: -43.944732}, // Belo Horizonte
+  {lat: -22.380556, lng: -49.036122}, // Sao Paulo Center
+  {lat: -19.920422, lng: -43.944732}, // Belo Horizonte
+  {lat: -19.920422, lng: -43.944732}, // Belo Horizonte
+]
+
+export const FamousLocations: LocationType[] = [
+  {lat: 48.8601743, lng: 2.2915141}, // Eifel Tower (France)
+  {lat: 41.889266, lng: 12.4925798}, // Coluseum (Italy)
+  {lat: 43.7227141, lng: 10.3963126}, // Leaning Tower of Piza (Italy)
+  {lat: 29.979394, lng: 31.1368655}, // Great Pyramids (Egypt)
+  {lat: 43.6408281, lng: -79.3876868}, // CN Tower (Toronto)
+  {lat: 37.8262191, lng: -122.4222576}, // Alcatraz (SF)
+  {lat: -13.163489, lng: -72.5448154}, // Machu Picchu (Peru) 
+  {lat: 40.6888181, lng: -74.0437079}, // Statue of Liberty (NY)
+  {lat: 27.1724677, lng: 78.0422923}, // Taj Mahal
+  {lat: -33.8580079, lng: 151.2142606}, // Opera House (Sydney)
 ]
