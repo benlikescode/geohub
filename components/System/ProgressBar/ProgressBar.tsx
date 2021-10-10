@@ -9,13 +9,13 @@ const ProgressBar: FC<Props> = ({ progress }) => {
 
   const getBackgroundColor = () => {
     if (progress < 30) {
-      return '#F87171'
+      return 'var(--lightRed)'
     }
     else if (progress < 60) {
-      return '#FCD34D'
+      return 'var(--lightYellow)'
     }
     else {
-      return '#10B981'
+      return 'var(--lightGreen)'
     }
   }
 

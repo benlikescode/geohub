@@ -161,8 +161,9 @@
   --background1: #1E2023;
   --background2: #262626;
   --background3: #34373A;
-
-  
+  --lightGreen: #10B981;
+  --lightYellow: #FCD34D;
+  --lightRed: #F87171; 
 }
 
 html,
