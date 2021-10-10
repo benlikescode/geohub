@@ -7,10 +7,10 @@ type Props = {
   alt?: string
   onClick?: any
   userId?: string
+  outline?: boolean
 }
 
-const Avatar: FC<Props> = ({ url, size, alt, onClick, userId }) => {
-
+const Avatar: FC<Props> = ({ url, size, alt, onClick, userId, outline }) => {
   const [currSrc, setCurrSrc] = useState(url || '')
   const fallback = 'https://muscathome.com/uploads/profile_images/default.png'
 
@@ -19,7 +19,7 @@ const Avatar: FC<Props> = ({ url, size, alt, onClick, userId }) => {
   }, [url])
 
   return (
-    <StyledAvatar size={size}>
+    <StyledAvatar size={size} outline={outline}>
       <img src={currSrc || fallback} alt={alt} onError={() => setCurrSrc(fallback)} />       
     </StyledAvatar>
   )
