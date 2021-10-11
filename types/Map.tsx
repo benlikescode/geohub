@@ -1,4 +1,4 @@
-import { LocationType } from "."
+import { LocationType, UserType } from "."
 
 type Map = {
   id: string
@@ -8,7 +8,8 @@ type Map = {
   likes: number
   locations: LocationType[]
   previewImg: string
-  creator: string
+  creator: UserType | string
+  avgScore?: number
 }
 
 export default Map
