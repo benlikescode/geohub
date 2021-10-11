@@ -3,16 +3,13 @@ import { FC } from 'react'
 import { StyledMapPreviewCard } from '.'
 import { MapType } from '../../../types'
 import { Button, Icon } from '../../System'
+import Link from 'next/link'
 
 type Props = {
   map: MapType
 }
 
 const MapPreviewCard: FC<Props> = ({ map }) => {
-
-  const handlePlayClick = () => {
-    
-  }
 
   return (
     <StyledMapPreviewCard>
@@ -23,7 +20,11 @@ const MapPreviewCard: FC<Props> = ({ map }) => {
       <div className="contentWrapper">
         <div className="mapName">{map.name}</div>
         <div className="mapDescription">{map.description}</div>
-        <Button type="solidBlue" width="45%" callback={handlePlayClick} isRound>Play</Button>
+        <Link href={`/map/${map.id}`}>
+          <a>
+            <Button type="solidBlue" width="150px" isRound>Play</Button>
+          </a>     
+        </Link>
       </div>
      
       <div className="statsFooter">

@@ -14,7 +14,7 @@ const Home: NextPage = () => {
   }
 
   const testMap: MapType = {
-    id: '',
+    id: 'world',
     name: 'World',
     description: 'The classic game mode we all love, any country is fair game!',
     usersPlayed: 60123,
@@ -25,7 +25,7 @@ const Home: NextPage = () => {
   }
 
   const testMap2: MapType = {
-    id: '',
+    id: 'famous-landmarks',
     name: 'World',
     description: 'The classic game mode we all love, any country is fair game!',
     usersPlayed: 60123,
@@ -36,7 +36,7 @@ const Home: NextPage = () => {
   }
 
   const testMap3: MapType = {
-    id: '',
+    id: 'canada',
     name: 'World',
     description: 'The classic game mode we all love, any country is fair game!',
     usersPlayed: 60123,
@@ -47,7 +47,7 @@ const Home: NextPage = () => {
   }
 
   const testMap4: MapType = {
-    id: '',
+    id: 'usa',
     name: 'World',
     description: 'The classic game mode we all love, any country is fair game!',
     usersPlayed: 60123,
