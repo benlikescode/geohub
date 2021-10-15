@@ -235,7 +235,7 @@ export const getMapTheme = (theme: string) => {
 }
 
 // gets distance between guess and actual locations (in km)
-export const getDistance = (loc1: LocationType, loc2: LocationType) => {
+export const getDistance = (loc1: LocationType, loc2: LocationType, format = false) => {
   const earthRadius = 6371.0710
 
   const lat1Radians = loc1.lat * (Math.PI/180)
@@ -245,6 +245,16 @@ export const getDistance = (loc1: LocationType, loc2: LocationType) => {
   const diffLng = (loc2.lng - loc1.lng) * (Math.PI/180)
 
   const distance = 2 * earthRadius * Math.asin(Math.sqrt(Math.sin(diffLat/2)*Math.sin(diffLat/2)+Math.cos(lat1Radians)*Math.cos(lat2Radians)*Math.sin(diffLng/2)*Math.sin(diffLng/2)))
+
+  if (format) {
+    if (distance < 1) {
+      return `${Math.round(distance * 1000)} m`
+    }
+    else {
+      return `${Math.round(distance)} km` 
+    }
+  }
+
   return Math.round(distance)
 }
 
