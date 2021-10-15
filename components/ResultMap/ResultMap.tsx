@@ -14,6 +14,7 @@ type Props = {
 
 const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, isFinalResults }) => {
   const game = useSelector(selectGame)
+  const roundIdx = game.round - 1
   const deafultCoords = {
     lat: 0, 
     lng: 0
@@ -28,12 +29,12 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, isFinalResult
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
 
   const GoogleMapConfig = {
-    key: googleKey,
-    libraries: 'places'
+    key: googleKey
   }
 
   const handleApiLoaded = () => {
-    const { center, zoom } = getResultMapValues(guessedLocations, actualLocations)
+    const { center, zoom } = getResultMapValues(guessedLocations[roundIdx], actualLocations[roundIdx], isFinalResults)
+    console.log(zoom)
     const map = new window.google.maps.Map(
       document.getElementById("resultMap") as HTMLElement, {
         zoom: zoom,
@@ -64,7 +65,6 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, isFinalResult
       }
     }
     else {
-      const roundIdx = game.round - 1
       createMarker(guessedLocations[roundIdx], map, 'https://www.geoguessr.com/images/auto/30/30/ce/0/plain/pin/c2fe16562d9ad321687532d53b067e75.png')
       const marker = createMarker(actualLocations[roundIdx], map, '')
       marker.addListener("click", () => {
@@ -106,8 +106,8 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, isFinalResult
       <div id="resultMap" className="map">
         <GoogleMapReact 
           bootstrapURLKeys={GoogleMapConfig}
-          defaultCenter={deafultCoords} 
-          defaultZoom={2}
+          center={deafultCoords} 
+          zoom={2}
           yesIWantToUseGoogleMapApiInternals
           onGoogleApiLoaded={handleApiLoaded}
         >

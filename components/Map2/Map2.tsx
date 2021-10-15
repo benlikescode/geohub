@@ -162,8 +162,8 @@ const Map2: FC<Props> = ({ coordinate, zoom }) => {
       </div>  
       <GoogleMapReact 
             bootstrapURLKeys={GoogleMapConfig}
-            defaultCenter={coordinate} 
-            defaultZoom={zoom}
+            center={coordinate} 
+            zoom={zoom}
             yesIWantToUseGoogleMapApiInternals
             onGoogleApiLoaded={handleApiLoaded}
           >

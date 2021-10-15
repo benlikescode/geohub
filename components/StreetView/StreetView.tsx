@@ -26,9 +26,9 @@ const StreetView: FC<Props> = ({ location, zoom, setCompassHeading }) => {
   }
 
   const handleApiLoaded = (map: any, maps: any) => {
-    var sv = new maps.StreetViewService()
-    var panorama = new maps.StreetViewPanorama(
-      document.getElementById('map'), {         
+    var sv = new window.google.maps.StreetViewService()
+    var panorama = new window.google.maps.StreetViewPanorama(
+      document.getElementById('map') as HTMLElement, {         
         addressControl: false,
         linksControl: true,
         panControl: true,
@@ -71,7 +71,7 @@ const StreetView: FC<Props> = ({ location, zoom, setCompassHeading }) => {
     }
 
    
-      sv.getPanorama({location: location, radius: 10000,}, processSVData)
+      sv.getPanorama({location: location, radius: 50,}, processSVData)
     
    
 
@@ -82,8 +82,8 @@ const StreetView: FC<Props> = ({ location, zoom, setCompassHeading }) => {
       <div id="map"></div>
       <GoogleMapReact 
         bootstrapURLKeys={GoogleMapConfig}
-        defaultCenter={location} 
-        defaultZoom={zoom}
+        center={location} 
+        zoom={zoom}
         yesIWantToUseGoogleMapApiInternals
         onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
       >

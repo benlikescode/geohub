@@ -285,16 +285,13 @@ export const getGuessMapDimensions = (size: number) => {
   return { width: 400, height: 250 }
 }
 
-export const getResultMapValues = (guessedLocations: LocationType[], actualLocations: LocationType[]) => {
-  let center: LocationType = {lat: 0, lng: 0}
+export const getResultMapValues = (guessedLocation: LocationType, actualLocation: LocationType, isFinalResults = false) => {
+  let center = {lat: 0, lng: 0}
   let zoom = 2
 
-  // if we are showing results of 1 round
-  if (actualLocations.length === 1) {
-    const guessedLocation = guessedLocations[0]
-    const actualLocation = actualLocations[0]
-
+  if (!isFinalResults) {
     let distance = getDistance(guessedLocation, actualLocation)
+
     if (distance >= 15000) {
       actualLocation.lng = actualLocation.lng - 360
     }
@@ -304,7 +301,16 @@ export const getResultMapValues = (guessedLocations: LocationType[], actualLocat
       lng: (actualLocation.lng + guessedLocation.lng) / 2
     }
 
-    if (distance < 2000) {
+    if (distance < 100) {
+      zoom = 9
+    }
+    else if (distance < 500) {
+      zoom = 8
+    }
+    else if (distance < 1000) {
+      zoom = 7
+    }
+    else if (distance < 2000) {
       zoom = 6
     }
     else if (distance < 4000) {
