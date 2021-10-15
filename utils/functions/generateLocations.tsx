@@ -1,4 +1,5 @@
 import { LocationType } from "../../types"
+import * as worldHandPicked from '../../utils/locations/world.json'
 
 export const randomRange = (min = 0, max = 100, precision = 10) => { 
   return parseFloat((Math.random() * (max - min) + min).toFixed(precision))
@@ -10,6 +11,51 @@ export const randomInt = (min = 0, max = 5) => {
 
 export const randomElement = (array: any[]) => {
   return array[Math.floor(Math.random() * array.length)]
+}
+
+export const getLocationsFromMapId = (mapId: string, locationsType: 'random' | 'handPicked') => {
+  let locations: LocationType[] = []
+  switch(mapId) {
+    case 'world':
+      if (locationsType === 'random') {
+        locations = generateUS()
+      }
+      else {
+        locations = getRandomLocationsFromArray(worldHandPicked)
+      }
+      break
+    case 'famous-landmarks':
+      locations = getRandomLocationsFromArray(FamousLocations)
+      break
+    case 'canada':
+      locations = generateCanada()
+      break
+    case 'usa':
+      locations = generateUS()
+      break
+    default:
+      console.log('Invalid Map Id')
+  }
+
+  return locations
+}
+
+export const getRandomLocationsFromArray = (array: any[], numLocations = 5) => {
+  let locations: LocationType[] = []
+
+  for (let i = 0; i < numLocations; i++) {
+    let location = randomElement(array)
+
+    if (locations.includes(location)) {
+      while (locations.includes(location)) {
+        location = randomElement(array)
+      }
+    }
+    
+    locations.push(location)
+  }
+
+  return locations
 }
 
 /* 
