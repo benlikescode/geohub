@@ -22,8 +22,7 @@ const StreetView: FC<Props> = ({ location, zoom, setCompassHeading }) => {
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
 
   const GoogleMapConfig = {
-    key: googleKey,
-    libraries: 'places'
+    key: googleKey
   }
 
   const handleApiLoaded = (map: any, maps: any) => {
@@ -31,8 +30,8 @@ const StreetView: FC<Props> = ({ location, zoom, setCompassHeading }) => {
     var panorama = new maps.StreetViewPanorama(
       document.getElementById('map'), {         
         addressControl: false,
-        linksControl: false,
-        panControl: false,
+        linksControl: true,
+        panControl: true,
         enableCloseButton: false,
         zoomControl: false,
         fullscreenControl: false,

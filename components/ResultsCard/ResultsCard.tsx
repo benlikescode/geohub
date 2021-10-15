@@ -45,7 +45,7 @@ const ResultsCard: FC<Props> = ({ result }) => {
       <div className="contentGrid">
         <div className="textWrapper">
           <span className="distanceMessage">
-            Your guess was <span className="emphasisText">{result.distanceAway} km</span> from the correct location
+            Your guess was <span className="emphasisText">{result.formattedDistance}</span> from the correct location
           </span>
           <div className="pointsWrapper">
             <span>

@@ -19,6 +19,7 @@ const MapLeaderboard: FC<Props> = ({ leaderboard }) => {
       </div>
       {leaderboard.map((item, idx) => (
         <LeaderboardItem 
+          key={idx}
           user={item.user}
           finishPlace={idx + 1}
           totalPoints={item.rounds[item.rounds.length - 1].points}

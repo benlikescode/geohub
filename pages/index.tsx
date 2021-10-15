@@ -1,61 +1,38 @@
+import { LightBulbIcon } from '@heroicons/react/outline'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import React, { useEffect, useState } from 'react'
 import { MapPreviewCard } from '../components/Home/MapPreviewCard'
 import { Navbar, Sidebar, Layout } from '../components/Layout/'
+import { Icon } from '../components/System'
 import StyledHomePage from '../styles/HomePage.Styled'
-import { MapType } from '../types'
+import { GeoTipType, MapType } from '../types'
+import { fireDb } from '../utils/firebaseConfig'
+import { randomElement } from '../utils/functions/generateLocations'
+import * as tips from '../utils/constants/geotips.json'
+import { Pill } from '../components/System/Pill'
 
 const Home: NextPage = () => {
+  const [maps, setMaps] = useState<MapType[]>([])
+  const randomTip: GeoTipType = randomElement(tips)
 
-  const testLocation = {
-    lat: 10,
-    lng: 10
+  const getMaps = async () => {
+    fireDb.collection('maps')
+    .where('creator', '==', 'GeoHub')
+    .onSnapshot(({ docs }) => {
+      setMaps(docs.map(doc => ({
+        id: doc.id, 
+        ...doc.data()
+      })) as MapType[]
+    )})
   }
 
-  const testMap: MapType = {
-    id: 'world',
-    name: 'World',
-    description: 'The classic game mode we all love, any country is fair game!',
-    usersPlayed: 60123,
-    likes: 9251,
-    locations: [testLocation],
-    previewImg: '/images/worldMap.jpg',
-    creator: 'GeoHub'
-  }
+  useEffect(() => {
+    getMaps()
+  }, [])
 
-  const testMap2: MapType = {
-    id: 'famous-landmarks',
-    name: 'World',
-    description: 'The classic game mode we all love, any country is fair game!',
-    usersPlayed: 60123,
-    likes: 9251,
-    locations: [testLocation],
-    previewImg: '/images/LandmarksMap.jfif',
-    creator: 'GeoHub'
-  }
 
-  const testMap3: MapType = {
-    id: 'canada',
-    name: 'World',
-    description: 'The classic game mode we all love, any country is fair game!',
-    usersPlayed: 60123,
-    likes: 9251,
-    locations: [testLocation],
-    previewImg: '/images/CanadaMap.jpg',
-    creator: 'GeoHub'
-  }
-
-  const testMap4: MapType = {
-    id: 'usa',
-    name: 'World',
-    description: 'The classic game mode we all love, any country is fair game!',
-    usersPlayed: 60123,
-    likes: 9251,
-    locations: [testLocation],
-    previewImg: '/images/UnitedStatesMap.jpg',
-    creator: 'GeoHub'
-  }
 
   return (
     <StyledHomePage>
@@ -66,11 +43,26 @@ const Home: NextPage = () => {
         </div>
 
         <main>
+          <div className="bannerWrapper">
+            <div className="bannerContent">
+              <h2>GeoTip of the day</h2>
+              <div className="tipWrapper">
+                <Icon size={24} fill="var(--lightYellow)">
+                  <LightBulbIcon />
+                </Icon>
+                <span className="tip">- {randomTip.tip}</span>
+              </div>
+              <div className="pillsWrapper">
+                {randomTip.tags.map((label, idx) => (
+                  <Pill key={idx} label={label}/>
+                ))}
+              </div>
+            </div>
+          </div>
           <div className="mapPreviewSection">
-            <MapPreviewCard map={testMap} />
-            <MapPreviewCard map={testMap2} />
-            <MapPreviewCard map={testMap3} />
-            <MapPreviewCard map={testMap4} />
+            {maps.map((map, idx) => (
+              <MapPreviewCard key={idx} map={map} />
+            ))}        
           </div>
         </main>
        

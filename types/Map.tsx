@@ -6,7 +6,7 @@ type Map = {
   description: string
   usersPlayed: number
   likes: number
-  locations: LocationType[]
+  locations: LocationType[] | number
   previewImg: string
   creator: UserType | string
   avgScore?: number

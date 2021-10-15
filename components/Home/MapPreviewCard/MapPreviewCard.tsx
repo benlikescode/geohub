@@ -39,7 +39,7 @@ const MapPreviewCard: FC<Props> = ({ map }) => {
           <Icon size={24}>
             <LocationMarkerIcon />
           </Icon>
-          <span>{map.locations.length}</span>
+          <span>{5}</span>
         </div>
 
         <div className="statItem">

@@ -1,6 +1,6 @@
 type Result = {
   round?: number
-  distanceAway?: number
+  formattedDistance?: string
   points: number
 }
 

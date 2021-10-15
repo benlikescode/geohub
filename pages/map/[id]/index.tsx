@@ -1,9 +1,9 @@
-import type { NextPage } from 'next'
+import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import { Navbar, Layout, Sidebar } from '../../../components/Layout'
 import { GameSettings } from '../../../components/GameSettings'
-import { useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import StyledMapPage from '../../../styles/MapPage.Styled'
 import { Avatar, Button, FlexGroup } from '../../../components/System'
 import { GameSettingsType, MapType } from '../../../types'
@@ -12,24 +12,53 @@ import { LeaderboardCard } from '../../../components/Results'
 import { MapLeaderboard } from '../../../components/MapLeaderboard'
 import { MapPreviewCard } from '../../../components/Home/MapPreviewCard'
 import { Modal } from '../../../components/Modals/Modal'
+import { useRouter } from 'next/router'
+import { fireDb } from '../../../utils/firebaseConfig'
 
-const MapPage: NextPage = () => {
+export const getStaticPaths: GetStaticPaths = async () => {
+  const maps = await fireDb.collection('maps').get()
+  const paths = maps.docs.map(doc => {
+    return {
+      params: { id: doc.id }
+    }
+  })
+  
+  return {
+    paths,
+    fallback: false
+  }
+}
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const mapId = context.params!.id as string
+  const mapRaw = await fireDb.collection('maps').doc(mapId).get()
+  const mapData = {
+    id: mapRaw.id,
+    ...mapRaw.data()
+  } as MapType
+
+  if (!mapRaw) {
+    return {
+      notFound: true,
+    }
+  }
+
+  return {
+    props: { mapData }
+  }
+}
+
+type Props = {
+  mapData: MapType
+}
+
+
+const MapPage: FC<Props> = ({ mapData }) => {
   const [settingsModalOpen, setSettingsModalOpen] = useState(false)
+  
 
   const closeModal = () => {
     setSettingsModalOpen(false)
-  }
-
-  const map: MapType = {
-    id: 'world',
-    name: 'World',
-    description: 'The classic game mode we all love, any country is fair game!',
-    usersPlayed: 2500000,
-    likes: 92453,
-    locations: [{lat: 0, lng: 0}],
-    creator: 'GeoHub',
-    previewImg: '/images/worldMap.jpg',
-    avgScore: 11368
   }
 
   const leaderboard = [
@@ -58,13 +87,6 @@ const MapPage: NextPage = () => {
       gameId: '123456'
     },
   ]
-
-  const testSettings: GameSettingsType = {
-    timeLimit: 0,
-    canMove: true,
-    canPan: true,
-    canZoom: true
-  }
 
   const testMap2: MapType = {
     id: '',
@@ -110,17 +132,16 @@ const MapPage: NextPage = () => {
         <main>
           <div className="descriptionSection">
             <FlexGroup gap={20}>
-              <Avatar url={map.previewImg} alt="" size={100}/>
+              <Avatar url={mapData?.previewImg || ''} alt="" size={100}/>
               <div className="textWrapper">
-                <span className="name">{map.name}</span>
-                <span className="description">{map.description}</span>
+                <span className="name">{mapData?.name}</span>
+                <span className="description">{mapData?.description}</span>
               </div>
             </FlexGroup>      
             <Button type="solidBlue" width="200px" callback={() => setSettingsModalOpen(true)}>Play</Button>
           </div>
 
-          <MapStats map={map} />
-
+          <MapStats map={mapData}/>
           <MapLeaderboard leaderboard={leaderboard} />
 
           <div className="otherMapsWrapper">
@@ -135,7 +156,7 @@ const MapPage: NextPage = () => {
 
         </main>     
       </Layout>
-      
+
       {settingsModalOpen &&
         <Modal closeModal={closeModal}>
           <GameSettings />

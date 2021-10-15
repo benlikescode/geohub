@@ -35,6 +35,8 @@ const GameSettings: FC = () => {
   }
 
   const handleStartGame = () => {
+    const mapId = router.asPath.split('/')[2]
+
     const gameSettings: GameSettingsType = {
       timeLimit: sliderVal,
       canMove: movingChecked,
@@ -43,10 +45,11 @@ const GameSettings: FC = () => {
     }
 
     dispatch(updateGameSettings({
-      gameSettings: gameSettings
+      gameSettings: gameSettings,
+      map: mapId
     }))
     
-    router.push(`/game/1`)
+    router.push(`/game/${mapId}`)
   }
   
 

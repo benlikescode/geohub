@@ -32,7 +32,6 @@ const Map2: FC<Props> = ({ coordinate, zoom }) => {
 
   const GoogleMapConfig = {
     key: googleKey,
-    libraries: 'places'
   }
 
   const handleApiLoaded = () => {

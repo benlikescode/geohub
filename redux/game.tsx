@@ -3,7 +3,7 @@ import { GameType } from '../types'
 
 const initialState: GameType = {
   id: '',
-  map: 'World',
+  map: '',
   round: 1,
   currGuess: {lat: 0, lng: 0},
   guessedLocations: [],
@@ -76,6 +76,7 @@ export const gameSlice = createSlice({
     },
     updateGameSettings: (state, action) => {
       state.gameSettings = action.payload.gameSettings
+      state.map = action.payload.map || state.map
     },
     updateRoundTimes: (state, action) => {
       state.roundTimes = [...state.roundTimes, action.payload.roundTimes]

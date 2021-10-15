@@ -20,10 +20,11 @@ const ResultView: FC<Props> = ({ isFinalResults }) => {
   
   const getResultData = () => {
     const distance = getDistance(guessedLocations[round - 1], actualLocations[round - 1])
-    const points = getPoints(distance)
+    const formattedDistance = getDistance(guessedLocations[round - 1], actualLocations[round - 1], true) as string
+    const points = getPoints(distance as number)
     
     return {
-      round, distance, points  
+      round, formattedDistance, points  
     }
   }
 

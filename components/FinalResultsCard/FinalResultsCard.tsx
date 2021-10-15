@@ -1,9 +1,10 @@
 import { SparklesIcon } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
 import React, { FC } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { StyledFinalResultsCard } from '.'
-import { resetGame, updateView } from '../../redux/game'
+import { resetGame, selectGame, updateView } from '../../redux/game'
+import { GameType } from '../../types'
 import { Icon, Button, ProgressBar, FlexGroup } from '../System'
 
 type Props = {
@@ -13,6 +14,8 @@ type Props = {
 const FinalResultsCard: FC<Props> = ({ totalPoints }) => {
   const dispatch = useDispatch()
   const router = useRouter()
+  const game: GameType = useSelector(selectGame)
+  const MAP_ID = game.map
   const calculateProgress = () => {
     const progress = (totalPoints / 25000) * 100
 
@@ -24,10 +27,10 @@ const FinalResultsCard: FC<Props> = ({ totalPoints }) => {
   }
 
   const handlePlayAgain = () => {
-    router.push(`/map/1`)
+    router.push(`/map/${MAP_ID}`)
     dispatch(resetGame({
-      id: '12345',
-      map: 'World'
+      id: game.id,
+      map: game.map
     }))  
   }
 

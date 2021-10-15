@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const StyledGameSettings = styled.div`
-  background-color: var(--background2);
+  background-color: var(--background1);
   border-radius: 4px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   max-width: 650px;
@@ -14,7 +14,7 @@ const StyledGameSettings = styled.div`
     justify-content: center;
     
     h2 {
-      font-size: 24px;
+      font-size: 20px;
       font-weight: 500;
     }
   }
@@ -32,7 +32,7 @@ const StyledGameSettings = styled.div`
   }
 
   .label {
-    font-size: 20px;
+    font-size: 18px;
     color: var(--color2);
   }
 
@@ -94,7 +94,7 @@ const StyledGameSettings = styled.div`
   }
 
   .mapName {
-    font-size: 24px;
+    font-size: 20px;
   }
 
   .mapDescription {

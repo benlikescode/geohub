@@ -57,7 +57,9 @@ const MapStats: FC<Props> = ({ map }) => {
         </Icon>
         <div className="textWrapper">
           <span className="mainLabel">Locations</span>
-          <span className="subLabel">{map.locations.length}</span>
+          <span className="subLabel">
+            {typeof(map.locations) === 'number' ? map.locations : map.locations.length}
+          </span>
         </div>
       </FlexGroup>
 
