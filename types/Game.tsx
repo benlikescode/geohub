@@ -10,7 +10,7 @@ type Game = {
   roundTimes: number[]
   roundPoints: number
   totalPoints: number
-  currView: 'Game' | 'Results' | 'FinalResults'
+  currView: 'Game' | 'Result' | 'FinalResults'
   compassHeading: number
   atStart: boolean
   gameSettings: GameSettingsType

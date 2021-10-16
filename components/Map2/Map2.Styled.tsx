@@ -10,7 +10,7 @@ const StyledMap2 = styled.div<StyledProps>`
     position: absolute;
     bottom: 20px;
     right: 20px;
-    z-index: 1;
+    z-index: 2;
     display: flex;
     flex-direction: column;
     gap: 10px;

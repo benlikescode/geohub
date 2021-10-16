@@ -8,7 +8,7 @@ const StyledStreetViewControls = styled.div<StyledProps>`
   position: absolute;
   bottom: 50px;
   left: 15px;
-  z-index: 1;
+  z-index: 2;
   display: flex;
   align-items: center;
   flex-direction: column;

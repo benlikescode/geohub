@@ -1,21 +1,24 @@
-import { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { StyledStreetView } from '.'
 import GoogleMapReact from 'google-map-react'
 import { LocationType } from '../../types'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectGame, updateActualLocations, updateCompass } from '../../redux/game'
 import { useDebounce } from '../../utils/hooks/useDebounce'
+import { Spinner } from '../System/Spinner'
+import { StreetViewControls } from '../StreetViewControls'
+import { GameStatus } from '../GameStatus'
+import { Map2 } from '../Map2'
 
 type Props = {
   location: LocationType
-  zoom: number
-  setCompassHeading: (compassHeading: number) => void
 }
 
-const StreetView: FC<Props> = ({ location, zoom, setCompassHeading }) => {
-  const [ch, setCh] = useState(0)
-  //useDebounce(() => setCompassHeading(ch), 50, [ch])
+const StreetView: FC<Props> = ({ location }) => {
+  const [compassHeading, setCompassHeading] = useState(0)
+  //useDebounce(() => setCompassHeading(compassHeading), 50, [compassHeading])
   const dispatch = useDispatch()
+  const [loading, setLoading] = useState(true)
 
   const game = useSelector(selectGame)
 
@@ -26,6 +29,7 @@ const StreetView: FC<Props> = ({ location, zoom, setCompassHeading }) => {
   }
 
   const handleApiLoaded = (map: any, maps: any) => {
+
     var sv = new window.google.maps.StreetViewService()
     var panorama = new window.google.maps.StreetViewPanorama(
       document.getElementById('map') as HTMLElement, {         
@@ -44,7 +48,7 @@ const StreetView: FC<Props> = ({ location, zoom, setCompassHeading }) => {
     })
     /*
     panorama.addListener('pov_changed', () => {
-      setCh(panorama.getPov().heading)
+      setCompassHeading(panorama.getPov().heading)
     })
     */
 
@@ -70,20 +74,29 @@ const StreetView: FC<Props> = ({ location, zoom, setCompassHeading }) => {
       
     }
 
-   
-      sv.getPanorama({location: location, radius: 50,}, processSVData)
-    
-   
-
+    sv.getPanorama({location: location, radius: 50,}, processSVData)
+  
+    setLoading(false)
   }
 
   return (
     <StyledStreetView>
-      <div id="map"></div>
+      {loading &&
+        <div className="loadingView">
+          <Spinner />
+        </div>
+      }
+      
+      <div id="map">
+        <StreetViewControls compassHeading={compassHeading} />
+        <GameStatus /> 
+        <Map2 coordinate={location} zoom={8} />
+      </div>
+
       <GoogleMapReact 
         bootstrapURLKeys={GoogleMapConfig}
         center={location} 
-        zoom={zoom}
+        zoom={11}
         yesIWantToUseGoogleMapApiInternals
         onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
       >

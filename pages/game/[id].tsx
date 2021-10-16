@@ -55,7 +55,6 @@ type Props = {
 
 const GamePage: FC<Props> = ({ mapData }) => {
   const game = useSelector(selectGame)
-  const [compassHeading, setCompassHeading] = useState(0)
   const [locations, setLocations] = useState<LocationType[]>([])
   const dispatch = useDispatch()
 
@@ -85,22 +84,10 @@ const GamePage: FC<Props> = ({ mapData }) => {
     }
   }, [])
 
-
   return (
     <>
-    {game.currView === 'Game' &&
-    <>
-      <StreetView location={locations[game.round - 1]} zoom={11} setCompassHeading={setCompassHeading}/>
-      <StreetViewControls compassHeading={compassHeading} />
-      <GameStatus />
-   
-      <Map2 
-        coordinate={locations[game.round - 1] || locations[0]} 
-        zoom={8} 
-      />
-    </>
-    }
-
+    {game.currView === 'Game' && <StreetView location={locations[game.round - 1]} />}
+  
     {game.currView === 'Result' && <ResultView />}
 
     {game.currView === 'FinalResults' && <ResultView isFinalResults />}

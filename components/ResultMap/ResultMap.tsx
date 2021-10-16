@@ -34,7 +34,6 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, isFinalResult
 
   const handleApiLoaded = () => {
     const { center, zoom } = getResultMapValues(guessedLocations[roundIdx], actualLocations[roundIdx], isFinalResults)
-    console.log(zoom)
     const map = new window.google.maps.Map(
       document.getElementById("resultMap") as HTMLElement, {
         zoom: zoom,
