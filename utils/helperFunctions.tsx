@@ -292,26 +292,25 @@ export const getResultMapValues = (guessedLocation: LocationType, actualLocation
   if (!isFinalResults) {
     let distance = getDistance(guessedLocation, actualLocation)
 
-    if (distance >= 15000) {
-      actualLocation.lng = actualLocation.lng - 360
-    }
-  
     center = {
       lat: (actualLocation.lat + guessedLocation.lat) / 2,
       lng: (actualLocation.lng + guessedLocation.lng) / 2
     }
 
-    if (distance < 100) {
-      zoom = 9
+    if (distance < 50) {
+      zoom = 10
     }
-    else if (distance < 500) {
+    if (distance < 100) {
       zoom = 8
     }
-    else if (distance < 1000) {
+    else if (distance < 500) {
       zoom = 7
     }
-    else if (distance < 2000) {
+    else if (distance < 1200) {
       zoom = 6
+    }
+    else if (distance < 2000) {
+      zoom = 5
     }
     else if (distance < 4000) {
       zoom = 4
