@@ -1,99 +1,115 @@
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { FC, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { StyledLogin } from '.'
+import { mailman } from '../../../backend/utils/mailman'
 import { updateUser } from '../../../redux/user'
 import { Input, Button } from '../../System'
-import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile } from 'firebase/auth'
-import { formatErrorMessage } from '../../../utils/helperFunctions'
+import { Spinner } from '../../System/Spinner'
 
 const Login: FC = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [errorMessage, setErrorMessage] = useState("")
+  const [emailErrorMsg, setEmailErrorMsg] = useState("")
+  const [passwordErrorMsg, setPasswordErrorMsg] = useState("")
+  const [generalErrorMsg, setGeneralErrorMsg] = useState("")
+  const [showBtnSpinner, setShowBtnSpinner] = useState(false)
+
   const router = useRouter()
   const dispatch = useDispatch()
-  const AVATAR = '/images/avatar1.jfif'
-  const provider = new GoogleAuthProvider()
 
-  // handles login by email
+  const validateEmail = () => {
+    const basicRE = /\S+@\S+\.\S+/;
+    return basicRE.test(email)
+  }
+
+  const handleErrors = () => {
+    let hasErrors = false 
+    setEmailErrorMsg("")
+    setPasswordErrorMsg("")
+
+    if (!validateEmail()) {
+      hasErrors = true
+      setEmailErrorMsg('Invalid email address')
+    }
+
+    if (!email) {
+      hasErrors = true
+      setEmailErrorMsg('This field is required')
+    }
+
+    return hasErrors
+  }
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
+    setShowBtnSpinner(true)
 
-    try {
-      const auth = getAuth()
-      const login = await signInWithEmailAndPassword(auth, email, password)
-      const user = login.user
-      
-      dispatch(updateUser({
-        id: user.uid,
-        name: user.displayName,
-        email: user.email,
-        avatar: user.photoURL
-      }))
-
-      router.push('/')
-    }
-    catch (error: any) {
-      setErrorMessage(formatErrorMessage(error))
-    }
-  }
-
-  // handles login by provider
-  const handleProvider = async () => {
-    try {
-      const auth = getAuth()
-      const result = await signInWithPopup(auth, provider)
-      const user = result.user
-
-      await updateProfile(user, { photoURL: AVATAR })
-
-
-      dispatch(updateUser({
-        id: user.uid,
-        name: user.displayName,
-        email: user.email,
-        avatar: user.photoURL
-      }))
-
-      router.push('/')    
-    }
-    catch (error: any) {
-      setErrorMessage(error.message)
-    }
-  }
+    if (!handleErrors()) {
+      try {
+        const user = {email, password}
+        const res = await mailman('users/login', 'POST', JSON.stringify(user))
+        const resData = res.data
   
+        if (res.success) {
+          dispatch(updateUser({
+            id: resData._id,
+            name: resData.name, 
+            email: resData.email,
+            avatar: resData.avatar
+          }))
+  
+          router.push('/')  
+        }
+        else {
+          setGeneralErrorMsg(res.errorMessage)
+        } 
+      }
+      catch (err) {
+        setGeneralErrorMsg(err as string)
+      }
+    }  
+  }
+
   return (
     <StyledLogin>
       <h1 className="title">Welcome Back!</h1>
 
+      {generalErrorMsg &&
+        <div className="errorBanner">
+          <svg aria-hidden="true" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M10.115 1.308l5.635 11.269A2.365 2.365 0 0 1 13.634 16H2.365A2.365 2.365 0 0 1 .25 12.577L5.884 1.308a2.365 2.365 0 0 1 4.231 0zM8 10.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM8 9c.552 0 1-.32 1-.714V4.714C9 4.32 8.552 4 8 4s-1 .32-1 .714v3.572C7 8.68 7.448 9 8 9z" fill-rule="evenodd"></path></svg>
+          <span className="inputErrorText">{generalErrorMsg}</span>     
+        </div>
+      }
+      
       <form className="inputGroup" onSubmit={(e) => handleLogin(e)}>
-        <Input type="text" label="Email Address" callback={setEmail}/>
+        <Input 
+          type="text" 
+          label="Email Address" 
+          callback={setEmail}
+          errorMessage={emailErrorMsg}
+          handleErrors={handleErrors}
+        />
+        <Input 
+          type="password" 
+          label="Password" 
+          callback={setPassword}
+          errorMessage={passwordErrorMsg}
+          handleErrors={handleErrors}
+        />
 
-        <div className="lastInput">
-          <Input type="password" label="Password" callback={setPassword}/>
-          <div className="errorMessage">
-            <span>{errorMessage}</span>
-          </div>
-        </div> 
-
-        <Button type="solidBlue" width="100%">Login</Button>
+        <Button type="solidPurple" width="100%">
+          {showBtnSpinner ? <Spinner size={25} /> : 'Login'}
+        </Button>
       </form>
 
-      <div className="divider">
-        <span>OR</span>
-      </div>
-
-      <button className="providersWrapper">
-        <div className="provider" onClick={() => handleProvider()}>
-          <div className="providerLogo">
-            <img src="/images/googleLogo.jfif" alt=""/>
-          </div>
-          <div className="providerName">
-            <span>Login with Google</span>
-          </div>
-        </div>
-      </button>
+      <span className="authPrompt">
+        Not a member?
+        <Link href="/register">
+          <a> Sign Up</a>
+        </Link>
+      </span>  
     </StyledLogin>
   )
 }

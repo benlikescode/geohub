@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 type StyledProps = {
-  type: 'solidGreen' | 'solidPink' | 'solidBlack' | 'solidBlue' | 'ghost' | 'icon' | 'iconRounded'
+  type: 'solidGreen' | 'solidPink' | 'solidBlack' | 'solidBlue' | 'solidPurple' | 'ghost' | 'icon' | 'iconRounded'
   primaryColor?: string
   secondaryColor?: string
   isDisabled?: boolean
@@ -49,6 +49,13 @@ const StyledButton = styled.div<StyledProps>`
     `}
 
     ${({ type, isDisabled }) => 
+      type === 'solidPurple' && 
+      !isDisabled && `
+        background-color: var(--darkPurple);
+        color: #fff;
+    `}
+
+    ${({ type, isDisabled }) => 
       type === 'solidBlack' && 
       !isDisabled && `
         background-color: #000;
@@ -92,8 +99,8 @@ const StyledButton = styled.div<StyledProps>`
 
     ${({ isDisabled }) => 
       isDisabled && `
-        background-color: var(--gray-800);
-        color: #fff;
+        background-color: var(--background3);
+        color: var(--color2);
         pointer-events: none;
         opacity: 0.5;
     `}

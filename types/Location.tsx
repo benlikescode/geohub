@@ -1,6 +1,10 @@
-type Coordinate = {
-  lat: number
-  lng: number
+type Location = {
+  lat: number;
+  lng: number;
+  panoId?: string;
+  heading?: number;
+  pitch?: number;
+  zoom?: number;
 }
 
-export default Coordinate
+export default Location

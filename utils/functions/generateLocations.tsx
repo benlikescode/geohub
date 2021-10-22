@@ -13,7 +13,7 @@ export const randomElement = (array: any[]) => {
   return array[Math.floor(Math.random() * array.length)]
 }
 
-export const getLocationsFromMapId = (mapId: string, locationsType: 'random' | 'handPicked') => {
+export const getLocationsFromMapId = (mapId: string, locationsType: 'random' | 'handPicked', numLocations = 5) => {
   let locations: LocationType[] = []
   switch(mapId) {
     case 'world':
@@ -21,7 +21,7 @@ export const getLocationsFromMapId = (mapId: string, locationsType: 'random' | '
         locations = generateUS()
       }
       else {
-        locations = getRandomLocationsFromArray(worldHandPicked)
+        locations = getRandomLocationsFromArray(worldHandPicked, numLocations)
       }
       break
     case 'famous-landmarks':
@@ -163,6 +163,7 @@ export const generateCanada = (numLocations = 5) => {
   return locations
 
 }
+
 
 export const USCities: LocationType[] = [
   {lat: 39.983334, lng: -82.983330}, // Columbus

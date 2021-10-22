@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { StyledSpinner } from '.'
 
 type Props = {
-  size?: 'small' | 'large'
+  size?: number
   fill?: string
 }
 

@@ -7,14 +7,18 @@ import { useSelector } from 'react-redux'
 import { UserType } from '../../../types'
 import Link from 'next/link'
 
-const Navbar: FC = () => {
+type Props = {
+  isAuthpage?: boolean
+}
+
+const Navbar: FC<Props> = ({ isAuthpage }) => {
   const user: UserType = useSelector(selectUser)
 
   return (
     <StyledNavbar>
       <h2 className="title">GeoHub</h2>
 
-      {user.name ? 
+      {(!isAuthpage && user.name) &&
         <div className="rightWrapper">
           <Searchbar />
           <Button type="icon">
@@ -27,12 +31,14 @@ const Navbar: FC = () => {
             <span className="username">{user.name}</span>
           </div>
         </div>
-        :
+      }
+
+      {(!isAuthpage && !user.name) &&
         <FlexGroup gap={15}>
           <Link href="/login">
-           <a>
+          <a>
             <Button type="ghost" width="120px">Login</Button>
-           </a>
+          </a>
           </Link>
 
           <Link href="/register">
@@ -41,7 +47,8 @@ const Navbar: FC = () => {
             </a>
           </Link>       
         </FlexGroup>       
-    }    
+      }
+    
     </StyledNavbar>
   )
 }

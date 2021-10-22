@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const StyledAuthPage = styled.div`
-  background: url('/images/authBackground.jfif');
+  background: url('/images/backgrounds/authPage.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -29,68 +29,45 @@ const StyledAuthPage = styled.div`
     margin-top: 10px;
   }
 
-
-  .divider {
-    border-top: var(--borderLight);
-    position: relative;
-    left: auto;
-    right: auto;
-    margin: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 0;
-
-    span {
-      display: block;
-      flex: 0 0 auto;
-      padding: 4px;
-      background: #fff;
-      font-size: 12px;
-      font-weight: 600;
-      margin-top: -2px;
-      color: var(--gray-600);
-    }
-  }
-
-  .provider {
-    border: var(--borderLight);
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    height: 42px;
-    cursor: pointer;
-  }
-  
-  .providerLogo {
-    height: 100%;
-    width: 45px;
-    position: relative;
-    border-right: var(--borderLight);
-
-    img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      object-fit: cover;
-      border-radius: 50%;
-      height: 100%;
-      width: 100%;
-    }
-  }
-
-  .providerName {
-    color: #394151;
-    font-weight: 600;
-    width: 100%;
+  .authPrompt {
+    font-weight: 400;
+    display: block;
     text-align: center;
+    margin-top: -15px;
+    color: var(--color2);
+    
+
+    a {
+      color: var(--lightPurple);
+    }
   }
 
-  .providersWrapper {
-    background-color: #fff;
+  .errorBanner {
+    background-color: var(--red-500);
+    color: #fff;
+    border-radius: 4px;
+    padding: 15px;
+    font-size: 14px;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+
+    svg {
+      height: 14px;
+      width: 14px;
+      fill: #fff;
+    }
   }
+
+  .inputErrorText {
+    display: block;
+    margin-top: 3px;
+    margin-left: 10px;
+  }
+
+
+
+ 
 
   
 `
