@@ -6,8 +6,6 @@ const StyledLogin = styled.div`
   color: var(--color1);
   border-radius: 4px;
   padding: 50px 70px;
-  display: grid;
-  gap: 40px;
 `
 
 export default StyledLogin

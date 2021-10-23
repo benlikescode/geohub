@@ -64,10 +64,12 @@ const Login: FC = () => {
         }
         else {
           setGeneralErrorMsg(res.errorMessage)
+          setShowBtnSpinner(false)
         } 
       }
       catch (err) {
         setGeneralErrorMsg(err as string)
+        setShowBtnSpinner(false)
       }
     }  
   }

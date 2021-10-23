@@ -20,7 +20,7 @@ const StyledButton = styled.div<StyledProps>`
     justify-content: center;
     gap: 8px;
     border-radius: ${({ isRound }) => isRound ? '20' : '3'}px;
-    height: 35px;
+    height: 42px;
     padding: 0 25px;
     font-size: 1rem;
     font-weight: 500;
