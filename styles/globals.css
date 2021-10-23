@@ -150,7 +150,7 @@
   --pink-800: #9D174D;
   --pink-900: #831843;
 
-  --border: 1px solid #34373A;
+  --border: 1px solid #2F3133;
   --borderLight: 1px solid #D1D5DB;
   --modalPadding: 15px;
   --iconColor: #8D8F92;
@@ -158,14 +158,19 @@
   --color1: #fff;
   --color2: #DADBDD;
   --color3: #BABABA;
-  --background1: #1E2023;
-  --background2: #262626;
-  --background3: #34373A;
+  --color4: #8D949A;
+  --background1: #131314;
+  --background2: #191A1B;
+  --background3: #212223;
+  --background4: #34373A;
+  --background5: #56585C;
   --lightGreen: #10B981;
   --lightYellow: #FCD34D;
   --lightRed: #F87171; 
   --lightPurple: #C2ACFF;
-  --darkPurple: #8054FF;
+  --mediumPurple: #8054FF;
+  --darkPurple: #6D28D9;
+  --maxWidth: 1600px;
 }
 
 html,

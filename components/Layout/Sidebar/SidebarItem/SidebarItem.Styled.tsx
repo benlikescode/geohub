@@ -5,6 +5,12 @@ type StyledProps = {
 }
 
 const StyledSidebarItem = styled.div<StyledProps>`
+  ${({ isActive }) => isActive && `
+    background-color: var(--background4);
+  `}
+  
+  border-radius: 3px;
+
   a {
     color: inherit;
     text-decoration: none;
@@ -12,23 +18,24 @@ const StyledSidebarItem = styled.div<StyledProps>`
 
   .item {
     background-color: transparent;
-    padding: 6px 0;
+    padding: 8px;
     margin-right: 6px;
-    color: var(--color2);
-    display: flex;
+    color: #8B8F93;
+    display: inline-flex;
     align-items: center;
     gap: 10px;
     cursor: pointer;
+    width: 100%;
 
-    &:hover {
-      color: #fff;
-    }
+   
 
     ${({ isActive }) => isActive && `
-      color: #fff;
+      color: var(--color2);
       font-weight: 600;
     `}
   } 
+
+  
 `
 
 export default StyledSidebarItem

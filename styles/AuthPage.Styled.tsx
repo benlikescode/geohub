@@ -15,11 +15,12 @@ const StyledAuthPage = styled.div`
     font-weight: 400;
     font-size: 32px;
     text-align: center;
+    margin-bottom: 40px;
   }
 
   .inputGroup {
     display: grid;
-    gap: 25px;
+    gap: 40px;
   }
 
   .errorMessage {
@@ -33,9 +34,8 @@ const StyledAuthPage = styled.div`
     font-weight: 400;
     display: block;
     text-align: center;
-    margin-top: -15px;
     color: var(--color2);
-    
+    margin-top: 15px;
 
     a {
       color: var(--lightPurple);
@@ -51,6 +51,7 @@ const StyledAuthPage = styled.div`
     font-weight: 400;
     display: flex;
     align-items: center;
+    margin-bottom: 40px;
 
     svg {
       height: 14px;
@@ -64,12 +65,6 @@ const StyledAuthPage = styled.div`
     margin-top: 3px;
     margin-left: 10px;
   }
-
-
-
- 
-
-  
 `
 
 export default StyledAuthPage

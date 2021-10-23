@@ -5,33 +5,39 @@ const StyledSidebar = styled.div`
   border-right: var(--border);
   height: calc(100vh - 60px);
   position: fixed;
+  background-color: var(--background2);
 
   .sidebarItemGrid {
     display: grid;
     gap: 4px;
-    padding: 15px 0;
-    padding-left: 25px;
+    padding: 15px 16px;
   }
 
-  .playSection {
-    margin-top: 40px;
+  .quickLinksSection {
+    margin-top: 10px;
+    margin-bottom: 40px;
   }
 
-  .playItemsWrapper {
+  .quickLinkItemWrapper {
     padding-left: 25px;
     display: grid;
-    gap: 12px;
+    gap: 15px;
     font-weight: 400;
-    margin-top: 10px;
   }
 
-  .playItem {
+  .linkItem {
     cursor: pointer;
+    color: #878D93;
+
+    :hover {
+      color: var(--color2);
+    }
   }
 
   .title {
-    border-bottom: var(--border);
-    padding: 5px 25px;
+    padding: 20px 25px;
+    color: #B6BEC7;
+    font-weight: 600;
   }
 
   .footer {

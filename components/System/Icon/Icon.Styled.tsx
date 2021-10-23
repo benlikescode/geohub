@@ -11,8 +11,13 @@ const StyledIcon = styled.div<StyledProps>`
   justify-content: center;
   
   svg {
-    height: ${({ size }) => size ? size : '16'}px;
-    color: ${({ fill }) => fill ? fill : '#8D8F92'};
+    height: ${({ size }) => size ? size : '24'}px;
+    width: ${({ size }) => size ? size : '24'}px;
+    color: ${({ fill }) => fill ? fill : 'var(--background5)'};
+
+    path {
+      stroke-width: 1.5;
+    }
   }
 `
 

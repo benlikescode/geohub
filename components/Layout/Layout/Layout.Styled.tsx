@@ -10,9 +10,9 @@ const StyledLayout = styled.div<StyledProps>`
   min-height: calc(100vh - 60px);
 
   main {
-   max-width: 1400px;
+   max-width: var(--maxWidth);
    width: 100%;
-   padding: 20px;
+   padding: 56px 0;
    margin: 0 auto;
   }
 

@@ -33,7 +33,8 @@ const StyledInput = styled.div`
       }
 
       &:focus {
-        border: 2px solid var(--lightPurple);
+        border: 1px solid #8054ff;
+        outline: 2px solid #8054ff61;
       } 
     }
   }

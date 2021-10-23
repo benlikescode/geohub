@@ -21,7 +21,7 @@ const StyledAvatar = styled.div<StyledProps>`
     border-radius: 50%;
     height: 100%;
     width: 100%;
-    border: ${({ outline }) => outline ? '2px solid #fff' : 0};
+    border: ${({ outline }) => outline ? '1px solid rgba(0, 0, 0, 0.37);' : 0};
   }
 `
 

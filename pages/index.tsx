@@ -45,12 +45,9 @@ const Home: NextPage = () => {
         <main>
           <div className="bannerWrapper">
             <div className="bannerContent">
-              <h2>GeoTip of the day</h2>
-              <div className="tipWrapper">
-                <Icon size={24} fill="var(--lightYellow)">
-                  <LightBulbIcon />
-                </Icon>
-                <span className="tip">- {randomTip.tip}</span>
+              <h2 className="bannerTitle">GeoTip of The day.</h2>
+              <div className="tipWrapper">           
+                <span className="tip">{randomTip.tip}</span>
               </div>
               <div className="pillsWrapper">
                 {randomTip.tags.map((label, idx) => (
@@ -59,11 +56,13 @@ const Home: NextPage = () => {
               </div>
             </div>
           </div>
+
           <div className="mapPreviewSection">
             {maps.map((map, idx) => (
               <MapPreviewCard key={idx} map={map} />
             ))}        
           </div>
+
         </main>
        
        

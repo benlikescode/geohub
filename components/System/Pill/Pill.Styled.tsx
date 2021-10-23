@@ -7,16 +7,18 @@ type StyledProps = {
 }
 
 const StyledPill = styled.div<StyledProps>`
-  background-color: ${({ transparent, background }) => transparent ? 'transparent' : background};
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(225, 225, 225, 0.25);
   color: ${({ color }) => color ? color : '#fff'};
-  padding: 5px 16px;
+  padding: 0 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   width: fit-content;
-  border-radius: 50rem;
+  border-radius: 20px;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 500;
+  height: 30px;
 `
 
 export default StyledPill

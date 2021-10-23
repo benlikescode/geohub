@@ -17,7 +17,7 @@ const Searchbar: FC<Props> = ({ placeholder }) => {
       </Icon>
       <input 
         type="text" 
-        placeholder={placeholder ? placeholder : 'Search'} 
+        placeholder={placeholder ? placeholder : 'Search players or maps'} 
         onChange={(e) => setInput(e.currentTarget.value)} 
       />
     </StyledSearchbar>

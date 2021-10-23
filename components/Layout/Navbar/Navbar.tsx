@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { StyledNavbar } from '.'
-import { BellIcon } from '@heroicons/react/outline'
+import { BellIcon, LocationMarkerIcon } from '@heroicons/react/outline'
 import { Avatar, Button, FlexGroup, Icon, Searchbar } from '../../System'
 import { selectUser } from '../../../redux/user'
 import { useSelector } from 'react-redux'
@@ -16,39 +16,43 @@ const Navbar: FC<Props> = ({ isAuthpage }) => {
 
   return (
     <StyledNavbar>
-      <h2 className="title">GeoHub</h2>
-
-      {(!isAuthpage && user.name) &&
-        <div className="rightWrapper">
-          <Searchbar />
-          <Button type="icon">
-            <Icon size={24}>
-              <BellIcon />
-            </Icon>
-          </Button>  
-          <div className="userInfo">
-            <Avatar url={user.avatar} alt="" size={30}/>
-            <span className="username">{user.name}</span>
-          </div>
+      <div className="logoWrapper">
+        <div className="logo">
+          <Icon size={28} fill="#fff">
+            <LocationMarkerIcon />
+          </Icon>
         </div>
-      }
+        <h2 className="title">GeoHub</h2>
+      </div>
 
-      {(!isAuthpage && !user.name) &&
-        <FlexGroup gap={15}>
-          <Link href="/login">
-          <a>
-            <Button type="ghost" width="120px">Login</Button>
-          </a>
-          </Link>
+      <div className="mainSection">
+        <Searchbar />
 
-          <Link href="/register">
+        {(!isAuthpage && user.name) &&
+          <div className="rightWrapper">             
+            <div className="userInfo">
+              <span className="username">{user.name}</span>
+              <Avatar url={user.avatar} alt="" size={40}/>
+            </div>
+          </div>
+        }
+
+        {(!isAuthpage && !user.name) &&
+          <FlexGroup gap={15}>
+            <Link href="/login">
             <a>
-              <Button type="solidBlue" width="120px">Sign Up</Button>
+              <Button type="ghost" width="120px">Login</Button>
             </a>
-          </Link>       
-        </FlexGroup>       
-      }
-    
+            </Link>
+
+            <Link href="/register">
+              <a>
+                <Button type="solidBlue" width="120px">Sign Up</Button>
+              </a>
+            </Link>       
+          </FlexGroup>       
+        }
+      </div>
     </StyledNavbar>
   )
 }
