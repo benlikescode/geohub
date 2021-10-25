@@ -9,10 +9,10 @@ const StyledSlider = styled.div`
 
   input[type=range]::-webkit-slider-runnable-track {
     width: 100%;
-    height: 15px;
+    height: 10px;
     cursor: pointer;
-    background: var(--background3);
-    border-radius: 25px;
+    background: var(--background4);
+    border-radius: 20px;
     border: 0px solid #000101;
   }
 
@@ -22,20 +22,19 @@ const StyledSlider = styled.div`
     height: 20px;
     width: 20px;
     border-radius: 50%;
-    background: #fff;
+    background: var(--color2);
     cursor: pointer;
     -webkit-appearance: none;
-    margin-top: -2.5px;
+    margin-top: -5px;
   }
 
   input[type=range]::-moz-range-track {
     width: 100%;
-    height: 15px;
+    height: 10px;
     cursor: pointer;
-    animate: 0.2s;
     box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
-    background: var(--background3);
-    border-radius: 25px;
+    background: var(--background4);
+    border-radius: 20px;
     border: 0px solid #000101;
   }
 
@@ -45,15 +44,14 @@ const StyledSlider = styled.div`
     height: 20px;
     width: 20px;
     border-radius: 50%;
-    background: #fff;
+    background: var(--color2);
     cursor: pointer;
   }
 
   input[type=range]::-ms-track {
     width: 100%;
-    height: 15px;
+    height: 5px;
     cursor: pointer;
-    animate: 0.2s;
     background: transparent;
     border-color: transparent;
     border-width: 39px 0;
@@ -61,14 +59,14 @@ const StyledSlider = styled.div`
   }
 
   input[type=range]::-ms-fill-lower {
-    background: var(--background3);
+    background: var(--background4);
     border: 0px solid #000101;
     border-radius: 50px;
     box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
   }
 
   input[type=range]::-ms-fill-upper {
-    background: var(--background3);
+    background: var(--background4);
     border: 0px solid #000101;
     border-radius: 50px;
     box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
@@ -80,7 +78,7 @@ const StyledSlider = styled.div`
     height: 20px;
     width: 20px;
     border-radius: 50%;
-    background: #fff;
+    background: var(--color2);
     cursor: pointer;
   }
 `

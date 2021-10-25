@@ -9,40 +9,21 @@ type Props = {
 }
 
 const MapStats: FC<Props> = ({ map }) => {
-  const [difficulty, setDifficulty] = useState({label: 'Medium', color: 'var(--lightYellow)'})
-
-  const calculateDifficulty = () => {
-    if (map.avgScore) {
-      if (map.avgScore < 10000) {
-        setDifficulty({label: 'Hard', color: 'var(--lightRed)'})
-      }
-      else if (map.avgScore < 15000) {
-        setDifficulty({label: 'Medium', color: 'var(--lightYellow)'})
-      }
-      else {
-        setDifficulty({label: 'Easy', color: 'var(--lightGreen)'})
-      }
-    }   
-  }
-
-  useEffect(() => {
-    calculateDifficulty()
-  }, [])
 
   return (
     <StyledMapStats>
       <FlexGroup>
-        <Icon size={40} fill={difficulty.color}>
+        <Icon size={30} fill="var(--lightPurple)">
           <ScaleIcon />
         </Icon>
         <div className="textWrapper">
-          <span className="mainLabel">{difficulty.label}</span>
+          <span className="mainLabel">Medium</span>
           <span className="subLabel">Avg. Score {map.avgScore}</span>
         </div>
       </FlexGroup>
 
       <FlexGroup>
-        <Icon size={40}>
+        <Icon size={30} fill="var(--lightPurple)">
           <UserIcon />
         </Icon>
         <div className="textWrapper">
@@ -52,7 +33,7 @@ const MapStats: FC<Props> = ({ map }) => {
       </FlexGroup>
 
       <FlexGroup>
-        <Icon size={40}>
+        <Icon size={30} fill="var(--lightPurple)">
           <LocationMarkerIcon />
         </Icon>
         <div className="textWrapper">
@@ -64,7 +45,7 @@ const MapStats: FC<Props> = ({ map }) => {
       </FlexGroup>
 
       <FlexGroup>
-        <Icon size={40}>
+        <Icon size={30} fill="var(--lightPurple)">
           <HeartIcon />
         </Icon>
         <div className="textWrapper">

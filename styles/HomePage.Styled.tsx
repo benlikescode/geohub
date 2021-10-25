@@ -47,6 +47,29 @@ const StyledHomePage = styled.div`
     align-items: center;
     gap: 10px;
   }
+
+  .badgesTitle {
+    color: var(--mediumPurple);
+    font-size: 40px;
+    font-weight: 600;
+  }
+
+  .badgesWrapper {
+    display: grid;
+    grid-template-columns: repeat(15, 1fr);
+    gap: 10px;
+    margin-top: 30px;
+  }
+
+  .viewAll {
+    display: flex;
+    align-items: center;
+    background: transparent;
+    color: #0EA5E9;
+    cursor: pointer;
+  }
+
+  
   
 
   

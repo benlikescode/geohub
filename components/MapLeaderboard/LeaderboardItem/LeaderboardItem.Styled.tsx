@@ -4,15 +4,16 @@ const StyledLeaderboardItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid var(--background2);
+  border-top: var(--border);
+  padding: 16px 40px;
 
   .userSection {
     display: flex;
     align-items: center;
     gap: 15px;
-    padding: 1rem;
     user-select: none;
     cursor: pointer;
+    font-weight: 400;
   }
 
   .userPlace {

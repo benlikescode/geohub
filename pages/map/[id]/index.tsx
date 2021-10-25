@@ -1,62 +1,22 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-import { Navbar, Layout, Sidebar } from '../../../components/Layout'
-import { GameSettings } from '../../../components/GameSettings'
+import { Navbar, Layout, Sidebar, Banner } from '../../../components/Layout'
+import { GameSettings } from '../../../components/Modals/GameSettings'
 import { FC, useEffect, useState } from 'react'
 import StyledMapPage from '../../../styles/MapPage.Styled'
-import { Avatar, Button, FlexGroup } from '../../../components/System'
+import { Avatar, Button } from '../../../components/System'
 import { GameSettingsType, MapType } from '../../../types'
 import { MapStats } from '../../../components/MapStats'
-import { LeaderboardCard } from '../../../components/Results'
 import { MapLeaderboard } from '../../../components/MapLeaderboard'
 import { MapPreviewCard } from '../../../components/Home/MapPreviewCard'
 import { Modal } from '../../../components/Modals/Modal'
 import { useRouter } from 'next/router'
-import { fireDb } from '../../../utils/firebaseConfig'
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  const maps = await fireDb.collection('maps').get()
-  const paths = maps.docs.map(doc => {
-    return {
-      params: { id: doc.id }
-    }
-  })
-  
-  return {
-    paths,
-    fallback: false
-  }
-}
-
-export const getStaticProps: GetStaticProps = async (context) => {
-  const mapId = context.params!.id as string
-  const mapRaw = await fireDb.collection('maps').doc(mapId).get()
-  const mapData = {
-    id: mapRaw.id,
-    ...mapRaw.data()
-  } as MapType
-
-  if (!mapRaw) {
-    return {
-      notFound: true,
-    }
-  }
-
-  return {
-    props: { mapData }
-  }
-}
-
-type Props = {
-  mapData: MapType
-}
 
 
-const MapPage: FC<Props> = ({ mapData }) => {
+const MapPage: FC = () => {
   const [settingsModalOpen, setSettingsModalOpen] = useState(false)
   
-
   const closeModal = () => {
     setSettingsModalOpen(false)
   }
@@ -130,19 +90,28 @@ const MapPage: FC<Props> = ({ mapData }) => {
         </div>
 
         <main>
-          <div className="descriptionSection">
-            <FlexGroup gap={20}>
-              <Avatar url={mapData?.previewImg || ''} alt="" size={100}/>
-              <div className="textWrapper">
-                <span className="name">{mapData?.name}</span>
-                <span className="description">{mapData?.description}</span>
-              </div>
-            </FlexGroup>      
-            <Button type="solidBlue" width="200px" callback={() => setSettingsModalOpen(true)}>Play</Button>
-          </div>
+          <Banner>
+            <div className="mapDetailsSection">
+              <div className="mapDescription">
+                <Avatar url={testMap2.previewImg || ''} alt="" size={100} outline/>
 
-          <MapStats map={mapData}/>
-          <MapLeaderboard leaderboard={leaderboard} />
+                <div className="descriptionColumnWrapper">
+                <div className="descriptionColumn">
+                    <span className="name">{testMap2.name}</span>
+                    <span className="description">{testMap2.description}</span>
+                  </div>
+                  <Button type="solidPurple" width="200px" callback={() => setSettingsModalOpen(true)}>Play Now</Button>
+                </div>
+
+              </div>
+
+              <MapStats map={testMap2}/>
+            </div>
+          </Banner>
+         
+          <Banner >
+            <MapLeaderboard leaderboard={leaderboard} />
+          </Banner>
 
           <div className="otherMapsWrapper">
             <span className="otherMapsTitle">Other Popular Maps</span>
@@ -159,7 +128,7 @@ const MapPage: FC<Props> = ({ mapData }) => {
 
       {settingsModalOpen &&
         <Modal closeModal={closeModal}>
-          <GameSettings />
+          <GameSettings closeModal={closeModal}/>
         </Modal>
       }
     </StyledMapPage>  

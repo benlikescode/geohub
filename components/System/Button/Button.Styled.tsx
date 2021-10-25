@@ -19,8 +19,8 @@ const StyledButton = styled.div<StyledProps>`
     align-items: center;
     justify-content: center;
     gap: 8px;
-    border-radius: ${({ isRound }) => isRound ? '20' : '3'}px;
-    height: 42px;
+    border-radius: ${({ isRound }) => isRound ? '20' : '5'}px;
+    height: 40px;
     padding: 0 25px;
     font-size: 1rem;
     font-weight: 500;
@@ -51,7 +51,7 @@ const StyledButton = styled.div<StyledProps>`
     ${({ type, isDisabled }) => 
       type === 'solidPurple' && 
       !isDisabled && `
-        background-color: var(--darkPurple);
+        background-color: var(--mediumPurple);
         color: #fff;
     `}
 

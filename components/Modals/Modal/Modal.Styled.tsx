@@ -17,7 +17,6 @@ const StyledModal = styled.div`
     max-height: 700px;
     min-height: 200px;
     background-color: var(--background3);
-    box-shadow: 0 0 0 1px rgb(32 34 37 / 60%), 0 2px 10px 0 rgb(0 0 0 / 20%);
     position: fixed;
     top: 50%;
     left: 50%;
@@ -25,7 +24,8 @@ const StyledModal = styled.div`
     z-index: 9999999;
     pointer-events: all;
     overflow: hidden;
-    border-radius: 5px;
+    border-radius: 12px;
+
   }
   
   .backdrop {

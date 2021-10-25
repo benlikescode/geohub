@@ -1,28 +1,27 @@
 import styled from 'styled-components'
 
-const StyledMapPreviewCard = styled.div`
-  width: 350px;
-  height: 400px;
-  border-radius: 4px;
+type StyledProps = {
+  mapImage: string
+}
+
+const StyledMapPreviewCard = styled.div<StyledProps>`
+  width: 300px;
+  height: 350px;
+  border-radius: 12px;
   background-color: var(--background2);
   position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.07);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
   .mapImage {
-    height: 150px;
+    height: 160px;
     width: 100%;
-    position: relative;
-
-    img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      object-fit: cover;
-      height: 100%;
-      width: 100%;
-    }
+    border-radius: 11px;
+    background: linear-gradient(180deg, rgba(25, 26, 27, 0) 0%, rgba(25, 26, 27, 0.57) 47.4%, #191A1B 100%), 
+    url(${({ mapImage }) => mapImage});
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
   }
 
   .contentWrapper {
@@ -30,24 +29,26 @@ const StyledMapPreviewCard = styled.div`
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 20px;
-    margin-top: 20px;
+    gap: 18px;
+    margin-top: -40px;
   }
 
   .mapName {
-    font-size: 20px;
+    font-size: 22px;
+    font-weight: 600;
   }
 
   .mapDescription {
-    color: var(--color2);
+    color: var(--color5);
     font-weight: 400;
-    line-height: 22px;
+    line-height: 25px;
     text-align: center;
+    padding: 0 35px;
   }
 
   .statsFooter {
-    border-top: var(--border);
-    height: 40px;
+    border-top: 1px solid var(--background4);
+    height: 45px;
     display: flex;
     align-items: center;
     justify-content: space-between;

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 const StyledLogin = styled.div`
   width: 550px;
-  background-color: var(--background1);
+  background-color: var(--background2);
   color: var(--color1);
   border-radius: 4px;
   padding: 50px 70px;

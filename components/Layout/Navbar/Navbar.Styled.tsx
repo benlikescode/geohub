@@ -3,7 +3,7 @@ import styled from 'styled-components'
 const StyledNavbar = styled.div`
   display: flex;
   align-items: center;
-  height: 68px;
+  height: 60px;
   position: sticky;
   top: 0;
   z-index: 20;
@@ -50,8 +50,8 @@ const StyledNavbar = styled.div`
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 2px 6px rgba(255, 255, 255, 0.25), inset 0px -3px 4px rgba(0, 0, 0, 0.25);
     border-radius: 4px;
-    height: 45px;
-    width: 45px;
+    height: 40px;
+    width: 40px;
   }
 
   .mainSection {

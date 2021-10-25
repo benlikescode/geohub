@@ -1,15 +1,17 @@
 import styled from 'styled-components'
 
 const StyledMapStats = styled.div`
-  background-color: var(--background2);
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 30px 80px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  margin-top: 40px;
-  margin-bottom: 50px;
+  background-color: #171717;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+  padding: 30px 0 30px 180px;
+  clip-path: polygon(20% 0,0 100%,100% 100%,100% 0);
+  width: 600px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  height: 100%;
+  
 
   .textWrapper {
     display: flex;

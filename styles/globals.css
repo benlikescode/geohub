@@ -159,6 +159,7 @@
   --color2: #DADBDD;
   --color3: #BABABA;
   --color4: #8D949A;
+  --color5: #81858B;
   --background1: #131314;
   --background2: #191A1B;
   --background3: #212223;
@@ -167,10 +168,13 @@
   --lightGreen: #10B981;
   --lightYellow: #FCD34D;
   --lightRed: #F87171; 
-  --lightPurple: #C2ACFF;
+  --lightPurple: #A5ADFF;
   --mediumPurple: #8054FF;
   --darkPurple: #6D28D9;
-  --maxWidth: 1600px;
+  --bronze: #6A3805;
+  --silver: #D7D7D7;
+  --gold: #C9B037;
+  --maxWidth: 1560px;
 }
 
 html,
@@ -224,6 +228,6 @@ img[src="https://www.geoguessr.com/images/auto/30/30/ce/0/plain/pin/c2fe16562d9a
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--background3);
+  background: var(--background4);
   border-radius: 50rem;
 }

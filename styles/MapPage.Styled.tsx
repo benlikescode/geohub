@@ -1,17 +1,10 @@
 import styled from 'styled-components'
 
 const StyledMapPage = styled.div`
-  .descriptionSection {
-    width: 100%;
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-  }
-
-  .textWrapper {
+  main {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 50px;
   }
 
   .name {
@@ -23,10 +16,6 @@ const StyledMapPage = styled.div`
     font-weight: 400;
   }
 
-  .otherMapsWrapper {
-    margin-top: 100px;
-  }
-  
   .otherMapsTitle {
     font-size: 20px;
   }
@@ -36,6 +25,32 @@ const StyledMapPage = styled.div`
     align-items: center;
     gap: 20px;
     margin-top: 10px;
+  }
+
+  .mapDetailsSection {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .mapDescription {
+    display: flex;
+    gap: 25px;
+    padding: 25px 30px;
+  }
+
+  .descriptionColumnWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin-top: 15px;
+  }
+
+  .descriptionColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
 `
 

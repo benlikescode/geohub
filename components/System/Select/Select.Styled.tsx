@@ -4,7 +4,7 @@ const StyledSelect = styled.div`
   select {
     border: var(--border);
     width: 150px;
-    height: 40px;
+    height: 35px;
     border-radius: 4px;
     color: #fff;
     padding: 0 10px;

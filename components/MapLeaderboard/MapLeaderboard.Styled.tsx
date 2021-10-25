@@ -5,13 +5,13 @@ const StyledMapLeaderboard = styled.div`
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    border-bottom: 1px solid var(--background2);
-    padding-bottom: 15px;
+    padding: 20px 40px 10px 40px;
   }
 
   .title {
     font-size: 20px;
   }
+  
   
 `
 

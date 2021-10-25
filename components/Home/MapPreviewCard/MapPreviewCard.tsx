@@ -12,17 +12,15 @@ type Props = {
 const MapPreviewCard: FC<Props> = ({ map }) => {
 
   return (
-    <StyledMapPreviewCard>
-      <div className="mapImage">
-        <img src={map.previewImg} alt="" />
-      </div>
-
+    <StyledMapPreviewCard mapImage={map.previewImg}>
+      <div className="mapImage"></div>
+     
       <div className="contentWrapper">
         <div className="mapName">{map.name}</div>
         <div className="mapDescription">{map.description}</div>
         <Link href={`/map/${map.id}`}>
           <a>
-            <Button type="solidBlue" width="150px" isRound>Play</Button>
+            <Button type="solidPurple" width="180px">Play</Button>
           </a>     
         </Link>
       </div>

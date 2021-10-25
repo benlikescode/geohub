@@ -7,6 +7,7 @@ type StyledProps = {
 const StyledSidebarItem = styled.div<StyledProps>`
   ${({ isActive }) => isActive && `
     background-color: var(--background4);
+    border: 1px solid rgba(255, 255, 255, 0.03);
   `}
   
   border-radius: 3px;
@@ -18,7 +19,7 @@ const StyledSidebarItem = styled.div<StyledProps>`
 
   .item {
     background-color: transparent;
-    padding: 8px;
+    padding: 6px 8px;
     margin-right: 6px;
     color: #8B8F93;
     display: inline-flex;
