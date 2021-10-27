@@ -92,17 +92,16 @@ const MapPage: FC = () => {
         <main>
           <Banner>
             <div className="mapDetailsSection">
-              <div className="mapDescription">
+              <div className="mapDescriptionWrapper">
                 <Avatar url={testMap2.previewImg || ''} alt="" size={100} outline/>
 
                 <div className="descriptionColumnWrapper">
-                <div className="descriptionColumn">
+                  <div className="descriptionColumn">
                     <span className="name">{testMap2.name}</span>
                     <span className="description">{testMap2.description}</span>
                   </div>
                   <Button type="solidPurple" width="200px" callback={() => setSettingsModalOpen(true)}>Play Now</Button>
                 </div>
-
               </div>
 
               <MapStats map={testMap2}/>
@@ -120,7 +119,6 @@ const MapPage: FC = () => {
               <MapPreviewCard map={testMap3} />
               <MapPreviewCard map={testMap4} />
             </div>
-
           </div>
 
         </main>     

@@ -1,9 +1,10 @@
 import { SparklesIcon } from '@heroicons/react/outline'
-import { FC } from 'react'
+import React, { FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { StyledResultsCard } from '.'
 import { nextRound, selectGame } from '../../redux/game'
 import { ResultType } from '../../types'
+import { Banner } from '../Layout'
 import { Button, Icon, ProgressBar } from '../System'
 
 type Props = {
@@ -42,25 +43,31 @@ const ResultsCard: FC<Props> = ({ result }) => {
 
   return (
     <StyledResultsCard>
-      <div className="contentGrid">
-        <div className="textWrapper">
-          <span className="distanceMessage">
-            Your guess was <span className="emphasisText">{result.formattedDistance}</span> from the correct location
-          </span>
-          <div className="pointsWrapper">
-            <span>
-              You earned <span className="emphasisText">{result.points} points</span>
-            </span>
-            <Icon size={24} fill="#8DB8FF">
-              <SparklesIcon />
-            </Icon>
-          </div>
+      <Banner>
+        <div className="resultsWrapper">
+          <div className="contentGrid">
+            <div className="textWrapper">
+              <span className="distanceMessage">
+                Your guess was <span className="emphasisText">{result.formattedDistance}</span> from the correct location
+              </span>
+              <div className="pointsWrapper">
+                <span>
+                  You earned <span className="emphasisText">{result.points} points</span>
+                </span>
+                <Icon size={24} fill="#8DB8FF">
+                  <SparklesIcon />
+                </Icon>
+              </div>
+            </div>
+            <ProgressBar progress={calculateProgress()}/>
+            <Button type="solidPurple" callback={handleNextRound} width="180px">
+              {game.round === 5 ? 'View Results' : 'Next Round'}
+            </Button>
+          </div> 
         </div>
-        <ProgressBar progress={calculateProgress()}/>
-        <Button type="solidBlue" callback={handleNextRound} isRound>
-          {game.round === 5 ? 'View Results' : 'Next Round'}
-        </Button>
-      </div>
+        
+      </Banner>
+      
     </StyledResultsCard>
   )
 }

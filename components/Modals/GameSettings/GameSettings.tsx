@@ -8,6 +8,7 @@ import { GameSettingsType, MapType } from '../../../types'
 import { formatTimeLimit } from '../../../utils/helperFunctions'
 import { Banner } from '../../Layout'
 import { Button, FlexGroup, Icon, Slider, Checkbox, Avatar } from '../../System'
+import { Challenge } from './Challenge'
 
 type Props = {
   closeModal: () => void
@@ -19,6 +20,7 @@ const GameSettings: FC<Props> = ({ closeModal }) => {
   const [panningChecked, setPanningChecked] = useState(true)
   const [zoomingChecked, setZoomingChecked] = useState(true)
   const [gameType, setGameType] = useState<"Single Player" | "Challenge">("Single Player")
+  const [showChallengeView, setShowChallengeView] = useState(false)
   const [sliderVal, setSliderVal] = useState(61)
   const router = useRouter()
   const dispatch = useDispatch()
@@ -37,6 +39,20 @@ const GameSettings: FC<Props> = ({ closeModal }) => {
     locations: [testLocation],
     previewImg: '/images/worldMap.jpg',
     creator: 'GeoHub'
+  }
+
+  const handleClickBtn = () => {
+    if (gameType === 'Single Player') {
+      handleStartGame()
+    }
+    else {
+      if (showChallengeView) {
+        handleStartGame()
+      }
+      else {
+        setShowChallengeView(true)
+      }
+    }
   }
 
   const handleStartGame = () => {
@@ -62,7 +78,7 @@ const GameSettings: FC<Props> = ({ closeModal }) => {
     <StyledGameSettings>
       <Banner>
         <div className="header">
-          <h2>Start Game</h2>
+          <h2>{showChallengeView ? 'Start Challenge' : 'Start Game'}</h2>
           <Button type="icon" callback={() => closeModal()}>
             <Icon size={30}>
               <XIcon />
@@ -72,7 +88,10 @@ const GameSettings: FC<Props> = ({ closeModal }) => {
         </div>
 
         <div className="mainContent">
-          <FlexGroup gap={15}>
+          {showChallengeView ?
+            <Challenge /> :
+            <>
+<FlexGroup gap={15}>
             <Avatar url={testMap.previewImg} size={60} alt=""/>
             <div className="mapInfo">
               <span className="mapName">{testMap.name}</span>
@@ -150,6 +169,9 @@ const GameSettings: FC<Props> = ({ closeModal }) => {
               </div>
             }      
           </div>
+            </>
+          }
+          
         </div>
 
         <div className="footer">
@@ -164,9 +186,10 @@ const GameSettings: FC<Props> = ({ closeModal }) => {
           <Button 
             type="solidPurple" 
             width="175px" 
-            callback={() => handleStartGame()}
+            callback={() => handleClickBtn()}
           >
-            {gameType === 'Single Player' ? 'Start Game' : 'Invite Friends'}
+            {gameType === 'Single Player' ? 'Start Game' : 
+            showChallengeView ? 'Start Game' : 'Invite Friends'}
           </Button>        
         </div>
       </Banner>

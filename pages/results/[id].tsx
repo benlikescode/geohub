@@ -66,9 +66,9 @@ const ResultsPage: NextPage = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar variant/>
       <Layout>
-        <ResultMap guessedLocations={game.guessedLocations} actualLocations={game.actualLocations} />
+        <ResultMap guessedLocations={game.guessedLocations} actualLocations={game.actualLocations} isFinalResults />
         <FlexGroup justify="center">
           <LeaderboardCard leaderboard={leaderboard} map={testMap} gameSettings={testSettings}/>
         </FlexGroup>

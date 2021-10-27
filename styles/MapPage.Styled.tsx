@@ -34,7 +34,7 @@ const StyledMapPage = styled.div`
     height: 100%;
   }
 
-  .mapDescription {
+  .mapDescriptionWrapper {
     display: flex;
     gap: 25px;
     padding: 25px 30px;

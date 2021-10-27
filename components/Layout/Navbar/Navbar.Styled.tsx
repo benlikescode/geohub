@@ -10,6 +10,16 @@ const StyledNavbar = styled.div`
   background-color: var(--background3);
   border-bottom: var(--border);
 
+  .variantWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: var(--maxWidth);
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
   .title {
     color: #fff;
     font-weight: 500;
@@ -39,6 +49,13 @@ const StyledNavbar = styled.div`
     gap: 15px;
     width: 250px;
     padding: 0 16px;
+    height: 100%;
+  }
+
+  .variantLogoWrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
     height: 100%;
   }
 

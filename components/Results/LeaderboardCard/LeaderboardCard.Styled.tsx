@@ -1,15 +1,15 @@
 import styled from 'styled-components'
 
 const StyledLeaderboardCard = styled.div`
-  background-color: var(--background2);
-  border-radius: 4px;
-  display: grid;
-  gap: 25px;
   margin: -20px 50px 40px 50px;
-  max-width: 1500px;
+  max-width: var(--maxWidth);
   width: 100%;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
   z-index: 1;
+
+  .leaderboardWrapper {
+    display: grid;
+    gap: 25px;
+  }
 
   .topSection {
     padding: 20px;
@@ -54,7 +54,7 @@ const StyledLeaderboardCard = styled.div`
   }
 
   .rowDivider {
-    background: var(--background3);
+    background: #2F3133;
     border: none;
     grid-column-end: -1;
     grid-column-start: 1;
@@ -63,15 +63,9 @@ const StyledLeaderboardCard = styled.div`
   }
 
   .divider {
-    background: var(--background3);
+    background: #2F3133;
     width: 1px;
     height: 17px;
-  }
-
-  .dividerLarge {
-    background: var(--background3);
-    width: 1px;
-    height: 40px;
   }
 
   .pointsWrapper {
@@ -93,7 +87,7 @@ const StyledLeaderboardCard = styled.div`
   .gameInfoWrapper {
     display: flex;
     align-items: center;
-    gap: 25px;
+    gap: 50px;
   }
 
   .gameInfoItem {
@@ -115,10 +109,11 @@ const StyledLeaderboardCard = styled.div`
   .label2 {
     font-size: 12px; 
     color: var(--color2);
+    font-weight: 400;
   }
 
   .settingsAvatar {
-    background-color: var(--background1);
+    background-color: #262626;
     border-radius: 50%;
     height: 50px;
     width: 50px;
