@@ -1,20 +1,18 @@
-import { GameSettingsType, LocationType, RoundResultType } from "."
+import { ObjectId } from 'mongodb'
+import { GameSettingsType, GuessType, LocationType } from "."
 
 type Game = {
-  id: string
-  map: string
+  id: ObjectId | string
+  mapId: string
+  mapName?: string
+  userId: string
   round: number
-  currGuess: LocationType,
-  guessedLocations: LocationType[]
-  actualLocations: LocationType[]
-  roundTimes: number[]
-  roundPoints: number
   totalPoints: number
+  totalDistance: number
   currView: 'Game' | 'Result' | 'FinalResults'
-  compassHeading: number
-  atStart: boolean
+  guesses: GuessType[]
+  rounds: LocationType[]
   gameSettings: GameSettingsType
-  roundResults: RoundResultType[]
 }
 
 export default Game

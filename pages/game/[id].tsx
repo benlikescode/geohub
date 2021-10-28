@@ -1,98 +1,132 @@
-import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
+import type { GetServerSideProps, GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import React, { FC, useEffect, useState } from 'react'
 import { StreetView } from '../../components/StreetView'
 import { Map } from '../../components/Map'
-import { LocationType, MapType } from '../../types'
+import { GameType, LocationType, MapType } from '../../types'
 import { ResultView } from '../../components/ResultView'
-import { resetGame, selectGame } from '../../redux/game'
 import { useDispatch, useSelector } from 'react-redux'
-import { FinalResultsView } from '../../components/FinalResultsView'
 import { StreetViewControls } from '../../components/StreetViewControls'
 import { GameStatus } from '../../components/GameStatus'
 import { Brazil, CanadaCities, Europe, FamousLocations, generateCanada, generateLocations, generateUS, getLocationsFromMapId, getRandomLocationsInRadius } from '../../utils/functions/generateLocations'
 import { OldStreetView } from '../../components/OldStreetView'
 import { Map2 } from '../../components/Map2'
 import { fireDb } from '../../utils/firebaseConfig'
+import { mailman } from '../../backend/utils/mailman'
+import router, { useRouter } from 'next/router'
+import Game from '../../backend/models/game'
+import { clearPrevGame, resetGame, selectGameNew, setGame, updateId } from '../../redux/gameNew'
+import { Spinner } from '../../components/System/Spinner'
+import StyledGamePage from '../../styles/GamePage.Styled'
+import { ResultMap } from '../../components/ResultMap'
+import { FinalResultsCard } from '../../components/FinalResultsCard'
+import { ResultsCard } from '../../components/ResultsCard'
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const maps = await fireDb.collection('maps').get()
-  const paths = maps.docs.map(doc => {
-    return {
-      params: { id: doc.id }
-    }
-  })
-  
-  return {
-    paths,
-    fallback: false
+/*
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const gameId = context.query.id as string
+  const game = await mailman(`games/${gameId}`)
+
+  const gameData = {
+    id: gameId, 
+    ...game
   }
-}
-
-export const getStaticProps: GetStaticProps = async (context) => {
-  const mapId = context.params!.id as string
-  const mapRaw = await fireDb.collection('maps').doc(mapId).get()
-  const mapData = {
-    id: mapRaw.id,
-    ...mapRaw.data()
-  } as MapType
-
-  if (!mapRaw) {
-    return {
-      notFound: true,
-    }
-  }
-
+ 
   return {
-    props: { mapData }
+    props: { gameData }, 
   }
 }
 
 type Props = {
-  mapData: MapType
+  gameData: Game
 }
+*/
 
-const GamePage: FC<Props> = ({ mapData }) => {
-  const game = useSelector(selectGame)
-  const [locations, setLocations] = useState<LocationType[]>([])
-  const dispatch = useDispatch()
+const GamePage: FC = () => {
+  const [view, setView] = useState<'Game' | 'Result' | 'FinalResults'>('Game')
+  const [gameData, setGameData] = useState<Game>()
+  const router = useRouter()
+  const gameId = router.query.id as string
+  console.log(gameId)
+  const [fetching, setFetching] = useState(false)
+  
 
-  const getLocations = async () => {
-    // if we are loading a custom players map
-    if (mapData.creator !== 'GeoHub') {
-      if (typeof(mapData.locations) !== 'number') {
-        setLocations(mapData.locations)
-      }
-      else {
-        setLocations([])
-      }     
+  const fetchGame = async () => {
+    const game = await mailman(`games/${gameId}`)
+
+    const gameData = {
+      id: gameId, ...game
     }
-    // if we are loading a GeoHub map
-    else {
-      const locations = getLocationsFromMapId(mapData.id, 'handPicked')
-      setLocations(locations)
-    }
-    console.log(locations)   
+
+    setGameData(gameData)
   }
 
   useEffect(() => {
-    getLocations()
-
-    return () => {
-      dispatch(resetGame({}))
+    if (!gameId) {
+      return
     }
-  }, [])
+    fetchGame()
+    
+
+  }, [gameId, view])
+
+  console.log(gameData?.guesses)
+
+  if (!gameData) {
+    return <Spinner />
+  }
 
   return (
-    <>
-    {game.currView === 'Game' && <StreetView location={locations[game.round - 1]} />}
-  
-    {game.currView === 'Result' && <ResultView />}
+    <StyledGamePage>
+      {view === 'Game' ?
+        <StreetView 
+          gameData={gameData}
+          setGameData={setGameData}
+          setView={setView} 
+        />
 
-    {game.currView === 'FinalResults' && <ResultView isFinalResults />}
-    </>
+        :
+
+        <>
+          {view === 'Result' &&
+            <ResultMap 
+              guessedLocations={gameData.guesses} 
+              actualLocations={gameData.rounds} 
+              round={gameData.round}
+            />
+          }
+
+          {view === 'FinalResults' &&
+            <ResultMap 
+              guessedLocations={gameData.guesses} 
+              actualLocations={gameData.rounds} 
+              round={gameData.round}
+              isFinalResults
+            />
+          }
+       
+        
+        
+          <div className="resultsWrapper">
+            {view === 'FinalResults' ? 
+              <FinalResultsCard totalPoints={gameData.totalPoints} /> :
+              <ResultsCard 
+                round={gameData.round}
+                distance={gameData.guesses.length > 0 ? gameData.guesses[gameData.guesses.length - 1].distance : 10}
+                points={gameData.guesses.length > 0 ? gameData.guesses[gameData.guesses.length - 1].points : 10}
+                setView={setView}
+              /> 
+            }       
+          </div>
+         
+          
+          </>
+      }  
+    </StyledGamePage>
+  
   )
 }
 
 export default GamePage
+

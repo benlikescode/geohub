@@ -1,10 +1,12 @@
 import { ArrowsExpandIcon, ClockIcon, MapIcon, SwitchHorizontalIcon, UserGroupIcon, UserIcon, XIcon, ZoomInIcon } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
 import React, { FC, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { StyledGameSettings } from '.'
+import { mailman } from '../../../backend/utils/mailman'
 import { updateGameSettings } from '../../../redux/game'
-import { GameSettingsType, MapType } from '../../../types'
+import { selectUser } from '../../../redux/user'
+import { GameSettingsType, MapType, UserType } from '../../../types'
 import { formatTimeLimit } from '../../../utils/helperFunctions'
 import { Banner } from '../../Layout'
 import { Button, FlexGroup, Icon, Slider, Checkbox, Avatar } from '../../System'
@@ -23,6 +25,7 @@ const GameSettings: FC<Props> = ({ closeModal }) => {
   const [showChallengeView, setShowChallengeView] = useState(false)
   const [sliderVal, setSliderVal] = useState(61)
   const router = useRouter()
+  const user: UserType = useSelector(selectUser)
   const dispatch = useDispatch()
 
   const testLocation = {
@@ -55,7 +58,7 @@ const GameSettings: FC<Props> = ({ closeModal }) => {
     }
   }
 
-  const handleStartGame = () => {
+  const handleStartGame = async () => {
     const mapId = router.asPath.split('/')[2]
 
     const gameSettings: GameSettingsType = {
@@ -65,12 +68,21 @@ const GameSettings: FC<Props> = ({ closeModal }) => {
       canZoom: zoomingChecked
     }
 
+    const gameData = {
+      mapId, 
+      userId: user.id,
+      gameSettings
+    }
+
+    const gameId = await mailman('games', 'POST', JSON.stringify(gameData))
+    
+/*
     dispatch(updateGameSettings({
       gameSettings: gameSettings,
       map: mapId
     }))
-    
-    router.push(`/game/${mapId}`)
+*/    
+    router.push(`/game/${gameId}`)
   }
   
 
@@ -91,87 +103,87 @@ const GameSettings: FC<Props> = ({ closeModal }) => {
           {showChallengeView ?
             <Challenge /> :
             <>
-<FlexGroup gap={15}>
-            <Avatar url={testMap.previewImg} size={60} alt=""/>
-            <div className="mapInfo">
-              <span className="mapName">{testMap.name}</span>
-              <span className="mapDescription">{testMap.description}</span>
-            </div>
-          </FlexGroup>
-
-          <div className="toggleBar">
-            <div className={`toggleItem ${gameType === 'Single Player' ? 'active' : ''}`} onClick={() => setGameType('Single Player')}>
-              <FlexGroup gap={12}>
-                <div className="toggleIcon">
-                  <UserIcon />
-                </div>          
-                <span className="toggleText">Single Player</span>
-              </FlexGroup>
-            </div>
-
-            <div className={`toggleItem ${gameType === 'Challenge' ? 'active' : ''}`} onClick={() => setGameType('Challenge')}>
-              <FlexGroup gap={12}>
-                <div className="toggleIcon">
-                  <UserGroupIcon />  
+              <FlexGroup gap={15}>
+                <Avatar url={testMap.previewImg} size={60} alt=""/>
+                <div className="mapInfo">
+                  <span className="mapName">{testMap.name}</span>
+                  <span className="mapDescription">{testMap.description}</span>
                 </div>
-                <span className="toggleText">Challenge</span>
               </FlexGroup>
-            </div>
-          </div>
-  
-          <div className="settingsWrapper">
-            <div className="checkboxWrapper">
-              <Checkbox setChecked={setShowDetailedChecked} />
-              <span>Default Settings (No time limit, moving, panning, zooming allowed)</span>
-            </div>
-            {!showDetailedChecked &&
-              <div className="detailedSettings">
-                <div className="timeLimitWrapper">
-                  <div className="timeLabel">
-                    <Icon size={24} fill="#888888">
-                      <ClockIcon />
-                    </Icon>
-                    <span className="timeLimit">{formatTimeLimit(sliderVal)}</span>
-                  </div>
-                
-                  <Slider onChange={setSliderVal} />
+
+              <div className="toggleBar">
+                <div className={`toggleItem ${gameType === 'Single Player' ? 'active' : ''}`} onClick={() => setGameType('Single Player')}>
+                  <FlexGroup gap={12}>
+                    <div className="toggleIcon">
+                      <UserIcon />
+                    </div>          
+                    <span className="toggleText">Single Player</span>
+                  </FlexGroup>
                 </div>
 
-                <div className="movementOptions">
-                  <div className="movementOption">
-                    <Checkbox setChecked={setMovingChecked} />
-                    <FlexGroup>
-                      <Icon size={24} fill="#888888">
-                        <ArrowsExpandIcon />
-                      </Icon>
-                      <span>Moving</span>
-                    </FlexGroup>        
-                  </div>
-                  <div className="movementOption">
-                    <Checkbox setChecked={setPanningChecked} />
-                    <FlexGroup>
-                      <Icon size={24} fill="#888888">
-                        <SwitchHorizontalIcon />
-                      </Icon>
-                      <span>Panning</span>
-                    </FlexGroup>        
-                  </div>
-                  <div className="movementOption">
-                    <Checkbox setChecked={setZoomingChecked} />
-                    <FlexGroup>
-                      <Icon size={24} fill="#888888">
-                        <ZoomInIcon />
-                      </Icon>
-                      <span>Zooming</span>
-                    </FlexGroup>        
-                  </div>
+                <div className={`toggleItem ${gameType === 'Challenge' ? 'active' : ''}`} onClick={() => setGameType('Challenge')}>
+                  <FlexGroup gap={12}>
+                    <div className="toggleIcon">
+                      <UserGroupIcon />  
+                    </div>
+                    <span className="toggleText">Challenge</span>
+                  </FlexGroup>
                 </div>
               </div>
-            }      
-          </div>
+      
+              <div className="settingsWrapper">
+                <div className="checkboxWrapper">
+                  <Checkbox setChecked={setShowDetailedChecked} />
+                  <span>Default Settings (No time limit, moving, panning, zooming allowed)</span>
+                </div>
+
+                {!showDetailedChecked &&
+                  <div className="detailedSettings">
+                    <div className="timeLimitWrapper">
+                      <div className="timeLabel">
+                        <Icon size={24} fill="#888888">
+                          <ClockIcon />
+                        </Icon>
+                        <span className="timeLimit">{formatTimeLimit(sliderVal)}</span>
+                      </div>
+                    
+                      <Slider onChange={setSliderVal} />
+                    </div>
+
+                    <div className="movementOptions">
+                      <div className="movementOption">
+                        <Checkbox setChecked={setMovingChecked} />
+                        <FlexGroup>
+                          <Icon size={24} fill="#888888">
+                            <ArrowsExpandIcon />
+                          </Icon>
+                          <span>Moving</span>
+                        </FlexGroup>        
+                      </div>
+                      <div className="movementOption">
+                        <Checkbox setChecked={setPanningChecked} />
+                        <FlexGroup>
+                          <Icon size={24} fill="#888888">
+                            <SwitchHorizontalIcon />
+                          </Icon>
+                          <span>Panning</span>
+                        </FlexGroup>        
+                      </div>
+                      <div className="movementOption">
+                        <Checkbox setChecked={setZoomingChecked} />
+                        <FlexGroup>
+                          <Icon size={24} fill="#888888">
+                            <ZoomInIcon />
+                          </Icon>
+                          <span>Zooming</span>
+                        </FlexGroup>        
+                      </div>
+                    </div>
+                  </div>
+                }                   
+              </div>
             </>
-          }
-          
+          } 
         </div>
 
         <div className="footer">

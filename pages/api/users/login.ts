@@ -41,6 +41,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
   }
   catch (err) {
-    res.status(400).json({ success: false })
+    res.status(500).json({ message: 'Something went wrong, please try again later' })
   }
 }

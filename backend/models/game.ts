@@ -4,12 +4,16 @@ import Map from "./map"
 import User from "./user"
 
 type Game = {
-  id: ObjectId;
-  map: Map;
+  id?: ObjectId;
+  mapId: string;
+  mapName?: string;
+  userId: string;
   gameSettings: GameSettingsType;
   rounds: LocationType[];
   guesses: GuessType[];
-  player: User | string;
+  round: number;
+  totalPoints: number;
+  totalDistance: number;
 }
 
 export default Game

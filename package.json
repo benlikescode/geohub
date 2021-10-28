@@ -32,7 +32,8 @@
     "react-streetview": "^1.1.1",
     "redux": "^4.1.1",
     "redux-persist": "^6.0.0",
-    "styled-components": "^5.3.1"
+    "styled-components": "^5.3.1",
+    "swr": "^1.0.1"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",

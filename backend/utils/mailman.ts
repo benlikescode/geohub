@@ -15,7 +15,7 @@ export const mailman = async (
   }
 
   try {
-    const res = await fetch(`/api/${endpoint}`, fetchConfig)
+    const res = await fetch(`http://localhost:3000/api/${endpoint}`, fetchConfig)
     return await res.json()
   }
   catch (err) {

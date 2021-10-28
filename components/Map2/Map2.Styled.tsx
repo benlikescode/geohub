@@ -17,10 +17,11 @@ const StyledMap2 = styled.div<StyledProps>`
   }
   
   .map {
-    height: ${({ mapHeight }) => mapHeight}px;
-    width: ${({ mapWidth }) => mapWidth}px;
+    height: ${({ mapHeight }) => mapHeight}vh;
+    width: ${({ mapWidth }) => mapWidth}vw;
     opacity: ${({ mapWidth }) => mapWidth === 300 ? 0.5 : 1};
     border-radius: 4px;
+    transition: opacity .1s ease,width .1s ease,height .1s ease;
   }
 
   .controls {

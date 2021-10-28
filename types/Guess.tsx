@@ -1,9 +1,9 @@
 type Guess = {
-  lat: string;
-  lng: string;
+  lat: number;
+  lng: number;
   points: number;
   distance: number;
-  time: number;
+  time?: number;
   timedOut?: boolean;
 }
 

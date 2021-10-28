@@ -1,32 +1,38 @@
 import React, { FC, useEffect, useRef, useState } from 'react'
 import { StyledMap2 } from '.'
 import GoogleMapReact from 'google-map-react'
-import { LocationType } from '../../types'
+import { GuessType, LocationType } from '../../types'
 import Marker from 'google-map-react'
 import { Button } from '../System/Button'
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
-import { addGuess, selectGame, updateGuess, updateView } from '../../redux/game'
-import { getGuessMapDimensions, getMapTheme } from '../../utils/helperFunctions'
+import { getGuessMapDimensions, getMapTheme, getResultData } from '../../utils/helperFunctions'
 import { ChevronDownIcon, ChevronUpIcon, LocationMarkerIcon } from '@heroicons/react/outline'
 import { Icon } from '../System'
 import { selectUser, updateGuessMapSize } from '../../redux/user'
+import { mailman } from '../../backend/utils/mailman'
+import { selectGameNew, updateView } from '../../redux/gameNew'
+import { addGuess } from '../../redux/gameNew'
+import { Game } from '../../backend/models'
 
 type Props = {
   coordinate: LocationType
   zoom: number
+  setView: (view: 'Game' | 'Result' | 'FinalResults') => void
+  gameData: Game
+  setGameData: any
 }
 
-const Map2: FC<Props> = ({ coordinate, zoom }) => {
-  const [mapHeight, setMapHeight] = useState(180)
-  const [mapWidth, setMapWidth] = useState(300)
+const Map2: FC<Props> = ({ coordinate, zoom, setView, gameData, setGameData }) => {
+  const [mapHeight, setMapHeight] = useState(15)
+  const [mapWidth, setMapWidth] = useState(15)
   const [hovering, setHovering] = useState(false)
-  const [hasGuessed, setHasGuessed] = useState(false)
   const prevMarkersRef = useRef<google.maps.Marker[]>([])
   const dispatch = useDispatch()
-  const game = useSelector(selectGame)
+  const gameNew = useSelector(selectGameNew)
   const user = useSelector(selectUser)
-
+  const hoverDelay = useRef<any>()
+  const [currGuess, setCurrGuess] = useState<LocationType | null>(null)
 
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
 
@@ -46,19 +52,17 @@ const Map2: FC<Props> = ({ coordinate, zoom }) => {
 
     clearMarkers(prevMarkersRef.current)
 
-    window.google.maps.event.addListener(map, "click", (e: any) => {
+    window.google.maps.event.addListener(map, 'click', (e: any) => {
       const location = {
         lat: e.latLng.lat(), 
         lng: e.latLng.lng()
       }
-      dispatch(updateGuess({
-        currGuess: location
-      }))
-
+      setCurrGuess(location)
+      
       const marker = createMarker(location, map)
       clearMarkers(prevMarkersRef.current)
       prevMarkersRef.current.push(marker)
-    });
+    })
   }
 
   const createMarker = (position: LocationType, map: google.maps.Map) => {
@@ -75,10 +79,7 @@ const Map2: FC<Props> = ({ coordinate, zoom }) => {
       rotation: 0,
       scale: 2,
       anchor: new google.maps.Point(15, 30),
-
     }
-
-    setHasGuessed(true)
 
     return new window.google.maps.Marker({
       position: position,
@@ -95,6 +96,7 @@ const Map2: FC<Props> = ({ coordinate, zoom }) => {
   }
 
   const handleMapHover = () => {
+    clearInterval(hoverDelay.current)
     setHovering(true)
     const { width, height } = getGuessMapDimensions(user.guessMapSize)
     setMapHeight(height)
@@ -102,20 +104,20 @@ const Map2: FC<Props> = ({ coordinate, zoom }) => {
   }
 
   const handleMapLeave = () => {
-    setHovering(false)
-    setMapHeight(180)
-    setMapWidth(300)
+    hoverDelay.current = setTimeout(() => {
+      setHovering(false)
+      setMapHeight(15)
+      setMapWidth(15)
+    }, 500)  
   }
 
-  const handleSubmitGuess = () => {
-    const guesses: LocationType[] = game.guessedLocations
-
-    dispatch(updateView({
-      currView: 'Result'
-    }))
-    dispatch(addGuess({
-      guessedLocations: game.currGuess
-    }))
+  const handleSubmitGuess = async () => {
+    if (currGuess) {
+      const res = await mailman(`games/${gameData.id}`, 'PUT', JSON.stringify(currGuess))
+      console.log(res)
+      setGameData(res)
+      setView('Result')
+    } 
   }
 
   const changeMapSize = (change: 'increase' | 'decrease') => {
@@ -130,7 +132,6 @@ const Map2: FC<Props> = ({ coordinate, zoom }) => {
       }))
     }
     handleMapHover()
-
   }
 
   return (
@@ -154,10 +155,10 @@ const Map2: FC<Props> = ({ coordinate, zoom }) => {
         <div id="guessMap" className="map"></div> 
         
         <Button 
-        type="solidBlue" 
-        width="100%" 
-        isDisabled={!hasGuessed}
-        callback={handleSubmitGuess}
+          type="solidPurple" 
+          width="100%" 
+          isDisabled={currGuess === null}
+          callback={handleSubmitGuess}
         >Submit Guess</Button> 
       </div>  
       <GoogleMapReact 

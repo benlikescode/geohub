@@ -1,4 +1,4 @@
-import { GameSettingsType, LocationType } from "../types"
+import { GameSettingsType, GuessType, LocationType } from "../types"
 
 export const formatErrorMessage = (error: any) => {
   let formattedMsg = ''
@@ -235,7 +235,7 @@ export const getMapTheme = (theme: string) => {
 }
 
 // gets distance between guess and actual locations (in km)
-export const getDistance = (loc1: LocationType, loc2: LocationType, format = false) => {
+export const getDistance = (loc1: GuessType, loc2: LocationType, format = false) => {
   const earthRadius = 6371.0710
 
   const lat1Radians = loc1.lat * (Math.PI/180)
@@ -274,18 +274,18 @@ export const getPoints = (distance: number) => {
 
 export const getGuessMapDimensions = (size: number) => {
   if (size === 2) {
-    return { width: 500, height: 300 }
+    return { width: 30, height: 40 }
   }
   if (size === 3) {
-    return { width: 600, height: 400 }
+    return { width: 40, height: 55 }
   }
   if (size === 4) {
-    return { width: 800, height: 500 }
+    return { width: 65, height: 80 }
   }
-  return { width: 400, height: 250 }
+  return { width: 15, height: 15 }
 }
 
-export const getResultMapValues = (guessedLocation: LocationType, actualLocation: LocationType, isFinalResults = false) => {
+export const getResultMapValues = (guessedLocation: GuessType, actualLocation: LocationType, isFinalResults = false) => {
   let center = {lat: 0, lng: 0}
   let zoom = 2
 
@@ -371,4 +371,13 @@ export const formatTimeLimit = (sliderVal: number) => {
 
 export const formatTimer = (time: number) => {
   
+}
+
+export const getResultData = (guess: GuessType, actual: LocationType, formatDistance = false) => {
+  const distance = getDistance(guess, actual, formatDistance)
+  const points = getPoints(distance as number)
+  
+  return {
+    distance, points  
+  }
 }

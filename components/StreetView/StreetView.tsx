@@ -3,24 +3,29 @@ import { StyledStreetView } from '.'
 import GoogleMapReact from 'google-map-react'
 import { LocationType } from '../../types'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectGame, updateActualLocations, updateCompass } from '../../redux/game'
 import { useDebounce } from '../../utils/hooks/useDebounce'
 import { Spinner } from '../System/Spinner'
 import { StreetViewControls } from '../StreetViewControls'
 import { GameStatus } from '../GameStatus'
 import { Map2 } from '../Map2'
+import { selectGameNew } from '../../redux/gameNew'
+import { Game } from '../../backend/models'
 
 type Props = {
-  location: LocationType
+  gameData: Game
+  setView: (view: 'Game' | 'Result' | 'FinalResults') => void
+  setGameData: any
 }
 
-const StreetView: FC<Props> = ({ location }) => {
+const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
   const [compassHeading, setCompassHeading] = useState(0)
   //useDebounce(() => setCompassHeading(compassHeading), 50, [compassHeading])
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(true)
 
-  const game = useSelector(selectGame)
+  const gameNew = useSelector(selectGameNew)
+
+  const location = gameData.rounds[gameData.round - 1]
 
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
 
@@ -43,8 +48,8 @@ const StreetView: FC<Props> = ({ location }) => {
     )
     panorama.setOptions({
       showRoadLabels: false,
-      clickToGo: game.gameSettings.canMove,
-      scrollwheel: game.gameSettings.canZoom,
+      clickToGo: gameNew.gameSettings.canMove,
+      scrollwheel: gameNew.gameSettings.canZoom,
     })
     /*
     panorama.addListener('pov_changed', () => {
@@ -55,23 +60,16 @@ const StreetView: FC<Props> = ({ location }) => {
     const processSVData = (data: any, status: any) => {
       if (data == null) {
         alert('There was an error loading the round :(')
-        return dispatch(updateActualLocations({
-          actualLocation: {lat: 0, lng: 0}
-        }))
       }
       else {
-        dispatch(updateActualLocations({
-          actualLocation: {lat: data.location.latLng?.lat(), lng: data.location.latLng?.lng()}
-        }))
         panorama.setPano(data.location.pano)
         panorama.setPov({
-          heading: 0,
-          pitch: 0
+          heading: location.heading || 0,
+          pitch: location.pitch || 0
         })
-        panorama.setZoom(0)
+        panorama.setZoom(location.zoom || 0)
         panorama.setVisible(true)
-      }
-      
+      }     
     }
 
     sv.getPanorama({location: location, radius: 50,}, processSVData)
@@ -89,8 +87,8 @@ const StreetView: FC<Props> = ({ location }) => {
       
       <div id="map">
         <StreetViewControls compassHeading={compassHeading} />
-        <GameStatus /> 
-        <Map2 coordinate={location} zoom={8} />
+        <GameStatus gameData={gameData}/> 
+        <Map2 coordinate={location} zoom={8} setView={setView} setGameData={setGameData} gameData={gameData} />
       </div>
 
       <GoogleMapReact 

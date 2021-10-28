@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import React, { FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { StyledFinalResultsCard } from '.'
-import { resetGame, selectGame, updateView } from '../../redux/game'
+import { selectGameNew } from '../../redux/gameNew'
 import { GameType } from '../../types'
 import { Banner } from '../Layout'
 import { Icon, Button, ProgressBar, FlexGroup } from '../System'
@@ -15,8 +15,9 @@ type Props = {
 const FinalResultsCard: FC<Props> = ({ totalPoints }) => {
   const dispatch = useDispatch()
   const router = useRouter()
-  const game: GameType = useSelector(selectGame)
-  const MAP_ID = game.map
+  const gameNew = useSelector(selectGameNew)
+
+
   const calculateProgress = () => {
     const progress = (totalPoints / 25000) * 100
 
@@ -28,15 +29,11 @@ const FinalResultsCard: FC<Props> = ({ totalPoints }) => {
   }
 
   const handlePlayAgain = () => {
-    router.push(`/map/${MAP_ID}`)
-    dispatch(resetGame({
-      id: game.id,
-      map: game.map
-    }))  
+    router.push(`/map/${gameNew.mapId}`)  
   }
 
   const handleDetailedResults = () => {
-    router.push(`/results/1`)
+    router.push(`/results/${gameNew.id}`)
   }
 
   return (

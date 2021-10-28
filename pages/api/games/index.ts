@@ -8,11 +8,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     await dbConnect()
 
     if (req.method === 'POST') {
-      const locations = getLocationsFromMapId(req.body.map.id, 'handPicked')
+      const locations = getLocationsFromMapId(req.body.mapId, 'handPicked', 1)
       
       const newGame = {
         ...req.body,
-        rounds: locations
+        guesses: [],
+        rounds: locations,
+        round: 1,
+        totalPoints: 0,
+        totalDistance: 0
       } as Game
 
       const result = await collections.games?.insertOne(newGame)

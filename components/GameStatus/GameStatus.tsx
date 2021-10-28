@@ -1,23 +1,28 @@
 import { FC, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { StyledGameStatus } from '.'
-import { addGuess, selectGame, updateRoundTimes, updateView } from '../../redux/game'
+import { Game } from '../../backend/models'
+import { selectGameNew } from '../../redux/gameNew'
 import { formatTimeLimit } from '../../utils/helperFunctions'
 import useInterval from '../../utils/hooks/useInterval'
 
-const GameStatus: FC = () => {
-  const game = useSelector(selectGame)
-  const startTime = game.gameSettings.timeLimit * 10
-  const [timeLeft, setTimeLeft] = useState(startTime)
-  const hasTimeLimit = game.gameSettings.timeLimit !== 61
-  const dispatch = useDispatch()
+type Props = {
+  gameData: Game
+}
 
+const GameStatus: FC<Props> = ({ gameData }) => {
+  const gameNew = useSelector(selectGameNew)
+  const startTime = gameNew.gameSettings.timeLimit * 10
+  const [timeLeft, setTimeLeft] = useState(startTime)
+  const hasTimeLimit = gameNew.gameSettings.timeLimit !== 61
+  const dispatch = useDispatch()
+/*
   if (hasTimeLimit) {
     useInterval(() => {
       setTimeLeft(timeLeft - 1)
     }, timeLeft !== 0 ? 1000 : null)
   }
-
+*/
 
   
 /*
@@ -49,7 +54,7 @@ const GameStatus: FC = () => {
           <span>Map</span>
         </div>
         <div className="value">
-          <span>{game.map}</span>
+          <span>World</span>
         </div>
       </div>
 
@@ -58,7 +63,7 @@ const GameStatus: FC = () => {
           <span>Round</span>
         </div>
         <div className="value">
-          <span>{game.round} / 5</span>
+          <span>{gameData.round} / 5</span>
         </div>
       </div>
 
@@ -67,7 +72,7 @@ const GameStatus: FC = () => {
           <span>Points</span>
         </div>
         <div className="value">
-          <span>{game.totalPoints}</span>
+          <span>{gameData.totalPoints}</span>
         </div>
       </div>
 
