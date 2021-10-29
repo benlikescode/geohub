@@ -77,7 +77,7 @@ const Navbar: FC<Props> = ({ isAuthpage, variant }) => {
 
                   <Link href="/register">
                     <a>
-                      <Button type="solidBlue" width="120px">Sign Up</Button>
+                      <Button type="solidPurple" width="120px">Sign Up</Button>
                     </a>
                   </Link>       
                 </FlexGroup>  

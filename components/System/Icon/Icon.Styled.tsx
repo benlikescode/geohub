@@ -3,6 +3,7 @@ import styled from 'styled-components'
 type StyledProps = {
   size: number
   fill?: string
+  hoverColor?: string
 }
 
 const StyledIcon = styled.div<StyledProps>`
@@ -17,6 +18,11 @@ const StyledIcon = styled.div<StyledProps>`
 
     path {
       stroke-width: 1.5;
+    }
+
+    :hover {
+      color: ${({ hoverColor }) => hoverColor};
+      transition: color .2s ease-in-out;
     }
   }
 `

@@ -140,7 +140,7 @@ const Map: FC<Props> = ({ coordinate, zoom }) => {
         <div id="guessMap" className="map" ref={googlemap}></div> 
           
         <Button 
-        type="solidBlue" 
+        type="solidPurple" 
         width="100%" 
         isDisabled={!hasGuessed}
         callback={handleSubmitGuess}

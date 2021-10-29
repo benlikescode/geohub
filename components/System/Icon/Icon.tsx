@@ -4,12 +4,13 @@ import { StyledIcon } from '.'
 type Props = {
   size: number
   fill?: string
+  hoverColor?: string
   children: ReactNode
 }
 
-const Icon: FC<Props> = ({size, fill, children}) => {
+const Icon: FC<Props> = ({size, fill, hoverColor, children}) => {
   return (
-    <StyledIcon size={size} fill={fill}>
+    <StyledIcon size={size} fill={fill} hoverColor={hoverColor}>
       { children }
     </StyledIcon>
   )

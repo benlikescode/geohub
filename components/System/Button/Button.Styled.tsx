@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 type StyledProps = {
-  type: 'solidGreen' | 'solidPink' | 'solidBlack' | 'solidBlue' | 'solidPurple' | 'ghost' | 'ghostLight' | 'icon' | 'iconRounded'
+  type: 'solidPurple' | 'ghost' | 'ghostLight' | 'icon' | 'iconRounded'
   primaryColor?: string
   secondaryColor?: string
   isDisabled?: boolean
@@ -28,46 +28,28 @@ const StyledButton = styled.div<StyledProps>`
     user-select: none;
 
     ${({ type, isDisabled }) => 
-      type === 'solidGreen' && 
-      !isDisabled && `
-        background-color: #047857;
-        color: #fff;
-    `}
-
-    ${({ type, isDisabled }) => 
-      type === 'solidPink' && 
-      !isDisabled && `
-        background-color: #9D174D;
-        color: #fff;
-    `}
-
-    ${({ type, isDisabled }) => 
-      type === 'solidBlue' && 
-      !isDisabled && `
-        background-color: #0072FF;
-        color: #fff;
-    `}
-
-    ${({ type, isDisabled }) => 
       type === 'solidPurple' && 
       !isDisabled && `
         background-color: var(--mediumPurple);
         color: #fff;
-    `}
+        border: 1px solid rgba(255, 255, 255, 0.19);
 
-    ${({ type, isDisabled }) => 
-      type === 'solidBlack' && 
-      !isDisabled && `
-        background-color: #000;
-        color: #fff;
+        :hover {
+          background-color: #703FFF;
+        }
     `}
 
     ${({ type, isDisabled }) => 
       type === 'ghost' && 
       !isDisabled && `
         background-color: transparent;
-        border: var(--border);
         color: #fff;
+        box-shadow: 0 0 0 1px #2F3133;
+
+        :hover {
+          box-shadow: 0 0 0 2px #2F3133;
+
+        }
     `}
 
     ${({ type, isDisabled }) => 
