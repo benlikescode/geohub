@@ -10,6 +10,7 @@ import { GameStatus } from '../GameStatus'
 import { Map2 } from '../Map2'
 import { selectGameNew } from '../../redux/gameNew'
 import { Game } from '../../backend/models'
+import { LoadingPage } from '../Layout'
 
 type Props = {
   gameData: Game
@@ -79,11 +80,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
 
   return (
     <StyledStreetView>
-      {loading &&
-        <div className="loadingView">
-          <Spinner />
-        </div>
-      }
+      {loading && <LoadingPage />}
       
       <div id="map">
         <StreetViewControls compassHeading={compassHeading} />

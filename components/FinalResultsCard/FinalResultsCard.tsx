@@ -1,25 +1,21 @@
 import { SparklesIcon } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
 import React, { FC } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { StyledFinalResultsCard } from '.'
-import { selectGameNew } from '../../redux/gameNew'
-import { GameType } from '../../types'
+import { Game } from '../../backend/models'
 import { Banner } from '../Layout'
 import { Icon, Button, ProgressBar, FlexGroup } from '../System'
 
 type Props = {
-  totalPoints: number
+  gameData: Game
 }
 
-const FinalResultsCard: FC<Props> = ({ totalPoints }) => {
-  const dispatch = useDispatch()
+const FinalResultsCard: FC<Props> = ({ gameData }) => {
   const router = useRouter()
-  const gameNew = useSelector(selectGameNew)
 
 
   const calculateProgress = () => {
-    const progress = (totalPoints / 25000) * 100
+    const progress = (gameData.totalPoints / 25000) * 100
 
     if (progress < 1) {
       return 1
@@ -29,11 +25,11 @@ const FinalResultsCard: FC<Props> = ({ totalPoints }) => {
   }
 
   const handlePlayAgain = () => {
-    router.push(`/map/${gameNew.mapId}`)  
+    router.push(`/map/${gameData.mapId}`)  
   }
 
   const handleDetailedResults = () => {
-    router.push(`/results/${gameNew.id}`)
+    router.push(`/results/${gameData.id}`)
   }
 
   return (
@@ -44,7 +40,7 @@ const FinalResultsCard: FC<Props> = ({ totalPoints }) => {
             <div className="textWrapper">
               <span className="distanceMessage">Game Over, well done!</span>
               <div className="pointsWrapper">
-                <span>{totalPoints} points total</span>
+                <span>{gameData.totalPoints} points total</span>
                 <Icon size={24} fill="#8DB8FF">
                   <SparklesIcon />
                 </Icon>

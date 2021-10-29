@@ -43,8 +43,9 @@ const StyledAuthPage = styled.div`
   }
 
   .errorBanner {
-    background-color: var(--red-500);
-    color: #fff;
+    background-color: transparent;
+    border: 2px solid var(--red-500);
+    color: var(--red-300);
     border-radius: 4px;
     padding: 15px;
     font-size: 14px;
@@ -52,11 +53,12 @@ const StyledAuthPage = styled.div`
     display: flex;
     align-items: center;
     margin-bottom: 40px;
+    transition: all 0.4s ease;
 
     svg {
       height: 14px;
       width: 14px;
-      fill: #fff;
+      fill: var(--red-300);
     }
   }
 

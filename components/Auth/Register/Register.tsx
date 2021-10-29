@@ -73,7 +73,7 @@ const Register: FC = () => {
     if (!handleErrors()) {
       try {
         const user = {name, email, password}
-        const res = await mailman('users/register', 'POST', JSON.stringify(user))
+        const { status, res } = await mailman('users/register', 'POST', JSON.stringify(user))
         const resData = res.data
 
         if (res.success) {

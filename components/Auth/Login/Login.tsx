@@ -15,12 +15,11 @@ const Login: FC = () => {
   const [passwordErrorMsg, setPasswordErrorMsg] = useState("")
   const [generalErrorMsg, setGeneralErrorMsg] = useState("")
   const [showBtnSpinner, setShowBtnSpinner] = useState(false)
-
   const router = useRouter()
   const dispatch = useDispatch()
 
   const validateEmail = () => {
-    const basicRE = /\S+@\S+\.\S+/;
+    const basicRE = /\S+@\S+\.\S+/
     return basicRE.test(email)
   }
 
@@ -48,8 +47,8 @@ const Login: FC = () => {
 
     if (!handleErrors()) {
       try {
-        const user = {email, password}
-        const res = await mailman('users/login', 'POST', JSON.stringify(user))
+        const user = { email, password }
+        const { status, res } = await mailman('users/login', 'POST', JSON.stringify(user))
         const resData = res.data
   
         if (res.success) {
@@ -71,7 +70,11 @@ const Login: FC = () => {
         alert(err)
         setShowBtnSpinner(false)
       }
-    }  
+    } 
+    else {
+      setGeneralErrorMsg('Incorrect email or password')
+      setShowBtnSpinner(false)
+    } 
   }
 
   return (

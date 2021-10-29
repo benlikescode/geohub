@@ -48,7 +48,6 @@ const StyledButton = styled.div<StyledProps>`
 
         :hover {
           box-shadow: 0 0 0 2px #2F3133;
-
         }
     `}
 

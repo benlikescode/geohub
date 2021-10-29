@@ -59,6 +59,10 @@ const GameSettings: FC<Props> = ({ closeModal }) => {
   }
 
   const handleStartGame = async () => {
+    if (!user.id) {
+      return router.push('/register')
+    }
+
     const mapId = router.asPath.split('/')[2]
 
     const gameSettings: GameSettingsType = {
@@ -74,15 +78,10 @@ const GameSettings: FC<Props> = ({ closeModal }) => {
       gameSettings
     }
 
-    const gameId = await mailman('games', 'POST', JSON.stringify(gameData))
+    const { res } = await mailman('games', 'POST', JSON.stringify(gameData))
     
-/*
-    dispatch(updateGameSettings({
-      gameSettings: gameSettings,
-      map: mapId
-    }))
-*/    
-    router.push(`/game/${gameId}`)
+  
+    router.push(`/game/${res}`)
   }
   
 
@@ -92,7 +91,7 @@ const GameSettings: FC<Props> = ({ closeModal }) => {
         <div className="header">
           <h2>{showChallengeView ? 'Start Challenge' : 'Start Game'}</h2>
           <Button type="icon" callback={() => closeModal()}>
-            <Icon size={30}>
+            <Icon size={30} hoverColor="var(--color2)">
               <XIcon />
             </Icon>
           </Button>

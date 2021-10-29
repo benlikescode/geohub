@@ -25,11 +25,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     else if (req.method === 'PUT') {
       const query = { _id: new ObjectId(gameId) }
+      const { guess, localRound } = req.body
 
       const game = await collections.games?.findOne(query)
       
       if (!game) {
         return res.status(500).send(`Failed to find game with id: ${gameId}`)
+      }
+
+      // checking if guess has already been submitted for this round 
+      if (game.guesses.length === localRound) {
+        return res.status(400).send(`A guess has already been made for round ${game.round}`)
       }
 
       // adding new round location if game is not finished
@@ -39,7 +45,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
       
       // adding new guess
-      const guess = req.body
       const { points, distance } = getResultData(guess, game.rounds[game.round - 1])
 
       const newGuess: GuessType = {
@@ -70,6 +75,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
   catch (err) {
     console.log(err)
-    res.status(400).json({ success: false })
+    res.status(500).json({ success: false })
   }
 }

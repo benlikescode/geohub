@@ -113,10 +113,17 @@ const Map2: FC<Props> = ({ coordinate, zoom, setView, gameData, setGameData }) =
 
   const handleSubmitGuess = async () => {
     if (currGuess) {
-      const res = await mailman(`games/${gameData.id}`, 'PUT', JSON.stringify(currGuess))
-      console.log(res)
-      setGameData(res)
-      setView('Result')
+      const body = {
+        guess: currGuess,
+        localRound: gameData.round
+      }
+
+      const { status, res } = await mailman(`games/${gameData.id}`, 'PUT', JSON.stringify(body))
+      
+      if (status !== 400 && status !== 500) {
+        setGameData(res)
+        setView('Result')
+      }  
     } 
   }
 

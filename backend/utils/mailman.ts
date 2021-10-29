@@ -16,9 +16,11 @@ export const mailman = async (
 
   try {
     const res = await fetch(`http://localhost:3000/api/${endpoint}`, fetchConfig)
-    return await res.json()
+    return { status: res.status, res: await res.json() }
   }
   catch (err) {
-    return console.log(err)
+    console.log(err)
+    return { status: 400, res: null }
   }
+
 }
