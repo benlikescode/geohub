@@ -341,17 +341,29 @@ export const getResultMapValues = (guessedLocation: GuessType, actualLocation: L
   return {center, zoom}
 }
 
-// still have to add the rest of the cases here...
 export const formatSettingsLabel = (settings: GameSettingsType) => {
   let formattedLabel = ''
-  if (settings.timeLimit === 0 && settings.canMove && settings.canPan && settings.canZoom) {
+  if (settings.timeLimit === 61 && settings.canMove && settings.canPan && settings.canZoom) {
     formattedLabel = 'Default Settings'
   }
+  else {
+    let time = ''
+    if (settings.timeLimit === 61) {
+      time = 'No time limit'
+    }
+    else {
+      time = `${formatTimeLimit(settings.timeLimit)} per round`
+    }
 
+    formattedLabel = `
+      ${time} - ${!settings.canMove ? 'No move' : ''} ${!settings.canPan ? '- No pan' : ''} ${!settings.canZoom ? '- No zoom' : ''}
+    `
+  }
+ 
   return formattedLabel
 }
 
-// sliderVal will be in range of 0 - 60
+// sliderVal will be in range of 0 - 61
 export const formatTimeLimit = (sliderVal: number) => {
   const time = Math.floor(sliderVal * 10)
   const mins = Math.floor(time / 60)
