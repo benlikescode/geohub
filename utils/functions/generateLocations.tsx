@@ -58,6 +58,43 @@ export const getRandomLocationsFromArray = (array: any[], numLocations = 5) => {
   return locations
 }
 
+// CURRENT METHOD THAT GETS CALLED FROM API (GENERATES 1 ROUND AT A TIME)
+export const getRandomLocation = (locationType: 'random' | 'handpicked', mapId: string) => {
+  switch(mapId) {
+    case 'world':
+      if (locationType === 'random') {
+        // TODO
+      }
+      else {
+        return randomElement(worldHandPicked)
+      }
+    case 'famous-landmarks':
+      if (locationType === 'random') {
+        // TODO
+      }
+      else {
+        return randomElement(worldHandPicked)
+      }
+    case 'canada':
+      if (locationType === 'random') {
+        // TODO
+      }
+      else {
+        return randomElement(worldHandPicked)
+      }
+    case 'usa':
+      if (locationType === 'random') {
+        // TODO
+      }
+      else {
+        return randomElement(worldHandPicked)
+      }
+    default:
+      console.log('Invalid Map Id')
+
+  }
+}
+
 /* 
 
 This method can be used on any center location of a city and depending on the radius, 
