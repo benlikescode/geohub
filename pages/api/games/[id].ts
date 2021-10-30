@@ -2,7 +2,7 @@ import { collections, dbConnect } from '../../../backend/utils/dbConnect'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { ObjectId } from 'mongodb'
 import { Game } from '../../../backend/models'
-import { getLocationsFromMapId } from '../../../utils/functions/generateLocations'
+import { getRandomLocation } from '../../../utils/functions/generateLocations'
 import { GuessType } from '../../../types'
 import { getResultData } from '../../../utils/helperFunctions'
 
@@ -16,7 +16,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const game = await collections.games?.findOne(query)
       
       if (!game) {
-        return res.status(500).send(`Failed to find game with id: ${gameId}`)
+        return res.status(404).send(`Failed to find game with id: ${gameId}`)
       }
 
       res.status(200).send(game)
@@ -27,7 +27,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const query = { _id: new ObjectId(gameId) }
       const { guess, localRound } = req.body
 
-      const game = await collections.games?.findOne(query)
+      const game = await collections.games?.findOne(query) as Game
       
       if (!game) {
         return res.status(500).send(`Failed to find game with id: ${gameId}`)
@@ -38,9 +38,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(400).send(`A guess has already been made for round ${game.round}`)
       }
 
-      // adding new round location if game is not finished
+      // adding new (unique) location to rounds if game is not finished
       if (game.rounds.length !== 5) {
-        const newLocation = getLocationsFromMapId(game.mapId, 'handPicked', 1)  
+        let newLocation = getRandomLocation('handpicked', game.mapId)
+
+        while (game.rounds.includes(newLocation)) {
+          newLocation = getRandomLocation('handpicked', game.mapId)
+        }
+
         game.rounds = game.rounds.concat(newLocation)
       }
       
@@ -57,7 +62,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       game.round++
       game.totalPoints += points
-      game.totalDistance += distance
+      game.totalDistance += distance as number
 
       const updatedGame = await collections.games?.findOneAndUpdate(query, {$set: game})
 

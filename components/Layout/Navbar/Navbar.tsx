@@ -31,11 +31,29 @@ const Navbar: FC<Props> = ({ isAuthpage, variant }) => {
               </div>
             </a>          
           </Link>
-          
-          <div className="userInfo">
-            <span className="username">{user.name}</span>
-            <Avatar url={user.avatar} alt="" size={40}/>
-          </div>
+
+          {user.name ?
+            <div className="userInfo">
+              <span className="username">{user.name}</span>
+              <Avatar url={user.avatar} alt="" size={40}/>
+            </div>
+
+            :
+
+            <FlexGroup gap={15}>
+              <Link href="/login">
+                <a>
+                  <Button type="ghost" width="120px">Login</Button>
+                </a>
+              </Link>
+
+              <Link href="/register">
+                <a>
+                  <Button type="solidPurple" width="120px">Sign Up</Button>
+                </a>
+              </Link>       
+            </FlexGroup> 
+          }   
         </div>
 
         :

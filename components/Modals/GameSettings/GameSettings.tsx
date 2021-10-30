@@ -74,8 +74,10 @@ const GameSettings: FC<Props> = ({ closeModal }) => {
 
     const gameData = {
       mapId, 
+      gameSettings,
       userId: user.id,
-      gameSettings
+      userName: user.name,
+      userAvatar: user.avatar
     }
 
     const { res } = await mailman('games', 'POST', JSON.stringify(gameData))

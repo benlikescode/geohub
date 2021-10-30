@@ -10,16 +10,23 @@ import { ResultsCard } from '../../components/ResultsCard'
 import { LoadingPage } from '../../components/Layout'
 import { selectUser } from '../../redux/user'
 import { useSelector } from 'react-redux'
+import DefaultErrorPage from 'next/error'
+
 
 const GamePage: FC = () => {
   const [view, setView] = useState<'Game' | 'Result' | 'FinalResults'>('Game')
-  const [gameData, setGameData] = useState<Game>()
+  const [gameData, setGameData] = useState<Game | null>()
   const router = useRouter()
   const gameId = router.query.id as string
   const user = useSelector(selectUser)
   
   const fetchGame = async () => {
-    const { res } = await mailman(`games/${gameId}`)
+    const { status, res } = await mailman(`games/${gameId}`)
+
+    // if game not found, set gameData to null so an error page can be displayed
+    if (status === 404 || status === 500) {
+      return setGameData(null)
+    }
 
     // To make it more secure, I could do this in gSSP (this is fine for now)
     if (res.userId !== user.id) {
@@ -49,9 +56,15 @@ const GamePage: FC = () => {
 
   }, [gameId, view])
 
+  if (gameData === null) {
+    return <DefaultErrorPage statusCode={500}/>
+  }
+
   if (!gameData) {
     return <LoadingPage />
   }
+
+  
 
   return (
     <StyledGamePage>

@@ -1,10 +1,11 @@
 import { FC, useState } from 'react'
 import { StyledMapLeaderboard } from '.'
+import { MapLeaderboardType } from '../../types'
 import { Select } from '../System/Select'
 import { LeaderboardItem } from './LeaderboardItem'
 
 type Props = {
-  leaderboard: any[]
+  leaderboard: MapLeaderboardType[]
 }
 
 const MapLeaderboard: FC<Props> = ({ leaderboard }) => {
@@ -17,16 +18,20 @@ const MapLeaderboard: FC<Props> = ({ leaderboard }) => {
         <span className="title">Leaderboard</span>
         <Select options={selectOptions} callback={setSelectState}/>
       </div>
-      {leaderboard.map((item, idx) => (
-        <LeaderboardItem 
-          key={idx}
-          user={item.user}
-          finishPlace={idx + 1}
-          totalPoints={item.rounds[item.rounds.length - 1].points}
-          totalTime={item.rounds[item.rounds.length - 1].time}
-          gameId={item.gameId}
-        />
-      ))}
+      {leaderboard.length > 0 ?
+        leaderboard.map((row, idx) => (
+          <LeaderboardItem 
+            key={idx}
+            finishPlace={idx + 1}
+            row={row}
+          />
+        ))
+
+        :
+
+        <span className="notPlayedMsg">This map has not been played yet. Be the first one on the leaderboard!</span>    
+      }
+      
     </StyledMapLeaderboard>
   )
 }

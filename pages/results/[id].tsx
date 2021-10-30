@@ -1,82 +1,99 @@
 import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import { useSelector } from 'react-redux'
-import { FinalResultsCard } from '../../components/FinalResultsCard'
-import { Navbar, Layout } from '../../components/Layout'
+import router from 'next/router'
+import React, { useEffect, useState } from 'react'
+import { Game } from '../../backend/models'
+import { mailman } from '../../backend/utils/mailman'
+import { Navbar, Layout, LoadingPage, Sidebar } from '../../components/Layout'
 import { ResultMap } from '../../components/ResultMap'
 import { LeaderboardCard } from '../../components/Results'
-import { ResultsCard } from '../../components/ResultsCard'
 import { FlexGroup } from '../../components/System'
-import { selectGame } from '../../redux/game'
-import { GameSettingsType, MapType } from '../../types'
+import StyledResultPage from '../../styles/ResultPage.Styled'
 
 const ResultsPage: NextPage = () => {
-  const game = useSelector(selectGame)
+  const [gameData, setGameData] = useState<Game | null>()
+  const [isCompleted, setIsCompleted] = useState(false)
+  const gameId = router.query.id as string
 
-  const leaderboard = [
-    {
-      user: {avatar: 'https://cdn.britannica.com/88/80588-050-8D944BFE/Leaning-Tower-of-Pisa-Italy.jpg', name: 'BenZ'},
-      rounds: [
-        {points: 3297, distance: 2215, time: '1:23'},
-        {points: 4297, distance: 2215, time: '1:23'},
-        {points: 3257, distance: 2215, time: '1:23'},
-        {points: 2297, distance: 2215, time: '1:23'},
-        {points: 4457, distance: 2215, time: '1:23'},
-        {points: 14557, distance: 12215, time: '6:13'},
-      ]
-    },
-    {
-      user: {avatar: 'https://cdn.britannica.com/88/80588-050-8D944BFE/Leaning-Tower-of-Pisa-Italy.jpg', name: 'BenZ'},
-      rounds: [
-        {points: 3297, distance: 2215, time: '1:23'},
-        {points: 4297, distance: 2215, time: '1:23'},
-        {points: 3257, distance: 2215, time: '1:23'},
-        {points: 2297, distance: 2215, time: '1:23'},
-        {points: 4457, distance: 2215, time: '1:23'},
-        {points: 14557, distance: 12215, time: '6:13'},
-      ]
-    },
-  ]
+  const fetchGame = async () => {
+    const { status, res } = await mailman(`games/${gameId}`)
 
-  const testLocation = {
-    lat: 10,
-    lng: 10
+    // if game not found, set gameData to null so an error page can be displayed
+    if (status === 404 || status === 500) {
+      return setGameData(null)
+    }
+
+    if (res.round > 5) {
+      setIsCompleted(true)
+    }
+
+    const gameData = {
+      id: gameId, ...res
+    }
+
+    setGameData(gameData)
   }
 
-  const testMap: MapType = {
-    id: '',
-    name: 'World',
-    description: 'The classic game mode we all love, any country is fair game!',
-    usersPlayed: 60123,
-    likes: 9251,
-    locations: [testLocation],
-    previewImg: '/images/worldMap.jpg',
-    creator: 'GeoHub'
-  }
-
-  const testSettings: GameSettingsType = {
-    timeLimit: 0,
-    canMove: true,
-    canPan: true,
-    canZoom: true
-  }
-
+  useEffect(() => {
+    if (!gameId) {
+      return
+    }
   
+    fetchGame()
+ 
+  }, [gameId])
 
+  if (gameData === undefined) {
+    return <LoadingPage />
+  }
+  
   return (
-    <>
-      <Navbar variant/>
-      <Layout>
-        <ResultMap guessedLocations={game.guessedLocations} actualLocations={game.actualLocations} isFinalResults />
-        <FlexGroup justify="center">
-          <LeaderboardCard leaderboard={leaderboard} map={testMap} gameSettings={testSettings}/>
-        </FlexGroup>
-       
-      </Layout>
+    <StyledResultPage>
+      {isCompleted && gameData !== null ?
+        <>
+          <Navbar variant/>
+          <Layout>
+            <ResultMap 
+              guessedLocations={gameData.guesses} 
+              actualLocations={gameData.rounds} 
+              round={gameData.round} 
+              isFinalResults 
+            />
     
-     
-    </>
+            <FlexGroup justify="center">
+              <LeaderboardCard gameData={gameData}/>
+            </FlexGroup>  
+          </Layout>   
+        </>
+
+        :
+
+        <>
+          <Navbar />
+          <Layout hasSidebar>
+            <div>
+              <Sidebar />
+            </div>
+
+            <main>
+              <div className="errorContainer">
+                <div className="errorContent">
+                  <h1 className="errorPageTitle">Page not found</h1>
+                  <span className="errorPageMsg">
+                    {gameData === null ? 'This game does not exist' : 'This game has not been completed'}
+                  </span>         
+                </div>
+                <div className="errorGif">
+                  
+                </div>
+              </div>
+                
+            </main>     
+          </Layout>  
+        </>
+
+      }
+    </StyledResultPage>
+ 
   )
 }
 

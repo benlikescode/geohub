@@ -2,6 +2,7 @@ import { collections, dbConnect } from '../../../backend/utils/dbConnect'
 import Game from '../../../backend/models/game' 
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getLocationsFromMapId } from '../../../utils/functions/generateLocations'
+import { ObjectId } from 'mongodb'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -12,6 +13,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       
       const newGame = {
         ...req.body,
+        userId: new ObjectId(req.body.userId), 
         guesses: [],
         rounds: locations,
         round: 1,

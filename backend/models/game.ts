@@ -1,13 +1,11 @@
-import { ObjectId } from "mongodb"
-import { GameSettingsType, GuessType, LocationType } from "../../types"
-import Map from "./map"
-import User from "./user"
+import { ObjectId } from 'mongodb'
+import { GameSettingsType, GuessType, LocationType } from '../../types'
 
 type Game = {
   id?: ObjectId;
   mapId: string;
   mapName?: string;
-  userId: string;
+  userId: ObjectId;
   gameSettings: GameSettingsType;
   rounds: LocationType[];
   guesses: GuessType[];

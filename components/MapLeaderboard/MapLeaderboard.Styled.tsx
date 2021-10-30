@@ -11,6 +11,13 @@ const StyledMapLeaderboard = styled.div`
   .title {
     font-size: 20px;
   }
+
+  .notPlayedMsg {
+    color: var(--color2);
+    font-weight: 400;
+    display: block;
+    padding: 10px 40px 30px 40px;
+  }
   
   
 `

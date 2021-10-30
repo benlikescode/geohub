@@ -1,10 +1,8 @@
-import { FC, useEffect, useRef, useState } from 'react'
+import { FC } from 'react'
 import { StyledResultMap } from '.'
 import GoogleMapReact from 'google-map-react'
 import { GuessType, LocationType } from '../../types'
 import { getMapTheme, getResultMapValues } from '../../utils/helperFunctions'
-import { useSelector } from 'react-redux'
-import { selectGameNew } from '../../redux/gameNew'
 
 type Props = {
   guessedLocations: GuessType[];
@@ -14,8 +12,6 @@ type Props = {
 }
 
 const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFinalResults }) => {
-  //const gameNew = useSelector(selectGameNew)
-  //const roundIdx = round - 2
   const guessedLocation = guessedLocations[guessedLocations.length - 1]
   const actualLocation = actualLocations[round -2]
   const deafultCoords = {

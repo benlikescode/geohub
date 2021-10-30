@@ -16,11 +16,6 @@ const StyledLeaderboardItem = styled.div`
     font-weight: 400;
   }
 
-  .userPlace {
-    max-width: 25px;
-    width: 100%;
-  }
-
   .userInfo {
     display: flex;
     align-items: center;

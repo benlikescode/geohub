@@ -2,33 +2,32 @@ import { ChartBarIcon } from '@heroicons/react/outline'
 import Link from 'next/link'
 import React, { FC } from 'react'
 import { StyledLeaderboardItem } from '.'
-import { UserType } from '../../../types'
+import { MapLeaderboardType, UserType } from '../../../types'
 import { Avatar, FlexGroup, Icon } from '../../System'
 
 type Props = {
-  user: UserType
   finishPlace: number
-  totalPoints: number
-  totalTime: number
-  gameId: string
+  row: MapLeaderboardType
 }
 
-const LeaderboardItem: FC<Props> = ({ user, finishPlace, totalPoints, totalTime, gameId }) => {
+const LeaderboardItem: FC<Props> = ({ finishPlace, row }) => {
   return (
     <StyledLeaderboardItem>
       <div className="userSection">
         <span className="userPlace">#{finishPlace}</span>
         <div className="userInfo">
-          <Avatar url={user.avatar} alt='' size={30}/>
-          <span className="username">{user.name}</span>
+          <Avatar url={row.userAvatar} alt='' size={30}/>
+          <Link href={`/user/${row.userId}`}>
+            <a><span className="username">{row.userName}</span></a>
+          </Link>
         </div>
       </div>
 
       <div className="resultsSection">
-        <span className="totalPoints">{totalPoints} points</span>
+        <span className="totalPoints">{row.totalPoints} points</span>
         <FlexGroup gap={10}>
-          <span className="totalTime">{totalTime} min</span>
-          <Link href={`/results/${gameId}`}>
+          <span className="totalTime">{row.totalTime} min</span>
+          <Link href={`/results/${row._id}`}>
             <a>
               <Icon size={20} fill="#fff">
                 <ChartBarIcon />
