@@ -21,10 +21,7 @@ type Props = {
 const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
   const [compassHeading, setCompassHeading] = useState(0)
   //useDebounce(() => setCompassHeading(compassHeading), 50, [compassHeading])
-  const dispatch = useDispatch()
   const [loading, setLoading] = useState(true)
-
-  const gameNew = useSelector(selectGameNew)
 
   const location = gameData.rounds[gameData.round - 1]
 
@@ -35,13 +32,13 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
   }
 
   const handleApiLoaded = (map: any, maps: any) => {
-
     var sv = new window.google.maps.StreetViewService()
     var panorama = new window.google.maps.StreetViewPanorama(
       document.getElementById('map') as HTMLElement, {         
         addressControl: false,
-        linksControl: true,
+        linksControl: gameData.gameSettings.canMove,
         panControl: true,
+        panControlOptions: { position: google.maps.ControlPosition.TOP_LEFT },
         enableCloseButton: false,
         zoomControl: false,
         fullscreenControl: false,
@@ -49,8 +46,8 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
     )
     panorama.setOptions({
       showRoadLabels: false,
-      clickToGo: gameNew.gameSettings.canMove,
-      scrollwheel: gameNew.gameSettings.canZoom,
+      clickToGo: gameData.gameSettings.canMove,
+      scrollwheel: gameData.gameSettings.canZoom,
     })
     /*
     panorama.addListener('pov_changed', () => {
