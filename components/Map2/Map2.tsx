@@ -121,19 +121,19 @@ const Map2: FC<Props> = ({ coordinate, zoom, setView, gameData, setGameData }) =
       const { status, res } = await mailman(`games/${gameData.id}`, 'PUT', JSON.stringify(body))
       
       if (status !== 400 && status !== 500) {
-        setGameData(res)
+        setGameData({id: res._id, ...res})
         setView('Result')
       }  
     } 
   }
 
   const changeMapSize = (change: 'increase' | 'decrease') => {
-    if (change === 'increase') {
+    if (change === 'increase' && user.guessMapSize < 4) { 
       dispatch(updateGuessMapSize({
         guessMapSize: user.guessMapSize + 1
-      }))
+      }))    
     }
-    else {
+    else if (change === 'decrease' && user.guessMapSize > 1) {
       dispatch(updateGuessMapSize({
         guessMapSize: user.guessMapSize - 1
       }))
@@ -146,13 +146,13 @@ const Map2: FC<Props> = ({ coordinate, zoom, setView, gameData, setGameData }) =
       <div className="guessMapWrapper" onMouseOver={handleMapHover} onMouseLeave={handleMapLeave}>
       {hovering &&
           <div className="controls">
-            <button className="controlBtn" onClick={() => changeMapSize('increase')}>
+            <button className={`controlBtn ${user.guessMapSize === 4 ? 'disabled' : ''}`} onClick={() => changeMapSize('increase')}>
               <Icon size={16} fill="#fff">
                 <ChevronUpIcon />
               </Icon>
             </button>
 
-            <button className="controlBtn" onClick={() => changeMapSize('decrease')}>
+            <button className={`controlBtn ${user.guessMapSize === 1 ? 'disabled' : ''}`} onClick={() => changeMapSize('decrease')}>
               <Icon size={16} fill="#fff">
                 <ChevronDownIcon />
               </Icon>

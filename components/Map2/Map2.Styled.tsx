@@ -36,6 +36,12 @@ const StyledMap2 = styled.div<StyledProps>`
     background: var(--background1);
     border-radius: 50%;
   }
+
+  .disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
 `
 
 export default StyledMap2
