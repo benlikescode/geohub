@@ -1,4 +1,5 @@
 import { SparklesIcon } from '@heroicons/react/outline'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { FC } from 'react'
 import { StyledFinalResultsCard } from '.'
@@ -11,9 +12,8 @@ type Props = {
 }
 
 const FinalResultsCard: FC<Props> = ({ gameData }) => {
-  const router = useRouter()
 
-
+  // converts total points to a percentage
   const calculateProgress = () => {
     const progress = (gameData.totalPoints / 25000) * 100
 
@@ -22,14 +22,6 @@ const FinalResultsCard: FC<Props> = ({ gameData }) => {
     }
 
     return progress
-  }
-
-  const handlePlayAgain = () => {
-    router.push(`/map/${gameData.mapId}`)  
-  }
-
-  const handleDetailedResults = () => {
-    router.push(`/results/${gameData.id}`)
   }
 
   return (
@@ -46,10 +38,21 @@ const FinalResultsCard: FC<Props> = ({ gameData }) => {
                 </Icon>
               </div>
             </div>
+
             <ProgressBar progress={calculateProgress()}/>
-            <FlexGroup gap={20}>
-              <Button type="ghostLight" callback={handleDetailedResults}>Detailed Results</Button>
-              <Button type="solidPurple" callback={handlePlayAgain} width="180px">Play Again</Button>
+
+            <FlexGroup gap={20}>            
+              <Link href={`/results/${gameData.id}`}>
+                <a>
+                  <Button type="ghostLight">Detailed Results</Button>
+                </a>
+              </Link>
+              
+              <Link href={`/map/${gameData.mapId}`}>
+                <a>
+                  <Button type="solidPurple" width="180px">Play Again</Button>
+                </a>
+              </Link>
             </FlexGroup>    
           </div>
         </div>     
