@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { ObjectId } from 'mongodb'
 import { Game } from '../../../backend/models'
 import { getRandomLocation } from '../../../utils/functions/generateLocations'
-import { GuessType } from '../../../types'
+import { GuessType, LocationType } from '../../../types'
 import { getResultData } from '../../../utils/helperFunctions'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -38,12 +38,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(400).send(`A guess has already been made for round ${game.round}`)
       }
 
-      // adding new (unique) location to rounds if game is not finished
+      // adding new location to rounds if game is not finished
       if (game.rounds.length !== 5) {
-        let newLocation = getRandomLocation('handpicked', game.mapId)
+        let duplicate = true
+        let newLocation: any = null
+        let buffer = 0
 
-        while (game.rounds.includes(newLocation)) {
+        // generates new location until unique or 5 failed attempts
+        while (duplicate && buffer < 5) {
           newLocation = getRandomLocation('handpicked', game.mapId)
+          duplicate = game.rounds.some(r => r.lat === newLocation.lat && r.lng === newLocation.lng)
+          buffer++
         }
 
         game.rounds = game.rounds.concat(newLocation)
