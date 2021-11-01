@@ -1,14 +1,9 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useState } from 'react'
 import { StyledStreetView } from '.'
 import GoogleMapReact from 'google-map-react'
-import { LocationType } from '../../types'
-import { useDispatch, useSelector } from 'react-redux'
-import { useDebounce } from '../../utils/hooks/useDebounce'
-import { Spinner } from '../System/Spinner'
 import { StreetViewControls } from '../StreetViewControls'
 import { GameStatus } from '../GameStatus'
 import { Map2 } from '../Map2'
-import { selectGameNew } from '../../redux/gameNew'
 import { Game } from '../../backend/models'
 import { LoadingPage } from '../Layout'
 
@@ -19,12 +14,8 @@ type Props = {
 }
 
 const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
-  const [compassHeading, setCompassHeading] = useState(0)
-  //useDebounce(() => setCompassHeading(compassHeading), 50, [compassHeading])
   const [loading, setLoading] = useState(true)
-
   const location = gameData.rounds[gameData.round - 1]
-
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
 
   const GoogleMapConfig = {
@@ -38,7 +29,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
         addressControl: false,
         linksControl: gameData.gameSettings.canMove,
         panControl: true,
-        panControlOptions: { position: google.maps.ControlPosition.TOP_LEFT },
+        panControlOptions: { position: google.maps.ControlPosition.LEFT_BOTTOM },
         enableCloseButton: false,
         zoomControl: false,
         fullscreenControl: false,
@@ -49,12 +40,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
       clickToGo: gameData.gameSettings.canMove,
       scrollwheel: gameData.gameSettings.canZoom,
     })
-    /*
-    panorama.addListener('pov_changed', () => {
-      setCompassHeading(panorama.getPov().heading)
-    })
-    */
-
+  
     const processSVData = (data: any, status: any) => {
       if (data == null) {
         alert('There was an error loading the round :(')
@@ -80,7 +66,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
       {loading && <LoadingPage />}
       
       <div id="map">
-        <StreetViewControls compassHeading={compassHeading} />
+        <StreetViewControls/>
         <GameStatus gameData={gameData}/> 
         <Map2 coordinate={location} zoom={8} setView={setView} setGameData={setGameData} gameData={gameData} />
       </div>
