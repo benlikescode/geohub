@@ -1,7 +1,7 @@
 import { collections, dbConnect } from '../../../backend/utils/dbConnect'
 import Game from '../../../backend/models/game' 
 import { NextApiRequest, NextApiResponse } from 'next'
-import { getLocationsFromMapId } from '../../../utils/functions/generateLocations'
+import { getLocationsFromMapId, randomInt } from '../../../utils/functions/generateLocations'
 import bcrypt from 'bcryptjs'
 import { User } from '../../../backend/models'
 
@@ -39,7 +39,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         name,
         email, 
         password: hashPassword,
-        avatar: '/images/avatar1.jfif',
+        avatar: `default${randomInt(1, 6)}.png`,
         createdAt: new Date().toString(),
         location: 'Canada'
       }

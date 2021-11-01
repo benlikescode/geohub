@@ -20,7 +20,7 @@ const Avatar: FC<Props> = ({ url, size, alt, onClick, userId, outline }) => {
 
   return (
     <StyledAvatar size={size} outline={outline}>
-      <img src={currSrc || fallback} alt={alt} onError={() => setCurrSrc(fallback)} />       
+      <img src={`/images/avatars/${currSrc}` || fallback} alt={alt} onError={() => setCurrSrc(fallback)} />       
     </StyledAvatar>
   )
 }

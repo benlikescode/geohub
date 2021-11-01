@@ -1,19 +1,15 @@
-import React, { FC, useEffect, useRef, useState } from 'react'
+import React, { FC, useRef, useState } from 'react'
 import { StyledMap2 } from '.'
 import GoogleMapReact from 'google-map-react'
-import { GuessType, LocationType } from '../../types'
-import Marker from 'google-map-react'
 import { Button } from '../System/Button'
-import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
-import { getGuessMapDimensions, getMapTheme, getResultData } from '../../utils/helperFunctions'
-import { ChevronDownIcon, ChevronUpIcon, LocationMarkerIcon } from '@heroicons/react/outline'
+import { createMarker, getGuessMapDimensions, getMapTheme } from '../../utils/helperFunctions'
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/outline'
 import { Icon } from '../System'
 import { selectUser, updateGuessMapSize } from '../../redux/user'
 import { mailman } from '../../backend/utils/mailman'
-import { selectGameNew, updateView } from '../../redux/gameNew'
-import { addGuess } from '../../redux/gameNew'
 import { Game } from '../../backend/models'
+import { LocationType } from '../../types'
 
 type Props = {
   coordinate: LocationType
@@ -29,11 +25,9 @@ const Map2: FC<Props> = ({ coordinate, zoom, setView, gameData, setGameData }) =
   const [hovering, setHovering] = useState(false)
   const prevMarkersRef = useRef<google.maps.Marker[]>([])
   const dispatch = useDispatch()
-  const gameNew = useSelector(selectGameNew)
   const user = useSelector(selectUser)
   const hoverDelay = useRef<any>()
   const [currGuess, setCurrGuess] = useState<LocationType | null>(null)
-
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
 
   const GoogleMapConfig = {
@@ -46,7 +40,8 @@ const Map2: FC<Props> = ({ coordinate, zoom, setView, gameData, setGameData }) =
         zoom: 2,
         center: { lat: 0, lng: 0 },
         disableDefaultUI: true,
-        styles: getMapTheme('Light')
+        styles: getMapTheme('Light'),
+        clickableIcons: false
       }   
     )
 
@@ -59,34 +54,10 @@ const Map2: FC<Props> = ({ coordinate, zoom, setView, gameData, setGameData }) =
       }
       setCurrGuess(location)
       
-      const marker = createMarker(location, map)
+      const marker = createMarker(location, map, `/images/avatars/${user.avatar}`)
       clearMarkers(prevMarkersRef.current)
       prevMarkersRef.current.push(marker)
     })
-  }
-
-  const createMarker = (position: LocationType, map: google.maps.Map) => {
-    const image = {
-      url: "https://www.geoguessr.com/images/auto/30/30/ce/0/plain/pin/c2fe16562d9ad321687532d53b067e75.png",
-      size: new google.maps.Size(30, 30),
-    }
-
-    const svgMarker = {
-      path: google.maps.SymbolPath.CIRCLE,
-      fillColor: 'blue',
-      fillOpacity: 0.6,
-      strokeWeight: 0,
-      rotation: 0,
-      scale: 2,
-      anchor: new google.maps.Point(15, 30),
-    }
-
-    return new window.google.maps.Marker({
-      position: position,
-      map: map,
-      icon: image
-    })
-
   }
 
   const clearMarkers = (markers: google.maps.Marker[]) => {
@@ -144,7 +115,7 @@ const Map2: FC<Props> = ({ coordinate, zoom, setView, gameData, setGameData }) =
   return (
     <StyledMap2 mapHeight={mapHeight} mapWidth={mapWidth}>
       <div className="guessMapWrapper" onMouseOver={handleMapHover} onMouseLeave={handleMapLeave}>
-      {hovering &&
+        {hovering &&
           <div className="controls">
             <button className={`controlBtn ${user.guessMapSize === 4 ? 'disabled' : ''}`} onClick={() => changeMapSize('increase')}>
               <Icon size={16} fill="#fff">
@@ -160,7 +131,7 @@ const Map2: FC<Props> = ({ coordinate, zoom, setView, gameData, setGameData }) =
           </div>
         }
         <div id="guessMap" className="map"></div> 
-        
+          
         <Button 
           type="solidPurple" 
           width="100%" 
@@ -169,13 +140,13 @@ const Map2: FC<Props> = ({ coordinate, zoom, setView, gameData, setGameData }) =
         >Submit Guess</Button> 
       </div>  
       <GoogleMapReact 
-            bootstrapURLKeys={GoogleMapConfig}
-            center={coordinate} 
-            zoom={zoom}
-            yesIWantToUseGoogleMapApiInternals
-            onGoogleApiLoaded={handleApiLoaded}
-          >
-          </GoogleMapReact>
+        bootstrapURLKeys={GoogleMapConfig}
+        center={coordinate} 
+        zoom={zoom}
+        yesIWantToUseGoogleMapApiInternals
+        onGoogleApiLoaded={handleApiLoaded}
+      >
+      </GoogleMapReact>
     </StyledMap2>
   )
 }

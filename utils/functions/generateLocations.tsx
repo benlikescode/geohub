@@ -5,6 +5,7 @@ export const randomRange = (min = 0, max = 100, precision = 10) => {
   return parseFloat((Math.random() * (max - min) + min).toFixed(precision))
 }
 
+// generates between min (inclusive) and max (exclusive)
 export const randomInt = (min = 0, max = 5) => {
   return Math.floor(Math.random() * (max - min) + min)
 }

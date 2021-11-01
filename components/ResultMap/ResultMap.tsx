@@ -2,7 +2,9 @@ import { FC } from 'react'
 import { StyledResultMap } from '.'
 import GoogleMapReact from 'google-map-react'
 import { GuessType, LocationType } from '../../types'
-import { getMapTheme, getResultMapValues } from '../../utils/helperFunctions'
+import { createMarker, getMapTheme, getResultMapValues } from '../../utils/helperFunctions'
+import { useSelector } from 'react-redux'
+import { selectUser } from '../../redux/user'
 
 type Props = {
   guessedLocations: GuessType[];
@@ -14,6 +16,7 @@ type Props = {
 const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFinalResults }) => {
   const guessedLocation = guessedLocations[guessedLocations.length - 1]
   const actualLocation = actualLocations[round -2]
+  const user = useSelector(selectUser)
   const deafultCoords = {
     lat: 0, 
     lng: 0
@@ -38,16 +41,17 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
         zoom: zoom,
         center: center,
         disableDefaultUI: true,
-        styles: getMapTheme('')
+        styles: getMapTheme(''),
+        clickableIcons: false
       }   
     )
 
     // if we are showing the final results page, load all the round markers. Otherwise, simply load the current round markers
     if (isFinalResults) {
       for (let i = 0; i < actualLocations.length; i++) {
-        createMarker(guessedLocations[i], map, 'https://www.geoguessr.com/images/auto/30/30/ce/0/plain/pin/c2fe16562d9ad321687532d53b067e75.png')
-        const marker = createMarker(actualLocations[i], map, `/images/finalMarker${i + 1}.png`)
-        marker.addListener("click", () => {
+        createMarker(guessedLocations[i], map, `/images/avatars/${user.avatar}`)
+        const marker = createMarker(actualLocations[i], map, '/images/avatars/actualMarker.png')
+        marker.addListener('click', () => {
           window.open(`http://www.google.com/maps?layer=c&cbll=${actualLocations[i].lat},${actualLocations[i].lng}`, '_blank')   
         })
 
@@ -63,10 +67,9 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
       }
     }
     else {
-      createMarker(guessedLocation, map, 'https://www.geoguessr.com/images/auto/30/30/ce/0/plain/pin/c2fe16562d9ad321687532d53b067e75.png')
-      const marker = createMarker(actualLocation, map, '')
+      createMarker(guessedLocation, map, `/images/avatars/${user.avatar}`)
+      createMarker(actualLocation, map, '/images/avatars/actualMarker.png')
       
-
       new google.maps.Polyline({
         path: [guessedLocation, actualLocation],
         map: map,
@@ -76,25 +79,6 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
         ],    
       })
     }    
-  }
-
-  const createMarker = (position: LocationType, map: google.maps.Map, markerImage: string) => {
-    if (markerImage) {
-      const image = {
-        url: markerImage,
-      }
-  
-      return new window.google.maps.Marker({
-        position: position,
-        map: map,
-        icon: image
-      })
-    }
-
-    return new window.google.maps.Marker({
-      position: position,
-      map: map,
-    })
   }
 
   return (
