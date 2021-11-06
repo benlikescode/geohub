@@ -18,35 +18,14 @@ const MapPreviewCard: FC<Props> = ({ map }) => {
       <div className="contentWrapper">
         <div className="mapName">{map.name}</div>
         <div className="mapDescription">{map.description}</div>
-        <Link href={`/map/${map.id}`}>
+        <Link href={`/map/${map.slug ? map.slug : map.id}`}>
           <a>
             <Button type="solidPurple" width="180px">Play</Button>
           </a>     
         </Link>
       </div>
      
-      <div className="statsFooter">
-        <div className="statItem">
-          <Icon size={24}>
-            <UserIcon />
-          </Icon>
-          <span>{map.usersPlayed}</span>
-        </div>
-
-        <div className="statItem">
-          <Icon size={24}>
-            <LocationMarkerIcon />
-          </Icon>
-          <span>{5}</span>
-        </div>
-
-        <div className="statItem">
-          <Icon size={24}>
-            <HeartIcon />
-          </Icon>
-          <span>{map.likes}</span>
-        </div>    
-      </div>
+      
     </StyledMapPreviewCard>
   )
 }

@@ -14,9 +14,11 @@ export const dbConnect = async () => {
   
     const usersCollection: mongoDB.Collection = db.collection('users')
     const gamesCollection: mongoDB.Collection = db.collection('games')
-  
+    const mapsCollection: mongoDB.Collection = db.collection('maps')
+
     collections.users = usersCollection
     collections.games = gamesCollection
+    collections.maps = mapsCollection
   
     console.log(`Successfully connected to database: ${db.databaseName}`)
 }

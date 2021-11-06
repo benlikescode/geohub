@@ -25,7 +25,6 @@ const StyledModal = styled.div`
     pointer-events: all;
     overflow: hidden;
     border-radius: 12px;
-
   }
   
   .backdrop {

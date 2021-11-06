@@ -6,7 +6,7 @@ type StyledProps = {
 
 const StyledMapPreviewCard = styled.div<StyledProps>`
   width: 300px;
-  height: 350px;
+  height: 310px;
   border-radius: 12px;
   background-color: var(--background2);
   position: relative;

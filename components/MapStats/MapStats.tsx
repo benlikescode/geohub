@@ -39,7 +39,7 @@ const MapStats: FC<Props> = ({ map }) => {
         <div className="textWrapper">
           <span className="mainLabel">Locations</span>
           <span className="subLabel">
-            {typeof(map.locations) === 'number' ? map.locations : map.locations.length}
+            {map.locationCount}
           </span>
         </div>
       </FlexGroup>
