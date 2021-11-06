@@ -117,6 +117,7 @@ const Register: FC = () => {
           callback={setName}
           errorMessage={nameErrorMsg}
           handleErrors={handleErrors}
+          autoComplete="username"
         />
         <Input 
           type="text" 
@@ -124,6 +125,7 @@ const Register: FC = () => {
           callback={setEmail}
           errorMessage={emailErrorMsg}
           handleErrors={handleErrors}
+          autoComplete="email"
         />   
         <Input 
           type="password" 
@@ -131,6 +133,7 @@ const Register: FC = () => {
           callback={setPassword}
           errorMessage={passwordErrorMsg}
           handleErrors={handleErrors}
+          autoComplete="new-password"
         />
   
         <Button type="solidPurple" isDisabled={isButtonDisabled} width="100%">

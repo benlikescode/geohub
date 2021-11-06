@@ -95,6 +95,7 @@ const Login: FC = () => {
           callback={setEmail}
           errorMessage={emailErrorMsg}
           handleErrors={handleErrors}
+          autoComplete="email"
         />
         <Input 
           type="password" 
@@ -102,6 +103,7 @@ const Login: FC = () => {
           callback={setPassword}
           errorMessage={passwordErrorMsg}
           handleErrors={handleErrors}
+          autoComplete="current-password"
         />
 
         <Button type="solidPurple" width="100%">
