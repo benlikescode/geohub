@@ -28,11 +28,11 @@ const StyledInput = styled.div`
       font-size: 1rem;
       font-weight: 400;
       
-      &::placeholder {
+      ::placeholder {
         color: var(--color3);
       }
 
-      &:focus {
+      :focus {
         border: 1px solid #8054ff;
         outline: 2px solid #8054ff61;
       } 

@@ -11,6 +11,7 @@ type Props = {
   errorMessage?: string
   handleErrors?: () => void
   readOnly?: boolean
+  autoComplete?: string
 }
 
 const Input: FC<Props> = ({ 
@@ -22,7 +23,8 @@ const Input: FC<Props> = ({
   isDisabled, 
   errorMessage, 
   handleErrors, 
-  readOnly
+  readOnly,
+  autoComplete
 }) => {
   const [currValue, setCurrValue] = useState<string | number>(value || '')
   const [showErrorMsg, setShowErrorMsg] = useState(false)
@@ -56,7 +58,8 @@ const Input: FC<Props> = ({
           type={type}
           lang="en" 
           readOnly={readOnly}
-          onBlur={() => handleBlur()}       
+          onBlur={() => handleBlur()}   
+          autoComplete={autoComplete}    
         />
       </div>
 
