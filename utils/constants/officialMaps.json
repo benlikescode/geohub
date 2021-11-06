@@ -1,0 +1,64 @@
+{
+  "maps": [
+    {
+      "id": "6185df7a7b54baf63473a53e",
+      "slug": "world",
+      "name": "World",
+      "description": "The classic game mode we all love, any country is fair game!",
+      "previewImg": "/images/mapPreviews/worldMap.jpg",
+      "creator": "GeoHub",
+      "usersPlayed": 3,
+      "locationCount": 250,
+      "avgScore": 15000,
+      "likes": 12
+    },
+    {
+      "id": "6185dfb37b54baf63473a53f",
+      "slug": "near-you",
+      "name": "Near You",
+      "description": "How well do you know your own city? Find out now!",
+      "previewImg": "/images/mapPreviews/nearYou.jpg",
+      "creator": "GeoHub",
+      "usersPlayed": 15,
+      "locationCount": 500,
+      "avgScore": 18000,
+      "likes": 8
+    },
+    {
+      "id": "6185dfd47b54baf63473a540",
+      "slug": "famous-landmarks",
+      "name": "Famous Landmarks",
+      "description": "Explore the greatest sights our world has to offer.",
+      "previewImg": "/images/mapPreviews/LandmarksMap.jfif",
+      "creator": "GeoHub",
+      "usersPlayed": 8,
+      "locationCount": 20,
+      "avgScore": 20000,
+      "likes": 12
+    },
+    {
+      "id": "6185dff27b54baf63473a541",
+      "slug": "canada",
+      "name": "Canada",
+      "description": "Good ol' Canada eh, explore The Great White North!",
+      "previewImg": "images/mapPreviews/CanadaMap.jpg",
+      "creator": "GeoHub",
+      "usersPlayed": 2,
+      "locationCount": 100,
+      "avgScore": 12000,
+      "likes": 8
+    },
+    {
+      "id": "6185e0077b54baf63473a542",
+      "slug": "usa",
+      "name": "United States",
+      "description": "The land of the free! 50 states of locations waiting for you.",
+      "previewImg": "images/mapPreviews/UnitedStatesMap.jpg",
+      "creator": "GeoHub",
+      "usersPlayed": 12,
+      "locationCount": 500,
+      "avgScore": 14500,
+      "likes": 10
+    }
+  ]
+}

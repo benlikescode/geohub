@@ -1,52 +1,19 @@
-import { ChevronRightIcon, LightBulbIcon } from '@heroicons/react/outline'
+import { ChevronRightIcon } from '@heroicons/react/outline'
 import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
 import { MapPreviewCard } from '../components/Home/MapPreviewCard'
 import { Navbar, Sidebar, Layout, Banner } from '../components/Layout/'
-import { Avatar, FlexGroup, Icon } from '../components/System'
+import { FlexGroup, Icon } from '../components/System'
 import StyledHomePage from '../styles/HomePage.Styled'
-import { GeoTipType, MapType } from '../types'
-import { fireDb } from '../utils/firebaseConfig'
+import { GeoTipType } from '../types'
 import { randomElement } from '../utils/functions/generateLocations'
 import * as tips from '../utils/constants/geotips.json'
+import officialMaps from '../utils/constants/officialMaps.json'
 import { Pill } from '../components/System/Pill'
 import { GamemodeCard } from '../components/GamemodeCard'
 import { Badge } from '../components/System/Badge'
 
 const Home: NextPage = () => {
-  const [maps, setMaps] = useState<MapType[]>([])
   const randomTip: GeoTipType = randomElement(tips)
-
-  const getMaps = async () => {
-    fireDb.collection('maps')
-    .where('creator', '==', 'GeoHub')
-    .onSnapshot(({ docs }) => {
-      setMaps(docs.map(doc => ({
-        id: doc.id, 
-        ...doc.data()
-      })) as MapType[]
-    )})
-  }
-
-  useEffect(() => {
-    getMaps()
-    
-  }, [])
-
-  const testMap3: MapType = {
-    id: '',
-    name: 'World',
-    description: 'The classic game mode we all love, any country is fair game!',
-    usersPlayed: 60123,
-    likes: 9251,
-    locations: [{lat: 0, lng: 0}],
-    previewImg: '/images/CanadaMap.jpg',
-    creator: 'GeoHub'
-  }
-
-
 
   return (
     <StyledHomePage>
@@ -72,10 +39,9 @@ const Home: NextPage = () => {
           </div>
 
           <div className="mapPreviewSection">
-            {maps.map((map, idx) => (
+            {officialMaps.maps.map((map, idx) => (
               <MapPreviewCard key={idx} map={map} />
-            ))}  
-            <MapPreviewCard map={testMap3}/>      
+            ))}               
           </div>
 
           <div className="mapPreviewSection">
@@ -113,7 +79,7 @@ const Home: NextPage = () => {
             </FlexGroup>
                    
             <div className="badgesWrapper">
-              <Badge image="/images/LandmarksMap.jfif" borderColor="bronze" hoverText="France Master"/>
+              <Badge image="/images/mapPreviews/LandmarksMap.jfif" borderColor="bronze" hoverText="France Master"/>
               <Badge image="https://wallpaperaccess.com/full/355007.jpg" borderColor="silver" hoverText="France Master"/>
               <Badge image="https://wallpaperaccess.com/full/354966.jpg" borderColor="gold" hoverText="France Master"/>
               <Badge image="https://cdn.lifehack.org/wp-content/uploads/2015/05/rsz_taj_mahal_india.jpg" borderColor="bronze" hoverText="France Master"/>
