@@ -1,19 +1,33 @@
 import styled from 'styled-components'
 
-const StyledSearchbar = styled.div`
-  height: 40px;
-  border-radius: 4px;
-  background-color: var(--background4);
-  color: var(--color4);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 0 10px;
-  width: 350px;
+type StyledProps = {
+  isFocused: boolean
+}
+
+const StyledSearchbar = styled.div<StyledProps>`
+  
+  
+  .searchbarWrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 10px;
+    width: 500px;
+    height: 40px;
+    border-radius: 4px;
+    background-color: ${({ isFocused }) => isFocused ? 'var(--background3)' : 'var(--background4)'};
+    color: var(--color4);
+    box-shadow: ${({ isFocused }) => isFocused && '0 0 0 2px #8054ff'};
+    transition: background-color 240ms, box-shadow 240ms;
+  }
 
   input {
-    background-color: var(--background4);
     color: var(--color4);
+    width: 100%;
+    z-index: 99999999999999;
+    pointer-events: all;
+    height: 100%;
+    background-color: inherit;
 
     ::placeholder {
       color: var(--color4);
