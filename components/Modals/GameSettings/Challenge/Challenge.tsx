@@ -60,7 +60,7 @@ const Challenge: FC = () => {
 
   useEffect(() => {
     generateUrl()
-    getFriends() 
+    //getFriends() 
   }, [])
 
   return (
@@ -82,17 +82,21 @@ const Challenge: FC = () => {
       <div className="challengeSection">
         <label className="inputLabel">Your Friends</label>
         <div className="friendsList">
-          {friends.map((friend, idx) => (
+          {friends.length > 0 ?
+            friends.map((friend, idx) => (
 
-            <div className="friendItem" key={idx}>
-              <FlexGroup gap={12}>
-                <Avatar url={friend.avatar} size={40} alt=""/>
-                <span className="username">{friend.name}</span>
-              </FlexGroup>                   
-              <button className="inviteBtn">Invite</button>
-            </div>
+              <div className="friendItem" key={idx}>
+                <FlexGroup gap={12}>
+                  <Avatar url={friend.avatar} size={40} alt=""/>
+                  <span className="username">{friend.name}</span>
+                </FlexGroup>                   
+                <button className="inviteBtn">Invite</button>
+              </div>
 
-          ))}
+            ))
+            :
+            <span className="noFriends">You do not appear to have anyone added. You can add users by going to their profile.</span>
+          }
           
         </div>
       </div>

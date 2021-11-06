@@ -50,6 +50,11 @@ const StyledChallenge = styled.div`
     font-weight: 500;
   }
 
+  .noFriends {
+    font-size: 14px;
+    color: var(--color3);
+  }
+
 `
 
 export default StyledChallenge
