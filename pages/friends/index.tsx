@@ -7,7 +7,7 @@ import { MapPreviewCard } from '../../components/Home/MapPreviewCard'
 import { Navbar, Layout, Sidebar } from '../../components/Layout'
 import { Icon, Pill } from '../../components/System'
 
-const ProfilePage: NextPage = () => {
+const FriendsPage: NextPage = () => {
   
 
   
@@ -29,4 +29,4 @@ const ProfilePage: NextPage = () => {
   )
 }
 
-export default ProfilePage
+export default FriendsPage

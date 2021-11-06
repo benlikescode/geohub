@@ -9,8 +9,6 @@ import { Icon, Pill } from '../../components/System'
 
 const ProfilePage: NextPage = () => {
   
-
-  
   return (
     <>
     <Navbar />
