@@ -405,3 +405,11 @@ export const createMarker = (position: LocationType, map: google.maps.Map, marke
     icon: image
   })
 }
+
+export const formatDistance = (distance: number) => {
+  if (distance < 1) {
+    return `${Math.round(distance * 1000)} m`
+  }
+  
+  return `${Math.round(distance)} km`  
+}
