@@ -1,9 +1,7 @@
 import { SparklesIcon } from '@heroicons/react/outline'
 import React, { FC } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { StyledResultsCard } from '.'
-import { nextRound, selectGameNew, updateView } from '../../redux/gameNew'
-import { ResultType } from '../../types'
+import { formatDistance } from '../../utils/helperFunctions'
 import { Banner } from '../Layout'
 import { Button, Icon, ProgressBar } from '../System'
 
@@ -43,7 +41,7 @@ const ResultsCard: FC<Props> = ({ round, distance, points, setView }) => {
             <div className="textWrapper">
               <span className="distanceMessage">
                 Your guess was 
-                <span className="emphasisText"> {distance} </span> 
+                <span className="emphasisText"> {formatDistance(distance)} </span> 
                 from the correct location
               </span>
               <div className="pointsWrapper">
@@ -61,10 +59,8 @@ const ResultsCard: FC<Props> = ({ round, distance, points, setView }) => {
               {round > 5 ? 'View Results' : 'Next Round'}
             </Button>
           </div> 
-        </div>
-        
-      </Banner>
-      
+        </div>      
+      </Banner>    
     </StyledResultsCard>
   )
 }

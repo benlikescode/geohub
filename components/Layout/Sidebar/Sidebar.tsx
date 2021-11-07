@@ -1,9 +1,7 @@
 import React, { FC } from 'react'
 import { StyledSidebar } from '.'
 import { SidebarItem } from './SidebarItem'
-import { AcademicCapIcon, ChatIcon, HeartIcon, HomeIcon, UserCircleIcon, UserGroupIcon, UsersIcon } from '@heroicons/react/outline'
-import { useSelector } from 'react-redux'
-import { Button, Icon, Avatar } from '../../System'
+import { ChatIcon, HeartIcon, HomeIcon, UserCircleIcon, UserGroupIcon, UsersIcon } from '@heroicons/react/outline'
 
 const Sidebar: FC = () => {
 
