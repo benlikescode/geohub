@@ -1,6 +1,8 @@
 import { SparklesIcon } from '@heroicons/react/outline'
 import React, { FC } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { StyledResultsCard } from '.'
+import { selectGame, updateCurrView } from '../../redux/game'
 import { formatDistance } from '../../utils/helperFunctions'
 import { Banner } from '../Layout'
 import { Button, Icon, ProgressBar } from '../System'
@@ -9,11 +11,12 @@ type Props = {
   round: number;
   distance: number;
   points: number;
-  setView: (view: 'Game' | 'Result' | 'FinalResults') => void
 }
 
-const ResultsCard: FC<Props> = ({ round, distance, points, setView }) => {
- 
+const ResultsCard: FC<Props> = ({ round, distance, points }) => {
+  const game = useSelector(selectGame)
+  const dispatch = useDispatch()
+  
   const calculateProgress = () => {
     const progress = (points / 5000) * 100
 
@@ -26,10 +29,10 @@ const ResultsCard: FC<Props> = ({ round, distance, points, setView }) => {
   
   const handleNextRound = () => {
     if (round > 5) {
-      setView('FinalResults')
+      dispatch(updateCurrView({ currView: 'FinalResults' }))
     }
     else {
-      setView('Game')
+      dispatch(updateCurrView({ currView: 'Game' }))
     } 
   }
 

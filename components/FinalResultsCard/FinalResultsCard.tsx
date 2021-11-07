@@ -1,21 +1,18 @@
 import { SparklesIcon } from '@heroicons/react/outline'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import React, { FC } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { StyledFinalResultsCard } from '.'
-import { Game } from '../../backend/models'
+import { selectGame } from '../../redux/game'
 import { Banner } from '../Layout'
 import { Icon, Button, ProgressBar, FlexGroup } from '../System'
 
-type Props = {
-  gameData: Game
-}
-
-const FinalResultsCard: FC<Props> = ({ gameData }) => {
-
+const FinalResultsCard: FC = () => {
+  const game = useSelector(selectGame)
+  
   // converts total points to a percentage
   const calculateProgress = () => {
-    const progress = (gameData.totalPoints / 25000) * 100
+    const progress = (game.gameData.totalPoints / 25000) * 100
 
     if (progress < 1) {
       return 1
@@ -32,7 +29,7 @@ const FinalResultsCard: FC<Props> = ({ gameData }) => {
             <div className="textWrapper">
               <span className="distanceMessage">Game Over, well done!</span>
               <div className="pointsWrapper">
-                <span>{gameData.totalPoints} points total</span>
+                <span>{game.gameData.totalPoints} points total</span>
                 <Icon size={24} fill="#8DB8FF">
                   <SparklesIcon />
                 </Icon>
@@ -42,13 +39,13 @@ const FinalResultsCard: FC<Props> = ({ gameData }) => {
             <ProgressBar progress={calculateProgress()}/>
 
             <FlexGroup gap={20}>            
-              <Link href={`/results/${gameData.id}`}>
+              <Link href={`/results/${game.gameData.id}`}>
                 <a>
                   <Button type="ghostLight">Detailed Results</Button>
                 </a>
               </Link>
               
-              <Link href={`/map/${gameData.mapId}`}>
+              <Link href={`/map/${game.gameData.mapId}`}>
                 <a>
                   <Button type="solidPurple" width="180px">Play Again</Button>
                 </a>

@@ -6,6 +6,7 @@ type Game = {
   mapId: string;
   mapName?: string;
   userId: ObjectId;
+  userAvatar: string;
   gameSettings: GameSettingsType;
   rounds: LocationType[];
   guesses: GuessType[];

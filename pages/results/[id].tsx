@@ -56,6 +56,7 @@ const ResultsPage: NextPage = () => {
               guessedLocations={gameData.guesses} 
               actualLocations={gameData.rounds} 
               round={gameData.round} 
+              userAvatar={gameData.userAvatar}
               isFinalResults 
             />
     

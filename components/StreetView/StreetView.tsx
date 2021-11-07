@@ -6,16 +6,14 @@ import { GameStatus } from '../GameStatus'
 import { GuessMap } from '../GuessMap'
 import { Game } from '../../backend/models'
 import { LoadingPage } from '../Layout'
+import { selectGame } from '../../redux/game'
+import { useDispatch, useSelector } from 'react-redux'
 
-type Props = {
-  gameData: Game
-  setView: (view: 'Game' | 'Result' | 'FinalResults') => void
-  setGameData: any
-}
-
-const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
+const StreetView: FC = () => {
   const [loading, setLoading] = useState(true)
-  const location = gameData.rounds[gameData.round - 1]
+  const game = useSelector(selectGame)
+  const dispatch = useDispatch()
+  const location = game.gameData.rounds[game.gameData.round - 1]
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
 
   const GoogleMapConfig = {
@@ -27,7 +25,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
     var panorama = new window.google.maps.StreetViewPanorama(
       document.getElementById('map') as HTMLElement, {         
         addressControl: false,
-        linksControl: gameData.gameSettings.canMove,
+        linksControl: game.gameData.gameSettings.canMove,
         panControl: true,
         panControlOptions: { position: google.maps.ControlPosition.LEFT_BOTTOM },
         enableCloseButton: false,
@@ -37,8 +35,8 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
     )
     panorama.setOptions({
       showRoadLabels: false,
-      clickToGo: gameData.gameSettings.canMove,
-      scrollwheel: gameData.gameSettings.canZoom,
+      clickToGo: game.gameData.gameSettings.canMove,
+      scrollwheel: game.gameData.gameSettings.canZoom,
     })
   
     const processSVData = (data: any, status: any) => {
@@ -67,8 +65,8 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
       
       <div id="map">
         <StreetViewControls/>
-        <GameStatus gameData={gameData} setView={setView}/> 
-        <GuessMap coordinate={location} zoom={8} setView={setView} setGameData={setGameData} gameData={gameData} />
+        <GameStatus /> 
+        <GuessMap coordinate={location} zoom={8} />
       </div>
 
       <GoogleMapReact 
