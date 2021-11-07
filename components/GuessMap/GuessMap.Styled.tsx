@@ -5,7 +5,7 @@ type StyledProps = {
   mapWidth: number
 }
 
-const StyledMap2 = styled.div<StyledProps>`
+const StyledGuessMap = styled.div<StyledProps>`
   .guessMapWrapper {
     position: absolute;
     bottom: 20px;
@@ -44,4 +44,4 @@ const StyledMap2 = styled.div<StyledProps>`
 
 `
 
-export default StyledMap2
+export default StyledGuessMap

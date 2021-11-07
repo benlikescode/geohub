@@ -3,7 +3,7 @@ import { StyledStreetView } from '.'
 import GoogleMapReact from 'google-map-react'
 import { StreetViewControls } from '../StreetViewControls'
 import { GameStatus } from '../GameStatus'
-import { Map2 } from '../Map2'
+import { GuessMap } from '../GuessMap'
 import { Game } from '../../backend/models'
 import { LoadingPage } from '../Layout'
 
@@ -68,7 +68,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
       <div id="map">
         <StreetViewControls/>
         <GameStatus gameData={gameData} setView={setView}/> 
-        <Map2 coordinate={location} zoom={8} setView={setView} setGameData={setGameData} gameData={gameData} />
+        <GuessMap coordinate={location} zoom={8} setView={setView} setGameData={setGameData} gameData={gameData} />
       </div>
 
       <GoogleMapReact 

@@ -1,5 +1,5 @@
 import React, { FC, useRef, useState } from 'react'
-import { StyledMap2 } from '.'
+import { StyledGuessMap } from '.'
 import GoogleMapReact from 'google-map-react'
 import { Button } from '../System/Button'
 import { useDispatch, useSelector } from 'react-redux'
@@ -113,7 +113,7 @@ const Map2: FC<Props> = ({ coordinate, zoom, setView, gameData, setGameData }) =
   }
 
   return (
-    <StyledMap2 mapHeight={mapHeight} mapWidth={mapWidth}>
+    <StyledGuessMap mapHeight={mapHeight} mapWidth={mapWidth}>
       <div className="guessMapWrapper" onMouseOver={handleMapHover} onMouseLeave={handleMapLeave}>
         {hovering &&
           <div className="controls">
@@ -147,7 +147,7 @@ const Map2: FC<Props> = ({ coordinate, zoom, setView, gameData, setGameData }) =
         onGoogleApiLoaded={handleApiLoaded}
       >
       </GoogleMapReact>
-    </StyledMap2>
+    </StyledGuessMap>
   )
 }
 
