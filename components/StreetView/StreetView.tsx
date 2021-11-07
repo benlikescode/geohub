@@ -67,7 +67,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
       
       <div id="map">
         <StreetViewControls/>
-        <GameStatus gameData={gameData}/> 
+        <GameStatus gameData={gameData} setView={setView}/> 
         <Map2 coordinate={location} zoom={8} setView={setView} setGameData={setGameData} gameData={gameData} />
       </div>
 

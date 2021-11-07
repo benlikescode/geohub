@@ -50,7 +50,7 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
     if (isFinalResults) {
       for (let i = 0; i < actualLocations.length; i++) {
         createMarker(guessedLocations[i], map, user.avatar)
-        const marker = createMarker(actualLocations[i], map, '/images/avatars/actualMarker.png')
+        const marker = createMarker(actualLocations[i], map, `/images/avatars/actualMarker${i + 1}.png`)
         marker.addListener('click', () => {
           window.open(`http://www.google.com/maps?layer=c&cbll=${actualLocations[i].lat},${actualLocations[i].lng}`, '_blank')   
         })

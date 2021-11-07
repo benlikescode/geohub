@@ -28,20 +28,17 @@ const GameSettings: FC<Props> = ({ closeModal }) => {
   const user: UserType = useSelector(selectUser)
   const dispatch = useDispatch()
 
-  const testLocation = {
-    lat: 10,
-    lng: 10
-  }
-
   const testMap: MapType = {
     id: '',
+    slug: '',
     name: 'World',
     description: 'The classic game mode we all love, any country is fair game!',
     usersPlayed: 60123,
     likes: 9251,
-    locations: [testLocation],
-    previewImg: '/images/worldMap.jpg',
-    creator: 'GeoHub'
+    locationCount: 5,
+    previewImg: '/images/mapPreviews/worldMap.jpg',
+    creator: 'GeoHub',
+    avgScore: 15000
   }
 
   const handleClickBtn = () => {
