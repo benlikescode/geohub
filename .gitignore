@@ -36,3 +36,9 @@ yarn-error.log*
 
 # firebase
 firebaseConfig.tsx
+
+#locations
+world.json
+famousLocations.json
+canada.json
+unitedStates.json
