@@ -8,17 +8,47 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     if (req.method === 'GET') {
       const query = { mapId: mapId, round: 6 }
-      const data = await collections.games?.find(query)
-      .sort({totalPoints: -1})
-      .project({guesses: 0, rounds: 0})
-      .limit(5)
-      .toArray()
-      
+      const data = await collections.games?.aggregate([
+        { $match: query },
+        { $sort: { "totalPoints": -1 } },
+        { $project: {
+          "rounds": 0,
+          "guesses": 0
+        }},
+        { $lookup: {
+          from: 'users',
+          localField: 'userId',
+          foreignField: '_id',
+          as: 'userDetails'
+
+        }},
+      ]).limit(10).toArray()
+  
       if (!data) {
         return res.status(404).send(`Failed to find data`)
       }
 
-      res.status(200).send(data)
+      // a bit of a "hacky" temp solution as I can not seem to query unqiue userIds in the
+      // above aggregate query... so for now query extra documents and remove duplicates
+      // in theory this may not return 5 unique user scores even if there is, if the same 
+      // users in the top 5 have multiple games with scores in the top 5
+      const result: any = []
+        
+      data.forEach(item => {
+        const idx = result.findIndex((x: any) => x.userId.toString() === item.userId.toString())
+        if (idx <= -1) {
+          result.push({
+            userId: item.userId,
+            userName: item.userDetails[0].name,
+            userAvatar: item.userDetails[0].avatar,
+            gameId: item._id,
+            totalPoints: item.totalPoints,
+            totalTime: item.totalTime
+          })
+        }
+      })
+      
+      res.status(200).send(result)
     }
 
     else {

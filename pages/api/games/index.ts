@@ -1,7 +1,7 @@
 import { collections, dbConnect } from '../../../backend/utils/dbConnect'
 import Game from '../../../backend/models/game' 
 import { NextApiRequest, NextApiResponse } from 'next'
-import { getLocationsFromMapId } from '../../../utils/functions/generateLocations'
+import { getRandomLocation, getRandomLocationsInRadius } from '../../../utils/functions/generateLocations'
 import { ObjectId } from 'mongodb'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -9,16 +9,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     await dbConnect()
 
     if (req.method === 'POST') {
-      const locations = getLocationsFromMapId(req.body.mapId, 'handPicked', 1)
-      
+      const userLocation = req.body.userLocation
+      const roundLocation = getRandomLocation('handpicked', req.body.mapId, userLocation)
+
+      req.body.userLocation = null
+        
       const newGame = {
         ...req.body,
         userId: new ObjectId(req.body.userId), 
         guesses: [],
-        rounds: locations,
+        rounds: [roundLocation],
         round: 1,
         totalPoints: 0,
-        totalDistance: 0
+        totalDistance: 0,
+        totalTime: 0    
       } as Game
 
       const result = await collections.games?.insertOne(newGame)

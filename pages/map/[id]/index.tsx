@@ -99,7 +99,7 @@ const MapPage: FC = () => {
 
       {settingsModalOpen &&
         <Modal closeModal={closeModal}>
-          <GameSettings closeModal={closeModal}/>
+          <GameSettings closeModal={closeModal} mapDetails={mapDetails}/>
         </Modal>
       }
     </StyledMapPage>  

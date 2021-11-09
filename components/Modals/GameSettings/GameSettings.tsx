@@ -1,21 +1,23 @@
 import { ArrowsExpandIcon, ClockIcon, SwitchHorizontalIcon, UserGroupIcon, UserIcon, XIcon, ZoomInIcon } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { StyledGameSettings } from '.'
 import { mailman } from '../../../backend/utils/mailman'
-import { selectUser } from '../../../redux/user'
-import { GameSettingsType, MapType, UserType } from '../../../types'
+import { updateStartTime } from '../../../redux/game'
+import { selectUser, updateLocation } from '../../../redux/user'
+import { GameSettingsType, LocationType, MapType, UserType } from '../../../types'
 import { formatTimeLimit } from '../../../utils/helperFunctions'
 import { Banner } from '../../Layout'
 import { Button, FlexGroup, Icon, Slider, Checkbox, Avatar } from '../../System'
 import { Challenge } from './Challenge'
 
 type Props = {
-  closeModal: () => void
+  closeModal: () => void;
+  mapDetails: MapType;
 }
 
-const GameSettings: FC<Props> = ({ closeModal }) => {
+const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
   const [showDetailedChecked, setShowDetailedChecked] = useState(true)
   const [movingChecked, setMovingChecked] = useState(true)
   const [panningChecked, setPanningChecked] = useState(true)
@@ -26,19 +28,25 @@ const GameSettings: FC<Props> = ({ closeModal }) => {
   const router = useRouter()
   const user: UserType = useSelector(selectUser)
   const dispatch = useDispatch()
+  const mapId = router.asPath.split('/')[2]
 
-  const testMap: MapType = {
-    id: '',
-    slug: '',
-    name: 'World',
-    description: 'The classic game mode we all love, any country is fair game!',
-    usersPlayed: 60123,
-    likes: 9251,
-    locationCount: 5,
-    previewImg: '/images/mapPreviews/worldMap.jpg',
-    creator: 'GeoHub',
-    avgScore: 15000
-  }
+  useEffect(() => {
+    if (mapId === 'near-you') {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function showLocation(position) {
+          const latitude = position.coords.latitude
+          const longitude = position.coords.longitude
+      
+          const location: LocationType = {
+            lat: latitude, 
+            lng: longitude
+          }
+  
+          dispatch(updateLocation({ location }))
+        })
+      }   
+    }  
+  }, [])
 
   const handleClickBtn = () => {
     if (gameType === 'Single Player') {
@@ -59,8 +67,6 @@ const GameSettings: FC<Props> = ({ closeModal }) => {
       return router.push('/register')
     }
 
-    const mapId = router.asPath.split('/')[2]
-
     const gameSettings: GameSettingsType = {
       timeLimit: sliderVal,
       canMove: movingChecked,
@@ -72,9 +78,11 @@ const GameSettings: FC<Props> = ({ closeModal }) => {
       mapId, 
       gameSettings,
       userId: user.id,
-      userName: user.name,
-      userAvatar: user.avatar
+      userLocation: user.location
     }
+
+    // store start time
+    dispatch(updateStartTime({ startTime: new Date().getTime() }))
 
     const { res } = await mailman('games', 'POST', JSON.stringify(gameData))
     
@@ -101,10 +109,10 @@ const GameSettings: FC<Props> = ({ closeModal }) => {
             <Challenge /> :
             <>
               <FlexGroup gap={15}>
-                <Avatar url={testMap.previewImg} size={60} alt=""/>
+                <Avatar url={mapDetails.previewImg} size={60} alt=""/>
                 <div className="mapInfo">
-                  <span className="mapName">{testMap.name}</span>
-                  <span className="mapDescription">{testMap.description}</span>
+                  <span className="mapName">{mapDetails.name}</span>
+                  <span className="mapDescription">{mapDetails.description}</span>
                 </div>
               </FlexGroup>
 

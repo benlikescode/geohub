@@ -3,6 +3,7 @@ import Link from 'next/link'
 import React, { FC } from 'react'
 import { StyledLeaderboardItem } from '.'
 import { MapLeaderboardType, UserType } from '../../../types'
+import { formatRoundTime } from '../../../utils/helperFunctions'
 import { Avatar, FlexGroup, Icon } from '../../System'
 
 type Props = {
@@ -26,8 +27,8 @@ const LeaderboardItem: FC<Props> = ({ finishPlace, row }) => {
       <div className="resultsSection">
         <span className="totalPoints">{row.totalPoints} points</span>
         <FlexGroup gap={10}>
-          <span className="totalTime">{row.totalTime} min</span>
-          <Link href={`/results/${row._id}`}>
+          <span className="totalTime">{formatRoundTime(row.totalTime)}</span>
+          <Link href={`/results/${row.gameId}`}>
             <a>
               <Icon size={20} fill="#fff">
                 <ChartBarIcon />

@@ -10,21 +10,24 @@ import { selectUser, updateGuessMapSize } from '../../redux/user'
 import { mailman } from '../../backend/utils/mailman'
 import { Game } from '../../backend/models'
 import { LocationType } from '../../types'
-import { selectGame, updateGameState } from '../../redux/game'
+import { selectGame } from '../../redux/game'
 
 type Props = {
   coordinate: LocationType
   zoom: number
+  setView: (view: 'Game' | 'Result' | 'FinalResults') => void
+  gameData: Game
+  setGameData: any
 }
 
-const Map2: FC<Props> = ({ coordinate, zoom }) => {
+const GuessMap: FC<Props> = ({ coordinate, zoom, setView, gameData, setGameData }) => {
   const [mapHeight, setMapHeight] = useState(15)
   const [mapWidth, setMapWidth] = useState(15)
   const [hovering, setHovering] = useState(false)
   const prevMarkersRef = useRef<google.maps.Marker[]>([])
-  const game = useSelector(selectGame)
-  const user = useSelector(selectUser)
   const dispatch = useDispatch()
+  const user = useSelector(selectUser)
+  const game = useSelector(selectGame)
   const hoverDelay = useRef<any>()
   const [currGuess, setCurrGuess] = useState<LocationType | null>(null)
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
@@ -85,16 +88,16 @@ const Map2: FC<Props> = ({ coordinate, zoom }) => {
     if (currGuess) {
       const body = {
         guess: currGuess,
-        localRound: game.gameData.round
+        guessTime: (new Date().getTime() - game.startTime) / 1000,
+        localRound: gameData.round,
+        userLocation: user.location
       }
 
-      const { status, res } = await mailman(`games/${game.gameData.id}`, 'PUT', JSON.stringify(body))
+      const { status, res } = await mailman(`games/${gameData.id}`, 'PUT', JSON.stringify(body))
       
       if (status !== 400 && status !== 500) {
-        dispatch(updateGameState({
-          gameData: {id: res._id, ...res},
-          currView: 'Result'
-        }))
+        setGameData({id: res._id, ...res})
+        setView('Result')
       }  
     } 
   }
@@ -152,4 +155,4 @@ const Map2: FC<Props> = ({ coordinate, zoom }) => {
   )
 }
 
-export default Map2
+export default GuessMap

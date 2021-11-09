@@ -1,38 +1,23 @@
 import { CogIcon } from '@heroicons/react/outline'
 import { FC, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { StyledLeaderboardCard } from '.'
 import { Game } from '../../../backend/models'
-import { selectUser } from '../../../redux/user'
 import { MapType } from '../../../types'
-import { formatSettingsLabel } from '../../../utils/helperFunctions'
+import { formatDistance, formatRoundTime, formatSettingsLabel } from '../../../utils/helperFunctions'
 import { Banner } from '../../Layout'
 import { Avatar, Icon } from '../../System'
 import { Select } from '../../System/Select'
 
 type Props = {
-  gameData: Game
+  gameData: Game;
+  mapData: MapType;
 }
 
-const LeaderboardCard: FC<Props> = ({ gameData }) => {
-  //const showPlace = (leaderboard.length > 1)
+const LeaderboardCard: FC<Props> = ({ gameData, mapData }) => {
+  //const showPlace = (leaderboard.length > 1) UPDATE WHEN CHALLENGES IMPLEMENTED
   const showPlace = false
   const [selectState, setSelectState] = useState()
-  const user = useSelector(selectUser)
   const selectOptions = ['Filter by', 'Top', 'Friends']
-
-  const testMap: MapType = {
-    id: '',
-    slug: '',
-    name: 'World',
-    description: 'The classic game mode we all love, any country is fair game!',
-    usersPlayed: 60123,
-    likes: 9251,
-    previewImg: '/images/mapPreviews/worldMap.jpg',
-    creator: 'GeoHub',
-    locationCount: 5,
-    avgScore: 15000
-  }
 
   return (
     <StyledLeaderboardCard>
@@ -41,10 +26,10 @@ const LeaderboardCard: FC<Props> = ({ gameData }) => {
         <div className="topSection">
           <div className="gameInfoWrapper">
             <div className="gameInfoItem">
-              <Avatar url={testMap.previewImg} alt='' size={50} />
+              <Avatar url={mapData.previewImg} alt='' size={50} />
               <div className="gameInfoContent">
-                <span className="label1">{testMap.name}</span>
-                <span className="label2">{testMap.creator}</span>
+                <span className="label1">{mapData.name}</span>
+                <span className="label2">Created by {mapData.creator}</span>
               </div>
             </div>
 
@@ -87,15 +72,14 @@ const LeaderboardCard: FC<Props> = ({ gameData }) => {
           <div className="titleSection">
             <span>Total</span>
           </div>
-
-          
+        
             <>
             <div className="rowDivider"></div>
             <div className="userSection">
               {/*showPlace && <span className="userPlace">#{idx + 1}</span>*/}
               <div className="userInfo">
-                <Avatar url={user.avatar} alt='' size={30}/>
-                <span className="username">{user.name}</span>
+                <Avatar url={gameData.userAvatar || ''} alt='' size={30}/>
+                <span className="username">{gameData.userName}</span>
               </div>
             </div>
             <div className="userResultSection">
@@ -103,9 +87,9 @@ const LeaderboardCard: FC<Props> = ({ gameData }) => {
                 <span>{gameData.guesses[0].points} pts</span>
               </div>
               <div className="distanceTimeWrapper">
-                <span className="distance">{gameData.guesses[0].distance} km</span>
+                <span className="distance">{formatDistance(gameData.guesses[0].distance)}</span>
                 <div className="divider"></div>
-                <span className="time">{gameData.guesses[0].time} mins</span>
+                <span className="time">{formatRoundTime(gameData.guesses[0].time)}</span>
               </div>
             </div>
             <div className="userResultSection">
@@ -113,9 +97,9 @@ const LeaderboardCard: FC<Props> = ({ gameData }) => {
                 <span>{gameData.guesses[1].points} pts</span>
               </div>
               <div className="distanceTimeWrapper">
-                <span className="distance">{gameData.guesses[1].distance} km</span>
+                <span className="distance">{formatDistance(gameData.guesses[1].distance)}</span>
                 <div className="divider"></div>
-                <span className="time">{gameData.guesses[1].time} mins</span>
+                <span className="time">{formatRoundTime(gameData.guesses[1].time)}</span>
               </div>
             </div>
             <div className="userResultSection">
@@ -123,9 +107,9 @@ const LeaderboardCard: FC<Props> = ({ gameData }) => {
                 <span>{gameData.guesses[2].points} pts</span>
               </div>
               <div className="distanceTimeWrapper">
-                <span className="distance">{gameData.guesses[2].distance} km</span>
+                <span className="distance">{formatDistance(gameData.guesses[2].distance)}</span>
                 <div className="divider"></div>
-                <span className="time">{gameData.guesses[2].time} mins</span>
+                <span className="time">{formatRoundTime(gameData.guesses[2].time)}</span>
               </div>
             </div>
             <div className="userResultSection">
@@ -133,9 +117,9 @@ const LeaderboardCard: FC<Props> = ({ gameData }) => {
                 <span>{gameData.guesses[3].points} pts</span>
               </div>
               <div className="distanceTimeWrapper">
-                <span className="distance">{gameData.guesses[3].distance} km</span>
+                <span className="distance">{formatDistance(gameData.guesses[3].distance)}</span>
                 <div className="divider"></div>
-                <span className="time">{gameData.guesses[3].time} mins</span>
+                <span className="time">{formatRoundTime(gameData.guesses[3].time)}</span>
               </div>
             </div>
             <div className="userResultSection">
@@ -143,9 +127,9 @@ const LeaderboardCard: FC<Props> = ({ gameData }) => {
                 <span>{gameData.guesses[4].points} pts</span>
               </div>
               <div className="distanceTimeWrapper">
-                <span className="distance">{gameData.guesses[4].distance} km</span>
+                <span className="distance">{formatDistance(gameData.guesses[4].distance)}</span>
                 <div className="divider"></div>
-                <span className="time">{gameData.guesses[4].time} mins</span>
+                <span className="time">{formatRoundTime(gameData.guesses[4].time)}</span>
               </div>
             </div>
             <div className="userResultSection">
@@ -153,18 +137,15 @@ const LeaderboardCard: FC<Props> = ({ gameData }) => {
                 <span>{gameData.totalPoints} pts</span>
               </div>
               <div className="distanceTimeWrapper">
-                <span className="distance">{gameData.totalDistance} km</span>
+                <span className="distance">{formatDistance(gameData.totalDistance)}</span>
                 <div className="divider"></div>
-                <span className="time">{5} mins</span>
+                <span className="time">{formatRoundTime(gameData.totalTime)}</span>
               </div>
             </div>
-            </>
-             
+            </>         
         </div>
-        </div>
-        
-      </Banner>
-      
+        </div>      
+      </Banner>    
     </StyledLeaderboardCard>
   )
 }

@@ -3,19 +3,17 @@ import { StyledResultMap } from '.'
 import GoogleMapReact from 'google-map-react'
 import { GuessType, LocationType } from '../../types'
 import { createMarker, getMapTheme, getResultMapValues } from '../../utils/helperFunctions'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { selectUser } from '../../redux/user'
-import { selectGame } from '../../redux/game'
 
 type Props = {
   guessedLocations: GuessType[];
   actualLocations: LocationType[];
   round: number;
-  userAvatar: string;
   isFinalResults?: boolean;
 }
 
-const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, userAvatar, isFinalResults }) => {
+const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFinalResults }) => {
   const guessedLocation = guessedLocations[guessedLocations.length - 1]
   const actualLocation = actualLocations[round -2]
   const user = useSelector(selectUser)
@@ -51,7 +49,7 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, userAv
     // if we are showing the final results page, load all the round markers. Otherwise, simply load the current round markers
     if (isFinalResults) {
       for (let i = 0; i < actualLocations.length; i++) {
-        createMarker(guessedLocations[i], map, userAvatar)
+        createMarker(guessedLocations[i], map, user.avatar)
         const marker = createMarker(actualLocations[i], map, `/images/avatars/actualMarker${i + 1}.png`)
         marker.addListener('click', () => {
           window.open(`http://www.google.com/maps?layer=c&cbll=${actualLocations[i].lat},${actualLocations[i].lng}`, '_blank')   
@@ -69,7 +67,7 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, userAv
       }
     }
     else {
-      createMarker(guessedLocation, map, userAvatar)
+      createMarker(guessedLocation, map, user.avatar)
       createMarker(actualLocation, map, '/images/avatars/actualMarker.png')
       
       new google.maps.Polyline({

@@ -8,9 +8,11 @@ import { ResultMap } from '../../components/ResultMap'
 import { LeaderboardCard } from '../../components/Results'
 import { FlexGroup } from '../../components/System'
 import StyledResultPage from '../../styles/ResultPage.Styled'
+import { MapType } from '../../types'
 
 const ResultsPage: NextPage = () => {
   const [gameData, setGameData] = useState<Game | null>()
+  const [mapData, setMapData] = useState<MapType>()
   const [isCompleted, setIsCompleted] = useState(false)
   const gameId = router.query.id as string
 
@@ -31,6 +33,12 @@ const ResultsPage: NextPage = () => {
     }
 
     setGameData(gameData)
+    fetchMap(gameData.mapId)
+  }
+
+  const fetchMap = async (mapId: string) => {
+    const { res } = await mailman(`maps/${mapId}`)
+    setMapData(res)
   }
 
   useEffect(() => {
@@ -42,7 +50,7 @@ const ResultsPage: NextPage = () => {
  
   }, [gameId])
 
-  if (gameData === undefined) {
+  if (!gameData || !mapData) {
     return <LoadingPage />
   }
   
@@ -56,12 +64,11 @@ const ResultsPage: NextPage = () => {
               guessedLocations={gameData.guesses} 
               actualLocations={gameData.rounds} 
               round={gameData.round} 
-              userAvatar={gameData.userAvatar}
               isFinalResults 
             />
     
             <FlexGroup justify="center">
-              <LeaderboardCard gameData={gameData}/>
+              <LeaderboardCard gameData={gameData} mapData={mapData}/>
             </FlexGroup>  
           </Layout>   
         </>

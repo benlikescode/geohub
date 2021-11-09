@@ -9,46 +9,40 @@ import { FinalResultsCard } from '../../components/FinalResultsCard'
 import { ResultsCard } from '../../components/ResultsCard'
 import { LoadingPage } from '../../components/Layout'
 import { selectUser } from '../../redux/user'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import DefaultErrorPage from 'next/error'
-import { selectGame, updateCurrView, updateGameData, updateGameState } from '../../redux/game'
 
 
 const GamePage: FC = () => {
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
+  const [view, setView] = useState<'Game' | 'Result' | 'FinalResults'>('Game')
+  const [gameData, setGameData] = useState<Game | null>()
   const router = useRouter()
   const gameId = router.query.id as string
   const user = useSelector(selectUser)
-  const game = useSelector(selectGame)
-  const dispatch = useDispatch()
-
+  
   const fetchGame = async () => {
     const { status, res } = await mailman(`games/${gameId}`)
 
-    // if game not found, set error to true
+    // if game not found, set gameData to null so an error page can be displayed
     if (status === 404 || status === 500) {
-      return setError(true)
+      return setGameData(null)
     }
 
     // To make it more secure, I could do this in gSSP (this is fine for now)
     if (res.userId !== user.id) {
-      if (res.round > 5) {
-        dispatch(updateCurrView({ currView: 'FinalResults' }))
-      }
-      else {
-        router.push('/')
-      }
+      router.push('/')
     }
 
-   
+    // if game is completed, set view to Result
+    if (res.round > 5) {
+      setView('Result')
+    }
 
     const gameData = {
       id: gameId, ...res
     }
 
-    dispatch(updateGameData({ gameData }))
-    setLoading(false)
+    setGameData(gameData)
   }
 
   useEffect(() => {
@@ -56,62 +50,60 @@ const GamePage: FC = () => {
       return
     }
 
-    if (game.gameData !== null) {
-      if (game.gameData.id !== gameId) {
-        dispatch(updateCurrView({
-          currView: 'Game'
-        }))    
-      }
-      fetchGame()
-    } 
-    else {
+    if (view === 'Game') {
       fetchGame()
     }
 
-  }, [gameId, game.currView])
+  }, [gameId, view])
 
-  if (error) {
+  if (gameData === null) {
     return <DefaultErrorPage statusCode={500}/>
   }
 
-  if (loading) {
+  if (!gameData) {
     return <LoadingPage />
   }
 
+  
+
   return (
     <StyledGamePage>
-      {game.currView === 'Game' ? <StreetView /> :
+      {view === 'Game' ?
+        <StreetView 
+          gameData={gameData}
+          setGameData={setGameData}
+          setView={setView} 
+        />
+
+        :
+
         <>
-          {game.currView === 'Result' &&
+          {view === 'Result' &&
             <ResultMap 
-              guessedLocations={game.gameData.guesses} 
-              actualLocations={game.gameData.rounds} 
-              round={game.gameData.round}
-              userAvatar={game.gameData.userAvatar}
+              guessedLocations={gameData.guesses} 
+              actualLocations={gameData.rounds} 
+              round={gameData.round}
             />
           }
 
-          {game.currView === 'FinalResults' &&
+          {view === 'FinalResults' &&
             <ResultMap 
-              guessedLocations={game.gameData.guesses} 
-              actualLocations={game.gameData.rounds} 
-              round={game.gameData.round}
-              userAvatar={game.gameData.userAvatar}
+              guessedLocations={gameData.guesses} 
+              actualLocations={gameData.rounds} 
+              round={gameData.round}
               isFinalResults
             />
           }
              
           <div className="resultsWrapper">
-            {game.currView === 'FinalResults' ? 
-              <FinalResultsCard /> 
-
-              : 
-
+            {view === 'FinalResults' ? 
+              <FinalResultsCard gameData={gameData} /> :
               <ResultsCard 
-                round={game.gameData.round}
-                distance={game.gameData.guesses[game.gameData.guesses.length - 1].distance}
-                points={game.gameData.guesses[game.gameData.guesses.length - 1].points}
-              />
+                round={gameData.round}
+                distance={gameData.guesses[gameData.guesses.length - 1].distance}
+                points={gameData.guesses[gameData.guesses.length - 1].points}
+                setView={setView}
+              /> 
             }       
           </div>               
         </>
@@ -121,4 +113,3 @@ const GamePage: FC = () => {
 }
 
 export default GamePage
-

@@ -1,7 +1,5 @@
 import { collections, dbConnect } from '../../../backend/utils/dbConnect'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { getLocationsFromMapId } from '../../../utils/functions/generateLocations'
-import { ObjectId } from 'mongodb'
 import { Map } from '../../../backend/models'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {

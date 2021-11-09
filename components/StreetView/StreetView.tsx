@@ -6,14 +6,16 @@ import { GameStatus } from '../GameStatus'
 import { GuessMap } from '../GuessMap'
 import { Game } from '../../backend/models'
 import { LoadingPage } from '../Layout'
-import { selectGame } from '../../redux/game'
-import { useDispatch, useSelector } from 'react-redux'
 
-const StreetView: FC = () => {
+type Props = {
+  gameData: Game
+  setView: (view: 'Game' | 'Result' | 'FinalResults') => void
+  setGameData: any
+}
+
+const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
   const [loading, setLoading] = useState(true)
-  const game = useSelector(selectGame)
-  const dispatch = useDispatch()
-  const location = game.gameData.rounds[game.gameData.round - 1]
+  const location = gameData.rounds[gameData.round - 1]
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
 
   const GoogleMapConfig = {
@@ -25,7 +27,7 @@ const StreetView: FC = () => {
     var panorama = new window.google.maps.StreetViewPanorama(
       document.getElementById('map') as HTMLElement, {         
         addressControl: false,
-        linksControl: game.gameData.gameSettings.canMove,
+        linksControl: gameData.gameSettings.canMove,
         panControl: true,
         panControlOptions: { position: google.maps.ControlPosition.LEFT_BOTTOM },
         enableCloseButton: false,
@@ -35,8 +37,8 @@ const StreetView: FC = () => {
     )
     panorama.setOptions({
       showRoadLabels: false,
-      clickToGo: game.gameData.gameSettings.canMove,
-      scrollwheel: game.gameData.gameSettings.canZoom,
+      clickToGo: gameData.gameSettings.canMove,
+      scrollwheel: gameData.gameSettings.canZoom,
     })
   
     const processSVData = (data: any, status: any) => {
@@ -54,7 +56,10 @@ const StreetView: FC = () => {
       }     
     }
 
-    sv.getPanorama({location: location, radius: 50,}, processSVData)
+    sv.getPanorama({
+      location: location, 
+      radius: gameData.mapId === 'near-you' ? 50000 : 50
+    }, processSVData)
   
     setLoading(false)
   }
@@ -65,8 +70,8 @@ const StreetView: FC = () => {
       
       <div id="map">
         <StreetViewControls/>
-        <GameStatus /> 
-        <GuessMap coordinate={location} zoom={8} />
+        <GameStatus gameData={gameData} setView={setView}/> 
+        <GuessMap coordinate={location} zoom={8} setView={setView} setGameData={setGameData} gameData={gameData} />
       </div>
 
       <GoogleMapReact 

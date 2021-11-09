@@ -6,13 +6,15 @@ type Game = {
   mapId: string;
   mapName?: string;
   userId: ObjectId;
-  userAvatar: string;
+  userName?: string;
+  userAvatar?: string;
   gameSettings: GameSettingsType;
   rounds: LocationType[];
   guesses: GuessType[];
   round: number;
   totalPoints: number;
   totalDistance: number;
+  totalTime: number;
 }
 
 export default Game
