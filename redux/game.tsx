@@ -3,8 +3,8 @@ import { Game } from '../backend/models'
 
 type GameState = {
   gameData: Game | null;
-  startTime: Date | null;
-  endTime: Date | null;
+  startTime: number | null;
+  endTime: number | null;
   currView: 'Game' | 'Result' | 'FinalResults';
   readyToSubmit: boolean;
 }
@@ -40,7 +40,13 @@ export const gameSlice = createSlice({
     updateCurrView: (state, action) => {
       state.currView = action.payload.currView
     },
-
+    resetGame: (state) => {
+      state.gameData = null,
+      state.startTime = null,
+      state.endTime = null,
+      state.currView = 'Game',
+      state.readyToSubmit = false
+    }
   }
 })
 
@@ -49,7 +55,8 @@ export const {
   updateGameData,
   updateStartTime,
   updateEndTime,
-  updateCurrView
+  updateCurrView,
+  resetGame
 } = gameSlice.actions
 
 export const selectGame = (state: any) => state.game

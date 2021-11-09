@@ -1,12 +1,12 @@
 import { ObjectId } from "mongodb"
 
 type MapLeaderboard = {
-  _id: ObjectId; // gameId
   userId: ObjectId;
   userName: string;
   userAvatar: string;
+  gameId: ObjectId;
   totalPoints: number;
-  totalTime?: number;
+  totalTime: number;
 }
 
 export default MapLeaderboard

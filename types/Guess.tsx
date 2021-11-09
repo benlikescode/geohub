@@ -3,7 +3,7 @@ type Guess = {
   lng: number;
   points: number;
   distance: number;
-  time?: number;
+  time: number;
   timedOut?: boolean;
 }
 

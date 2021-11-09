@@ -1,11 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { LocationType } from '../types'
 
 type UserState = {
-  id: string
-  name: string
-  email: string
-  avatar: string
-  guessMapSize: number
+  id: string;
+  name: string;
+  email: string;
+  avatar: string;
+  guessMapSize: number;
+  location: {lat: number, lng: number} | null;
 }
 
 const initialState: UserState = {
@@ -13,7 +15,8 @@ const initialState: UserState = {
   name: '',
   email: '',
   avatar: '',
-  guessMapSize: 1
+  guessMapSize: 1,
+  location: null
 }
 
 export const userSlice = createSlice({
@@ -38,6 +41,9 @@ export const userSlice = createSlice({
     updateGuessMapSize: (state, action) => {
       state.guessMapSize = action.payload.guessMapSize
     },
+    updateLocation: (state, action) => {
+      state.location = action.payload.location
+    },
     logOutUser: state => {
       state.id = ''
     }
@@ -50,6 +56,7 @@ export const {
   updateUsername, 
   updateEmail,
   updateGuessMapSize, 
+  updateLocation,
   logOutUser 
 } = userSlice.actions
 
