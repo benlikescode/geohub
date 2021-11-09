@@ -1,5 +1,9 @@
 import { LocationType } from "../../types"
 import * as worldHandPicked from '../../utils/locations/world.json'
+import * as famousHandPicked from '../../utils/locations/famousLocations.json'
+import * as canadaHandPicked from '../../utils/locations/canada.json'
+import * as usaHandPicked from '../../utils/locations/unitedStates.json'
+
 
 export const randomRange = (min = 0, max = 100, precision = 10) => { 
   return parseFloat((Math.random() * (max - min) + min).toFixed(precision))
@@ -12,33 +16,6 @@ export const randomInt = (min = 0, max = 5) => {
 
 export const randomElement = (array: any[]) => {
   return array[Math.floor(Math.random() * array.length)]
-}
-
-export const getLocationsFromMapId = (mapId: string, locationsType: 'random' | 'handPicked', numLocations = 5) => {
-  let locations: LocationType[] = []
-  switch(mapId) {
-    case 'world':
-      if (locationsType === 'random') {
-        locations = generateUS()
-      }
-      else {
-        locations = getRandomLocationsFromArray(worldHandPicked, numLocations)
-      }
-      break
-    case 'famous-landmarks':
-      locations = getRandomLocationsFromArray(FamousLocations)
-      break
-    case 'canada':
-      locations = generateCanada()
-      break
-    case 'usa':
-      locations = generateUS()
-      break
-    default:
-      console.log('Invalid Map Id')
-  }
-
-  return locations
 }
 
 export const getRandomLocationsFromArray = (array: any[], numLocations = 5) => {
@@ -60,7 +37,7 @@ export const getRandomLocationsFromArray = (array: any[], numLocations = 5) => {
 }
 
 // CURRENT METHOD THAT GETS CALLED FROM API (GENERATES 1 ROUND AT A TIME)
-export const getRandomLocation = (locationType: 'random' | 'handpicked', mapId: string) => {
+export const getRandomLocation = (locationType: 'random' | 'handpicked', mapId: string, userLocation: {lat: number, lng: number} | null = null) => {
   switch(mapId) {
     case 'world':
       if (locationType === 'random') {
@@ -74,25 +51,29 @@ export const getRandomLocation = (locationType: 'random' | 'handpicked', mapId: 
         // TODO
       }
       else {
-        return randomElement(worldHandPicked)
+        return randomElement(famousHandPicked)
       }
     case 'canada':
       if (locationType === 'random') {
         // TODO
       }
       else {
-        return randomElement(worldHandPicked)
+        return randomElement(canadaHandPicked)
       }
     case 'usa':
       if (locationType === 'random') {
         // TODO
       }
       else {
-        return randomElement(worldHandPicked)
+        return randomElement(usaHandPicked)
       }
+    case 'near-you':
+      if (userLocation != null) {
+        return getRandomLocationsInRadius([userLocation], 0.30)
+      }
+      
     default:
       console.log('Invalid Map Id')
-
   }
 }
 
@@ -140,121 +121,3 @@ export const getRandomLocationsInRadius = (locations: LocationType[], radius = 0
   
   return randomLocation
 }
-
-export const generateLocations = (map: string, numLocations = 5) => {
-  let locations: LocationType[] = []
-
-  switch(map) {
-    case 'World':
-      locations = generateUS()
-      break
-
-  }
-
-  return locations
-
-}
-
-// lat 34 => 42
-// lng -120 => -80
-export const generateUS = (numLocations = 5) => {
-  const locations: LocationType[] = []
-
-  for (let i = 0; i < numLocations; i++) {
-    // 25% chance of generating a city
-    if (randomInt(1, 4) === 2) {
-      const city = randomElement(USCities)
-      locations.push(city)
-    }
-    else {
-      locations.push({
-        lat: randomRange(34, 42),
-        lng: randomRange(-120, -80)
-      })
-    }  
-  }
-
-  return locations
-}
-
-// lat 48.63 => 51.56
-// lng -125.12 => -54.13
-export const generateCanada = (numLocations = 5) => {
-  const locations: LocationType[] = []
-
-  for (let i = 0; i < numLocations; i++) {
-    // 25% chance of generating a city
-    if (randomInt(1, 4) === 2) {
-      console.log("City Round")
-      const city = randomElement(CanadaCities)
-      locations.push(city)
-    }
-    else {
-      locations.push({
-        lat: randomRange(48.63, 51.56),
-        lng: randomRange(-125.12, -54.13)
-      })
-    }
-      
-    
-  }
-  return locations
-
-}
-
-
-export const USCities: LocationType[] = [
-  {lat: 39.983334, lng: -82.983330}, // Columbus
-  {lat: 30.266666, lng: -97.733330}, // Austin
-  {lat: 32.779167, lng: -96.808891}, // Dallas
-  {lat: 29.749907, lng: -95.358421}, // Houston
-  {lat: 25.82, lng: -80.20}, // Miami
-  {lat: 39.983334, lng: -82.983330}, // Columbus
-  {lat: 39.983334, lng: -82.983330}, // Columbus
-  {lat: 39.983334, lng: -82.983330}, // Columbus
-]
-
-export const CanadaCities: LocationType[] = [
-  {lat: 43.650, lng: -79.380}, // Toronto
-  {lat: 45.520, lng: -73.570}, // Montreal
-  {lat: 49.280, lng: -123.130}, // Vancouver
-  {lat: 51.050, lng: -114.060}, // Calgary
-  {lat: 45.420, lng: -75.710}, // Ottawa
-  {lat: 53.570, lng: -113.540}, // Edmonton
-  {lat: 44.670, lng: -63.610}, // Halifax
-]
-
-export const Europe: LocationType[] = [
-  {lat: 46.227638, lng: 2.213749}, // France
-  {lat: 55.378051, lng: -3.435973}, // United Kingdom
-  {lat: 40.463667, lng: -3.74922}, // Spain
-  {lat: 41.87194, lng: 12.56738}, // Italy
-  {lat: 45.943161, lng: 24.96676}, // Romania
-  {lat: 49.817492, lng: 15.472962}, // Czech Republic
-]
-
-export const Columbia: LocationType[] = [
-  {lat: 4.652973, lng: -74.083758}, // Bogota Cluster
-  {lat: 6.241842, lng: -75.582878}, // Mendellin Cluster
-]
-
-export const Brazil: LocationType[] = [
-  {lat: -22.380556, lng: -49.036122}, // Sao Paulo Center
-  {lat: -19.920422, lng: -43.944732}, // Belo Horizonte
-  {lat: -22.380556, lng: -49.036122}, // Sao Paulo Center
-  {lat: -19.920422, lng: -43.944732}, // Belo Horizonte
-  {lat: -19.920422, lng: -43.944732}, // Belo Horizonte
-]
-
-export const FamousLocations: LocationType[] = [
-  {lat: 48.8601743, lng: 2.2915141}, // Eifel Tower (France)
-  {lat: 41.889266, lng: 12.4925798}, // Coluseum (Italy)
-  {lat: 43.7227141, lng: 10.3963126}, // Leaning Tower of Piza (Italy)
-  {lat: 29.979394, lng: 31.1368655}, // Great Pyramids (Egypt)
-  {lat: 43.6408281, lng: -79.3876868}, // CN Tower (Toronto)
-  {lat: 37.8262191, lng: -122.4222576}, // Alcatraz (SF)
-  {lat: -13.163489, lng: -72.5448154}, // Machu Picchu (Peru) 
-  {lat: 40.6888181, lng: -74.0437079}, // Statue of Liberty (NY)
-  {lat: 27.1724677, lng: 78.0422923}, // Taj Mahal
-  {lat: -33.8580079, lng: 151.2142606}, // Opera House (Sydney)
-]
