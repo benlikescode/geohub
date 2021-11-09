@@ -11,6 +11,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === 'POST') {
       const userLocation = req.body.userLocation
       const roundLocation = getRandomLocation('handpicked', req.body.mapId, userLocation)
+      const userId = new ObjectId(req.body.userId)
 
       if (roundLocation === null) {
         return res.status(400).send('Invalid Map Id, Game could not be created')
@@ -20,7 +21,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         
       const newGame = {
         ...req.body,
-        userId: new ObjectId(req.body.userId), 
+        userId: userId,
         guesses: [],
         rounds: [roundLocation],
         round: 1,
@@ -30,7 +31,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       } as Game
 
       // check if user has played this map before
-      const hasPlayedQuery = { userId: req.body.userId, mapId: req.body.mapId }
+      const hasPlayedQuery = { userId: userId, mapId: req.body.mapId }
       const hasPlayedResult = await collections.games?.find(hasPlayedQuery).limit(1).toArray()
 
       // create game
