@@ -5,16 +5,21 @@ import { Navbar, Sidebar, Layout, Banner } from '../components/Layout/'
 import { FlexGroup, Icon } from '../components/System'
 import StyledHomePage from '../styles/HomePage.Styled'
 import { GeoTipType } from '../types'
-import { randomElement } from '../utils/functions/generateLocations'
-import * as tips from '../utils/constants/geotips.json'
+import geoTips from '../utils/constants/geotips.json'
 import officialMaps from '../utils/constants/officialMaps.json'
 import { Pill } from '../components/System/Pill'
 import { GamemodeCard } from '../components/GamemodeCard'
 import { Badge } from '../components/System/Badge'
+import { useEffect, useState } from 'react'
 
 const Home: NextPage = () => {
-  const randomTip: GeoTipType = randomElement(tips)
+  const [geoTip, setGeoTip] = useState<GeoTipType>(geoTips[0])
 
+  useEffect(() => {
+    const day = new Date().getDate()
+    setGeoTip(geoTips[day - 1])
+  }, [])
+  
   return (
     <StyledHomePage>
       <Navbar />
@@ -28,10 +33,10 @@ const Home: NextPage = () => {
             <div className="bannerContent">
               <h2 className="bannerTitle">GeoTip of The day.</h2>
               <div className="tipWrapper">           
-                <span className="tip">{randomTip.tip}</span>
+                <span className="tip">{geoTip.tip}</span>
               </div>
               <div className="pillsWrapper">
-                {randomTip.tags.map((label, idx) => (
+                {geoTip.tags.map((label, idx) => (
                   <Pill key={idx} label={label}/>
                 ))}
               </div>

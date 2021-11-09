@@ -1,7 +1,7 @@
 [
   {
     "tip": "A black steetview car in South America is almost always Argentina or Uruguay",
-    "tags": ["Intermediate", "South America", "Google Car"],
+    "tags": ["Intermediate", "South America", "Meta"],
     "image": ""
   },
   {
@@ -13,6 +13,145 @@
     "tip": "Italy license plates are more narrow than standard EU plates and have blue strips on both sides",
     "tags": ["Beginner", "Italy", "License Plates"],
     "image": ""
+  },
+  {
+    "tip": "If the sun is in the north, you are likely in the southern hemisphere (and vice versa)",
+    "tags": ["Beginner", "Compass"],
+    "image": ""
+  },
+  {
+    "tip": "A yellow back license plate with a white front plate is the UK",
+    "tags": ["Beginner", "United Kingdom", "License Plates"],
+    "image": ""
+  },
+  {
+    "tip": "You may sometimes see green license plates in Norway",
+    "tags": ["Intermediate", "Norway", "License Plates"],
+    "image": ""
+  },
+  {
+    "tip": "If the google car has a roof rack with a section of black tape, you are in Ghana",
+    "tags": ["Beginner", "Ghana", "Meta"],
+    "image": ""
+  },
+  {
+    "tip": "If you appear in Africa and the google car has a snorkel, you are in Kenya",
+    "tags": ["Beginner", "Kenya", "Meta"],
+    "image": ""
+  },
+  {
+    "tip": "If you appear in Africa and there looks to be cuts (rifts) in the sky, you are in Senegal",
+    "tags": ["Beginner", "Senegal", "Meta"],
+    "image": ""
+  },
+  {
+    "tip": "South Africa has the domain ending .za",
+    "tags": ["Intermediate", "South Africa", "Domain Names"],
+    "image": ""
+  },
+  {
+    "tip": "The UK and Ireland both drive on the left",
+    "tags": ["Beginner", "Europe", "Road Side"],
+    "image": ""
+  },
+  {
+    "tip": "India, Japan, Malaysia, Thailand, and Singapore are a few of the Asian countries that drive on the left",
+    "tags": ["Beginner", "Asia", "Road Side"],
+    "image": ""
+  },
+  {
+    "tip": "South Africa, Lesotho, Botswana, and Eswatini all drive on the left",
+    "tags": ["Beginner", "Africa", "Road Side"],
+    "image": ""
+  },
+  {
+    "tip": "Australia and New Zealand both drive on the left",
+    "tags": ["Beginner", "Oceania", "Road Side"],
+    "image": ""
+  },
+  {
+    "tip": "You will often see a white cross on a sign in Colombia",
+    "tags": ["Beginner", "Colombia", "Signs"],
+    "image": ""
+  },
+  {
+    "tip": "Israel has yellow license plates",
+    "tags": ["Beginner", "Israel", "License Plates"],
+    "image": ""
+  },
+  {
+    "tip": "Colombia has yellow license plates",
+    "tags": ["Beginner", "Colombia", "License Plates"],
+    "image": ""
+  },
+  {
+    "tip": "Norway has dotted road lines (further apart than Sweden's)",
+    "tags": ["Intermediate", "Norway", "Road Lines"],
+    "image": ""
+  },
+  {
+    "tip": "Sweden has dotted road lines (Closer together than Norway's)",
+    "tags": ["Intermediate", "Sweden", "Road Lines"],
+    "image": ""
+  },
+  {
+    "tip": "Canada speed signs say 'Maximum', US speed signs say 'Speed Limit'",
+    "tags": ["Intermediate", "North America", "Signs"],
+    "image": ""
+  },
+  {
+    "tip": "Nigeria often has a 'follow' car behind the google car (usually a toyota)",
+    "tags": ["Intermediate", "Nigeria", "Meta"],
+    "image": ""
+  },
+  {
+    "tip": "Hungary and Bulgaria have quite a bit of winter coverage",
+    "tags": ["Intermediate", "Europe", "Climate"],
+    "image": ""
+  },
+  {
+    "tip": "Most italian words end in a vowel",
+    "tags": ["Intermediate", "Italy", "Language"],
+    "image": ""
+  },
+  {
+    "tip": "If you see cuts in sky (rifts) in Europe, you are in Albania or Montenegro",
+    "tags": ["Intermediate", "Europe", "Meta"],
+    "image": ""
+  },
+  {
+    "tip": "If you see 'Arrêt on a stop sign, you are in Quebec'",
+    "tags": ["Beginner", "Canada", "Signs"],
+    "image": ""
+  },
+  {
+    "tip": "If you see 'Stop' and 'Arrêt on a stop sign, you are in New Brunswick'",
+    "tags": ["Beginner", "Canada", "Signs"],
+    "image": ""
+  },
+  {
+    "tip": "Black and White striped poles are a good indication you are in Peru",
+    "tags": ["Intermediate", "Peru", "Poles"],
+    "image": ""
+  },
+  {
+    "tip": "The Dominican Republic and Guatemala often have a google car with roof bars",
+    "tags": ["Beginner", "Central America", "Meta"],
+    "image": ""
+  },
+  {
+    "tip": "Romania, Hungary, and Poland all have similar concrete poles",
+    "tags": ["Intermediate", "Europe", "Poles"],
+    "image": ""
+  },
+  {
+    "tip": "The Netherlands and Luxembourg both have yellow license plates in the front and back",
+    "tags": ["Beginner", "Europe", "License Plates"],
+    "image": ""
+  },
+  {
+    "tip": "Uganda has a wide white Jeep looking google car",
+    "tags": ["Beginner", "Uganda", "Meta"],
+    "image": ""
   }
-
 ]
