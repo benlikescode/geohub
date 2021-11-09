@@ -255,14 +255,35 @@ export const getDistance = (loc1: GuessType, loc2: LocationType, format = false)
     }
   }
 
-  return Math.round(distance)
+  return distance
 }
 
-// calculates the points based on distance away => NOTE: this will need to be refined heavily later on to account for smaller maps
-// this works pretty well for the world tho
-export const getPoints = (distance: number) => {
+// calculates the points based on distance away (works for official maps only as of now)
+export const getPoints = (distance: number, mapId: string) => {
   const e = Math.E
-  const power = (distance * -1) / 2000
+  let mapFactor = 2000
+
+  switch (mapId) {
+    case 'world':
+      mapFactor = 2000
+      break
+    case 'near-you':
+      mapFactor = 30
+      break
+    case 'famous-landmarks':
+      mapFactor = 20
+      break
+    case 'canada':
+      mapFactor = 400
+      break
+    case 'usa':
+      mapFactor = 1000
+      break
+    default: 
+      mapFactor = 2000
+  }
+
+  const power = (distance * -1) / mapFactor
   const score = 5000 * Math.pow(e, power)
 
   if (score < 0) {
@@ -385,9 +406,9 @@ export const formatTimer = (time: number) => {
   
 }
 
-export const getResultData = (guess: GuessType, actual: LocationType, formatDistance = false) => {
-  const distance = getDistance(guess, actual, formatDistance)
-  const points = getPoints(distance as number)
+export const getResultData = (guess: GuessType, actual: LocationType, mapId: string) => {
+  const distance = getDistance(guess, actual)
+  const points = getPoints(distance as number, mapId)
   
   return {
     distance, points  
@@ -406,10 +427,33 @@ export const createMarker = (position: LocationType, map: google.maps.Map, marke
   })
 }
 
+// takes in a single parameter distance (in km)
 export const formatDistance = (distance: number) => {
   if (distance < 1) {
     return `${Math.round(distance * 1000)} m`
   }
   
   return `${Math.round(distance)} km`  
+}
+
+// takes in single parameter time (in seconds)
+export const formatRoundTime = (time: number) => {
+  if (time < 60) {
+    return `${time} sec`
+  }
+  else if (time < 3600) {
+    const mins = Math.floor(time / 60)
+    const secs =  Math.floor(time - (mins * 60)) 
+
+    if (secs < 10) {
+      return `${mins}:0${secs} min` 
+    }
+
+    return `${mins}:${secs} min` 
+  }
+  else {
+    const hours = Math.floor(time / 3600)
+    return `${hours}+ hr`
+  }
+  
 }
