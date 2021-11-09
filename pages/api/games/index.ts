@@ -12,6 +12,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const userLocation = req.body.userLocation
       const roundLocation = getRandomLocation('handpicked', req.body.mapId, userLocation)
 
+      if (roundLocation === null) {
+        return res.status(400).send('Invalid Map Id, Game could not be created')
+      }
+
       req.body.userLocation = null
         
       const newGame = {

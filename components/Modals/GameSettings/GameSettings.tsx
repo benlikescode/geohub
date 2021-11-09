@@ -11,6 +11,7 @@ import { formatTimeLimit } from '../../../utils/helperFunctions'
 import { Banner } from '../../Layout'
 import { Button, FlexGroup, Icon, Slider, Checkbox, Avatar } from '../../System'
 import { Challenge } from './Challenge'
+import { toast } from 'react-toastify'
 
 type Props = {
   closeModal: () => void;
@@ -29,6 +30,17 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
   const user: UserType = useSelector(selectUser)
   const dispatch = useDispatch()
   const mapId = router.asPath.split('/')[2]
+
+  const notify = () => toast.error('This map does not seem to have any locations', {
+    position: 'bottom-right',
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: 0,
+    theme: 'dark'
+  })
 
   useEffect(() => {
     if (mapId === 'near-you') {
@@ -84,10 +96,14 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
     // store start time
     dispatch(updateStartTime({ startTime: new Date().getTime() }))
 
-    const { res } = await mailman('games', 'POST', JSON.stringify(gameData))
+    const { status, res } = await mailman('games', 'POST', JSON.stringify(gameData))
     
-  
-    router.push(`/game/${res}`)
+    if (status === 400) {
+      notify()   
+    }
+    else {
+      router.push(`/game/${res}`)
+    }
   }
   
 

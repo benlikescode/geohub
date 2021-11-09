@@ -9,7 +9,7 @@ const StyledModal = styled.div`
     bottom: 0;
     background: none!important;
     pointer-events: none;
-    z-index: 9999999;
+    z-index: 99;
   }
 
   .modal { 
@@ -21,7 +21,7 @@ const StyledModal = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 9999999;
+    z-index: 99;
     pointer-events: all;
     overflow: hidden;
     border-radius: 12px;
