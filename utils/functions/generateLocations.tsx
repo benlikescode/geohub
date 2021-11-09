@@ -3,7 +3,7 @@ import * as worldHandPicked from '../../utils/locations/world.json'
 import * as famousHandPicked from '../../utils/locations/famousLocations.json'
 import * as canadaHandPicked from '../../utils/locations/canada.json'
 import * as usaHandPicked from '../../utils/locations/unitedStates.json'
-
+import * as europeHandPicked from '../../utils/locations/europe.json'
 
 export const randomRange = (min = 0, max = 100, precision = 10) => { 
   return parseFloat((Math.random() * (max - min) + min).toFixed(precision))
@@ -71,9 +71,16 @@ export const getRandomLocation = (locationType: 'random' | 'handpicked', mapId: 
       if (userLocation != null) {
         return getRandomLocationsInRadius([userLocation], 0.30)
       }
-      
+    case 'europe':
+      if (locationType === 'random') {
+        // TODO
+      }
+      else {
+        return randomElement(europeHandPicked)
+      }
     default:
       console.log('Invalid Map Id')
+      return null
   }
 }
 

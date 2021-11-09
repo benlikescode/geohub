@@ -15,6 +15,7 @@ const MapPage: FC = () => {
   const [settingsModalOpen, setSettingsModalOpen] = useState(false)
   const [mapDetails, setMapDetails] = useState<MapType | null>()
   const [leaderboardData, setLeaderboardData] = useState<MapLeaderboardType[] | null>()
+  const [otherMaps, setOtherMaps] = useState<MapType[] | null>()
   const mapId = router.query.id as string
 
   const closeModal = () => {
@@ -41,6 +42,16 @@ const MapPage: FC = () => {
     setLeaderboardData(res)
   }
 
+  const fetchOtherMaps = async () => {
+    const { status, res } = await mailman(`maps/browse/popular?count=5&mapId=${mapId}`)
+    
+    if (status === 400 || status === 500) {
+      return setOtherMaps(null)
+    }
+
+    setOtherMaps(res)
+  }
+
   useEffect(() => {
     if (!mapId) {
       return
@@ -48,10 +59,11 @@ const MapPage: FC = () => {
   
     fetchMapDetails()
     fetchMapScores()
+    fetchOtherMaps()
  
   }, [mapId])
 
-  if (!mapDetails || !leaderboardData) {
+  if (!mapDetails || !leaderboardData || !otherMaps) {
     return <LoadingPage />
   }
 
@@ -89,11 +101,11 @@ const MapPage: FC = () => {
           <div className="otherMapsWrapper">
             <span className="otherMapsTitle">Other Popular Maps</span>
             <div className="otherMaps">
-              <MapPreviewCard map={mapDetails} />
-              <MapPreviewCard map={mapDetails} />
+              {otherMaps.map((otherMap, idx) => (
+                <MapPreviewCard key={idx} map={otherMap} />
+              ))}
             </div>
           </div>
-
         </main>     
       </Layout>
 
