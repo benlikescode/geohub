@@ -455,5 +455,17 @@ export const formatRoundTime = (time: number) => {
     const hours = Math.floor(time / 3600)
     return `${hours}+ hr`
   }
-  
+}
+
+// similar to above function (takes in time in seconds) except this
+// is used in the gameStatus timer
+export const formatTimeLeft = (time: number) => {
+  const mins = Math.floor(time / 60)
+  const secs =  Math.floor(time - (mins * 60)) 
+
+  if (secs < 10) {
+    return `${mins}:0${secs}` 
+  }
+
+  return `${mins}:${secs}` 
 }

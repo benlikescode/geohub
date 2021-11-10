@@ -6,6 +6,7 @@ import { GameStatus } from '../GameStatus'
 import { GuessMap } from '../GuessMap'
 import { Game } from '../../backend/models'
 import { LoadingPage } from '../Layout'
+import { LocationType } from '../../types'
 
 type Props = {
   gameData: Game
@@ -15,6 +16,7 @@ type Props = {
 
 const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
   const [loading, setLoading] = useState(true)
+  const [currGuess, setCurrGuess] = useState<LocationType | null>(null)
   const location = gameData.rounds[gameData.round - 1]
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
 
@@ -70,8 +72,21 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
       
       <div id="map">
         <StreetViewControls/>
-        <GameStatus gameData={gameData} setView={setView}/> 
-        <GuessMap coordinate={location} zoom={8} setView={setView} setGameData={setGameData} gameData={gameData} />
+        <GameStatus 
+          gameData={gameData} 
+          setView={setView} 
+          setGameData={setGameData} 
+          currGuess={currGuess}
+        /> 
+        <GuessMap 
+          coordinate={location} 
+          zoom={8} 
+          setView={setView} 
+          setGameData={setGameData} 
+          gameData={gameData} 
+          currGuess={currGuess}
+          setCurrGuess={setCurrGuess}
+        />
       </div>
 
       <GoogleMapReact 

@@ -5,6 +5,7 @@ type Guess = {
   distance: number;
   time: number;
   timedOut?: boolean;
+  timedOutWithGuess?: boolean;
 }
 
 export default Guess

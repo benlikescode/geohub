@@ -42,7 +42,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     else if (req.method === 'PUT') {
       const query = { _id: new ObjectId(gameId) }
-      const { guess, guessTime, localRound, userLocation } = req.body
+      const { guess, guessTime, localRound, userLocation, timedOut, timedOutWithGuess } = req.body
 
       const game = await collections.games?.findOne(query) as Game
       
@@ -77,14 +77,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const newGuess: GuessType = {
         lat: guess.lat,
         lng: guess.lng,
-        points: points, 
+        points: timedOut && !timedOutWithGuess ? 0 : points,
         distance: distance as number,
-        time: Math.floor(guessTime)
+        time: Math.floor(guessTime),
+        timedOut,
+        timedOutWithGuess
       }
       game.guesses = game.guesses.concat(newGuess)
 
       game.round++
-      game.totalPoints += points
+      game.totalPoints += timedOut && !timedOutWithGuess ? 0 : points
       game.totalDistance += distance as number
       game.totalTime += Math.floor(guessTime)
 

@@ -18,9 +18,11 @@ type Props = {
   setView: (view: 'Game' | 'Result' | 'FinalResults') => void
   gameData: Game
   setGameData: any
+  currGuess: LocationType | null
+  setCurrGuess: any
 }
 
-const GuessMap: FC<Props> = ({ coordinate, zoom, setView, gameData, setGameData }) => {
+const GuessMap: FC<Props> = ({ coordinate, zoom, setView, gameData, setGameData, currGuess, setCurrGuess }) => {
   const [mapHeight, setMapHeight] = useState(15)
   const [mapWidth, setMapWidth] = useState(15)
   const [hovering, setHovering] = useState(false)
@@ -29,7 +31,6 @@ const GuessMap: FC<Props> = ({ coordinate, zoom, setView, gameData, setGameData 
   const user = useSelector(selectUser)
   const game = useSelector(selectGame)
   const hoverDelay = useRef<any>()
-  const [currGuess, setCurrGuess] = useState<LocationType | null>(null)
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
 
   const GoogleMapConfig = {
@@ -90,7 +91,9 @@ const GuessMap: FC<Props> = ({ coordinate, zoom, setView, gameData, setGameData 
         guess: currGuess,
         guessTime: (new Date().getTime() - game.startTime) / 1000,
         localRound: gameData.round,
-        userLocation: user.location
+        userLocation: user.location,
+        timedOut: false,
+        timedOutWithGuess: false
       }
 
       const { status, res } = await mailman(`games/${gameData.id}`, 'PUT', JSON.stringify(body))
