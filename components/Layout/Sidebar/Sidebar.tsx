@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 import { StyledSidebar } from '.'
 import { SidebarItem } from './SidebarItem'
 import { ChatIcon, HeartIcon, HomeIcon, UserCircleIcon, UserGroupIcon, UsersIcon } from '@heroicons/react/outline'
+import Link from 'next/link'
 
 const Sidebar: FC = () => {
 
@@ -67,17 +68,17 @@ const Sidebar: FC = () => {
             <span>Challenges</span>
           </div>
 
-          <div className="linkItem">
-            <span>Hide and Guess</span>
-          </div>
+          <Link href="/bingo">
+            <div className="linkItem">
+              <span>Geo-Bingo</span>
+            </div>
+          </Link>
 
-          <div className="linkItem">
-            <span>Geo-Bingo</span>
-          </div>
-
-          <div className="linkItem">
-            <span>Puzzles</span>
-          </div>
+          <Link href="/puzzles">
+            <div className="linkItem">
+              <span>Puzzles</span>
+            </div>
+          </Link>    
         </div>
       </div>
 

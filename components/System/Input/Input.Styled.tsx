@@ -19,11 +19,11 @@ const StyledInput = styled.div`
       height: 100%;
       border-radius: 5px;
       padding: 0 14px;
-      background-color: transparent;
+      background-color: var(--background3);
       width: 100%;
       box-sizing: border-box;
       color: var(--color3);
-      border: var(--borderLight);
+      border: var(--border);
       outline: none;
       font-size: 1rem;
       font-weight: 400;

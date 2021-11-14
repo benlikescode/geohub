@@ -3,7 +3,9 @@ import * as mongoDB from 'mongodb'
 export const collections: {
   users?: mongoDB.Collection,
   games?: mongoDB.Collection,
-  maps?: mongoDB.Collection
+  maps?: mongoDB.Collection,
+  bingoGames?: mongoDB.Collection,
+  bingoSuggestions?: mongoDB.Collection
 } = {}
 
 export const dbConnect = async () => {
@@ -15,10 +17,14 @@ export const dbConnect = async () => {
     const usersCollection: mongoDB.Collection = db.collection('users')
     const gamesCollection: mongoDB.Collection = db.collection('games')
     const mapsCollection: mongoDB.Collection = db.collection('maps')
+    const bingoGames: mongoDB.Collection = db.collection('bingoGames')
+    const bingoSuggestions: mongoDB.Collection = db.collection('bingoSuggestions')
 
     collections.users = usersCollection
     collections.games = gamesCollection
     collections.maps = mapsCollection
+    collections.bingoGames = bingoGames
+    collections.bingoSuggestions = bingoSuggestions
   
     console.log(`Successfully connected to database: ${db.databaseName}`)
 }

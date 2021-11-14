@@ -2,7 +2,7 @@ import { FC, ReactNode } from 'react'
 import { StyledButton } from '.'
 
 type Props = {
-  type: 'solidPurple' | 'ghost' | 'ghostLight' | 'icon' | 'iconRounded'
+  type: 'solidPurple' | 'solidGray' | 'ghost' | 'ghostLight' | 'icon' | 'iconRounded'
   callback?: any
   primaryColor?: string
   secondaryColor?: string
