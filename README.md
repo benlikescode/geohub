@@ -1,34 +1,37 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# GeoHub
 
-## Getting Started
+A web application with several geography games. The main game mode is based on the popular game Geoguessr. For those who have not played Geoguessr, it uses google streetview to place you in a random location in the world and you can move around using context clues to guess where you are in the world. The closer you are to the correct location, the higher your score. Unfortunately, Google recently increased their maps API costs which resulted in Geoguessr making the game paid. This along with my love for geography, inspired me to make my own version where I could play for free. 
 
-First, run the development server:
+I do hope that I can host the site in the future using the free Google Maps plan, but for now if you want to play you can clone this repo, plug in your google maps API and play locally. 
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+### Future Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+* Challenges
+* Profile Page
+* Friends
+* User Created Maps
+* Battle Royale
+* Learn Section
+* Liked Maps
+* Resume your ongoing games
+* Geo-Bingo
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+### Screenshots
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+![GeoHubHome](https://user-images.githubusercontent.com/63207900/141661529-69b78544-efb0-4433-9359-9edd477a61a0.PNG)
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+![GeoHubWorldMap](https://user-images.githubusercontent.com/63207900/141661530-9fcc031d-f3bc-4cc1-909f-ffa144b27c83.PNG)
 
-## Learn More
+![GeoHubPlayModal](https://user-images.githubusercontent.com/63207900/141661532-9bc1a632-c916-4e18-9f97-e51aa6a616f3.PNG)
 
-To learn more about Next.js, take a look at the following resources:
+![GeoHubPlaying](https://user-images.githubusercontent.com/63207900/141660918-197a65c0-6cab-4d42-848f-5579113bf161.PNG)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+![GeoHubResult](https://user-images.githubusercontent.com/63207900/141660920-cd88a6ff-14c6-40b9-852c-f68c50520aab.PNG)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+![GeoHubFinalResults](https://user-images.githubusercontent.com/63207900/141660921-5a50eb6c-04ec-4361-961f-e28b38e268ac.PNG)
 
-## Deploy on Vercel
+![GeoHubDetailedResults](https://user-images.githubusercontent.com/63207900/141661534-d7edde87-307d-4621-95ee-6daae7bc7048.PNG)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+![GeoHubLogin](https://user-images.githubusercontent.com/63207900/141660933-09141651-d764-49af-80a8-fc17d45becff.PNG)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+![GeoHubRegister](https://user-images.githubusercontent.com/63207900/141661565-57ec6619-79fd-4106-adf4-d1b5801790ce.PNG)
