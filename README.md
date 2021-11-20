@@ -14,7 +14,6 @@ I do hope that I can host the site in the future using the free Google Maps plan
 * Learn Section
 * Liked Maps
 * Resume your ongoing games
-* Geo-Bingo
 
 ### Screenshots
 

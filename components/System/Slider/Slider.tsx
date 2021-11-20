@@ -20,6 +20,7 @@ const Slider: FC<Props> = ({ onChange, min, max }) => {
         min={min ? min : 1} 
         max={max ? max : 61} 
         onChange={(e) => handleChange(e)}
+        defaultValue={1}
       />
     </StyledSlider>
   )
