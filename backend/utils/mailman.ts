@@ -15,7 +15,7 @@ export const mailman = async (
   }
 
   try {
-    const res = await fetch(`https://geohub-prod-benlikescode.vercel.app/api/${endpoint}`, fetchConfig)
+    const res = await fetch(`/api/${endpoint}`, fetchConfig)
     return { status: res.status, res: await res.json() }
   }
   catch (err) {
