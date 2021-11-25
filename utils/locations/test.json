@@ -1,0 +1,72 @@
+[
+  {
+    "heading": 3.3598959666305177,
+    "pitch": -6.247566510125864,
+    "zoom": 0,
+    "panoId": null,
+    "countryCode": "us",
+    "stateCode": null,
+    "lat": 40.01130517091345,
+    "lng": -111.4916647282381
+  },
+  {
+    "heading": 167.75668969385563,
+    "pitch": -12.714349519547937,
+    "zoom": 0,
+    "panoId": null,
+    "countryCode": "ar",
+    "stateCode": null,
+    "lat": -35.19205555559386,
+    "lng": -63.60873803299748
+  },
+  {
+    "heading": 259.35003771237973,
+    "pitch": 8.601857311896865,
+    "zoom": 0,
+    "panoId": null,
+    "countryCode": "fr",
+    "stateCode": null,
+    "lat": 48.86077718461333,
+    "lng": 2.353261656895
+  },
+  {
+    "heading": 245.77296952462075,
+    "pitch": -4.481492239545375,
+    "zoom": 0,
+    "panoId": null,
+    "countryCode": "sg",
+    "stateCode": null,
+    "lat": 1.316448846847118,
+    "lng": 103.7886384120437
+  },
+  {
+    "heading": 142.5565975112975,
+    "pitch": -3.258893602973856,
+    "zoom": 0,
+    "panoId": null,
+    "countryCode": "lt",
+    "stateCode": null,
+    "lat": 55.74179989868754,
+    "lng": 22.9819996975253
+  },
+  {
+    "heading": 0,
+    "pitch": 0,
+    "zoom": 0,
+    "panoId": null,
+    "countryCode": "ca",
+    "stateCode": null,
+    "lat": 49.84365807259192,
+    "lng": -119.9489538591132
+  },
+  {
+    "heading": 0,
+    "pitch": 0,
+    "zoom": 0,
+    "panoId": null,
+    "countryCode": "gt",
+    "stateCode": null,
+    "lat": 15.749019850575,
+    "lng": -90.42692083107057
+  }
+]
