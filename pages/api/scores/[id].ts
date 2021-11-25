@@ -32,7 +32,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       // above aggregate query... so for now query extra documents and remove duplicates
       // in theory this may not return 5 unique user scores even if there is, if the same 
       // users in the top 5 have multiple games with scores in the top 5
-      const result: any = []
+      const result: any[] = []
         
       data.forEach(item => {
         const idx = result.findIndex((x: any) => x.userId.toString() === item.userId.toString())
@@ -47,8 +47,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           })
         }
       })
+
+      const slicedResult = result.slice(0, 5)
       
-      res.status(200).send(result)
+      res.status(200).send(slicedResult)
     }
 
     else {

@@ -25,7 +25,7 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
   const [zoomingChecked, setZoomingChecked] = useState(true)
   const [gameType, setGameType] = useState<"Single Player" | "Challenge">("Single Player")
   const [showChallengeView, setShowChallengeView] = useState(false)
-  const [sliderVal, setSliderVal] = useState(1)
+  const [sliderVal, setSliderVal] = useState(61)
   const router = useRouter()
   const user: UserType = useSelector(selectUser)
   const dispatch = useDispatch()
