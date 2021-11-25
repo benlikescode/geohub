@@ -73,7 +73,7 @@ const BingoPage: NextPage = () => {
           <Banner>
             <div className="mapDetailsSection">
               <div className="mapDescriptionWrapper">
-                <Avatar url={'https://media.istockphoto.com/vectors/bingo-design-vector-illustration-vector-id536873247?b=1&k=20&m=536873247&s=170667a&w=0&h=ao-hbLJh4gvLjdep149cd2QN4lRL3-xOun6aiBwpL-Q='} alt="" size={100} outline/>
+                <Avatar url={'/images/bingoAvatar.jpg'} alt="Bingo" size={100} outline/>
 
                 <div className="descriptionColumnWrapper">
                   <div className="descriptionColumn">

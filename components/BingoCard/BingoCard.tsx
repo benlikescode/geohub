@@ -10,6 +10,16 @@ type Props = {
 }
 
 const BingoCard: FC<Props> = ({ bingoItems, isVisible, foundItems, setFoundItems }) => {
+  const winners = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+  ]
 
   const handleItemClick = (index: number) => {
     if (index !== 4) {
@@ -23,13 +33,6 @@ const BingoCard: FC<Props> = ({ bingoItems, isVisible, foundItems, setFoundItems
     }  
   }
 
-  useEffect(() => {
-    if (hasWon()) {
-      alert("You Won!")
-    }
-
-  }, [foundItems])
-
   const hasWon = () => {
     let won = false
 
@@ -42,16 +45,12 @@ const BingoCard: FC<Props> = ({ bingoItems, isVisible, foundItems, setFoundItems
     return won
   }
 
-  const winners = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6]
-  ]
+  useEffect(() => {
+    if (hasWon()) {
+      alert("You Won!")
+    }
+
+  }, [foundItems, hasWon])
 
   return (
     <StyledBingoCard isVisible={isVisible}>

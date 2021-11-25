@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import { StyledBadge } from '.'
+import Image from 'next/image'
 
 type Props = {
   image: string
@@ -11,7 +12,7 @@ type Props = {
 const Badge: FC<Props> = ({ image, borderColor, hoverText, size }) => {
   return (
     <StyledBadge borderColor={borderColor} size={size}>
-      <img src={image} alt="" />       
+      <Image src={image} height={size} width={size} alt="GeoHub Badge"/>         
     </StyledBadge>
   )
 }

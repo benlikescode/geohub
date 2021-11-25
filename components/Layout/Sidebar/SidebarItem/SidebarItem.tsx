@@ -17,10 +17,10 @@ const SidebarItem: FC<Props> = ({ text, icon, route }) => {
   return (
     <StyledSidebarItem isActive={isActive}>
       <Link href={route}>
-        <div className="item">
+        <a className="item">
           <Icon size={26} fill={isActive ? '#AEB1B5' : ''}>{icon}</Icon>  
           <span className="itemText">{text}</span>
-        </div>
+        </a>
       </Link>
     </StyledSidebarItem>
   )

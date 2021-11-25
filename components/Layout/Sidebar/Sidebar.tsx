@@ -69,15 +69,15 @@ const Sidebar: FC = () => {
           </div>
 
           <Link href="/bingo">
-            <div className="linkItem">
+            <a className="linkItem">
               <span>Geo-Bingo</span>
-            </div>
+            </a>
           </Link>
 
           <Link href="/puzzles">
-            <div className="linkItem">
+            <a className="linkItem">
               <span>Puzzles</span>
-            </div>
+            </a>
           </Link>    
         </div>
       </div>

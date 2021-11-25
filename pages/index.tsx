@@ -84,10 +84,7 @@ const Home: NextPage = () => {
             </FlexGroup>
                    
             <div className="badgesWrapper">
-              <Badge image="/images/mapPreviews/LandmarksMap.jfif" borderColor="bronze" hoverText="France Master"/>
-              <Badge image="https://wallpaperaccess.com/full/355007.jpg" borderColor="silver" hoverText="France Master"/>
-              <Badge image="https://wallpaperaccess.com/full/354966.jpg" borderColor="gold" hoverText="France Master"/>
-              <Badge image="https://upload.wikimedia.org/wikipedia/commons/d/d9/Flag_of_Canada_%28Pantone%29.svg" borderColor="bronze" hoverText="France Master"/>
+             
             </div>
           </Banner>      
         </main>     

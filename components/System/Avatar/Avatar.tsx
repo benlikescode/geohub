@@ -1,5 +1,6 @@
 import { FC, useState, useEffect } from 'react'
 import { StyledAvatar } from '.'
+import Image from 'next/image'
 
 type Props = {
   url: string
@@ -20,7 +21,13 @@ const Avatar: FC<Props> = ({ url, size, alt, onClick, userId, outline }) => {
 
   return (
     <StyledAvatar size={size} outline={outline}>
-      <img src={currSrc || fallback} alt={alt} onError={() => setCurrSrc(fallback)} />       
+      <Image 
+        src={currSrc || fallback} 
+        height={size || 32} 
+        width={size || 32} 
+        alt={alt} 
+        onError={() => setCurrSrc(fallback)}
+      />
     </StyledAvatar>
   )
 }

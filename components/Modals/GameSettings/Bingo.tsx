@@ -72,7 +72,7 @@ const GameSettings: FC<Props> = ({ closeModal }) => {
 
         <div className="mainContent">     
           <FlexGroup gap={15}>
-            <Avatar url={'https://media.istockphoto.com/vectors/bingo-design-vector-illustration-vector-id536873247?b=1&k=20&m=536873247&s=170667a&w=0&h=ao-hbLJh4gvLjdep149cd2QN4lRL3-xOun6aiBwpL-Q='} size={60} alt=""/>
+            <Avatar url={'/images/bingoAvatar.jpg'} size={60} alt="Bingo" outline/>
             <div className="mapInfo">
               <span className="mapName">Geo-Bingo</span>
               <span className="mapDescription">Given a bingo card of random things/people, your task is to search across the world to find these items and get a Geo-Bingo!</span>
