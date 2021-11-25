@@ -33,9 +33,3 @@ yarn-error.log*
 
 # vercel
 .vercel
-
-# firebase
-firebaseConfig.tsx
-
-#locations
-utils/locations/
