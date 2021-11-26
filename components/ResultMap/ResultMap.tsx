@@ -28,7 +28,7 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
     scale: 2,
   }
  
-  const googleKey = process.env.GOOGLE_API_KEY as string
+  const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
 
   const GoogleMapConfig = {
     key: googleKey

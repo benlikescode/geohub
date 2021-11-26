@@ -8,7 +8,7 @@ import { Button } from '../../components/System'
 const BingoPlayPage: NextPage = () => {
   const [showCard, setShowCard] = useState(true)
   const [foundItems, setFoundItems] = useState<number[]>([4])
-  const googleKey = process.env.GOOGLE_API_KEY as string
+  const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
 
   const toggleCard = () => {
     setShowCard(prev => !prev)

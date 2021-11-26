@@ -5,7 +5,7 @@ import GoogleMapReact from 'google-map-react'
 import StyledPuzzlesPage from '../../styles/PuzzlesPage.Styled'
 
 const PuzzlesPage: NextPage = () => {
-  const googleKey = process.env.GOOGLE_API_KEY as string
+  const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
 
   const GoogleMapConfig = {
     key: googleKey,
