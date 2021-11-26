@@ -31,7 +31,7 @@ const GuessMap: FC<Props> = ({ coordinate, zoom, setView, gameData, setGameData,
   const user = useSelector(selectUser)
   const game = useSelector(selectGame)
   const hoverDelay = useRef<any>()
-  const googleKey = process.env.GOOGLE_API_KEY as string
+  const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
 
   const GoogleMapConfig = {
     key: googleKey,

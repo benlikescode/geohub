@@ -18,7 +18,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
   const [loading, setLoading] = useState(true)
   const [currGuess, setCurrGuess] = useState<LocationType | null>(null)
   const location = gameData.rounds[gameData.round - 1]
-  const googleKey = process.env.GOOGLE_API_KEY as string
+  const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
 
   const GoogleMapConfig = {
     key: googleKey
