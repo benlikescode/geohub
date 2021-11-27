@@ -30,6 +30,8 @@ const StyledNavbar = styled.div`
     display: flex;
     align-items: center;
     gap: 15px;
+    width: 100%;
+    justify-content: flex-end;
   }
 
   .userInfo {
@@ -72,11 +74,13 @@ const StyledNavbar = styled.div`
   }
 
   .mainSection {
-    width: calc(100% - 250px);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-width: var(--maxWidth);
+    gap: 2rem;
+    max-width: ${({ theme }) => theme.breakpoint.xl};
+    width: 100%;
+    padding: 3.5rem;
     margin: 0 auto;
   }
 `

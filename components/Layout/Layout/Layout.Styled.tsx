@@ -10,10 +10,10 @@ const StyledLayout = styled.div<StyledProps>`
   min-height: calc(100vh - 60px);
 
   main {
-   max-width: var(--maxWidth);
-   width: 100%;
-   padding: 56px 0;
-   margin: 0 auto;
+    max-width: ${({ theme }) => theme.breakpoint.xl};
+    width: 100%;
+    padding: 3.5rem;
+    margin: 0 auto;
   }
 
   

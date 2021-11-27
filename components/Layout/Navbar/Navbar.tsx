@@ -86,7 +86,7 @@ const Navbar: FC<Props> = ({ isAuthpage, variant }) => {
 
                 :
           
-                <FlexGroup gap={15}>
+                <div className="rightWrapper">
                   <Link href="/login">
                     <a>
                       <Button type="ghost" width="120px">Login</Button>
@@ -97,8 +97,9 @@ const Navbar: FC<Props> = ({ isAuthpage, variant }) => {
                     <a>
                       <Button type="solidPurple" width="120px">Sign Up</Button>
                     </a>
-                  </Link>       
-                </FlexGroup>  
+                  </Link>  
+                </div>
+                       
               }            
             </div>
           }

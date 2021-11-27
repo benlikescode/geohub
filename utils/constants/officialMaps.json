@@ -47,18 +47,6 @@
       "locationCount": 100,
       "avgScore": 12000,
       "likes": 8
-    },
-    {
-      "id": "6185e0077b54baf63473a542",
-      "slug": "usa",
-      "name": "United States",
-      "description": "The land of the free! 50 states of locations waiting for you.",
-      "previewImg": "/images/mapPreviews/UnitedStatesMap.jpg",
-      "creator": "GeoHub",
-      "usersPlayed": 12,
-      "locationCount": 500,
-      "avgScore": 14500,
-      "likes": 10
     }
   ]
 }

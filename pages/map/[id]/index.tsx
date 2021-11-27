@@ -43,7 +43,7 @@ const MapPage: FC = () => {
   }
 
   const fetchOtherMaps = async () => {
-    const { status, res } = await mailman(`maps/browse/popular?count=5&mapId=${mapId}`)
+    const { status, res } = await mailman(`maps/browse/popular?count=4&mapId=${mapId}`)
     
     if (status === 400 || status === 500) {
       return setOtherMaps(null)

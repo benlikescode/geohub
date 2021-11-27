@@ -10,18 +10,22 @@ const StyledGamemodeCard = styled.div<StyledProps>`
   border-radius: 12px;
   padding: 30px 40px;
   display: grid;
-  gap: 50px;
-  width: 510px;
+  gap: 2rem;
 
   .gamemodeTitle {
     color: ${({ titleColor }) => titleColor};
-    font-size: 40px;
+    font-size: 2rem;
     font-weight: 600;
   }
 
   .gamemodeDescription {
     color: var(--color2);
-    font-size: 24px;
+    font-size: 1.3rem;
+    font-weight: 500;
+
+    @media (max-width: 1580px) {
+      font-size: 1.1rem;
+    }
   }
 `
 

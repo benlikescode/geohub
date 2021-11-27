@@ -49,7 +49,7 @@ const Home: NextPage = () => {
             ))}               
           </div>
 
-          <div className="mapPreviewSection">
+          <div className="gamemodesWrapper">
             <GamemodeCard 
               title="Battle Royale"
               titleColor="var(--lightRed)"

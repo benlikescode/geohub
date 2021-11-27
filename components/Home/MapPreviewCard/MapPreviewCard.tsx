@@ -18,14 +18,12 @@ const MapPreviewCard: FC<Props> = ({ map }) => {
       <div className="contentWrapper">
         <div className="mapName">{map.name}</div>
         <div className="mapDescription">{map.description}</div>
-        <Link href={`/map/${map.slug ? map.slug : map.id}`}>
-          <a>
-            <Button type="solidPurple" width="180px">Play</Button>
-          </a>     
-        </Link>
-      </div>
-     
-      
+        <div className="playWrapper">
+          <Link href={`/map/${map.slug ? map.slug : map.id}`}>
+            <a className="mapPlayBtn">Play</a>     
+          </Link>
+        </div>   
+      </div>    
     </StyledMapPreviewCard>
   )
 }

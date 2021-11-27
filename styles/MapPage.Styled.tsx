@@ -21,10 +21,14 @@ const StyledMapPage = styled.div`
   }
 
   .otherMaps {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.2rem;
+    margin-top: 1rem;
+
+    @media (max-width: 1400px) {
+      grid-template-columns: 1fr 1fr;
+    }
   }
 
   .mapDetailsSection {

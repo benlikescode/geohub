@@ -8,17 +8,13 @@ const StyledHomePage = styled.div`
   }
 
   .mapPreviewSection {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.2rem;
 
-  .bannerTitle {
-    font-size: 40px;
-    font-weight: 700;
-    line-height: 44px;
-    color: var(--color1);
-    max-width: 200px;
+    @media (max-width: 1400px) {
+      grid-template-columns: 1fr 1fr;
+    }
   }
 
   .bannerWrapper {
@@ -26,11 +22,31 @@ const StyledHomePage = styled.div`
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    height: 320px;
     width: 100%;
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 12px;
-    padding: 56px;
+    padding: 3.5rem;
+
+    @media (max-width: 1600px) {
+      padding: 2.5rem;
+    }
+
+    @media (max-width: 1200px) {
+      padding: 1.5rem;
+    }
+  }
+
+  .bannerTitle {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 44px;
+    color: var(--color1);
+    max-width: 200px;
+
+    @media (max-width: 1200px) {
+      font-size: 2.2rem;
+      max-width: 500px;
+    }
   }
 
   .tipWrapper {
@@ -40,6 +56,11 @@ const StyledHomePage = styled.div`
     color: rgba(255, 255, 255, 0.8);
     margin: 20px 0;
     max-width: 450px;
+
+    @media (max-width: 1200px) {
+      font-size: 1rem;
+      max-width: 100%;
+    }
   }
 
   .pillsWrapper {
@@ -67,12 +88,18 @@ const StyledHomePage = styled.div`
     background: transparent;
     color: #0EA5E9;
     cursor: pointer;
+  } 
+
+  .gamemodesWrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.2rem; 
+
+    @media (max-width: 1200px) {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
   }
-
-  
-  
-
-  
 `
 
 export default StyledHomePage
