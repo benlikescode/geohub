@@ -99,6 +99,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       res.status(200).send(game)
     }
 
+    
+    else if (req.method === 'DELETE') {
+      const deletedGame = await collections.games?.deleteOne({ _id: new ObjectId(gameId) })
+
+      if (!deletedGame) {
+        return res.status(400).send(`Failed to delete game with id: ${gameId}`)
+      }
+
+      return res.status(200).send('Game was successfully deleted')
+    }
+    
 
     else {
       res.status(500).json('Nothing to see here.')

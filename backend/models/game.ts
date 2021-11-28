@@ -4,6 +4,7 @@ import { GameSettingsType, GuessType, LocationType } from '../../types'
 type Game = {
   id?: ObjectId;
   mapId: string;
+  mapObjectId: ObjectId;
   mapName?: string;
   userId: ObjectId;
   userName?: string;

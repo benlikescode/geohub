@@ -13,7 +13,7 @@ type Props = {
 
 const Avatar: FC<Props> = ({ url, size, alt, onClick, userId, outline }) => {
   const [currSrc, setCurrSrc] = useState(url || '')
-  const fallback = 'https://muscathome.com/uploads/profile_images/default.png'
+  const fallback = '/images/avatars/fallback.png'
 
   useEffect(() => {
     setCurrSrc(url)

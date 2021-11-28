@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { StyledSidebar } from '.'
 import { SidebarItem } from './SidebarItem'
-import { ChatIcon, HeartIcon, HomeIcon, UserCircleIcon, UserGroupIcon, UsersIcon } from '@heroicons/react/outline'
+import { ChatIcon, DesktopComputerIcon, HeartIcon, HomeIcon, MapIcon, UserCircleIcon, UserGroupIcon, UsersIcon } from '@heroicons/react/outline'
 import Link from 'next/link'
 
 const Sidebar: FC = () => {
@@ -14,23 +14,11 @@ const Sidebar: FC = () => {
           icon={<HomeIcon />}
           route="/"
         />
-       
-        <SidebarItem 
-          text="Threads"
-          icon={<ChatIcon />}
-          route="/threads"
-        />
 
         <SidebarItem 
-          text="Liked Maps"
-          icon={<HeartIcon />}
+          text="My Maps"
+          icon={<MapIcon />}
           route="/liked"
-        />
-
-        <SidebarItem 
-          text="Clans"
-          icon={<UserGroupIcon />}
-          route="/clans"
         />
 
         <SidebarItem 
@@ -38,12 +26,19 @@ const Sidebar: FC = () => {
           icon={<UsersIcon />}
           route="/friends"
         />
-        
+
         <SidebarItem 
-          text="Profile"
-          icon={<UserCircleIcon />}
-          route="/user"
+          text="Liked Maps"
+          icon={<HeartIcon />}
+          route="/liked"
         />
+ 
+        <SidebarItem 
+          text="Ongoing Games"
+          icon={<DesktopComputerIcon />}
+          route="/unfinished-games"
+        />
+   
       </div>
 
       <div className="quickLinksSection">
