@@ -7,6 +7,7 @@ type StyledProps = {
 const StyledSearchbar = styled.div<StyledProps>`
   max-width: 450px;
   width: 100%;
+  position: relative;
   
   .searchbarWrapper {
     display: flex;
@@ -14,7 +15,7 @@ const StyledSearchbar = styled.div<StyledProps>`
     gap: 10px;
     padding: 0 10px;
     width: 100%;
-    height: 40px;
+    height: 38px;
     border-radius: 4px;
     background-color: ${({ isFocused }) => isFocused ? 'var(--background3)' : 'var(--background4)'};
     color: var(--color4);

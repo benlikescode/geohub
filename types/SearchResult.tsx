@@ -1,7 +1,10 @@
+
 type SearchResult = {
-  avatar: string;
-  label: string;
-  link: string;
+  _id: string;
+  name: string;
+  avatar?: string;
+  previewImg?: string;
+  slug?: string;
 }
 
 export default SearchResult

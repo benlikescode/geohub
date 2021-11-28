@@ -1,8 +1,11 @@
 import { SearchIcon } from '@heroicons/react/outline'
-import { FC, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { StyledSearchbar } from '.'
 import { Icon } from '..'
+import { mailman } from '../../../backend/utils/mailman'
 import { SearchResultType } from '../../../types'
+import { useClickOutside } from '../../../utils/hooks'
+import { Spinner } from '../Spinner'
 import { SearchOverlayCard } from './SearchOverlayCard'
 
 type Props = {
@@ -10,39 +13,53 @@ type Props = {
 }
 
 const Searchbar: FC<Props> = ({ placeholder }) => {
-  const [input, setInput] = useState("")
+  const [query, setQuery] = useState("")
+  const [results, setResults] = useState<SearchResultType[]>([])
   const [isFocused, setIsFocused] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const wrapperRef = useRef(null)
+  useClickOutside(wrapperRef, () => setIsFocused(false))
 
-  const results: SearchResultType[] = [
-    {avatar: '/images/avatars/default1.png', label: 'Wonder Woman', link: '/user/123'},
-    {avatar: '/images/avatars/default2.png', label: 'Wocam52', link: '/user/1234'},
-    {avatar: '/images/avatars/default3.png', label: 'wowzers21', link: '/user/1235'},
-    {avatar: '/images/avatars/default4.png', label: 'WisonsinPro69', link: '/user/1236'},
-    {avatar: '/images/mapPreviews/worldMap.jpg', label: 'World', link: '/map/world'},
-    {avatar: '/images/avatars/default5.png', label: 'Wonderful Map', link: '/map/123'},
-  ]
+  useEffect(() => {
+    if (query) {
+      setLoading(true)
+    }
 
-  const closeSearchOverlay = () => {
-    setIsFocused(false)
-  }
+    const search = async () => {
+      const { res } = await mailman(`search?q=${query}&count=6`)
+      setResults(res)
+      setLoading(false)
+    }
+
+    const throttle = setTimeout(() => {
+      if (query) {
+        search()
+      }
+      else {
+        setResults([])
+        setLoading(false)
+      }
+    }, 300)
+
+    return () => {
+      clearTimeout(throttle)
+    }
+  }, [query])
 
   return (
-    <StyledSearchbar isFocused={isFocused}>
+    <StyledSearchbar isFocused={isFocused} ref={wrapperRef}>
       <div className="searchbarWrapper" onClick={() => setIsFocused(true)}>
         <Icon size={20} fill="var(--color2)">
-          <SearchIcon />
+          {loading ? <Spinner size={20} /> : <SearchIcon />}
         </Icon>
         <input 
           type="text" 
           placeholder={placeholder ? placeholder : 'Search players or maps'} 
-          onChange={(e) => setInput(e.currentTarget.value)} 
+          onChange={(e) => setQuery(e.currentTarget.value)} 
         />
       </div>
 
-      {isFocused && 
-        <SearchOverlayCard close={closeSearchOverlay} results={results}/>
-      }
-    
+      {isFocused && <SearchOverlayCard results={results}/> }
     </StyledSearchbar>
   )
 }

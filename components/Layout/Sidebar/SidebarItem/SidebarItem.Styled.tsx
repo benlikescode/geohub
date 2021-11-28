@@ -5,13 +5,12 @@ type StyledProps = {
 }
 
 const StyledSidebarItem = styled.div<StyledProps>`
-  ${({ isActive }) => isActive && `
-    background-color: var(--background4);
-    border: 1px solid rgba(255, 255, 255, 0.03);
-  `}
-  
   border-radius: 3px;
 
+  ${({ isActive }) => isActive && `
+    background-color: var(--background4);
+  `}
+  
   a {
     color: inherit;
     text-decoration: none;
@@ -28,15 +27,14 @@ const StyledSidebarItem = styled.div<StyledProps>`
     cursor: pointer;
     width: 100%;
 
-   
-
     ${({ isActive }) => isActive && `
       color: var(--color2);
-      font-weight: 600;
     `}
-  } 
 
-  
+    :hover {
+      color: var(--color2);
+    }
+  }  
 `
 
 export default StyledSidebarItem
