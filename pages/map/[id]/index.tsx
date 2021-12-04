@@ -1,6 +1,6 @@
 import { Navbar, Layout, Sidebar, Banner, LoadingPage } from '../../../components/Layout'
 import { GameSettings } from '../../../components/Modals/GameSettings'
-import { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import StyledMapPage from '../../../styles/MapPage.Styled'
 import { Avatar, Button } from '../../../components/System'
 import { MapLeaderboardType, MapType } from '../../../types'
@@ -10,6 +10,7 @@ import { MapPreviewCard } from '../../../components/Home/MapPreviewCard'
 import { Modal } from '../../../components/Modals/Modal'
 import router from 'next/router'
 import { mailman } from '../../../backend/utils/mailman'
+import { Navbar2 } from '../../../components/Layout/Navbar2'
 
 const MapPage: FC = () => {
   const [settingsModalOpen, setSettingsModalOpen] = useState(false)
@@ -69,44 +70,43 @@ const MapPage: FC = () => {
 
   return (
     <StyledMapPage>
-      <Navbar />
-      <Layout hasSidebar>
-        <div>
-          <Sidebar />
-        </div>
+      <Layout> 
+        <section>
+          <Navbar2 />
 
-        <main>
-          <Banner>
-            <div className="mapDetailsSection">
-              <div className="mapDescriptionWrapper">
-                <Avatar url={mapDetails.previewImg || ''} alt="" size={100} outline/>
+          <main>
+            <Banner>
+              <div className="mapDetailsSection">
+                <div className="mapDescriptionWrapper">
+                  <Avatar url={mapDetails.previewImg || ''} alt="" size={100} outline/>
 
-                <div className="descriptionColumnWrapper">
-                  <div className="descriptionColumn">
-                    <span className="name">{mapDetails.name}</span>
-                    <span className="description">{mapDetails.description}</span>
+                  <div className="descriptionColumnWrapper">
+                    <div className="descriptionColumn">
+                      <span className="name">{mapDetails.name}</span>
+                      <span className="description">{mapDetails.description}</span>
+                    </div>
+                    <Button type="solidPurple" width="200px" callback={() => setSettingsModalOpen(true)}>Play Now</Button>
                   </div>
-                  <Button type="solidPurple" width="200px" callback={() => setSettingsModalOpen(true)}>Play Now</Button>
                 </div>
+
+                <MapStats map={mapDetails}/>
               </div>
+            </Banner>
 
-              <MapStats map={mapDetails}/>
+            <Banner>
+              <MapLeaderboard leaderboard={leaderboardData}/>
+            </Banner>
+          
+            <div className="otherMapsWrapper">
+              <span className="otherMapsTitle">Other Popular Maps</span>
+              <div className="otherMaps">
+                {otherMaps.map((otherMap, idx) => (
+                  <MapPreviewCard key={idx} map={otherMap} />
+                ))}
+              </div>
             </div>
-          </Banner>
-
-          <Banner>
-            <MapLeaderboard leaderboard={leaderboardData}/>
-          </Banner>
-         
-          <div className="otherMapsWrapper">
-            <span className="otherMapsTitle">Other Popular Maps</span>
-            <div className="otherMaps">
-              {otherMaps.map((otherMap, idx) => (
-                <MapPreviewCard key={idx} map={otherMap} />
-              ))}
-            </div>
-          </div>
-        </main>     
+          </main> 
+        </section>            
       </Layout>
 
       {settingsModalOpen &&

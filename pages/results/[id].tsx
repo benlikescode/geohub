@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { Game } from '../../backend/models'
 import { mailman } from '../../backend/utils/mailman'
 import { Navbar, Layout, LoadingPage, Sidebar } from '../../components/Layout'
+import { Navbar2 } from '../../components/Layout/Navbar2'
 import { ResultMap } from '../../components/ResultMap'
 import { LeaderboardCard } from '../../components/Results'
 import { FlexGroup } from '../../components/System'
@@ -56,31 +57,29 @@ const ResultsPage: NextPage = () => {
   
   return (
     <StyledResultPage>
-      {isCompleted && gameData !== null ?
-        <>
-          <Navbar variant/>
-          <Layout>
+      {isCompleted && gameData !== null ?        
+        <section>
+          <Navbar2 />
+
+          <main>
             <ResultMap 
               guessedLocations={gameData.guesses} 
               actualLocations={gameData.rounds} 
               round={gameData.round} 
               isFinalResults 
             />
-    
+  
             <FlexGroup justify="center">
               <LeaderboardCard gameData={gameData} mapData={mapData}/>
-            </FlexGroup>  
-          </Layout>   
-        </>
-
+            </FlexGroup> 
+          </main>
+        </section>
+           
         :
 
-        <>
-          <Navbar />
-          <Layout hasSidebar>
-            <div>
-              <Sidebar />
-            </div>
+        <Layout>
+          <section>
+            <Navbar2 />
 
             <main>
               <div className="errorContainer">
@@ -94,10 +93,12 @@ const ResultsPage: NextPage = () => {
                   
                 </div>
               </div>
-                
-            </main>     
-          </Layout>  
-        </>
+            </main>
+          </section>
+        </Layout>   
+     
+
+      
 
       }
     </StyledResultPage>

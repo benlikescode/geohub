@@ -1,8 +1,9 @@
 import type { NextPage } from 'next'
 import React from 'react'
-import { Navbar, Layout, Sidebar } from '../../components/Layout'
+import { Layout } from '../../components/Layout'
 import GoogleMapReact from 'google-map-react'
 import StyledPuzzlesPage from '../../styles/PuzzlesPage.Styled'
+import { Navbar2 } from '../../components/Layout/Navbar2'
 
 const PuzzlesPage: NextPage = () => {
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
@@ -146,7 +147,6 @@ const PuzzlesPage: NextPage = () => {
     }
   
     private loadDataComplete_(data: Country[]) {
-      console.log(data)
       this.dataLoaded_ = true;
       this.countries_ = data;
       this.start_();
@@ -381,25 +381,24 @@ const PuzzlesPage: NextPage = () => {
   
   return (
     <StyledPuzzlesPage>
-      <Navbar />
-      <Layout hasSidebar>
-        <div>
-          <Sidebar />
-        </div>
+      <Layout>
+        <section>
+          <Navbar2 />
 
-        <main>
-          <div id="map">
-          <GoogleMapReact 
-            bootstrapURLKeys={GoogleMapConfig}
-            center={{lat: 0, lng: 0}} 
-            zoom={11}
-            yesIWantToUseGoogleMapApiInternals
-            onGoogleApiLoaded={handleApiLoaded}
-          >
-          </GoogleMapReact>
-          </div>
-         
-        </main> 
+          <main>
+            <div id="map">
+              <GoogleMapReact 
+                bootstrapURLKeys={GoogleMapConfig}
+                center={{lat: 0, lng: 0}} 
+                zoom={11}
+                yesIWantToUseGoogleMapApiInternals
+                onGoogleApiLoaded={handleApiLoaded}
+              >
+              </GoogleMapReact>
+            </div>        
+          </main> 
+        </section>
+        
       </Layout>
     </StyledPuzzlesPage> 
   )

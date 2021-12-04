@@ -1,31 +1,19 @@
-import { LightBulbIcon } from '@heroicons/react/outline'
 import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
 import React from 'react'
-import { MapPreviewCard } from '../../components/Home/MapPreviewCard'
-import { Navbar, Layout, Sidebar } from '../../components/Layout'
-import { Icon, Pill } from '../../components/System'
+import { Layout } from '../../components/Layout'
+import { Navbar2 } from '../../components/Layout/Navbar2'
 
-const LikedPage: NextPage = () => {
-  
-
-  
+const LikedPage: NextPage = () => { 
   return (
-    <>
-    <Navbar />
-      <Layout hasSidebar>
-        <div>
-          <Sidebar />
-        </div>
+    <Layout>
+      <section>
+        <Navbar2 />
 
         <main>
           <h1>Coming Soon!</h1>
-        </main>
-       
-       
-      </Layout>
-      </>
+        </main>   
+      </section>
+    </Layout>
   )
 }
 

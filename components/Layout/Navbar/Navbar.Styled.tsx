@@ -78,7 +78,7 @@ const StyledNavbar = styled.div`
     align-items: center;
     justify-content: space-between;
     gap: 2rem;
-    max-width: ${({ theme }) => theme.breakpoint.xl};
+    max-width: ${({ theme }) => theme.breakpoint.l};
     width: 100%;
     padding: 0 3.5rem;
     margin: 0 auto;

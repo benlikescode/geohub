@@ -11,11 +11,11 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   display: grid;
   gap: 1rem;
-  max-height: 400px;
+  max-height: 300px;
   height: 100%;
   
   .mapImage {
-    height: 150px;
+    height: 125px;
     width: 100%;
     border-radius: 11px;
     background: linear-gradient(180deg, rgba(25, 26, 27, 0) 0%, rgba(25, 26, 27, 0.57) 47.4%, #191A1B 100%), 
@@ -30,6 +30,10 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
 
     @media (max-width: 1500px) {
       height: 100px;
+    }
+
+    @media (max-width: 1350px) {
+      height: 125px;
     }
   }
 
@@ -56,10 +60,29 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
     font-weight: 400;
     line-height: 25px;
     text-align: center;
-    padding: 0 2rem;
+    padding: 0 1.7rem;
+    height: 50px;
 
-    @media (max-width: 1580px) {
+    @media (max-width: 1550px) {
       display: none;
+    }
+
+    @media (max-width: 1350px) {
+      display: block;
+      padding: 0 3.5rem;
+    }
+
+    @media (max-width: 1200px) {
+      display: block;
+      padding: 0 2.5rem;
+    }
+
+    @media (max-width: 1000px) {
+      display: none;
+    }
+
+    @media (max-width: 850px) {
+      display: block;
     }
   }
 
@@ -81,7 +104,7 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
     font-size: 1rem;
     font-weight: 500;
     user-select: none;
-    width: clamp(120px, 60%, 200px);
+    width: clamp(120px, 70%, 300px);
     background-color: var(--mediumPurple);
     color: #fff;
     border: 1px solid rgba(255, 255, 255, 0.19);

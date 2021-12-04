@@ -1,14 +1,22 @@
-import { FC, ReactNode } from 'react'
+import React, { FC, ReactNode } from 'react'
 import { StyledLayout } from '.'
+import { Sidebar } from '..'
+import { useViewport } from '../../../utils/hooks'
+import { SmallSidebar } from '../Sidebar'
 
 type Props = {
-  hasSidebar?: boolean
   children: ReactNode
 }
 
-const Layout: FC<Props> = ({ hasSidebar, children }) => {
+const Layout: FC<Props> = ({ children }) => {
+  const width = useViewport()
+
   return (
-    <StyledLayout hasSidebar={hasSidebar}>
+    <StyledLayout size={width < 1000 ? 'small' : 'normal'}>
+      <aside>
+        {width < 1000 ? <SmallSidebar /> : <Sidebar />}   
+      </aside>
+      
       {children}
     </StyledLayout>
   )

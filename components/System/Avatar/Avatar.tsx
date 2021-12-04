@@ -9,9 +9,10 @@ type Props = {
   onClick?: any
   userId?: string
   outline?: boolean
+  customOutline?: string
 }
 
-const Avatar: FC<Props> = ({ url, size, alt, onClick, userId, outline }) => {
+const Avatar: FC<Props> = ({ url, size, alt, onClick, userId, outline, customOutline }) => {
   const [currSrc, setCurrSrc] = useState(url || '')
   const fallback = '/images/avatars/fallback.png'
 
@@ -20,11 +21,12 @@ const Avatar: FC<Props> = ({ url, size, alt, onClick, userId, outline }) => {
   }, [url])
 
   return (
-    <StyledAvatar size={size} outline={outline}>
+    <StyledAvatar size={size} outline={outline} customOutline={customOutline}>
       <Image 
         src={currSrc || fallback} 
         height={size || 32} 
         width={size || 32} 
+        objectFit="cover"
         alt={alt} 
         onError={() => setCurrSrc(fallback)}
       />

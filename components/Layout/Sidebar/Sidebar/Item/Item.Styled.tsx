@@ -4,7 +4,7 @@ type StyledProps = {
   isActive: boolean
 }
 
-const StyledSidebarItem = styled.div<StyledProps>`
+const StyledItem = styled.div<StyledProps>`
   border-radius: 3px;
 
   ${({ isActive }) => isActive && `
@@ -21,9 +21,9 @@ const StyledSidebarItem = styled.div<StyledProps>`
     padding: 6px 8px;
     margin-right: 6px;
     color: #8B8F93;
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     cursor: pointer;
     width: 100%;
 
@@ -35,6 +35,10 @@ const StyledSidebarItem = styled.div<StyledProps>`
       color: var(--color2);
     }
   }  
+
+  .itemText {
+    margin-top: 1px;
+  }
 `
 
-export default StyledSidebarItem
+export default StyledItem

@@ -12,23 +12,29 @@ const StyledHomePage = styled.div`
     grid-template-columns: repeat(4, 1fr);
     gap: 1.2rem;
 
-    @media (max-width: 1400px) {
+    @media (max-width: 1350px) {
       grid-template-columns: 1fr 1fr;
+    }
+
+    @media (max-width: 850px) {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
     }
   }
 
   .bannerWrapper {
-    background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.41) 0%, rgba(0, 0, 0, 0) 100%), url('/images/backgrounds/HomeBanner.jpeg');
+    background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0) 100%), url('/images/backgrounds/HomeBanner.jpeg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
-    border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 12px;
-    padding: 3.5rem;
-
+    padding: 2.2rem;
+    box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+    border: var(--border);
+    
     @media (max-width: 1600px) {
-      padding: 2.5rem;
+      padding: 2rem;
     }
 
     @media (max-width: 1200px) {
@@ -41,7 +47,6 @@ const StyledHomePage = styled.div`
     font-weight: 700;
     line-height: 44px;
     color: var(--color1);
-    max-width: 200px;
 
     @media (max-width: 1200px) {
       font-size: 2.2rem;
@@ -54,8 +59,8 @@ const StyledHomePage = styled.div`
     font-size: 18px;
     line-height: 25px;
     color: rgba(255, 255, 255, 0.8);
-    margin: 20px 0;
-    max-width: 450px;
+    margin: 1rem 0;
+    max-width: 500px;
 
     @media (max-width: 1200px) {
       font-size: 1rem;
@@ -71,7 +76,7 @@ const StyledHomePage = styled.div`
 
   .badgesTitle {
     color: var(--mediumPurple);
-    font-size: 40px;
+    font-size: 32px;
     font-weight: 600;
   }
 
@@ -92,13 +97,32 @@ const StyledHomePage = styled.div`
 
   .gamemodesWrapper {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 1.2rem; 
 
     @media (max-width: 1200px) {
       grid-template-columns: 1fr;
       gap: 3rem;
     }
+  }
+
+  .heroImage {
+    background-image: linear-gradient(180deg, rgba(19, 19, 20, 0) 0%, #131314 100%), url('/images/backgrounds/hero1.jpeg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;  
+    height: 60vh;
+    position: relative;
+  }
+
+  .gradient {
+    height: 170px;
+    width: 100%;
+    background: linear-gradient(180deg, rgba(19, 19, 20, 0) 0%, rgba(19, 19, 20, 0.75) 100%);
+    transform: rotate(-180deg);
+    position: absolute;
+    top: 0;
   }
 `
 

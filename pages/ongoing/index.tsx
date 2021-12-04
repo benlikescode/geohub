@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { mailman } from '../../backend/utils/mailman'
-import { Navbar, Layout, Sidebar } from '../../components/Layout'
+import { Layout } from '../../components/Layout'
+import { Navbar2 } from '../../components/Layout/Navbar2'
 import { Spinner } from '../../components/System/Spinner'
 import { UnfinishedCard } from '../../components/UnfinishedCard'
 import { selectUser } from '../../redux/user'
@@ -28,12 +29,16 @@ const StyledSpinnerWrapper = styled.section`
   height: calc(100vh - 200px);
 `
 
-const UnfinishedGamesPage: NextPage = () => {
+const OngoingGamesPage: NextPage = () => {
   const [games, setGames] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
   const user = useSelector(selectUser)
 
   useEffect(() => {
+    if (!user.id) {
+      return
+    }
+
     setLoading(true)
 
     const fetchGames = async () => {
@@ -43,7 +48,7 @@ const UnfinishedGamesPage: NextPage = () => {
     }
 
     fetchGames()
-  }, [])
+  }, [user])
 
   const reloadGames = (gameId: string) => {
     const filtered = games.filter(game => game._id != gameId)
@@ -51,13 +56,10 @@ const UnfinishedGamesPage: NextPage = () => {
   }
 
   return (
-    <>
-    <Navbar />
-      <Layout hasSidebar>
-        <div>
-          <Sidebar />
-        </div>
-
+    <Layout>
+      <section>
+        <Navbar2 />
+        
         <main>
           <StyledHeader>Ongoing Games</StyledHeader>
           {loading ? (
@@ -80,10 +82,11 @@ const UnfinishedGamesPage: NextPage = () => {
               ))}
             </StyledGamesWrapper>
           )}       
-        </main>      
-      </Layout>
-      </>
+        </main> 
+      </section>
+           
+    </Layout>
   )
 }
 
-export default UnfinishedGamesPage
+export default OngoingGamesPage

@@ -5,7 +5,7 @@ type StyledProps = {
 }
 
 const StyledSearchbar = styled.div<StyledProps>`
-  max-width: 450px;
+  max-width: 400px;
   width: 100%;
   position: relative;
   

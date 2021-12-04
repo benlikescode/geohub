@@ -1,44 +1,56 @@
+import { LocationMarkerIcon, HomeIcon, MapIcon, UsersIcon, HeartIcon, DesktopComputerIcon } from '@heroicons/react/outline'
+import Link from 'next/link'
 import React, { FC } from 'react'
 import { StyledSidebar } from '.'
-import { SidebarItem } from './SidebarItem'
-import { ChatIcon, DesktopComputerIcon, HeartIcon, HomeIcon, MapIcon, UserCircleIcon, UserGroupIcon, UsersIcon } from '@heroicons/react/outline'
-import Link from 'next/link'
+import { Icon } from '../../../System'
+import { Item } from './Item'
 
 const Sidebar: FC = () => {
-
   return (
     <StyledSidebar>
+      <Link href="/">
+        <a>
+          <div className="logoWrapper">
+            <div className="logo">
+              <Icon size={28} fill="#fff">
+                <LocationMarkerIcon />
+              </Icon>
+            </div>
+            <h2 className="appTitle">GeoHub</h2>
+          </div>
+        </a>          
+      </Link>
+
       <div className="sidebarItemGrid">
-        <SidebarItem 
+        <Item 
           text="Home"
           icon={<HomeIcon />}
           route="/"
         />
 
-        <SidebarItem 
+        <Item 
           text="My Maps"
           icon={<MapIcon />}
-          route="/liked"
+          route="/my-maps"
         />
 
-        <SidebarItem 
+        <Item 
           text="Friends"
           icon={<UsersIcon />}
           route="/friends"
         />
 
-        <SidebarItem 
+        <Item 
           text="Liked Maps"
           icon={<HeartIcon />}
           route="/liked"
         />
  
-        <SidebarItem 
+        <Item 
           text="Ongoing Games"
           icon={<DesktopComputerIcon />}
-          route="/unfinished-games"
+          route="/ongoing"
         />
-   
       </div>
 
       <div className="quickLinksSection">
@@ -111,25 +123,7 @@ const Sidebar: FC = () => {
             <span>Area Codes</span>
           </div>
         </div>
-      </div>
-
-      {
-        /*
-          <div className="footer">
-          <Icon size={24}>
-            <img src="/images/socials/twitch.svg" alt="Twitch" />
-          </Icon>
-
-          <Icon size={24}>
-            <img src="/images/socials/youtube.svg" alt="Youtube" />
-          </Icon>
-
-          <Icon size={24}>
-            <img src="/images/socials/twitter.svg" alt="Twitter" />
-          </Icon>
-          </div>
-        */
-      }   
+      </div> 
     </StyledSidebar>
   )
 }

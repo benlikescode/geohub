@@ -11,7 +11,7 @@ const StyledInput = styled.div`
   }
 
   .input-styled {
-    height: 42px;
+    height: 38px;
     display: flex;
     align-items: center;
    
@@ -23,18 +23,16 @@ const StyledInput = styled.div`
       width: 100%;
       box-sizing: border-box;
       color: var(--color3);
-      border: var(--border);
-      outline: none;
       font-size: 1rem;
       font-weight: 400;
-      
+      transition: background-color 240ms, box-shadow 240ms;
+
       ::placeholder {
         color: var(--color3);
       }
 
       :focus {
-        border: 1px solid #8054ff;
-        outline: 2px solid #8054ff61;
+        box-shadow: 0 0 0 2px #8054ff;
       } 
     }
   }

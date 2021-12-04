@@ -11,6 +11,7 @@ import { Pill } from '../components/System/Pill'
 import { GamemodeCard } from '../components/GamemodeCard'
 import { Badge } from '../components/System/Badge'
 import { useEffect, useState } from 'react'
+import { Navbar2 } from '../components/Layout/Navbar2'
 
 const Home: NextPage = () => {
   const [geoTip, setGeoTip] = useState<GeoTipType>(geoTips[0])
@@ -22,16 +23,15 @@ const Home: NextPage = () => {
   
   return (
     <StyledHomePage>
-      <Navbar />
-      <Layout hasSidebar>
-        <div>
-          <Sidebar />
-        </div>
+      <Layout>        
+        <section className="heroImage">
+          <div className="gradient"></div>
+          <Navbar2 isHomePage/>
 
-        <main>
-          <div className="bannerWrapper">
+          <main>
+            
             <div className="bannerContent">
-              <h2 className="bannerTitle">GeoTip of The day.</h2>
+              <h2 className="bannerTitle">Today's Tip</h2>
               <div className="tipWrapper">           
                 <span className="tip">{geoTip.tip}</span>
               </div>
@@ -41,53 +41,46 @@ const Home: NextPage = () => {
                 ))}
               </div>
             </div>
-          </div>
-
-          <div className="mapPreviewSection">
-            {officialMaps.maps.map((map, idx) => (
-              <MapPreviewCard key={idx} map={map} />
-            ))}               
-          </div>
-
-          <div className="gamemodesWrapper">
-            <GamemodeCard 
-              title="Battle Royale"
-              titleColor="var(--lightRed)"
-              description="A competitive game mode, play against others and rank up!"
-              buttonText="Play Now"
-            />
-
-            <GamemodeCard 
-              title="Daily Challenge"
-              titleColor="var(--blue-500)"
-              description="A unique challenge everyday, play now and see how you compare."
-              buttonText="Play Now"
-            />
-
-            <GamemodeCard 
-              title="Geo Learn"
-              titleColor="var(--green-500)"
-              description="Facts and fun quizes to improve your knowledge and up your game!"
-              buttonText="Learn Now"
-            />          
-          </div>
-
-          <Banner hasPadding>
-            <FlexGroup justify="space-between">
-              <h2 className="badgesTitle">Your Badges</h2>
-              <button className="viewAll">
-                <span>View All Badges</span>
-                <Icon size={24} fill="var(--color3)">
-                  <ChevronRightIcon />
-                </Icon>
-              </button>             
-            </FlexGroup>
-                   
-            <div className="badgesWrapper">
-             
+            
+            <div className="mapPreviewSection">
+              {officialMaps.maps.map((map, idx) => (
+                <MapPreviewCard key={idx} map={map} />
+              ))}               
             </div>
-          </Banner>      
-        </main>     
+
+            <div className="gamemodesWrapper">
+              <GamemodeCard 
+                title="Daily Challenge"
+                titleColor="var(--blue-500)"
+                description="A unique challenge everyday, play now and see how you compare."
+                buttonText="Play Now"
+              />
+
+              <GamemodeCard 
+                title="Geo Learn"
+                titleColor="var(--green-500)"
+                description="Facts and fun quizes to improve your knowledge and up your game!"
+                buttonText="Learn Now"
+              />          
+            </div>
+
+            <Banner hasPadding>
+              <FlexGroup justify="space-between">
+                <h2 className="badgesTitle">Your Badges</h2>
+                <button className="viewAll">
+                  <span>View All Badges</span>
+                  <Icon size={24} fill="var(--color3)">
+                    <ChevronRightIcon />
+                  </Icon>
+                </button>             
+              </FlexGroup>
+                    
+              <div className="badgesWrapper">
+              
+              </div>
+            </Banner>      
+          </main> 
+        </section>           
       </Layout>   
     </StyledHomePage>
   )

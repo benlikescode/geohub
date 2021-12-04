@@ -1,2 +1,2 @@
-export { default as Sidebar } from './Sidebar'
-export { default as StyledSidebar } from './Sidebar.Styled'
+export { Sidebar } from './Sidebar'
+export { SmallSidebar } from './SmallSidebar'

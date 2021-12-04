@@ -1,8 +1,9 @@
 import styled from 'styled-components'
 
 const StyledLeaderboardCard = styled.div`
-  margin: -20px 50px 40px 50px;
-  max-width: var(--maxWidth);
+  margin-top: -1.2rem;
+  padding: 0 3.5rem;
+  max-width: ${({ theme }) => theme.breakpoint.l};
   width: 100%;
   z-index: 1;
 

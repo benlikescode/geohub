@@ -28,7 +28,7 @@ const StyledModal = styled.div`
   }
   
   .backdrop {
-    opacity: 0.85;
+    opacity: 0.95;
     background: rgb(0, 0, 0);
     position: fixed;
     top: 0;

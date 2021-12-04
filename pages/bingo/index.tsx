@@ -63,12 +63,7 @@ const BingoPage: NextPage = () => {
 
   return (
     <StyledBingoPage>
-      <Navbar />
-      <Layout hasSidebar>
-        <div>
-          <Sidebar />
-        </div>
-
+      <Layout>
         <main>
           <Banner>
             <div className="mapDetailsSection">

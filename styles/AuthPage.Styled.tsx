@@ -1,12 +1,12 @@
 import styled from 'styled-components'
 
 const StyledAuthPage = styled.div`
-  background: url('/images/backgrounds/authPage.jpg');
+  background-image: linear-gradient(180deg, rgba(19, 19, 20, 0) 0%, #131314 100%), url('/images/backgrounds/prettyImage2.jpeg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
-  height: calc(100vh - 60px);
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -35,7 +35,7 @@ const StyledAuthPage = styled.div`
     display: block;
     text-align: center;
     color: var(--color2);
-    margin-top: 15px;
+    margin-top: 1.2rem;
 
     a {
       color: var(--lightPurple);

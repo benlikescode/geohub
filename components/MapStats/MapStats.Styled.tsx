@@ -4,12 +4,11 @@ const StyledMapStats = styled.div`
   background-color: #171717;
   border-top-right-radius: 12px;
   border-bottom-right-radius: 12px;
-  padding: 30px 0 30px 180px;
+  padding: 30px 30px 30px 180px;
   clip-path: polygon(20% 0,0 100%,100% 100%,100% 0);
-  width: 600px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 44px;  
   height: 100%;
   
 

@@ -32,12 +32,14 @@ const Navbar: FC<Props> = ({ isAuthpage, variant }) => {
             </a>          
           </Link>
 
-          {user.name ?
-            <div className="userInfo">
-              <span className="username">{user.name}</span>
-              <Avatar url={user.avatar} alt="" size={40}/>
-            </div>
-
+          {user.id ?
+            <Link href={`/user/${user.id}`}>
+              <a className="userInfo">
+                <span className="username">{user.name}</span>
+                <Avatar url={user.avatar} alt="" size={40}/>
+              </a>                      
+            </Link>
+           
             :
 
             <FlexGroup gap={15}>
@@ -76,12 +78,14 @@ const Navbar: FC<Props> = ({ isAuthpage, variant }) => {
             <div className="mainSection">
               <Searchbar />
 
-              {user.name ?
+              {user.id ?
                 <div className="rightWrapper">             
-                  <div className="userInfo">
-                    <span className="username">{user.name}</span>
-                    <Avatar url={user.avatar} alt="" size={40}/>
-                  </div>
+                   <Link href={`/user/${user.id}`}>
+                      <a className="userInfo">
+                        <span className="username">{user.name}</span>
+                        <Avatar url={user.avatar} alt="" size={40}/>
+                      </a>                      
+                    </Link>
                 </div>
 
                 :

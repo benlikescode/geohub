@@ -3,13 +3,16 @@ import styled from 'styled-components'
 type StyledProps = {
   size: number
   fill?: string
+  padding?: string
   hoverColor?: string
+  hoverTransition?: boolean
 }
 
 const StyledIcon = styled.div<StyledProps>`
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: ${({ padding }) => padding && padding};
   
   svg {
     height: ${({ size }) => size ? size : '24'}px;
@@ -22,7 +25,7 @@ const StyledIcon = styled.div<StyledProps>`
 
     :hover {
       color: ${({ hoverColor }) => hoverColor};
-      transition: color .2s ease-in-out;
+      transition: ${({ hoverTransition }) => hoverTransition ? 'color .2s ease-in-out' : 'none'};
     }
   }
 `

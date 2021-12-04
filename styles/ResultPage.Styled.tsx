@@ -1,13 +1,7 @@
 import styled from 'styled-components'
 
 const StyledResultPage = styled.div`
- main {
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   flex-direction: column;
- }
-
+ 
  .errorContainer {
    display: flex;
    justify-content: space-between;
@@ -29,7 +23,6 @@ const StyledResultPage = styled.div`
     color: var(--color2);
     font-size: 22px;
     font-weight: 400;
-
  }
 `
 
