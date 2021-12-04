@@ -31,7 +31,7 @@ const Home: NextPage = () => {
           <main>
             
             <div className="bannerContent">
-              <h2 className="bannerTitle">Today's Tip</h2>
+              <h2 className="bannerTitle">Today&apos;s Tip</h2>
               <div className="tipWrapper">           
                 <span className="tip">{geoTip.tip}</span>
               </div>
