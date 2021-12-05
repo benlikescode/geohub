@@ -7,6 +7,10 @@ const StyledLeaderboardItem = styled.div`
   border-top: var(--border);
   padding: 16px 40px;
 
+  .userPlace {
+    width: 1.5rem;
+  }
+
   .userSection {
     display: flex;
     align-items: center;
@@ -25,12 +29,17 @@ const StyledLeaderboardItem = styled.div`
   .resultsSection {
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 1rem;
   }
 
   .totalTime {
     color: var(--color3);
     font-size: 14px;
+    width: 80px;
+  }
+
+  .totalPoints {
+    width: 120px;
   }
 `
 

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { mailman } from '../../backend/utils/mailman'
 import { Layout } from '../../components/Layout'
-import { Navbar2 } from '../../components/Layout/Navbar2'
+import { Navbar } from '../../components/Layout/Navbar'
 import { Spinner } from '../../components/System/Spinner'
 import { UnfinishedCard } from '../../components/UnfinishedCard'
 import { selectUser } from '../../redux/user'
@@ -58,7 +58,7 @@ const OngoingGamesPage: NextPage = () => {
   return (
     <Layout>
       <section>
-        <Navbar2 />
+        <Navbar />
         
         <main>
           <StyledHeader>Ongoing Games</StyledHeader>

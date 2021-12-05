@@ -3,8 +3,8 @@ import router from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { Game } from '../../backend/models'
 import { mailman } from '../../backend/utils/mailman'
-import { Navbar, Layout, LoadingPage, Sidebar } from '../../components/Layout'
-import { Navbar2 } from '../../components/Layout/Navbar2'
+import { Layout, LoadingPage } from '../../components/Layout'
+import { Navbar } from '../../components/Layout/Navbar'
 import { ResultMap } from '../../components/ResultMap'
 import { LeaderboardCard } from '../../components/Results'
 import { FlexGroup } from '../../components/System'
@@ -59,7 +59,7 @@ const ResultsPage: NextPage = () => {
     <StyledResultPage>
       {isCompleted && gameData !== null ?        
         <section>
-          <Navbar2 />
+          <Navbar />
 
           <main>
             <ResultMap 
@@ -79,7 +79,7 @@ const ResultsPage: NextPage = () => {
 
         <Layout>
           <section>
-            <Navbar2 />
+            <Navbar />
 
             <main>
               <div className="errorContainer">

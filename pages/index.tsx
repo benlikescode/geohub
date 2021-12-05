@@ -1,7 +1,7 @@
 import { ChevronRightIcon } from '@heroicons/react/outline'
 import type { NextPage } from 'next'
 import { MapPreviewCard } from '../components/Home/MapPreviewCard'
-import { Navbar, Sidebar, Layout, Banner } from '../components/Layout/'
+import { Layout, Banner } from '../components/Layout/'
 import { FlexGroup, Icon } from '../components/System'
 import StyledHomePage from '../styles/HomePage.Styled'
 import { GeoTipType } from '../types'
@@ -9,9 +9,8 @@ import geoTips from '../utils/constants/geotips.json'
 import officialMaps from '../utils/constants/officialMaps.json'
 import { Pill } from '../components/System/Pill'
 import { GamemodeCard } from '../components/GamemodeCard'
-import { Badge } from '../components/System/Badge'
 import { useEffect, useState } from 'react'
-import { Navbar2 } from '../components/Layout/Navbar2'
+import { Navbar } from '../components/Layout/Navbar'
 
 const Home: NextPage = () => {
   const [geoTip, setGeoTip] = useState<GeoTipType>(geoTips[0])
@@ -26,10 +25,9 @@ const Home: NextPage = () => {
       <Layout>        
         <section className="heroImage">
           <div className="gradient"></div>
-          <Navbar2 isHomePage/>
+          <Navbar isHomePage/>
 
-          <main>
-            
+          <main>        
             <div className="bannerContent">
               <h2 className="bannerTitle">Today&apos;s Tip</h2>
               <div className="tipWrapper">           

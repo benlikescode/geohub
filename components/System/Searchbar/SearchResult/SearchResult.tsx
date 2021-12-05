@@ -17,7 +17,7 @@ const SearchResult: FC<Props> = ({ searchResult }) => {
         <Link href={`/user/${searchResult._id}`}>
           <a className="linkWrapper">
             <FlexGroup>
-              <Avatar url={searchResult.avatar || ''} size={30} alt={`${searchResult.name}'s avatar`} />
+              <Avatar url={`/images/avatars/${searchResult.avatar}.jpg` || ''} size={30} alt={`${searchResult.name}'s avatar`} />
               <span className="searchResultLabel">{searchResult.name}</span>
             </FlexGroup>     
           </a> 

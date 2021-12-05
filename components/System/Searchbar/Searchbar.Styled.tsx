@@ -8,31 +8,32 @@ const StyledSearchbar = styled.div<StyledProps>`
   max-width: 400px;
   width: 100%;
   position: relative;
-  
+
   .searchbarWrapper {
     display: flex;
     align-items: center;
     gap: 10px;
     padding: 0 10px;
     width: 100%;
-    height: 38px;
+    height: 36px;
     border-radius: 4px;
-    background-color: ${({ isFocused }) => isFocused ? 'var(--background3)' : 'var(--background4)'};
-    color: var(--color4);
-    box-shadow: ${({ isFocused }) => isFocused && '0 0 0 2px #8054ff'};
+    background: rgba(255, 255, 255, 0.15);    
+    color: rgba(255, 255, 255, 0.6);
     transition: background-color 240ms, box-shadow 240ms;
+    box-shadow: ${({ isFocused }) => isFocused ? '0 0 0 2px rgba(255, 255, 255, 0.55)' : '0 0 0 1px rgba(255, 255, 255, 0.35)'};
   }
 
   input {
-    color: var(--color4);
+    color: rgba(255, 255, 255, 0.6);
     width: 100%;
-    z-index: 99999999999999;
     pointer-events: all;
     height: 100%;
-    background-color: inherit;
+    background: transparent;  
+    font-weight: 400;
 
     ::placeholder {
-      color: var(--color4);
+      color: rgba(255, 255, 255, 0.6);
+      font-weight: 400;
     }
   }
 `

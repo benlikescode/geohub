@@ -37,7 +37,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         name,
         email, 
         password: hashPassword,
-        avatar: `/images/avatars/default${randomInt(1, 6)}.png`,
+        avatar: `default${randomInt(1, 6)}`,
         createdAt: new Date().toString(),
         location: 'Canada'
       }

@@ -3,7 +3,7 @@ import React from 'react'
 import { Layout } from '../../components/Layout'
 import GoogleMapReact from 'google-map-react'
 import StyledPuzzlesPage from '../../styles/PuzzlesPage.Styled'
-import { Navbar2 } from '../../components/Layout/Navbar2'
+import { Navbar } from '../../components/Layout/Navbar'
 
 const PuzzlesPage: NextPage = () => {
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
@@ -383,7 +383,7 @@ const PuzzlesPage: NextPage = () => {
     <StyledPuzzlesPage>
       <Layout>
         <section>
-          <Navbar2 />
+          <Navbar />
 
           <main>
             <div id="map">

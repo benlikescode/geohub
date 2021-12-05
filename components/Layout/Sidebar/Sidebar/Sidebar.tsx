@@ -64,14 +64,6 @@ const Sidebar: FC = () => {
           </div>
 
           <div className="linkItem">
-            <span>Battle Royale</span>
-          </div>
-
-          <div className="linkItem">
-            <span>Streaks</span>
-          </div>
-
-          <div className="linkItem">
             <span>Challenges</span>
           </div>
 
@@ -113,14 +105,6 @@ const Sidebar: FC = () => {
 
           <div className="linkItem">
             <span>Languages</span>
-          </div>
-
-          <div className="linkItem">
-            <span>Bollards</span>
-          </div>
-
-          <div className="linkItem">
-            <span>Area Codes</span>
           </div>
         </div>
       </div> 

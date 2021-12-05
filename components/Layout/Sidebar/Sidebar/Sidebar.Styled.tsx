@@ -39,7 +39,7 @@ const StyledSidebar = styled.div`
   }
 
   .quickLinksSection {
-    margin-top: 10px;
+    margin-top: 20px;
     margin-bottom: 40px;
   }
 

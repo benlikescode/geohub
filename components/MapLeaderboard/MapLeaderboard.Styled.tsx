@@ -3,13 +3,14 @@ import styled from 'styled-components'
 const StyledMapLeaderboard = styled.div`
   .leaderboardTop {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: space-between;
-    padding: 20px 40px 10px 40px;
+    padding: 1rem 40px;
   }
 
   .title {
     font-size: 20px;
+    margin-top: 2px;
   }
 
   .notPlayedMsg {

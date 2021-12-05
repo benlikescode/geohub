@@ -10,8 +10,10 @@ const StyledProfilePage = styled.div`
  
   .userBanner {
     position: relative;
-    height: 200px;
+    height: 250px;
     width: 100%;
+    opacity: 0.75;
+    border-bottom: var(--border);
 
     img {
       position: absolute;
@@ -30,7 +32,7 @@ const StyledProfilePage = styled.div`
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    margin-top: -4.5rem;
+    margin-top: -4.8rem;
     padding: 0 2.5rem 2rem 2.5rem;
   }
 
@@ -42,32 +44,34 @@ const StyledProfilePage = styled.div`
   .userName {
     margin-bottom: 0.8rem;
     font-weight: 700;
+    font-size: 2rem;
   }
 
   .userBio {
     color: var(--color3);
+    font-size: 1.2rem;
   }
 
   .userStats {
-    padding: 2rem 2.5rem 0 2.5rem;
+    padding: 3rem 2.5rem 0 2.5rem;
   }
 
   .statRow {
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding-top: 1rem;
+    padding-top: 2rem;
   }
 
   .statItem {
-    background-color: var(--background2);
+    background-color: transparent;
     border: 2px solid rgba(255, 255, 255, 0.12);
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
-    padding: 1rem;
+    padding: 1.2rem;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   }
 
@@ -87,13 +91,14 @@ const StyledProfilePage = styled.div`
   }
 
   .userBadges {
-    padding: 2rem 2.5rem;
+    padding: 4rem 2.5rem;
   }
 
   .badgesRow {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    padding-top: 1rem;
+    grid-template-columns: repeat(6,1fr);
+    gap: 2rem;
+    padding-top: 2rem;
   }
 
   .badgeItem {
@@ -104,8 +109,10 @@ const StyledProfilePage = styled.div`
   }
 
   .sectionTitle {
-    font-size: 20px;
-    font-weight: 500;
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+    color: var(--color2);
   }
 `
 

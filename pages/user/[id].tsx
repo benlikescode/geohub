@@ -1,15 +1,24 @@
 import type { NextPage } from 'next'
-import React from 'react'
-import { Layout } from '../../components/Layout'
-import { Navbar2 } from '../../components/Layout/Navbar2'
-import { Avatar, Button } from '../../components/System'
+import { useRouter } from 'next/router'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { mailman } from '../../backend/utils/mailman'
+import { Layout, LoadingPage } from '../../components/Layout'
+import { Navbar } from '../../components/Layout/Navbar'
+import { Avatar, Button, FlexGroup } from '../../components/System'
+import { selectUser } from '../../redux/user'
 import StyledProfilePage from '../../styles/ProfilePage.Styled'
 
 const ProfilePage: NextPage = () => {
-  const banner = '/images/backgrounds/profileBanner1.jpeg'
+  const banner = '/images/backgrounds/prettyImage2.jpeg'
   const avatar = '/images/mapPreviews/CanadaMap.jpg'
   const userName = 'BenZ'
   const userBio = 'Hey there, I am the best explorer on this application!'
+  const [userDetails, setUserDetails] = useState<any>()
+  const [loading, setLoading] = useState(true)
+  const user = useSelector(selectUser)
+  const router = useRouter()
+  const userId = router.query.id
 
   const stats = {
     bestGame: 25000,
@@ -17,11 +26,43 @@ const ProfilePage: NextPage = () => {
     avgScore: 12467
   }
 
+  const isThisUsersProfile = () => {
+    if (!user.id) {
+      return false
+    }
+
+    return user.id === userId
+  }
+  
+  useEffect(() => {
+    // if this users profile use the cached data in redux store
+    if (isThisUsersProfile()) {
+      setUserDetails({name: user.name, avatar: user.avatar})
+      setLoading(false)
+    }
+    else {
+      const fetchUserDetails = async () => {
+        const { res } = await mailman(`users/${userId}`)
+        setUserDetails(res)
+        setLoading(false)
+      }
+  
+      fetchUserDetails()
+    }  
+  }, [userId])
+
+
+  
+
+  if (loading) {
+    return <LoadingPage />
+  }
+
   return (
     <StyledProfilePage>
       <Layout>
         <section>
-          <Navbar2 />
+          <Navbar />
 
           <main>
             <section className="profileWrapper">
@@ -31,16 +72,22 @@ const ProfilePage: NextPage = () => {
 
               <section className="profileTop">
                 <div className="userAvatar">
-                  <Avatar url={avatar} size={135} alt="User Avatar" customOutline="4px solid #171718" />
+                  <Avatar url={`/images/avatars/${userDetails.avatar}.jpg`} size={150} alt="User Avatar" customOutline="5px solid #171718" />
                 </div> 
 
-                <div className="buttonsWrapper">
-                  <Button type="solidPurple">Add Friend</Button>                        
-                </div>  
+                <FlexGroup gap={10}>
+                  {isThisUsersProfile() ?
+                    <Button type="solidPurple" width="170px">Edit Profile</Button>
+
+                    :
+
+                    <Button type="solidPurple" width="170px">Add Friend</Button>                
+                  }                  
+                </FlexGroup>
               </section>
 
               <section className="userDetails">
-                <h2 className="userName">{userName}</h2>
+                <h2 className="userName">{userDetails.name}</h2>
                 <span className="userBio">{userBio}</span>
               </section>
 
@@ -76,42 +123,42 @@ const ProfilePage: NextPage = () => {
 
                 <div className="badgesRow">
                   <div className="badgeItem">
-                    <Avatar url="/images/mapPreviews/Europe.jpg" size={80} alt="" customOutline="3px solid #fff"/>
+                    <Avatar url="/images/mapPreviews/europe.jpg" size={80} alt="" customOutline="3px solid #fff"/>
                     <span className="badgeLabel">First Game</span>
                   </div>
 
                   <div className="badgeItem">
-                    <Avatar url="/images/mapPreviews/Europe.jpg" size={80} alt="" customOutline="3px solid #fff"/>
+                    <Avatar url="/images/mapPreviews/europe.jpg" size={80} alt="" customOutline="3px solid #fff"/>
                     <span className="badgeLabel">First Country</span>
                   </div>
 
                   <div className="badgeItem">
-                    <Avatar url="/images/mapPreviews/Europe.jpg" size={80} alt="" customOutline="3px solid #fff"/>
+                    <Avatar url="/images/mapPreviews/europe.jpg" size={80} alt="" customOutline="3px solid #fff"/>
                     <span className="badgeLabel">Perfect Score</span>
                   </div>
 
                   <div className="badgeItem">
-                    <Avatar url="/images/mapPreviews/Europe.jpg" size={80} alt="" customOutline="3px solid #fff"/>
+                    <Avatar url="/images/mapPreviews/europe.jpg" size={80} alt="" customOutline="3px solid #fff"/>
                     <span className="badgeLabel">Perfect Game</span>
                   </div>
 
                   <div className="badgeItem">
-                    <Avatar url="/images/mapPreviews/Europe.jpg" size={80} alt="" customOutline="3px solid #fff"/>
+                    <Avatar url="/images/mapPreviews/europe.jpg" size={80} alt="" customOutline="3px solid #fff"/>
                     <span className="badgeLabel">Bingo Win</span>
                   </div>
 
                   <div className="badgeItem">
-                    <Avatar url="/images/mapPreviews/Europe.jpg" size={80} alt="" customOutline="3px solid #fff"/>
+                    <Avatar url="/images/mapPreviews/europe.jpg" size={80} alt="" customOutline="3px solid #fff"/>
                     <span className="badgeLabel">Puzzle Win</span>
                   </div>
 
                   <div className="badgeItem">
-                    <Avatar url="/images/mapPreviews/Europe.jpg" size={80} alt="" customOutline="3px solid #fff"/>
+                    <Avatar url="/images/mapPreviews/europe.jpg" size={80} alt="" customOutline="3px solid #fff"/>
                     <span className="badgeLabel">Know Your Area</span>
                   </div>
 
                   <div className="badgeItem">
-                    <Avatar url="/images/mapPreviews/Europe.jpg" size={80} alt="" customOutline="3px solid #fff"/>
+                    <Avatar url="/images/mapPreviews/europe.jpg" size={80} alt="" customOutline="3px solid #fff"/>
                     <span className="badgeLabel">Know Your Area</span>
                   </div>             
                 </div>

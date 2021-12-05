@@ -17,7 +17,7 @@ const LeaderboardItem: FC<Props> = ({ finishPlace, row }) => {
       <div className="userSection">
         <span className="userPlace">#{finishPlace}</span>
         <div className="userInfo">
-          <Avatar url={row.userAvatar} alt='' size={30}/>
+          <Avatar url={`/images/avatars/${row.userAvatar}.jpg`} alt='' size={30} customOutline="1px solid #fff"/>
           <Link href={`/user/${row.userId}`}>
             <a><span className="username">{row.userName}</span></a>
           </Link>
@@ -26,7 +26,7 @@ const LeaderboardItem: FC<Props> = ({ finishPlace, row }) => {
 
       <div className="resultsSection">
         <span className="totalPoints">{row.totalPoints} points</span>
-        <FlexGroup gap={10}>
+        <FlexGroup gap={5}>
           <span className="totalTime">{formatRoundTime(row.totalTime)}</span>
           <Link href={`/results/${row.gameId}`}>
             <a>

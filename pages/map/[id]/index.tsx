@@ -1,4 +1,4 @@
-import { Navbar, Layout, Sidebar, Banner, LoadingPage } from '../../../components/Layout'
+import { Navbar, Layout, Banner, LoadingPage } from '../../../components/Layout'
 import { GameSettings } from '../../../components/Modals/GameSettings'
 import React, { FC, useEffect, useState } from 'react'
 import StyledMapPage from '../../../styles/MapPage.Styled'
@@ -10,7 +10,6 @@ import { MapPreviewCard } from '../../../components/Home/MapPreviewCard'
 import { Modal } from '../../../components/Modals/Modal'
 import router from 'next/router'
 import { mailman } from '../../../backend/utils/mailman'
-import { Navbar2 } from '../../../components/Layout/Navbar2'
 
 const MapPage: FC = () => {
   const [settingsModalOpen, setSettingsModalOpen] = useState(false)
@@ -72,7 +71,7 @@ const MapPage: FC = () => {
     <StyledMapPage>
       <Layout> 
         <section>
-          <Navbar2 />
+          <Navbar />
 
           <main>
             <Banner>

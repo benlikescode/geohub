@@ -11,7 +11,6 @@ const StyledMapStats = styled.div`
   gap: 44px;  
   height: 100%;
   
-
   .textWrapper {
     display: flex;
     flex-direction: column;
@@ -26,6 +25,12 @@ const StyledMapStats = styled.div`
     color: var(--color3);
     font-weight: 400;
     font-size: 14px;
+  }
+
+  .likeBtn {
+    background-color: transparent;
+    height: fit-content;
+    width: fit-content;
   }
   
 `

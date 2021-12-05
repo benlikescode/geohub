@@ -1,12 +1,12 @@
 import { SearchIcon } from '@heroicons/react/outline'
-import { FC, useEffect, useRef, useState } from 'react'
-import { StyledSearchbar } from '.'
-import { Icon } from '..'
-import { mailman } from '../../../backend/utils/mailman'
-import { SearchResultType } from '../../../types'
-import { useClickOutside } from '../../../utils/hooks'
+import React, { FC, useEffect, useRef, useState } from 'react'
 import { Spinner } from '../Spinner'
 import { SearchOverlayCard } from './SearchOverlayCard'
+import { useClickOutside } from '../../../utils/hooks'
+import { mailman } from '../../../backend/utils/mailman'
+import { SearchResultType } from '../../../types'
+import { StyledSearchbar } from '.'
+import { Icon } from '..'
 
 type Props = {
   placeholder?: string
@@ -59,7 +59,7 @@ const Searchbar: FC<Props> = ({ placeholder }) => {
         />
       </div>
 
-      {isFocused && <SearchOverlayCard results={results}/> }
+      {isFocused && query && <SearchOverlayCard results={results}/> }
     </StyledSearchbar>
   )
 }

@@ -1,13 +1,13 @@
 import type { NextPage } from 'next'
 import React from 'react'
 import { Layout } from '../../components/Layout'
-import { Navbar2 } from '../../components/Layout/Navbar2'
+import { Navbar } from '../../components/Layout/Navbar'
 
 const ClansPage: NextPage = () => {
   return (
     <Layout>
       <section>
-        <Navbar2 />
+        <Navbar />
 
         <main>
           <h1>Coming Soon!</h1>

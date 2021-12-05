@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 
 const StyledSearchOverlayCard = styled.div`
-  
   .searchOverlayCard {
     width: calc(100% + 4px);
     background-color: var(--background3);

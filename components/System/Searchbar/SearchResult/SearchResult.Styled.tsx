@@ -16,7 +16,6 @@ const StyledSearchResult = styled.div`
     width: 100%;
     padding: 8px 15px;
   }
-  
 `
 
 export default StyledSearchResult

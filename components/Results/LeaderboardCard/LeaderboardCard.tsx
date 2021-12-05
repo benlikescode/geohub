@@ -78,7 +78,7 @@ const LeaderboardCard: FC<Props> = ({ gameData, mapData }) => {
             <div className="userSection">
               {/*showPlace && <span className="userPlace">#{idx + 1}</span>*/}
               <div className="userInfo">
-                <Avatar url={gameData.userAvatar || ''} alt='' size={30}/>
+                <Avatar url={`/images/avatars/${gameData.userAvatar}.jpg` || ''} alt='' size={30}/>
                 <span className="username">{gameData.userName}</span>
               </div>
             </div>

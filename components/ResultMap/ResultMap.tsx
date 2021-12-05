@@ -50,7 +50,7 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
     if (isFinalResults) {
       for (let i = 0; i < actualLocations.length; i++) {
         createMarker(guessedLocations[i], map, user.avatar)
-        const marker = createMarker(actualLocations[i], map, `/images/avatars/actualMarker${i + 1}.png`)
+        const marker = createMarker(actualLocations[i], map, `/images/markers/actualMarker${i + 1}.png`)
         marker.addListener('click', () => {
           window.open(`http://www.google.com/maps?layer=c&cbll=${actualLocations[i].lat},${actualLocations[i].lng}`, '_blank')   
         })
@@ -67,8 +67,8 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
       }
     }
     else {
-      createMarker(guessedLocation, map, user.avatar)
-      createMarker(actualLocation, map, '/images/avatars/actualMarker.png')
+      createMarker(guessedLocation, map, `/images/markers/${user.avatar}.png`)
+      createMarker(actualLocation, map, '/images/markers/actualMarker.png')
       
       new google.maps.Polyline({
         path: [guessedLocation, actualLocation],

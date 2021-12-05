@@ -12,8 +12,8 @@ const StyledAvatar = styled.div<StyledProps>`
   cursor: pointer;
 
   img {
-    border: ${({ outline }) => outline ? '1px solid rgba(0, 0, 0, 0.37);' : 0}!important;
-    border: ${({ customOutline }) => customOutline && customOutline}!important;
+    border: ${({ outline, customOutline }) => outline ? '1px solid rgba(0, 0, 0, 0.37)' : 
+    (customOutline ? customOutline : 'none')}!important;
     border-radius: 50%!important;
   }
 `
