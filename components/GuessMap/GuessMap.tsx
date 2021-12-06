@@ -57,7 +57,7 @@ const GuessMap: FC<Props> = ({ coordinate, zoom, setView, gameData, setGameData,
       }
       setCurrGuess(location)
       
-      const marker = createMarker(location, map, user.avatar)
+      const marker = createMarker(location, map, `/images/markers/${user.avatar}.png`)
       clearMarkers(prevMarkersRef.current)
       prevMarkersRef.current.push(marker)
     })

@@ -49,7 +49,7 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
     // if we are showing the final results page, load all the round markers. Otherwise, simply load the current round markers
     if (isFinalResults) {
       for (let i = 0; i < actualLocations.length; i++) {
-        createMarker(guessedLocations[i], map, user.avatar)
+        createMarker(guessedLocations[i], map, `/images/markers/${user.avatar}.png`)
         const marker = createMarker(actualLocations[i], map, `/images/markers/actualMarker${i + 1}.png`)
         marker.addListener('click', () => {
           window.open(`http://www.google.com/maps?layer=c&cbll=${actualLocations[i].lat},${actualLocations[i].lng}`, '_blank')   
