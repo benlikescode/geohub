@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 type StyledProps = {
   isFocused: boolean
+  isSmall?: boolean
 }
 
 const StyledSearchbar = styled.div<StyledProps>`
@@ -15,7 +16,7 @@ const StyledSearchbar = styled.div<StyledProps>`
     gap: 10px;
     padding: 0 10px;
     width: 100%;
-    height: 36px;
+    height: ${({ isSmall }) => isSmall ? 30 : 36}px;
     border-radius: 4px;
     background: rgba(255, 255, 255, 0.15);    
     color: rgba(255, 255, 255, 0.6);

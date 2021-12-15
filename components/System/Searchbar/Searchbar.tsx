@@ -10,9 +10,10 @@ import { Icon } from '..'
 
 type Props = {
   placeholder?: string
+  isSmall?: boolean
 }
 
-const Searchbar: FC<Props> = ({ placeholder }) => {
+const Searchbar: FC<Props> = ({ placeholder, isSmall }) => {
   const [query, setQuery] = useState("")
   const [results, setResults] = useState<SearchResultType[]>([])
   const [isFocused, setIsFocused] = useState(false)
@@ -47,7 +48,7 @@ const Searchbar: FC<Props> = ({ placeholder }) => {
   }, [query])
 
   return (
-    <StyledSearchbar isFocused={isFocused} ref={wrapperRef}>
+    <StyledSearchbar isFocused={isFocused} isSmall={isSmall} ref={wrapperRef}>
       <div className="searchbarWrapper" onClick={() => setIsFocused(true)}>
         <Icon size={20} fill="var(--color2)">
           {loading ? <Spinner size={20} /> : <SearchIcon />}

@@ -4,7 +4,9 @@ import { useSelector } from 'react-redux'
 import { StyledNavbar } from '.'
 import { selectUser } from '../../../redux/user'
 import { UserType } from '../../../types'
+import { useViewport } from '../../../utils/hooks'
 import { Avatar, Button, Searchbar } from '../../System'
+import { MobileNav } from './MobileNav'
 
 type Props = {
   isHomePage?: boolean
@@ -13,6 +15,7 @@ type Props = {
 const Navbar: FC<Props> = ({ isHomePage }) => {
   const [atTop, setAtTop] = useState(true)
   const user: UserType = useSelector(selectUser)
+  const width = useViewport()
 
   const handleScroll = () => {
     setAtTop(window.scrollY < 76)
@@ -29,9 +32,14 @@ const Navbar: FC<Props> = ({ isHomePage }) => {
       window.removeEventListener('scroll', handleScroll)
     }
   }, [])
+
+  if (width < 500) {
+    return <MobileNav />
+  }
   
   return (
     <StyledNavbar atTop={isHomePage && atTop}>
+     
       <div className="mainSection">
         <Searchbar />
 

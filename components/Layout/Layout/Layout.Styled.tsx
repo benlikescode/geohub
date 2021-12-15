@@ -1,12 +1,12 @@
 import styled from 'styled-components'
 
 type StyledProps = {
-  size: 'small' | 'normal'
+  size: 'hidden' | 'small' | 'normal'
 }
 
 const StyledLayout = styled.div<StyledProps>`
   display: grid;
-  grid-template-columns: ${({ size }) => size === 'small' ? '80px auto' : '250px auto'};
+  grid-template-columns: ${({ size }) => size === 'hidden' ? 'auto' : size === 'small' ? '80px auto' : '250px auto'};
   min-height: calc(100vh - 60px);
 
   main {
@@ -15,6 +15,10 @@ const StyledLayout = styled.div<StyledProps>`
     margin: 0 auto;
     box-sizing: border-box;
     padding: 3.5rem;
+
+    @media (max-width: 500px) {
+      padding: 3rem 1rem;
+    }
   }
 
   .widthController {
@@ -24,8 +28,6 @@ const StyledLayout = styled.div<StyledProps>`
     margin: 0 auto;
     box-sizing: border-box;
   }
-
-  
 `
 
 export default StyledLayout
