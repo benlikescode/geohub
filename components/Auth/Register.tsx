@@ -1,12 +1,12 @@
 import { useRouter } from 'next/router'
 import { FC, useMemo, useState } from 'react'
-import { StyledRegister } from '.'
-import { Button, Input } from '../../System'
+import { Button, Icon, Input } from '../System'
 import { useDispatch } from 'react-redux'
-import { updateUser } from '../../../redux/user'
+import { updateUser } from '../../redux/user'
 import Link from 'next/link'
-import { mailman } from '../../../backend/utils/mailman'
-import { Spinner } from '../../System/Spinner'
+import { mailman } from '../../backend/utils/mailman'
+import { Spinner } from '../System/Spinner'
+import { LocationMarkerIcon } from '@heroicons/react/outline'
 
 const Register: FC = () => {
   const [name, setName] = useState("")
@@ -100,7 +100,20 @@ const Register: FC = () => {
   }
 
   return (
-    <StyledRegister>
+    <section className="authContainer">
+      <Link href="/">
+        <a>
+          <div className="logoWrapper">
+            <div className="logo">
+              <Icon size={28} fill="#fff">
+                <LocationMarkerIcon />
+              </Icon>
+            </div>
+            <h2 className="appTitle">GeoHub</h2>
+          </div>
+        </a>          
+      </Link>
+
       <h1 className="title">Create your Account</h1>
 
       {generalErrorMsg &&
@@ -147,7 +160,7 @@ const Register: FC = () => {
           <a> Sign In</a>
         </Link>
       </span>
-    </StyledRegister>
+    </section>     
   )
 }
 

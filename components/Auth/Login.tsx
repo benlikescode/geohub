@@ -1,12 +1,12 @@
+import { LocationMarkerIcon } from '@heroicons/react/outline'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { FC, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { StyledLogin } from '.'
-import { mailman } from '../../../backend/utils/mailman'
-import { updateUser } from '../../../redux/user'
-import { Input, Button } from '../../System'
-import { Spinner } from '../../System/Spinner'
+import { mailman } from '../../backend/utils/mailman'
+import { updateUser } from '../../redux/user'
+import { Input, Button, Icon } from '../System'
+import { Spinner } from '../System/Spinner'
 
 const Login: FC = () => {
   const [email, setEmail] = useState("")
@@ -78,7 +78,20 @@ const Login: FC = () => {
   }
 
   return (
-    <StyledLogin>
+    <section className="authContainer">
+      <Link href="/">
+        <a>
+          <div className="logoWrapper">
+            <div className="logo">
+              <Icon size={28} fill="#fff">
+                <LocationMarkerIcon />
+              </Icon>
+            </div>
+            <h2 className="appTitle">GeoHub</h2>
+          </div>
+        </a>          
+      </Link>
+
       <h1 className="title">Welcome Back!</h1>
 
       {generalErrorMsg &&
@@ -87,7 +100,7 @@ const Login: FC = () => {
           <span className="inputErrorText">{generalErrorMsg}</span>     
         </div>
       }
-      
+
       <form className="inputGroup" onSubmit={(e) => handleLogin(e)}>
         <Input 
           type="text" 
@@ -117,7 +130,7 @@ const Login: FC = () => {
           <a> Sign Up</a>
         </Link>
       </span>  
-    </StyledLogin>
+    </section>
   )
 }
 

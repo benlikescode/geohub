@@ -11,16 +11,46 @@ const StyledAuthPage = styled.div`
   align-items: center;
   justify-content: center;
 
+  @media (max-width: 800px) {
+    background-image: none;
+    background-color: var(--background1);
+    align-items: flex-start;
+  }
+
+  .authContainer {
+    max-width: 550px;
+    width: 100%;
+    background-color: var(--background2);
+    color: var(--color1);
+    border-radius: 4px;
+    padding: 5rem 4rem;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.55);
+    border: var(--border);
+
+    @media (max-width: 800px) {
+      box-shadow: none;
+      border: none;
+      padding: 2rem 1rem;
+      background-color: inherit;
+    } 
+  }
+
   .title {
     font-weight: 400;
-    font-size: 32px;
+    font-size: 2rem;
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 2.5rem;
+
+    @media (max-width: 800px) {
+      font-size: 1.6rem;
+      text-align: left;
+      margin-bottom: 2rem;
+    }
   }
 
   .inputGroup {
     display: grid;
-    gap: 40px;
+    gap: 2.5rem;
   }
 
   .errorMessage {
@@ -66,6 +96,29 @@ const StyledAuthPage = styled.div`
     display: block;
     margin-top: 3px;
     margin-left: 10px;
+  }
+
+  .logoWrapper {
+    display: none;
+
+    @media (max-width: 800px) {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 4rem;
+    }
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--darkPurple);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 2px 6px rgba(255, 255, 255, 0.25), inset 0px -3px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    height: 38px;
+    width: 38px;
   }
 `
 
