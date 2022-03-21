@@ -1,37 +1,60 @@
 import styled from 'styled-components'
 
-type StyledProps = {
-  atTop?: boolean
-}
-
-const StyledNavbar = styled.div<StyledProps>`
+const StyledNavbar = styled.div`
   display: flex;
   align-items: center;
-  height: 76px;
+  justify-content: space-between;
+  padding: 0 1rem;
+  height: 55px;
   position: sticky;
   top: 0;
   z-index: 20;
-  background-color: ${({ atTop }) => atTop ? 'transparent' : '#171718'};
-  transition: 0.1s ease-in;
-  box-shadow: ${({ atTop }) => !atTop && '0px 4px 4px 0px rgba(0, 0, 0, 0.35)'};
+  background-color: #18181b;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.9), 0 0px 2px rgba(0, 0, 0, 0.9);
+
+  .logoWrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--darkPurple);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 2px 6px rgba(255, 255, 255, 0.25), inset 0px -3px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    height: 34px;
+    width: 34px;
+  }
+
+  .leftContainer {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  .navLinks {
+    display: flex;
+    align-items: center;
+    margin-left: 3rem;
+    height: 100%;
+  }
   
-  .mainSection {
-    max-width: ${({ theme }) => theme.breakpoint.l};
-    width: 100%;
+  .rightContainer {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 2rem;
-    padding: 0 3.5rem;
-    margin: 0 auto;
+    width: 1100px;
+   
   }
 
   .rightWrapper {
     display: flex;
     align-items: center;
     gap: 15px;
-    width: 100%;
-    justify-content: flex-end;
   }
 
   .userInfo {
@@ -44,7 +67,8 @@ const StyledNavbar = styled.div<StyledProps>`
     color: #BEC3C9;
     font-size: 18px;
   }
-  
+
+ 
 `
 
 export default StyledNavbar
