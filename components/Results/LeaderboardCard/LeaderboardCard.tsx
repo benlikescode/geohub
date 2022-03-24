@@ -22,11 +22,13 @@ const LeaderboardCard: FC<Props> = ({ gameData, mapData }) => {
   return (
     <StyledLeaderboardCard>
       <Banner>
-        <div className="leaderboardWrapper">
-        <div className="topSection">
+        <div className="leaderboardWrapper">   
           <div className="gameInfoWrapper">
             <div className="gameInfoItem">
-              <Avatar url={mapData.previewImg} alt='' size={50} />
+              <div className="mapAvatar">
+                <img src={mapData.previewImg} alt="Map Avatar" />
+              </div>
+          
               <div className="gameInfoContent">
                 <span className="label1">{mapData.name}</span>
                 <span className="label2">Created by {mapData.creator}</span>
@@ -47,103 +49,100 @@ const LeaderboardCard: FC<Props> = ({ gameData, mapData }) => {
             </div>
           </div>
 
-          <Select options={selectOptions} callback={setSelectState} />      
-        </div>
-
-        <div className="leaderboardSection">
-          <div className="titleSection">
-            <span>LEADERBOARD</span>
-          </div>
-          <div className="titleSection">
-            <span>Round 1</span>
-          </div>
-          <div className="titleSection">
-            <span>Round 2</span>
-          </div>
-          <div className="titleSection">
-            <span>Round 3</span>
-          </div>
-          <div className="titleSection">
-            <span>Round 4</span>
-          </div>
-          <div className="titleSection">
-            <span>Round 5</span>
-          </div>
-          <div className="titleSection">
-            <span>Total</span>
-          </div>
-        
-            <>
-            <div className="rowDivider"></div>
-            <div className="userSection">
-              {/*showPlace && <span className="userPlace">#{idx + 1}</span>*/}
-              <div className="userInfo">
-                <Avatar url={`/images/avatars/${gameData.userAvatar}.jpg` || ''} alt='' size={30}/>
-                <span className="username">{gameData.userName}</span>
-              </div>
+          <div className="leaderboardSection">
+            <div className="titleSection">
+              <span>LEADERBOARD</span>
             </div>
-            <div className="userResultSection">
-              <div className="pointsWrapper">
-                <span>{gameData.guesses[0].points} pts</span>
-              </div>
-              <div className="distanceTimeWrapper">
-                <span className="distance">{formatDistance(gameData.guesses[0].distance)}</span>
-                <div className="divider"></div>
-                <span className="time">{formatRoundTime(gameData.guesses[0].time)}</span>
-              </div>
+            <div className="titleSection hideOnSmall">
+              <span>Round 1</span>
             </div>
-            <div className="userResultSection">
-              <div className="pointsWrapper">
-                <span>{gameData.guesses[1].points} pts</span>
-              </div>
-              <div className="distanceTimeWrapper">
-                <span className="distance">{formatDistance(gameData.guesses[1].distance)}</span>
-                <div className="divider"></div>
-                <span className="time">{formatRoundTime(gameData.guesses[1].time)}</span>
-              </div>
+            <div className="titleSection hideOnSmall">
+              <span>Round 2</span>
             </div>
-            <div className="userResultSection">
-              <div className="pointsWrapper">
-                <span>{gameData.guesses[2].points} pts</span>
-              </div>
-              <div className="distanceTimeWrapper">
-                <span className="distance">{formatDistance(gameData.guesses[2].distance)}</span>
-                <div className="divider"></div>
-                <span className="time">{formatRoundTime(gameData.guesses[2].time)}</span>
-              </div>
+            <div className="titleSection hideOnSmall">
+              <span>Round 3</span>
             </div>
-            <div className="userResultSection">
-              <div className="pointsWrapper">
-                <span>{gameData.guesses[3].points} pts</span>
-              </div>
-              <div className="distanceTimeWrapper">
-                <span className="distance">{formatDistance(gameData.guesses[3].distance)}</span>
-                <div className="divider"></div>
-                <span className="time">{formatRoundTime(gameData.guesses[3].time)}</span>
-              </div>
+            <div className="titleSection hideOnSmall">
+              <span>Round 4</span>
             </div>
-            <div className="userResultSection">
-              <div className="pointsWrapper">
-                <span>{gameData.guesses[4].points} pts</span>
-              </div>
-              <div className="distanceTimeWrapper">
-                <span className="distance">{formatDistance(gameData.guesses[4].distance)}</span>
-                <div className="divider"></div>
-                <span className="time">{formatRoundTime(gameData.guesses[4].time)}</span>
-              </div>
+            <div className="titleSection hideOnSmall">
+              <span>Round 5</span>
             </div>
-            <div className="userResultSection">
-              <div className="pointsWrapper">
-                <span>{gameData.totalPoints} pts</span>
-              </div>
-              <div className="distanceTimeWrapper">
-                <span className="distance">{formatDistance(gameData.totalDistance)}</span>
-                <div className="divider"></div>
-                <span className="time">{formatRoundTime(gameData.totalTime)}</span>
-              </div>
+            <div className="titleSection">
+              <span>Total</span>
             </div>
-            </>         
-        </div>
+          
+              <>
+              <div className="rowDivider"></div>
+              <div className="userSection">
+                {/*showPlace && <span className="userPlace">#{idx + 1}</span>*/}
+                <div className="userInfo">
+                  <Avatar url={`/images/avatars/${gameData.userAvatar}.jpg` || ''} alt='' size={30}/>
+                  <span className="username">{gameData.userName}</span>
+                </div>
+              </div>
+              <div className="userResultSection hideOnSmall">
+                <div className="pointsWrapper">
+                  <span>{gameData.guesses[0].points} pts</span>
+                </div>
+                <div className="distanceTimeWrapper">
+                  <span className="distance">{formatDistance(gameData.guesses[0].distance)}</span>
+                  <div className="divider"></div>
+                  <span className="time">{formatRoundTime(gameData.guesses[0].time)}</span>
+                </div>
+              </div>
+              <div className="userResultSection hideOnSmall">
+                <div className="pointsWrapper">
+                  <span>{gameData.guesses[1].points} pts</span>
+                </div>
+                <div className="distanceTimeWrapper">
+                  <span className="distance">{formatDistance(gameData.guesses[1].distance)}</span>
+                  <div className="divider"></div>
+                  <span className="time">{formatRoundTime(gameData.guesses[1].time)}</span>
+                </div>
+              </div>
+              <div className="userResultSection hideOnSmall">
+                <div className="pointsWrapper">
+                  <span>{gameData.guesses[2].points} pts</span>
+                </div>
+                <div className="distanceTimeWrapper">
+                  <span className="distance">{formatDistance(gameData.guesses[2].distance)}</span>
+                  <div className="divider"></div>
+                  <span className="time">{formatRoundTime(gameData.guesses[2].time)}</span>
+                </div>
+              </div>
+              <div className="userResultSection hideOnSmall">
+                <div className="pointsWrapper">
+                  <span>{gameData.guesses[3].points} pts</span>
+                </div>
+                <div className="distanceTimeWrapper">
+                  <span className="distance">{formatDistance(gameData.guesses[3].distance)}</span>
+                  <div className="divider"></div>
+                  <span className="time">{formatRoundTime(gameData.guesses[3].time)}</span>
+                </div>
+              </div>
+              <div className="userResultSection hideOnSmall">
+                <div className="pointsWrapper">
+                  <span>{gameData.guesses[4].points} pts</span>
+                </div>
+                <div className="distanceTimeWrapper">
+                  <span className="distance">{formatDistance(gameData.guesses[4].distance)}</span>
+                  <div className="divider"></div>
+                  <span className="time">{formatRoundTime(gameData.guesses[4].time)}</span>
+                </div>
+              </div>
+              <div className="userResultSection">
+                <div className="pointsWrapper">
+                  <span>{gameData.totalPoints} pts</span>
+                </div>
+                <div className="distanceTimeWrapper">
+                  <span className="distance">{formatDistance(gameData.totalDistance)}</span>
+                  <div className="divider"></div>
+                  <span className="time">{formatRoundTime(gameData.totalTime)}</span>
+                </div>
+              </div>
+              </>         
+          </div>
         </div>      
       </Banner>    
     </StyledLeaderboardCard>
