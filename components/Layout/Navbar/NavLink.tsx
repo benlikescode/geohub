@@ -14,7 +14,7 @@ const StyledNavLink = styled.div<StyledProps>`
   justify-content: center;
 
   &:not(:last-child) {
-    margin-right: 0.5rem;
+    margin-right: 1rem;
   }
 
   a {
@@ -36,7 +36,8 @@ const StyledNavLink = styled.div<StyledProps>`
   }
 
   .item {
-    padding: 0.5rem 1rem;
+    //padding: 0.5rem 1rem;
+    padding: 0.5rem;
     height: 100%;
     display: flex;
     align-items: center;

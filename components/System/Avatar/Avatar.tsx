@@ -3,16 +3,17 @@ import { StyledAvatar } from '.'
 import Image from 'next/image'
 
 type Props = {
-  url: string
-  size?: number
-  alt?: string
-  onClick?: any
-  userId?: string
-  outline?: boolean
-  customOutline?: string
+  url: string;
+  size?: number;
+  alt?: string;
+  onClick?: any;
+  userId?: string;
+  outline?: boolean;
+  customOutline?: string;
+  className?: string;
 }
 
-const Avatar: FC<Props> = ({ url, size, alt, onClick, userId, outline, customOutline }) => {
+const Avatar: FC<Props> = ({ url, size, alt, onClick, userId, outline, customOutline, className }) => {
   const [currSrc, setCurrSrc] = useState(url || '')
   const fallback = '/images/avatars/fallback.png'
 
@@ -29,6 +30,7 @@ const Avatar: FC<Props> = ({ url, size, alt, onClick, userId, outline, customOut
         objectFit="cover"
         alt={alt} 
         onError={() => setCurrSrc(fallback)}
+        className={className}
       />
     </StyledAvatar>
   )

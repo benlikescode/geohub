@@ -1,6 +1,10 @@
 import styled from 'styled-components'
 
-const StyledModal = styled.div`
+type StyledProps = {
+  width?: string;
+}
+
+const StyledModal = styled.div<StyledProps>`
   .layerContainer {
     position: absolute;
     top: 0;
@@ -13,7 +17,7 @@ const StyledModal = styled.div`
   }
 
   .modal { 
-    width: 650px;
+    width: ${({ width }) => width ? width : '650px'};
     max-height: 700px;
     min-height: 200px;
     background-color: var(--background3);

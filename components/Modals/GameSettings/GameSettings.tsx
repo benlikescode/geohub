@@ -116,8 +116,7 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
             <Icon size={30} hoverColor="var(--color2)">
               <XIcon />
             </Icon>
-          </Button>
-         
+          </Button>  
         </div>
 
         <div className="mainContent">
@@ -210,16 +209,16 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
         <div className="footer">
           <Button 
             type="ghost" 
-            width="130px" 
             callback={() => closeModal()}
+            height="35px"
           >
             Cancel
           </Button>
 
           <Button 
             type="solidPurple" 
-            width="175px" 
             callback={() => handleClickBtn()}
+            height="35px"
           >
             {gameType === 'Single Player' ? 'Start Game' : 
             showChallengeView ? 'Start Game' : 'Invite Friends'}

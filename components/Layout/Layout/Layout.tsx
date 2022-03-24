@@ -1,25 +1,41 @@
 import React, { FC, ReactNode } from 'react'
 import { StyledLayout } from '.'
-import { Sidebar } from '..'
-import { useViewport } from '../../../utils/hooks'
-import { SmallSidebar } from '../Sidebar'
+import { Navbar } from '../Navbar'
+import { Sidebar } from '../Sidebar'
+import { MobileNav } from '../Sidebar/MobileNav'
 
 type Props = {
-  children: ReactNode
+  isHome?: boolean;
+  maxWidth?: string;
+  children: ReactNode;
 }
 
-const Layout: FC<Props> = ({ children }) => {
-  const width = useViewport()
-
+const Layout: FC<Props> = ({ isHome, maxWidth, children }) => {
   return (
-    <StyledLayout size={width <= 500 ? 'hidden' : width < 1000 ? 'small' : 'normal'}>
-      {width > 500 &&
-        <aside>
-          {width < 1000 ? <SmallSidebar /> : <Sidebar />}   
-        </aside>
-      }
+    <StyledLayout isHome={isHome} maxWidth={maxWidth}>
+      <Navbar />
       
-      {children}
+      <div className="appBody">
+        <div className="sidebarWrapper">
+          <Sidebar />
+        </div>
+        
+        <main>     
+          {isHome && (
+            <div className="heroBannerWrapper">
+              <div className="heroBanner">
+                <div className="heroGradient"></div>
+              </div>           
+            </div>  
+          )}
+
+          <div className="mainContent">
+            {children}     
+          </div>                
+        </main>
+      </div>
+
+      <MobileNav />
     </StyledLayout>
   )
 }

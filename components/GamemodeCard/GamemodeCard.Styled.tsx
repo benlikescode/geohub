@@ -10,7 +10,7 @@ const StyledGamemodeCard = styled.div<StyledProps>`
   border-radius: 12px;
   padding: 30px 40px;
   display: grid;
-  gap: 2rem;
+  gap: 1.5rem;
 
   .gamemodeTitle {
     color: ${({ titleColor }) => titleColor};
@@ -20,12 +20,8 @@ const StyledGamemodeCard = styled.div<StyledProps>`
 
   .gamemodeDescription {
     color: var(--color2);
-    font-size: 1.3rem;
-    font-weight: 500;
-
-    @media (max-width: 1580px) {
-      font-size: 1.1rem;
-    }
+    font-size: 1rem;
+    font-weight: 400;
   }
 `
 

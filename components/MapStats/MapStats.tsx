@@ -6,6 +6,8 @@ import { StyledMapStats } from '.'
 import { mailman } from '../../backend/utils/mailman'
 import { selectUser } from '../../redux/user'
 import { MapType } from '../../types'
+import { Auth } from '../Modals/Auth'
+import { Modal } from '../Modals/Modal'
 import { FlexGroup, Icon } from '../System'
 
 type Props = {
@@ -15,9 +17,14 @@ type Props = {
 const MapStats: FC<Props> = ({ map }) => {
   const [isLiked, setIsLiked] = useState(false)
   const [numLikes, setNumLikes] = useState(0)
+  const [modalOpen, setModalOpen] = useState(false)
   const user = useSelector(selectUser)
 
   const handleLike = async () => {
+    if (!user.id) {
+      return setModalOpen(true)
+    }
+
     if (isLiked) {
       const { res } = await mailman(`likes/${map.slug}?userId=${user.id}`, 'DELETE')
       setIsLiked(false)
@@ -38,9 +45,7 @@ const MapStats: FC<Props> = ({ map }) => {
   }
 
   useEffect(() => {
-    if (!map.slug) {
-      return
-    }
+    if (!map.slug) return
   
     fetchLikes()
    
@@ -92,8 +97,12 @@ const MapStats: FC<Props> = ({ map }) => {
           <span className="subLabel">{numLikes}</span>
         </div>
       </FlexGroup>
-       
-      
+
+      {modalOpen &&
+        <Modal closeModal={() => setModalOpen(false)} width="450px">
+          <Auth closeModal={() => setModalOpen(false)} />
+        </Modal>
+      }
     </StyledMapStats>
   )
 }

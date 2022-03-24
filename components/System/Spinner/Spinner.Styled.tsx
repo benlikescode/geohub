@@ -6,8 +6,8 @@ type StyledProps = {
 }
 
 const StyledSpinner = styled.div<StyledProps>`
-  height: ${({ size }) => size ? size : 60}px;
-  width: ${({ size }) => size ? size : 60}px;
+  height: ${({ size }) => size ? size : 40}px;
+  width: ${({ size }) => size ? size : 40}px;
 
   svg {
     height: 100%;

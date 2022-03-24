@@ -1,26 +1,12 @@
-import { LocationMarkerIcon, HomeIcon, MapIcon, UsersIcon, HeartIcon, DesktopComputerIcon } from '@heroicons/react/outline'
+import { HomeIcon, MapIcon, UsersIcon, HeartIcon, DesktopComputerIcon } from '@heroicons/react/outline'
 import Link from 'next/link'
 import React, { FC } from 'react'
 import { StyledSidebar } from '.'
-import { Icon } from '../../../System'
 import { Item } from './Item'
 
 const Sidebar: FC = () => {
   return (
     <StyledSidebar>
-      <Link href="/">
-        <a>
-          <div className="logoWrapper">
-            <div className="logo">
-              <Icon size={28} fill="#fff">
-                <LocationMarkerIcon />
-              </Icon>
-            </div>
-            <h2 className="appTitle">GeoHub</h2>
-          </div>
-        </a>          
-      </Link>
-
       <div className="sidebarItemGrid">
         <Item 
           text="Home"

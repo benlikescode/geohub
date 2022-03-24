@@ -6,7 +6,7 @@ import { useClickOutside } from '../../../utils/hooks'
 import { mailman } from '../../../backend/utils/mailman'
 import { SearchResultType } from '../../../types'
 import { StyledSearchbar } from '.'
-import { Icon } from '..'
+import { Button, Icon } from '..'
 
 type Props = {
   placeholder?: string
@@ -50,14 +50,18 @@ const Searchbar: FC<Props> = ({ placeholder, isSmall }) => {
   return (
     <StyledSearchbar isFocused={isFocused} isSmall={isSmall} ref={wrapperRef}>
       <div className="searchbarWrapper" onClick={() => setIsFocused(true)}>
-        <Icon size={20} fill="var(--color2)">
-          {loading ? <Spinner size={20} /> : <SearchIcon />}
-        </Icon>
         <input 
           type="text" 
-          placeholder={placeholder ? placeholder : 'Search players or maps'} 
+          placeholder={placeholder ? placeholder : 'Search'} 
           onChange={(e) => setQuery(e.currentTarget.value)} 
         />
+        <div className="searchBtn">
+          <Button type="icon">
+            <Icon size={20} fill="rgba(206, 206, 206, 0.6)">
+              {loading ? <Spinner size={20} /> : <SearchIcon />}
+            </Icon>
+          </Button>
+        </div>      
       </div>
 
       {isFocused && query && <SearchOverlayCard results={results}/> }

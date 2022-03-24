@@ -469,3 +469,14 @@ export const formatTimeLeft = (time: number) => {
 
   return `${mins}:${secs}` 
 }
+
+
+// Takes in a number and formats it if greater than 1000 (ex. 25000 -> 25k)
+export const formatLargeNumber = (num: number) => {
+  if (num >= 1000000) {
+    const prefix = Math.floor(num / 1000000)
+  }
+  if (num >= 1000) {
+    
+  }
+}

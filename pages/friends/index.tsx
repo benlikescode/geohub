@@ -1,18 +1,23 @@
 import type { NextPage } from 'next'
 import React from 'react'
+import styled from 'styled-components'
 import { Layout } from '../../components/Layout'
-import { Navbar } from '../../components/Layout/Navbar'
+import { BlockQuote } from '../../components/System'
+
+const StyledHeader = styled.h1`
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #fff;
+`
 
 const FriendsPage: NextPage = () => {
   return (
     <Layout>
-      <section>
-        <Navbar />
+      <StyledHeader>Friends</StyledHeader>
 
-        <main>
-          <h1>Coming Soon!</h1>
-        </main>   
-      </section>
+      <BlockQuote>
+        You do not appear to have any friends
+       </BlockQuote>
     </Layout>
   )
 }

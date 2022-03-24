@@ -14,28 +14,43 @@ const StyledSearchbar = styled.div<StyledProps>`
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 0 10px;
+    //padding: 0 10px;
     width: 100%;
-    height: ${({ isSmall }) => isSmall ? 30 : 36}px;
-    border-radius: 4px;
-    background: rgba(255, 255, 255, 0.15);    
-    color: rgba(255, 255, 255, 0.6);
-    transition: background-color 240ms, box-shadow 240ms;
-    box-shadow: ${({ isFocused }) => isFocused ? '0 0 0 2px rgba(255, 255, 255, 0.55)' : '0 0 0 1px rgba(255, 255, 255, 0.35)'};
+    height: ${({ isSmall }) => isSmall ? 30 : 34}px;
+    border-radius: 3px;
+    background: #121313;
+    color: rgba(206, 206, 206, 0.6);
+    transition: background-color 100ms, box-shadow 100ms;
+    box-shadow: ${({ isFocused }) => isFocused && '0 0 0 2px var(--mediumPurple)'};
+    border: 1px solid #353839;
   }
 
   input {
-    color: rgba(255, 255, 255, 0.6);
+    color: #5b687a;
     width: 100%;
     pointer-events: all;
     height: 100%;
     background: transparent;  
     font-weight: 400;
+    margin-left: 10px;
+    //box-shadow: ${({ isFocused }) => isFocused && '0 0 0 2px var(--mediumPurple)'};
+    border-radius: 3px;
 
     ::placeholder {
-      color: rgba(255, 255, 255, 0.6);
+      color: #5b687a;
       font-weight: 400;
     }
+  }
+  
+  .searchBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 0 1rem;
+    background-color: #212424;
+    border-left: 1px solid #353839;
+    border-radius: 0 3px 3px 0;
   }
 `
 

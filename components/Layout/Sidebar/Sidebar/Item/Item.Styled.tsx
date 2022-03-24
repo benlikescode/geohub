@@ -19,11 +19,9 @@ const StyledItem = styled.div<StyledProps>`
   .item {
     background-color: transparent;
     padding: 6px 8px;
-    margin-right: 6px;
     color: #8B8F93;
     display: flex;
     align-items: center;
-    gap: 12px;
     cursor: pointer;
     width: 100%;
 
@@ -37,7 +35,13 @@ const StyledItem = styled.div<StyledProps>`
   }  
 
   .itemText {
-    margin-top: 1px;
+    margin-top: 2px;
+    font-size: 15px;
+    margin-left: 10px;
+    
+    @media (max-width: 800px) {
+      display: none;
+    }
   }
 `
 

@@ -52,7 +52,7 @@ const StyledChallenge = styled.div`
 
   .noFriends {
     font-size: 14px;
-    color: var(--color3);
+    color: #ff4747;
   }
 
 `

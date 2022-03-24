@@ -1,12 +1,15 @@
 import styled from 'styled-components'
 
 type StyledProps = {
-  type: 'solidPurple' | 'solidGray' | 'solidCustom' | 'ghost' | 'ghostLight' | 'icon' | 'iconRounded'
-  color?: string
-  backgroundColor?: string
-  isDisabled?: boolean
-  width?: string
-  isRound?: boolean
+  type: 'solidPurple' | 'solidGray' | 'solidCustom' | 'ghost' | 'ghostLight' | 'icon' | 'iconRounded';
+  color?: string;
+  backgroundColor?: string;
+  hoverColor?: string;
+  isDisabled?: boolean;
+  width?: string;
+  height?: string;
+  isRound?: boolean;
+  isSmall?: boolean;
 }
 
 const StyledButton = styled.div<StyledProps>`
@@ -20,7 +23,7 @@ const StyledButton = styled.div<StyledProps>`
     justify-content: center;
     gap: 8px;
     border-radius: ${({ isRound }) => isRound ? '20' : '5'}px;
-    height: 40px;
+    height: ${({ height }) => height ? height : '40px'};
     padding: 0 25px;
     font-size: 1rem;
     font-weight: 500;
@@ -32,11 +35,19 @@ const StyledButton = styled.div<StyledProps>`
       !isDisabled && `
         background-color: var(--mediumPurple);
         color: #fff;
-        border: 1px solid rgba(255, 255, 255, 0.19);
 
         :hover {
-          background-color: #703FFF;
+          background-color: var(--darkPurple);
         }
+    `}
+
+    ${({ isSmall, isDisabled }) => 
+      isSmall && 
+      !isDisabled && `
+        height: 30px;
+        font-size: 14px;
+        border-radius: 3px;
+        padding: 0 1rem;
     `}
 
     ${({ type, isDisabled }) => 
@@ -95,8 +106,16 @@ const StyledButton = styled.div<StyledProps>`
       color && 
       backgroundColor && 
       !isDisabled && `
-        background-color: ${ backgroundColor };
-        color: ${ color };
+        background-color: ${backgroundColor};
+        color: ${color};
+    `}
+
+    ${({ hoverColor, isDisabled }) => 
+      hoverColor &&
+      !isDisabled && `
+        :hover {
+          background-color: ${hoverColor}
+        }
     `}
 
     ${({ isDisabled }) => 

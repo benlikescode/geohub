@@ -12,7 +12,7 @@ const StyledGameSettings = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 30px;
+    padding: 15px 30px;
     
     h2 {
       font-size: 20px;
@@ -132,7 +132,7 @@ const StyledGameSettings = styled.div`
     align-items: center;
     justify-content: flex-end;
     gap: 15px;
-    padding: 20px 30px;
+    padding: 15px 30px;
   }
   
 `

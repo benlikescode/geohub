@@ -1,19 +1,32 @@
 import styled from 'styled-components'
 
 const StyledProfilePage = styled.div`
-
   .profileWrapper {
-    border: var(--border);
+    border: 1px solid #141414;
     border-radius: 12px;
-    background-color: #171718;
+
+    @media (max-width: 500px) {
+      border-radius: 0;
+    }
+  }
+
+  // Override Horizontal Padding In Layout.Styled
+  .mainContent {
+    @media (max-width: 500px) {
+      padding: 0;
+    }
   }
  
   .userBanner {
     position: relative;
-    height: 250px;
+    height: 200px;
     width: 100%;
     opacity: 0.75;
     border-bottom: var(--border);
+
+    @media (max-width: 500px) {
+      height: 120px;
+    }
 
     img {
       position: absolute;
@@ -25,6 +38,10 @@ const StyledProfilePage = styled.div`
       height: 100%;
       width: 100%;
       border-radius: 12px 12px 0 0;
+
+      @media (max-width: 500px) {
+        border-radius: 0;
+      }
     }
   }
 
@@ -32,28 +49,40 @@ const StyledProfilePage = styled.div`
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    margin-top: -4.8rem;
+    margin-top: -3.8rem;
     padding: 0 2.5rem 2rem 2.5rem;
+
+    @media (max-width: 1050px) {
+      padding: 0 1rem 2rem 1rem;
+    }
   }
 
   .userDetails {
-    border-bottom: var(--border);
+    border-bottom: 1px solid #202020;
     padding: 0 2.5rem 2rem 2.5rem;
+
+    @media (max-width: 1050px) {
+      padding: 0 1rem 2rem 1rem;
+    }
   }
 
   .userName {
     margin-bottom: 0.8rem;
     font-weight: 700;
-    font-size: 2rem;
+    font-size: 1.75rem;
   }
 
   .userBio {
     color: var(--color3);
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 
   .userStats {
     padding: 3rem 2.5rem 0 2.5rem;
+
+    @media (max-width: 1050px) {
+      padding: 3rem 1rem 0 1rem;
+    }
   }
 
   .statRow {
@@ -61,11 +90,15 @@ const StyledProfilePage = styled.div`
     align-items: center;
     gap: 1rem;
     padding-top: 2rem;
+
+    @media (max-width: 500px) {
+      gap: 0.5rem;
+    }
   }
 
   .statItem {
     background-color: transparent;
-    border: 2px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -73,6 +106,14 @@ const StyledProfilePage = styled.div`
     width: 100%;
     padding: 1.2rem;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+    @media (max-width: 700px) {
+      padding: 1rem;
+    }
+
+    @media (max-width: 500px) {
+      padding: 0.5rem;
+    }
   }
 
   .statContent {
@@ -84,21 +125,38 @@ const StyledProfilePage = styled.div`
 
   .statResult {
     font-weight: 600;
+
+    @media (max-width: 1000px) {
+      font-size: 1.25rem;
+    }
   }
 
   .statLabel {
     color: var(--lightPurple);
+
+    @media (max-width: 1000px) {
+      font-size: 14px;
+    }
   }
 
   .userBadges {
     padding: 4rem 2.5rem;
+
+    @media (max-width: 1050px) {
+      padding: 4rem 1rem;
+    }
   }
 
   .badgesRow {
     display: grid;
-    grid-template-columns: repeat(6,1fr);
-    gap: 2rem;
+    grid-template-columns: repeat(6, 1fr);
     padding-top: 2rem;
+    gap: 2rem;
+
+    @media (max-width: 1000px) {
+      grid-template-columns: repeat(3, 1fr);
+     
+    }
   }
 
   .badgeItem {
@@ -108,11 +166,24 @@ const StyledProfilePage = styled.div`
     gap: 0.5rem;
   }
 
+  .badgeLabel {
+    @media (max-width: 630px) {
+      font-size: 13px;
+    }
+  }
+
   .sectionTitle {
-    font-size: 28px;
-    font-weight: 700;
-    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    //text-align: center;
     color: var(--color2);
+  }
+
+  .badgeImg {
+    @media (max-width: 500px) {
+      height: 60px;
+      width: 60px;
+    }
   }
 `
 

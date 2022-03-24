@@ -1,17 +1,12 @@
 import styled from 'styled-components'
 
 const StyledHomePage = styled.div`
-  main {
-    display: flex;
-    flex-direction: column;
-    gap: 50px;
-  }
-
   .mapPreviewSection {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1.2rem;
-
+    z-index: 1;
+    
     @media (max-width: 1350px) {
       grid-template-columns: 1fr 1fr;
     }
@@ -22,31 +17,15 @@ const StyledHomePage = styled.div`
     }
   }
 
-  .bannerWrapper {
-    background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0) 100%), url('/images/backgrounds/HomeBanner.jpeg');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 100%;
-    border-radius: 12px;
-    padding: 2.2rem;
-    box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
-    border: var(--border);
-    
-    @media (max-width: 1600px) {
-      padding: 2rem;
-    }
-
-    @media (max-width: 1200px) {
-      padding: 1.5rem;
-    }
+  .bannerContent {
+    z-index: 1;
   }
 
   .bannerTitle {
     font-size: 2.5rem;
     font-weight: 700;
     line-height: 44px;
-    color: var(--color1);
+    color: #e0e0e0;
 
     @media (max-width: 1200px) {
       font-size: 2.2rem;
@@ -104,25 +83,6 @@ const StyledHomePage = styled.div`
       grid-template-columns: 1fr;
       gap: 3rem;
     }
-  }
-
-  .heroImage {
-    background-image: linear-gradient(180deg, rgba(19, 19, 20, 0) 0%, #131314 100%), url('/images/backgrounds/hero1.jpeg');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 100%;  
-    height: 60vh;
-    position: relative;
-  }
-
-  .gradient {
-    height: 170px;
-    width: 100%;
-    background: linear-gradient(180deg, rgba(19, 19, 20, 0) 0%, rgba(19, 19, 20, 0.75) 100%);
-    transform: rotate(-180deg);
-    position: absolute;
-    top: 0;
   }
 `
 

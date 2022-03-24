@@ -1,32 +1,79 @@
 import styled from 'styled-components'
 
 type StyledProps = {
-  size: 'hidden' | 'small' | 'normal'
+  isHome?: boolean;
+  maxWidth?: string;
 }
 
 const StyledLayout = styled.div<StyledProps>`
-  display: grid;
-  grid-template-columns: ${({ size }) => size === 'hidden' ? 'auto' : size === 'small' ? '80px auto' : '250px auto'};
-  min-height: calc(100vh - 60px);
+  min-height: 100vh;
+
+  .appBody {
+    display: grid;
+    grid-template-columns: 230px auto;
+    min-height: calc(100vh - 50px);
+    //height: 100%;
+
+    @media (max-width: 1000px) {
+      grid-template-columns: 185px auto;
+    }
+
+    @media (max-width: 800px) {
+      grid-template-columns: 57px auto;
+    }
+
+    @media (max-width: 500px) {
+      grid-template-columns: auto;
+      min-height: calc(100vh - 50px - 50px);
+    }
+  }
+
+  .sidebarWrapper {
+    @media (max-width: 500px) {
+      display: none;
+    }
+  }
 
   main {
-    max-width: ${({ theme }) => theme.breakpoint.l};
+    position: relative;
+  }
+
+  .mainContent {
+    max-width: ${({ theme, maxWidth }) => maxWidth ? maxWidth : theme.breakpoint.l};
     width: 100%;
-    margin: 0 auto;
-    box-sizing: border-box;
     padding: 3.5rem;
+    display: grid;
+    gap: 3rem;
+    margin: 0 auto;
 
     @media (max-width: 500px) {
       padding: 3rem 1rem;
     }
   }
 
-  .widthController {
-    max-width: ${({ theme }) => theme.breakpoint.l};
+  .heroBannerWrapper {
+    position: absolute;
+    top: 0;
+    width: 100%;  
+    height: 296px;
+  }
+
+  .heroBanner {
+    background-image: linear-gradient(180deg, rgba(19, 19, 20, 0) 0%, #131314 100%), url('/images/backgrounds/hero1.jpeg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    position: relative;
+  }
+
+  .heroGradient {
+    height: 100px;
     width: 100%;
-    padding: 3.5rem;
-    margin: 0 auto;
-    box-sizing: border-box;
+    background: linear-gradient(180deg, rgba(19, 19, 20, 0) 0%, rgba(19, 19, 20, 0.75) 100%);
+    transform: rotate(-180deg);
+    position: absolute;
+    top: 0;
   }
 `
 

@@ -107,10 +107,10 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
     width: clamp(120px, 70%, 300px);
     background-color: var(--mediumPurple);
     color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.19);
+    //border: 1px solid rgba(255, 255, 255, 0.19);
 
     :hover {
-      background-color: #703FFF;
+      background-color: var(--darkPurple);
     }
   }
 `

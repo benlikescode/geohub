@@ -1,4 +1,4 @@
-import { Navbar, Layout, Banner, LoadingPage } from '../../../components/Layout'
+import { Layout, Banner, LoadingPage } from '../../../components/Layout'
 import { GameSettings } from '../../../components/Modals/GameSettings'
 import React, { FC, useEffect, useState } from 'react'
 import StyledMapPage from '../../../styles/MapPage.Styled'
@@ -70,42 +70,36 @@ const MapPage: FC = () => {
   return (
     <StyledMapPage>
       <Layout> 
-        <section>
-          <Navbar />
+        <Banner>
+          <div className="mapDetailsSection">
+            <div className="mapDescriptionWrapper">
+              <Avatar url={mapDetails.previewImg || ''} alt="" size={100} outline/>
 
-          <main>
-            <Banner>
-              <div className="mapDetailsSection">
-                <div className="mapDescriptionWrapper">
-                  <Avatar url={mapDetails.previewImg || ''} alt="" size={100} outline/>
-
-                  <div className="descriptionColumnWrapper">
-                    <div className="descriptionColumn">
-                      <span className="name">{mapDetails.name}</span>
-                      <span className="description">{mapDetails.description}</span>
-                    </div>
-                    <Button type="solidPurple" width="200px" callback={() => setSettingsModalOpen(true)}>Play Now</Button>
-                  </div>
+              <div className="descriptionColumnWrapper">
+                <div className="descriptionColumn">
+                  <span className="name">{mapDetails.name}</span>
+                  <span className="description">{mapDetails.description}</span>
                 </div>
-
-                <MapStats map={mapDetails}/>
-              </div>
-            </Banner>
-
-            <Banner>
-              <MapLeaderboard leaderboard={leaderboardData}/>
-            </Banner>
-          
-            <div className="otherMapsWrapper">
-              <span className="otherMapsTitle">Other Popular Maps</span>
-              <div className="otherMaps">
-                {otherMaps.map((otherMap, idx) => (
-                  <MapPreviewCard key={idx} map={otherMap} />
-                ))}
+                <Button type="solidPurple" width="200px" callback={() => setSettingsModalOpen(true)}>Play Now</Button>
               </div>
             </div>
-          </main> 
-        </section>            
+
+            <MapStats map={mapDetails}/>
+          </div>
+        </Banner>
+
+        <Banner>
+          <MapLeaderboard leaderboard={leaderboardData}/>
+        </Banner>
+      
+        <div className="otherMapsWrapper">
+          <span className="otherMapsTitle">Other Popular Maps</span>
+          <div className="otherMaps">
+            {otherMaps.map((otherMap, idx) => (
+              <MapPreviewCard key={idx} map={otherMap} />
+            ))}
+          </div>
+        </div>          
       </Layout>
 
       {settingsModalOpen &&

@@ -1,50 +1,43 @@
 import styled from 'styled-components'
 
 const StyledSidebar = styled.div`
-  width: 250px;
-  border-right: var(--border);
-  height: 100vh;
+  width: 230px;
+  border-right: 1px solid #252525;
+  height: 100%;
   position: fixed;
   background-color: var(--background2);
+  //background-color: #1f1f23;
+  z-index: 1;
 
-  .logoWrapper {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 18px 16px;
+  @media (max-width: 1000px) {
+    width: 185px;
   }
 
-  .logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--darkPurple);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 2px 6px rgba(255, 255, 255, 0.25), inset 0px -3px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 4px;
-    height: 38px;
-    width: 38px;
-  }
-
-  .appTitle {
-    color: #fff;
-    font-weight: 500;
-    font-size: 24px;
+  @media (max-width: 800px) {
+    width: 57px;
   }
 
   .sidebarItemGrid {
     display: grid;
-    gap: 6px;
-    padding: 8px 16px;
+    gap: 0.5rem;
+    padding: 1rem 0.5rem;
+
+    @media (max-width: 800px) {
+      gap: 1.5rem;
+    }
   }
 
   .quickLinksSection {
     margin-top: 20px;
     margin-bottom: 40px;
+
+    @media (max-width: 800px) {
+      display: none;
+    }
   }
 
   .quickLinkItemWrapper {
-    padding-left: 25px;
+    padding-left: 1rem;
     display: grid;
     gap: 15px;
     font-weight: 400;
@@ -53,6 +46,7 @@ const StyledSidebar = styled.div`
   .linkItem {
     cursor: pointer;
     color: #878D93;
+    font-size: 15px;
 
     :hover {
       color: var(--color2);
@@ -60,9 +54,13 @@ const StyledSidebar = styled.div`
   }
 
   .title {
-    padding: 20px 25px;
-    color: #B6BEC7;
-    font-weight: 600;
+    padding: 0.5rem 1rem;
+    color: #e0e0e0;
+    font-weight: 500;
+    font-size: 14px;
+    text-transform: uppercase;
+    border-bottom: 1px solid #272727;
+    margin-bottom: 0.5rem;
   }
 
   .footer {

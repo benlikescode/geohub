@@ -3,13 +3,14 @@ import { StyledModal } from '.'
 import ReactDOM from 'react-dom'
 
 type Props = {
+  width?: string;
   closeModal: () => void
   children: ReactNode
 }
 
-const Modal: FC<Props> = ({ closeModal, children }) => {
+const Modal: FC<Props> = ({ width, closeModal, children }) => {
   return ReactDOM.createPortal(
-    <StyledModal>
+    <StyledModal width={width}>
     <div className="layerContainer">
       <div className="modal">
         <div className="modalBody">

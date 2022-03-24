@@ -54,7 +54,6 @@
   src: local('Graphik'), url(../fonts/Graphik/Graphik-900-Super.otf) format('opentype');
 }
 
-
 :root {
   --white: #FFFFFF;
   --black: #000000;
@@ -160,7 +159,7 @@
   --color3: #BABABA;
   --color4: #8D949A;
   --color5: #81858B;
-  --background1: #131314;
+  --background1: #0e0e10;
   --background2: #191A1B;
   --background3: #212223;
   --background4: #34373A;
@@ -169,7 +168,7 @@
   --lightYellow: #FCD34D;
   --lightRed: #F87171; 
   --lightPurple: #A5ADFF;
-  --mediumPurple: #8054FF;
+  --mediumPurple: #7c3aed;
   --darkPurple: #6D28D9;
   --bronze: #6A3805;
   --silver: #D7D7D7;
@@ -183,9 +182,9 @@ body {
   margin: 0;
   font-family: var(--font-family1);
   font-weight: 500;
-  min-height: 100vh;
-  background-color: var(--background1);
+  background-color: #0e0e10;
   color: var(--color1);
+  /*overflow-x: hidden;*/
 }
 
 a {
@@ -202,7 +201,7 @@ button {
   border: none;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, p, blockquote {
   margin: 0;
 }
 

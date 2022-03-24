@@ -4,16 +4,20 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { mailman } from '../../backend/utils/mailman';
 import { MapPreviewCard } from '../../components/Home/MapPreviewCard';
-import { Layout } from '../../components/Layout'
-import { Navbar } from '../../components/Layout/Navbar'
-import { Spinner } from '../../components/System/Spinner';
+import { Layout, LoadingPage } from '../../components/Layout'
+import { BlockQuote } from '../../components/System/BlockQuote';
 import { selectUser } from '../../redux/user';
+
+const StyledHeader = styled.h1`
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #fff;
+`
 
 const StyledMapWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.2rem;
-  margin-top: 2rem;
 
   @media (max-width: 1350px) {
     grid-template-columns: 1fr 1fr;
@@ -25,24 +29,15 @@ const StyledMapWrapper = styled.div`
   }
 `
 
-const StyledSpinnerWrapper = styled.section`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: calc(100vh - 200px);
-`
-
 const LikedPage: NextPage = () => { 
   const [likedMaps, setLikedMaps] = useState<any[]>([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const user = useSelector(selectUser)
   
   useEffect(() => {
     if (!user.id) {
-      return
+      return setLoading(false)
     }
-
-    setLoading(true)
 
     const fetchLikedMaps = async () => {
       const { res } = await mailman(`likes?userId=${user.id}`)
@@ -51,31 +46,27 @@ const LikedPage: NextPage = () => {
     }
 
     fetchLikedMaps()
-  }, [user])
+  }, [user.id])
 
-
+  if (loading) return <LoadingPage />
+    
   return (
     <Layout>
-      <section>
-        <Navbar />
+      <StyledHeader>Liked Maps</StyledHeader>
 
-        <main>
-          <h1>Liked Maps</h1>
-      
-          {loading ? (
-            <StyledSpinnerWrapper>
-              <Spinner />
-            </StyledSpinnerWrapper>        
-          ) : 
-          (
-            <StyledMapWrapper>
-              {likedMaps.map((map, idx) => (
-                <MapPreviewCard key={idx} map={map.mapDetails[0]} />
-              ))}
-            </StyledMapWrapper>
-          )}       
-        </main>   
-      </section>
+      {(!user.id || !likedMaps || (likedMaps.length === 0)) && (
+       <BlockQuote>
+        You do not appear to have any liked maps
+       </BlockQuote>
+      )}
+
+      {likedMaps.length > 0 && (
+        <StyledMapWrapper>
+          {likedMaps.map((map, idx) => (
+            <MapPreviewCard key={idx} map={map.mapDetails[0]} />
+          ))}
+        </StyledMapWrapper>
+      )}     
     </Layout>
   )
 }
