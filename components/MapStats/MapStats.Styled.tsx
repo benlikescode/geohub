@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const StyledMapStats = styled.div`
-  background-color: #121212;
+  background-color: #171718;
   border-top-right-radius: 12px;
   border-bottom-right-radius: 12px;
   border-left: 1px solid rgba(255, 255, 255, 0.1);
