@@ -70,27 +70,25 @@ const MapPage: FC = () => {
   return (
     <StyledMapPage>
       <Layout> 
-        <Banner>
-          <div className="mapDetailsSection">
-            <div className="mapDescriptionWrapper">
-              <Avatar url={mapDetails.previewImg || ''} alt="" size={100} outline/>
+        <div className="mapDetailsSection">
+          <div className="mapDescriptionWrapper">
+            <Avatar url={mapDetails.previewImg || ''} alt="" size={100} outline/>
 
-              <div className="descriptionColumnWrapper">
-                <div className="descriptionColumn">
-                  <span className="name">{mapDetails.name}</span>
-                  <span className="description">{mapDetails.description}</span>
-                </div>
-                <Button type="solidPurple" width="200px" callback={() => setSettingsModalOpen(true)}>Play Now</Button>
+            <div className="descriptionColumnWrapper">
+              <div className="descriptionColumn">
+                <span className="name">{mapDetails.name}</span>
+                <span className="description">{mapDetails.description}</span>
               </div>
+              <Button type="solidPurple" width="200px" callback={() => setSettingsModalOpen(true)}>Play Now</Button>
             </div>
-
-            <MapStats map={mapDetails}/>
           </div>
-        </Banner>
 
-        <Banner>
-          <MapLeaderboard leaderboard={leaderboardData}/>
-        </Banner>
+          <div className="statsWrapper">
+            <MapStats map={mapDetails}/>
+          </div>         
+        </div>
+       
+        <MapLeaderboard leaderboard={leaderboardData}/>
       
         <div className="otherMapsWrapper">
           <span className="otherMapsTitle">Other Popular Maps</span>

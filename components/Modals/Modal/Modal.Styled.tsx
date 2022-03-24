@@ -17,7 +17,8 @@ const StyledModal = styled.div<StyledProps>`
   }
 
   .modal { 
-    width: ${({ width }) => width ? width : '650px'};
+    width: 100%;
+    max-width: ${({ width }) => width ? width : '650px'};
     max-height: 700px;
     min-height: 200px;
     background-color: var(--background3);

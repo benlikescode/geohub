@@ -18,7 +18,8 @@ const MapLeaderboard: FC<Props> = ({ leaderboard }) => {
         <span className="title">Leaderboard</span>
         <Select options={selectOptions} callback={setSelectState}/>
       </div>
-      {leaderboard.length > 0 ?
+      
+      {leaderboard.length > 0 && (
         leaderboard.map((row, idx) => (
           <LeaderboardItem 
             key={idx}
@@ -26,12 +27,13 @@ const MapLeaderboard: FC<Props> = ({ leaderboard }) => {
             row={row}
           />
         ))
+      )}
 
-        :
-
-        <span className="notPlayedMsg">This map has not been played yet. Be the first one on the leaderboard!</span>    
-      }
-      
+      {leaderboard.length <= 0 && (
+        <span className="notPlayedMsg">
+          This map has not been played yet. Be the first one on the leaderboard!
+        </span>    
+      )}     
     </StyledMapLeaderboard>
   )
 }

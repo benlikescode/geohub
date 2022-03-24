@@ -52,7 +52,7 @@ const StyledUnfinishedCard = styled.div`
     gap: 8px;
     border-radius: 3px;
     height: 35px;
-    padding: 0 15px;
+    padding: 0 1rem;
     font-size: 1rem;
     font-weight: 500;
     width: 100%;
@@ -69,7 +69,7 @@ const StyledUnfinishedCard = styled.div`
     gap: 8px;
     border-radius: 3px;
     height: 35px;
-    padding: 0 25px;
+    padding: 0 1rem;
     font-size: 1rem;
     font-weight: 500;
     width: 100%;

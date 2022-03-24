@@ -53,56 +53,58 @@ const MapStats: FC<Props> = ({ map }) => {
 
   return (
     <StyledMapStats>
-      <FlexGroup>
-        <Icon size={30} fill="var(--lightPurple)">
-          <ScaleIcon />
-        </Icon>
-        <div className="textWrapper">
-          <span className="mainLabel">Medium</span>
-          <span className="subLabel">Avg. Score {map.avgScore}</span>
-        </div>
-      </FlexGroup>
-
-      <FlexGroup>
-        <Icon size={30} fill="var(--lightPurple)">
-          <UserIcon />
-        </Icon>
-        <div className="textWrapper">
-          <span className="mainLabel">Explorers</span>
-          <span className="subLabel">{map.usersPlayed}</span>
-        </div>
-      </FlexGroup>
-
-      <FlexGroup>
-        <Icon size={30} fill="var(--lightPurple)">
-          <LocationMarkerIcon />
-        </Icon>
-        <div className="textWrapper">
-          <span className="mainLabel">Locations</span>
-          <span className="subLabel">
-            {map.locationCount}
-          </span>
-        </div>
-      </FlexGroup>
-
-      <FlexGroup>
-        <button className="likeBtn" onClick={() => handleLike()}>
-          <Icon size={30} fill={isLiked ? 'var(--red-500)' : 'var(--lightPurple)'} hoverColor="var(--red-500)">
-            <HeartIcon />
+      <div className="statsGrid">
+        <FlexGroup>
+          <Icon size={30} fill="var(--lightPurple)">
+            <ScaleIcon />
           </Icon>
-        </button>
-       
-        <div className="textWrapper">
-          <span className="mainLabel">Likes</span>
-          <span className="subLabel">{numLikes}</span>
-        </div>
-      </FlexGroup>
+          <div className="textWrapper">
+            <span className="mainLabel">Avg. Score</span>
+            <span className="subLabel">{map.avgScore}</span>
+          </div>
+        </FlexGroup>
 
-      {modalOpen &&
-        <Modal closeModal={() => setModalOpen(false)} width="450px">
-          <Auth closeModal={() => setModalOpen(false)} />
-        </Modal>
-      }
+        <FlexGroup>
+          <Icon size={30} fill="var(--lightPurple)">
+            <UserIcon />
+          </Icon>
+          <div className="textWrapper">
+            <span className="mainLabel">Explorers</span>
+            <span className="subLabel">{map.usersPlayed}</span>
+          </div>
+        </FlexGroup>
+
+        <FlexGroup>
+          <Icon size={30} fill="var(--lightPurple)">
+            <LocationMarkerIcon />
+          </Icon>
+          <div className="textWrapper">
+            <span className="mainLabel">Locations</span>
+            <span className="subLabel">
+              {map.locationCount}
+            </span>
+          </div>
+        </FlexGroup>
+
+        <FlexGroup>
+          <button className="likeBtn" onClick={() => handleLike()}>
+            <Icon size={30} fill={isLiked ? 'var(--red-500)' : 'var(--lightPurple)'} hoverColor="var(--red-500)">
+              <HeartIcon />
+            </Icon>
+          </button>
+        
+          <div className="textWrapper">
+            <span className="mainLabel">Likes</span>
+            <span className="subLabel">{numLikes}</span>
+          </div>
+        </FlexGroup>
+
+        {modalOpen &&
+          <Modal closeModal={() => setModalOpen(false)} width="450px">
+            <Auth closeModal={() => setModalOpen(false)} />
+          </Modal>
+        }
+      </div>
     </StyledMapStats>
   )
 }

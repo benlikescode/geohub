@@ -5,7 +5,11 @@ const StyledLeaderboardItem = styled.div`
   align-items: center;
   justify-content: space-between;
   border-top: var(--border);
-  padding: 16px 40px;
+  padding: 1rem 2.5rem;
+
+  @media (max-width: 1000px) {
+    padding: 1rem;
+  }
 
   .userPlace {
     width: 1.5rem;
@@ -26,6 +30,18 @@ const StyledLeaderboardItem = styled.div`
     gap: 8px;
   }
 
+  .username {
+    font-size: 1rem;
+    width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    @media (max-width: 850px) {
+      font-size: 14px;
+    }
+  }
+
   .resultsSection {
     display: flex;
     align-items: center;
@@ -36,10 +52,20 @@ const StyledLeaderboardItem = styled.div`
     color: var(--color3);
     font-size: 14px;
     width: 80px;
+
+    @media (max-width: 650px) {
+      display: none;
+    }
   }
 
   .totalPoints {
     width: 120px;
+    font-size: 16px;
+
+    @media (max-width: 850px) {
+      width: 100px;
+      font-size: 14px;
+    }
   }
 `
 

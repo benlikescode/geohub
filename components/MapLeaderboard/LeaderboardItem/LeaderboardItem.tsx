@@ -2,13 +2,13 @@ import { ChartBarIcon } from '@heroicons/react/outline'
 import Link from 'next/link'
 import React, { FC } from 'react'
 import { StyledLeaderboardItem } from '.'
-import { MapLeaderboardType, UserType } from '../../../types'
+import { MapLeaderboardType } from '../../../types'
 import { formatRoundTime } from '../../../utils/helperFunctions'
 import { Avatar, FlexGroup, Icon } from '../../System'
 
 type Props = {
-  finishPlace: number
-  row: MapLeaderboardType
+  finishPlace: number;
+  row: MapLeaderboardType;
 }
 
 const LeaderboardItem: FC<Props> = ({ finishPlace, row }) => {
