@@ -104,6 +104,7 @@ const StyledNavbar = styled.div`
     margin-left: 1rem;
     font-size: 14px;
     color: #9ca3af;
+    cursor: pointer;
   }
 `
 
