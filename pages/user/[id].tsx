@@ -18,9 +18,9 @@ const ProfilePage: NextPage = () => {
   const userId = router.query.id
 
   const stats = {
-    bestGame: 25000,
+    bestGame: '25,000',
     completedGames: 123,
-    avgScore: 12467
+    avgScore: '12,467'
   }
 
   const isThisUsersProfile = () => {

@@ -1,10 +1,10 @@
 import styled from 'styled-components'
 
 type StyledProps = {
-  width?: string;
+  
 }
 
-const StyledModal = styled.div<StyledProps>`
+const StyledSearchPopup = styled.div<StyledProps>`
   .layerContainer {
     position: absolute;
     top: 0;
@@ -17,23 +17,15 @@ const StyledModal = styled.div<StyledProps>`
   }
 
   .modal { 
-    width: ${({ width }) => width ? width : '650px'};
-    max-height: 700px;
-    min-height: 200px;
-    background-color: var(--background3);
+    width: 100%;
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 50px;
     z-index: 99;
     pointer-events: all;
-    overflow: hidden;
-    border-radius: 12px;
+    border-radius: 5px;
   }
   
   .backdrop {
-    opacity: 0.95;
-    background: rgb(0, 0, 0);
     position: fixed;
     top: 0;
     right: 0;
@@ -46,4 +38,4 @@ const StyledModal = styled.div<StyledProps>`
   } 
 `
 
-export default StyledModal
+export default StyledSearchPopup

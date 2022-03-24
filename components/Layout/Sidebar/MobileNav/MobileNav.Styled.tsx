@@ -10,7 +10,7 @@ const StyledMobileNav = styled.div`
   background-color: #18181b;
   display: none;
 
-  @media (max-width: 500px) {
+  @media (max-width: 600px) {
     display: flex;
     align-items: center;
     justify-content: space-around;

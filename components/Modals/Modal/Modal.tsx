@@ -11,16 +11,16 @@ type Props = {
 const Modal: FC<Props> = ({ width, closeModal, children }) => {
   return ReactDOM.createPortal(
     <StyledModal width={width}>
-    <div className="layerContainer">
-      <div className="modal">
-        <div className="modalBody">
-         { children }
+      <div className="layerContainer">
+        <div className="modal">
+          <div className="modalBody">
+          { children }
+          </div>
         </div>
+        <div className="backdrop" onClick={() => closeModal()} />
       </div>
-      <div className="backdrop" onClick={() => closeModal()} />
-    </div>
-  </StyledModal>, 
-  document.getElementById('__next') as HTMLElement
+    </StyledModal>, 
+    document.getElementById('__next') as HTMLElement
   )
 }
 

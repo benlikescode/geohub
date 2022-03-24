@@ -30,7 +30,7 @@ const StyledNavbar = styled.div`
     height: 100%;
 
     @media (max-width: 500px) {
-      flex-shrink: 2;
+      flex-shrink: 3;
     }
   }
 
@@ -88,10 +88,22 @@ const StyledNavbar = styled.div`
 
   .mobileSearch {
     display: none;
+    padding: 0.25rem;
+    position: relative;
 
     @media (max-width: 700px) {
       display: block;
+
+      :hover {
+        background-color: #444;
+      }
     }
+  }
+
+  .cancelSearch {
+    margin-left: 1rem;
+    font-size: 14px;
+    color: #9ca3af;
   }
 `
 

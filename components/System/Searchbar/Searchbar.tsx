@@ -9,17 +9,24 @@ import { StyledSearchbar } from '.'
 import { Button, Icon } from '..'
 
 type Props = {
-  placeholder?: string
-  isSmall?: boolean
+  placeholder?: string;
+  autoFocus?: boolean;
+  isSmall?: boolean;
+  onClickOutside?: () => void;
 }
 
-const Searchbar: FC<Props> = ({ placeholder, isSmall }) => {
+const Searchbar: FC<Props> = ({ placeholder, autoFocus, isSmall, onClickOutside }) => {
   const [query, setQuery] = useState("")
   const [results, setResults] = useState<SearchResultType[]>([])
-  const [isFocused, setIsFocused] = useState(false)
+  const [isFocused, setIsFocused] = useState(autoFocus || false)
   const [loading, setLoading] = useState(false)
   const wrapperRef = useRef(null)
-  useClickOutside(wrapperRef, () => setIsFocused(false))
+  useClickOutside(wrapperRef, () => handleClickOutside())
+
+  const handleClickOutside = () => {
+    onClickOutside && onClickOutside()
+    setIsFocused(false)
+  }
 
   useEffect(() => {
     if (query) {
@@ -54,6 +61,7 @@ const Searchbar: FC<Props> = ({ placeholder, isSmall }) => {
           type="text" 
           placeholder={placeholder ? placeholder : 'Search'} 
           onChange={(e) => setQuery(e.currentTarget.value)} 
+          autoFocus={autoFocus}
         />
         <div className="searchBtn">
           <Button type="icon">

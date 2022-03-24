@@ -5,14 +5,14 @@ const StyledProfilePage = styled.div`
     border: 1px solid #141414;
     border-radius: 12px;
 
-    @media (max-width: 500px) {
+    @media (max-width: 600px) {
       border-radius: 0;
     }
   }
 
   // Override Horizontal Padding In Layout.Styled
   .mainContent {
-    @media (max-width: 500px) {
+    @media (max-width: 600px) {
       padding: 0;
     }
   }
@@ -24,7 +24,7 @@ const StyledProfilePage = styled.div`
     opacity: 0.75;
     border-bottom: var(--border);
 
-    @media (max-width: 500px) {
+    @media (max-width: 600px) {
       height: 120px;
     }
 
@@ -39,7 +39,7 @@ const StyledProfilePage = styled.div`
       width: 100%;
       border-radius: 12px 12px 0 0;
 
-      @media (max-width: 500px) {
+      @media (max-width: 600px) {
         border-radius: 0;
       }
     }
@@ -70,6 +70,10 @@ const StyledProfilePage = styled.div`
     margin-bottom: 0.8rem;
     font-weight: 700;
     font-size: 1.75rem;
+
+    @media (max-width: 600px) {
+      font-size: 1.5rem;
+    }
   }
 
   .userBio {
@@ -89,7 +93,7 @@ const StyledProfilePage = styled.div`
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding-top: 2rem;
+    padding-top: 1.5rem;
 
     @media (max-width: 500px) {
       gap: 0.5rem;
@@ -108,7 +112,7 @@ const StyledProfilePage = styled.div`
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 
     @media (max-width: 700px) {
-      padding: 1rem;
+      padding: 0.75rem;
     }
 
     @media (max-width: 500px) {
@@ -137,25 +141,28 @@ const StyledProfilePage = styled.div`
     @media (max-width: 1000px) {
       font-size: 14px;
     }
+
+    @media (max-width: 650px) {
+      font-size: 13px;
+    }
   }
 
   .userBadges {
-    padding: 4rem 2.5rem;
+    padding: 4rem 2.5rem 1.5rem 2.5rem;
 
     @media (max-width: 1050px) {
-      padding: 4rem 1rem;
+      padding: 4rem 1rem 1.5rem 1rem;
     }
   }
 
   .badgesRow {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    padding-top: 2rem;
+    padding-top: 1.5rem;
     gap: 2rem;
 
     @media (max-width: 1000px) {
       grid-template-columns: repeat(3, 1fr);
-     
     }
   }
 
@@ -167,6 +174,8 @@ const StyledProfilePage = styled.div`
   }
 
   .badgeLabel {
+    font-size: 15px;
+
     @media (max-width: 630px) {
       font-size: 13px;
     }
@@ -175,8 +184,11 @@ const StyledProfilePage = styled.div`
   .sectionTitle {
     font-size: 1.5rem;
     font-weight: 600;
-    //text-align: center;
     color: var(--color2);
+
+    @media (max-width: 600px) {
+      font-size: 1.25rem;
+    }
   }
 
   .badgeImg {

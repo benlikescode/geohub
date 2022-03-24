@@ -16,14 +16,14 @@ const StyledLoadingPage = styled.div`
       grid-template-columns: 57px auto;
     }
 
-    @media (max-width: 500px) {
+    @media (max-width: 600px) {
       grid-template-columns: auto;
       min-height: calc(100vh - 50px - 50px);
     }
   }
 
   .sidebarWrapper {
-    @media (max-width: 500px) {
+    @media (max-width: 600px) {
       display: none;
     }
   }
