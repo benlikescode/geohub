@@ -37,7 +37,7 @@ const StyledButton = styled.div<StyledProps>`
         color: #fff;
 
         :hover {
-          background-color: var(--darkPurple);
+          background-color: #732fe9;
         }
     `}
 
@@ -54,9 +54,10 @@ const StyledButton = styled.div<StyledProps>`
       type === 'solidGray' && 
       !isDisabled && `
         background-color: var(--background3);
-        color: var(--color2);
-        border: 1px solid rgba(255, 255, 255, 0.19);
-
+        color: #a5a5a5;
+        border: 2px solid #4e4e4e;
+        border-radius: 20px;
+        
         :hover {
           transform: scale(1.02);
         }     
@@ -77,10 +78,14 @@ const StyledButton = styled.div<StyledProps>`
     ${({ type, isDisabled }) => 
       type === 'ghostLight' && 
       !isDisabled && `
-        background-color: transparent;
-        border: var(--borderLight);
+        background-color: #222;
+        border: 1px solid #252525;
         color: #fff;
         font-weight: 400;
+
+        :hover {
+          background-color: #252525;
+        }
     `}
 
     ${({ type, isDisabled }) => 
@@ -117,6 +122,8 @@ const StyledButton = styled.div<StyledProps>`
           background-color: ${hoverColor}
         }
     `}
+
+  
 
     ${({ isDisabled }) => 
       isDisabled && `

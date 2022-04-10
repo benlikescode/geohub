@@ -2,9 +2,13 @@ import styled from 'styled-components'
 
 const StyledFinalResultsCard = styled.div`
   margin: -20px 50px 0 50px;
-  max-width: var(--maxWidth);
+  max-width: 1362px;
   width: 100%;
   z-index: 1;
+  background-color: #121212;
+  border-radius: 12px;
+  border: 1px solid #202020;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.55);
 
   .finalResultsWrapper {
     display: flex;
@@ -17,7 +21,7 @@ const StyledFinalResultsCard = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 25px;
+    gap: 2rem;
     width: 500px;
   }
 
@@ -26,14 +30,15 @@ const StyledFinalResultsCard = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 15px;
-    color: #D9D9D9;
+    color: #808080;
+    font-size: 1.25rem;
   }
 
   .pointsWrapper {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 20px;
+    font-size: 1.25rem;
   }
 
   .distanceMessage {
@@ -43,7 +48,14 @@ const StyledFinalResultsCard = styled.div`
   .emphasisText {
     color: #fff;
   }
-  
+
+  .totalPoints {
+    color: #bebebe;
+  }
+
+  .finishedMsg {
+    font-size: 1.5rem;
+  }
 `
 
 export default StyledFinalResultsCard

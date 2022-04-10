@@ -1,8 +1,6 @@
-import { ChevronRightIcon } from '@heroicons/react/outline'
 import type { NextPage } from 'next'
 import { MapPreviewCard } from '../components/Home/MapPreviewCard'
-import { Layout, Banner } from '../components/Layout/'
-import { FlexGroup, Icon } from '../components/System'
+import { Layout } from '../components/Layout/'
 import StyledHomePage from '../styles/HomePage.Styled'
 import { GeoTipType } from '../types'
 import geoTips from '../utils/constants/geotips.json'
@@ -10,10 +8,9 @@ import officialMaps from '../utils/constants/officialMaps.json'
 import { Pill } from '../components/System/Pill'
 import { GamemodeCard } from '../components/GamemodeCard'
 import { useEffect, useState } from 'react'
-import { Navbar } from '../components/Layout/Navbar'
 
 const Home: NextPage = () => {
-  const [geoTip, setGeoTip] = useState<GeoTipType>(geoTips[0])
+  const [geoTip, setGeoTip] = useState<GeoTipType>(geoTips[22])
 
   useEffect(() => {
     const day = new Date().getDate()
@@ -43,13 +40,15 @@ const Home: NextPage = () => {
 
         <div className="gamemodesWrapper">
           <GamemodeCard 
-            title="Daily Challenge"
+            type="aerial"
+            title="Aerial Gamemode"
             titleColor="var(--blue-500)"
-            description="A unique challenge everyday, play now and see how you compare."
+            description="Think you are good at guessing on land, try now from the sky!"
             buttonText="Play Now"
           />
 
           <GamemodeCard 
+            type="learn"
             title="Geo Learn"
             titleColor="var(--green-500)"
             description="Facts and fun quizes to improve your knowledge and up your game!"

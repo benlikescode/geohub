@@ -311,7 +311,7 @@ export const getResultMapValues = (guessedLocation: GuessType, actualLocation: L
   let zoom = 2
 
   if (!isFinalResults) {
-    let distance = getDistance(guessedLocation, actualLocation)
+    const distance = getDistance(guessedLocation, actualLocation)
 
     center = {
       lat: (actualLocation.lat + guessedLocation.lat) / 2,
@@ -410,9 +410,7 @@ export const getResultData = (guess: GuessType, actual: LocationType, mapId: str
   const distance = getDistance(guess, actual)
   const points = getPoints(distance as number, mapId)
   
-  return {
-    distance, points  
-  }
+  return { distance, points }
 }
 
 export const createMarker = (position: LocationType, map: google.maps.Map, markerImage: string) => { 

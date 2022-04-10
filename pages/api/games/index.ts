@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '../../../backend/utils/dbConnect'
 import Game from '../../../backend/models/game' 
 import { NextApiRequest, NextApiResponse } from 'next'

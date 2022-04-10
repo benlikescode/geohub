@@ -40,32 +40,29 @@ const ResultsCard: FC<Props> = ({ round, distance, points, setView }) => {
 
   return (
     <StyledResultsCard>
-      <Banner>
-        <div className="resultsWrapper">
-          <div className="contentGrid">
-            <div className="textWrapper">
-              <span className="distanceMessage">
-                Your guess was 
-                <span className="emphasisText"> {formatDistance(distance)} </span> 
-                from the correct location
+      <div className="resultsWrapper">
+        <div className="contentGrid">
+          <div className="textWrapper">
+            <span className="distanceMessage">
+              Your guess was 
+              <span className="emphasisText"> {formatDistance(distance)} </span> 
+              from the correct location
+            </span>
+            <div className="pointsWrapper">
+              <span>
+                You earned     
+                 <span className="test">{`${points} points`}</span>
               </span>
-              <div className="pointsWrapper">
-                <span>
-                  You earned 
-                  <span className="emphasisText">{` ${points} points`}</span>
-                </span>
-                <Icon size={24} fill="#8DB8FF">
-                  <SparklesIcon />
-                </Icon>
-              </div>
             </div>
-            <ProgressBar progress={calculateProgress()}/>
-            <Button type="solidPurple" callback={handleNextRound} width="180px">
-              {round > 5 ? 'View Results' : 'Next Round'}
-            </Button>
-          </div> 
-        </div>      
-      </Banner>    
+          </div>
+
+          <ProgressBar progress={calculateProgress()}/>
+
+          <Button type="solidPurple" callback={handleNextRound} width="200px">
+            {round > 5 ? 'View Results' : 'Play Next Round'}
+          </Button>
+        </div> 
+      </div>      
     </StyledResultsCard>
   )
 }
