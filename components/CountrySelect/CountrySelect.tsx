@@ -10,7 +10,7 @@ const CountrySelect: FC<Props> = ({ onChange }) => {
   return (
     <StyledCountrySelect>
       <select onChange={(e) => onChange(e.currentTarget.options[e.currentTarget.options.selectedIndex].getAttribute('data-key'))}>
-        <option key={0} data-key="">All countries (default)</option>
+        <option key={0} data-key={""}>All countries (default)</option>
         {countries.map((option, idx) => (
           <option key={idx + 1} data-key={option.code}>{option.name}</option>
         ))}
