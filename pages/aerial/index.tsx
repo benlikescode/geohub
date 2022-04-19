@@ -49,12 +49,19 @@ const PlayAerialPage: FC = () => {
       <Layout> 
         <div className="mapDetailsSection">
           <div className="mapDescriptionWrapper">
-            <Avatar url="/images/mapPreviews/testAerial.jpg" alt="Satelite View" size={100} outline/>
-
+            <div className="mapAvatar">
+              <Avatar 
+                url="/images/mapPreviews/testAerial.jpg" 
+                alt="Satelite View" 
+                size={100} 
+                outline
+              />
+            </div>
+            
             <div className="descriptionColumnWrapper">
               <div className="descriptionColumn">
                 <span className="name">Aerial</span>
-                <span className="description">The classic gamemode with a twist. You are not guessing from the street but from the sky. See how you do in this challenging gamemode.</span>
+                <span className="description">The classic gamemode with a twist. Try to pinpoint the city looking down from above!</span>
               </div>
               <Button type="solidPurple" width="200px" callback={() => setSettingsOpen(true)}>Play Now</Button>
             </div>

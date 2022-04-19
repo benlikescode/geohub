@@ -14,6 +14,8 @@ type Props = {
 }
 
 const LeaderboardItem: FC<Props> = ({ finishPlace, row }) => {
+  const isAerialLeaderboard = row.difficulty
+
   return (
     <StyledLeaderboardItem>
       <div className="userSection">
@@ -30,14 +32,14 @@ const LeaderboardItem: FC<Props> = ({ finishPlace, row }) => {
         <span className="totalPoints">{row.totalPoints} points</span>
         <FlexGroup gap={5}>
           {row.totalTime && <span className="totalTime">{formatRoundTime(row.totalTime)}</span>}
-          {row.difficulty && <span className="totalTime">{row.difficulty}</span>}
+          {isAerialLeaderboard && <span className="totalTime">{row.difficulty}</span>}
           {row.countryCode && (
             <div className="countryFlag">
               <img src={`https://countryflagsapi.com/svg/${row.countryCode}`} alt="Country Flag"></img>
             </div>
           )}
 
-          {!row.difficulty && (
+          {!isAerialLeaderboard && (
             <Link href={`/results/${row.gameId}`}>
               <a>
                 <Icon size={20} fill="#fff">
@@ -47,7 +49,7 @@ const LeaderboardItem: FC<Props> = ({ finishPlace, row }) => {
             </Link>
           )}  
 
-          {!row.countryCode && (
+          {isAerialLeaderboard && !row.countryCode && (
             <div className="allCountries">
               <span>--</span>
             </div>

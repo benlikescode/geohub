@@ -27,6 +27,12 @@ const StyledMapPage = styled.div`
     font-size: 20px;
   }
 
+  .mapAvatar {
+    @media (max-width: 600px) {
+      display: none;
+    }
+  }
+
   .otherMaps {
     display: grid;
     grid-template-columns: repeat(4, 1fr);

@@ -5,6 +5,7 @@ import Image from 'next/image'
 type Props = {
   url: string;
   size?: number;
+  mobileSize?: number;
   alt?: string;
   onClick?: any;
   userId?: string;
@@ -13,7 +14,7 @@ type Props = {
   className?: string;
 }
 
-const Avatar: FC<Props> = ({ url, size, alt, onClick, userId, outline, customOutline, className }) => {
+const Avatar: FC<Props> = ({ url, size, mobileSize, alt, onClick, userId, outline, customOutline, className }) => {
   const [currSrc, setCurrSrc] = useState(url || '')
   const fallback = '/images/avatars/fallback.png'
 
@@ -22,7 +23,7 @@ const Avatar: FC<Props> = ({ url, size, alt, onClick, userId, outline, customOut
   }, [url])
 
   return (
-    <StyledAvatar size={size} outline={outline} customOutline={customOutline}>
+    <StyledAvatar size={size} mobileSize={mobileSize} outline={outline} customOutline={customOutline}>
       <Image 
         src={currSrc || fallback} 
         height={size || 32} 

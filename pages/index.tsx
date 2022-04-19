@@ -40,12 +40,11 @@ const Home: NextPage = () => {
 
         <div className="gamemodesWrapper">
           <GamemodeCard 
-            title="Aerial Gamemode"
+            title="Aerial Game"
             titleColor="var(--blue-500)"
             description="Can you pinpoint a city looking down from the sky?"
             buttonText="Play Now"
             href="/aerial"
-            isNew
           />
 
           <GamemodeCard 

@@ -78,6 +78,12 @@ const StyledPlayAerial = styled.div`
     }
   }
 
+  .mapAvatar {
+    @media (max-width: 600px) {
+      display: none;
+    }
+  }
+
   .statsWrapper {
     width: 100%;
     flex-grow: 1;

@@ -72,7 +72,9 @@ const MapPage: FC = () => {
       <Layout> 
         <div className="mapDetailsSection">
           <div className="mapDescriptionWrapper">
-            <Avatar url={mapDetails.previewImg || ''} alt="" size={100} outline/>
+            <div className="mapAvatar">
+              <Avatar url={mapDetails.previewImg || ''} alt="" size={100} outline/>
+            </div>
 
             <div className="descriptionColumnWrapper">
               <div className="descriptionColumn">

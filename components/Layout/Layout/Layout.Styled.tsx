@@ -61,7 +61,7 @@ const StyledLayout = styled.div<StyledProps>`
   }
 
   .heroBanner {
-    background-image: linear-gradient(180deg, rgba(19, 19, 20, 0) 0%, #131314 100%), url('/images/backgrounds/hero2.jpg');
+    background-image: linear-gradient(180deg, rgba(19, 19, 20, 0) 0%, #131314 100%), url('/images/backgrounds/hero1.jpeg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
