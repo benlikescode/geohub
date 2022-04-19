@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { mailman } from '../../backend/utils/mailman'
 import { Layout, Banner } from '../../components/Layout'
-import Bingo from '../../components/Modals/GameSettings/Bingo'
+import { BingoSettings } from '../../components/Modals/BingoSettings'
 import { Modal } from '../../components/Modals/Modal'
 import { Avatar, Button, Icon, Input } from '../../components/System'
 import { selectUser } from '../../redux/user'
@@ -57,7 +57,6 @@ const BingoPage: NextPage = () => {
     else {
       showErrorToast()
     }
-    
   }
 
   return (
@@ -90,7 +89,7 @@ const BingoPage: NextPage = () => {
                 <h2 className="suggestionTitle">Have a Bingo Item Suggestion?</h2>
 
                 <div className="checkListSection">
-                  <h4>What makes a good item</h4>
+                  <h4>What makes a good item?</h4>
                   <div className="checkList">
                     <div className="checkListItem">
                       <div className="checkIcon">
@@ -148,7 +147,7 @@ const BingoPage: NextPage = () => {
       
       {settingsModalOpen &&
         <Modal closeModal={closeModal}>
-          <Bingo closeModal={closeModal} />
+          <BingoSettings closeModal={closeModal} />
         </Modal>
       }
     </StyledBingoPage> 

@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import React, { FC, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
-import { StyledGameSettings } from '.'
+import { StyledBingoSettings } from '.'
 import { mailman } from '../../../backend/utils/mailman'
 import { updateStartTime } from '../../../redux/game'
 import { selectUser } from '../../../redux/user'
@@ -16,11 +16,9 @@ type Props = {
   closeModal: () => void;
 }
 
-const GameSettings: FC<Props> = ({ closeModal }) => {
+const BingoSettings: FC<Props> = ({ closeModal }) => {
   const [showDetailedChecked, setShowDetailedChecked] = useState(true)
-  const [easyChecked, setEasyChecked] = useState(true)
-  const [mediumChecked, setMediumChecked] = useState(false)
-  const [hardChecked, setHardChecked] = useState(false)
+  const [difficulty, setDifficulty] = useState('Easy')
   const [sliderVal, setSliderVal] = useState(61)
   const router = useRouter()
   const user: UserType = useSelector(selectUser)
@@ -44,7 +42,7 @@ const GameSettings: FC<Props> = ({ closeModal }) => {
     const data = {
       userId: user.id,
       startTime: startTime,
-      difficulty: 'Easy'
+      difficulty
     }
 
     const { status, res } = await mailman('bingo', 'POST', JSON.stringify(data))
@@ -59,7 +57,7 @@ const GameSettings: FC<Props> = ({ closeModal }) => {
   
 
   return (
-    <StyledGameSettings>
+    <StyledBingoSettings>
       <Banner>
         <div className="header">
           <h2>Start Game</h2>
@@ -72,7 +70,9 @@ const GameSettings: FC<Props> = ({ closeModal }) => {
 
         <div className="mainContent">     
           <FlexGroup gap={15}>
-            <Avatar url={'/images/bingoAvatar.jpg'} size={60} alt="Bingo" outline/>
+            <div>
+              <Avatar url={'/images/bingoAvatar.jpg'} size={60} alt="Bingo" outline/>
+            </div>
             <div className="mapInfo">
               <span className="mapName">Geo-Bingo</span>
               <span className="mapDescription">Given a bingo card of random things/people, your task is to search across the world to find these items and get a Geo-Bingo!</span>
@@ -80,22 +80,24 @@ const GameSettings: FC<Props> = ({ closeModal }) => {
           </FlexGroup>
 
           <div className="settingsWrapper">
-            <span>Difficulty</span>
-            <FlexGroup gap={15}>
-              <Checkbox setChecked={setEasyChecked} />
-              <span>Easy</span>
-            </FlexGroup>
+            <div className="difficultyWrapper">
+              <label>Difficulty</label>
+              <FlexGroup gap={15}>
+                <Checkbox isChecked={difficulty === 'Easy'} setChecked={() => setDifficulty('Easy')} />
+                <span>Easy</span>
+              </FlexGroup>
 
-            <FlexGroup gap={15}>
-              <Checkbox setChecked={setMediumChecked} />
-              <span>Medium</span>
-            </FlexGroup>
+              <FlexGroup gap={15}>
+                <Checkbox isChecked={difficulty === 'Medium'} setChecked={() => setDifficulty('Medium')} />
+                <span>Medium</span>
+              </FlexGroup>
 
-            <FlexGroup gap={15}>
-              <Checkbox setChecked={setHardChecked} />
-              <span>Hard</span>
-            </FlexGroup>
-           
+              <FlexGroup gap={15}>
+                <Checkbox isChecked={difficulty === 'Hard'} setChecked={() => setDifficulty('Hard')} />
+                <span>Hard</span>
+              </FlexGroup>
+            </div>
+                    
             <div className="timeLimitWrapper">
               <div className="timeLabel">
                 <Icon size={24} fill="#888888">
@@ -127,8 +129,8 @@ const GameSettings: FC<Props> = ({ closeModal }) => {
           </Button>        
         </div>
       </Banner>
-    </StyledGameSettings>
+    </StyledBingoSettings>
   )
 }
 
-export default GameSettings
+export default BingoSettings

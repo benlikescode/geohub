@@ -26,13 +26,14 @@ const StyledInput = styled.div`
       font-size: 1rem;
       font-weight: 400;
       transition: background-color 240ms, box-shadow 240ms;
+      border: 1px solid #282828;
 
       ::placeholder {
-        color: var(--color3);
+        color: #808080;
       }
 
       :focus {
-        box-shadow: 0 0 0 2px #8054ff;
+        box-shadow: 0 0 0 2px var(--mediumPurple);
       } 
     }
   }

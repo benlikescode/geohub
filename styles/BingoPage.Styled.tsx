@@ -117,7 +117,7 @@ const StyledBingoPage = styled.div`
 
   .checkListLabel {
     font-weight: 400;
-    color: #878D93;
+    color: #808080;
     font-size: 14px;
   }
 
