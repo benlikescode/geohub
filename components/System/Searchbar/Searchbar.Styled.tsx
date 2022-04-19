@@ -14,7 +14,6 @@ const StyledSearchbar = styled.div<StyledProps>`
     display: flex;
     align-items: center;
     gap: 10px;
-    //padding: 0 10px;
     width: 100%;
     height: ${({ isSmall }) => isSmall ? 30 : 34}px;
     border-radius: 3px;
@@ -26,18 +25,17 @@ const StyledSearchbar = styled.div<StyledProps>`
   }
 
   input {
-    color: #5b687a;
+    color: #d1d1d1;
     width: 100%;
     pointer-events: all;
     height: 100%;
     background: transparent;  
     font-weight: 400;
     margin-left: 10px;
-    //box-shadow: ${({ isFocused }) => isFocused && '0 0 0 2px var(--mediumPurple)'};
     border-radius: 3px;
 
     ::placeholder {
-      color: #5b687a;
+      color: #616161;
       font-weight: 400;
     }
   }

@@ -39,11 +39,10 @@ const FinalResultsCard: FC<Props> = ({ gameData }) => {
           <FlexGroup gap={20}>    
             <Link href={gameData.mapId ? `/results/${gameData.id}` : '/'}>
               <a>
-                <Button type="ghostLight">Return To Home</Button>
+                <Button type="ghostLight">{gameData.mapId ? 'Detailed Results' : 'Return To Home'}</Button>
               </a>
             </Link>
-                 
-            
+                           
             <Link href={gameData.mapId ? `/map/${gameData.mapId}` : '/aerial'}>
               <a>
                 <Button type="solidPurple" width="180px">Play Again</Button>

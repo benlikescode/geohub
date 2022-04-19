@@ -4,6 +4,7 @@ const StyledProfilePage = styled.div`
   .profileWrapper {
     border: 1px solid #141414;
     border-radius: 12px;
+    background: #0f0f0f;
 
     @media (max-width: 600px) {
       border-radius: 0;
@@ -60,7 +61,7 @@ const StyledProfilePage = styled.div`
   .userDetails {
     border-bottom: 1px solid #202020;
     padding: 0 2.5rem 2rem 2.5rem;
-
+    
     @media (max-width: 1050px) {
       padding: 0 1rem 2rem 1rem;
     }
@@ -77,7 +78,7 @@ const StyledProfilePage = styled.div`
   }
 
   .userBio {
-    color: var(--color3);
+    color: #808080;
     font-size: 1rem;
   }
 

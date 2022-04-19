@@ -26,7 +26,7 @@ const StyledButton = styled.div<StyledProps>`
     height: ${({ height }) => height ? height : '40px'};
     padding: 0 25px;
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 400;
     width: 100%;
     user-select: none;
 

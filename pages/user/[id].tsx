@@ -1,10 +1,11 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { mailman } from '../../backend/utils/mailman'
 import { Layout, LoadingPage } from '../../components/Layout'
 import { Avatar, Button, FlexGroup } from '../../components/System'
+import { logOutUser } from '../../redux/user'
 import { selectUser } from '../../redux/user'
 import StyledProfilePage from '../../styles/ProfilePage.Styled'
 
@@ -16,6 +17,7 @@ const ProfilePage: NextPage = () => {
   const user = useSelector(selectUser)
   const router = useRouter()
   const userId = router.query.id
+  const dispatch = useDispatch()
 
   const stats = {
     bestGame: '25,000',
@@ -29,6 +31,12 @@ const ProfilePage: NextPage = () => {
     }
 
     return user.id === userId
+  }
+
+  const handleLogout = () => {
+    router.push('/login')
+
+    dispatch(logOutUser())
   }
   
   useEffect(() => {
@@ -66,10 +74,16 @@ const ProfilePage: NextPage = () => {
             </div> 
 
             <FlexGroup gap={10}>
-              {isThisUsersProfile() ?
-                <Button type="solidPurple">Edit Profile</Button> :
+              {isThisUsersProfile() && (
+                <>
+                  <Button type="ghostLight" callback={() => handleLogout()}>Logout</Button>
+                  <Button type="solidPurple">Edit Profile</Button>
+                </>               
+              )}
+
+              {!isThisUsersProfile() && (
                 <Button type="solidPurple">Add Friend</Button>                
-              }                  
+              )}                  
             </FlexGroup>
           </section>
 

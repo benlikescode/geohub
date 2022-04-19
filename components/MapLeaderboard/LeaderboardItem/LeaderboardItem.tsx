@@ -37,7 +37,7 @@ const LeaderboardItem: FC<Props> = ({ finishPlace, row }) => {
             </div>
           )}
 
-          {!row.countryCode && (
+          {!row.difficulty && (
             <Link href={`/results/${row.gameId}`}>
               <a>
                 <Icon size={20} fill="#fff">
@@ -45,7 +45,13 @@ const LeaderboardItem: FC<Props> = ({ finishPlace, row }) => {
                 </Icon>
               </a>
             </Link>
-          )}       
+          )}  
+
+          {!row.countryCode && (
+            <div className="allCountries">
+              <span>--</span>
+            </div>
+          )}
         </FlexGroup>
       </div>
     </StyledLeaderboardItem>

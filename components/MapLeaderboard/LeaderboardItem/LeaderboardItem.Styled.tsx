@@ -84,6 +84,16 @@ const StyledLeaderboardItem = styled.div`
       width: 100%;
     }
   }
+
+  .allCountries {
+    height: 20px;
+    width: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #808080;
+  }
 `
 
 export default StyledLeaderboardItem
