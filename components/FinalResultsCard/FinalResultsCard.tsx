@@ -37,16 +37,14 @@ const FinalResultsCard: FC<Props> = ({ gameData }) => {
           <ProgressBar progress={calculateProgress()}/>
 
           <FlexGroup gap={20}>    
-            {gameData.mapId && (
-              <Link href={`/results/${gameData.id}`}>
-                <a>
-                  <Button type="ghostLight">Detailed Results</Button>
-                </a>
-              </Link>
-            )}        
+            <Link href={gameData.mapId ? `/results/${gameData.id}` : '/'}>
+              <a>
+                <Button type="ghostLight">Return To Home</Button>
+              </a>
+            </Link>
+                 
             
-            
-            <Link href={gameData.mapId ? `/map/${gameData.mapId}` : '/'}>
+            <Link href={gameData.mapId ? `/map/${gameData.mapId}` : '/aerial'}>
               <a>
                 <Button type="solidPurple" width="180px">Play Again</Button>
               </a>

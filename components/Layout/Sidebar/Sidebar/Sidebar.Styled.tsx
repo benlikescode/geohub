@@ -6,7 +6,7 @@ const StyledSidebar = styled.div`
   height: 100%;
   position: fixed;
   background-color: var(--background2);
-  //background-color: #1f1f23;
+  background-color: #1f1f23;
   z-index: 1;
 
   @media (max-width: 1000px) {
@@ -59,7 +59,6 @@ const StyledSidebar = styled.div`
     font-weight: 500;
     font-size: 14px;
     text-transform: uppercase;
-    border-bottom: 1px solid #272727;
     margin-bottom: 0.5rem;
   }
 
@@ -74,7 +73,6 @@ const StyledSidebar = styled.div`
     right: 0;
     border-top: var(--border);
   }
-  
 `
 
 export default StyledSidebar

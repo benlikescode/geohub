@@ -81,8 +81,6 @@ const AerialPage: FC = () => {
     setGameData(gameData)
   }
 
-  
-
   useEffect(() => {
     if (!gameId) {
       return

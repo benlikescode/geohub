@@ -16,6 +16,8 @@ type Game = {
   totalPoints: number;
   totalDistance: number;
   totalTime: number;
+  difficulty?: 'Normal' | 'Easy' | 'Challenging';
+  countryCode?: string;
 }
 
 export default Game

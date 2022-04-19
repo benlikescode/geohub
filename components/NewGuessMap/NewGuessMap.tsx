@@ -70,15 +70,32 @@ const NewGuessMap: FC<Props> = ({ currGuess, setCurrGuess, gameMode, gameData, s
 
   const handleSubmitGuess = async () => {
     if (currGuess) {
-      const body = {
-        guess: currGuess,
-        guessTime: (new Date().getTime() - game.startTime) / 1000,
-        localRound: gameData.round,
-        userLocation: user.location,
-        timedOut: false,
-        timedOutWithGuess: false
+      let body = {}
+
+      if (gameMode === 'aerial') {
+        body = {
+          guess: currGuess,
+          guessTime: (new Date().getTime() - game.startTime) / 1000,
+          localRound: gameData.round,
+          userLocation: user.location,
+          timedOut: false,
+          timedOutWithGuess: false,
+          difficulty: gameData.difficulty,
+          countryCode: gameData.countryCode
+        }
       }
 
+      if (gameMode === 'normal') {
+        body = {
+          guess: currGuess,
+          guessTime: (new Date().getTime() - game.startTime) / 1000,
+          localRound: gameData.round,
+          userLocation: user.location,
+          timedOut: false,
+          timedOutWithGuess: false,
+        }
+      }
+      
       const { status, res } = await mailman(`${gameMode === 'normal' ? 'games' : gameMode}/${gameData.id}`, 'PUT', JSON.stringify(body))
       
       if (status !== 400 && status !== 500) {

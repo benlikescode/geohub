@@ -124,7 +124,7 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
             <Challenge /> :
             <>
               <FlexGroup gap={15}>
-                <Avatar url={mapDetails.previewImg} size={60} alt=""/>
+                <Avatar url={mapDetails.previewImg} size={60} alt="Map Avatar"/>
                 <div className="mapInfo">
                   <span className="mapName">{mapDetails.name}</span>
                   <span className="mapDescription">{mapDetails.description}</span>
@@ -153,7 +153,7 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
       
               <div className="settingsWrapper">
                 <div className="checkboxWrapper">
-                  <Checkbox setChecked={setShowDetailedChecked} />
+                  <Checkbox isChecked={showDetailedChecked} setChecked={setShowDetailedChecked} />
                   <span>Default Settings (No time limit, moving, panning, zooming allowed)</span>
                 </div>
 
@@ -172,7 +172,7 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
 
                     <div className="movementOptions">
                       <div className="movementOption">
-                        <Checkbox setChecked={setMovingChecked} />
+                        <Checkbox isChecked={movingChecked} setChecked={setMovingChecked} />
                         <FlexGroup>
                           <Icon size={24} fill="#888888">
                             <ArrowsExpandIcon />
@@ -181,7 +181,7 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
                         </FlexGroup>        
                       </div>
                       <div className="movementOption">
-                        <Checkbox setChecked={setPanningChecked} />
+                        <Checkbox isChecked={panningChecked} setChecked={setPanningChecked} />
                         <FlexGroup>
                           <Icon size={24} fill="#888888">
                             <SwitchHorizontalIcon />
@@ -190,7 +190,7 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
                         </FlexGroup>        
                       </div>
                       <div className="movementOption">
-                        <Checkbox setChecked={setZoomingChecked} />
+                        <Checkbox isChecked={zoomingChecked} setChecked={setZoomingChecked} />
                         <FlexGroup>
                           <Icon size={24} fill="#888888">
                             <ZoomInIcon />

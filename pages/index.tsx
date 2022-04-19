@@ -40,15 +40,15 @@ const Home: NextPage = () => {
 
         <div className="gamemodesWrapper">
           <GamemodeCard 
-            type="aerial"
             title="Aerial Gamemode"
             titleColor="var(--blue-500)"
-            description="Think you are good at guessing on land, try now from the sky!"
+            description="Can you pinpoint a city looking down from the sky?"
             buttonText="Play Now"
+            href="/aerial"
+            isNew
           />
 
           <GamemodeCard 
-            type="learn"
             title="Geo Learn"
             titleColor="var(--green-500)"
             description="Facts and fun quizes to improve your knowledge and up your game!"

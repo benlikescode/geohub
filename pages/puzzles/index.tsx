@@ -381,24 +381,17 @@ const PuzzlesPage: NextPage = () => {
   
   return (
     <StyledPuzzlesPage>
-      <Layout>
-        <section>
-          <Navbar />
-
-          <main>
-            <div id="map">
-              <GoogleMapReact 
-                bootstrapURLKeys={GoogleMapConfig}
-                center={{lat: 0, lng: 0}} 
-                zoom={11}
-                yesIWantToUseGoogleMapApiInternals
-                onGoogleApiLoaded={handleApiLoaded}
-              >
-              </GoogleMapReact>
-            </div>        
-          </main> 
-        </section>
-        
+      <Layout>    
+        <div id="map">
+          <GoogleMapReact 
+            bootstrapURLKeys={GoogleMapConfig}
+            center={{lat: 0, lng: 0}} 
+            zoom={11}
+            yesIWantToUseGoogleMapApiInternals
+            onGoogleApiLoaded={handleApiLoaded}
+          >
+          </GoogleMapReact>
+        </div>          
       </Layout>
     </StyledPuzzlesPage> 
   )

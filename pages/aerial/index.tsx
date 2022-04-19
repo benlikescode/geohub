@@ -1,38 +1,85 @@
-import React, { createRef, FC, useEffect, useState } from 'react'
-import StyledAerialPage from '../../styles/AerialPage.Styled'
-import mapboxgl from 'mapbox-gl'
+import React, { FC, useEffect, useState } from 'react'
+import StyledPlayAerial from '../../styles/PlayAerial.Styled'
 import { mailman } from '../../backend/utils/mailman'
+import { MapPreviewCard } from '../../components/Home/MapPreviewCard'
+import { Layout, LoadingPage } from '../../components/Layout'
+import { MapStats } from '../../components/MapStats'
+import { Modal } from '../../components/Modals/Modal'
+import { Avatar, Button } from '../../components/System'
+import { MapLeaderboard } from '../../components/MapLeaderboard'
+import { AerialSettings } from '../../components/Modals/AerialSettings'
+import { MapLeaderboardType, MapType } from '../../types'
 
-const AerialPage: FC = () => {
-  mapboxgl.accessToken = 'pk.eyJ1IjoiYmVubGlrZXNjb2RlIiwiYSI6ImNsMXFxbXAwYjFxNjMzZW1tazQ5N21jZTgifQ.bt9S5fzwugjjnZT0eR_wnQ'
-  const mapContainer = createRef<HTMLDivElement>()
-  const map = createRef<HTMLDivElement>()
-  const MIN_ZOOM = 15
-  const [lat, setLat] = useState(37.5600)
-  const [lng, setLng] = useState(126.9900)
-  const [zoom, setZoom] = useState(15)
+const PlayAerialPage: FC = () => {
+  const [settingsOpen, setSettingsOpen] = useState(false)
+  const [otherMaps, setOtherMaps] = useState<MapType[] | null>()
+  const [leaderboardData, setLeaderboardData] = useState<MapLeaderboardType[] | null>()
 
-  const fetchGame = async () => {
-    const { status, res } = await mailman(`aerial`)
+  const fetchOtherMaps = async () => {
+    const { status, res } = await mailman(`maps/browse/popular?count=4`)
+    
+    if (status === 400 || status === 500) {
+      return setOtherMaps(null)
+    }
 
+    setOtherMaps(res)
+  }
+
+  const fetchMapScores = async () => {
+    const { status, res } = await mailman(`scores/aerial`)
+    
+    if (status === 404 || status === 500) {
+      return setLeaderboardData(null)
+    }
+
+    setLeaderboardData(res)
   }
 
   useEffect(() => {
-    if (map.current) return
-    new mapboxgl.Map({
-      container: mapContainer.current as HTMLElement,
-      style: 'mapbox://styles/mapbox/satellite-v9',
-      center: [lng, lat],
-      zoom: zoom,
-      minZoom: MIN_ZOOM,
-    })
-  })
+    fetchOtherMaps()
+    fetchMapScores()
+  }, [])
+
+  if (!otherMaps || !leaderboardData) {
+    return <LoadingPage />
+  }
 
   return (
-    <StyledAerialPage>
-      <div className="mapContainer" ref={mapContainer}></div>
-    </StyledAerialPage> 
+    <StyledPlayAerial>
+      <Layout> 
+        <div className="mapDetailsSection">
+          <div className="mapDescriptionWrapper">
+            <Avatar url="/images/mapPreviews/testAerial.jpg" alt="Satelite View" size={100} outline/>
+
+            <div className="descriptionColumnWrapper">
+              <div className="descriptionColumn">
+                <span className="name">Aerial</span>
+                <span className="description">The classic gamemode with a twist. You are not guessing from the street but from the sky. See how you do in this challenging gamemode.</span>
+              </div>
+              <Button type="solidPurple" width="200px" callback={() => setSettingsOpen(true)}>Play Now</Button>
+            </div>
+          </div>        
+        </div>
+
+        <MapLeaderboard leaderboard={leaderboardData} />
+       
+        <div className="otherMapsWrapper">
+          <span className="otherMapsTitle">Other Popular Maps</span>
+          <div className="otherMaps">
+            {otherMaps.map((otherMap, idx) => (
+              <MapPreviewCard key={idx} map={otherMap} />
+            ))}
+          </div>
+        </div>          
+      </Layout>
+
+      {settingsOpen &&
+        <Modal closeModal={() => setSettingsOpen(false)}>
+          <AerialSettings closeModal={() => setSettingsOpen(false)}/>
+        </Modal>
+      }
+    </StyledPlayAerial> 
   )
 }
 
-export default AerialPage
+export default PlayAerialPage

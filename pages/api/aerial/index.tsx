@@ -1,33 +1,54 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '../../../backend/utils/dbConnect'
-import Game from '../../../backend/models/game' 
 import { NextApiRequest, NextApiResponse } from 'next'
 import { randomElement } from '../../../utils/functions/generateLocations'
 import { ObjectId } from 'mongodb'
-import * as cities from '../../../utils/locations/cities.json'
+import cities from '../../../utils/locations/cities.json'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+
+  // Generates location from cities array based on difficulty and a country code filter
+  const generateLocation = (difficulty: 'Normal' | 'Easy' | 'Challenging', countryCode: string, locations: any[]) => {
+    if (countryCode !== "") {
+      const locationsFromCountry = locations.filter((location) => location.iso2 === countryCode)
+      return randomElement(locationsFromCountry)
+    }
+
+    if (difficulty === 'Normal') {
+      return locations[Math.floor(Math.random() * 10000)]
+    }
+
+    if (difficulty === 'Easy') {
+      return locations[Math.floor(Math.random() * 500)]
+    }
+
+    return randomElement(locations)
+  }
+
   try {
     await dbConnect()
 
     if (req.method === 'POST') {
-      const userId = new ObjectId(req.body.userId)
-      const roundLocation = randomElement(cities as any[])
+      const { userId, difficulty, countryCode } = req.body
+      const uid = new ObjectId(userId)
+      const locations = cities as Array<Object>
+
+      const roundLocation = generateLocation(difficulty, countryCode, locations)
 
       if (roundLocation === null) {
         return res.status(400).send('Round could not be generated')
       }
         
       const newGame = {
-        ...req.body,
-        userId: userId,
+        userId: uid,
         guesses: [],
         rounds: [roundLocation],
         round: 1,
         totalPoints: 0,
         totalDistance: 0,
-        totalTime: 0    
-      } as Game
+        difficulty,
+        countryCode 
+      }
 
       // create game
       const result = await collections.aerialGames?.insertOne(newGame)

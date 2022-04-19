@@ -45,6 +45,7 @@ const StyledLayout = styled.div<StyledProps>`
     display: grid;
     gap: 3rem;
     margin: 0 auto;
+    padding-top: ${({ isHome }) => isHome && '4rem'};
 
     @media (max-width: 500px) {
       padding: 3rem 1rem;
@@ -56,10 +57,11 @@ const StyledLayout = styled.div<StyledProps>`
     top: 0;
     width: 100%;  
     height: 296px;
+    border-bottom: 1px solid #222;
   }
 
   .heroBanner {
-    background-image: linear-gradient(180deg, rgba(19, 19, 20, 0) 0%, #131314 100%), url('/images/backgrounds/hero1.jpeg');
+    background-image: linear-gradient(180deg, rgba(19, 19, 20, 0) 0%, #131314 100%), url('/images/backgrounds/hero2.jpg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -68,7 +70,7 @@ const StyledLayout = styled.div<StyledProps>`
   }
 
   .heroGradient {
-    height: 100px;
+    height: 200px;
     width: 100%;
     background: linear-gradient(180deg, rgba(19, 19, 20, 0) 0%, rgba(19, 19, 20, 0.75) 100%);
     transform: rotate(-180deg);

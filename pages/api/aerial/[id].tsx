@@ -6,9 +6,28 @@ import { Game } from '../../../backend/models'
 import { randomElement } from '../../../utils/functions/generateLocations'
 import { GuessType } from '../../../types'
 import { getResultData } from '../../../utils/helperFunctions'
-import * as cities from '../../../utils/locations/cities.json'
+import cities from '../../../utils/locations/cities.json'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+
+  // Generates location from cities array based on difficulty and a country code filter
+  const generateLocation = (difficulty: 'Normal' | 'Easy' | 'Challenging', countryCode: string, locations: any[]) => {
+    if (countryCode !== "") {
+      const locationsFromCountry = locations.filter((location) => location.iso2 === countryCode)
+      return randomElement(locationsFromCountry)
+    }
+
+    if (difficulty === 'Normal') {
+      return locations[Math.floor(Math.random() * 10000)]
+    }
+
+    if (difficulty === 'Easy') {
+      return locations[Math.floor(Math.random() * 500)]
+    }
+
+    return randomElement(locations)
+  }
+
   try {
     await dbConnect()
     const gameId = req.query.id as string
@@ -44,7 +63,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     else if (req.method === 'PUT') {
       const query = { _id: new ObjectId(gameId) }
-      const { guess, guessTime, localRound, userLocation, timedOut, timedOutWithGuess } = req.body
+      const { guess, guessTime, localRound, timedOut, timedOutWithGuess, difficulty, countryCode } = req.body
+      const locations = cities as any[]
 
       const game = await collections.aerialGames?.findOne(query) as Game
       
@@ -65,7 +85,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         // generates new location until unique or 5 failed attempts
         while (duplicate && buffer < 5) {
-          newLocation = randomElement(cities as any[])
+          newLocation = generateLocation(difficulty, countryCode, locations)
           duplicate = game.rounds.some(r => r.lat === newLocation.lat && r.lng === newLocation.lng)
           buffer++
         }

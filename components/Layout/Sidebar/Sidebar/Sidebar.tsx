@@ -45,6 +45,12 @@ const Sidebar: FC = () => {
         </div>
 
         <div className="quickLinkItemWrapper">
+          <Link href="/aerial">
+            <a className="linkItem">
+              <span>Aerial</span>
+            </a>
+          </Link>
+          
           <div className="linkItem">
             <span>Classic Game</span>
           </div>

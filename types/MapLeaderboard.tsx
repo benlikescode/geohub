@@ -6,7 +6,9 @@ type MapLeaderboard = {
   userAvatar: string;
   gameId: ObjectId;
   totalPoints: number;
-  totalTime: number;
+  totalTime?: number;
+  difficulty?: 'Normal' | 'Easy' | 'Challenging';
+  countryCode?: string;
 }
 
 export default MapLeaderboard

@@ -1,4 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 import { ChartBarIcon } from '@heroicons/react/outline'
+import image from 'next/image'
 import Link from 'next/link'
 import React, { FC } from 'react'
 import { StyledLeaderboardItem } from '.'
@@ -27,14 +29,23 @@ const LeaderboardItem: FC<Props> = ({ finishPlace, row }) => {
       <div className="resultsSection">
         <span className="totalPoints">{row.totalPoints} points</span>
         <FlexGroup gap={5}>
-          <span className="totalTime">{formatRoundTime(row.totalTime)}</span>
-          <Link href={`/results/${row.gameId}`}>
-            <a>
-              <Icon size={20} fill="#fff">
-                <ChartBarIcon />
-              </Icon>
-            </a>
-          </Link>
+          {row.totalTime && <span className="totalTime">{formatRoundTime(row.totalTime)}</span>}
+          {row.difficulty && <span className="totalTime">{row.difficulty}</span>}
+          {row.countryCode && (
+            <div className="countryFlag">
+              <img src={`https://countryflagsapi.com/svg/${row.countryCode}`} alt="Country Flag"></img>
+            </div>
+          )}
+
+          {!row.countryCode && (
+            <Link href={`/results/${row.gameId}`}>
+              <a>
+                <Icon size={20} fill="#fff">
+                  <ChartBarIcon />
+                </Icon>
+              </a>
+            </Link>
+          )}       
         </FlexGroup>
       </div>
     </StyledLeaderboardItem>

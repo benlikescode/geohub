@@ -134,7 +134,6 @@ const StyledGameSettings = styled.div`
     gap: 15px;
     padding: 15px 30px;
   }
-  
 `
 
 export default StyledGameSettings
