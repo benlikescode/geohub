@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { MapPreviewCard } from '../components/Home/MapPreviewCard'
+import { MapPreviewCard } from '../components/MapPreviewCard'
 import { Layout } from '../components/Layout/'
 import StyledHomePage from '../styles/HomePage.Styled'
 import { GeoTipType } from '../types'

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { mailman } from '../../backend/utils/mailman';
-import { MapPreviewCard } from '../../components/Home/MapPreviewCard';
+import { MapPreviewCard } from '../../components/MapPreviewCard';
 import { Layout, LoadingPage } from '../../components/Layout'
 import { BlockQuote } from '../../components/System/BlockQuote';
 import { selectUser } from '../../redux/user';

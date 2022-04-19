@@ -1,11 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { FC, useEffect, useState } from 'react'
-import { StyledNewResultMap2 } from '.'
+import { StyledResultMap } from '.'
 import Map, { Layer, Marker, Source } from 'react-map-gl'
-import { GuessType, LocationType } from '../../types';
+import { GuessType, LocationType } from '../../../types';
 import { useSelector } from 'react-redux';
-import { selectUser } from '../../redux/user';
-import { getDistance, getResultMapValues } from '../../utils/helperFunctions';
+import { selectUser } from '../../../redux/user';
+import { getDistance, getResultMapValues } from '../../../utils/helperFunctions';
 
 type Props = {
   guessedLocations: GuessType[];
@@ -14,7 +14,7 @@ type Props = {
   isFinalResults?: boolean;
 }
 
-const NewResultMap2: FC<Props> = ({ guessedLocations, actualLocations, round, isFinalResults }) => {
+const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFinalResults }) => {
   const guessedLocation = guessedLocations[guessedLocations.length - 1]
   const actualLocation = actualLocations[round -2]
   const user = useSelector(selectUser)
@@ -98,7 +98,7 @@ const NewResultMap2: FC<Props> = ({ guessedLocations, actualLocations, round, is
   }, [])
   */
   return (
-    <StyledNewResultMap2>
+    <StyledResultMap>
       <Map
         initialViewState={{
           longitude: getLongitude(),
@@ -144,16 +144,13 @@ const NewResultMap2: FC<Props> = ({ guessedLocations, actualLocations, round, is
         ))}
 
         {isFinalResults && actualLocations.map((actualLoc, idx) => (
-           <Source key={idx} id={`finalsResult-${idx + 1}`} type="geojson" data={generateLineData(guessedLocations[idx], actualLoc)}>
+          <Source key={idx} id={`finalsResult-${idx + 1}`} type="geojson" data={generateLineData(guessedLocations[idx], actualLoc)}>
             <Layer id={`finalResult-${idx + 1}`} {...layerStyle} />
-           </Source>
+          </Source>
         ))}
-        <Source id="results" type="geojson" data={generateLineData(guessedLocations[0], actualLocations[0])}>
-              <Layer {...layerStyle} />
-            </Source>
       </Map>
-    </StyledNewResultMap2>
+    </StyledResultMap>
   )
 }
 
-export default NewResultMap2
+export default ResultMap

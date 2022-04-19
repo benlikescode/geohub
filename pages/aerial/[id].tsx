@@ -9,12 +9,10 @@ import { selectUser } from '../../redux/user'
 import { LocationType } from '../../types'
 import { LoadingPage } from '../../components/Layout'
 import DefaultErrorPage from 'next/error'
-import { NewGuessMap } from '../../components/NewGuessMap'
+import { GuessMap } from '../../components/Mapbox/GuessMap'
 import { FinalResultsCard } from '../../components/FinalResultsCard'
-import { ResultMap } from '../../components/ResultMap'
 import { ResultsCard } from '../../components/ResultsCard'
-import { NewResultMap } from '../../components/NewResultMap'
-import { NewResultMap2 } from '../../components/NewResultMap2'
+import { ResultMap } from '../../components/Mapbox/ResultMap'
 
 const AerialPage: FC = () => {
   mapboxgl.accessToken = 'pk.eyJ1IjoiYmVubGlrZXNjb2RlIiwiYSI6ImNsMXFxbXAwYjFxNjMzZW1tazQ5N21jZTgifQ.bt9S5fzwugjjnZT0eR_wnQ'
@@ -104,7 +102,7 @@ const AerialPage: FC = () => {
     <StyledAerialPage>
       {view === 'Game' && (
         <div className="mapContainer" ref={mapContainer}>
-          <NewGuessMap 
+          <GuessMap 
             currGuess={currGuess}
             setCurrGuess={setCurrGuess}
             gameData={gameData}
@@ -116,7 +114,7 @@ const AerialPage: FC = () => {
       )}
 
       {view === 'Result' && (
-        <NewResultMap2 
+        <ResultMap
           guessedLocations={gameData.guesses} 
           actualLocations={gameData.rounds} 
           round={gameData.round}
@@ -124,7 +122,7 @@ const AerialPage: FC = () => {
       )}
 
       {view === 'FinalResults' && (
-        <NewResultMap2
+        <ResultMap
           guessedLocations={gameData.guesses} 
           actualLocations={gameData.rounds} 
           round={gameData.round}

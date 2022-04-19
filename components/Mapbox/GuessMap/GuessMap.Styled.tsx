@@ -6,7 +6,7 @@ type StyledProps = {
   mapWidth?: number
 }
 
-const StyledNewGuessMap = styled.div<StyledProps>`
+const StyledGuessMap = styled.div<StyledProps>`
   position: absolute;
   bottom: 20px;
   right: 20px;
@@ -31,6 +31,11 @@ const StyledNewGuessMap = styled.div<StyledProps>`
     width: 100%;
     height: 100%;
   }
+  
+  // removes watermark (takes too much space on guess map => already give credit on larger maps)
+  .mapboxgl-ctrl-bottom-left {
+    display: none;
+  }
 
   .controls {
     display: flex;
@@ -51,4 +56,4 @@ const StyledNewGuessMap = styled.div<StyledProps>`
   }
 `
 
-export default StyledNewGuessMap
+export default StyledGuessMap

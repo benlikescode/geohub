@@ -1,10 +1,6 @@
 import styled from 'styled-components'
 
-type StyledProps = {
-  
-}
-
-const StyledNewResultMap2 = styled.div<StyledProps>`
+const StyledResultMap = styled.div`
   .markerNumbered {
     height: 30px;
     width: 30px;
@@ -52,4 +48,4 @@ const StyledNewResultMap2 = styled.div<StyledProps>`
   }
 `
 
-export default StyledNewResultMap2
+export default StyledResultMap

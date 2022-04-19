@@ -1,8 +1,6 @@
-import { HeartIcon, LocationMarkerIcon, UserIcon } from '@heroicons/react/outline'
 import { FC } from 'react'
 import { StyledMapPreviewCard } from '.'
-import { MapType } from '../../../types'
-import { Button, Icon } from '../../System'
+import { MapType } from '../../types'
 import Link from 'next/link'
 
 type Props = {
@@ -10,7 +8,6 @@ type Props = {
 }
 
 const MapPreviewCard: FC<Props> = ({ map }) => {
-
   return (
     <StyledMapPreviewCard mapImage={map.previewImg}>
       <div className="mapImage"></div>

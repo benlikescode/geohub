@@ -1,14 +1,14 @@
-import React, { createRef, FC, useEffect, useRef, useState } from 'react'
-import { StyledNewGuessMap } from '.'
+import React, { FC, useEffect, useRef, useState } from 'react'
+import { StyledGuessMap } from '.'
 import mapboxgl from 'mapbox-gl'
-import { LocationType } from '../../types'
-import { Button } from '../System'
-import { Game } from '../../backend/models'
-import { mailman } from '../../backend/utils/mailman'
+import { LocationType } from '../../../types'
+import { Button } from '../../System'
+import { Game } from '../../../backend/models'
+import { mailman } from '../../../backend/utils/mailman'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectGame } from '../../redux/game'
-import { selectUser, updateGuessMapSize } from '../../redux/user'
-import { getGuessMapDimensions } from '../../utils/helperFunctions'
+import { selectGame } from '../../../redux/game'
+import { selectUser, updateGuessMapSize } from '../../../redux/user'
+import { getGuessMapDimensions } from '../../../utils/helperFunctions'
 
 type Props = {
   currGuess: LocationType | null;
@@ -19,7 +19,7 @@ type Props = {
   setView: (view: 'Game' | 'Result' | 'FinalResults') => void;
 }
 
-const NewGuessMap: FC<Props> = ({ currGuess, setCurrGuess, gameMode, gameData, setGameData, setView }) => {
+const GuessMap: FC<Props> = ({ currGuess, setCurrGuess, gameMode, gameData, setGameData, setView }) => {
   mapboxgl.accessToken = 'pk.eyJ1IjoiYmVubGlrZXNjb2RlIiwiYSI6ImNsMXFxbXAwYjFxNjMzZW1tazQ5N21jZTgifQ.bt9S5fzwugjjnZT0eR_wnQ'
   const guessMap = useRef<any>()
   const mapRef = useRef<any>()
@@ -136,7 +136,7 @@ const NewGuessMap: FC<Props> = ({ currGuess, setCurrGuess, gameMode, gameData, s
   }
 
   return (
-    <StyledNewGuessMap mapHeight={mapHeight} mapWidth={mapWidth}>
+    <StyledGuessMap mapHeight={mapHeight} mapWidth={mapWidth}>
       <div className="guessMap" ref={guessMap}></div>
       <Button 
         type="solidGray" 
@@ -146,8 +146,8 @@ const NewGuessMap: FC<Props> = ({ currGuess, setCurrGuess, gameMode, gameData, s
       >
         Submit Guess
       </Button> 
-    </StyledNewGuessMap>
+    </StyledGuessMap>
   )
 }
 
-export default NewGuessMap
+export default GuessMap
