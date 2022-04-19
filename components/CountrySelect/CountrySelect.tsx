@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { StyledCountrySelect } from '.'
-import * as countries from '../../utils/constants/countries.json'
+import countries from '../../utils/constants/countries.json'
 
 type Props = {
   onChange: (country: any) => void;
