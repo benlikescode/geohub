@@ -123,12 +123,20 @@ const StyledButton = styled.div<StyledProps>`
         }
     `}
 
-  
-
     ${({ isDisabled }) => 
       isDisabled && `
         background-color: var(--background3);
         color: var(--color2);
+        pointer-events: none;
+        opacity: 0.5;
+    `}
+
+    ${({ isDisabled, type }) => 
+      isDisabled && (type === 'solidGray') && `
+        background-color: var(--background3);
+        color: #a5a5a5;
+        border: 2px solid #4e4e4e;
+        border-radius: 20px;
         pointer-events: none;
         opacity: 0.5;
     `}

@@ -1,14 +1,15 @@
-import React, { FC, useEffect, useRef, useState } from 'react'
+/* eslint-disable @next/next/no-img-element */
+import React, { FC, useState } from 'react'
 import { StyledGuessMap } from '.'
-import mapboxgl from 'mapbox-gl'
+import Map, { Marker } from 'react-map-gl'
 import { LocationType } from '../../../types'
 import { Button } from '../../System'
 import { Game } from '../../../backend/models'
 import { mailman } from '../../../backend/utils/mailman'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { selectGame } from '../../../redux/game'
-import { selectUser, updateGuessMapSize } from '../../../redux/user'
-import { getGuessMapDimensions } from '../../../utils/helperFunctions'
+import { selectUser } from '../../../redux/user'
+import mapboxgl from 'mapbox-gl'
 
 type Props = {
   currGuess: LocationType | null;
@@ -20,53 +21,27 @@ type Props = {
 }
 
 const GuessMap: FC<Props> = ({ currGuess, setCurrGuess, gameMode, gameData, setGameData, setView }) => {
-  mapboxgl.accessToken = 'pk.eyJ1IjoiYmVubGlrZXNjb2RlIiwiYSI6ImNsMXFxbXAwYjFxNjMzZW1tazQ5N21jZTgifQ.bt9S5fzwugjjnZT0eR_wnQ'
-  const guessMap = useRef<any>()
-  const mapRef = useRef<any>()
   const [lat, setLat] = useState(0)
   const [lng, setLng] = useState(0)
   const [zoom, setZoom] = useState(1)
-  const [mapHeight, setMapHeight] = useState(25)
-  const [mapWidth, setMapWidth] = useState(25)
-  const [hovering, setHovering] = useState(false)
-  const hoverDelay = useRef<any>()
-  const dispatch = useDispatch()
+  const [marker, setMarker] = useState<any>()
   const user = useSelector(selectUser)
   const game = useSelector(selectGame)
-  //const markerRef = createRef()
-  const prevMarkersRef = useRef<mapboxgl.Marker[]>([])
 
-  useEffect(() => {
-    if (mapRef.current) return 
+  const handleMapClick = (e: mapboxgl.MapLayerMouseEvent) => {
+    const clickedLat = e.lngLat.lat
+    const clickedLng = e.lngLat.lng
 
-    mapRef.current = new mapboxgl.Map({
-      container: guessMap.current as HTMLElement,
-      style: 'mapbox://styles/mapbox/streets-v11',
-      center: [lng, lat],
-      zoom: zoom,
-      attributionControl: false,
-      dragRotate: false,
-    })
-  }, [])
+    setCurrGuess({lat: clickedLat, lng: clickedLng})
+    setLat(clickedLat)
+    setLng(clickedLng)
 
-  useEffect(() => {
-    if (!mapRef.current) return
-
-    mapRef.current.on('click', (e: mapboxgl.MapMouseEvent) => {
-      const clickedLat = e.lngLat.lat
-      const clickedLng = e.lngLat.lng
-
-      setCurrGuess({lat: clickedLat, lng: clickedLng})
-
-      setLat(clickedLat)
-      setLng(clickedLng)
-
-      const marker = new mapboxgl.Marker().setLngLat([clickedLng, clickedLat]).addTo(mapRef.current)
-
-      prevMarkersRef.current.map(m => m.remove())
-      prevMarkersRef.current.push(marker)
-    })
-  })
+    setMarker(
+      <Marker longitude={clickedLng} latitude={clickedLat}>
+        <img className="userMarker" src={`/images/avatars/default3.jpg`} alt="User Map Pin" />
+      </Marker>
+    )
+  }
 
   const handleSubmitGuess = async () => {
     if (currGuess) {
@@ -100,44 +75,28 @@ const GuessMap: FC<Props> = ({ currGuess, setCurrGuess, gameMode, gameData, setG
       
       if (status !== 400 && status !== 500) {
         setGameData({id: res._id, ...res})
+        setCurrGuess(null)
         setView('Result')
       }  
     } 
   }
 
-  const handleMapHover = () => {
-    clearInterval(hoverDelay.current)
-    setHovering(true)
-    const { width, height } = getGuessMapDimensions(user.guessMapSize)
-    setMapHeight(height)
-    setMapWidth(width)
-  }
-
-  const handleMapLeave = () => {
-    hoverDelay.current = setTimeout(() => {
-      setHovering(false)
-      setMapHeight(15)
-      setMapWidth(15)
-    }, 500)  
-  }
-
-  const changeMapSize = (change: 'increase' | 'decrease') => {
-    if (change === 'increase' && user.guessMapSize < 4) { 
-      dispatch(updateGuessMapSize({
-        guessMapSize: user.guessMapSize + 1
-      }))    
-    }
-    else if (change === 'decrease' && user.guessMapSize > 1) {
-      dispatch(updateGuessMapSize({
-        guessMapSize: user.guessMapSize - 1
-      }))
-    }
-    handleMapHover()
-  }
-
   return (
-    <StyledGuessMap mapHeight={mapHeight} mapWidth={mapWidth}>
-      <div className="guessMap" ref={guessMap}></div>
+    <StyledGuessMap>
+      <Map
+        initialViewState={{ longitude: lng, latitude: lat, zoom }}
+        style={{
+          height: `25vh`, 
+          width: `25vw`,
+          borderRadius: '4px',
+        }}
+        mapStyle="mapbox://styles/mapbox/streets-v11"
+        dragRotate={false}
+        attributionControl={false}
+        onClick={(e) => handleMapClick(e)}
+      >
+        {marker}
+      </Map>
       <Button 
         type="solidGray" 
         width="100%" 

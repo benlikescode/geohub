@@ -15,21 +15,11 @@ const StyledGuessMap = styled.div<StyledProps>`
   flex-direction: column;
   gap: 10px;
 
-  .guessMap {
-    height: ${({ mapHeight }) => mapHeight}vh;
-    width: ${({ mapWidth }) => mapWidth}vw;
-    opacity: ${({ mapWidth }) => mapWidth === 300 ? 0.5 : 1};
-    border-radius: 4px;
-    transition: opacity .1s ease,width .1s ease,height .1s ease;
-  }
-
-  .mapboxgl-canvas {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  .userMarker {
+    height: 30px;
+    width: 30px;
+    border: 2px solid #fff;
+    border-radius: 50%;
   }
   
   // removes watermark (takes too much space on guess map => already give credit on larger maps)
