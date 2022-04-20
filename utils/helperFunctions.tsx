@@ -451,7 +451,7 @@ export const formatRoundTime = (time: number) => {
   }
   else {
     const hours = Math.floor(time / 3600)
-    return `${hours}+ hr`
+    return `${hours} hr`
   }
 }
 
@@ -477,4 +477,18 @@ export const formatLargeNumber = (num: number) => {
   if (num >= 1000) {
     
   }
+}
+
+export const getMapName = (mapId: string) => {
+  if (mapId.includes('-')) {
+    const split = mapId.split('-')
+
+    return capitalizeString(split[0]) + " " + capitalizeString(split[1])
+  }
+
+  return capitalizeString(mapId)
+}
+
+const capitalizeString = (str: string) => {
+  return str.charAt(0).toUpperCase() + str.slice(1)
 }
