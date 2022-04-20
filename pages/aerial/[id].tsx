@@ -1,6 +1,6 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 import StyledAerialPage from '../../styles/AerialPage.Styled'
-import Map from 'react-map-gl'
+import mapboxgl from 'mapbox-gl'
 import { mailman } from '../../backend/utils/mailman'
 import { useRouter } from 'next/router'
 import Game from '../../backend/models/game'
@@ -13,21 +13,47 @@ import { GuessMap } from '../../components/Mapbox/GuessMap'
 import { FinalResultsCard } from '../../components/FinalResultsCard'
 import { ResultsCard } from '../../components/ResultsCard'
 import { ResultMap } from '../../components/Mapbox/ResultMap'
+import { GameStatus } from '../../components/GameStatus'
 
 const AerialPage: FC = () => {
+  mapboxgl.accessToken = 'pk.eyJ1IjoiYmVubGlrZXNjb2RlIiwiYSI6ImNsMXFxbXAwYjFxNjMzZW1tazQ5N21jZTgifQ.bt9S5fzwugjjnZT0eR_wnQ'
+  const mapContainer = useRef<any>(null)
   const [gameData, setGameData] = useState<Game | null>()
   const [view, setView] = useState<'Game' | 'Result' | 'FinalResults'>('Game')
   const router = useRouter()
   const gameId = router.query.id as string
   const user = useSelector(selectUser)
   const [currGuess, setCurrGuess] = useState<LocationType | null>(null)
-  const MIN_ZOOM = 15
   const BOUND_RADIUS = 0.05
+  const MIN_ZOOM = 15
+
+  useEffect(() => {
+    if (!mapContainer.current || !gameData || gameData.round > 5) return
+
+    const location = gameData.rounds[gameData.round - 1]
+
+    const bounds = [
+      [location.lng - BOUND_RADIUS, location.lat - BOUND_RADIUS],
+      [location.lng + BOUND_RADIUS, location.lat + BOUND_RADIUS]
+    ]
+
+    const map = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: 'mapbox://styles/mapbox/satellite-v9',
+      center: [location.lng, location.lat],
+      zoom: 15,
+      minZoom: MIN_ZOOM,
+      attributionControl: false,
+      maxBounds: bounds as mapboxgl.LngLatBoundsLike
+    })
+
+    return () => map.remove()
+  }, [gameData])
 
   const fetchGame = async () => {
     const { status, res } = await mailman(`aerial/${gameId}`)
 
-    // If game not found, set gameData to null so an error page can be displayed
+    // if game not found, set gameData to null so an error page can be displayed
     if (status === 404 || status === 500) {
       return setGameData(null)
     }
@@ -37,7 +63,7 @@ const AerialPage: FC = () => {
       router.push('/')
     }
 
-    // If game is completed, set view to Result
+    // if game is completed, set view to Result
     if (res.round > 5) {
       setView('Result')
     }
@@ -71,24 +97,14 @@ const AerialPage: FC = () => {
   return (
     <StyledAerialPage>
       {view === 'Game' && (
-        <Map
-          initialViewState={{ 
-            longitude: gameData.rounds[gameData.round - 1].lng, 
-            latitude: gameData.rounds[gameData.round - 1].lat, 
-            zoom: 15
-          }}
-          style={{
-            height: '100vh',
-            position: 'relative'
-          }}
-          mapStyle="mapbox://styles/mapbox/satellite-v9"
-          attributionControl={false}
-          maxBounds={[
-            [gameData.rounds[gameData.round - 1].lng - BOUND_RADIUS, gameData.rounds[gameData.round - 1].lat - BOUND_RADIUS],
-            [gameData.rounds[gameData.round - 1].lng + BOUND_RADIUS, gameData.rounds[gameData.round - 1].lat + BOUND_RADIUS]
-          ]}
-          minZoom={MIN_ZOOM}
-        >
+        <div className="mapContainer" ref={mapContainer}>
+          <GameStatus 
+            gameData={gameData} 
+            setView={setView} 
+            setGameData={setGameData} 
+            currGuess={currGuess}
+            noTime
+          /> 
           <GuessMap 
             currGuess={currGuess}
             setCurrGuess={setCurrGuess}
@@ -97,7 +113,7 @@ const AerialPage: FC = () => {
             setView={setView}
             gameMode="aerial"     
           />
-        </Map>        
+        </div>
       )}
 
       {view === 'Result' && (

@@ -10,7 +10,9 @@ const StyledGameStatus = styled.div`
   display: flex;
   align-items: center;
   font-weight: 400;
-
+  font-size: 1rem;
+  font-family: var(--font-family1);
+  
   .infoSection {
     padding: 10px 25px;
 

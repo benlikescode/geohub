@@ -9,16 +9,17 @@ import { LocationType } from '../../types'
 import { formatTimeLeft } from '../../utils/helperFunctions'
 
 type Props = {
-  gameData: Game
-  setView: (view: 'Game' | 'Result' | 'FinalResults') => void
-  setGameData: any
-  currGuess: LocationType | null
+  gameData: Game;
+  setView: (view: 'Game' | 'Result' | 'FinalResults') => void;
+  setGameData: any;
+  currGuess: LocationType | null;
+  noTime?: boolean;
 }
 
-const GameStatus: FC<Props> = ({ gameData, setView, setGameData, currGuess }) => {
-  const startTime = gameData.gameSettings.timeLimit * 10
+const GameStatus: FC<Props> = ({ gameData, setView, setGameData, currGuess, noTime }) => {
+  const startTime = noTime ? null : gameData!.gameSettings!.timeLimit * 10
   const [timeLeft, setTimeLeft] = useState(startTime)
-  const hasTimeLimit = gameData.gameSettings.timeLimit !== 61
+  const hasTimeLimit = !noTime && gameData.gameSettings.timeLimit !== 61
   const game = useSelector(selectGame)
   const user = useSelector(selectUser)
   
@@ -29,7 +30,7 @@ const GameStatus: FC<Props> = ({ gameData, setView, setGameData, currGuess }) =>
           handleTimeOver()
         }
         else {
-          setTimeLeft(timeLeft - 1)
+          setTimeLeft((timeLeft as number) - 1)
         }
       }, 1000)
   
@@ -62,7 +63,7 @@ const GameStatus: FC<Props> = ({ gameData, setView, setGameData, currGuess }) =>
           <span>Map</span>
         </div>
         <div className="value">
-          <span>World</span>
+          <span>{noTime ? 'Aerial' : gameData.mapName}</span>
         </div>
       </div>
 
@@ -84,13 +85,13 @@ const GameStatus: FC<Props> = ({ gameData, setView, setGameData, currGuess }) =>
         </div>
       </div>
 
-      {hasTimeLimit &&
+      {!noTime && hasTimeLimit &&
         <div className="infoSection">
           <div className="label">
             <span>Time</span>
           </div>
           <div className="value">
-            <span>{formatTimeLeft(timeLeft)}</span>
+            <span>{formatTimeLeft(timeLeft as number)}</span>
           </div>
         </div>
       }
