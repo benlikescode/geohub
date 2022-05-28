@@ -2,11 +2,11 @@ import { createSlice } from '@reduxjs/toolkit'
 import { Game } from '../backend/models'
 
 type GameState = {
-  gameData: Game | null;
-  startTime: number | null;
-  endTime: number | null;
-  currView: 'Game' | 'Result' | 'FinalResults';
-  readyToSubmit: boolean;
+  gameData: Game | null
+  startTime: number | null
+  endTime: number | null
+  currView: 'Game' | 'Result' | 'FinalResults'
+  readyToSubmit: boolean
 }
 
 const initialState: GameState = {
@@ -14,7 +14,7 @@ const initialState: GameState = {
   startTime: null,
   endTime: null,
   currView: 'Game',
-  readyToSubmit: false
+  readyToSubmit: false,
 }
 
 export const gameSlice = createSlice({
@@ -41,22 +41,22 @@ export const gameSlice = createSlice({
       state.currView = action.payload.currView
     },
     resetGame: (state) => {
-      state.gameData = null,
-      state.startTime = null,
-      state.endTime = null,
-      state.currView = 'Game',
-      state.readyToSubmit = false
-    }
-  }
+      ;(state.gameData = null),
+        (state.startTime = null),
+        (state.endTime = null),
+        (state.currView = 'Game'),
+        (state.readyToSubmit = false)
+    },
+  },
 })
 
-export const { 
+export const {
   updateGameState,
   updateGameData,
   updateStartTime,
   updateEndTime,
   updateCurrView,
-  resetGame
+  resetGame,
 } = gameSlice.actions
 
 export const selectGame = (state: any) => state.game
