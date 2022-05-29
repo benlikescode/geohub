@@ -44,23 +44,23 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
       clickableIcons: false,
     })
 
-    // if we are showing the final results page, load all the round markers. Otherwise, simply load the current round markers
+    // If this is final results map, load all the round markers. Otherwise, simply load the current round markers
     if (isFinalResults) {
       for (let i = 0; i < actualLocations.length; i++) {
         createMarker(guessedLocations[i], map, `/images/markers/${user.avatar}.png`)
-        const marker = createMarker(
+        const actualLocationMarker = createMarker(
           actualLocations[i],
           map,
           `/images/markers/actualMarker${i + 1}.png`,
         )
-        marker.addListener('click', () => {
+
+        actualLocationMarker.addListener('click', () => {
           window.open(
             `http://www.google.com/maps?layer=c&cbll=${actualLocations[i].lat},${actualLocations[i].lng}`,
             '_blank',
           )
         })
 
-        // generating the lines between guessed and actual markers
         new google.maps.Polyline({
           path: [guessedLocations[i], actualLocations[i]],
           map: map,
@@ -70,7 +70,18 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
       }
     } else {
       createMarker(guessedLocation, map, `/images/markers/${user.avatar}.png`)
-      createMarker(actualLocation, map, '/images/markers/actualMarker.png')
+      const actualLocationMarker = createMarker(
+        actualLocation,
+        map,
+        '/images/markers/actualMarker.png',
+      )
+
+      actualLocationMarker.addListener('click', () => {
+        window.open(
+          `http://www.google.com/maps?layer=c&cbll=${actualLocation.lat},${actualLocation.lng}`,
+          '_blank',
+        )
+      })
 
       new google.maps.Polyline({
         path: [guessedLocation, actualLocation],
