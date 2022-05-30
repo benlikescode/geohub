@@ -64,12 +64,14 @@ const Challenge: FC<Props> = ({ challengeId }) => {
     getFriends()
   }, [challengeId])
 
+  if (!inviteLink || !friends) return <span>Loading...</span>
+
   return (
     <StyledChallenge>
       <div className="challengeSection">
         <label className="inputLabel">Invite people with this URL</label>
         <div className="inputWrapper">
-          <Input type="text" placeholder={inviteLink} readOnly />
+          <Input type="text" value={inviteLink} readOnly />
           <button className="copyBtn" onClick={() => handleCopy()}>
             {isCopied ? 'Copied' : 'Copy'}
           </button>
