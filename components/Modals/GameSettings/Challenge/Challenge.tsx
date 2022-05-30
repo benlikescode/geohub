@@ -71,7 +71,7 @@ const Challenge: FC<Props> = ({ challengeId }) => {
       <div className="challengeSection">
         <label className="inputLabel">Invite people with this URL</label>
         <div className="inputWrapper">
-          <Input type="text" value={inviteLink} readOnly />
+          <Input type="text" value={inviteLink} readOnly fontSize="15px" />
           <button className="copyBtn" onClick={() => handleCopy()}>
             {isCopied ? 'Copied' : 'Copy'}
           </button>

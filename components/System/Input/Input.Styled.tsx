@@ -1,8 +1,12 @@
 import styled from 'styled-components'
 
-const StyledInput = styled.div`
+type StyledProps = {
+  fontSize?: string
+}
+
+const StyledInput = styled.div<StyledProps>`
   width: 100%;
-  
+
   label {
     font-weight: 500;
     margin-bottom: 6px;
@@ -14,7 +18,7 @@ const StyledInput = styled.div`
     height: 38px;
     display: flex;
     align-items: center;
-   
+
     input {
       height: 100%;
       border-radius: 5px;
@@ -23,7 +27,7 @@ const StyledInput = styled.div`
       width: 100%;
       box-sizing: border-box;
       color: var(--color3);
-      font-size: 1rem;
+      font-size: ${({ fontSize }) => (fontSize ? fontSize : '1rem')};
       font-weight: 400;
       transition: background-color 240ms, box-shadow 240ms;
       border: 1px solid #282828;
@@ -34,7 +38,7 @@ const StyledInput = styled.div`
 
       :focus {
         box-shadow: 0 0 0 2px var(--mediumPurple);
-      } 
+      }
     }
   }
 

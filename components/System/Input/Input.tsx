@@ -13,6 +13,7 @@ type Props = {
   readOnly?: boolean
   autoComplete?: string
   maxLength?: number
+  fontSize?: string
 }
 
 const Input: FC<Props> = ({
@@ -27,6 +28,7 @@ const Input: FC<Props> = ({
   readOnly,
   autoComplete,
   maxLength,
+  fontSize,
 }) => {
   const [currValue, setCurrValue] = useState<string | number>(value || '')
   const [showErrorMsg, setShowErrorMsg] = useState(false)
@@ -49,7 +51,7 @@ const Input: FC<Props> = ({
   }
 
   return (
-    <StyledInput>
+    <StyledInput fontSize={fontSize}>
       {label && <label>{label}</label>}
 
       <div className="input-styled">
