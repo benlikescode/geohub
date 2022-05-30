@@ -53,7 +53,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(400).send(`A guess has already been made for round ${game.round}`)
       }
 
-      const isChallengeGamemode = game.challengeId !== null
+      const isChallengeGamemode = game.hasOwnProperty('challengeId')
 
       // adding new location to rounds if game is not finished
       if (!isChallengeGamemode && game.rounds.length !== 5) {
