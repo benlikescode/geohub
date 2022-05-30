@@ -1,11 +1,11 @@
-import { LocationType } from "../../types"
+import { LocationType } from '../../types'
 import * as worldHandPicked from '../../utils/locations/world.json'
 import * as famousHandPicked from '../../utils/locations/famousLocations.json'
 import * as canadaHandPicked from '../../utils/locations/canada.json'
 import * as usaHandPicked from '../../utils/locations/unitedStates.json'
 import * as europeHandPicked from '../../utils/locations/europe.json'
 
-export const randomRange = (min = 0, max = 100, precision = 10) => { 
+export const randomRange = (min = 0, max = 100, precision = 10) => {
   return parseFloat((Math.random() * (max - min) + min).toFixed(precision))
 }
 
@@ -24,12 +24,14 @@ export const getRandomLocationsFromArray = (array: any[], numLocations = 5) => {
   for (let i = 0; i < numLocations; i++) {
     let location = randomElement(array)
 
+    /* Deal with unique rounds later
     if (locations.includes(location)) {
       while (locations.includes(location)) {
         location = randomElement(array)
       }
     }
-    
+*/
+
     locations.push(location)
   }
 
@@ -37,46 +39,87 @@ export const getRandomLocationsFromArray = (array: any[], numLocations = 5) => {
 }
 
 // CURRENT METHOD THAT GETS CALLED FROM API (GENERATES 1 ROUND AT A TIME)
-export const getRandomLocation = (locationType: 'random' | 'handpicked', mapId: string, userLocation: {lat: number, lng: number} | null = null) => {
-  switch(mapId) {
+export const getRandomLocation = (
+  locationType: 'random' | 'handpicked',
+  mapId: string,
+  userLocation: { lat: number; lng: number } | null = null,
+) => {
+  switch (mapId) {
     case 'world':
       if (locationType === 'random') {
         // TODO
-      }
-      else {
+      } else {
         return randomElement(worldHandPicked)
       }
     case 'famous-landmarks':
       if (locationType === 'random') {
         // TODO
-      }
-      else {
+      } else {
         return randomElement(famousHandPicked)
       }
     case 'canada':
       if (locationType === 'random') {
         // TODO
-      }
-      else {
+      } else {
         return randomElement(canadaHandPicked)
       }
     case 'usa':
       if (locationType === 'random') {
         // TODO
-      }
-      else {
+      } else {
         return randomElement(usaHandPicked)
       }
     case 'near-you':
       if (userLocation != null) {
-        return getRandomLocationsInRadius([userLocation], 0.30)
+        return getRandomLocationsInRadius([userLocation], 0.3)
       }
     case 'europe':
       if (locationType === 'random') {
         // TODO
-      }
-      else {
+      } else {
         return randomElement(europeHandPicked)
+      }
+    default:
+      console.log('Invalid Map Id')
+      return null
+  }
+}
+
+// CURRENT METHOD USED FOR CHALLENGES (GETS ALL 5 LOCATIONS AT ONCE)
+export const getRandomLocations = (
+  locationType: 'random' | 'handpicked',
+  mapId: string,
+) => {
+  switch (mapId) {
+    case 'world':
+      if (locationType === 'random') {
+        // TODO
+      } else {
+        return getRandomLocationsFromArray(worldHandPicked)
+      }
+    case 'famous-landmarks':
+      if (locationType === 'random') {
+        // TODO
+      } else {
+        return getRandomLocationsFromArray(famousHandPicked)
+      }
+    case 'canada':
+      if (locationType === 'random') {
+        // TODO
+      } else {
+        return getRandomLocationsFromArray(canadaHandPicked)
+      }
+    case 'usa':
+      if (locationType === 'random') {
+        // TODO
+      } else {
+        return getRandomLocationsFromArray(usaHandPicked)
+      }
+    case 'europe':
+      if (locationType === 'random') {
+        // TODO
+      } else {
+        return getRandomLocationsFromArray(europeHandPicked)
       }
     default:
       console.log('Invalid Map Id')
@@ -100,7 +143,7 @@ returns a single random location (if given 1 location) or
 an array of random locations (if given more than 1 location)
 
 */
-export const getRandomLocationsInRadius = (locations: LocationType[], radius = 0.10) => {
+export const getRandomLocationsInRadius = (locations: LocationType[], radius = 0.1) => {
   if (locations.length > 1) {
     const newLocations: LocationType[] = []
 
@@ -110,21 +153,21 @@ export const getRandomLocationsInRadius = (locations: LocationType[], radius = 0
 
       const randomLocation: LocationType = {
         lat: randomRange(centerLat - radius, centerLat + radius),
-        lng: randomRange(centerLng - radius, centerLng + radius)
+        lng: randomRange(centerLng - radius, centerLng + radius),
       }
       newLocations.push(randomLocation)
     }
 
     return newLocations
   }
-  
+
   const centerLat = locations[0].lat
   const centerLng = locations[0].lng
 
   const randomLocation: LocationType = {
     lat: randomRange(centerLat - radius, centerLat + radius),
-    lng: randomRange(centerLng - radius, centerLng + radius)
+    lng: randomRange(centerLng - radius, centerLng + radius),
   }
-  
+
   return randomLocation
 }

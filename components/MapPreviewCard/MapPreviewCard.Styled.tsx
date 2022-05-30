@@ -5,7 +5,7 @@ type StyledProps = {
 }
 
 const StyledMapPreviewCard = styled.div<StyledProps>`
-  border-radius: 12px;
+  border-radius: 6px;
   background-color: var(--background2);
   border: 1px solid rgba(255, 255, 255, 0.07);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -13,13 +13,18 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
   gap: 1rem;
   max-height: 300px;
   height: 100%;
-  
+
   .mapImage {
     height: 125px;
     width: 100%;
-    border-radius: 11px;
-    background: linear-gradient(180deg, rgba(25, 26, 27, 0) 0%, rgba(25, 26, 27, 0.57) 47.4%, #191A1B 100%), 
-    url(${({ mapImage }) => mapImage});
+    border-radius: 5px;
+    background: linear-gradient(
+        180deg,
+        rgba(25, 26, 27, 0) 0%,
+        rgba(25, 26, 27, 0.57) 47.4%,
+        #191a1b 100%
+      ),
+      url(${({ mapImage }) => mapImage});
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;

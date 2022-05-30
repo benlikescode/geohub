@@ -1,4 +1,12 @@
-import { ArrowsExpandIcon, ClockIcon, SwitchHorizontalIcon, UserGroupIcon, UserIcon, XIcon, ZoomInIcon } from '@heroicons/react/outline'
+import {
+  ArrowsExpandIcon,
+  ClockIcon,
+  SwitchHorizontalIcon,
+  UserGroupIcon,
+  UserIcon,
+  XIcon,
+  ZoomInIcon,
+} from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
 import React, { FC, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,8 +22,8 @@ import { Challenge } from './Challenge'
 import { toast } from 'react-toastify'
 
 type Props = {
-  closeModal: () => void;
-  mapDetails: MapType;
+  closeModal: () => void
+  mapDetails: MapType
 }
 
 const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
@@ -23,24 +31,26 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
   const [movingChecked, setMovingChecked] = useState(true)
   const [panningChecked, setPanningChecked] = useState(true)
   const [zoomingChecked, setZoomingChecked] = useState(true)
-  const [gameType, setGameType] = useState<"Single Player" | "Challenge">("Single Player")
+  const [gameType, setGameType] = useState<'Single Player' | 'Challenge'>('Single Player')
   const [showChallengeView, setShowChallengeView] = useState(false)
   const [sliderVal, setSliderVal] = useState(61)
+  const [challengeId, setChallengeId] = useState('')
   const router = useRouter()
   const user: UserType = useSelector(selectUser)
   const dispatch = useDispatch()
   const mapId = router.asPath.split('/')[2]
 
-  const notify = () => toast.error('This map does not seem to have any locations', {
-    position: 'bottom-right',
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: 0,
-    theme: 'dark'
-  })
+  const notify = () =>
+    toast.error('This map does not seem to have any locations', {
+      position: 'bottom-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: 0,
+      theme: 'dark',
+    })
 
   useEffect(() => {
     if (mapId === 'near-you') {
@@ -48,30 +58,60 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
         navigator.geolocation.getCurrentPosition(function showLocation(position) {
           const latitude = position.coords.latitude
           const longitude = position.coords.longitude
-      
+
           const location: LocationType = {
-            lat: latitude, 
-            lng: longitude
+            lat: latitude,
+            lng: longitude,
           }
-  
+
           dispatch(updateLocation({ location }))
         })
-      }   
-    }  
+      }
+    }
   }, [])
 
-  const handleClickBtn = () => {
-    if (gameType === 'Single Player') {
-      handleStartGame()
+  const handleClickBtn = async () => {
+    // Case 1: Single Player & Start
+    if (gameType === 'Single Player' && !showChallengeView) {
+      await handleStartGame()
     }
-    else {
-      if (showChallengeView) {
-        handleStartGame()
-      }
-      else {
-        setShowChallengeView(true)
-      }
+    // Case 2: Challenge & Invite Friends
+    if (gameType === 'Challenge' && !showChallengeView) {
+      await createChallenge()
+      setShowChallengeView(true)
     }
+    // Case 3: Challenge & Start
+    if (gameType === 'Challenge' && showChallengeView) {
+      router.push(`/challenge/${challengeId}`)
+    }
+  }
+
+  const createChallenge = async () => {
+    if (!user.id) {
+      return router.push('/register')
+    }
+
+    const gameSettings: GameSettingsType = {
+      timeLimit: sliderVal,
+      canMove: movingChecked,
+      canPan: panningChecked,
+      canZoom: zoomingChecked,
+    }
+
+    const gameData = {
+      mapId,
+      gameSettings,
+      userId: user.id,
+    }
+
+    
+    const { status, res } = await mailman(
+      'challenges',
+      'POST',
+      JSON.stringify(gameData),
+    )
+
+    setChallengeId(res)
   }
 
   const handleStartGame = async () => {
@@ -82,30 +122,32 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
     const gameSettings: GameSettingsType = {
       timeLimit: sliderVal,
       canMove: movingChecked,
-      canPan: panningChecked, 
-      canZoom: zoomingChecked
+      canPan: panningChecked,
+      canZoom: zoomingChecked,
     }
 
     const gameData = {
-      mapId, 
+      mapId,
       gameSettings,
       userId: user.id,
-      userLocation: user.location
+      userLocation: user.location,
     }
 
     // store start time
     dispatch(updateStartTime({ startTime: new Date().getTime() }))
 
-    const { status, res } = await mailman('games', 'POST', JSON.stringify(gameData))
-    
+    const { status, res } = await mailman(
+      'games',
+      'POST',
+      JSON.stringify(gameData),
+    )
+
     if (status === 400) {
-      notify()   
-    }
-    else {
+      notify()
+    } else {
       router.push(`/game/${res}`)
     }
   }
-  
 
   return (
     <StyledGameSettings>
@@ -116,15 +158,16 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
             <Icon size={30} hoverColor="var(--color2)">
               <XIcon />
             </Icon>
-          </Button>  
+          </Button>
         </div>
 
         <div className="mainContent">
-          {showChallengeView ?
-            <Challenge /> :
+          {showChallengeView ? (
+            <Challenge challengeId={challengeId} />
+          ) : (
             <>
               <FlexGroup gap={15}>
-                <Avatar url={mapDetails.previewImg} size={60} alt="Map Avatar"/>
+                <Avatar url={mapDetails.previewImg} size={60} alt="Map Avatar" />
                 <div className="mapInfo">
                   <span className="mapName">{mapDetails.name}</span>
                   <span className="mapDescription">{mapDetails.description}</span>
@@ -132,32 +175,38 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
               </FlexGroup>
 
               <div className="toggleBar">
-                <div className={`toggleItem ${gameType === 'Single Player' ? 'active' : ''}`} onClick={() => setGameType('Single Player')}>
+                <div
+                  className={`toggleItem ${gameType === 'Single Player' ? 'active' : ''}`}
+                  onClick={() => setGameType('Single Player')}
+                >
                   <FlexGroup gap={12}>
                     <div className="toggleIcon">
                       <UserIcon />
-                    </div>          
+                    </div>
                     <span className="toggleText">Single Player</span>
                   </FlexGroup>
                 </div>
 
-                <div className={`toggleItem ${gameType === 'Challenge' ? 'active' : ''}`} onClick={() => setGameType('Challenge')}>
+                <div
+                  className={`toggleItem ${gameType === 'Challenge' ? 'active' : ''}`}
+                  onClick={() => setGameType('Challenge')}
+                >
                   <FlexGroup gap={12}>
                     <div className="toggleIcon">
-                      <UserGroupIcon />  
+                      <UserGroupIcon />
                     </div>
                     <span className="toggleText">Challenge</span>
                   </FlexGroup>
                 </div>
               </div>
-      
+
               <div className="settingsWrapper">
                 <div className="checkboxWrapper">
                   <Checkbox isChecked={showDetailedChecked} setChecked={setShowDetailedChecked} />
                   <span>Default Settings (No time limit, moving, panning, zooming allowed)</span>
                 </div>
 
-                {!showDetailedChecked &&
+                {!showDetailedChecked && (
                   <div className="detailedSettings">
                     <div className="timeLimitWrapper">
                       <div className="timeLabel">
@@ -166,7 +215,7 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
                         </Icon>
                         <span className="timeLimit">{formatTimeLimit(sliderVal)}</span>
                       </div>
-                    
+
                       <Slider onChange={setSliderVal} />
                     </div>
 
@@ -178,7 +227,7 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
                             <ArrowsExpandIcon />
                           </Icon>
                           <span>Moving</span>
-                        </FlexGroup>        
+                        </FlexGroup>
                       </div>
                       <div className="movementOption">
                         <Checkbox isChecked={panningChecked} setChecked={setPanningChecked} />
@@ -187,7 +236,7 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
                             <SwitchHorizontalIcon />
                           </Icon>
                           <span>Panning</span>
-                        </FlexGroup>        
+                        </FlexGroup>
                       </div>
                       <div className="movementOption">
                         <Checkbox isChecked={zoomingChecked} setChecked={setZoomingChecked} />
@@ -196,36 +245,27 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
                             <ZoomInIcon />
                           </Icon>
                           <span>Zooming</span>
-                        </FlexGroup>        
+                        </FlexGroup>
                       </div>
                     </div>
                   </div>
-                }                   
+                )}
               </div>
             </>
-          } 
+          )}
         </div>
 
         <div className="footer">
-          <Button 
-            type="ghost" 
-            callback={() => closeModal()}
-            height="35px"
-          >
+          <Button type="ghost" callback={() => closeModal()} height="35px">
             Cancel
           </Button>
 
-          <Button 
-            type="solidPurple" 
-            callback={() => handleClickBtn()}
-            height="35px"
-          >
+          <Button type="solidPurple" callback={() => handleClickBtn()} height="35px">
             {gameType === 'Single Player' ? 'Start Game' : 
             showChallengeView ? 'Start Game' : 'Invite Friends'}
-          </Button>        
+          </Button>
         </div>
       </Banner>
-     
     </StyledGameSettings>
   )
 }

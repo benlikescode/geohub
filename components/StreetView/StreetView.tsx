@@ -20,6 +20,8 @@ type Props = {
 }
 
 const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
+  console.log(JSON.stringify(gameData))
+
   const [loading, setLoading] = useState(true)
   const [currGuess, setCurrGuess] = useState<LocationType | null>(null)
   const location = gameData.rounds[gameData.round - 1]
@@ -79,7 +81,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
         enableCloseButton: false,
         zoomControl: false,
         fullscreenControl: false,
-      },
+      }
     )
     panorama.setOptions({
       showRoadLabels: false,
@@ -106,7 +108,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
         location: location,
         radius: gameData.mapId === 'near-you' ? 50000 : 50,
       },
-      processSVData,
+      processSVData
     )
 
     setLoading(false)

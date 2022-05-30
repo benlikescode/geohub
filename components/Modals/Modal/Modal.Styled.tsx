@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 type StyledProps = {
-  width?: string;
+  width?: string
 }
 
 const StyledModal = styled.div<StyledProps>`
@@ -11,14 +11,14 @@ const StyledModal = styled.div<StyledProps>`
     left: 0;
     right: 0;
     bottom: 0;
-    background: none!important;
+    background: none !important;
     pointer-events: none;
     z-index: 99;
   }
 
-  .modal { 
+  .modal {
     width: 100%;
-    max-width: ${({ width }) => width ? width : '650px'};
+    max-width: ${({ width }) => (width ? width : '650px')};
     max-height: 700px;
     min-height: 200px;
     background-color: var(--background3);
@@ -29,9 +29,9 @@ const StyledModal = styled.div<StyledProps>`
     z-index: 99;
     pointer-events: all;
     overflow: hidden;
-    border-radius: 12px;
+    border-radius: 6px;
   }
-  
+
   .backdrop {
     opacity: 0.95;
     background: rgb(0, 0, 0);
@@ -44,7 +44,7 @@ const StyledModal = styled.div<StyledProps>`
     align-items: center;
     justify-content: center;
     pointer-events: all;
-  } 
+  }
 `
 
 export default StyledModal

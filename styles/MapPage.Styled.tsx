@@ -54,7 +54,7 @@ const StyledMapPage = styled.div`
     height: 100%;
     background-color: var(--background2);
     border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 12px;
+    border-radius: 6px;
 
     @media (max-width: 1200px) {
       flex-direction: column;
