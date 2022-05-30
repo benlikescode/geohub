@@ -35,6 +35,7 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
   const [showChallengeView, setShowChallengeView] = useState(false)
   const [sliderVal, setSliderVal] = useState(61)
   const [challengeId, setChallengeId] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
   const user: UserType = useSelector(selectUser)
   const dispatch = useDispatch()
@@ -71,6 +72,8 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
   }, [])
 
   const handleClickBtn = async () => {
+    setIsSubmitting(true)
+
     // Case 1: Single Player & Start
     if (gameType === 'Single Player' && !showChallengeView) {
       await handleStartGame()
@@ -84,6 +87,8 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
     if (gameType === 'Challenge' && showChallengeView) {
       router.push(`/challenge/${challengeId}`)
     }
+
+    setIsSubmitting(false)
   }
 
   const createChallenge = async () => {
@@ -104,12 +109,7 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
       userId: user.id,
     }
 
-    
-    const { status, res } = await mailman(
-      'challenges',
-      'POST',
-      JSON.stringify(gameData),
-    )
+    const { status, res } = await mailman('challenges', 'POST', JSON.stringify(gameData))
 
     setChallengeId(res)
   }
@@ -136,11 +136,7 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
     // store start time
     dispatch(updateStartTime({ startTime: new Date().getTime() }))
 
-    const { status, res } = await mailman(
-      'games',
-      'POST',
-      JSON.stringify(gameData),
-    )
+    const { status, res } = await mailman('games', 'POST', JSON.stringify(gameData))
 
     if (status === 400) {
       notify()
@@ -260,9 +256,17 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
             Cancel
           </Button>
 
-          <Button type="solidPurple" callback={() => handleClickBtn()} height="35px">
-            {gameType === 'Single Player' ? 'Start Game' : 
-            showChallengeView ? 'Start Game' : 'Invite Friends'}
+          <Button
+            type="solidPurple"
+            callback={() => handleClickBtn()}
+            height="35px"
+            loading={isSubmitting}
+          >
+            {gameType === 'Single Player'
+              ? 'Start Game'
+              : showChallengeView
+              ? 'Start Game'
+              : 'Invite Friends'}
           </Button>
         </div>
       </Banner>

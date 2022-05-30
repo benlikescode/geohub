@@ -15,7 +15,7 @@ const Challenge: FC<Props> = ({ challengeId }) => {
   const testUser: UserType = {
     id: '123',
     name: 'BenZ',
-    avatar: '/images/default1.jpg',
+    avatar: '/images/avatars/default1.jpg',
     email: '',
     createdAt: new Date(),
     location: 'Canada',
@@ -24,7 +24,7 @@ const Challenge: FC<Props> = ({ challengeId }) => {
   const testUser2: UserType = {
     id: '123',
     name: 'Jamel',
-    avatar: '/images/default1.jpg',
+    avatar: '/images/avatars/default2.jpg',
     email: '',
     createdAt: new Date(),
     location: 'Canada',
@@ -33,7 +33,7 @@ const Challenge: FC<Props> = ({ challengeId }) => {
   const testUser3: UserType = {
     id: '123',
     name: 'Jonathan',
-    avatar: '/images/default1.jpg',
+    avatar: '/images/avatars/default3.jpg',
     email: '',
     createdAt: new Date(),
     location: 'Canada',

@@ -1,49 +1,60 @@
 import { FC, ReactNode } from 'react'
 import { StyledButton } from '.'
+import { Spinner } from '../Spinner'
 
 type Props = {
-  type: 'solidPurple' | 'solidGray' | 'solidCustom' | 'ghost' | 'ghostLight' | 'icon' | 'iconRounded';
-  callback?: any;
-  color?: string;
-  backgroundColor?: string;
-  hoverColor?: string;
-  isDisabled?: boolean;
-  className?: string;
-  children?: ReactNode;
-  width?: string;
-  height?: string;
-  isRound?: boolean;
-  isSmall?: boolean;
+  type:
+    | 'solidPurple'
+    | 'solidGray'
+    | 'solidCustom'
+    | 'ghost'
+    | 'ghostLight'
+    | 'icon'
+    | 'iconRounded'
+  callback?: any
+  color?: string
+  backgroundColor?: string
+  hoverColor?: string
+  isDisabled?: boolean
+  className?: string
+  children?: ReactNode
+  width?: string
+  height?: string
+  isRound?: boolean
+  isSmall?: boolean
+  loading?: boolean
 }
 
-const Button: FC<Props> = ({ 
-  type, 
-  callback, 
-  color, 
-  backgroundColor, 
+const Button: FC<Props> = ({
+  type,
+  callback,
+  color,
+  backgroundColor,
   hoverColor,
-  isDisabled, 
-  className, 
-  children, 
-  width, 
+  isDisabled,
+  className,
+  children,
+  width,
   height,
   isRound,
-  isSmall
+  isSmall,
+  loading,
 }) => {
   return (
-    <StyledButton 
-      type={type} 
-      color={color} 
-      backgroundColor={backgroundColor} 
+    <StyledButton
+      type={type}
+      color={color}
+      backgroundColor={backgroundColor}
       hoverColor={hoverColor}
-      isDisabled={isDisabled} 
-      width={width} 
+      isDisabled={isDisabled}
+      width={width}
       height={height}
       isRound={isRound}
       isSmall={isSmall}
     >
       <button onClick={callback ? (e) => callback(e) : undefined} className={className}>
         {children}
+        {loading && <Spinner size={20} />}
       </button>
     </StyledButton>
   )
