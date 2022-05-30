@@ -25,10 +25,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           .send(`Failed to find data for the challenge creator with id: ${challenge.creatorId}`)
       }
 
-      const playersGame = await collections.games?.findOne({
-        userId: new ObjectId(userId),
-        challengeId: new ObjectId(challengeId),
-      })
+      let playersGame = null
+
+      if (userId) {
+        playersGame = await collections.games?.findOne({
+          userId: new ObjectId(userId),
+          challengeId: new ObjectId(challengeId),
+        })
+      }
 
       const result = {
         ...challenge,
