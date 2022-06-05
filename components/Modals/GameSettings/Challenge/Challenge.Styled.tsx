@@ -16,11 +16,13 @@ const StyledChallenge = styled.div`
     color: var(--color1);
     border-radius: 5px;
     margin-left: -75px;
-    font-size: 14px; 
+    font-size: 14px;
+    z-index: 1;
   }
 
   .inputLabel {
     font-weight: 500;
+    font-size: 15px;
     margin-bottom: 10px;
     display: block;
     color: var(--color2);
@@ -37,13 +39,12 @@ const StyledChallenge = styled.div`
     align-items: center;
     justify-content: space-between;
   }
-  
 
   .inviteBtn {
     border: var(--borderLight);
     background: transparent;
     border-radius: 5px;
-    color: #9C9C9C;
+    color: #9c9c9c;
     width: 75px;
     height: 30px;
     font-size: 14px;
@@ -54,7 +55,6 @@ const StyledChallenge = styled.div`
     font-size: 14px;
     color: #ff4747;
   }
-
 `
 
 export default StyledChallenge
