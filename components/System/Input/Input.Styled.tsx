@@ -18,6 +18,7 @@ const StyledInput = styled.div<StyledProps>`
     height: 38px;
     display: flex;
     align-items: center;
+    position: relative;
 
     input {
       height: 100%;
@@ -40,6 +41,12 @@ const StyledInput = styled.div<StyledProps>`
         box-shadow: 0 0 0 2px var(--mediumPurple);
       }
     }
+  }
+
+  .input-icon {
+    position: absolute;
+    right: 14px;
+    background: none;
   }
 
   .inputError {

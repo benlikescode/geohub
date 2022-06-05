@@ -1,5 +1,7 @@
+import { EyeIcon, EyeOffIcon } from '@heroicons/react/outline'
 import { FC, useState } from 'react'
 import { StyledInput } from '.'
+import { Icon } from '../Icon'
 
 type Props = {
   label?: string
@@ -32,6 +34,7 @@ const Input: FC<Props> = ({
 }) => {
   const [currValue, setCurrValue] = useState<string | number>(value || '')
   const [showErrorMsg, setShowErrorMsg] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleBlur = () => {
     setShowErrorMsg(true)
@@ -59,13 +62,25 @@ const Input: FC<Props> = ({
           placeholder={placeholder}
           onChange={(e) => onInputChange(e.currentTarget.value)}
           value={currValue}
-          type={type}
+          type={showPassword ? 'text' : type}
           lang="en"
           readOnly={readOnly}
           onBlur={() => handleBlur()}
           autoComplete={autoComplete}
           maxLength={maxLength || 2000}
         />
+
+        {type === 'password' && currValue !== '' && (
+          <button
+            className="input-icon"
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            <Icon size={18} fill="var(--gray-500)">
+              {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+            </Icon>
+          </button>
+        )}
       </div>
 
       {errorMessage && showErrorMsg && (
