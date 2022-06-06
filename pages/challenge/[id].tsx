@@ -34,12 +34,12 @@ const ChallengePage: FC = () => {
     }
     setChallengeData(res)
 
-    console.log(res)
+    //console.log(res)
 
     const isThisUsersChallenge = res.creatorId === user.id
-    console.log(isThisUsersChallenge)
+    //console.log(isThisUsersChallenge)
     const userHasStartedChallenge = res.playersGame !== null
-    console.log(userHasStartedChallenge)
+    //console.log(userHasStartedChallenge)
 
     // If user is guest and has not started this challenge yet
     if (!isThisUsersChallenge && !userHasStartedChallenge) {
@@ -51,10 +51,16 @@ const ChallengePage: FC = () => {
       if (!userHasStartedChallenge) {
         await createGame(res)
       } else {
-        const formattedGameData = { id: res.playersGame._id, ...res.playersGame }
-        setGameData(formattedGameData)
+        if (res.playersGame.round > 5) {
+          router.push(`/results/challenge/${challengeId}`)
+        } else {
+          const formattedGameData = { id: res.playersGame._id, ...res.playersGame }
+
+          setGameData(formattedGameData)
+        }
       }
     }
+    //console.log(challengeData, gameData)
   }
 
   const createGame = async (challengeData: ChallengeType) => {

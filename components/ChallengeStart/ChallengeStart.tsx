@@ -33,7 +33,7 @@ const ChallengeStart: FC<Props> = ({ challengeData, handleStartChallenge, setVie
   useEffect(() => {
     if (!user.id) {
       setIsLoggedIn(false)
-      console.log(challengeData)
+      //console.log(challengeData)
     }
   }, [])
 

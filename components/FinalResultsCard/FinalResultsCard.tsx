@@ -9,8 +9,9 @@ type Props = {
 }
 
 const FinalResultsCard: FC<Props> = ({ gameData }) => {
+  const IS_CHALLENGE = !!gameData.challengeId
 
-  // converts total points to a percentage
+  // Converts total points to a percentage
   const calculateProgress = () => {
     const progress = (gameData.totalPoints / 25000) * 100
 
@@ -30,27 +31,37 @@ const FinalResultsCard: FC<Props> = ({ gameData }) => {
               <span>The game is finished, well done!</span>
             </div>
             <div className="pointsWrapper">
-              <span><strong className="totalPoints">{gameData.totalPoints}</strong> points total</span>
+              <span>
+                <strong className="totalPoints">{gameData.totalPoints}</strong> points total
+              </span>
             </div>
           </div>
 
-          <ProgressBar progress={calculateProgress()}/>
+          <ProgressBar progress={calculateProgress()} />
 
-          <FlexGroup gap={20}>    
-            <Link href={gameData.mapId ? `/results/${gameData.id}` : '/'}>
+          <FlexGroup gap={20}>
+            <Link
+              href={
+                gameData.mapId ? `/results${IS_CHALLENGE ? '/challenge' : ''}/${gameData.id}` : '/'
+              }
+            >
               <a>
-                <Button type="ghostLight">{gameData.mapId ? 'Detailed Results' : 'Return To Home'}</Button>
+                <Button type="ghostLight">
+                  {gameData.mapId ? 'Detailed Results' : 'Return To Home'}
+                </Button>
               </a>
             </Link>
-                           
+
             <Link href={gameData.mapId ? `/map/${gameData.mapId}` : '/aerial'}>
               <a>
-                <Button type="solidPurple" width="180px">Play Again</Button>
+                <Button type="solidPurple" width="180px">
+                  Play Again
+                </Button>
               </a>
             </Link>
-          </FlexGroup>    
+          </FlexGroup>
         </div>
-      </div>     
+      </div>
     </StyledFinalResultsCard>
   )
 }

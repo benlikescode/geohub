@@ -13,6 +13,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const gameId = req.query.id as string
 
     if (req.method === 'GET') {
+      // If gameId is not valid
+      if (gameId.length !== 24) {
+        return res.status(404).send(`Failed to find game with id: ${gameId}`)
+      }
+
       const query = { _id: new ObjectId(gameId) }
       const game = await collections.games?.findOne(query)
 
@@ -20,11 +25,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(404).send(`Failed to find game with id: ${gameId}`)
       }
 
-      // As of Nov 8, I am querying the user as well so the data can be available when
-      // I hit the game end point in the results page (leaderboard)
-      // Since this is the main endpoint I am hitting during a game session, it may
-      // be worth it to make a seperate endpoint for game results but this should be
-      // very minor, so fine for now
       const user = await collections.users?.findOne({ _id: game.userId })
 
       if (!user) {

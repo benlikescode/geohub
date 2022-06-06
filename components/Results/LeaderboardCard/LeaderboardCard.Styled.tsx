@@ -6,6 +6,7 @@ const StyledLeaderboardCard = styled.div`
   max-width: ${({ theme }) => theme.breakpoint.l};
   width: 100%;
   z-index: 1;
+  padding-bottom: 3rem;
 
   @media (max-width: 1300px) {
     max-width: 100%;
@@ -18,7 +19,6 @@ const StyledLeaderboardCard = styled.div`
   }
 
   .topSection {
-    
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -75,7 +75,7 @@ const StyledLeaderboardCard = styled.div`
   }
 
   .rowDivider {
-    background: #2F3133;
+    background: #2f3133;
     border: none;
     grid-column-end: -1;
     grid-column-start: 1;
@@ -84,7 +84,7 @@ const StyledLeaderboardCard = styled.div`
   }
 
   .divider {
-    background: #2F3133;
+    background: #2f3133;
     width: 1px;
     height: 17px;
   }
@@ -163,11 +163,11 @@ const StyledLeaderboardCard = styled.div`
   }
 
   .label1 {
-    font-size: 14px; 
+    font-size: 14px;
   }
 
   .label2 {
-    font-size: 12px; 
+    font-size: 12px;
     color: var(--color2);
     font-weight: 400;
   }

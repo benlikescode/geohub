@@ -20,8 +20,10 @@ const ResultsPage: NextPage = () => {
   const fetchGame = async () => {
     const { status, res } = await mailman(`games/${gameId}`)
 
+    //console.log(status)
+
     // if game not found, set gameData to null so an error page can be displayed
-    if (status === 404 || status === 500) {
+    if (status === 400 || status === 404 || status === 500) {
       return setGameData(null)
     }
 
@@ -30,7 +32,8 @@ const ResultsPage: NextPage = () => {
     }
 
     const gameData = {
-      id: gameId, ...res
+      id: gameId,
+      ...res,
     }
 
     setGameData(gameData)
@@ -46,63 +49,55 @@ const ResultsPage: NextPage = () => {
     if (!gameId) {
       return
     }
-  
+
     fetchGame()
- 
   }, [gameId])
+
+  if (gameData === null) {
+    return (
+      <StyledResultPage>
+        <Layout>
+          <div className="errorContainer">
+            <div className="errorContent">
+              <h1 className="errorPageTitle">Page not found</h1>
+              <span className="errorPageMsg">
+                {gameData === null
+                  ? 'This game does not exist'
+                  : 'This game has not been completed'}
+              </span>
+            </div>
+            <div className="errorGif"></div>
+          </div>
+        </Layout>
+      </StyledResultPage>
+    )
+  }
 
   if (!gameData || !mapData) {
     return <LoadingPage />
   }
-  
+
   return (
     <StyledResultPage>
-      {isCompleted && gameData !== null ?        
+      {isCompleted && (
         <section>
           <Navbar />
 
           <main>
-            <ResultMap 
-              guessedLocations={gameData.guesses} 
-              actualLocations={gameData.rounds} 
-              round={gameData.round} 
-              isFinalResults 
+            <ResultMap
+              guessedLocations={gameData.guesses}
+              actualLocations={gameData.rounds}
+              round={gameData.round}
+              isFinalResults
             />
-  
+
             <FlexGroup justify="center">
-              <LeaderboardCard gameData={gameData} mapData={mapData}/>
-            </FlexGroup> 
+              <LeaderboardCard gameData={[gameData]} mapData={mapData} />
+            </FlexGroup>
           </main>
         </section>
-           
-        :
-
-        <Layout>
-          <section>
-            <Navbar />
-
-            <main>
-              <div className="errorContainer">
-                <div className="errorContent">
-                  <h1 className="errorPageTitle">Page not found</h1>
-                  <span className="errorPageMsg">
-                    {gameData === null ? 'This game does not exist' : 'This game has not been completed'}
-                  </span>         
-                </div>
-                <div className="errorGif">
-                  
-                </div>
-              </div>
-            </main>
-          </section>
-        </Layout>   
-     
-
-      
-
-      }
+      )}
     </StyledResultPage>
- 
   )
 }
 
