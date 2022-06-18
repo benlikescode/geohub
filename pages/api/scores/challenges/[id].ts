@@ -9,10 +9,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const challengeId = req.query.id as string
     const challengeObjectId = new ObjectId(challengeId)
 
-    console.log(challengeId, challengeObjectId)
-
     if (req.method === 'GET') {
-      const query = { challengeId: challengeId, round: { $gte: 6 } } // gte: 6 means game is finished
+      const query = { challengeId: challengeObjectId, round: { $gte: 6 } } // gte: 6 means game is finished
       const gamesData = await collections.games
         ?.aggregate([
           { $match: query },
@@ -29,10 +27,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         .limit(10)
         .toArray()
 
-      console.log(gamesData)
-
       if (!gamesData || gamesData.length < 1) {
-        return res.status(404).send(`Failed to get scores for challenged with id: ${challengeId}`)
+        return res.status(404).json(`Failed to get scores for challenged with id: ${challengeId}`)
       }
 
       // Get Map
@@ -40,7 +36,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const map = await collections.maps?.findOne({ slug: mapId })
 
       if (!map) {
-        return res.status(404).send(`Failed to get map for challenged with id: ${challengeId}`)
+        return res.status(404).json(`Failed to get map for challenged with id: ${challengeId}`)
       }
 
       const result = {

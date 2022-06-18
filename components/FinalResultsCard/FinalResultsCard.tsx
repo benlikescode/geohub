@@ -42,7 +42,9 @@ const FinalResultsCard: FC<Props> = ({ gameData }) => {
           <FlexGroup gap={20}>
             <Link
               href={
-                gameData.mapId ? `/results${IS_CHALLENGE ? '/challenge' : ''}/${gameData.id}` : '/'
+                gameData.mapId
+                  ? `/results${IS_CHALLENGE ? '/challenge' : ''}/${gameData.challengeId}`
+                  : '/'
               }
             >
               <a>

@@ -20,7 +20,7 @@ const ChallengeResultsPage: NextPage = () => {
     const { status, res } = await mailman(`scores/challenges/${challengeId}`)
 
     // If game not found, set gameData to null so an error page can be displayed
-    if (status === 404 || status === 500) {
+    if (status === 404 || status === 400 || status === 500) {
       return setGamesFromChallenge(null)
     }
 
@@ -36,50 +36,46 @@ const ChallengeResultsPage: NextPage = () => {
     fetchGames()
   }, [challengeId])
 
+  if (gamesFromChallenge === null) {
+    return (
+      <StyledResultPage>
+        <Layout>
+          <div className="errorContainer">
+            <div className="errorContent">
+              <h1 className="errorPageTitle">Page not found</h1>
+              <span className="errorPageMsg">
+                This challenge does not exist or has not been played yet
+              </span>
+            </div>
+            <div className="errorGif"></div>
+          </div>
+        </Layout>
+      </StyledResultPage>
+    )
+  }
+
   if (!gamesFromChallenge || !mapData) {
     return <LoadingPage />
   }
 
   return (
     <StyledResultPage>
-      {gamesFromChallenge !== null ? (
-        <section>
-          <Navbar />
+      <section>
+        <Navbar />
 
-          <main>
-            <ResultMap
-              guessedLocations={gamesFromChallenge[0].guesses}
-              actualLocations={gamesFromChallenge[0].rounds}
-              round={gamesFromChallenge[0].round}
-              isFinalResults
-            />
+        <main>
+          <ResultMap
+            guessedLocations={gamesFromChallenge[0].guesses}
+            actualLocations={gamesFromChallenge[0].rounds}
+            round={gamesFromChallenge[0].round}
+            isFinalResults
+          />
 
-            <FlexGroup justify="center">
-              <LeaderboardCard gameData={gamesFromChallenge} mapData={mapData} />
-            </FlexGroup>
-          </main>
-        </section>
-      ) : (
-        <Layout>
-          <section>
-            <Navbar />
-
-            <main>
-              <div className="errorContainer">
-                <div className="errorContent">
-                  <h1 className="errorPageTitle">Page not found</h1>
-                  <span className="errorPageMsg">
-                    {gamesFromChallenge === null
-                      ? 'This game does not exist'
-                      : 'This game has not been completed'}
-                  </span>
-                </div>
-                <div className="errorGif"></div>
-              </div>
-            </main>
-          </section>
-        </Layout>
-      )}
+          <FlexGroup justify="center">
+            <LeaderboardCard gameData={gamesFromChallenge} mapData={mapData} />
+          </FlexGroup>
+        </main>
+      </section>
     </StyledResultPage>
   )
 }

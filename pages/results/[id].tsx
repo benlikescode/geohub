@@ -20,9 +20,7 @@ const ResultsPage: NextPage = () => {
   const fetchGame = async () => {
     const { status, res } = await mailman(`games/${gameId}`)
 
-    //console.log(status)
-
-    // if game not found, set gameData to null so an error page can be displayed
+    // If game not found, set gameData to null so an error page can be displayed
     if (status === 400 || status === 404 || status === 500) {
       return setGameData(null)
     }
@@ -53,6 +51,7 @@ const ResultsPage: NextPage = () => {
     fetchGame()
   }, [gameId])
 
+  // Game does not exist with this id
   if (gameData === null) {
     return (
       <StyledResultPage>
@@ -60,11 +59,7 @@ const ResultsPage: NextPage = () => {
           <div className="errorContainer">
             <div className="errorContent">
               <h1 className="errorPageTitle">Page not found</h1>
-              <span className="errorPageMsg">
-                {gameData === null
-                  ? 'This game does not exist'
-                  : 'This game has not been completed'}
-              </span>
+              <span className="errorPageMsg">This game does not exist</span>
             </div>
             <div className="errorGif"></div>
           </div>
@@ -96,6 +91,20 @@ const ResultsPage: NextPage = () => {
             </FlexGroup>
           </main>
         </section>
+      )}
+
+      {!isCompleted && (
+        <StyledResultPage>
+          <Layout>
+            <div className="errorContainer">
+              <div className="errorContent">
+                <h1 className="errorPageTitle">Page not found</h1>
+                <span className="errorPageMsg">This game has not been completed</span>
+              </div>
+              <div className="errorGif"></div>
+            </div>
+          </Layout>
+        </StyledResultPage>
       )}
     </StyledResultPage>
   )
