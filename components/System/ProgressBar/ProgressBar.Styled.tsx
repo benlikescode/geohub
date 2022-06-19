@@ -18,8 +18,8 @@ const StyledProgressBar = styled.div<StyledProps>`
     height: 100%;
     border-radius: 50rem;
     background-color: ${({ backgroundColor }) => backgroundColor};
+    transition: all 0.5s;
   }
-  
 `
 
 export default StyledProgressBar
