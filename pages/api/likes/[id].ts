@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '../../../backend/utils/dbConnect'
 import { NextApiRequest, NextApiResponse } from 'next'
 
@@ -6,20 +7,22 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     await dbConnect()
     const mapId = req.query.id as string
     const userId = req.query.userId as string
-    
+
     if (req.method === 'GET') {
       const likes = await collections.mapLikes?.countDocuments({ mapId: mapId })
-      
-      const likedByUser = await collections.mapLikes?.countDocuments({ mapId: mapId, userId: userId }, { limit: 1 })
+
+      const likedByUser = await collections.mapLikes?.countDocuments(
+        { mapId: mapId, userId: userId },
+        { limit: 1 }
+      )
 
       const result = {
         numLikes: likes,
-        likedByUser: likedByUser
+        likedByUser: likedByUser,
       }
 
       res.status(200).send(result)
-    }
-    else if (req.method === 'DELETE') {
+    } else if (req.method === 'DELETE') {
       const removedLike = await collections.mapLikes?.deleteMany({ mapId: mapId, userId: userId })
 
       if (!removedLike) {
@@ -27,13 +30,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       return res.status(200).send('Map was successfully unliked')
-    }
-
-    else {
+    } else {
       res.status(405).end(`Method ${req.method} Not Allowed`)
     }
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err)
     res.status(500).json({ success: false })
   }
