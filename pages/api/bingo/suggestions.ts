@@ -1,10 +1,11 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '../../../backend/utils/dbConnect'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await dbConnect()
-   
+
     if (req.method === 'POST') {
       const { user, suggestion1, suggestion2 } = req.body
       const data = { user, suggestion1, suggestion2 }
@@ -15,13 +16,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       res.status(200).send(result.insertedId)
-    }
-
-    else {
+    } else {
       res.status(405).end(`Method ${req.method} Not Allowed`)
     }
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err)
     res.status(500).json({ success: false })
   }

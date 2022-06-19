@@ -1,6 +1,6 @@
 import { CheckIcon } from '@heroicons/react/outline'
 import type { NextPage } from 'next'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { mailman } from '../../backend/utils/mailman'
@@ -13,35 +13,42 @@ import StyledBingoPage from '../../styles/BingoPage.Styled'
 
 const BingoPage: NextPage = () => {
   const [settingsModalOpen, setSettingsModalOpen] = useState(false)
-  const [suggestion1, setSuggestion1] = useState("")
-  const [suggestion2, setSuggestion2] = useState("")
+  const [suggestion1, setSuggestion1] = useState('')
+  const [suggestion2, setSuggestion2] = useState('')
   const user = useSelector(selectUser)
+
+  const submitSuggestionDisabled = useMemo(
+    () => !suggestion1 && !suggestion2,
+    [suggestion1, suggestion2]
+  )
 
   const closeModal = () => {
     setSettingsModalOpen(false)
   }
 
-  const showErrorToast = () => toast.error('Something went wrong, please try again later.', {
-    position: 'bottom-right',
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: 0,
-    theme: 'dark'
-  })
+  const showErrorToast = () =>
+    toast.error('Something went wrong, please try again later.', {
+      position: 'bottom-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: 0,
+      theme: 'dark',
+    })
 
-  const showSuccessToast = () => toast.success('Thanks for your feedback.', {
-    position: 'bottom-right',
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: 0,
-    theme: 'dark'
-  })
+  const showSuccessToast = () =>
+    toast.success('Thanks for your feedback.', {
+      position: 'bottom-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: 0,
+      theme: 'dark',
+    })
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -53,8 +60,7 @@ const BingoPage: NextPage = () => {
 
     if (status === 200) {
       showSuccessToast()
-    }
-    else {
+    } else {
       showErrorToast()
     }
   }
@@ -66,14 +72,23 @@ const BingoPage: NextPage = () => {
           <Banner>
             <div className="mapDetailsSection">
               <div className="mapDescriptionWrapper">
-                <Avatar url={'/images/bingoAvatar.jpg'} alt="Bingo" size={100} outline/>
+                <Avatar url={'/images/bingoAvatar.jpg'} alt="Bingo" size={100} outline />
 
                 <div className="descriptionColumnWrapper">
                   <div className="descriptionColumn">
                     <span className="name">Geo-Bingo</span>
-                    <span className="description">Given a bingo card of random things/people, your task is to search across the world to find these items and get a Geo-Bingo!</span>
+                    <span className="description">
+                      Given a bingo card of random things/people, your task is to search across the
+                      world to find these items and get a Geo-Bingo!
+                    </span>
                   </div>
-                  <Button type="solidPurple" width="200px" callback={() => setSettingsModalOpen(true)}>Play Now</Button>
+                  <Button
+                    type="solidPurple"
+                    width="200px"
+                    callback={() => setSettingsModalOpen(true)}
+                  >
+                    Play Now
+                  </Button>
                 </div>
               </div>
 
@@ -97,7 +112,9 @@ const BingoPage: NextPage = () => {
                           <CheckIcon />
                         </Icon>
                       </div>
-                      <span className="checkListLabel">Something recognizable (cultural independent)</span>
+                      <span className="checkListLabel">
+                        Something recognizable (cultural independent)
+                      </span>
                     </div>
 
                     <div className="checkListItem">
@@ -122,35 +139,31 @@ const BingoPage: NextPage = () => {
               </div>
 
               <form className="suggestionForm" onSubmit={(e) => handleSubmit(e)}>
-                <Input 
-                  placeholder="Ex. Fire Truck" 
-                  type="text" 
-                  label="Item 1" 
+                <Input
+                  placeholder="Ex. Fire Truck"
+                  type="text"
+                  label="Item 1"
                   maxLength={40}
                   callback={setSuggestion1}
                 />
 
-                <Input 
-                  type="text" 
-                  label="Item 2" 
-                  maxLength={40}
-                  callback={setSuggestion2}
-                />
+                <Input type="text" label="Item 2" maxLength={40} callback={setSuggestion2} />
 
-                <Button type="solidPurple" width="100%">Submit</Button>
+                <Button type="solidPurple" width="100%" isDisabled={submitSuggestionDisabled}>
+                  Submit
+                </Button>
               </form>
             </div>
           </Banner>
-         
-        </main> 
+        </main>
       </Layout>
-      
-      {settingsModalOpen &&
+
+      {settingsModalOpen && (
         <Modal closeModal={closeModal}>
           <BingoSettings closeModal={closeModal} />
         </Modal>
-      }
-    </StyledBingoPage> 
+      )}
+    </StyledBingoPage>
   )
 }
 
