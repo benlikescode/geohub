@@ -43,7 +43,9 @@ const FinalResultsCard: FC<Props> = ({ gameData }) => {
             <Link
               href={
                 gameData.mapId
-                  ? `/results${IS_CHALLENGE ? '/challenge' : ''}/${gameData.challengeId}`
+                  ? IS_CHALLENGE
+                    ? `/results/challenge/${gameData.challengeId}`
+                    : `/results/${gameData.id}`
                   : '/'
               }
             >
