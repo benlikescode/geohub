@@ -1,4 +1,5 @@
 import { MongoClient, Collection, Db } from 'mongodb'
+import { IS_PROD, MONGO_URI } from './secrets'
 
 export const collections: {
   users?: Collection
@@ -14,22 +15,19 @@ export const collections: {
 
 let cachedDb: Db | null = null
 
-const DB_URI = process.env.MONGO_URI as string
-const DB_NAME = process.env.DB_NAME as string
-
-const client = new MongoClient(DB_URI)
+const client = new MongoClient(MONGO_URI as string)
 
 export const dbConnect = async () => {
   if (cachedDb) {
-    console.log('Using existing DB connection')
+    console.log(`Using existing DB connection: ${IS_PROD ? 'Prod DB' : 'Local DB'}`)
     return cachedDb
   }
 
   try {
     const dbConnection = await client.connect()
-    const db = dbConnection.db(DB_NAME)
+    const db = dbConnection.db(process.env.DB_NAME)
 
-    console.log('Using new DB connection')
+    console.log(`Using new DB connection: ${IS_PROD ? 'Prod DB' : 'Local DB'}`)
 
     cachedDb = db
 
