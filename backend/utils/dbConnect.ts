@@ -1,42 +1,69 @@
-import * as mongoDB from 'mongodb'
+import { MongoClient, Collection, Db } from 'mongodb'
 
 export const collections: {
-  users?: mongoDB.Collection
-  games?: mongoDB.Collection
-  challenges?: mongoDB.Collection
-  maps?: mongoDB.Collection
-  bingoGames?: mongoDB.Collection
-  bingoSuggestions?: mongoDB.Collection
-  mapLikes?: mongoDB.Collection
-  friends?: mongoDB.Collection
-  aerialGames?: mongoDB.Collection
+  users?: Collection
+  games?: Collection
+  challenges?: Collection
+  maps?: Collection
+  bingoGames?: Collection
+  bingoSuggestions?: Collection
+  mapLikes?: Collection
+  friends?: Collection
+  aerialGames?: Collection
 } = {}
 
+let cachedDb: Db | null = null
+
+const DB_URI = process.env.MONGO_URI as string
+const DB_NAME = process.env.DB_NAME as string
+
+const client = new MongoClient(DB_URI)
+
 export const dbConnect = async () => {
-  const client: mongoDB.MongoClient = new mongoDB.MongoClient(process.env.MONGO_URI as string)
-  await client.connect()
+  if (cachedDb) {
+    console.log('Using existing DB connection')
+    return cachedDb
+  }
 
-  const db: mongoDB.Db = client.db(process.env.DB_NAME)
+  try {
+    const dbConnection = await client.connect()
+    const db = dbConnection.db(DB_NAME)
 
-  const usersCollection: mongoDB.Collection = db.collection('users')
-  const gamesCollection: mongoDB.Collection = db.collection('games')
-  const challengesCollection: mongoDB.Collection = db.collection('challenges')
-  const mapsCollection: mongoDB.Collection = db.collection('maps')
-  const bingoGames: mongoDB.Collection = db.collection('bingoGames')
-  const bingoSuggestions: mongoDB.Collection = db.collection('bingoSuggestions')
-  const mapLikes: mongoDB.Collection = db.collection('mapLikes')
-  const friends: mongoDB.Collection = db.collection('friends')
-  const aerialGames: mongoDB.Collection = db.collection('aerialGames')
+    console.log('Using new DB connection')
 
-  collections.users = usersCollection
-  collections.games = gamesCollection
-  collections.challenges = challengesCollection
-  collections.maps = mapsCollection
-  collections.bingoGames = bingoGames
-  collections.bingoSuggestions = bingoSuggestions
-  collections.mapLikes = mapLikes
-  collections.friends = friends
-  collections.aerialGames = aerialGames
+    cachedDb = db
 
-  console.log(`Successfully connected to database: ${db.databaseName}`)
+    const usersCollection: Collection = db.collection('users')
+    const gamesCollection: Collection = db.collection('games')
+    const challengesCollection: Collection = db.collection('challenges')
+    const mapsCollection: Collection = db.collection('maps')
+    const bingoGames: Collection = db.collection('bingoGames')
+    const bingoSuggestions: Collection = db.collection('bingoSuggestions')
+    const mapLikes: Collection = db.collection('mapLikes')
+    const friends: Collection = db.collection('friends')
+    const aerialGames: Collection = db.collection('aerialGames')
+
+    collections.users = usersCollection
+    collections.games = gamesCollection
+    collections.challenges = challengesCollection
+    collections.maps = mapsCollection
+    collections.bingoGames = bingoGames
+    collections.bingoSuggestions = bingoSuggestions
+    collections.mapLikes = mapLikes
+    collections.friends = friends
+    collections.aerialGames = aerialGames
+
+    return cachedDb
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+export const closeDbConnection = async () => {
+  try {
+    await client.close()
+  } catch (err) {
+    console.log('Could not close DB connection')
+    console.log(err)
+  }
 }
