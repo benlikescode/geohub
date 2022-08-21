@@ -9,7 +9,7 @@ const ProgressBar: FC<Props> = ({ progress }) => {
   const [currProgress, setCurrProgress] = useState(0)
 
   useEffect(() => {
-    const animateDelay = setTimeout(() => setCurrProgress(progress), 500)
+    const animateDelay = setTimeout(() => setCurrProgress(progress), 200)
 
     return () => clearTimeout(animateDelay)
   }, [])
