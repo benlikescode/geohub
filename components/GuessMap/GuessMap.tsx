@@ -18,8 +18,8 @@ type Props = {
 }
 
 const GuessMap: FC<Props> = ({ coordinate, zoom, currGuess, setCurrGuess, handleSubmitGuess }) => {
-  const [mapHeight, setMapHeight] = useState(15)
-  const [mapWidth, setMapWidth] = useState(15)
+  const [mapHeight, setMapHeight] = useState(15) // height in vh
+  const [mapWidth, setMapWidth] = useState(15) // width in vw
   const [hovering, setHovering] = useState(false)
   const prevMarkersRef = useRef<google.maps.Marker[]>([])
   const dispatch = useDispatch()
@@ -64,6 +64,7 @@ const GuessMap: FC<Props> = ({ coordinate, zoom, currGuess, setCurrGuess, handle
   const handleMapHover = () => {
     clearInterval(hoverDelay.current)
     setHovering(true)
+
     const { width, height } = getGuessMapDimensions(user.guessMapSize)
     setMapHeight(height)
     setMapWidth(width)
@@ -78,20 +79,19 @@ const GuessMap: FC<Props> = ({ coordinate, zoom, currGuess, setCurrGuess, handle
   }
 
   const changeMapSize = (change: 'increase' | 'decrease') => {
+    let newMapSize = 1
+
     if (change === 'increase' && user.guessMapSize < 4) {
-      dispatch(
-        updateGuessMapSize({
-          guessMapSize: user.guessMapSize + 1,
-        }),
-      )
+      newMapSize = user.guessMapSize + 1
     } else if (change === 'decrease' && user.guessMapSize > 1) {
-      dispatch(
-        updateGuessMapSize({
-          guessMapSize: user.guessMapSize - 1,
-        }),
-      )
+      newMapSize = user.guessMapSize - 1
     }
-    handleMapHover()
+
+    const { width, height } = getGuessMapDimensions(newMapSize)
+    setMapHeight(height)
+    setMapWidth(width)
+
+    dispatch(updateGuessMapSize({ guessMapSize: newMapSize }))
   }
 
   return (
