@@ -39,7 +39,7 @@ const ProfilePage: NextPage = () => {
     dispatch(logOutUser())
   }
 
-  const updateUserInfo = () => {
+  const updateUserInfo = async () => {
     dispatch(updateBio(newProfileValues?.bio))
     dispatch(updateUsername(newProfileValues?.name))
     setUserDetails({
@@ -48,6 +48,8 @@ const ProfilePage: NextPage = () => {
       bio: newProfileValues?.bio
     })
     setIsEditing(false)
+
+    await mailman('users/update', 'POST', JSON.stringify({ _id: user.id, ...newProfileValues }))
   }
 
   const cancelEditing = () => {
@@ -56,6 +58,10 @@ const ProfilePage: NextPage = () => {
   }
   
   useEffect(() => {
+    if (!userId) {
+      return
+    }
+
     // if this users profile use the cached data in redux store
     if (isThisUsersProfile()) {
       setUserDetails({name: user.name, bio: user.bio, avatar: user.avatar})
@@ -89,7 +95,7 @@ const ProfilePage: NextPage = () => {
                 <img src={`/images/avatars/${userDetails.avatar}.jpg`} alt={userDetails.name}/>
               </div>
               <h1 className="profile-name">{isEditing ? <input type="text" value={newProfileValues?.name}  onChange={(e) => setNewProfileValues({name: e.target.value, bio: newProfileValues?.bio})}/> : userDetails.name}</h1>
-              {userDetails.bio && <span className="profile-bio">{isEditing ? <textarea value={newProfileValues?.bio} onChange={(e) => setNewProfileValues({name: newProfileValues?.name || '', bio: e.target.value})}></textarea> : userDetails.bio}</span>}
+              {(userDetails.bio || isEditing) && <span className="profile-bio">{isEditing ? <textarea value={newProfileValues?.bio} onChange={(e) => setNewProfileValues({name: newProfileValues?.name || '', bio: e.target.value})}></textarea> : userDetails.bio}</span>}
               {isThisUsersProfile() && !isEditing && (
                 <div className="profile-actions">
                   <button onClick={() => setIsEditing(true)}><PencilAltIcon/> Edit Profile</button>

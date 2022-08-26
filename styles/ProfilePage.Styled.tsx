@@ -93,6 +93,8 @@ const StyledProfilePage = styled.div`
         color: rgb(255, 255, 255, 0.5);
         font-weight: 500;
         width: 100%;
+        min-height: 50px;
+        max-height: 300px;
         border-radius: 2px;
         background: rgb(255, 255, 255, 0.05);
         box-shadow: 0 0 0 2px rgb(255, 255, 255, 0.05);
