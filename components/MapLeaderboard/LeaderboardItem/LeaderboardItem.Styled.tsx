@@ -4,8 +4,11 @@ const StyledLeaderboardItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-top: var(--border);
-  padding: 1rem 2.5rem;
+  padding: 1rem 20px;
+
+  &:not(:first-child) {
+    border-top: var(--border);
+  }
 
   @media (max-width: 1000px) {
     padding: 1rem;

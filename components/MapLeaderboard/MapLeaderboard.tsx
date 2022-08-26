@@ -5,19 +5,22 @@ import { Select } from '../System/Select'
 import { LeaderboardItem } from './LeaderboardItem'
 
 type Props = {
+  removeHeader?: boolean
   leaderboard: MapLeaderboardType[]
 }
 
-const MapLeaderboard: FC<Props> = ({ leaderboard }) => {
+const MapLeaderboard: FC<Props> = ({ removeHeader, leaderboard }) => {
   const [selectState, setSelectState] = useState()
   const selectOptions = ['Filter by', 'Top', 'Friends']
 
   return (
     <StyledMapLeaderboard>
-      <div className="leaderboardTop">
-        <span className="title">Leaderboard</span>
-        <Select options={selectOptions} callback={setSelectState}/>
-      </div>
+      {!removeHeader && (
+        <div className="leaderboardTop">
+          <span className="title">Leaderboard</span>
+          <Select options={selectOptions} callback={setSelectState}/>
+        </div>
+      )}
       
       {leaderboard.length > 0 && (
         leaderboard.map((row, idx) => (
