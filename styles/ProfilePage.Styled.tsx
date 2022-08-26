@@ -30,150 +30,148 @@ const StyledProfilePage = styled.div`
     position: relative;
     z-index: 2;
     margin-top: -60px;
-    padding-bottom: 30px;
-    border-bottom: 1px solid rgb(255, 255, 255, 0.1);
 
-    .profile-avatar {
-      background-color: #0e0e10;
-      width: 125px;
-      height: 125px;
-      border-radius: 50%;
-      position: relative;
-      box-shadow: 0 0 0 5px #0e0e10;
+    .profile-heading {
+      padding-bottom: 30px;
+      margin-bottom: 30px;
+      border-bottom: 1px solid rgb(255, 255, 255, 0.1);
 
-      img {
-        position: absolute;
-        object-fit: cover;
+      .profile-avatar {
+        background-color: #0e0e10;
+        width: 125px;
+        height: 125px;
         border-radius: 50%;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        position: relative;
+        box-shadow: 0 0 0 5px #0e0e10;
+  
+        img {
+          position: absolute;
+          object-fit: cover;
+          border-radius: 50%;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+        }
+  
+        &::after {
+          content: '';
+          position: absolute;
+          z-index: 1;
+          border-radius: 50%;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          box-shadow: inset 0 0 0 1px rgb(255, 255, 255, 0.1);
+        }
       }
-
-      &::after {
-        content: '';
-        position: absolute;
-        z-index: 1;
-        border-radius: 50%;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        box-shadow: inset 0 0 0 1px rgb(255, 255, 255, 0.1);
-      }
-    }
-
-    .profile-name {
-      margin-top: 20px;
-      font-size: 28px;
-      font-weight: 600;
-
-      input {
+  
+      .profile-name {
+        margin-top: 20px;
         font-size: 28px;
         font-weight: 600;
-        color: white;
-        border-radius: 2px;
-        width: 100%;
-        background: rgb(255, 255, 255, 0.05);
-        box-shadow: 0 0 0 2px rgb(255, 255, 255, 0.05);
-      }
-    }
-
-    .profile-bio {
-      display: block;
-      margin-top: 6px;
-      color: rgb(255, 255, 255, 0.5);
-
-      textarea {
-        color: rgb(255, 255, 255, 0.5);
-        font-weight: 500;
-        width: 100%;
-        min-height: 50px;
-        max-height: 300px;
-        border-radius: 2px;
-        background: rgb(255, 255, 255, 0.05);
-        box-shadow: 0 0 0 2px rgb(255, 255, 255, 0.05);
-        resize: vertical;
-      }
-    }
-
-    .profile-actions {
-      margin-top: 30px;
-      display: flex;
-
-      button {
-        padding: 1px 14px 0 14px;
-        font-weight: 500;
-        user-select: none;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: none;
-        transition: 0.2s;
-        border-radius: 6px;
-        min-width: 75px;
-        background-color: rgb(255, 255, 255, 0.1);
-        color: rgb(255, 255, 255, 0.7);
   
-        span {
-          position: relative;
-          top: 1px;
-        }
-  
-        svg {
-          height: 20px;
-          position: relative;
-          top: -1px;
-          margin-right: 8px;
-        }
-  
-        &:hover {
-          cursor: pointer;
-          background-color: rgb(255, 255, 255, 0.15);
+        input {
+          font-size: 28px;
+          font-weight: 600;
+          color: white;
+          border-radius: 2px;
+          width: 100%;
+          background: rgb(255, 255, 255, 0.05);
+          box-shadow: 0 0 0 2px rgb(255, 255, 255, 0.05);
         }
 
-        &:not(:last-child) {
-          margin-right: 10px;
-        }
+        .name-container {
+          display: flex;
+          align-items: center;
+          
+          .verified {
+            margin-left: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-        &.logout-btn {
-          color: #fee2e2;
-          background-color: #7f1d1d;
-  
-          &:hover {
-            background-color: #991b1b;
+            svg {
+              height: 24px;
+              color: #1d9bf0;
+            }
           }
         }
       }
-    }
-  }
-
-  .edit-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 20px;
-    height: 20px;
-    border-radius: 3px;
-    vertical-align: bottom;
-    margin-left: 4px;
-    background-color: rgb(255, 255, 255, 0.1);
-    color: rgb(255, 255, 255, 0.8);
-    transition: 0.2s;
-
-    svg {
-      height: 16px;
-    }
-
-    &:hover {
-      background-color: rgb(255, 255, 255, 0.15);
-      color: rgb(255, 255, 255, 0.9);
+  
+      .profile-bio {
+        display: block;
+        margin-top: 6px;
+        color: rgb(255, 255, 255, 0.5);
+  
+        textarea {
+          color: rgb(255, 255, 255, 0.5);
+          font-weight: 500;
+          width: 100%;
+          min-height: 50px;
+          max-height: 300px;
+          border-radius: 2px;
+          background: rgb(255, 255, 255, 0.05);
+          box-shadow: 0 0 0 2px rgb(255, 255, 255, 0.05);
+          resize: vertical;
+        }
+      }
+  
+      .profile-actions {
+        margin-top: 30px;
+        display: flex;
+  
+        button {
+          padding: 1px 14px 0 14px;
+          font-weight: 500;
+          user-select: none;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: none;
+          transition: 0.2s;
+          border-radius: 6px;
+          min-width: 75px;
+          background-color: rgb(255, 255, 255, 0.1);
+          color: rgb(255, 255, 255, 0.7);
+    
+          span {
+            position: relative;
+            top: 1px;
+          }
+    
+          svg {
+            height: 20px;
+            position: relative;
+            top: -1px;
+            margin-right: 8px;
+          }
+    
+          &:hover {
+            cursor: pointer;
+            background-color: rgb(255, 255, 255, 0.15);
+          }
+  
+          &:not(:last-child) {
+            margin-right: 10px;
+          }
+  
+          &.logout-btn {
+            color: #fee2e2;
+            background-color: #7f1d1d;
+    
+            &:hover {
+              background-color: #991b1b;
+            }
+          }
+        }
+      }
     }
   }
 

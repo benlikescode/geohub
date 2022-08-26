@@ -1,15 +1,18 @@
-import { PencilAltIcon } from '@heroicons/react/solid'
+import { PencilAltIcon, BadgeCheckIcon } from '@heroicons/react/solid'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { mailman } from '../../backend/utils/mailman'
 import { Layout, LoadingPage } from '../../components/Layout'
+import { MapLeaderboard } from '../../components/MapLeaderboard'
 import { logOutUser, selectUser, updateBio, updateUsername } from '../../redux/user'
 import StyledProfilePage from '../../styles/ProfilePage.Styled'
+import { MapLeaderboardType } from '../../types'
 
 const ProfilePage: NextPage = () => {
   const banner = '/images/backgrounds/prettyImage2.jpeg'
+  const [leaderboardData, setLeaderboardData] = useState<MapLeaderboardType[] | null>()
   const [newProfileValues, setNewProfileValues] = useState<{ name: string, bio?: string }>()
   const [isEditing, setIsEditing] = useState(false)
   const [userDetails, setUserDetails] = useState<any>()
@@ -18,12 +21,6 @@ const ProfilePage: NextPage = () => {
   const router = useRouter()
   const userId = router.query.id
   const dispatch = useDispatch()
-
-  const stats = {
-    bestGame: '25,000',
-    completedGames: 123,
-    avgScore: '12,467'
-  }
 
   const isThisUsersProfile = () => {
     if (!user.id) {
@@ -37,6 +34,16 @@ const ProfilePage: NextPage = () => {
     router.push('/login')
 
     dispatch(logOutUser())
+  }
+
+  const fetchLeaderboard = async () => {
+    const { status, res } = await mailman(`scores/user/${userId}`)
+
+    if (status === 404 || status === 500) {
+      return setLeaderboardData(null)
+    }
+
+    setLeaderboardData(res)
   }
 
   const updateUserInfo = async () => {
@@ -61,6 +68,8 @@ const ProfilePage: NextPage = () => {
     if (!userId) {
       return
     }
+
+    fetchLeaderboard()
 
     // if this users profile use the cached data in redux store
     if (isThisUsersProfile()) {
@@ -94,7 +103,7 @@ const ProfilePage: NextPage = () => {
               <div className="profile-avatar">
                 <img src={`/images/avatars/${userDetails.avatar}.jpg`} alt={userDetails.name}/>
               </div>
-              <h1 className="profile-name">{isEditing ? <input type="text" value={newProfileValues?.name}  onChange={(e) => setNewProfileValues({name: e.target.value, bio: newProfileValues?.bio})}/> : userDetails.name}</h1>
+              <h1 className="profile-name">{isEditing ? <input type="text" value={newProfileValues?.name}  onChange={(e) => setNewProfileValues({name: e.target.value, bio: newProfileValues?.bio})}/> : <div className="name-container">{userDetails.name}{userId === '62ae93fd8b39138695112026' && <div className="verified"><BadgeCheckIcon/></div>}</div>}</h1>
               {(userDetails.bio || isEditing) && <span className="profile-bio">{isEditing ? <textarea value={newProfileValues?.bio} onChange={(e) => setNewProfileValues({name: newProfileValues?.name || '', bio: e.target.value})}></textarea> : userDetails.bio}</span>}
               {isThisUsersProfile() && !isEditing && (
                 <div className="profile-actions">
@@ -109,6 +118,7 @@ const ProfilePage: NextPage = () => {
                 </div>               
               )}
             </div>
+            {leaderboardData && <MapLeaderboard removeHeader leaderboard={leaderboardData}/>}
           </div>
         </div>
       </Layout>
