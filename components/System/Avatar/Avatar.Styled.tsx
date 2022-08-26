@@ -11,6 +11,9 @@ const StyledAvatar = styled.div<StyledProps>`
   height: ${({ size }) => size ? size : '32'}px;
   width: ${({ size }) => size ? size : '32'}px;
   cursor: pointer;
+  background-color: #131315;
+  border-radius: 50%;
+  position: relative;
 
   @media (max-width: 600px) {
     height: ${({ mobileSize }) => mobileSize && mobileSize}px;
@@ -18,7 +21,7 @@ const StyledAvatar = styled.div<StyledProps>`
   }
 
   img {
-    border: ${({ outline, customOutline }) => outline ? '1px solid rgba(255, 255, 255, 0.10)' : 
+    box-shadow: ${({ outline, customOutline }) => outline ? 'inset 0 0 0 1px rgba(255, 255, 255, 0.10)' : 
     (customOutline ? customOutline : 'none')}!important;
     border-radius: 50%!important;
   }

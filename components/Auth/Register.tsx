@@ -79,9 +79,11 @@ const Register: FC = () => {
         if (res.success) {
           dispatch(updateUser({
             id: resData._id,
-            name: resData.name, 
+            name: resData.name,
+            bio: resData.bio,
             email: resData.email,
-            avatar: resData.avatar
+            avatar: resData.avatar,
+            isAdmin: resData.isAdmin
           }))
   
           router.push('/')  

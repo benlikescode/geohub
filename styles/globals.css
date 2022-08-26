@@ -3,55 +3,55 @@
 @font-face {
   font-family: 'Graphik';
   font-weight: 100;
-  src: local('Graphik'), url(../fonts/Graphik/Graphik-100-Thin.otf) format('opentype');
+  src: url(../fonts/Graphik/Graphik-100-Thin.otf) format('opentype');
 }
 
 @font-face {
   font-family: 'Graphik';
   font-weight: 200;
-  src: local('Graphik'), url(../fonts/Graphik/Graphik-200-Extralight.otf) format('opentype');
+  src: url(../fonts/Graphik/Graphik-200-Extralight.otf) format('opentype');
 }
 
 @font-face {
   font-family: 'Graphik';
   font-weight: 300;
-  src: local('Graphik'), url(../fonts/Graphik/Graphik-300-Light.otf) format('opentype');
+  src: url(../fonts/Graphik/Graphik-300-Light.otf) format('opentype');
 }
 
 @font-face {
   font-family: 'Graphik';
   font-weight: 400;
-  src: local('Graphik'), url(../fonts/Graphik/Graphik-400-Regular.otf) format('opentype');
+  src: url(../fonts/Graphik/Graphik-400-Regular.otf) format('opentype');
 }
 
 @font-face {
   font-family: 'Graphik';
   font-weight: 500;
-  src: local('Graphik'), url(../fonts/Graphik/Graphik-500-Medium.otf) format('opentype');
+  src: url(../fonts/Graphik/Graphik-500-Medium.otf) format('opentype');
 }
 
 @font-face {
   font-family: 'Graphik';
   font-weight: 600;
-  src: local('Graphik'), url(../fonts/Graphik/Graphik-600-Semibold.otf) format('opentype');
+  src: url(../fonts/Graphik/Graphik-600-Semibold.otf) format('opentype');
 }
 
 @font-face {
   font-family: 'Graphik';
   font-weight: 700;
-  src: local('Graphik'), url(../fonts/Graphik/Graphik-700-Bold.otf) format('opentype');
+  src: url(../fonts/Graphik/Graphik-700-Bold.otf) format('opentype');
 }
 
 @font-face {
   font-family: 'Graphik';
   font-weight: 800;
-  src: local('Graphik'), url(../fonts/Graphik/Graphik-800-Black.otf) format('opentype');
+  src: url(../fonts/Graphik/Graphik-800-Black.otf) format('opentype');
 }
 
 @font-face {
   font-family: 'Graphik';
   font-weight: 900;
-  src: local('Graphik'), url(../fonts/Graphik/Graphik-900-Super.otf) format('opentype');
+  src: url(../fonts/Graphik/Graphik-900-Super.otf) format('opentype');
 }
 
 :root {
