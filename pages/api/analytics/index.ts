@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '../../../backend/utils/dbConnect'
 import { NextApiRequest, NextApiResponse } from 'next'
 
@@ -11,24 +12,19 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const challengesCount = await collections.challenges?.estimatedDocumentCount()
       const aerialCount = await collections.aerialGames?.estimatedDocumentCount()
 
-     
-      
       res.status(200).json({
-        success: true, 
+        success: true,
         data: {
           users: userCount,
           spGames: spGamesCount,
           challenges: challengesCount,
           aerialGames: aerialCount,
-          recentUsers: recentUsers
-        }
+        },
       })
-    }
-    else {
+    } else {
       res.status(500).json({ message: 'Invalid request' })
     }
-  }
-  catch (err) {
+  } catch (err) {
     res.status(500).json({ message: 'Something went wrong, please try again later' })
   }
 }
