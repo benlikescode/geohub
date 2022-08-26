@@ -1,10 +1,14 @@
 import { HomeIcon, MapIcon, UsersIcon, HeartIcon, DesktopComputerIcon } from '@heroicons/react/outline'
 import Link from 'next/link'
 import React, { FC } from 'react'
+import { useSelector } from 'react-redux'
 import { StyledSidebar } from '.'
+import { selectUser } from '../../../../redux/user'
 import { Item } from './Item'
 
 const Sidebar: FC = () => {
+  const user = useSelector(selectUser)
+
   return (
     <StyledSidebar>
       <div className="sidebarItemGrid">
@@ -73,7 +77,7 @@ const Sidebar: FC = () => {
         </div>
       </div>
 
-      <div className="quickLinksSection">
+      {/* <div className="quickLinksSection">
         <div className="title">
           <span>Learn</span>
         </div>
@@ -99,7 +103,23 @@ const Sidebar: FC = () => {
             <span>Languages</span>
           </div>
         </div>
-      </div> 
+      </div>  */}
+
+      {user.isAdmin && (
+        <div className="quickLinksSection">
+          <div className="title">
+            <span>Admin</span>
+          </div>
+
+          <div className="quickLinkItemWrapper">
+            <Link href="/admin/analytics">
+              <a className="linkItem">
+                <span>Analytics</span>
+              </a>
+            </Link>    
+          </div>
+        </div> 
+      )}
     </StyledSidebar>
   )
 }

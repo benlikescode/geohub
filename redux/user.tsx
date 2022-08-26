@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { LocationType } from '../types'
 
 type UserState = {
   id: string;
   name: string;
+  bio?: string;
   email: string;
   avatar: string;
+  isAdmin?: boolean;
   guessMapSize: number;
   location: {lat: number, lng: number} | null;
 }
@@ -26,6 +27,8 @@ export const userSlice = createSlice({
     updateUser: (state, action) => {
       state.id = action.payload.id
       state.name = action.payload.name
+      state.bio = action.payload.bio
+      state.isAdmin = action.payload.isAdmin
       state.email = action.payload.email || ''
       state.avatar = action.payload.avatar || ''
     },
@@ -33,7 +36,10 @@ export const userSlice = createSlice({
       state.avatar = action.payload.avatar
     },
     updateUsername: (state, action) => {
-      state.name = action.payload.name
+      state.name = action.payload
+    },
+    updateBio: (state, action) => {
+      state.bio = action.payload
     },
     updateEmail: (state, action) => {
       state.email = action.payload.email
@@ -53,7 +59,8 @@ export const userSlice = createSlice({
 export const { 
   updateUser, 
   updateAvatar, 
-  updateUsername, 
+  updateUsername,
+  updateBio,
   updateEmail,
   updateGuessMapSize, 
   updateLocation,

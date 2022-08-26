@@ -56,8 +56,10 @@ const Login: FC = () => {
             updateUser({
               id: resData._id,
               name: resData.name,
+              bio: resData.bio,
               email: resData.email,
               avatar: resData.avatar,
+              isAdmin: resData.isAdmin
             })
           )
 
