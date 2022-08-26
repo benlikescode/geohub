@@ -5,16 +5,15 @@ import { ObjectId } from 'mongodb'
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await dbConnect()
-    const userId = req.query.id as string
     
-    if (req.method === 'GET') {
-      const user = await collections.users?.find( {_id: new ObjectId(userId || '62ae93fd8b39138695112026')} ).project({ password: 0, location: 0 }).toArray()
+    if (req.method === 'POST') {
+      const { _id, name, bio } = req.body
 
-      if (!user || user.length !== 1) {
-        return res.status(400).send(`Failed to find user with id: ${userId}`)
-      }
-    
-      res.status(200).send(user[0])
+      await collections.users?.updateOne({ _id: new ObjectId(_id) }, { $set: { name: name, bio: bio } })
+
+      res.status(200).send({
+        status: 'ok'
+      })
     }
 
     /* Need to add extra security measures for this endpoint
