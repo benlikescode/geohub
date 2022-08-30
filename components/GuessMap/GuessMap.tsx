@@ -65,7 +65,7 @@ const GuessMap: FC<Props> = ({ coordinate, zoom, currGuess, setCurrGuess, handle
     clearInterval(hoverDelay.current)
     setHovering(true)
 
-    const { width, height } = getGuessMapDimensions(user.guessMapSize)
+    const { width, height } = getGuessMapDimensions(user.guessMapSize as number)
     setMapHeight(height)
     setMapWidth(width)
   }
@@ -81,10 +81,10 @@ const GuessMap: FC<Props> = ({ coordinate, zoom, currGuess, setCurrGuess, handle
   const changeMapSize = (change: 'increase' | 'decrease') => {
     let newMapSize = 1
 
-    if (change === 'increase' && user.guessMapSize < 4) {
-      newMapSize = user.guessMapSize + 1
-    } else if (change === 'decrease' && user.guessMapSize > 1) {
-      newMapSize = user.guessMapSize - 1
+    if (change === 'increase' && (user.guessMapSize as number) < 4) {
+      newMapSize = (user.guessMapSize as number) + 1
+    } else if (change === 'decrease' && (user.guessMapSize as number) > 1) {
+      newMapSize = (user.guessMapSize as number) - 1
     }
 
     const { width, height } = getGuessMapDimensions(newMapSize)
@@ -120,12 +120,7 @@ const GuessMap: FC<Props> = ({ coordinate, zoom, currGuess, setCurrGuess, handle
         )}
         <div id="guessMap" className="map"></div>
 
-        <Button
-          type="solidPurple"
-          width="100%"
-          isDisabled={currGuess === null}
-          callback={handleSubmitGuess}
-        >
+        <Button type="solidPurple" width="100%" isDisabled={currGuess === null} callback={handleSubmitGuess}>
           Submit Guess
         </Button>
       </div>

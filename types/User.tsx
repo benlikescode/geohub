@@ -8,7 +8,7 @@ type User = {
   createdAt?: Date
   location?: string
   isAdmin?: boolean
-  guessMapSize: number
+  guessMapSize?: number
 }
 
 export default User
