@@ -9,9 +9,28 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await dbConnect()
 
-    const { lat, lng, countryCode } = req.body
+    // Get a specified number of locations from DB
+    // If no params -> gets one location from any country
+    if (req.method === 'GET') {
+      const { countryCode, count } = req.query
 
-    const validateData = async () => {
+      let locations = null
+
+      if (countryCode) {
+        locations = await collections.locations
+          ?.aggregate([{ $match: { countryCode: countryCode } }, { $sample: { size: Number(count) || 1 } }])
+          .toArray()
+      } else {
+        locations = await collections.locations?.aggregate([{ $sample: { size: Number(count) || 1 } }]).toArray()
+      }
+
+      res.status(200).send(locations)
+    }
+
+    // Upload a single location to the DB
+    else if (req.method === 'POST') {
+      const { lat, lng, countryCode } = req.body
+
       if (
         typeof lat !== 'number' ||
         typeof lng !== 'number' ||
@@ -26,10 +45,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       if (duplicate) {
         return res.status(400).send({ message: 'This location already exists' })
       }
-    }
-
-    if (req.method === 'POST') {
-      await validateData()
 
       const newLocation = {
         lat,

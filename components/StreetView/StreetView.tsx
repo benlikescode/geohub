@@ -70,8 +70,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData, isTesting }) =>
 */
 
       const { points, distance } = getResultData(currGuess as GuessType, location, gameData.mapId)
-      const prevRound = gameData.round
-      setGameData({ ...gameData, round: prevRound + 1 })
+
       setView('Result')
 
       //alert(`You were ${distance} far away. You have earned ${points} points!`)
@@ -124,9 +123,6 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData, isTesting }) =>
         panorama.setVisible(true)
       }
     }
-
-    const testLat = 51.5832
-    const testLng = 4.1829
 
     sv.getPanorama(
       {

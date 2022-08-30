@@ -93,21 +93,26 @@ const TestLocationsPage: FC = () => {
 
   const getLocations = async () => {
     const { status, res } = await mailman('games/testing', 'POST')
+    //const { status, res } = await mailman('locations?count=16')
 
     setGameData({ ...gameData, rounds: [...gameData.rounds, ...res] })
   }
 
-  const handleLikeLocation = async () => {
-    // Submit location to DB
-    const location = gameData.rounds[gameData.round - 1]
-    const { status, res } = await mailman('locations', 'POST', JSON.stringify(location))
+  const handleVote = async (vote: 'like' | 'dislike') => {
+    if (vote === 'like') {
+      // Submit location to DB
+      const location = gameData.rounds[gameData.round - 1]
+      const { status, res } = await mailman('locations', 'POST', JSON.stringify(location))
 
-    if (status === 201) {
-      showSuccessToast(res.message)
-    } else {
-      showErrorToast(res.message)
+      if (status === 201) {
+        showSuccessToast(res.message)
+      } else {
+        showErrorToast(res.message)
+      }
     }
 
+    const prevRound = gameData.round
+    setGameData({ ...gameData, round: prevRound + 1 })
     setView('Game')
   }
 
@@ -138,7 +143,7 @@ const TestLocationsPage: FC = () => {
             <p className="round-survey-title">Do you want to save this location?</p>
             <div className="survey-buttons-wrapper">
               <Button
-                callback={() => setView('Game')}
+                callback={() => handleVote('dislike')}
                 backgroundColor="#333"
                 color="var(--color2)"
                 type="iconRounded"
@@ -147,7 +152,7 @@ const TestLocationsPage: FC = () => {
                 <ThumbDownIcon color="var(--color2)" height={24} />
               </Button>
               <Button
-                callback={() => handleLikeLocation()}
+                callback={() => handleVote('like')}
                 backgroundColor="#333"
                 color="var(--color2)"
                 type="iconRounded"
