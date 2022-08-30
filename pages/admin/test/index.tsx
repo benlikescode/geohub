@@ -14,6 +14,7 @@ import DefaultErrorPage from 'next/error'
 import { Head } from '../../../components/Head'
 import { Button } from '../../../components/System'
 import { ThumbDownIcon, ThumbUpIcon } from '@heroicons/react/outline'
+import { toast } from 'react-toastify'
 
 const defaultGameValues = {
   gameSettings: {
@@ -65,17 +66,48 @@ const TestLocationsPage: FC = () => {
     setGameData(gameData)
   }
 */
+
+  const showErrorToast = (message: string) =>
+    toast.error(message, {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: 0,
+      theme: 'dark',
+    })
+
+  const showSuccessToast = (message: string) =>
+    toast.success(message, {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: 0,
+      theme: 'dark',
+    })
+
   const getLocations = async () => {
     const { status, res } = await mailman('games/testing', 'POST')
-
-    console.log(res)
 
     setGameData({ ...gameData, rounds: [...gameData.rounds, ...res] })
   }
 
   const handleLikeLocation = async () => {
     // Submit location to DB
-    console.log('clicked')
+    const location = gameData.rounds[gameData.round - 1]
+    const { status, res } = await mailman('locations', 'POST', JSON.stringify(location))
+
+    if (status === 201) {
+      showSuccessToast(res.message)
+    } else {
+      showErrorToast(res.message)
+    }
+
     setView('Game')
   }
 

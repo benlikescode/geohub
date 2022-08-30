@@ -11,6 +11,7 @@ export const collections: {
   mapLikes?: Collection
   friends?: Collection
   aerialGames?: Collection
+  locations?: Collection
 } = {}
 
 let cachedDb: Db | null = null
@@ -40,6 +41,7 @@ export const dbConnect = async () => {
     const mapLikes: Collection = db.collection('mapLikes')
     const friends: Collection = db.collection('friends')
     const aerialGames: Collection = db.collection('aerialGames')
+    const locations: Collection = db.collection('locations')
 
     collections.users = usersCollection
     collections.games = gamesCollection
@@ -50,6 +52,7 @@ export const dbConnect = async () => {
     collections.mapLikes = mapLikes
     collections.friends = friends
     collections.aerialGames = aerialGames
+    collections.locations = locations
 
     return cachedDb
   } catch (err) {

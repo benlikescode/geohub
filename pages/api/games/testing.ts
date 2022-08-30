@@ -87,7 +87,7 @@ const countryCodes = [
   { name: 'Turkey', code: 'TR', weight: 18 },
   { name: 'Uganda', code: 'UG', weight: 3 },
   { name: 'Ukraine', code: 'UA', weight: 6 },
-  { name: 'United Kingdom', code: 'GB', weight: 24 },
+  { name: 'United Kingdom', code: 'UK', weight: 24 },
   { name: 'United States', code: 'US', weight: 60 },
   { name: 'Uruguay', code: 'UY', weight: 6 },
   { name: 'U.S. Virgin Islands', code: 'VI', weight: 1 },
