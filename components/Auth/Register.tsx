@@ -82,6 +82,7 @@ const Register: FC = () => {
               email: resData.email,
               avatar: resData.avatar,
               isAdmin: resData.isAdmin,
+              guessMapSize: 1,
             })
           )
 
