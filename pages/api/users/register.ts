@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '../../../backend/utils/dbConnect'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { randomInt } from '../../../utils/functions/generateLocations'
@@ -9,15 +10,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     if (req.method === 'POST') {
       const { name, email, password } = req.body
-      
+
       // first check if we already have a user with this email
       let findUser = await collections.users?.findOne({ email: email })
 
       if (findUser) {
         return res.status(400).json({
           errorField: 'email',
-          errorMessage: 'An account with that email already exists'
-        })   
+          errorMessage: 'An account with that email already exists',
+        })
       }
 
       // next check if we have a user with this name
@@ -26,8 +27,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       if (findUser) {
         return res.status(400).json({
           errorField: 'name',
-          errorMessage: `The name ${name} is already taken`
-        })     
+          errorMessage: `The name ${name} is already taken`,
+        })
       }
 
       // if we make it here, values are unique and we create the user
@@ -35,28 +36,26 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       const newUser = {
         name,
-        email, 
+        email,
         password: hashPassword,
         avatar: `default${randomInt(1, 6)}`,
-        createdAt: new Date().toString(),
-        location: 'Canada'
+        createdAt: new Date(),
+        location: 'Canada',
       }
 
       await collections.users?.insertOne(newUser)
-          
+
       res.status(201).json({
-        success: true, 
+        success: true,
         data: {
           ...newUser,
-          password: ''
-        }
+          password: '',
+        },
       })
-    }
-    else {
+    } else {
       res.status(500).json({ message: 'Invalid request' })
     }
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err)
     res.status(400).json({ success: false })
   }

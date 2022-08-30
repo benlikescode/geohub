@@ -10,6 +10,8 @@ import { MapPreviewCard } from '../../../components/MapPreviewCard'
 import { Modal } from '../../../components/Modals/Modal'
 import router from 'next/router'
 import { mailman } from '../../../backend/utils/mailman'
+import { Head } from '../../../components/Head'
+import { getMapName } from '../../../utils/helperFunctions'
 
 const MapPage: FC = () => {
   const [settingsModalOpen, setSettingsModalOpen] = useState(false)
@@ -24,17 +26,17 @@ const MapPage: FC = () => {
 
   const fetchMapDetails = async () => {
     const { status, res } = await mailman(`maps/${mapId}`)
-    
+
     if (status === 404 || status === 500) {
       return setMapDetails(null)
     }
 
-    setMapDetails(res) 
+    setMapDetails(res)
   }
 
   const fetchMapScores = async () => {
     const { status, res } = await mailman(`scores/${mapId}`)
-    
+
     if (status === 404 || status === 500) {
       return setLeaderboardData(null)
     }
@@ -44,7 +46,7 @@ const MapPage: FC = () => {
 
   const fetchOtherMaps = async () => {
     const { status, res } = await mailman(`maps/browse/popular?count=4&mapId=${mapId}`)
-    
+
     if (status === 400 || status === 500) {
       return setOtherMaps(null)
     }
@@ -56,11 +58,10 @@ const MapPage: FC = () => {
     if (!mapId) {
       return
     }
-  
+
     fetchMapDetails()
     fetchMapScores()
     fetchOtherMaps()
- 
   }, [mapId])
 
   if (!mapDetails || !leaderboardData || !otherMaps) {
@@ -69,11 +70,12 @@ const MapPage: FC = () => {
 
   return (
     <StyledMapPage>
-      <Layout> 
+      <Layout>
+        <Head title={`Play - ${getMapName(mapId)}`} />
         <div className="mapDetailsSection">
           <div className="mapDescriptionWrapper">
             <div className="mapAvatar">
-              <Avatar url={mapDetails.previewImg || ''} alt="" size={100} outline/>
+              <Avatar url={mapDetails.previewImg || ''} alt="" size={100} outline />
             </div>
 
             <div className="descriptionColumnWrapper">
@@ -81,17 +83,19 @@ const MapPage: FC = () => {
                 <span className="name">{mapDetails.name}</span>
                 <span className="description">{mapDetails.description}</span>
               </div>
-              <Button type="solidPurple" width="200px" callback={() => setSettingsModalOpen(true)}>Play Now</Button>
+              <Button type="solidPurple" width="200px" callback={() => setSettingsModalOpen(true)}>
+                Play Now
+              </Button>
             </div>
           </div>
 
           <div className="statsWrapper">
-            <MapStats map={mapDetails}/>
-          </div>         
+            <MapStats map={mapDetails} />
+          </div>
         </div>
-       
-        <MapLeaderboard leaderboard={leaderboardData}/>
-      
+
+        <MapLeaderboard leaderboard={leaderboardData} />
+
         <div className="otherMapsWrapper">
           <span className="otherMapsTitle">Other Popular Maps</span>
           <div className="otherMaps">
@@ -99,15 +103,15 @@ const MapPage: FC = () => {
               <MapPreviewCard key={idx} map={otherMap} />
             ))}
           </div>
-        </div>          
+        </div>
       </Layout>
 
-      {settingsModalOpen &&
+      {settingsModalOpen && (
         <Modal closeModal={closeModal}>
-          <GameSettings closeModal={closeModal} mapDetails={mapDetails}/>
+          <GameSettings closeModal={closeModal} mapDetails={mapDetails} />
         </Modal>
-      }
-    </StyledMapPage>  
+      )}
+    </StyledMapPage>
   )
 }
 

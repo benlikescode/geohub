@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import React from 'react'
 import styled from 'styled-components'
+import { Head } from '../../components/Head'
 import { Layout } from '../../components/Layout'
 
 const StyledHeader = styled.h1`
@@ -12,6 +13,7 @@ const StyledHeader = styled.h1`
 const MyMapsPage: NextPage = () => {
   return (
     <Layout>
+      <Head title="My Maps" />
       <StyledHeader>Coming Soon!</StyledHeader>
     </Layout>
   )

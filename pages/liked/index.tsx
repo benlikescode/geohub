@@ -1,12 +1,13 @@
 import type { NextPage } from 'next'
 import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux';
-import styled from 'styled-components';
-import { mailman } from '../../backend/utils/mailman';
-import { MapPreviewCard } from '../../components/MapPreviewCard';
+import { useSelector } from 'react-redux'
+import styled from 'styled-components'
+import { mailman } from '../../backend/utils/mailman'
+import { MapPreviewCard } from '../../components/MapPreviewCard'
 import { Layout, LoadingPage } from '../../components/Layout'
-import { BlockQuote } from '../../components/System/BlockQuote';
-import { selectUser } from '../../redux/user';
+import { BlockQuote } from '../../components/System/BlockQuote'
+import { selectUser } from '../../redux/user'
+import { Head } from '../../components/Head'
 
 const StyledHeader = styled.h1`
   font-size: 1.75rem;
@@ -29,11 +30,11 @@ const StyledMapWrapper = styled.div`
   }
 `
 
-const LikedPage: NextPage = () => { 
+const LikedPage: NextPage = () => {
   const [likedMaps, setLikedMaps] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const user = useSelector(selectUser)
-  
+
   useEffect(() => {
     if (!user.id) {
       return setLoading(false)
@@ -49,15 +50,14 @@ const LikedPage: NextPage = () => {
   }, [user.id])
 
   if (loading) return <LoadingPage />
-    
+
   return (
     <Layout>
+      <Head title="Liked Maps" />
       <StyledHeader>Liked Maps</StyledHeader>
 
-      {(!user.id || !likedMaps || (likedMaps.length === 0)) && (
-       <BlockQuote>
-        You do not appear to have any liked maps
-       </BlockQuote>
+      {(!user.id || !likedMaps || likedMaps.length === 0) && (
+        <BlockQuote>You do not appear to have any liked maps</BlockQuote>
       )}
 
       {likedMaps.length > 0 && (
@@ -66,7 +66,7 @@ const LikedPage: NextPage = () => {
             <MapPreviewCard key={idx} map={map.mapDetails[0]} />
           ))}
         </StyledMapWrapper>
-      )}     
+      )}
     </Layout>
   )
 }

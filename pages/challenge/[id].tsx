@@ -14,6 +14,7 @@ import DefaultErrorPage from 'next/error'
 import { ChallengeStart } from '../../components/ChallengeStart'
 import { GameSettingsType, LocationType, ChallengeType } from '../../types'
 import { updateStartTime } from '../../redux/game'
+import { Head } from '../../components/Head'
 
 const ChallengePage: FC = () => {
   const [view, setView] = useState<'Start' | 'Game' | 'Result' | 'FinalResults'>('Game')
@@ -75,11 +76,7 @@ const ChallengePage: FC = () => {
     // Store start time
     dispatch(updateStartTime({ startTime: new Date().getTime() }))
 
-    const { status, res } = await mailman(
-      `challenges/${challengeId}`,
-      'POST',
-      JSON.stringify(gameData)
-    )
+    const { status, res } = await mailman(`challenges/${challengeId}`, 'POST', JSON.stringify(gameData))
 
     if (status === 400) {
       alert('An error occured')
@@ -99,13 +96,7 @@ const ChallengePage: FC = () => {
   }, [challengeId])
 
   if (view === 'Start' && challengeData) {
-    return (
-      <ChallengeStart
-        challengeData={challengeData}
-        handleStartChallenge={createGame}
-        setView={setView}
-      />
-    )
+    return <ChallengeStart challengeData={challengeData} handleStartChallenge={createGame} setView={setView} />
   }
 
   if (challengeData === null || gameData === null) {
@@ -118,16 +109,13 @@ const ChallengePage: FC = () => {
 
   return (
     <StyledGamePage>
+      <Head title={`Game - Round ${gameData.round}`} />
       {view === 'Game' ? (
         <StreetView gameData={gameData} setGameData={setGameData} setView={setView} />
       ) : (
         <>
           {view === 'Result' && (
-            <ResultMap
-              guessedLocations={gameData.guesses}
-              actualLocations={gameData.rounds}
-              round={gameData.round}
-            />
+            <ResultMap guessedLocations={gameData.guesses} actualLocations={gameData.rounds} round={gameData.round} />
           )}
 
           {view === 'FinalResults' && (

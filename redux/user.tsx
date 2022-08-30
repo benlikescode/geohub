@@ -1,30 +1,20 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { UserType } from '../types'
 
-type UserState = {
-  id: string;
-  name: string;
-  bio?: string;
-  email: string;
-  avatar: string;
-  isAdmin?: boolean;
-  guessMapSize: number;
-  location: {lat: number, lng: number} | null;
-}
-
-const initialState: UserState = {
+const initialState: UserType = {
   id: '',
   name: '',
   email: '',
   avatar: '',
   guessMapSize: 1,
-  location: null
+  location: '',
 }
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    updateUser: (state, action) => {
+    updateUser: (state, action: PayloadAction<UserType>) => {
       state.id = action.payload.id
       state.name = action.payload.name
       state.bio = action.payload.bio
@@ -50,23 +40,23 @@ export const userSlice = createSlice({
     updateLocation: (state, action) => {
       state.location = action.payload.location
     },
-    logOutUser: state => {
+    logOutUser: (state) => {
       state.id = ''
-    }
-  }
+    },
+  },
 })
 
-export const { 
-  updateUser, 
-  updateAvatar, 
+export const {
+  updateUser,
+  updateAvatar,
   updateUsername,
   updateBio,
   updateEmail,
-  updateGuessMapSize, 
+  updateGuessMapSize,
   updateLocation,
-  logOutUser 
+  logOutUser,
 } = userSlice.actions
 
-export const selectUser = (state: any) => state.user
+export const selectUser = (state: any) => state.user as UserType
 
 export default userSlice.reducer

@@ -11,7 +11,7 @@ import { LoadingPage } from '../../components/Layout'
 import { selectUser } from '../../redux/user'
 import { useSelector } from 'react-redux'
 import DefaultErrorPage from 'next/error'
-
+import { Head } from '../../components/Head'
 
 const GamePage: FC = () => {
   const [view, setView] = useState<'Game' | 'Result' | 'FinalResults'>('Game')
@@ -19,11 +19,12 @@ const GamePage: FC = () => {
   const router = useRouter()
   const gameId = router.query.id as string
   const user = useSelector(selectUser)
-  
+
   const fetchGame = async () => {
     const { status, res } = await mailman(`games/${gameId}`)
 
     // if game not found, set gameData to null so an error page can be displayed
+    console.log(`STATUS: ${status}`)
     if (status === 404 || status === 500) {
       return setGameData(null)
     }
@@ -39,7 +40,8 @@ const GamePage: FC = () => {
     }
 
     const gameData = {
-      id: gameId, ...res
+      id: gameId,
+      ...res,
     }
 
     setGameData(gameData)
@@ -53,62 +55,52 @@ const GamePage: FC = () => {
     if (view === 'Game') {
       fetchGame()
     }
-
   }, [gameId, view])
 
   if (gameData === null) {
-    return <DefaultErrorPage statusCode={500}/>
+    return <DefaultErrorPage statusCode={500} />
   }
 
   if (!gameData) {
     return <LoadingPage />
   }
 
-  
-
   return (
     <StyledGamePage>
-      {view === 'Game' ?
-        <StreetView 
-          gameData={gameData}
-          setGameData={setGameData}
-          setView={setView} 
-        />
+      <Head title={`Game - Round ${gameData.round}`} />
 
-        :
-
+      {view === 'Game' ? (
+        <StreetView gameData={gameData} setGameData={setGameData} setView={setView} />
+      ) : (
         <>
-          {view === 'Result' &&
-            <ResultMap 
-              guessedLocations={gameData.guesses} 
-              actualLocations={gameData.rounds} 
-              round={gameData.round}
-            />
-          }
+          {view === 'Result' && (
+            <ResultMap guessedLocations={gameData.guesses} actualLocations={gameData.rounds} round={gameData.round} />
+          )}
 
-          {view === 'FinalResults' &&
-            <ResultMap 
-              guessedLocations={gameData.guesses} 
-              actualLocations={gameData.rounds} 
+          {view === 'FinalResults' && (
+            <ResultMap
+              guessedLocations={gameData.guesses}
+              actualLocations={gameData.rounds}
               round={gameData.round}
               isFinalResults
             />
-          }
-             
+          )}
+
           <div className="resultsWrapper">
-            {view === 'FinalResults' ? 
-              <FinalResultsCard gameData={gameData} /> :
-              <ResultsCard 
+            {view === 'FinalResults' ? (
+              <FinalResultsCard gameData={gameData} />
+            ) : (
+              <ResultsCard
                 round={gameData.round}
                 distance={gameData.guesses[gameData.guesses.length - 1].distance}
                 points={gameData.guesses[gameData.guesses.length - 1].points}
                 setView={setView}
-              /> 
-            }       
-          </div>               
+              />
+            )}
+          </div>
         </>
-      }  
-    </StyledGamePage> 
+      )}
+    </StyledGamePage>
   )
 }
 

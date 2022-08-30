@@ -1,6 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '../../../backend/utils/dbConnect'
-import Game from '../../../backend/models/game' 
+import Game from '../../../backend/models/game'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getRandomLocation } from '../../../utils/functions/generateLocations'
 import { ObjectId } from 'mongodb'
@@ -19,7 +19,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       req.body.userLocation = null
-        
+
       const newGame = {
         ...req.body,
         userId: userId,
@@ -28,7 +28,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         round: 1,
         totalPoints: 0,
         totalDistance: 0,
-        totalTime: 0    
+        totalTime: 0,
       } as Game
 
       // check if user has played this map before
@@ -44,19 +44,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       // if this is users first game, increment usersPlayed for the map
       if (hasPlayedResult?.length === 0) {
-        collections.maps?.updateOne(
-          { slug: req.body.mapId, },
-          { $inc: { usersPlayed: 1 } }
-        )
+        collections.maps?.updateOne({ slug: req.body.mapId }, { $inc: { usersPlayed: 1 } })
       }
 
       res.status(201).send(result.insertedId)
-    }
-    else {
+    } else {
       res.status(500).json({ message: 'Invalid request' })
     }
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err)
     res.status(400).json({ success: false })
   }

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { mailman } from '../../backend/utils/mailman'
+import { Head } from '../../components/Head'
 import { Layout, LoadingPage } from '../../components/Layout'
 import { BlockQuote } from '../../components/System/'
 import { UnfinishedCard } from '../../components/UnfinishedCard'
@@ -40,7 +41,7 @@ const OngoingGamesPage: NextPage = () => {
   }, [user])
 
   const reloadGames = (gameId: string) => {
-    const filtered = games.filter(game => game._id != gameId)
+    const filtered = games.filter((game) => game._id != gameId)
     setGames(filtered)
   }
 
@@ -48,17 +49,16 @@ const OngoingGamesPage: NextPage = () => {
 
   return (
     <Layout>
+      <Head title="Ongoing Games" />
       <StyledHeader>Ongoing Games</StyledHeader>
 
-      {(!user.id || !games || (games.length === 0)) && (
-       <BlockQuote>
-        You do not appear to have any ongoing games
-       </BlockQuote>
+      {(!user.id || !games || games.length === 0) && (
+        <BlockQuote>You do not appear to have any ongoing games</BlockQuote>
       )}
-        
+
       <StyledGamesWrapper>
         {games.map((game, idx) => (
-          <UnfinishedCard 
+          <UnfinishedCard
             key={idx}
             mapAvatar={game.mapDetails[0].previewImg}
             mapName={game.mapDetails[0].name}
@@ -68,7 +68,7 @@ const OngoingGamesPage: NextPage = () => {
             reloadGames={reloadGames}
           />
         ))}
-      </StyledGamesWrapper>     
+      </StyledGamesWrapper>
     </Layout>
   )
 }

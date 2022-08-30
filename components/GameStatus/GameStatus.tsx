@@ -9,11 +9,11 @@ import { LocationType } from '../../types'
 import { formatTimeLeft, getMapName } from '../../utils/helperFunctions'
 
 type Props = {
-  gameData: Game;
-  setView: (view: 'Game' | 'Result' | 'FinalResults') => void;
-  setGameData: any;
-  currGuess: LocationType | null;
-  noTime?: boolean;
+  gameData: Game
+  setView: (view: 'Game' | 'Result' | 'FinalResults') => void
+  setGameData: any
+  currGuess: LocationType | null
+  noTime?: boolean
 }
 
 const GameStatus: FC<Props> = ({ gameData, setView, setGameData, currGuess, noTime }) => {
@@ -22,38 +22,37 @@ const GameStatus: FC<Props> = ({ gameData, setView, setGameData, currGuess, noTi
   const hasTimeLimit = !noTime && gameData.gameSettings.timeLimit !== 61
   const game = useSelector(selectGame)
   const user = useSelector(selectUser)
-  
+
   useEffect(() => {
     if (hasTimeLimit) {
       const timer = setTimeout(() => {
         if (timeLeft === 0) {
           handleTimeOver()
-        }
-        else {
+        } else {
           setTimeLeft((timeLeft as number) - 1)
         }
       }, 1000)
-  
+
       return () => clearTimeout(timer)
-    } 
+    }
   })
 
   const handleTimeOver = async () => {
     const body = {
-      guess: currGuess ? currGuess : {lat: 0, lng: 0},
+      guess: currGuess ? currGuess : { lat: 0, lng: 0 },
       guessTime: (new Date().getTime() - game.startTime) / 1000,
       localRound: gameData.round,
       userLocation: user.location,
       timedOut: true,
-      timedOutWithGuess: currGuess != null
+      timedOutWithGuess: currGuess != null,
     }
 
     const { status, res } = await mailman(`games/${gameData.id}`, 'PUT', JSON.stringify(body))
-    
+
     if (status !== 400 && status !== 500) {
-      setGameData({id: res._id, ...res})
+      setGameData({ id: res._id, ...res })
       setView('Result')
-    }  
+    }
   }
 
   return (
@@ -72,7 +71,7 @@ const GameStatus: FC<Props> = ({ gameData, setView, setGameData, currGuess, noTi
           <span>Round</span>
         </div>
         <div className="value">
-          <span>{gameData.round} / 5</span>
+          <span>{`${gameData.round} / ${gameData.rounds.length}`}</span>
         </div>
       </div>
 
@@ -85,7 +84,7 @@ const GameStatus: FC<Props> = ({ gameData, setView, setGameData, currGuess, noTi
         </div>
       </div>
 
-      {!noTime && hasTimeLimit &&
+      {!noTime && hasTimeLimit && (
         <div className="infoSection">
           <div className="label">
             <span>Time</span>
@@ -94,7 +93,7 @@ const GameStatus: FC<Props> = ({ gameData, setView, setGameData, currGuess, noTi
             <span>{formatTimeLeft(timeLeft as number)}</span>
           </div>
         </div>
-      }
+      )}
     </StyledGameStatus>
   )
 }

@@ -3,6 +3,7 @@ import router from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { Game } from '../../backend/models'
 import { mailman } from '../../backend/utils/mailman'
+import { Head } from '../../components/Head'
 import { Layout, LoadingPage } from '../../components/Layout'
 import { Navbar } from '../../components/Layout/Navbar'
 import { ResultMap } from '../../components/ResultMap'
@@ -74,6 +75,7 @@ const ResultsPage: NextPage = () => {
 
   return (
     <StyledResultPage>
+      <Head title="Game Results" />
       {isCompleted && (
         <section>
           <Navbar />

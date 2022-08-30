@@ -8,6 +8,7 @@ import { Avatar, Button } from '../../components/System'
 import { MapLeaderboard } from '../../components/MapLeaderboard'
 import { AerialSettings } from '../../components/Modals/AerialSettings'
 import { MapLeaderboardType, MapType } from '../../types'
+import { Head } from '../../components/Head'
 
 const PlayAerialPage: FC = () => {
   const [settingsOpen, setSettingsOpen] = useState(false)
@@ -16,7 +17,7 @@ const PlayAerialPage: FC = () => {
 
   const fetchOtherMaps = async () => {
     const { status, res } = await mailman(`maps/browse/popular?count=4`)
-    
+
     if (status === 400 || status === 500) {
       return setOtherMaps(null)
     }
@@ -26,7 +27,7 @@ const PlayAerialPage: FC = () => {
 
   const fetchMapScores = async () => {
     const { status, res } = await mailman(`scores/aerial`)
-    
+
     if (status === 404 || status === 500) {
       return setLeaderboardData(null)
     }
@@ -45,30 +46,30 @@ const PlayAerialPage: FC = () => {
 
   return (
     <StyledPlayAerial>
-      <Layout> 
+      <Head title="Play - Aerial" />
+      <Layout>
         <div className="mapDetailsSection">
           <div className="mapDescriptionWrapper">
             <div className="mapAvatar">
-              <Avatar 
-                url="/images/mapPreviews/testAerial.jpg" 
-                alt="Satelite View" 
-                size={100} 
-                outline
-              />
+              <Avatar url="/images/mapPreviews/testAerial.jpg" alt="Satelite View" size={100} outline />
             </div>
-            
+
             <div className="descriptionColumnWrapper">
               <div className="descriptionColumn">
                 <span className="name">Aerial</span>
-                <span className="description">The classic gamemode with a twist. Try to pinpoint the city looking down from above!</span>
+                <span className="description">
+                  The classic gamemode with a twist. Try to pinpoint the city looking down from above!
+                </span>
               </div>
-              <Button type="solidPurple" width="200px" callback={() => setSettingsOpen(true)}>Play Now</Button>
+              <Button type="solidPurple" width="200px" callback={() => setSettingsOpen(true)}>
+                Play Now
+              </Button>
             </div>
-          </div>        
+          </div>
         </div>
 
         <MapLeaderboard leaderboard={leaderboardData} />
-       
+
         <div className="otherMapsWrapper">
           <span className="otherMapsTitle">Other Popular Maps</span>
           <div className="otherMaps">
@@ -76,15 +77,15 @@ const PlayAerialPage: FC = () => {
               <MapPreviewCard key={idx} map={otherMap} />
             ))}
           </div>
-        </div>          
+        </div>
       </Layout>
 
-      {settingsOpen &&
+      {settingsOpen && (
         <Modal closeModal={() => setSettingsOpen(false)}>
-          <AerialSettings closeModal={() => setSettingsOpen(false)}/>
+          <AerialSettings closeModal={() => setSettingsOpen(false)} />
         </Modal>
-      }
-    </StyledPlayAerial> 
+      )}
+    </StyledPlayAerial>
   )
 }
 
