@@ -42,41 +42,14 @@ const AnalyticsPage: NextPage = () => {
     setLoading(false)
   }
 
-  const getRandomLocation = async () => {
-    const fetchConfig = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-    }
-    const test = await fetch('https://jsonplaceholder.typicode.com/posts', fetchConfig)
-    const test2 = await test.json()
-
-    console.log(test2)
-
-    /*
-    const sv = new window.google.maps.StreetViewService()
-
-    // Try to find a panorama within 50 metres
-    sv.getPanorama(
-      {
-        location: { lat, lng },
-        radius: 50,
-      },
-      callback
-    )
-    */
-  }
   useEffect(() => {
     // HALP - add server side validation for isAdmiin
-    //loadAnalytics()
-    getRandomLocation()
+    loadAnalytics()
   }, [])
 
   return (
     <Layout>
-      <Head title="Analytics" />
+      <Head title="Admin - Analytics" />
       <StyledHeader>Analytics</StyledHeader>
 
       <StyledAnalytics>
