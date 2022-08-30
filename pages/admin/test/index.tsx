@@ -1,18 +1,18 @@
 import React, { FC, useEffect, useState } from 'react'
-import { StreetView } from '../../components/StreetView'
-import { mailman } from '../../backend/utils/mailman'
+import { StreetView } from '../../../components/StreetView'
+import { mailman } from '../../../backend/utils/mailman'
 import { useRouter } from 'next/router'
-import Game from '../../backend/models/game'
-import StyledGamePage from '../../styles/GamePage.Styled'
-import { ResultMap } from '../../components/ResultMap'
-import { FinalResultsCard } from '../../components/FinalResultsCard'
-import { ResultsCard } from '../../components/ResultsCard'
-import { LoadingPage } from '../../components/Layout'
-import { selectUser } from '../../redux/user'
+import Game from '../../../backend/models/game'
+import StyledGamePage from '../../../styles/GamePage.Styled'
+import { ResultMap } from '../../../components/ResultMap'
+import { FinalResultsCard } from '../../../components/FinalResultsCard'
+import { ResultsCard } from '../../../components/ResultsCard'
+import { LoadingPage } from '../../../components/Layout'
+import { selectUser } from '../../../redux/user'
 import { useSelector } from 'react-redux'
 import DefaultErrorPage from 'next/error'
-import { Head } from '../../components/Head'
-import { Button } from '../../components/System'
+import { Head } from '../../../components/Head'
+import { Button } from '../../../components/System'
 import { ThumbDownIcon, ThumbUpIcon } from '@heroicons/react/outline'
 
 const defaultGameValues = {
@@ -103,9 +103,15 @@ const TestLocationsPage: FC = () => {
       {view === 'Result' && (
         <div className="round-survey-wrapper">
           <div className="round-survey">
-            <p className="round-survey-title">How did you like this location?</p>
+            <p className="round-survey-title">Do you want to save this location?</p>
             <div className="survey-buttons-wrapper">
-              <Button callback={() => setView('Game')} backgroundColor="#333" color="var(--color2)" type="iconRounded">
+              <Button
+                callback={() => setView('Game')}
+                backgroundColor="#333"
+                color="var(--color2)"
+                type="iconRounded"
+                hoverColor="#444"
+              >
                 <ThumbDownIcon color="var(--color2)" height={24} />
               </Button>
               <Button
@@ -113,6 +119,7 @@ const TestLocationsPage: FC = () => {
                 backgroundColor="#333"
                 color="var(--color2)"
                 type="iconRounded"
+                hoverColor="#444"
               >
                 <ThumbUpIcon color="var(--color2)" height={24} />
               </Button>

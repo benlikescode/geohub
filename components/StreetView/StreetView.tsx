@@ -132,6 +132,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData, isTesting }) =>
       {
         location: location,
         radius: gameData.mapId === 'near-you' ? 50000 : 10000,
+        source: google.maps.StreetViewSource.OUTDOOR,
       },
       processSVData
     )

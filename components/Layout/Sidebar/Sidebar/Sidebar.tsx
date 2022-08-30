@@ -12,35 +12,15 @@ const Sidebar: FC = () => {
   return (
     <StyledSidebar>
       <div className="sidebarItemGrid">
-        <Item 
-          text="Home"
-          icon={<HomeIcon />}
-          route="/"
-        />
+        <Item text="Home" icon={<HomeIcon />} route="/" />
 
-        <Item 
-          text="My Maps"
-          icon={<MapIcon />}
-          route="/my-maps"
-        />
+        <Item text="My Maps" icon={<MapIcon />} route="/my-maps" />
 
-        <Item 
-          text="Friends"
-          icon={<UsersIcon />}
-          route="/friends"
-        />
+        <Item text="Friends" icon={<UsersIcon />} route="/friends" />
 
-        <Item 
-          text="Liked Maps"
-          icon={<HeartIcon />}
-          route="/liked"
-        />
- 
-        <Item 
-          text="Ongoing Games"
-          icon={<DesktopComputerIcon />}
-          route="/ongoing"
-        />
+        <Item text="Liked Maps" icon={<HeartIcon />} route="/liked" />
+
+        <Item text="Ongoing Games" icon={<DesktopComputerIcon />} route="/ongoing" />
       </div>
 
       <div className="quickLinksSection">
@@ -54,7 +34,7 @@ const Sidebar: FC = () => {
               <span>Aerial</span>
             </a>
           </Link>
-          
+
           <div className="linkItem">
             <span>Classic Game</span>
           </div>
@@ -73,37 +53,9 @@ const Sidebar: FC = () => {
             <a className="linkItem">
               <span>Puzzles</span>
             </a>
-          </Link>    
+          </Link>
         </div>
       </div>
-
-      {/* <div className="quickLinksSection">
-        <div className="title">
-          <span>Learn</span>
-        </div>
-
-        <div className="quickLinkItemWrapper">
-          <div className="linkItem">
-            <span>Capitals</span>
-          </div>
-
-          <div className="linkItem">
-            <span>Flags</span>
-          </div>
-
-          <div className="linkItem">
-            <span>History</span>
-          </div>
-
-          <div className="linkItem">
-            <span>License Plates</span>
-          </div>
-
-          <div className="linkItem">
-            <span>Languages</span>
-          </div>
-        </div>
-      </div>  */}
 
       {user.isAdmin && (
         <div className="quickLinksSection">
@@ -116,9 +68,15 @@ const Sidebar: FC = () => {
               <a className="linkItem">
                 <span>Analytics</span>
               </a>
-            </Link>    
+            </Link>
+
+            <Link href="/admin/test">
+              <a className="linkItem">
+                <span>Add Locations</span>
+              </a>
+            </Link>
           </div>
-        </div> 
+        </div>
       )}
     </StyledSidebar>
   )
