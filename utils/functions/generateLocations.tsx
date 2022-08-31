@@ -42,7 +42,7 @@ export const getRandomLocationsFromArray = (array: any[], numLocations = 5) => {
 export const getRandomLocation = (
   locationType: 'random' | 'handpicked',
   mapId: string,
-  userLocation: { lat: number; lng: number } | null = null,
+  userLocation: { lat: number; lng: number } | null = null
 ) => {
   switch (mapId) {
     case 'world':
@@ -86,10 +86,7 @@ export const getRandomLocation = (
 }
 
 // CURRENT METHOD USED FOR CHALLENGES (GETS ALL 5 LOCATIONS AT ONCE)
-export const getRandomLocations = (
-  locationType: 'random' | 'handpicked',
-  mapId: string,
-) => {
+export const getRandomLocations = (locationType: 'random' | 'handpicked', mapId: string) => {
   switch (mapId) {
     case 'world':
       if (locationType === 'random') {
@@ -143,7 +140,7 @@ returns a single random location (if given 1 location) or
 an array of random locations (if given more than 1 location)
 
 */
-export const getRandomLocationsInRadius = (locations: LocationType[], radius = 0.1) => {
+export const getRandomLocationsInRadius = (locations: LocationType[], radius = 0.05) => {
   if (locations.length > 1) {
     const newLocations: LocationType[] = []
 

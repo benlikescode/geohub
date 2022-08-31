@@ -47,9 +47,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       const newLocation = {
+        heading: 0,
+        pitch: 0,
+        zoom: 0,
+        panoId: null,
+        countryCode,
+        stateCode: null,
         lat,
         lng,
-        countryCode,
       }
 
       // add location to DB
