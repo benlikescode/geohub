@@ -71,7 +71,7 @@ const AnalyticsPage: NextPage = () => {
               .map((_, idx) => (
                 <div key={idx} className="skeleton-group-item">
                   <div className="skeleton-heading">
-                    <Skeleton key={idx} variant="rectangular" height={16} width={200} />
+                    <Skeleton variant="rectangular" height={16} width={200} />
                   </div>
                   <div className="skeleton-data">
                     {Array(5)
@@ -79,11 +79,11 @@ const AnalyticsPage: NextPage = () => {
                       .map((_, idx) => (
                         <div className="skeleton-user-item" key={idx}>
                           <div className="skeleton-user-details">
-                            <Skeleton key={idx} variant="circular" height={30} width={30} />
-                            <Skeleton key={idx} variant="rectangular" height={16} width={100} />
+                            <Skeleton variant="circular" height={30} width={30} />
+                            <Skeleton variant="rectangular" height={16} width={100} />
                           </div>
                           <div className="skeleton-user-created-date">
-                            <Skeleton key={idx} variant="rectangular" height={16} width={200} />
+                            <Skeleton variant="rectangular" height={16} width={200} />
                           </div>
                         </div>
                       ))}
