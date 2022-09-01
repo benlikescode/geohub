@@ -8,6 +8,7 @@ import { Layout, LoadingPage } from '../../components/Layout'
 import { BlockQuote } from '../../components/System/BlockQuote'
 import { selectUser } from '../../redux/user'
 import { Head } from '../../components/Head'
+import { SkeletonCards } from '../../components/SkeletonCards'
 
 const StyledHeader = styled.h1`
   font-size: 1.75rem;
@@ -49,16 +50,16 @@ const LikedPage: NextPage = () => {
     fetchLikedMaps()
   }, [user.id])
 
-  if (loading) return <LoadingPage />
-
   return (
     <Layout>
       <Head title="Liked Maps" />
       <StyledHeader>Liked Maps</StyledHeader>
 
-      {(!user.id || !likedMaps || likedMaps.length === 0) && (
+      {loading && <SkeletonCards numCards={8} />}
+
+      {/*(!user.id || !likedMaps || likedMaps.length === 0) && (
         <BlockQuote>You do not appear to have any liked maps</BlockQuote>
-      )}
+      )*/}
 
       {likedMaps.length > 0 && (
         <StyledMapWrapper>
