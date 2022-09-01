@@ -4,6 +4,7 @@ type StyledProps = {
   variant?: 'rectangular' | 'circular'
   height?: number
   width?: number
+  noBorder?: boolean
 }
 
 const shimmer = keyframes`
@@ -23,17 +24,17 @@ const StyledSkeleton = styled.div<StyledProps>`
   opacity: 0.08;
   overflow: hidden;
   background-color: #999999;
-  background-image: linear-gradient(
-    to right,
-    #999999 0%,
-    rgb(255, 255, 255, 1) 20%,
-    #999999 40%,
-    #999999 100%
-  );
+  background-image: linear-gradient(to right, #999999 0%, rgb(255, 255, 255, 1) 20%, #999999 40%, #999999 100%);
   background-size: 450px 400px;
   background-repeat: no-repeat;
   animation: ${shimmer} 1.4s linear infinite;
   border-radius: ${({ variant }) => (variant === 'circular' ? '50%' : '6px')};
+
+  ${({ noBorder }) =>
+    noBorder &&
+    `
+        border-radius: 0;
+    `}
 `
 
 export default StyledSkeleton

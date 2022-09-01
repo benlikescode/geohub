@@ -12,12 +12,16 @@ import router from 'next/router'
 import { mailman } from '../../../backend/utils/mailman'
 import { Head } from '../../../components/Head'
 import { getMapName } from '../../../utils/helperFunctions'
+import { SkeletonMapInfo } from '../../../components/SkeletonMapInfo'
+import { SkeletonLeaderboard } from '../../../components/SkeletonLeaderboard'
+import { SkeletonCards } from '../../../components/SkeletonCards'
 
 const MapPage: FC = () => {
   const [settingsModalOpen, setSettingsModalOpen] = useState(false)
   const [mapDetails, setMapDetails] = useState<MapType | null>()
   const [leaderboardData, setLeaderboardData] = useState<MapLeaderboardType[] | null>()
   const [otherMaps, setOtherMaps] = useState<MapType[] | null>()
+  const [loading, setLoading] = useState(true)
   const mapId = router.query.id as string
 
   const closeModal = () => {
@@ -64,49 +68,54 @@ const MapPage: FC = () => {
     fetchOtherMaps()
   }, [mapId])
 
-  if (!mapDetails || !leaderboardData || !otherMaps) {
-    return <LoadingPage />
-  }
-
   return (
     <StyledMapPage>
       <Layout>
         <Head title={`Play - ${getMapName(mapId)}`} />
-        <div className="mapDetailsSection">
-          <div className="mapDescriptionWrapper">
-            <div className="mapAvatar">
-              <Avatar url={mapDetails.previewImg || ''} alt="" size={100} outline />
-            </div>
 
-            <div className="descriptionColumnWrapper">
-              <div className="descriptionColumn">
-                <span className="name">{mapDetails.name}</span>
-                <span className="description">{mapDetails.description}</span>
+        {mapDetails ? (
+          <div className="mapDetailsSection">
+            <div className="mapDescriptionWrapper">
+              <div className="mapAvatar">
+                <Avatar url={mapDetails.previewImg || ''} alt="" size={100} outline />
               </div>
-              <Button type="solidPurple" width="200px" callback={() => setSettingsModalOpen(true)}>
-                Play Now
-              </Button>
+
+              <div className="descriptionColumnWrapper">
+                <div className="descriptionColumn">
+                  <span className="name">{mapDetails.name}</span>
+                  <span className="description">{mapDetails.description}</span>
+                </div>
+                <Button type="solidPurple" width="200px" callback={() => setSettingsModalOpen(true)}>
+                  Play Now
+                </Button>
+              </div>
+            </div>
+
+            <div className="statsWrapper">
+              <MapStats map={mapDetails} />
             </div>
           </div>
+        ) : (
+          <SkeletonMapInfo />
+        )}
 
-          <div className="statsWrapper">
-            <MapStats map={mapDetails} />
+        {leaderboardData ? <MapLeaderboard leaderboard={leaderboardData} /> : <SkeletonLeaderboard />}
+
+        {otherMaps ? (
+          <div className="otherMapsWrapper">
+            <span className="otherMapsTitle">Other Popular Maps</span>
+            <div className="otherMaps">
+              {otherMaps.map((otherMap, idx) => (
+                <MapPreviewCard key={idx} map={otherMap} />
+              ))}
+            </div>
           </div>
-        </div>
-
-        <MapLeaderboard leaderboard={leaderboardData} />
-
-        <div className="otherMapsWrapper">
-          <span className="otherMapsTitle">Other Popular Maps</span>
-          <div className="otherMaps">
-            {otherMaps.map((otherMap, idx) => (
-              <MapPreviewCard key={idx} map={otherMap} />
-            ))}
-          </div>
-        </div>
+        ) : (
+          <SkeletonCards />
+        )}
       </Layout>
 
-      {settingsModalOpen && (
+      {settingsModalOpen && mapDetails && (
         <Modal closeModal={closeModal}>
           <GameSettings closeModal={closeModal} mapDetails={mapDetails} />
         </Modal>
