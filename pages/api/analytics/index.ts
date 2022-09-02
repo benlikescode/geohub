@@ -20,6 +20,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         ?.find({
           createdAt: { $gt: dateQuery },
         })
+        .project({ password: 0 })
         .toArray()
 
       res.status(200).json({

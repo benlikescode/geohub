@@ -54,10 +54,7 @@ const AnalyticsPage: NextPage = () => {
 
       <StyledAnalytics>
         <div className="analytics-group ">
-          {loading &&
-            Array(4)
-              .fill(0)
-              .map((_, idx) => <Skeleton key={idx} />)}
+          {loading && Array.from({ length: 4 }).map((_, idx) => <Skeleton key={idx} />)}
           {!loading &&
             analytics?.counts.map((countItem, idx) => (
               <CountItem key={idx} title={countItem.title} count={countItem.count} />
@@ -66,30 +63,26 @@ const AnalyticsPage: NextPage = () => {
 
         <div className="analytics-group ">
           {loading &&
-            Array(2)
-              .fill(0)
-              .map((_, idx) => (
-                <div key={idx} className="skeleton-group-item">
-                  <div className="skeleton-heading">
-                    <Skeleton variant="rectangular" height={16} width={200} />
-                  </div>
-                  <div className="skeleton-data">
-                    {Array(5)
-                      .fill(0)
-                      .map((_, idx) => (
-                        <div className="skeleton-user-item" key={idx}>
-                          <div className="skeleton-user-details">
-                            <Skeleton variant="circular" height={30} width={30} />
-                            <Skeleton variant="rectangular" height={16} width={100} />
-                          </div>
-                          <div className="skeleton-user-created-date">
-                            <Skeleton variant="rectangular" height={16} width={200} />
-                          </div>
-                        </div>
-                      ))}
-                  </div>
+            Array.from({ length: 2 }).map((_, idx) => (
+              <div key={idx} className="skeleton-group-item">
+                <div className="skeleton-heading">
+                  <Skeleton variant="rectangular" height={16} width={200} />
                 </div>
-              ))}
+                <div className="skeleton-data">
+                  {Array.from({ length: 5 }).map((_, idx) => (
+                    <div className="skeleton-user-item" key={idx}>
+                      <div className="skeleton-user-details">
+                        <Skeleton variant="circular" height={30} width={30} />
+                        <Skeleton variant="rectangular" height={16} width={100} />
+                      </div>
+                      <div className="skeleton-user-created-date">
+                        <Skeleton variant="rectangular" height={16} width={200} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
           {!loading && (
             <>
               <ListItem title="New Users" data={analytics?.recentUsers as UserType[]} />

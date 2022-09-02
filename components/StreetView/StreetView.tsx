@@ -25,7 +25,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData, isTesting }) =>
   const [loading, setLoading] = useState(true)
   const [currGuess, setCurrGuess] = useState<LocationType | null>(null)
   const location = gameData.rounds[gameData.round - 1]
-  console.log(`LOCATION: ${JSON.stringify(location)}`)
+  //console.log(`LOCATION: ${JSON.stringify(location)}`)
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
   const game = useSelector(selectGame)
   const user = useSelector(selectUser)
@@ -91,7 +91,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData, isTesting }) =>
     }
   }, [currGuess])
 
-  const handleApiLoaded = () => {
+  const loadLocation = () => {
     var sv = new window.google.maps.StreetViewService()
     var panorama = new window.google.maps.StreetViewPanorama(document.getElementById('map') as HTMLElement, {
       addressControl: false,
@@ -136,87 +136,19 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData, isTesting }) =>
     setLoading(false)
   }
 
-  const getStreetViewPanorama = () => {
-    TryRandomLocation(HandleCallback)
-    setLoading(false)
-  }
-
-  function TryRandomLocation(callback: any) {
-    const lat = Math.random() * 125 - 55 // [-90, 90] -55 -> 70
-    const lng = Math.random() * 258 - 120 // [-180, 180] -120 -> 138
-
-    console.log(lat, lng)
-    const sv = new window.google.maps.StreetViewService()
-
-    // Try to find a panorama within 50 metres
-    sv.getPanorama(
-      {
-        location: { lat, lng },
-        radius: 50,
-      },
-      callback
-    )
-  }
-
-  const getRandomLocation = async (callback: any) => {
-    const test = await fetch('https://api.3geonames.org/?randomland=CA&json=1')
-    const test2 = await test.json()
-
-    console.log(test2)
-
-    /*
-    const sv = new window.google.maps.StreetViewService()
-
-    // Try to find a panorama within 50 metres
-    sv.getPanorama(
-      {
-        location: { lat, lng },
-        radius: 50,
-      },
-      callback
-    )
-    */
-  }
-
-  function HandleCallback(data: any, status: any) {
-    console.log(`STATUS: ${status}`)
-    if (data != null) {
-      var panorama = new window.google.maps.StreetViewPanorama(document.getElementById('map') as HTMLElement, {
-        addressControl: false,
-        linksControl: gameData.gameSettings.canMove,
-        panControl: true,
-        panControlOptions: {
-          position: google.maps.ControlPosition.LEFT_BOTTOM,
-        },
-        enableCloseButton: false,
-        zoomControl: false,
-        fullscreenControl: false,
-      })
-      panorama.setOptions({
-        showRoadLabels: false,
-        clickToGo: gameData.gameSettings.canMove,
-        scrollwheel: gameData.gameSettings.canZoom,
-      })
-
-      panorama.setPano(data.location.pano)
-      panorama.setPov({
-        heading: location.heading || 0,
-        pitch: location.pitch || 0,
-      })
-      panorama.setZoom(location.zoom || 0)
-      panorama.setVisible(true)
-    } else {
-      TryRandomLocation(HandleCallback)
-    }
-  }
-
   return (
     <StyledStreetView>
       {loading && <LoadingPage />}
 
       <div id="map">
         <StreetViewControls />
-        <GameStatus gameData={gameData} setView={setView} setGameData={setGameData} currGuess={currGuess} />
+        <GameStatus
+          gameData={gameData}
+          setView={setView}
+          setGameData={setGameData}
+          currGuess={currGuess}
+          hasCustomRoundLength={isTesting}
+        />
         <GuessMap
           coordinate={location}
           zoom={8}
@@ -231,7 +163,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData, isTesting }) =>
         center={location}
         zoom={11}
         yesIWantToUseGoogleMapApiInternals
-        onGoogleApiLoaded={({ map, maps }) => handleApiLoaded()}
+        onGoogleApiLoaded={({ map, maps }) => loadLocation()}
       ></GoogleMapReact>
     </StyledStreetView>
   )

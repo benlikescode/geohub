@@ -7,26 +7,82 @@ import { mailman } from '../../../backend/utils/mailman'
 import { SearchResultType } from '../../../types'
 import { StyledSearchbar } from '.'
 import { Button, Icon } from '..'
+import { KEY_CODES } from '../../../utils/constants/keyCodes'
+import { useRouter } from 'next/router'
 
 type Props = {
-  placeholder?: string;
-  autoFocus?: boolean;
-  isSmall?: boolean;
-  onClickOutside?: () => void;
+  placeholder?: string
+  autoFocus?: boolean
+  isSmall?: boolean
+  onClickOutside?: () => void
 }
 
 const Searchbar: FC<Props> = ({ placeholder, autoFocus, isSmall, onClickOutside }) => {
-  const [query, setQuery] = useState("")
+  const [query, _setQuery] = useState('')
   const [results, setResults] = useState<SearchResultType[]>([])
-  const [isFocused, setIsFocused] = useState(autoFocus || false)
+  const [isFocused, _setIsFocused] = useState(autoFocus || false)
   const [loading, setLoading] = useState(false)
   const wrapperRef = useRef(null)
+  const router = useRouter()
+
   useClickOutside(wrapperRef, () => handleClickOutside())
+
+  const inputElementRef = useRef<HTMLInputElement>(null)
+  const isFocusedRef = useRef(autoFocus || false)
+  const queryRef = useRef('')
+
+  const setIsFocused = (newVal: boolean) => {
+    isFocusedRef.current = newVal
+    _setIsFocused(newVal)
+  }
+
+  const setQuery = (newVal: string) => {
+    queryRef.current = newVal
+    _setQuery(newVal)
+  }
 
   const handleClickOutside = () => {
     onClickOutside && onClickOutside()
     setIsFocused(false)
   }
+
+  const handleKeyDown = async (e: KeyboardEvent) => {
+    console.log(`IS FOCUSED: ${isFocusedRef.current}`)
+    if (!isFocusedRef.current && e.key === 'k' && e.ctrlKey) {
+      e.preventDefault()
+
+      setIsFocused(true)
+    }
+
+    if ((isFocusedRef.current && e.key === KEY_CODES.ESCAPE) || e.key === KEY_CODES.ESCAPE_IE11) {
+      setIsFocused(false)
+    }
+
+    if (isFocusedRef.current && e.key === KEY_CODES.ENTER) {
+      setIsFocused(false)
+      router.push(`/search?q=${queryRef.current}`)
+    }
+  }
+
+  // HALP - This is going to fire on every keydown across the site
+  // Need someway to track if another input is focused and then return early on handleKeyDown() or something...
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!inputElementRef.current) return
+
+    if (isFocused) {
+      inputElementRef.current.focus()
+    } else {
+      inputElementRef.current.blur()
+    }
+  }, [isFocused])
 
   useEffect(() => {
     if (query) {
@@ -42,8 +98,7 @@ const Searchbar: FC<Props> = ({ placeholder, autoFocus, isSmall, onClickOutside 
     const throttle = setTimeout(() => {
       if (query) {
         search()
-      }
-      else {
+      } else {
         setResults([])
         setLoading(false)
       }
@@ -56,12 +111,20 @@ const Searchbar: FC<Props> = ({ placeholder, autoFocus, isSmall, onClickOutside 
 
   return (
     <StyledSearchbar isFocused={isFocused} isSmall={isSmall} ref={wrapperRef}>
-      <div className="searchbarWrapper" onClick={() => setIsFocused(true)}>
-        <input 
-          type="text" 
-          placeholder={placeholder ? placeholder : 'Search'} 
-          onChange={(e) => setQuery(e.currentTarget.value)} 
+      <div
+        className="searchbarWrapper"
+        onClick={() => {
+          console.log('clicked searchbar')
+          setIsFocused(true)
+        }}
+      >
+        <input
+          type="text"
+          placeholder={placeholder ? placeholder : 'Search'}
+          onChange={(e) => setQuery(e.currentTarget.value)}
           autoFocus={autoFocus}
+          ref={inputElementRef}
+          onFocus={() => setIsFocused(true)}
         />
         <div className="searchBtn">
           <Button type="icon">
@@ -69,10 +132,10 @@ const Searchbar: FC<Props> = ({ placeholder, autoFocus, isSmall, onClickOutside 
               {loading ? <Spinner size={20} /> : <SearchIcon />}
             </Icon>
           </Button>
-        </div>      
+        </div>
       </div>
 
-      {isFocused && query && <SearchOverlayCard results={results}/> }
+      {isFocused && <SearchOverlayCard results={results} />}
     </StyledSearchbar>
   )
 }

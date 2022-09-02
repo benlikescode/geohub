@@ -3,24 +3,23 @@ import styled from 'styled-components'
 const StyledProfilePage = styled.div`
   .banner {
     width: 100%;
-    height: 200px;
-    background-color: rgb(255, 255, 255, 0.02);
+    height: 250px;
     border-radius: 10px;
-    position: relative;
+    background: rgb(255, 255, 255, 0.02)
+      url('https://images.pexels.com/photos/462162/pexels-photo-462162.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')
+      no-repeat center / cover;
 
-    &::after {
-      content: '';
-      position: absolute;
-      z-index: 1;
-      border-radius: 10px;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      box-shadow: inset 0 0 0 1px rgb(255, 255, 255, 0.1);
-    }
+    //https://images.pexels.com/photos/2658079/pexels-photo-2658079.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1
+    //https://images.pexels.com/photos/4664347/pexels-photo-4664347.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1
+    //https://images.pexels.com/photos/3244513/pexels-photo-3244513.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1
+    //https://images.pexels.com/photos/2662116/pexels-photo-2662116.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1
+    //https://images.pexels.com/photos/3408744/pexels-photo-3408744.jpeg
+    //https://images.pexels.com/photos/210186/pexels-photo-210186.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1
+    //https://images.pexels.com/photos/462162/pexels-photo-462162.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1   GOOD ONE
+    //https://images.pexels.com/photos/206359/pexels-photo-206359.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1
+    //https://images.pexels.com/photos/158063/bellingrath-gardens-alabama-landscape-scenic-158063.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1
+
+    box-shadow: inset 0 0 0 1px rgb(255, 255, 255, 0.15);
   }
 
   .profile-details {
@@ -43,7 +42,7 @@ const StyledProfilePage = styled.div`
         border-radius: 50%;
         position: relative;
         box-shadow: 0 0 0 5px #0e0e10;
-  
+
         img {
           position: absolute;
           object-fit: cover;
@@ -55,7 +54,7 @@ const StyledProfilePage = styled.div`
           right: 0;
           bottom: 0;
         }
-  
+
         &::after {
           content: '';
           position: absolute;
@@ -70,12 +69,12 @@ const StyledProfilePage = styled.div`
           box-shadow: inset 0 0 0 1px rgb(255, 255, 255, 0.1);
         }
       }
-  
+
       .profile-name {
         margin-top: 20px;
         font-size: 28px;
         font-weight: 600;
-  
+
         input {
           font-size: 28px;
           font-weight: 600;
@@ -89,7 +88,7 @@ const StyledProfilePage = styled.div`
         .name-container {
           display: flex;
           align-items: center;
-          
+
           .verified {
             margin-left: 6px;
             display: flex;
@@ -103,12 +102,12 @@ const StyledProfilePage = styled.div`
           }
         }
       }
-  
+
       .profile-bio {
         display: block;
         margin-top: 6px;
         color: rgb(255, 255, 255, 0.5);
-  
+
         textarea {
           color: rgb(255, 255, 255, 0.5);
           font-weight: 500;
@@ -121,11 +120,11 @@ const StyledProfilePage = styled.div`
           resize: vertical;
         }
       }
-  
+
       .profile-actions {
         margin-top: 30px;
         display: flex;
-  
+
         button {
           padding: 1px 14px 0 14px;
           font-weight: 500;
@@ -140,32 +139,32 @@ const StyledProfilePage = styled.div`
           min-width: 75px;
           background-color: rgb(255, 255, 255, 0.1);
           color: rgb(255, 255, 255, 0.7);
-    
+
           span {
             position: relative;
             top: 1px;
           }
-    
+
           svg {
             height: 20px;
             position: relative;
             top: -1px;
             margin-right: 8px;
           }
-    
+
           &:hover {
             cursor: pointer;
             background-color: rgb(255, 255, 255, 0.15);
           }
-  
+
           &:not(:last-child) {
             margin-right: 10px;
           }
-  
+
           &.logout-btn {
             color: #fee2e2;
             background-color: #7f1d1d;
-    
+
             &:hover {
               background-color: #991b1b;
             }
@@ -191,7 +190,7 @@ const StyledProfilePage = styled.div`
   //     padding: 0;
   //   }
   // }
- 
+
   // .userBanner {
   //   position: relative;
   //   height: 200px;
@@ -235,7 +234,7 @@ const StyledProfilePage = styled.div`
   // .userDetails {
   //   border-bottom: 1px solid #202020;
   //   padding: 0 2.5rem 2rem 2.5rem;
-    
+
   //   @media (max-width: 1050px) {
   //     padding: 0 1rem 2rem 1rem;
   //   }

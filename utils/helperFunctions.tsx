@@ -1,8 +1,8 @@
-import { GameSettingsType, GuessType, LocationType } from "../types"
+import { GameSettingsType, GuessType, LocationType } from '../types'
 
 export const formatErrorMessage = (error: any) => {
   let formattedMsg = ''
-  
+
   switch (error.code) {
     case 'auth/user-not-found':
       formattedMsg = 'That email and password combination is incorrect.'
@@ -23,83 +23,83 @@ export const formatErrorMessage = (error: any) => {
 export const getMapTheme = (theme: string) => {
   if (theme === 'Dark') {
     return [
-      { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
-      { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
-      { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
+      { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
+      { elementType: 'labels.text.stroke', stylers: [{ color: '#242f3e' }] },
+      { elementType: 'labels.text.fill', stylers: [{ color: '#746855' }] },
       {
-        featureType: "administrative.locality",
-        elementType: "labels.text.fill",
-        stylers: [{ color: "#d59563" }],
+        featureType: 'administrative.locality',
+        elementType: 'labels.text.fill',
+        stylers: [{ color: '#d59563' }],
       },
       {
-        featureType: "poi",
-        elementType: "labels.text.fill",
-        stylers: [{ color: "#d59563" }],
+        featureType: 'poi',
+        elementType: 'labels.text.fill',
+        stylers: [{ color: '#d59563' }],
       },
       {
-        featureType: "poi.park",
-        elementType: "geometry",
-        stylers: [{ color: "#263c3f" }],
+        featureType: 'poi.park',
+        elementType: 'geometry',
+        stylers: [{ color: '#263c3f' }],
       },
       {
-        featureType: "poi.park",
-        elementType: "labels.text.fill",
-        stylers: [{ color: "#6b9a76" }],
+        featureType: 'poi.park',
+        elementType: 'labels.text.fill',
+        stylers: [{ color: '#6b9a76' }],
       },
       {
-        featureType: "road",
-        elementType: "geometry",
-        stylers: [{ color: "#38414e" }],
+        featureType: 'road',
+        elementType: 'geometry',
+        stylers: [{ color: '#38414e' }],
       },
       {
-        featureType: "road",
-        elementType: "geometry.stroke",
-        stylers: [{ color: "#212a37" }],
+        featureType: 'road',
+        elementType: 'geometry.stroke',
+        stylers: [{ color: '#212a37' }],
       },
       {
-        featureType: "road",
-        elementType: "labels.text.fill",
-        stylers: [{ color: "#9ca5b3" }],
+        featureType: 'road',
+        elementType: 'labels.text.fill',
+        stylers: [{ color: '#9ca5b3' }],
       },
       {
-        featureType: "road.highway",
-        elementType: "geometry",
-        stylers: [{ color: "#746855" }],
+        featureType: 'road.highway',
+        elementType: 'geometry',
+        stylers: [{ color: '#746855' }],
       },
       {
-        featureType: "road.highway",
-        elementType: "geometry.stroke",
-        stylers: [{ color: "#1f2835" }],
+        featureType: 'road.highway',
+        elementType: 'geometry.stroke',
+        stylers: [{ color: '#1f2835' }],
       },
       {
-        featureType: "road.highway",
-        elementType: "labels.text.fill",
-        stylers: [{ color: "#f3d19c" }],
+        featureType: 'road.highway',
+        elementType: 'labels.text.fill',
+        stylers: [{ color: '#f3d19c' }],
       },
       {
-        featureType: "transit",
-        elementType: "geometry",
-        stylers: [{ color: "#2f3948" }],
+        featureType: 'transit',
+        elementType: 'geometry',
+        stylers: [{ color: '#2f3948' }],
       },
       {
-        featureType: "transit.station",
-        elementType: "labels.text.fill",
-        stylers: [{ color: "#d59563" }],
+        featureType: 'transit.station',
+        elementType: 'labels.text.fill',
+        stylers: [{ color: '#d59563' }],
       },
       {
-        featureType: "water",
-        elementType: "geometry",
-        stylers: [{ color: "#17263c" }],
+        featureType: 'water',
+        elementType: 'geometry',
+        stylers: [{ color: '#17263c' }],
       },
       {
-        featureType: "water",
-        elementType: "labels.text.fill",
-        stylers: [{ color: "#515c6d" }],
+        featureType: 'water',
+        elementType: 'labels.text.fill',
+        stylers: [{ color: '#515c6d' }],
       },
       {
-        featureType: "water",
-        elementType: "labels.text.stroke",
-        stylers: [{ color: "#17263c" }],
+        featureType: 'water',
+        elementType: 'labels.text.stroke',
+        stylers: [{ color: '#17263c' }],
       },
     ]
   }
@@ -107,126 +107,126 @@ export const getMapTheme = (theme: string) => {
   if (theme === 'Hide') {
     return [
       {
-        featureType: "poi.business",
-        stylers: [{ visibility: "off" }],
+        featureType: 'poi.business',
+        stylers: [{ visibility: 'off' }],
       },
       {
-        featureType: "transit",
-        elementType: "labels.icon",
-        stylers: [{ visibility: "off" }],
+        featureType: 'transit',
+        elementType: 'labels.icon',
+        stylers: [{ visibility: 'off' }],
       },
     ]
   }
 
   if (theme === 'Retro') {
     return [
-      { elementType: "geometry", stylers: [{ color: "#ebe3cd" }] },
-      { elementType: "labels.text.fill", stylers: [{ color: "#523735" }] },
-      { elementType: "labels.text.stroke", stylers: [{ color: "#f5f1e6" }] },
+      { elementType: 'geometry', stylers: [{ color: '#ebe3cd' }] },
+      { elementType: 'labels.text.fill', stylers: [{ color: '#523735' }] },
+      { elementType: 'labels.text.stroke', stylers: [{ color: '#f5f1e6' }] },
       {
-        featureType: "administrative",
-        elementType: "geometry.stroke",
-        stylers: [{ color: "#c9b2a6" }],
+        featureType: 'administrative',
+        elementType: 'geometry.stroke',
+        stylers: [{ color: '#c9b2a6' }],
       },
       {
-        featureType: "administrative.land_parcel",
-        elementType: "geometry.stroke",
-        stylers: [{ color: "#dcd2be" }],
+        featureType: 'administrative.land_parcel',
+        elementType: 'geometry.stroke',
+        stylers: [{ color: '#dcd2be' }],
       },
       {
-        featureType: "administrative.land_parcel",
-        elementType: "labels.text.fill",
-        stylers: [{ color: "#ae9e90" }],
+        featureType: 'administrative.land_parcel',
+        elementType: 'labels.text.fill',
+        stylers: [{ color: '#ae9e90' }],
       },
       {
-        featureType: "landscape.natural",
-        elementType: "geometry",
-        stylers: [{ color: "#dfd2ae" }],
+        featureType: 'landscape.natural',
+        elementType: 'geometry',
+        stylers: [{ color: '#dfd2ae' }],
       },
       {
-        featureType: "poi",
-        elementType: "geometry",
-        stylers: [{ color: "#dfd2ae" }],
+        featureType: 'poi',
+        elementType: 'geometry',
+        stylers: [{ color: '#dfd2ae' }],
       },
       {
-        featureType: "poi",
-        elementType: "labels.text.fill",
-        stylers: [{ color: "#93817c" }],
+        featureType: 'poi',
+        elementType: 'labels.text.fill',
+        stylers: [{ color: '#93817c' }],
       },
       {
-        featureType: "poi.park",
-        elementType: "geometry.fill",
-        stylers: [{ color: "#a5b076" }],
+        featureType: 'poi.park',
+        elementType: 'geometry.fill',
+        stylers: [{ color: '#a5b076' }],
       },
       {
-        featureType: "poi.park",
-        elementType: "labels.text.fill",
-        stylers: [{ color: "#447530" }],
+        featureType: 'poi.park',
+        elementType: 'labels.text.fill',
+        stylers: [{ color: '#447530' }],
       },
       {
-        featureType: "road",
-        elementType: "geometry",
-        stylers: [{ color: "#f5f1e6" }],
+        featureType: 'road',
+        elementType: 'geometry',
+        stylers: [{ color: '#f5f1e6' }],
       },
       {
-        featureType: "road.arterial",
-        elementType: "geometry",
-        stylers: [{ color: "#fdfcf8" }],
+        featureType: 'road.arterial',
+        elementType: 'geometry',
+        stylers: [{ color: '#fdfcf8' }],
       },
       {
-        featureType: "road.highway",
-        elementType: "geometry",
-        stylers: [{ color: "#f8c967" }],
+        featureType: 'road.highway',
+        elementType: 'geometry',
+        stylers: [{ color: '#f8c967' }],
       },
       {
-        featureType: "road.highway",
-        elementType: "geometry.stroke",
-        stylers: [{ color: "#e9bc62" }],
+        featureType: 'road.highway',
+        elementType: 'geometry.stroke',
+        stylers: [{ color: '#e9bc62' }],
       },
       {
-        featureType: "road.highway.controlled_access",
-        elementType: "geometry",
-        stylers: [{ color: "#e98d58" }],
+        featureType: 'road.highway.controlled_access',
+        elementType: 'geometry',
+        stylers: [{ color: '#e98d58' }],
       },
       {
-        featureType: "road.highway.controlled_access",
-        elementType: "geometry.stroke",
-        stylers: [{ color: "#db8555" }],
+        featureType: 'road.highway.controlled_access',
+        elementType: 'geometry.stroke',
+        stylers: [{ color: '#db8555' }],
       },
       {
-        featureType: "road.local",
-        elementType: "labels.text.fill",
-        stylers: [{ color: "#806b63" }],
+        featureType: 'road.local',
+        elementType: 'labels.text.fill',
+        stylers: [{ color: '#806b63' }],
       },
       {
-        featureType: "transit.line",
-        elementType: "geometry",
-        stylers: [{ color: "#dfd2ae" }],
+        featureType: 'transit.line',
+        elementType: 'geometry',
+        stylers: [{ color: '#dfd2ae' }],
       },
       {
-        featureType: "transit.line",
-        elementType: "labels.text.fill",
-        stylers: [{ color: "#8f7d77" }],
+        featureType: 'transit.line',
+        elementType: 'labels.text.fill',
+        stylers: [{ color: '#8f7d77' }],
       },
       {
-        featureType: "transit.line",
-        elementType: "labels.text.stroke",
-        stylers: [{ color: "#ebe3cd" }],
+        featureType: 'transit.line',
+        elementType: 'labels.text.stroke',
+        stylers: [{ color: '#ebe3cd' }],
       },
       {
-        featureType: "transit.station",
-        elementType: "geometry",
-        stylers: [{ color: "#dfd2ae" }],
+        featureType: 'transit.station',
+        elementType: 'geometry',
+        stylers: [{ color: '#dfd2ae' }],
       },
       {
-        featureType: "water",
-        elementType: "geometry.fill",
-        stylers: [{ color: "#b9d3c2" }],
+        featureType: 'water',
+        elementType: 'geometry.fill',
+        stylers: [{ color: '#b9d3c2' }],
       },
       {
-        featureType: "water",
-        elementType: "labels.text.fill",
-        stylers: [{ color: "#92998d" }],
+        featureType: 'water',
+        elementType: 'labels.text.fill',
+        stylers: [{ color: '#92998d' }],
       },
     ]
   }
@@ -236,22 +236,29 @@ export const getMapTheme = (theme: string) => {
 
 // gets distance between guess and actual locations (in km)
 export const getDistance = (loc1: GuessType, loc2: LocationType, format = false) => {
-  const earthRadius = 6371.0710
+  const earthRadius = 6371.071
 
-  const lat1Radians = loc1.lat * (Math.PI/180)
-  const lat2Radians = loc2.lat * (Math.PI/180)
+  const lat1Radians = loc1.lat * (Math.PI / 180)
+  const lat2Radians = loc2.lat * (Math.PI / 180)
 
-  const diffLat = lat2Radians - lat1Radians 
-  const diffLng = (loc2.lng - loc1.lng) * (Math.PI/180)
+  const diffLat = lat2Radians - lat1Radians
+  const diffLng = (loc2.lng - loc1.lng) * (Math.PI / 180)
 
-  const distance = 2 * earthRadius * Math.asin(Math.sqrt(Math.sin(diffLat/2)*Math.sin(diffLat/2)+Math.cos(lat1Radians)*Math.cos(lat2Radians)*Math.sin(diffLng/2)*Math.sin(diffLng/2)))
+  const distance =
+    2 *
+    earthRadius *
+    Math.asin(
+      Math.sqrt(
+        Math.sin(diffLat / 2) * Math.sin(diffLat / 2) +
+          Math.cos(lat1Radians) * Math.cos(lat2Radians) * Math.sin(diffLng / 2) * Math.sin(diffLng / 2)
+      )
+    )
 
   if (format) {
     if (distance < 1) {
       return `${Math.round(distance * 1000)} m`
-    }
-    else {
-      return `${Math.round(distance)} km` 
+    } else {
+      return `${Math.round(distance)} km`
     }
   }
 
@@ -279,7 +286,7 @@ export const getPoints = (distance: number, mapId: string) => {
     case 'usa':
       mapFactor = 1000
       break
-    default: 
+    default:
       mapFactor = 2000
   }
 
@@ -306,8 +313,12 @@ export const getGuessMapDimensions = (size: number) => {
   return { width: 15, height: 15 }
 }
 
-export const getResultMapValues = (guessedLocation: GuessType, actualLocation: LocationType, isFinalResults = false) => {
-  let center = {lat: 0, lng: 0}
+export const getResultMapValues = (
+  guessedLocation: GuessType,
+  actualLocation: LocationType,
+  isFinalResults = false
+) => {
+  let center = { lat: 0, lng: 0 }
   let zoom = 2
 
   if (!isFinalResults) {
@@ -315,7 +326,7 @@ export const getResultMapValues = (guessedLocation: GuessType, actualLocation: L
 
     center = {
       lat: (actualLocation.lat + guessedLocation.lat) / 2,
-      lng: (actualLocation.lng + guessedLocation.lng) / 2
+      lng: (actualLocation.lng + guessedLocation.lng) / 2,
     }
 
     if (distance < 50) {
@@ -323,64 +334,54 @@ export const getResultMapValues = (guessedLocation: GuessType, actualLocation: L
     }
     if (distance < 100) {
       zoom = 8
-    }
-    else if (distance < 500) {
+    } else if (distance < 500) {
       zoom = 7
-    }
-    else if (distance < 1200) {
+    } else if (distance < 1200) {
       zoom = 6
-    }
-    else if (distance < 2000) {
+    } else if (distance < 2000) {
       zoom = 5
-    }
-    else if (distance < 4000) {
+    } else if (distance < 4000) {
       zoom = 4
-    }
-    else if (distance < 6000) {
+    } else if (distance < 6000) {
       zoom = 4
-    }
-    else if (distance < 8000) {
+    } else if (distance < 8000) {
       zoom = 3
-    }
-    else if (distance < 10000) {
+    } else if (distance < 10000) {
       zoom = 3
-    }
-    else if (distance < 12000) {
+    } else if (distance < 12000) {
       zoom = 2
-    }
-    else if (distance < 15000) {
+    } else if (distance < 15000) {
       zoom = 2
-    }
-    else {
+    } else {
       zoom = 3
     }
-   
-    return {center, zoom}
+
+    return { center, zoom }
   }
   // if we make it here, we are showing results for entire game
   // thus we can just return the default values of zoom = 2 and {lat = 0, lng = 0}
-  return {center, zoom}
+  return { center, zoom }
 }
 
 export const formatSettingsLabel = (settings: GameSettingsType) => {
   let formattedLabel = ''
   if (settings.timeLimit === 61 && settings.canMove && settings.canPan && settings.canZoom) {
     formattedLabel = 'Default Settings'
-  }
-  else {
+  } else {
     let time = ''
     if (settings.timeLimit === 61) {
       time = 'No time limit'
-    }
-    else {
+    } else {
       time = `${formatTimeLimit(settings.timeLimit)} per round`
     }
 
     formattedLabel = `
-      ${time} - ${!settings.canMove ? 'No move' : ''} ${!settings.canPan ? '- No pan' : ''} ${!settings.canZoom ? '- No zoom' : ''}
+      ${time} - ${!settings.canMove ? 'No move' : ''} ${!settings.canPan ? '- No pan' : ''} ${
+      !settings.canZoom ? '- No zoom' : ''
+    }
     `
   }
- 
+
   return formattedLabel
 }
 
@@ -388,10 +389,10 @@ export const formatSettingsLabel = (settings: GameSettingsType) => {
 export const formatTimeLimit = (sliderVal: number) => {
   const time = Math.floor(sliderVal * 10)
   const mins = Math.floor(time / 60)
-  const secs =  Math.floor(time - (mins * 60)) 
+  const secs = Math.floor(time - mins * 60)
 
   if (secs === 0) {
-    return `${mins}:${secs}0` 
+    return `${mins}:${secs}0`
   }
 
   // replace 10:10 with infinity
@@ -402,26 +403,24 @@ export const formatTimeLimit = (sliderVal: number) => {
   return `${mins}:${secs}`
 }
 
-export const formatTimer = (time: number) => {
-  
-}
+export const formatTimer = (time: number) => {}
 
 export const getResultData = (guess: GuessType, actual: LocationType, mapId: string) => {
   const distance = getDistance(guess, actual)
   const points = getPoints(distance as number, mapId)
-  
+
   return { distance, points }
 }
 
-export const createMarker = (position: LocationType, map: google.maps.Map, markerImage: string) => { 
+export const createMarker = (position: LocationType, map: google.maps.Map, markerImage: string) => {
   const image = {
-    url: markerImage
+    url: markerImage,
   }
 
   return new window.google.maps.Marker({
     position: position,
     map: map,
-    icon: image
+    icon: image,
   })
 }
 
@@ -430,26 +429,24 @@ export const formatDistance = (distance: number) => {
   if (distance < 1) {
     return `${Math.round(distance * 1000)} m`
   }
-  
-  return `${Math.round(distance)} km`  
+
+  return `${Math.round(distance)} km`
 }
 
 // takes in single parameter time (in seconds)
 export const formatRoundTime = (time: number) => {
   if (time < 60) {
     return `${time} sec`
-  }
-  else if (time < 3600) {
+  } else if (time < 3600) {
     const mins = Math.floor(time / 60)
-    const secs =  Math.floor(time - (mins * 60)) 
+    const secs = Math.floor(time - mins * 60)
 
     if (secs < 10) {
-      return `${mins}:0${secs} min` 
+      return `${mins}:0${secs} min`
     }
 
-    return `${mins}:${secs} min` 
-  }
-  else {
+    return `${mins}:${secs} min`
+  } else {
     const hours = Math.floor(time / 3600)
     return `${hours} hr`
   }
@@ -459,15 +456,14 @@ export const formatRoundTime = (time: number) => {
 // is used in the gameStatus timer
 export const formatTimeLeft = (time: number) => {
   const mins = Math.floor(time / 60)
-  const secs =  Math.floor(time - (mins * 60)) 
+  const secs = Math.floor(time - mins * 60)
 
   if (secs < 10) {
-    return `${mins}:0${secs}` 
+    return `${mins}:0${secs}`
   }
 
-  return `${mins}:${secs}` 
+  return `${mins}:${secs}`
 }
-
 
 // Takes in a number and formats it if greater than 1000 (ex. 25000 -> 25k)
 export const formatLargeNumber = (num: number) => {
@@ -475,7 +471,6 @@ export const formatLargeNumber = (num: number) => {
     const prefix = Math.floor(num / 1000000)
   }
   if (num >= 1000) {
-    
   }
 }
 
@@ -483,7 +478,7 @@ export const getMapName = (mapId: string) => {
   if (mapId.includes('-')) {
     const split = mapId.split('-')
 
-    return capitalizeString(split[0]) + " " + capitalizeString(split[1])
+    return capitalizeString(split[0]) + ' ' + capitalizeString(split[1])
   }
 
   return capitalizeString(mapId)
@@ -491,4 +486,31 @@ export const getMapName = (mapId: string) => {
 
 const capitalizeString = (str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
+// Takes in an array of locations and removes any duplicates
+export const removeDuplicateLocations = (locations: LocationType[]) => {
+  console.log(`Original locations length: ${locations.length}`)
+
+  const seenLocations: LocationType[] = []
+  const filteredLocations: LocationType[] = []
+
+  locations.map((location, idx) => {
+    let isDupe = false
+
+    seenLocations.map((seenLocation) => {
+      if (location.lat === seenLocation.lat && location.lng === seenLocation.lng) {
+        isDupe = true
+        console.log(`Duplicate at index ${idx}`)
+      }
+    })
+
+    if (!isDupe) {
+      filteredLocations.push(location)
+    }
+
+    seenLocations.push(location)
+  })
+
+  return filteredLocations
 }

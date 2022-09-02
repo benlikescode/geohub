@@ -5,12 +5,11 @@ import { Skeleton } from '../../../System/Skeleton'
 type Props = {
   title: string
   count: number
+  loading?: boolean
 }
 
-const CountItem: FC<Props> = ({ title, count }) => {
-  if (!title || !count) {
-    return <Skeleton />
-  }
+const CountItem: FC<Props> = ({ title, count, loading }) => {
+  if (loading) return <Skeleton />
 
   return (
     <StyledCountItem>

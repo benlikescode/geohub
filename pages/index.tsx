@@ -21,8 +21,6 @@ const Home: NextPage = () => {
   return (
     <StyledHomePage>
       <Layout isHome>
-        <Head />
-
         <div className="bannerContent">
           <h2 className="bannerTitle">Today&apos;s Tip</h2>
           <div className="tipWrapper">

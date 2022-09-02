@@ -98,7 +98,7 @@ const ProfilePage: NextPage = () => {
       <Layout>
         <Head title={userDetails.name} />
         <div>
-          <div className="banner" />
+          <div className="banner"></div>
           <div className="profile-details">
             <div className="profile-heading">
               <div className="profile-avatar">

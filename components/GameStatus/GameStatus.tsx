@@ -14,9 +14,10 @@ type Props = {
   setGameData: any
   currGuess: LocationType | null
   noTime?: boolean
+  hasCustomRoundLength?: boolean
 }
 
-const GameStatus: FC<Props> = ({ gameData, setView, setGameData, currGuess, noTime }) => {
+const GameStatus: FC<Props> = ({ gameData, setView, setGameData, currGuess, noTime, hasCustomRoundLength }) => {
   const startTime = noTime ? null : gameData!.gameSettings!.timeLimit * 10
   const [timeLeft, setTimeLeft] = useState(startTime)
   const hasTimeLimit = !noTime && gameData.gameSettings.timeLimit !== 61
@@ -71,7 +72,7 @@ const GameStatus: FC<Props> = ({ gameData, setView, setGameData, currGuess, noTi
           <span>Round</span>
         </div>
         <div className="value">
-          <span>{`${gameData.round} / ${gameData.rounds.length}`}</span>
+          <span>{`${gameData.round} / ${hasCustomRoundLength ? gameData.rounds.length : 5}`}</span>
         </div>
       </div>
 

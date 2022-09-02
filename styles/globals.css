@@ -55,124 +55,127 @@
 }
 
 :root {
-  --white: #FFFFFF;
+  --white: #ffffff;
   --black: #000000;
 
-  --font-family1: "Graphik", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;  
-  --font-family2: 'Open Sans', 'Roboto', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Helvetica Neue', 'sans-serif';
+  --font-family1: 'Graphik', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+    'Open Sans', 'Helvetica Neue', sans-serif;
+  --font-family2: 'Open Sans', 'Roboto', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Helvetica Neue', 'sans-serif';
 
-  --gray-050: #F9FAFB;
-  --gray-100: #F3F4F6;
-  --gray-200: #E5E7EB;
-  --gray-300: #D1D5DB;
-  --gray-400: #9CA3AF;
-  --gray-500: #6B7280;
-  --gray-600: #4B5563;
+  --gray-050: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
   --gray-700: #374151;
-  --gray-800: #1F2937;
+  --gray-800: #1f2937;
   --gray-900: #111827;
 
-  --red-050: #FEF2F2;
-  --red-100: #FEE2E2;
-  --red-200: #FECACA;
-  --red-300: #FCA5A5;
-  --red-400: #F87171;
-  --red-500: #EF4444;
-  --red-600: #DC2626;
-  --red-700: #B91C1C;
-  --red-800: #991B1B;
-  --red-900: #7F1D1D;
+  --red-050: #fef2f2;
+  --red-100: #fee2e2;
+  --red-200: #fecaca;
+  --red-300: #fca5a5;
+  --red-400: #f87171;
+  --red-500: #ef4444;
+  --red-600: #dc2626;
+  --red-700: #b91c1c;
+  --red-800: #991b1b;
+  --red-900: #7f1d1d;
 
-  --amber-050: #FFFBEB;
-  --amber-100: #FEF3C7;
-  --amber-200: #FDE68A;
-  --amber-300: #FCD34D;
-  --amber-400: #FBBF24;
-  --amber-500: #F59E0B;
-  --amber-600: #D97706;
-  --amber-700: #B45309;
-  --amber-800: #92400E;
-  --amber-900: #78350F;
+  --amber-050: #fffbeb;
+  --amber-100: #fef3c7;
+  --amber-200: #fde68a;
+  --amber-300: #fcd34d;
+  --amber-400: #fbbf24;
+  --amber-500: #f59e0b;
+  --amber-600: #d97706;
+  --amber-700: #b45309;
+  --amber-800: #92400e;
+  --amber-900: #78350f;
 
-  --green-050: #ECFDF5;
-  --green-100: #D1FAE5;
-  --green-200: #A7F3D0;
-  --green-300: #6EE7B7;
-  --green-400: #34D399;
-  --green-500: #10B981;
+  --green-050: #ecfdf5;
+  --green-100: #d1fae5;
+  --green-200: #a7f3d0;
+  --green-300: #6ee7b7;
+  --green-400: #34d399;
+  --green-500: #10b981;
   --green-600: #059669;
   --green-700: #047857;
-  --green-800: #065F46;
-  --green-900: #064E3B;
+  --green-800: #065f46;
+  --green-900: #064e3b;
 
-  --blue-050: #EFF6FF;
-  --blue-100: #DBEAFE;
-  --blue-200: #BFDBFE;
-  --blue-300: #93C5FD;
-  --blue-400: #60A5FA;
-  --blue-500: #3B82F6;
-  --blue-600: #2563EB;
-  --blue-700: #1D4ED8;
-  --blue-800: #1E40AF;
-  --blue-900: #1E3A8A;
+  --blue-050: #eff6ff;
+  --blue-100: #dbeafe;
+  --blue-200: #bfdbfe;
+  --blue-300: #93c5fd;
+  --blue-400: #60a5fa;
+  --blue-500: #3b82f6;
+  --blue-600: #2563eb;
+  --blue-700: #1d4ed8;
+  --blue-800: #1e40af;
+  --blue-900: #1e3a8a;
 
-  --indigo-050: #EEF2FF;
-  --indigo-100: #E0E7FF;
-  --indigo-200: #C7D2FE;
-  --indigo-300: #A5B4FC;
-  --indigo-400: #818CF8;
-  --indigo-500: #6366F1;
-  --indigo-600: #4F46E5;
-  --indigo-700: #4338CA;
-  --indigo-800: #3730A3;
-  --indigo-900: #312E81;
+  --indigo-050: #eef2ff;
+  --indigo-100: #e0e7ff;
+  --indigo-200: #c7d2fe;
+  --indigo-300: #a5b4fc;
+  --indigo-400: #818cf8;
+  --indigo-500: #6366f1;
+  --indigo-600: #4f46e5;
+  --indigo-700: #4338ca;
+  --indigo-800: #3730a3;
+  --indigo-900: #312e81;
 
-  --purple-050: #F5F3FF;
-  --purple-100: #EDE9FE;
-  --purple-200: #DDD6FE;
-  --purple-300: #C4B5FD;
-  --purple-400: #A78BFA;
-  --purple-500: #8B5CF6;
-  --purple-600: #7C3AED;
-  --purple-700: #6D28D9;
-  --purple-800: #5B21B6;
-  --purple-900: #4C1D95;
+  --purple-050: #f5f3ff;
+  --purple-100: #ede9fe;
+  --purple-200: #ddd6fe;
+  --purple-300: #c4b5fd;
+  --purple-400: #a78bfa;
+  --purple-500: #8b5cf6;
+  --purple-600: #7c3aed;
+  --purple-700: #6d28d9;
+  --purple-800: #5b21b6;
+  --purple-900: #4c1d95;
 
-  --pink-050: #FDF2F8;
-  --pink-100: #FCE7F3;
-  --pink-200: #FBCFE8;
-  --pink-300: #F9A8D4;
-  --pink-400: #F472B6;
-  --pink-500: #EC4899;
-  --pink-600: #DB2777;
-  --pink-700: #BE185D;
-  --pink-800: #9D174D;
+  --pink-050: #fdf2f8;
+  --pink-100: #fce7f3;
+  --pink-200: #fbcfe8;
+  --pink-300: #f9a8d4;
+  --pink-400: #f472b6;
+  --pink-500: #ec4899;
+  --pink-600: #db2777;
+  --pink-700: #be185d;
+  --pink-800: #9d174d;
   --pink-900: #831843;
 
-  --border: 1px solid #2F3133;
+  --border: 1px solid #2f3133;
   --borderLight: 1px solid #454546;
   --modalPadding: 15px;
-  --iconColor: #8D8F92;
-  --activeColor: #A5ADFF;
+  --mainPadding: 4rem;
+  --iconColor: #8d8f92;
+  --activeColor: #a5adff;
   --color1: #fff;
-  --color2: #DADBDD;
-  --color3: #BABABA;
-  --color4: #8D949A;
-  --color5: #81858B;
+  --color2: #dadbdd;
+  --color3: #bababa;
+  --color4: #8d949a;
+  --color5: #81858b;
   --background1: #0e0e10;
-  --background2: #191A1B;
+  --background2: #191a1b;
   --background3: #212223;
-  --background4: #34373A;
-  --background5: #56585C;
-  --lightGreen: #10B981;
-  --lightYellow: #FCD34D;
-  --lightRed: #F87171; 
-  --lightPurple: #A5ADFF;
+  --background4: #34373a;
+  --background5: #56585c;
+  --lightGreen: #10b981;
+  --lightYellow: #fcd34d;
+  --lightRed: #f87171;
+  --lightPurple: #a5adff;
   --mediumPurple: #7c3aed;
-  --darkPurple: #6D28D9;
-  --bronze: #6A3805;
-  --silver: #D7D7D7;
-  --gold: #C9B037;
+  --darkPurple: #6d28d9;
+  --bronze: #6a3805;
+  --silver: #d7d7d7;
+  --gold: #c9b037;
   --maxWidth: 1560px;
 }
 
@@ -201,11 +204,21 @@ button {
   border: none;
 }
 
-h1, h2, h3, h4, h5, h6, p, blockquote {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote {
   margin: 0;
 }
 
-input, button, select, textarea {
+input,
+button,
+select,
+textarea {
   outline: none;
   margin: 0;
   padding: 0;
@@ -214,7 +227,8 @@ input, button, select, textarea {
   font-family: var(--font-family1);
 }
 
-img[src="https://www.geoguessr.com/images/auto/30/30/ce/0/plain/pin/c2fe16562d9ad321687532d53b067e75.png"] {
+img[src="https://www.geoguessr.com/images/auto/30/30/ce/0/plain/pin/c2fe16562d9ad321687532d53b067e75.png"]
+{
   border-radius: 50%;
 }
 

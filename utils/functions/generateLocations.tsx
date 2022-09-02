@@ -1,9 +1,10 @@
 import { LocationType } from '../../types'
-import * as worldHandPicked from '../../utils/locations/world.json'
-import * as famousHandPicked from '../../utils/locations/famousLocations.json'
-import * as canadaHandPicked from '../../utils/locations/canada.json'
-import * as usaHandPicked from '../../utils/locations/unitedStates.json'
-import * as europeHandPicked from '../../utils/locations/europe.json'
+import worldHandPicked from '../../utils/locations/world.json'
+import famousHandPicked from '../../utils/locations/famousLocations.json'
+import canadaHandPicked from '../../utils/locations/canada.json'
+import usaHandPicked from '../../utils/locations/unitedStates.json'
+import europeHandPicked from '../../utils/locations/europe.json'
+import diverseWorld from '../../utils/locations/diverseWorld.json'
 
 export const randomRange = (min = 0, max = 100, precision = 10) => {
   return parseFloat((Math.random() * (max - min) + min).toFixed(precision))
@@ -49,7 +50,7 @@ export const getRandomLocation = (
       if (locationType === 'random') {
         // TODO
       } else {
-        return randomElement(worldHandPicked)
+        return randomElement(diverseWorld)
       }
     case 'famous-landmarks':
       if (locationType === 'random') {
