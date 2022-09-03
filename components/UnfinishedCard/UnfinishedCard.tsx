@@ -1,8 +1,10 @@
 import Link from 'next/link'
 import React, { FC } from 'react'
-import { StyledUnfinishedCard } from '.'
+
 import { mailman } from '@backend/utils/mailman'
 import { Avatar, FlexGroup } from '@components/System'
+
+import { StyledUnfinishedCard } from './'
 
 type Props = {
   mapName: string

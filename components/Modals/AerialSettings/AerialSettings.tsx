@@ -1,14 +1,16 @@
-import { XIcon } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
 import React, { FC, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { StyledAerialSettings } from '.'
+
 import { mailman } from '@backend/utils/mailman'
-import { selectUser } from '@redux/user'
-import { UserType } from '@types'
-import { Button, FlexGroup, Icon, Checkbox, Avatar } from '@components/System'
 import { CountrySelect } from '@components/CountrySelect'
 import { Banner } from '@components/Layout'
+import { Avatar, Button, Checkbox, FlexGroup, Icon } from '@components/System'
+import { XIcon } from '@heroicons/react/outline'
+import { selectUser } from '@redux/user'
+import { UserType } from '@types'
+
+import { StyledAerialSettings } from './'
 
 type Props = {
   closeModal: () => void

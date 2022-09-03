@@ -1,7 +1,9 @@
-import { FC } from 'react'
-import { StyledMapPreviewCard } from '.'
-import { MapType } from '@types'
 import Link from 'next/link'
+import { FC } from 'react'
+
+import { MapType } from '@types'
+
+import { StyledMapPreviewCard } from './'
 
 type Props = {
   map: MapType

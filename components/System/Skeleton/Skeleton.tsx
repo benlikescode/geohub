@@ -1,5 +1,6 @@
 import React, { FC } from 'react'
-import { StyledSkeleton } from '.'
+
+import { StyledSkeleton } from './'
 
 type Props = {
   variant?: 'rectangular' | 'circular'

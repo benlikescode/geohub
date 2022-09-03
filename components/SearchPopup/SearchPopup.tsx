@@ -1,7 +1,9 @@
 import React, { FC } from 'react'
 import ReactDOM from 'react-dom'
-import { StyledSearchPopup } from '.'
+
 import { Searchbar } from '@components/System'
+
+import { StyledSearchPopup } from './'
 
 type Props = {
   close: () => void

@@ -1,14 +1,16 @@
 import '@styles/globals.css'
-import type { AppProps } from 'next/app'
-import { Provider } from 'react-redux'
-import { store, persistor } from '@redux/store'
-import { PersistGate } from 'redux-persist/integration/react'
-import { ToastContainer } from 'react-toastify'
-import { ThemeProvider } from 'styled-components'
-import { theme } from '@utils/theme'
 import 'react-toastify/dist/ReactToastify.css'
-import { Head } from '@components/Head'
 
+import { Provider } from 'react-redux'
+import { ToastContainer } from 'react-toastify'
+import { PersistGate } from 'redux-persist/integration/react'
+import { ThemeProvider } from 'styled-components'
+
+import { Head } from '@components/Head'
+import { persistor, store } from '@redux/store'
+import { theme } from '@utils/theme'
+
+import type { AppProps } from 'next/app'
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>

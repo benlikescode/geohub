@@ -1,5 +1,6 @@
 import { ObjectId } from 'mongodb'
-import { GameSettingsType, GuessType, LocationType } from "."
+
+import { GameSettingsType, GuessType, LocationType } from './'
 
 type Game = {
   id: ObjectId | string

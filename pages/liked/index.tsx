@@ -1,14 +1,15 @@
 import type { NextPage } from 'next'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
+
 import { mailman } from '@backend/utils/mailman'
-import { MapPreviewCard } from '@components/MapPreviewCard'
+import { Head } from '@components/Head'
 import { Layout, LoadingPage } from '@components/Layout'
+import { MapPreviewCard } from '@components/MapPreviewCard'
+import { SkeletonCards } from '@components/SkeletonCards'
 import { BlockQuote } from '@components/System/BlockQuote'
 import { selectUser } from '@redux/user'
-import { Head } from '@components/Head'
-import { SkeletonCards } from '@components/SkeletonCards'
 
 const StyledHeader = styled.h1`
   font-size: 1.75rem;

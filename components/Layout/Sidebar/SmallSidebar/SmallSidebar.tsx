@@ -1,15 +1,17 @@
+import Link from 'next/link'
 import React, { FC } from 'react'
-import { StyledSmallSidebar } from '.'
+
+import { Icon } from '@components/System'
 import {
   DesktopComputerIcon,
   HeartIcon,
   HomeIcon,
   LocationMarkerIcon,
   MapIcon,
-  UsersIcon,
+  UsersIcon
 } from '@heroicons/react/outline'
-import Link from 'next/link'
-import { Icon } from '@components/System'
+
+import { StyledSmallSidebar } from './'
 import { Item } from './Item'
 
 const SmallSidebar: FC = () => {

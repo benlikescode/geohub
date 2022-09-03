@@ -1,7 +1,9 @@
-import { EyeIcon, EyeOffIcon } from '@heroicons/react/outline'
 import { FC, useState } from 'react'
-import { StyledInput } from '.'
+
 import { Icon } from '@components/System'
+import { EyeIcon, EyeOffIcon } from '@heroicons/react/outline'
+
+import { StyledInput } from './'
 
 type Props = {
   label?: string

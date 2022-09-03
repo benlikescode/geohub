@@ -1,6 +1,8 @@
 import React, { FC, ReactNode } from 'react'
-import { StyledLayout } from '.'
-import { Navbar, Sidebar, MobileNav } from '@components/Layout'
+
+import { MobileNav, Navbar, Sidebar } from '@components/Layout'
+
+import { StyledLayout } from './'
 
 type Props = {
   isHome?: boolean

@@ -1,7 +1,8 @@
 import type { NextPage } from 'next'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
+
 import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
 import { Layout, LoadingPage } from '@components/Layout'

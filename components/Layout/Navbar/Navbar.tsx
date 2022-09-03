@@ -1,11 +1,13 @@
-import { SearchIcon } from '@heroicons/react/outline'
 import Link from 'next/link'
 import React, { FC, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { StyledNavbar } from '.'
+
+import { Avatar, Button, Icon, Searchbar } from '@components/System'
+import { SearchIcon } from '@heroicons/react/outline'
 import { selectUser } from '@redux/user'
 import { UserType } from '@types'
-import { Avatar, Button, Icon, Searchbar } from '@components/System'
+
+import { StyledNavbar } from './'
 
 const Navbar: FC = () => {
   const user: UserType = useSelector(selectUser)

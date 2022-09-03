@@ -1,13 +1,15 @@
-import { SearchIcon } from '@heroicons/react/outline'
-import React, { FC, useEffect, useRef, useState } from 'react'
-import { Spinner, Button, Icon } from '@components/System'
-import { SearchOverlayCard } from './SearchOverlayCard'
-import { useClickOutside } from '@utils/hooks'
-import { mailman } from '@backend/utils/mailman'
-import { SearchResultType } from '@types'
-import { StyledSearchbar } from '.'
-import { KEY_CODES } from '@utils/constants/keyCodes'
 import { useRouter } from 'next/router'
+import React, { FC, useEffect, useRef, useState } from 'react'
+
+import { mailman } from '@backend/utils/mailman'
+import { Button, Icon, Spinner } from '@components/System'
+import { SearchIcon } from '@heroicons/react/outline'
+import { SearchResultType } from '@types'
+import { KEY_CODES } from '@utils/constants/keyCodes'
+import { useClickOutside } from '@utils/hooks'
+
+import { StyledSearchbar } from './'
+import { SearchOverlayCard } from './SearchOverlayCard'
 
 type Props = {
   placeholder?: string

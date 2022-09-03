@@ -1,5 +1,6 @@
 import { ChangeEvent, FC } from 'react'
-import { StyledSlider } from '.'
+
+import { StyledSlider } from './'
 
 type Props = {
   onChange: (sliderValue: number) => void

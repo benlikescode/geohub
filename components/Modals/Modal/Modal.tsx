@@ -1,6 +1,7 @@
 import { FC, ReactNode } from 'react'
-import { StyledModal } from '.'
 import ReactDOM from 'react-dom'
+
+import { StyledModal } from './'
 
 type Props = {
   width?: string;

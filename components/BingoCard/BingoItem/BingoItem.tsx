@@ -1,5 +1,6 @@
 import { FC } from 'react'
-import { StyledBingoItem } from '.'
+
+import { StyledBingoItem } from './'
 
 type Props = {
   index: number

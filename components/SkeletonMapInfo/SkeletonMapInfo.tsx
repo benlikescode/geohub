@@ -1,6 +1,8 @@
 import React, { FC } from 'react'
-import { StyledSkeletonMapInfo } from '.'
+
 import { Skeleton } from '@components/System/Skeleton'
+
+import { StyledSkeletonMapInfo } from './'
 
 type Props = {}
 

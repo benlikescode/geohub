@@ -1,6 +1,7 @@
-import { FC, useState, useEffect } from 'react'
-import { StyledAvatar } from '.'
 import Image from 'next/image'
+import { FC, useEffect, useState } from 'react'
+
+import { StyledAvatar } from './'
 
 type Props = {
   url: string;

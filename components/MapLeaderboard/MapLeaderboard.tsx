@@ -1,7 +1,9 @@
 import { FC, useState } from 'react'
-import { StyledMapLeaderboard } from '.'
-import { MapLeaderboardType } from '@types'
+
 import { Select } from '@components/System/Select'
+import { MapLeaderboardType } from '@types'
+
+import { StyledMapLeaderboard } from './'
 import { LeaderboardItem } from './LeaderboardItem'
 
 type Props = {

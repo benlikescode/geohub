@@ -1,17 +1,19 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import { 
-  persistStore, 
-  persistReducer,
-  FLUSH, 
-  REHYDRATE,
+import {
+  FLUSH,
   PAUSE,
   PERSIST,
+  persistReducer,
+  persistStore,
   PURGE,
   REGISTER,
+  REHYDRATE
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
-import userReducer from './user'
+
+import { combineReducers, configureStore } from '@reduxjs/toolkit'
+
 import gameReducer from './game'
+import userReducer from './user'
 
 const persistConfig = {
   key: 'root',

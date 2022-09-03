@@ -1,17 +1,18 @@
-import { CheckIcon } from '@heroicons/react/outline'
-import type { NextPage } from 'next'
 import React, { useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
+
 import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
-import { Layout, Banner } from '@components/Layout'
+import { Banner, Layout } from '@components/Layout'
 import { BingoSettings } from '@components/Modals/BingoSettings'
 import { Modal } from '@components/Modals/Modal'
 import { Avatar, Button, Icon, Input } from '@components/System'
+import { CheckIcon } from '@heroicons/react/outline'
 import { selectUser } from '@redux/user'
 import StyledBingoPage from '@styles/BingoPage.Styled'
 
+import type { NextPage } from 'next'
 const BingoPage: NextPage = () => {
   const [settingsModalOpen, setSettingsModalOpen] = useState(false)
   const [suggestion1, setSuggestion1] = useState('')

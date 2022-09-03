@@ -1,6 +1,8 @@
 import { FC, ReactNode } from 'react'
-import { StyledButton } from '.'
+
 import { Spinner } from '@components/System'
+
+import { StyledButton } from './'
 
 type Props = {
   type: 'solidPurple' | 'solidGray' | 'solidCustom' | 'ghost' | 'ghostLight' | 'icon' | 'iconRounded'

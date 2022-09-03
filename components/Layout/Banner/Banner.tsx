@@ -1,5 +1,6 @@
 import { FC, ReactNode } from 'react'
-import { StyledBanner } from '.'
+
+import { StyledBanner } from './'
 
 type Props = {
   children: ReactNode

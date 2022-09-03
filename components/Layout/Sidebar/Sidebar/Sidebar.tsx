@@ -1,9 +1,17 @@
-import { HomeIcon, MapIcon, UsersIcon, HeartIcon, DesktopComputerIcon } from '@heroicons/react/outline'
 import Link from 'next/link'
 import React, { FC } from 'react'
 import { useSelector } from 'react-redux'
-import { StyledSidebar } from '.'
+
+import {
+  DesktopComputerIcon,
+  HeartIcon,
+  HomeIcon,
+  MapIcon,
+  UsersIcon
+} from '@heroicons/react/outline'
 import { selectUser } from '@redux/user'
+
+import { StyledSidebar } from './'
 import { Item } from './Item'
 
 const Sidebar: FC = () => {

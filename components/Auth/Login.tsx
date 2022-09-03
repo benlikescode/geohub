@@ -1,12 +1,13 @@
-import { LocationMarkerIcon } from '@heroicons/react/outline'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { FC, useState } from 'react'
 import { useDispatch } from 'react-redux'
+
 import { mailman } from '@backend/utils/mailman'
-import { updateUser } from '@redux/user'
-import { Input, Button, Icon } from '@components/System'
+import { Button, Icon, Input } from '@components/System'
 import { Spinner } from '@components/System/Spinner'
+import { LocationMarkerIcon } from '@heroicons/react/outline'
+import { updateUser } from '@redux/user'
 
 const Login: FC = () => {
   const [email, setEmail] = useState('')

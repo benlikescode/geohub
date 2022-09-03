@@ -1,9 +1,11 @@
 import React, { FC } from 'react'
 import { useDispatch } from 'react-redux'
-import { StyledResultsCard } from '.'
+
+import { Button, ProgressBar } from '@components/System'
 import { updateStartTime } from '@redux/game'
 import { formatDistance } from '@utils/helperFunctions'
-import { Button, ProgressBar } from '@components/System'
+
+import { StyledResultsCard } from './'
 
 type Props = {
   round: number

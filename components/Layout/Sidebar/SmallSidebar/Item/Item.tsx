@@ -1,8 +1,10 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { FC, ReactNode } from 'react'
-import { StyledItem } from '.'
+
 import { Icon } from '@components/System'
+
+import { StyledItem } from './'
 
 type Props = {
   text: string

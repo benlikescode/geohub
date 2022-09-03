@@ -1,10 +1,16 @@
-import { FC } from 'react'
-import { StyledResultMap } from '.'
 import GoogleMapReact from 'google-map-react'
-import { GuessType, LocationType } from '@types'
-import { createMarker, getMapTheme, getResultMapValues } from '@utils/helperFunctions'
+import { FC } from 'react'
 import { useSelector } from 'react-redux'
+
 import { selectUser } from '@redux/user'
+import { GuessType, LocationType } from '@types'
+import {
+  createMarker,
+  getMapTheme,
+  getResultMapValues
+} from '@utils/helperFunctions'
+
+import { StyledResultMap } from './'
 
 type Props = {
   guessedLocations: GuessType[]

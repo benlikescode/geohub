@@ -1,10 +1,11 @@
 import type { NextPage } from 'next'
-import React from 'react'
-import { Layout } from '@components/Layout'
 import GoogleMapReact from 'google-map-react'
-import StyledPuzzlesPage from '@styles/PuzzlesPage.Styled'
-import { Navbar } from '@components/Layout/Navbar'
+import React from 'react'
+
 import { Head } from '@components/Head'
+import { Layout } from '@components/Layout'
+import { Navbar } from '@components/Layout/Navbar'
+import StyledPuzzlesPage from '@styles/PuzzlesPage.Styled'
 
 const PuzzlesPage: NextPage = () => {
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string

@@ -1,6 +1,7 @@
-import React, { FC } from 'react'
-import { StyledStreetviewLayerMap } from '.'
 import GoogleMapReact from 'google-map-react'
+import React, { FC } from 'react'
+
+import { StyledStreetviewLayerMap } from './'
 
 const StreetviewLayerMap: FC = () => {
 

@@ -1,7 +1,8 @@
+import { ObjectId } from 'bson'
+import { NextApiRequest, NextApiResponse } from 'next'
+
 /* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '@backend/utils/dbConnect'
-import { NextApiRequest, NextApiResponse } from 'next'
-import { ObjectId } from 'bson'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {

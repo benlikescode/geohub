@@ -1,4 +1,5 @@
-import { MongoClient, Collection, Db } from 'mongodb'
+import { Collection, Db, MongoClient } from 'mongodb'
+
 import { IS_PROD, MONGO_URI } from './secrets'
 
 export const collections: {

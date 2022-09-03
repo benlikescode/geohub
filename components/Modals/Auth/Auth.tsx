@@ -1,8 +1,10 @@
-import { XIcon } from '@heroicons/react/outline'
 import Link from 'next/link'
 import React, { FC } from 'react'
-import { StyledAuth } from '.'
+
 import { Button, Icon } from '@components/System'
+import { XIcon } from '@heroicons/react/outline'
+
+import { StyledAuth } from './'
 
 type Props = {
   closeModal: () => void

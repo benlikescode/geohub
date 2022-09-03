@@ -1,4 +1,5 @@
 import { GameSettingsType, GuessType, LocationType } from '@types'
+
 import Map from './map'
 import User from './user'
 

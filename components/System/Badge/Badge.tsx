@@ -1,6 +1,7 @@
-import { FC } from 'react'
-import { StyledBadge } from '.'
 import Image from 'next/image'
+import { FC } from 'react'
+
+import { StyledBadge } from './'
 
 type Props = {
   image: string

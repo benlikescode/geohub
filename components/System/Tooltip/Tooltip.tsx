@@ -1,5 +1,6 @@
 import { FC } from 'react'
-import { StyledTooltip } from '.'
+
+import { StyledTooltip } from './'
 
 type Props = {
   label: string

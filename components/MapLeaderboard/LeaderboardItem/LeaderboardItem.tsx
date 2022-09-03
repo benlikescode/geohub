@@ -1,12 +1,14 @@
-/* eslint-disable @next/next/no-img-element */
-import { ChartBarIcon } from '@heroicons/react/outline'
 import image from 'next/image'
 import Link from 'next/link'
 import React, { FC } from 'react'
-import { StyledLeaderboardItem } from '.'
+
+import { Avatar, FlexGroup, Icon } from '@components/System'
+/* eslint-disable @next/next/no-img-element */
+import { ChartBarIcon } from '@heroicons/react/outline'
 import { MapLeaderboardType } from '@types'
 import { formatRoundTime } from '@utils/helperFunctions'
-import { Avatar, FlexGroup, Icon } from '@components/System'
+
+import { StyledLeaderboardItem } from './'
 
 type Props = {
   finishPlace: number

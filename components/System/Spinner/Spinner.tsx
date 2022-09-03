@@ -1,5 +1,6 @@
 import { FC } from 'react'
-import { StyledSpinner } from '.'
+
+import { StyledSpinner } from './'
 
 type Props = {
   size?: number

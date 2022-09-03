@@ -1,5 +1,6 @@
 import { FC } from 'react'
-import { StyledSelect } from '.'
+
+import { StyledSelect } from './'
 
 type Props = {
   options: string[]

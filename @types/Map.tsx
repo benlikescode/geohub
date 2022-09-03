@@ -1,6 +1,8 @@
 import { ObjectId } from 'mongodb'
-import { LocationType, UserType } from '.'
+
 import { User } from '@backend/models'
+
+import { LocationType, UserType } from './'
 
 type Map = {
   id: ObjectId | string

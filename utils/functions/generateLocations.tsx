@@ -1,10 +1,10 @@
 import { LocationType } from '@types'
-import worldHandPicked from '@utils/locations/world.json'
-import famousHandPicked from '@utils/locations/famousLocations.json'
 import canadaHandPicked from '@utils/locations/canada.json'
-import usaHandPicked from '@utils/locations/unitedStates.json'
-import europeHandPicked from '@utils/locations/europe.json'
 import diverseWorld from '@utils/locations/diverseWorld.json'
+import europeHandPicked from '@utils/locations/europe.json'
+import famousHandPicked from '@utils/locations/famousLocations.json'
+import usaHandPicked from '@utils/locations/unitedStates.json'
+import worldHandPicked from '@utils/locations/world.json'
 
 export const randomRange = (min = 0, max = 100, precision = 10) => {
   return parseFloat((Math.random() * (max - min) + min).toFixed(precision))

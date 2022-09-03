@@ -1,8 +1,10 @@
 import Link from 'next/link'
 import React, { FC } from 'react'
-import { StyledFinalResultsCard } from '.'
+
 import { Game } from '@backend/models'
-import { Button, ProgressBar, FlexGroup } from '@components/System'
+import { Button, FlexGroup, ProgressBar } from '@components/System'
+
+import { StyledFinalResultsCard } from './'
 
 type Props = {
   gameData: Game

@@ -1,6 +1,7 @@
-import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { NextApiRequest, NextApiResponse } from 'next'
+
 import { Map } from '@backend/models'
+import { collections, dbConnect } from '@backend/utils/dbConnect'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {

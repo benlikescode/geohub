@@ -1,3 +1,18 @@
+import { useRouter } from 'next/router'
+import React, { FC, useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+
+import { mailman } from '@backend/utils/mailman'
+import { Banner } from '@components/Layout'
+import {
+  Avatar,
+  Button,
+  Checkbox,
+  FlexGroup,
+  Icon,
+  Slider
+} from '@components/System'
 import {
   ArrowsExpandIcon,
   ClockIcon,
@@ -5,21 +20,15 @@ import {
   UserGroupIcon,
   UserIcon,
   XIcon,
-  ZoomInIcon,
+  ZoomInIcon
 } from '@heroicons/react/outline'
-import { useRouter } from 'next/router'
-import React, { FC, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { StyledGameSettings } from '.'
-import { mailman } from '@backend/utils/mailman'
 import { updateStartTime } from '@redux/game'
 import { selectUser, updateLocation } from '@redux/user'
 import { GameSettingsType, LocationType, MapType, UserType } from '@types'
 import { formatTimeLimit } from '@utils/helperFunctions'
-import { Button, FlexGroup, Icon, Slider, Checkbox, Avatar } from '@components/System'
+
+import { StyledGameSettings } from './'
 import { Challenge } from './Challenge'
-import { toast } from 'react-toastify'
-import { Banner } from '@components/Layout'
 
 type Props = {
   closeModal: () => void

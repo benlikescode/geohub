@@ -1,18 +1,20 @@
-import React, { FC, useEffect, useState } from 'react'
-import { StyledStreetView } from '.'
 import GoogleMapReact from 'google-map-react'
-import { StreetViewControls } from '@components/StreetViewControls'
+import React, { FC, useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+
+import { Game } from '@backend/models'
+import { mailman } from '@backend/utils/mailman'
 import { GameStatus } from '@components/GameStatus'
 import { GuessMap } from '@components/GuessMap'
-import { Game } from '@backend/models'
 import { LoadingPage } from '@components/Layout'
-import { GuessType, LocationType } from '@types'
+import { StreetViewControls } from '@components/StreetViewControls'
 import { selectGame } from '@redux/game'
-import { useSelector } from 'react-redux'
 import { selectUser } from '@redux/user'
-import { mailman } from '@backend/utils/mailman'
+import { GuessType, LocationType } from '@types'
 import { KEY_CODES } from '@utils/constants/keyCodes'
 import { getResultData } from '@utils/helperFunctions'
+
+import { StyledStreetView } from './'
 
 type Props = {
   gameData: Game

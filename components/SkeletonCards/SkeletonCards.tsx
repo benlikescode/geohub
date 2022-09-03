@@ -1,6 +1,8 @@
 import React, { FC } from 'react'
-import { StyledSkeletonCards } from '.'
+
 import { Skeleton } from '@components/System/Skeleton'
+
+import { StyledSkeletonCards } from './'
 
 type Props = {
   numCards?: number

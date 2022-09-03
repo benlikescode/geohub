@@ -1,5 +1,6 @@
 import React, { FC } from 'react'
-import { StyledNotFound } from '.'
+
+import { StyledNotFound } from './'
 
 type Props = {
   

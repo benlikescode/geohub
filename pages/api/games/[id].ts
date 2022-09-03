@@ -1,10 +1,11 @@
+import { ObjectId } from 'mongodb'
+import { NextApiRequest, NextApiResponse } from 'next'
+
+import { Game } from '@backend/models'
 /* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '@backend/utils/dbConnect'
-import { NextApiRequest, NextApiResponse } from 'next'
-import { ObjectId } from 'mongodb'
-import { Game } from '@backend/models'
-import { getRandomLocation } from '@utils/functions/generateLocations'
 import { GuessType } from '@types'
+import { getRandomLocation } from '@utils/functions/generateLocations'
 import { getResultData } from '@utils/helperFunctions'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {

@@ -1,5 +1,6 @@
-import styled from 'styled-components'
 import 'mapbox-gl/dist/mapbox-gl.css'
+
+import styled from 'styled-components'
 
 type StyledProps = {
   mapHeight?: number

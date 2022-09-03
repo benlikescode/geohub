@@ -1,13 +1,19 @@
-import React, { FC, useRef, useState, useEffect } from 'react'
-import { StyledGuessMap } from '.'
 import GoogleMapReact from 'google-map-react'
-import { Button } from '@components/System/Button'
+import React, { FC, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { createMarker, getGuessMapDimensions, getMapTheme } from '@utils/helperFunctions'
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/outline'
+
 import { Icon } from '@components/System'
+import { Button } from '@components/System/Button'
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/outline'
 import { selectUser, updateGuessMapSize } from '@redux/user'
 import { LocationType } from '@types'
+import {
+  createMarker,
+  getGuessMapDimensions,
+  getMapTheme
+} from '@utils/helperFunctions'
+
+import { StyledGuessMap } from './'
 
 type Props = {
   coordinate: LocationType

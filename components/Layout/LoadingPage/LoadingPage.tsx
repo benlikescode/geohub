@@ -1,7 +1,9 @@
 import { FC } from 'react'
-import { StyledLoadingPage } from '.'
+
+import { MobileNav, Navbar, Sidebar } from '@components/Layout'
 import { Spinner } from '@components/System/Spinner'
-import { Navbar, Sidebar, MobileNav } from '@components/Layout'
+
+import { StyledLoadingPage } from './'
 
 const LoadingPage: FC = () => {
   return (

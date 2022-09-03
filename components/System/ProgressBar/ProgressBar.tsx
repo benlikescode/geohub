@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react'
-import { StyledProgressBar } from '.'
+
+import { StyledProgressBar } from './'
 
 type Props = {
   progress: number

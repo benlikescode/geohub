@@ -1,7 +1,9 @@
 import { FC } from 'react'
-import { StyledSearchOverlayCard } from '.'
-import { SearchResultType } from '@types'
+
 import { SearchResult } from '@components/System/Searchbar/SearchResult'
+import { SearchResultType } from '@types'
+
+import { StyledSearchOverlayCard } from './'
 
 type Props = {
   results: SearchResultType[]

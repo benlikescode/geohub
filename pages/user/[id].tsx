@@ -1,16 +1,17 @@
-import { PencilAltIcon, BadgeCheckIcon } from '@heroicons/react/solid'
-import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+
 import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
 import { Layout, LoadingPage } from '@components/Layout'
 import { MapLeaderboard } from '@components/MapLeaderboard'
+import { BadgeCheckIcon, PencilAltIcon } from '@heroicons/react/solid'
 import { logOutUser, selectUser, updateBio, updateUsername } from '@redux/user'
 import StyledProfilePage from '@styles/ProfilePage.Styled'
 import { MapLeaderboardType } from '@types'
 
+import type { NextPage } from 'next'
 const ProfilePage: NextPage = () => {
   const banner = '/images/backgrounds/prettyImage2.jpeg'
   const [leaderboardData, setLeaderboardData] = useState<MapLeaderboardType[] | null>()

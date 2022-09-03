@@ -1,16 +1,25 @@
-import { ClockIcon, XIcon } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
 import React, { FC, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
-import { StyledBingoSettings } from '.'
+
 import { mailman } from '@backend/utils/mailman'
+import { Banner } from '@components/Layout'
+import {
+  Avatar,
+  Button,
+  Checkbox,
+  FlexGroup,
+  Icon,
+  Slider
+} from '@components/System'
+import { ClockIcon, XIcon } from '@heroicons/react/outline'
 import { updateStartTime } from '@redux/game'
 import { selectUser } from '@redux/user'
 import { UserType } from '@types'
 import { formatTimeLimit } from '@utils/helperFunctions'
-import { Button, FlexGroup, Icon, Slider, Checkbox, Avatar } from '@components/System'
-import { Banner } from '@components/Layout'
+
+import { StyledBingoSettings } from './'
 
 type Props = {
   closeModal: () => void

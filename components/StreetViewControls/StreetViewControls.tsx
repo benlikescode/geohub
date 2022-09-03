@@ -1,7 +1,9 @@
-import { FlagIcon, LocationMarkerIcon } from '@heroicons/react/outline'
 import React, { FC, useState } from 'react'
-import { StyledStreetViewControls } from '.'
+
 import { Button, Icon, Tooltip } from '@components/System'
+import { FlagIcon, LocationMarkerIcon } from '@heroicons/react/outline'
+
+import { StyledStreetViewControls } from './'
 
 const StreetViewControls: FC = () => {
   const [showTip, setShowTip] = useState(false)

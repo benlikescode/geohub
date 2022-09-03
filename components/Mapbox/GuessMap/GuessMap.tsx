@@ -1,15 +1,17 @@
+import mapboxgl from 'mapbox-gl'
 /* eslint-disable @next/next/no-img-element */
 import React, { FC, useState } from 'react'
-import { StyledGuessMap } from '.'
 import Map, { Marker } from 'react-map-gl'
-import { LocationType } from '@types'
-import { Button } from '@components/System'
+import { useSelector } from 'react-redux'
+
 import { Game } from '@backend/models'
 import { mailman } from '@backend/utils/mailman'
-import { useSelector } from 'react-redux'
+import { Button } from '@components/System'
 import { selectGame } from '@redux/game'
 import { selectUser } from '@redux/user'
-import mapboxgl from 'mapbox-gl'
+import { LocationType } from '@types'
+
+import { StyledGuessMap } from './'
 
 type Props = {
   currGuess: LocationType | null

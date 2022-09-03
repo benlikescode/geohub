@@ -1,7 +1,9 @@
 import Link from 'next/link'
 import { FC } from 'react'
-import { StyledGamemodeCard } from '.'
+
 import { Button } from '@components/System'
+
+import { StyledGamemodeCard } from './'
 
 type Props = {
   title: string

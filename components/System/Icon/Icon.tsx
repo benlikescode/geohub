@@ -1,5 +1,6 @@
-import {FC, ReactNode } from 'react'
-import { StyledIcon } from '.'
+import { FC, ReactNode } from 'react'
+
+import { StyledIcon } from './'
 
 type Props = {
   size: number

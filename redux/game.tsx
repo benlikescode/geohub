@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit'
 import { Game } from '@backend/models'
+import { createSlice } from '@reduxjs/toolkit'
 
 type GameState = {
   gameData: Game | null

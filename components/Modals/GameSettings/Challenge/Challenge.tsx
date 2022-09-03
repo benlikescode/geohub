@@ -1,7 +1,9 @@
-import { FC, useState, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
+
 import { Avatar, Button, FlexGroup, Input } from '@components/System'
-import { StyledChallenge } from '.'
 import { UserType } from '@types'
+
+import { StyledChallenge } from './'
 
 type Props = {
   challengeId: string

@@ -1,5 +1,6 @@
 import React, { FC, ReactNode } from 'react'
-import { StyledMainWrapper } from '.'
+
+import { StyledMainWrapper } from './'
 
 type Props = {
   children: ReactNode

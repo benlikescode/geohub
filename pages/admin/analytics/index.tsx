@@ -1,17 +1,18 @@
 import type { NextPage } from 'next'
-import styled from 'styled-components'
 import React, { useEffect, useState } from 'react'
-import { Layout } from '@components/Layout'
-import { StyledAnalytics } from '@components/Admin/Analytics/Analytics.Styled'
-import { mailman } from '@backend/utils/mailman'
 import { useSelector } from 'react-redux'
-import { selectUser } from '@redux/user'
-import { Skeleton } from '@components/System/Skeleton'
-import { UserType } from '@types'
+import styled from 'styled-components'
+
+import { mailman } from '@backend/utils/mailman'
+import { StyledAnalytics } from '@components/Admin/Analytics/Analytics.Styled'
 import { CountItem } from '@components/Admin/Analytics/CountItem'
 import { ListItem } from '@components/Admin/Analytics/ListItem'
 import { NotAuthenticated } from '@components/ErrorViews/NotAuthenticated'
 import { Head } from '@components/Head'
+import { Layout } from '@components/Layout'
+import { Skeleton } from '@components/System/Skeleton'
+import { selectUser } from '@redux/user'
+import { UserType } from '@types'
 
 const StyledHeader = styled.h1`
   font-size: 1.75rem;

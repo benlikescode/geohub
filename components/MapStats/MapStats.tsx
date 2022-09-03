@@ -1,13 +1,19 @@
-import { LocationMarkerIcon, ScaleIcon, UserIcon } from '@heroicons/react/outline'
-import { HeartIcon } from '@heroicons/react/solid'
 import { FC, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { StyledMapStats } from '.'
+
 import { mailman } from '@backend/utils/mailman'
-import { selectUser } from '@redux/user'
-import { MapType } from '@types'
 import { Auth, Modal } from '@components/Modals'
 import { FlexGroup, Icon } from '@components/System'
+import {
+  LocationMarkerIcon,
+  ScaleIcon,
+  UserIcon
+} from '@heroicons/react/outline'
+import { HeartIcon } from '@heroicons/react/solid'
+import { selectUser } from '@redux/user'
+import { MapType } from '@types'
+
+import { StyledMapStats } from './'
 
 type Props = {
   map: MapType

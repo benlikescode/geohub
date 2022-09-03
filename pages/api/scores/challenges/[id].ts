@@ -1,7 +1,8 @@
+import { ObjectId } from 'mongodb'
+import { NextApiRequest, NextApiResponse } from 'next'
+
 /* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '@backend/utils/dbConnect'
-import { NextApiRequest, NextApiResponse } from 'next'
-import { ObjectId } from 'mongodb'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {

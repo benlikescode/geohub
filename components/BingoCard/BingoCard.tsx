@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react'
-import { StyledBingoCard } from '.'
+
+import { StyledBingoCard } from './'
 import { BingoItem } from './BingoItem'
 
 type Props = {

@@ -1,5 +1,7 @@
 import { ObjectId } from 'mongodb'
+
 import { LocationType } from '@types'
+
 import User from './user'
 
 type Map = {

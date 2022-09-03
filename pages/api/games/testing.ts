@@ -1,14 +1,15 @@
+import { ObjectID, ObjectId } from 'mongodb'
+import { NextApiRequest, NextApiResponse } from 'next'
+
+import Game from '@backend/models/game'
 /* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '@backend/utils/dbConnect'
-import Game from '@backend/models/game'
-import { NextApiRequest, NextApiResponse } from 'next'
 import {
   getRandomLocation,
   getRandomLocationsInRadius,
   randomElement,
-  randomInt,
+  randomInt
 } from '@utils/functions/generateLocations'
-import { ObjectID, ObjectId } from 'mongodb'
 import cities from '@utils/locations/cities.json'
 import populatedAreas from '@utils/locations/populatedAreas.json'
 

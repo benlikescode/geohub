@@ -1,6 +1,6 @@
-import { elevation } from './elevation'
 import { breakpoint } from './breakpoint'
 import { color } from './color'
+import { elevation } from './elevation'
 
 export const theme = {
   color,

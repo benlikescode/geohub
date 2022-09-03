@@ -1,8 +1,10 @@
 import Link from 'next/link'
 import React, { FC } from 'react'
-import { StyledSearchResult } from '.'
-import { SearchResultType } from '@types'
+
 import { Avatar, FlexGroup } from '@components/System'
+import { SearchResultType } from '@types'
+
+import { StyledSearchResult } from './'
 
 type Props = {
   searchResult: SearchResultType

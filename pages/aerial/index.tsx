@@ -1,14 +1,15 @@
 import React, { FC, useEffect, useState } from 'react'
-import StyledPlayAerial from '@styles/PlayAerial.Styled'
+
 import { mailman } from '@backend/utils/mailman'
-import { MapPreviewCard } from '@components/MapPreviewCard'
+import { Head } from '@components/Head'
 import { Layout, LoadingPage } from '@components/Layout'
+import { MapLeaderboard } from '@components/MapLeaderboard'
+import { MapPreviewCard } from '@components/MapPreviewCard'
+import { AerialSettings } from '@components/Modals/AerialSettings'
 import { Modal } from '@components/Modals/Modal'
 import { Avatar, Button } from '@components/System'
-import { MapLeaderboard } from '@components/MapLeaderboard'
-import { AerialSettings } from '@components/Modals/AerialSettings'
+import StyledPlayAerial from '@styles/PlayAerial.Styled'
 import { MapLeaderboardType, MapType } from '@types'
-import { Head } from '@components/Head'
 
 const PlayAerialPage: FC = () => {
   const [settingsOpen, setSettingsOpen] = useState(false)

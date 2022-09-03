@@ -1,6 +1,7 @@
-import React, { FC } from 'react'
-import { StyledAerialView } from '.'
 import mapboxgl from 'mapbox-gl'
+import React, { FC } from 'react'
+
+import { StyledAerialView } from './'
 
 type Props = {
   

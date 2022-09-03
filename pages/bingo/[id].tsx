@@ -1,9 +1,10 @@
 import type { NextPage } from 'next'
-import React, { useState } from 'react'
-import StyledBingoGamePage from '@styles/BingoGamePage.Styled'
 import GoogleMapReact from 'google-map-react'
+import React, { useState } from 'react'
+
 import { BingoCard } from '@components/BingoCard'
 import { Button } from '@components/System'
+import StyledBingoGamePage from '@styles/BingoGamePage.Styled'
 
 const BingoPlayPage: NextPage = () => {
   const [showCard, setShowCard] = useState(true)

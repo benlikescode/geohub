@@ -1,12 +1,19 @@
-import { ArrowsExpandIcon, ClockIcon, SwitchHorizontalIcon, ZoomInIcon } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
-import React, { FC, useState, useEffect } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { StyledChallengeStart } from '.'
+
+import { Avatar, Icon } from '@components/System'
+import {
+  ArrowsExpandIcon,
+  ClockIcon,
+  SwitchHorizontalIcon,
+  ZoomInIcon
+} from '@heroicons/react/outline'
 import { selectUser } from '@redux/user'
 import { ChallengeType } from '@types'
 import { formatTimeLimit } from '@utils/helperFunctions'
-import { Avatar, Icon } from '@components/System'
+
+import { StyledChallengeStart } from './'
 
 type Props = {
   challengeData: ChallengeType

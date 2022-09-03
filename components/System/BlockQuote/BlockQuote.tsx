@@ -1,5 +1,6 @@
 import React, { FC, ReactNode } from 'react'
-import { StyledBlockQuote } from '.'
+
+import { StyledBlockQuote } from './'
 
 type Props = {
   background?: string;

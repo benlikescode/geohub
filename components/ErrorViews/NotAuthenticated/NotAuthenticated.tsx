@@ -1,6 +1,7 @@
-import React, { FC } from 'react'
-import { StyledNotAuthenticated } from '.'
 import DefaultErrorPage from 'next/error'
+import React, { FC } from 'react'
+
+import { StyledNotAuthenticated } from './'
 
 type Props = {}
 

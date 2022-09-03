@@ -1,5 +1,6 @@
 import { FC, ReactNode } from 'react'
-import { StyledFlexGroup } from '.'
+
+import { StyledFlexGroup } from './'
 
 type Props = {
   children?: ReactNode
