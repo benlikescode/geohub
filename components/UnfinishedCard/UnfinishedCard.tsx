@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import React, { FC } from 'react'
 import { StyledUnfinishedCard } from '.'
-import { mailman } from '../../backend/utils/mailman'
-import { Avatar, FlexGroup } from '../System'
+import { mailman } from '@backend/utils/mailman'
+import { Avatar, FlexGroup } from '@components/System'
 
 type Props = {
   mapName: string
@@ -14,7 +14,6 @@ type Props = {
 }
 
 const UnfinishedCard: FC<Props> = ({ mapName, mapAvatar, round, points, gameId, reloadGames }) => {
-
   const handleDelete = async () => {
     await mailman(`games/${gameId}`, 'DELETE')
     reloadGames(gameId)
@@ -39,8 +38,10 @@ const UnfinishedCard: FC<Props> = ({ mapName, mapAvatar, round, points, gameId, 
               <button className="resumeBtn">Resume</button>
             </a>
           </Link>
-    
-          <button className="deleteBtn" onClick={() => handleDelete()}>Delete</button>
+
+          <button className="deleteBtn" onClick={() => handleDelete()}>
+            Delete
+          </button>
         </FlexGroup>
       </div>
     </StyledUnfinishedCard>

@@ -3,12 +3,11 @@ import { HeartIcon } from '@heroicons/react/solid'
 import { FC, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { StyledMapStats } from '.'
-import { mailman } from '../../backend/utils/mailman'
-import { selectUser } from '../../redux/user'
-import { MapType } from '../../types'
-import { Auth } from '../Modals/Auth'
-import { Modal } from '../Modals/Modal'
-import { FlexGroup, Icon } from '../System'
+import { mailman } from '@backend/utils/mailman'
+import { selectUser } from '@redux/user'
+import { MapType } from '@types'
+import { Auth, Modal } from '@components/Modals'
+import { FlexGroup, Icon } from '@components/System'
 
 type Props = {
   map: MapType
@@ -29,8 +28,7 @@ const MapStats: FC<Props> = ({ map }) => {
       const { res } = await mailman(`likes/${map.slug}?userId=${user.id}`, 'DELETE')
       setIsLiked(false)
       setNumLikes(numLikes - 1)
-    }
-    else {
+    } else {
       const data = { mapId: map.slug, userId: user.id }
       const { res } = await mailman(`likes`, 'POST', JSON.stringify(data))
       setIsLiked(true)
@@ -46,9 +44,8 @@ const MapStats: FC<Props> = ({ map }) => {
 
   useEffect(() => {
     if (!map.slug) return
-  
+
     fetchLikes()
-   
   }, [map.slug])
 
   return (
@@ -80,9 +77,7 @@ const MapStats: FC<Props> = ({ map }) => {
           </Icon>
           <div className="textWrapper">
             <span className="mainLabel">Locations</span>
-            <span className="subLabel">
-              {map.locationCount}
-            </span>
+            <span className="subLabel">{map.locationCount}</span>
           </div>
         </FlexGroup>
 
@@ -92,18 +87,18 @@ const MapStats: FC<Props> = ({ map }) => {
               <HeartIcon />
             </Icon>
           </button>
-        
+
           <div className="textWrapper">
             <span className="mainLabel">Likes</span>
             <span className="subLabel">{numLikes}</span>
           </div>
         </FlexGroup>
 
-        {modalOpen &&
+        {modalOpen && (
           <Modal closeModal={() => setModalOpen(false)} width="450px">
             <Auth closeModal={() => setModalOpen(false)} />
           </Modal>
-        }
+        )}
       </div>
     </StyledMapStats>
   )

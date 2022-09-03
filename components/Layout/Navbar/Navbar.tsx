@@ -3,9 +3,9 @@ import Link from 'next/link'
 import React, { FC, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { StyledNavbar } from '.'
-import { selectUser } from '../../../redux/user'
-import { UserType } from '../../../types'
-import { Avatar, Button, Icon, Searchbar } from '../../System'
+import { selectUser } from '@redux/user'
+import { UserType } from '@types'
+import { Avatar, Button, Icon, Searchbar } from '@components/System'
 
 const Navbar: FC = () => {
   const user: UserType = useSelector(selectUser)
@@ -15,18 +15,20 @@ const Navbar: FC = () => {
     <StyledNavbar>
       {searchOpen && (
         <>
-          <Searchbar autoFocus onClickOutside={() => setSearchOpen(false)}/>
-          <span className="cancelSearch" onClick={() => setSearchOpen(false)}>Cancel</span>    
-        </>  
+          <Searchbar autoFocus onClickOutside={() => setSearchOpen(false)} />
+          <span className="cancelSearch" onClick={() => setSearchOpen(false)}>
+            Cancel
+          </span>
+        </>
       )}
 
       {!searchOpen && (
         <>
           <div className="leftContainer">
             <Link href="/">
-              <a> 
-                <h2 className="appTitle">GeoHub</h2> 
-              </a>          
+              <a>
+                <h2 className="appTitle">GeoHub</h2>
+              </a>
             </Link>
           </div>
 
@@ -38,31 +40,29 @@ const Navbar: FC = () => {
             <div className="rightWrapper">
               <Button type="icon" className="mobileSearch" callback={() => setSearchOpen(true)}>
                 <Icon size={20} fill="#efeff1">
-                  <SearchIcon />     
+                  <SearchIcon />
                 </Icon>
-                
               </Button>
-            
-              {user.id && (        
+
+              {user.id && (
                 <Link href={`/user/${user.id}`}>
                   <a className="userInfo">
                     <span className="username">{user.name}</span>
-                    <Avatar url={`/images/avatars/${user.avatar}.jpg`} alt="" size={30} customOutline="1px solid rgba(255, 255, 255, 0.15)" />
-                  </a>                      
-                </Link>    
+                    <Avatar
+                      url={`/images/avatars/${user.avatar}.jpg`}
+                      alt=""
+                      size={30}
+                      customOutline="1px solid rgba(255, 255, 255, 0.15)"
+                    />
+                  </a>
+                </Link>
               )}
 
               {!user.id && (
                 <>
                   <Link href="/login">
                     <a>
-                      <Button 
-                        type="solidCustom" 
-                        backgroundColor='#3d3d3d' 
-                        color='#fff' 
-                        hoverColor='#444' 
-                        isSmall
-                      >
+                      <Button type="solidCustom" backgroundColor="#3d3d3d" color="#fff" hoverColor="#444" isSmall>
                         Login
                       </Button>
                     </a>
@@ -70,14 +70,16 @@ const Navbar: FC = () => {
 
                   <Link href="/register">
                     <a>
-                      <Button type="solidPurple" isSmall>Sign Up</Button>
+                      <Button type="solidPurple" isSmall>
+                        Sign Up
+                      </Button>
                     </a>
-                  </Link>  
+                  </Link>
                 </>
-              )} 
-            </div>           
-          </div>  
-        </>       
+              )}
+            </div>
+          </div>
+        </>
       )}
     </StyledNavbar>
   )

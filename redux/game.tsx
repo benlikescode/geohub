@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { Game } from '../backend/models'
+import { Game } from '@backend/models'
 
 type GameState = {
   gameData: Game | null
@@ -50,14 +50,8 @@ export const gameSlice = createSlice({
   },
 })
 
-export const {
-  updateGameState,
-  updateGameData,
-  updateStartTime,
-  updateEndTime,
-  updateCurrView,
-  resetGame,
-} = gameSlice.actions
+export const { updateGameState, updateGameData, updateStartTime, updateEndTime, updateCurrView, resetGame } =
+  gameSlice.actions
 
 export const selectGame = (state: any) => state.game
 

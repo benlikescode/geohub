@@ -1,14 +1,14 @@
 import type { NextPage } from 'next'
-import { MapPreviewCard } from '../components/MapPreviewCard'
-import { Layout } from '../components/Layout/'
-import StyledHomePage from '../styles/HomePage.Styled'
-import { GeoTipType } from '../types'
-import geoTips from '../utils/constants/geotips.json'
-import officialMaps from '../utils/constants/officialMaps.json'
-import { Pill } from '../components/System/Pill'
-import { GamemodeCard } from '../components/GamemodeCard'
+import { MapPreviewCard } from '@components/MapPreviewCard'
+import { Layout } from '@components/Layout/'
+import StyledHomePage from '@styles/HomePage.Styled'
+import { GeoTipType } from '@types'
+import geoTips from '@utils/constants/geotips.json'
+import officialMaps from '@utils/constants/officialMaps.json'
+import { Pill } from '@components/System/Pill'
+import { GamemodeCard } from '@components/GamemodeCard'
 import { useEffect, useState } from 'react'
-import { Head } from '../components/Head'
+import { Head } from '@components/Head'
 
 const Home: NextPage = () => {
   const [geoTip, setGeoTip] = useState<GeoTipType>(geoTips[22])

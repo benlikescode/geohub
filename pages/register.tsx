@@ -1,13 +1,13 @@
 import type { NextPage } from 'next'
 import React from 'react'
-import Register from '../components/Auth/Register'
-import StyledAuthPage from '../styles/AuthPage.Styled'
+import Register from '@components/Auth/Register'
+import StyledAuthPage from '@styles/AuthPage.Styled'
 
 const RegisterPage: NextPage = () => {
-  return (        
+  return (
     <StyledAuthPage>
       <Register />
-    </StyledAuthPage>    
+    </StyledAuthPage>
   )
 }
 

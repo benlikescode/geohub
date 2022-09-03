@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { collections, dbConnect } from '../../../backend/utils/dbConnect'
+import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -11,10 +11,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === 'GET') {
       const likes = await collections.mapLikes?.countDocuments({ mapId: mapId })
 
-      const likedByUser = await collections.mapLikes?.countDocuments(
-        { mapId: mapId, userId: userId },
-        { limit: 1 }
-      )
+      const likedByUser = await collections.mapLikes?.countDocuments({ mapId: mapId, userId: userId }, { limit: 1 })
 
       const result = {
         numLikes: likes,

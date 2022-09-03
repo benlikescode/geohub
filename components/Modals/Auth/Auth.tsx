@@ -2,10 +2,10 @@ import { XIcon } from '@heroicons/react/outline'
 import Link from 'next/link'
 import React, { FC } from 'react'
 import { StyledAuth } from '.'
-import { Button, Icon } from '../../System'
+import { Button, Icon } from '@components/System'
 
 type Props = {
-  closeModal: () => void;
+  closeModal: () => void
 }
 
 const Auth: FC<Props> = ({ closeModal }) => {
@@ -17,30 +17,27 @@ const Auth: FC<Props> = ({ closeModal }) => {
           <Icon size={30} hoverColor="var(--color2)">
             <XIcon />
           </Icon>
-        </Button>  
+        </Button>
       </div>
 
       <div className="mainContent">
         <div className="buttonsWrapper">
           <Link href="/login">
             <a>
-              <Button 
-                type="solidCustom" 
-                backgroundColor='#3d3d3d' 
-                color='#fff' 
-                hoverColor='#444' 
-                width='100%'
-                >Login
+              <Button type="solidCustom" backgroundColor="#3d3d3d" color="#fff" hoverColor="#444" width="100%">
+                Login
               </Button>
             </a>
           </Link>
 
           <Link href="/register">
             <a>
-              <Button type="solidPurple" width='100%'>Sign Up</Button>
+              <Button type="solidPurple" width="100%">
+                Sign Up
+              </Button>
             </a>
-          </Link>  
-        </div>       
+          </Link>
+        </div>
       </div>
     </StyledAuth>
   )

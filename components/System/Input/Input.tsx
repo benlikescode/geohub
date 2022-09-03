@@ -1,7 +1,7 @@
 import { EyeIcon, EyeOffIcon } from '@heroicons/react/outline'
 import { FC, useState } from 'react'
 import { StyledInput } from '.'
-import { Icon } from '../Icon'
+import { Icon } from '@components/System'
 
 type Props = {
   label?: string
@@ -71,11 +71,7 @@ const Input: FC<Props> = ({
         />
 
         {type === 'password' && currValue !== '' && (
-          <button
-            className="input-icon"
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-          >
+          <button className="input-icon" type="button" onClick={() => setShowPassword(!showPassword)}>
             <Icon size={18} fill="var(--gray-500)">
               {showPassword ? <EyeOffIcon /> : <EyeIcon />}
             </Icon>

@@ -1,7 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { collections, dbConnect } from '../../../backend/utils/dbConnect'
+import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { randomInt } from '../../../utils/functions/generateLocations'
+import { randomInt } from '@utils/functions/generateLocations'
 import bcrypt from 'bcryptjs'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {

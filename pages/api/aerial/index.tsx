@@ -1,15 +1,14 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { collections, dbConnect } from '../../../backend/utils/dbConnect'
+import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { randomElement } from '../../../utils/functions/generateLocations'
+import { randomElement } from '@utils/functions/generateLocations'
 import { ObjectId } from 'mongodb'
-import cities from '../../../utils/locations/cities.json'
+import cities from '@utils/locations/cities.json'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-
   // Generates location from cities array based on difficulty and a country code filter
   const generateLocation = (difficulty: 'Normal' | 'Easy' | 'Challenging', countryCode: string, locations: any[]) => {
-    if (countryCode !== "") {
+    if (countryCode !== '') {
       const locationsFromCountry = locations.filter((location) => location.iso2 === countryCode)
       return randomElement(locationsFromCountry)
     }
@@ -38,7 +37,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       if (roundLocation === null) {
         return res.status(400).send('Round could not be generated')
       }
-        
+
       const newGame = {
         userId: uid,
         guesses: [],
@@ -47,7 +46,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         totalPoints: 0,
         totalDistance: 0,
         difficulty,
-        countryCode 
+        countryCode,
       }
 
       // create game
@@ -58,12 +57,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       res.status(201).send(result.insertedId)
-    }
-    else {
+    } else {
       res.status(500).json({ message: 'Invalid request' })
     }
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err)
     res.status(400).json({ success: false })
   }

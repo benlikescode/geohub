@@ -1,8 +1,8 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { collections, dbConnect } from '../../../backend/utils/dbConnect'
-import Game from '../../../backend/models/game'
+import { collections, dbConnect } from '@backend/utils/dbConnect'
+import Game from '@backend/models/game'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { getRandomLocation } from '../../../utils/functions/generateLocations'
+import { getRandomLocation } from '@utils/functions/generateLocations'
 import { ObjectId } from 'mongodb'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {

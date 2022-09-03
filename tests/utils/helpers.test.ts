@@ -1,4 +1,4 @@
-import { formatRoundTime, getMapName } from "../../utils/helperFunctions"
+import { formatRoundTime, getMapName } from '@utils/helperFunctions'
 
 // getMapName
 test('MapId with hyphen should be split and first letters capitalized', () => {
@@ -8,7 +8,6 @@ test('MapId with hyphen should be split and first letters capitalized', () => {
 test('MapId with no hypen should just capitalize the first letter', () => {
   expect(getMapName('canada')).toBe('Canada')
 })
-
 
 // formatRoundTime
 test('Round time less than 60 should return the time in seconds', () => {

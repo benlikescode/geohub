@@ -1,22 +1,23 @@
 import React, { FC, useEffect, useRef, useState } from 'react'
-import StyledAerialPage from '../../styles/AerialPage.Styled'
+import StyledAerialPage from '@styles/AerialPage.Styled'
 import mapboxgl from 'mapbox-gl'
-import { mailman } from '../../backend/utils/mailman'
+import { mailman } from '@backend/utils/mailman'
 import { useRouter } from 'next/router'
-import Game from '../../backend/models/game'
+import Game from '@backend/models/game'
 import { useSelector } from 'react-redux'
-import { selectUser } from '../../redux/user'
-import { LocationType } from '../../types'
-import { LoadingPage } from '../../components/Layout'
+import { selectUser } from '@redux/user'
+import { LocationType } from '@types'
+import { LoadingPage } from '@components/Layout'
 import DefaultErrorPage from 'next/error'
-import { GuessMap } from '../../components/Mapbox/GuessMap'
-import { FinalResultsCard } from '../../components/FinalResultsCard'
-import { ResultsCard } from '../../components/ResultsCard'
-import { ResultMap } from '../../components/Mapbox/ResultMap'
-import { GameStatus } from '../../components/GameStatus'
+import { GuessMap } from '@components/Mapbox/GuessMap'
+import { FinalResultsCard } from '@components/FinalResultsCard'
+import { ResultsCard } from '@components/ResultsCard'
+import { ResultMap } from '@components/Mapbox/ResultMap'
+import { GameStatus } from '@components/GameStatus'
 
 const AerialPage: FC = () => {
-  mapboxgl.accessToken = 'pk.eyJ1IjoiYmVubGlrZXNjb2RlIiwiYSI6ImNsMXFxbXAwYjFxNjMzZW1tazQ5N21jZTgifQ.bt9S5fzwugjjnZT0eR_wnQ'
+  mapboxgl.accessToken =
+    'pk.eyJ1IjoiYmVubGlrZXNjb2RlIiwiYSI6ImNsMXFxbXAwYjFxNjMzZW1tazQ5N21jZTgifQ.bt9S5fzwugjjnZT0eR_wnQ'
   const mapContainer = useRef<any>(null)
   const [gameData, setGameData] = useState<Game | null>()
   const [view, setView] = useState<'Game' | 'Result' | 'FinalResults'>('Game')
@@ -34,7 +35,7 @@ const AerialPage: FC = () => {
 
     const bounds = [
       [location.lng - BOUND_RADIUS, location.lat - BOUND_RADIUS],
-      [location.lng + BOUND_RADIUS, location.lat + BOUND_RADIUS]
+      [location.lng + BOUND_RADIUS, location.lat + BOUND_RADIUS],
     ]
 
     const map = new mapboxgl.Map({
@@ -44,7 +45,7 @@ const AerialPage: FC = () => {
       zoom: 15,
       minZoom: MIN_ZOOM,
       attributionControl: false,
-      maxBounds: bounds as mapboxgl.LngLatBoundsLike
+      maxBounds: bounds as mapboxgl.LngLatBoundsLike,
     })
 
     return () => map.remove()
@@ -69,7 +70,8 @@ const AerialPage: FC = () => {
     }
 
     const gameData = {
-      id: gameId, ...res
+      id: gameId,
+      ...res,
     }
 
     setGameData(gameData)
@@ -83,11 +85,10 @@ const AerialPage: FC = () => {
     if (view === 'Game') {
       fetchGame()
     }
-
   }, [gameId, view])
 
   if (gameData === null) {
-    return <DefaultErrorPage statusCode={500}/>
+    return <DefaultErrorPage statusCode={500} />
   }
 
   if (!gameData) {
@@ -98,36 +99,26 @@ const AerialPage: FC = () => {
     <StyledAerialPage>
       {view === 'Game' && (
         <div className="mapContainer" ref={mapContainer}>
-          <GameStatus 
-            gameData={gameData} 
-            setView={setView} 
-            setGameData={setGameData} 
-            currGuess={currGuess}
-            noTime
-          /> 
-          <GuessMap 
+          <GameStatus gameData={gameData} setView={setView} setGameData={setGameData} currGuess={currGuess} noTime />
+          <GuessMap
             currGuess={currGuess}
             setCurrGuess={setCurrGuess}
             gameData={gameData}
             setGameData={setGameData}
             setView={setView}
-            gameMode="aerial"     
+            gameMode="aerial"
           />
         </div>
       )}
 
       {view === 'Result' && (
-        <ResultMap
-          guessedLocations={gameData.guesses} 
-          actualLocations={gameData.rounds} 
-          round={gameData.round}
-        />
+        <ResultMap guessedLocations={gameData.guesses} actualLocations={gameData.rounds} round={gameData.round} />
       )}
 
       {view === 'FinalResults' && (
         <ResultMap
-          guessedLocations={gameData.guesses} 
-          actualLocations={gameData.rounds} 
+          guessedLocations={gameData.guesses}
+          actualLocations={gameData.rounds}
           round={gameData.round}
           isFinalResults
         />
@@ -135,18 +126,19 @@ const AerialPage: FC = () => {
 
       {view !== 'Game' && (
         <div className="resultsWrapper">
-          {view === 'FinalResults' ? 
-            <FinalResultsCard gameData={gameData} /> :
-            <ResultsCard 
+          {view === 'FinalResults' ? (
+            <FinalResultsCard gameData={gameData} />
+          ) : (
+            <ResultsCard
               round={gameData.round}
               distance={gameData.guesses[gameData.guesses.length - 1].distance}
               points={gameData.guesses[gameData.guesses.length - 1].points}
               setView={setView}
-            /> 
-          }       
-        </div>               
-      )} 
-    </StyledAerialPage> 
+            />
+          )}
+        </div>
+      )}
+    </StyledAerialPage>
   )
 }
 

@@ -1,4 +1,4 @@
-import { GameSettingsType, GuessType, LocationType } from '../types'
+import { GameSettingsType, GuessType, LocationType } from '@types'
 
 export const formatErrorMessage = (error: any) => {
   let formattedMsg = ''

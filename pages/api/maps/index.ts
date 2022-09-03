@@ -1,6 +1,6 @@
-import { collections, dbConnect } from '../../../backend/utils/dbConnect'
+import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { Map } from '../../../backend/models'
+import { Map } from '@backend/models'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -8,10 +8,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     // Creates a map
     if (req.method === 'POST') {
-      // body will contain: 
+      // body will contain:
       // name, description, creator, isPublished (can also contain customLocations)
       // note that data in body can override the defaults specified above it
-      
+
       const newMap = {
         previewImg: 'https://wallpaperaccess.com/full/2707446.jpg',
         createdAt: new Date().toString(),
@@ -21,22 +21,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         likes: 0,
         isPublished: true,
         slug: null,
-        ...req.body, 
+        ...req.body,
       } as Map
 
       const result = await collections.maps?.insertOne(newMap)
-      
+
       if (!result) {
         return res.status(500).send('Failed to create new map')
       }
 
       res.status(201).send(result.insertedId)
-    }
-    else {
+    } else {
       res.status(500).json({ message: 'Invalid request' })
     }
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err)
     res.status(400).json({ success: false })
   }

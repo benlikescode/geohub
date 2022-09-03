@@ -1,14 +1,14 @@
 import { ObjectId } from 'mongodb'
-import { LocationType } from '@types'
-import User from './user'
+import { LocationType, UserType } from '.'
+import { User } from '@backend/models'
 
 type Map = {
   id: ObjectId | string
   slug: string | null
   name: string
   description: string
-  previewImg?: string
-  creator: 'GeoHub' | User
+  previewImg: string
+  creator: 'GeoHub' | string | User
   usersPlayed: number
   locationCount: number
   avgScore: number

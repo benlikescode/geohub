@@ -1,7 +1,7 @@
 import { FlagIcon, LocationMarkerIcon } from '@heroicons/react/outline'
 import React, { FC, useState } from 'react'
 import { StyledStreetViewControls } from '.'
-import { Button, Icon, Tooltip } from '../System'
+import { Button, Icon, Tooltip } from '@components/System'
 
 const StreetViewControls: FC = () => {
   const [showTip, setShowTip] = useState(false)
@@ -22,7 +22,7 @@ const StreetViewControls: FC = () => {
       </div>
 
       {showTip && <Tooltip label="Back To Start" top={8} left={60} />}
-    </StyledStreetViewControls>  
+    </StyledStreetViewControls>
   )
 }
 

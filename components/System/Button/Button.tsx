@@ -1,16 +1,9 @@
 import { FC, ReactNode } from 'react'
 import { StyledButton } from '.'
-import { Spinner } from '../Spinner'
+import { Spinner } from '@components/System'
 
 type Props = {
-  type:
-    | 'solidPurple'
-    | 'solidGray'
-    | 'solidCustom'
-    | 'ghost'
-    | 'ghostLight'
-    | 'icon'
-    | 'iconRounded'
+  type: 'solidPurple' | 'solidGray' | 'solidCustom' | 'ghost' | 'ghostLight' | 'icon' | 'iconRounded'
   callback?: any
   color?: string
   backgroundColor?: string

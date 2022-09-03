@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { collections, dbConnect } from '../../../backend/utils/dbConnect'
+import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { ObjectId } from 'mongodb'
 
@@ -20,9 +20,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const challengeCreator = await collections.users?.findOne({ _id: challenge.creatorId })
 
       if (!challengeCreator) {
-        return res
-          .status(404)
-          .send(`Failed to find data for the challenge creator with id: ${challenge.creatorId}`)
+        return res.status(404).send(`Failed to find data for the challenge creator with id: ${challenge.creatorId}`)
       }
 
       let playersGame = null

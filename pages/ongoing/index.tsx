@@ -2,12 +2,12 @@ import type { NextPage } from 'next'
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { mailman } from '../../backend/utils/mailman'
-import { Head } from '../../components/Head'
-import { Layout, LoadingPage } from '../../components/Layout'
-import { BlockQuote } from '../../components/System/'
-import { UnfinishedCard } from '../../components/UnfinishedCard'
-import { selectUser } from '../../redux/user'
+import { mailman } from '@backend/utils/mailman'
+import { Head } from '@components/Head'
+import { Layout, LoadingPage } from '@components/Layout'
+import { BlockQuote } from '@components/System/'
+import { UnfinishedCard } from '@components/UnfinishedCard'
+import { selectUser } from '@redux/user'
 
 const StyledHeader = styled.h1`
   font-size: 1.75rem;

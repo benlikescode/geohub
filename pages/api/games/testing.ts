@@ -1,16 +1,16 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { collections, dbConnect } from '../../../backend/utils/dbConnect'
-import Game from '../../../backend/models/game'
+import { collections, dbConnect } from '@backend/utils/dbConnect'
+import Game from '@backend/models/game'
 import { NextApiRequest, NextApiResponse } from 'next'
 import {
   getRandomLocation,
   getRandomLocationsInRadius,
   randomElement,
   randomInt,
-} from '../../../utils/functions/generateLocations'
+} from '@utils/functions/generateLocations'
 import { ObjectID, ObjectId } from 'mongodb'
-import cities from '../../../utils/locations/cities.json'
-import populatedAreas from '../../../utils/locations/populatedAreas.json'
+import cities from '@utils/locations/cities.json'
+import populatedAreas from '@utils/locations/populatedAreas.json'
 
 const countryCodes = [
   { name: 'Albania', code: 'al', weight: 3 },

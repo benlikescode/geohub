@@ -3,10 +3,10 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { FC, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { mailman } from '../../backend/utils/mailman'
-import { updateUser } from '../../redux/user'
-import { Input, Button, Icon } from '../System'
-import { Spinner } from '../System/Spinner'
+import { mailman } from '@backend/utils/mailman'
+import { updateUser } from '@redux/user'
+import { Input, Button, Icon } from '@components/System'
+import { Spinner } from '@components/System/Spinner'
 
 const Login: FC = () => {
   const [email, setEmail] = useState('')
@@ -59,7 +59,7 @@ const Login: FC = () => {
               bio: resData.bio,
               email: resData.email,
               avatar: resData.avatar,
-              isAdmin: resData.isAdmin
+              isAdmin: resData.isAdmin,
             })
           )
 

@@ -1,12 +1,18 @@
 import React, { FC } from 'react'
 import { StyledSmallSidebar } from '.'
-import { DesktopComputerIcon, HeartIcon, HomeIcon, LocationMarkerIcon, MapIcon, UsersIcon } from '@heroicons/react/outline'
+import {
+  DesktopComputerIcon,
+  HeartIcon,
+  HomeIcon,
+  LocationMarkerIcon,
+  MapIcon,
+  UsersIcon,
+} from '@heroicons/react/outline'
 import Link from 'next/link'
-import { Icon } from '../../../System'
+import { Icon } from '@components/System'
 import { Item } from './Item'
 
 const SmallSidebar: FC = () => {
- 
   return (
     <StyledSmallSidebar>
       <Link href="/">
@@ -18,39 +24,19 @@ const SmallSidebar: FC = () => {
               </Icon>
             </div>
           </div>
-        </a>          
+        </a>
       </Link>
 
       <div className="sidebarItemGrid">
-        <Item 
-          text="Home"
-          icon={<HomeIcon />}
-          route="/"
-        />
+        <Item text="Home" icon={<HomeIcon />} route="/" />
 
-        <Item 
-          text="My Maps"
-          icon={<MapIcon />}
-          route="/my-maps"
-        />
+        <Item text="My Maps" icon={<MapIcon />} route="/my-maps" />
 
-        <Item 
-          text="Friends"
-          icon={<UsersIcon />}
-          route="/friends"
-        />
+        <Item text="Friends" icon={<UsersIcon />} route="/friends" />
 
-        <Item 
-          text="Liked Maps"
-          icon={<HeartIcon />}
-          route="/liked"
-        />
- 
-        <Item 
-          text="Ongoing Games"
-          icon={<DesktopComputerIcon />}
-          route="/ongoing"
-        />
+        <Item text="Liked Maps" icon={<HeartIcon />} route="/liked" />
+
+        <Item text="Ongoing Games" icon={<DesktopComputerIcon />} route="/ongoing" />
       </div>
     </StyledSmallSidebar>
   )

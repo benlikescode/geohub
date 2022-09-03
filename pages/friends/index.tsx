@@ -1,9 +1,9 @@
 import type { NextPage } from 'next'
 import React from 'react'
 import styled from 'styled-components'
-import { Head } from '../../components/Head'
-import { Layout } from '../../components/Layout'
-import { BlockQuote } from '../../components/System'
+import { Head } from '@components/Head'
+import { Layout } from '@components/Layout'
+import { BlockQuote } from '@components/System'
 
 const StyledHeader = styled.h1`
   font-size: 1.75rem;

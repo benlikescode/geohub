@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { collections, dbConnect } from '../../../../backend/utils/dbConnect'
+import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { ObjectId } from 'bson'
 
@@ -37,15 +37,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(404).send(`Failed to find data`)
       }
 
-
-      res.status(200).send(data.map((item) => ({
-        userId: item.userId,
-        userName: item.userDetails[0].name,
-        userAvatar: item.userDetails[0].avatar,
-        gameId: item._id,
-        totalPoints: item.totalPoints,
-        totalTime: item.totalTime,
-      })))
+      res.status(200).send(
+        data.map((item) => ({
+          userId: item.userId,
+          userName: item.userDetails[0].name,
+          userAvatar: item.userDetails[0].avatar,
+          gameId: item._id,
+          totalPoints: item.totalPoints,
+          totalTime: item.totalTime,
+        }))
+      )
     } else {
       res.status(500).json('Nothing to see here.')
     }

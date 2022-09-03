@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import React from 'react'
-import { Layout } from '../../components/Layout'
-import { Navbar } from '../../components/Layout/Navbar'
+import { Layout } from '@components/Layout'
+import { Navbar } from '@components/Layout/Navbar'
 
 const ThreadsPage: NextPage = () => {
   return (
@@ -11,7 +11,7 @@ const ThreadsPage: NextPage = () => {
 
         <main>
           <h1>Coming Soon!</h1>
-        </main>   
+        </main>
       </section>
     </Layout>
   )

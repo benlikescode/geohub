@@ -1,12 +1,12 @@
 import { FC, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { StyledGameStatus } from '.'
-import { Game } from '../../backend/models'
-import { mailman } from '../../backend/utils/mailman'
-import { selectGame } from '../../redux/game'
-import { selectUser } from '../../redux/user'
-import { LocationType } from '../../types'
-import { formatTimeLeft, getMapName } from '../../utils/helperFunctions'
+import { Game } from '@backend/models'
+import { mailman } from '@backend/utils/mailman'
+import { selectGame } from '@redux/game'
+import { selectUser } from '@redux/user'
+import { LocationType } from '@types'
+import { formatTimeLeft, getMapName } from '@utils/helperFunctions'
 
 type Props = {
   gameData: Game

@@ -1,4 +1,4 @@
-import { collections, dbConnect } from '../../../backend/utils/dbConnect'
+import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -9,19 +9,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === 'GET') {
       const query = { slug: mapId }
       const data = await collections.maps?.findOne(query)
-       
+
       if (!data) {
         return res.status(404).send(`Failed to find map with id: ${mapId}`)
       }
 
       res.status(200).send(data)
-    }
-
-    else {
+    } else {
       res.status(500).json('Nothing to see here.')
     }
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err)
     res.status(500).json({ success: false })
   }

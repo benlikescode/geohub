@@ -1,4 +1,4 @@
-import { collections, dbConnect } from '../../../backend/utils/dbConnect'
+import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 // eslint-disable-next-line import/no-anonymous-default-export

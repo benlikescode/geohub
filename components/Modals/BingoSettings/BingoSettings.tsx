@@ -4,16 +4,16 @@ import React, { FC, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { StyledBingoSettings } from '.'
-import { mailman } from '../../../backend/utils/mailman'
-import { updateStartTime } from '../../../redux/game'
-import { selectUser } from '../../../redux/user'
-import { UserType } from '../../../types'
-import { formatTimeLimit } from '../../../utils/helperFunctions'
-import { Banner } from '../../Layout'
-import { Button, FlexGroup, Icon, Slider, Checkbox, Avatar } from '../../System'
+import { mailman } from '@backend/utils/mailman'
+import { updateStartTime } from '@redux/game'
+import { selectUser } from '@redux/user'
+import { UserType } from '@types'
+import { formatTimeLimit } from '@utils/helperFunctions'
+import { Button, FlexGroup, Icon, Slider, Checkbox, Avatar } from '@components/System'
+import { Banner } from '@components/Layout'
 
 type Props = {
-  closeModal: () => void;
+  closeModal: () => void
 }
 
 const BingoSettings: FC<Props> = ({ closeModal }) => {
@@ -24,16 +24,17 @@ const BingoSettings: FC<Props> = ({ closeModal }) => {
   const user: UserType = useSelector(selectUser)
   const dispatch = useDispatch()
 
-  const showErrorToast = () => toast.error('A game could not be created, try again later.', {
-    position: 'bottom-right',
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: 0,
-    theme: 'dark'
-  })
+  const showErrorToast = () =>
+    toast.error('A game could not be created, try again later.', {
+      position: 'bottom-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: 0,
+      theme: 'dark',
+    })
 
   const handleStartGame = async () => {
     const startTime = new Date().getTime()
@@ -42,19 +43,17 @@ const BingoSettings: FC<Props> = ({ closeModal }) => {
     const data = {
       userId: user.id,
       startTime: startTime,
-      difficulty
+      difficulty,
     }
 
     const { status, res } = await mailman('bingo', 'POST', JSON.stringify(data))
 
     if (status === 200) {
       router.push(`/bingo/${res}`)
-    }
-    else {
+    } else {
       showErrorToast()
-    } 
+    }
   }
-  
 
   return (
     <StyledBingoSettings>
@@ -65,17 +64,20 @@ const BingoSettings: FC<Props> = ({ closeModal }) => {
             <Icon size={30} hoverColor="var(--color2)">
               <XIcon />
             </Icon>
-          </Button> 
+          </Button>
         </div>
 
-        <div className="mainContent">     
+        <div className="mainContent">
           <FlexGroup gap={15}>
             <div>
-              <Avatar url={'/images/bingoAvatar.jpg'} size={60} alt="Bingo" outline/>
+              <Avatar url={'/images/bingoAvatar.jpg'} size={60} alt="Bingo" outline />
             </div>
             <div className="mapInfo">
               <span className="mapName">Geo-Bingo</span>
-              <span className="mapDescription">Given a bingo card of random things/people, your task is to search across the world to find these items and get a Geo-Bingo!</span>
+              <span className="mapDescription">
+                Given a bingo card of random things/people, your task is to search across the world to find these items
+                and get a Geo-Bingo!
+              </span>
             </div>
           </FlexGroup>
 
@@ -97,7 +99,7 @@ const BingoSettings: FC<Props> = ({ closeModal }) => {
                 <span>Hard</span>
               </FlexGroup>
             </div>
-                    
+
             <div className="timeLimitWrapper">
               <div className="timeLabel">
                 <Icon size={24} fill="#888888">
@@ -105,28 +107,20 @@ const BingoSettings: FC<Props> = ({ closeModal }) => {
                 </Icon>
                 <span className="timeLimit">{formatTimeLimit(sliderVal)}</span>
               </div>
-            
+
               <Slider onChange={setSliderVal} />
-            </div>                                        
-          </div>        
+            </div>
+          </div>
         </div>
 
         <div className="footer">
-          <Button 
-            type="ghost" 
-            width="130px" 
-            callback={() => closeModal()}
-          >
+          <Button type="ghost" width="130px" callback={() => closeModal()}>
             Cancel
           </Button>
 
-          <Button 
-            type="solidPurple" 
-            width="175px" 
-            callback={() => handleStartGame()}
-          >
+          <Button type="solidPurple" width="175px" callback={() => handleStartGame()}>
             Start Game
-          </Button>        
+          </Button>
         </div>
       </Banner>
     </StyledBingoSettings>

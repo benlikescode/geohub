@@ -1,7 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { collections, dbConnect } from '../../../backend/utils/dbConnect'
+import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { getRandomLocations } from '../../../utils/functions/generateLocations'
+import { getRandomLocations } from '@utils/functions/generateLocations'
 import { ObjectId } from 'mongodb'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -18,10 +18,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       const newChallenge = {
-        mapId, 
+        mapId,
         gameSettings,
         locations,
-        creatorId
+        creatorId,
       }
 
       // Create Challenge
@@ -32,8 +32,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       res.status(201).send(result.insertedId)
-    }
-    else {
+    } else {
       res.status(500).json({ message: 'Invalid request' })
     }
   } catch (err) {

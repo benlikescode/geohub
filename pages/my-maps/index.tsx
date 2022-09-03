@@ -1,14 +1,14 @@
 import type { NextPage } from 'next'
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { Head } from '../../components/Head'
-import { Layout } from '../../components/Layout'
-import { SearchPopup } from '../../components/SearchPopup'
-import { SkeletonCards } from '../../components/SkeletonCards'
-import { SkeletonLeaderboard } from '../../components/SkeletonLeaderboard'
-import { SkeletonMapInfo } from '../../components/SkeletonMapInfo'
-import { removeDuplicateLocations } from '../../utils/helperFunctions'
-import diverseWorld from '../../utils/locations/diverseWorld.json'
+import { Head } from '@components/Head'
+import { Layout } from '@components/Layout'
+import { SearchPopup } from '@components/SearchPopup'
+import { SkeletonCards } from '@components/SkeletonCards'
+import { SkeletonLeaderboard } from '@components/SkeletonLeaderboard'
+import { SkeletonMapInfo } from '@components/SkeletonMapInfo'
+import { removeDuplicateLocations } from '@utils/helperFunctions'
+import diverseWorld from '@utils/locations/diverseWorld.json'
 
 const StyledHeader = styled.h1`
   font-size: 1.75rem;

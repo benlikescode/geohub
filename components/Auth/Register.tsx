@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router'
 import { FC, useMemo, useState } from 'react'
-import { Button, Icon, Input } from '../System'
+import { Button, Icon, Input } from '@components/System'
 import { useDispatch } from 'react-redux'
-import { updateUser } from '../../redux/user'
+import { updateUser } from '@redux/user'
 import Link from 'next/link'
-import { mailman } from '../../backend/utils/mailman'
-import { Spinner } from '../System/Spinner'
+import { mailman } from '@backend/utils/mailman'
+import { Spinner } from '@components/System/Spinner'
 import { LocationMarkerIcon } from '@heroicons/react/outline'
 
 const Register: FC = () => {

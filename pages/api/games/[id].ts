@@ -1,11 +1,11 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { collections, dbConnect } from '../../../backend/utils/dbConnect'
+import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { ObjectId } from 'mongodb'
-import { Game } from '../../../backend/models'
-import { getRandomLocation } from '../../../utils/functions/generateLocations'
-import { GuessType } from '../../../types'
-import { getResultData } from '../../../utils/helperFunctions'
+import { Game } from '@backend/models'
+import { getRandomLocation } from '@utils/functions/generateLocations'
+import { GuessType } from '@types'
+import { getResultData } from '@utils/helperFunctions'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -64,9 +64,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         // generates new location until unique or 5 failed attempts
         while (duplicate && buffer < 5) {
           newLocation = getRandomLocation('handpicked', game.mapId, userLocation)
-          duplicate = game.rounds.some(
-            (r) => r.lat === newLocation.lat && r.lng === newLocation.lng
-          )
+          duplicate = game.rounds.some((r) => r.lat === newLocation.lat && r.lng === newLocation.lng)
           buffer++
         }
 

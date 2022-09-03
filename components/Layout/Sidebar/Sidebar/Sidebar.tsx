@@ -3,7 +3,7 @@ import Link from 'next/link'
 import React, { FC } from 'react'
 import { useSelector } from 'react-redux'
 import { StyledSidebar } from '.'
-import { selectUser } from '../../../../redux/user'
+import { selectUser } from '@redux/user'
 import { Item } from './Item'
 
 const Sidebar: FC = () => {

@@ -1,15 +1,11 @@
 import { CogIcon } from '@heroicons/react/outline'
 import { FC, useState } from 'react'
 import { StyledLeaderboardCard } from '.'
-import { Game } from '../../../backend/models'
-import { MapType } from '../../../types'
-import {
-  formatDistance,
-  formatRoundTime,
-  formatSettingsLabel,
-} from '../../../utils/helperFunctions'
-import { Banner } from '../../Layout'
-import { Avatar, Icon } from '../../System'
+import { Game } from '@backend/models'
+import { MapType } from '@types'
+import { formatDistance, formatRoundTime, formatSettingsLabel } from '@utils/helperFunctions'
+import { Avatar, Icon } from '@components/System'
+import { Banner } from '@components/Layout'
 
 type Props = {
   gameData: Game[]
@@ -83,16 +79,12 @@ const LeaderboardCard: FC<Props> = ({ gameData, mapData }) => {
                   <div className="userInfo">
                     <Avatar
                       url={
-                        `/images/avatars/${
-                          game.userDetails ? game.userDetails[0]!.avatar : game.userAvatar
-                        }.jpg` || ''
+                        `/images/avatars/${game.userDetails ? game.userDetails[0]!.avatar : game.userAvatar}.jpg` || ''
                       }
                       alt=""
                       size={30}
                     />
-                    <span className="username">
-                      {game.userDetails ? game.userDetails[0]!.name : game.userName}
-                    </span>
+                    <span className="username">{game.userDetails ? game.userDetails[0]!.name : game.userName}</span>
                   </div>
                 </div>
                 <div className="userResultSection hideOnSmall">

@@ -1,20 +1,20 @@
-import { collections, dbConnect } from '../../../backend/utils/dbConnect'
+import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { ObjectId } from 'mongodb'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await dbConnect()
-    
+
     if (req.method === 'POST') {
       const { _id, name, bio } = req.body
 
       await collections.users?.updateOne({ _id: new ObjectId(_id) }, { $set: { name: name, bio: bio } })
 
       res.status(200).send({
-        status: 'ok'
+        status: 'ok',
       })
-    }
+    } else {
 
     /* Need to add extra security measures for this endpoint
     else if (req.method === 'DELETE') {
@@ -27,12 +27,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(200).send('Account successfully deleted')
     }
     */
-
-    else {
       res.status(405).end(`Method ${req.method} Not Allowed`)
     }
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err)
     res.status(500).json({ success: false })
   }

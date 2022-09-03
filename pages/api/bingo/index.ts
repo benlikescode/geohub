@@ -1,10 +1,10 @@
-import { collections, dbConnect } from '../../../backend/utils/dbConnect'
+import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await dbConnect()
-   
+
     if (req.method === 'POST') {
       const { userId, startTime, difficulty } = req.body
       const data = { userId, startTime, difficulty }
@@ -15,13 +15,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       res.status(200).send(result.insertedId)
-    }
-
-    else {
+    } else {
       res.status(405).end(`Method ${req.method} Not Allowed`)
     }
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err)
     res.status(500).json({ success: false })
   }

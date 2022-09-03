@@ -4,13 +4,13 @@ import image from 'next/image'
 import Link from 'next/link'
 import React, { FC } from 'react'
 import { StyledLeaderboardItem } from '.'
-import { MapLeaderboardType } from '../../../types'
-import { formatRoundTime } from '../../../utils/helperFunctions'
-import { Avatar, FlexGroup, Icon } from '../../System'
+import { MapLeaderboardType } from '@types'
+import { formatRoundTime } from '@utils/helperFunctions'
+import { Avatar, FlexGroup, Icon } from '@components/System'
 
 type Props = {
-  finishPlace: number;
-  row: MapLeaderboardType;
+  finishPlace: number
+  row: MapLeaderboardType
 }
 
 const LeaderboardItem: FC<Props> = ({ finishPlace, row }) => {
@@ -21,9 +21,11 @@ const LeaderboardItem: FC<Props> = ({ finishPlace, row }) => {
       <div className="userSection">
         <span className="userPlace">#{finishPlace}</span>
         <div className="userInfo">
-          <Avatar url={`/images/avatars/${row.userAvatar}.jpg`} alt='' size={30} customOutline="1px solid #fff"/>
+          <Avatar url={`/images/avatars/${row.userAvatar}.jpg`} alt="" size={30} customOutline="1px solid #fff" />
           <Link href={`/user/${row.userId}`}>
-            <a><span className="username">{row.userName}</span></a>
+            <a>
+              <span className="username">{row.userName}</span>
+            </a>
           </Link>
         </div>
       </div>
@@ -47,7 +49,7 @@ const LeaderboardItem: FC<Props> = ({ finishPlace, row }) => {
                 </Icon>
               </a>
             </Link>
-          )}  
+          )}
 
           {isAerialLeaderboard && !row.countryCode && (
             <div className="allCountries">

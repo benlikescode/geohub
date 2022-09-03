@@ -1,17 +1,12 @@
-import {
-  ArrowsExpandIcon,
-  ClockIcon,
-  SwitchHorizontalIcon,
-  ZoomInIcon,
-} from '@heroicons/react/outline'
+import { ArrowsExpandIcon, ClockIcon, SwitchHorizontalIcon, ZoomInIcon } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
 import React, { FC, useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { StyledChallengeStart } from '.'
-import { selectUser } from '../../redux/user'
-import { ChallengeType } from '../../types'
-import { formatTimeLimit } from '../../utils/helperFunctions'
-import { Avatar, Icon } from '../System'
+import { selectUser } from '@redux/user'
+import { ChallengeType } from '@types'
+import { formatTimeLimit } from '@utils/helperFunctions'
+import { Avatar, Icon } from '@components/System'
 
 type Props = {
   challengeData: ChallengeType
@@ -51,11 +46,7 @@ const ChallengeStart: FC<Props> = ({ challengeData, handleStartChallenge, setVie
       <div className="challengeStartWrapper">
         <h1 className="challengeTitle">You have been challenged!</h1>
         <div className="challengeCreator">
-          <Avatar
-            url={`/images/avatars/${challengeData.creatorAvatar}.jpg`}
-            size={40}
-            alt="Challenge Creator Avatar"
-          />
+          <Avatar url={`/images/avatars/${challengeData.creatorAvatar}.jpg`} size={40} alt="Challenge Creator Avatar" />
           <span>{`${challengeData.creatorName} has challenged you to play GeoHub`}</span>
         </div>
 

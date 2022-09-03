@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import React, { FC } from 'react'
 import { StyledFinalResultsCard } from '.'
-import { Game } from '../../backend/models'
-import { Button, ProgressBar, FlexGroup } from '../System'
+import { Game } from '@backend/models'
+import { Button, ProgressBar, FlexGroup } from '@components/System'
 
 type Props = {
   gameData: Game
@@ -50,9 +50,7 @@ const FinalResultsCard: FC<Props> = ({ gameData }) => {
               }
             >
               <a>
-                <Button type="ghostLight">
-                  {gameData.mapId ? 'Detailed Results' : 'Return To Home'}
-                </Button>
+                <Button type="ghostLight">{gameData.mapId ? 'Detailed Results' : 'Return To Home'}</Button>
               </a>
             </Link>
 

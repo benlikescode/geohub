@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { FC, ReactNode } from 'react'
 import { StyledItem } from '.'
-import { Icon } from '../../../../System'
+import { Icon } from '@components/System'
 
 type Props = {
   text: string
@@ -13,7 +13,7 @@ type Props = {
 const Item: FC<Props> = ({ icon, route }) => {
   const router = useRouter()
   const isActive = `/${router.pathname.split('/')[1]}` === route
-  
+
   return (
     <StyledItem isActive={isActive}>
       <Link href={route}>

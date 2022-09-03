@@ -1,10 +1,10 @@
 import { FC } from 'react'
 import { StyledResultMap } from '.'
 import GoogleMapReact from 'google-map-react'
-import { GuessType, LocationType } from '../../types'
-import { createMarker, getMapTheme, getResultMapValues } from '../../utils/helperFunctions'
+import { GuessType, LocationType } from '@types'
+import { createMarker, getMapTheme, getResultMapValues } from '@utils/helperFunctions'
 import { useSelector } from 'react-redux'
-import { selectUser } from '../../redux/user'
+import { selectUser } from '@redux/user'
 
 type Props = {
   guessedLocations: GuessType[]
@@ -48,16 +48,12 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
     if (isFinalResults) {
       for (let i = 0; i < actualLocations.length; i++) {
         createMarker(guessedLocations[i], map, `/images/markers/${user.avatar}.png`)
-        const actualLocationMarker = createMarker(
-          actualLocations[i],
-          map,
-          `/images/markers/actualMarker${i + 1}.png`,
-        )
+        const actualLocationMarker = createMarker(actualLocations[i], map, `/images/markers/actualMarker${i + 1}.png`)
 
         actualLocationMarker.addListener('click', () => {
           window.open(
             `http://www.google.com/maps?layer=c&cbll=${actualLocations[i].lat},${actualLocations[i].lng}`,
-            '_blank',
+            '_blank'
           )
         })
 
@@ -70,17 +66,10 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
       }
     } else {
       createMarker(guessedLocation, map, `/images/markers/${user.avatar}.png`)
-      const actualLocationMarker = createMarker(
-        actualLocation,
-        map,
-        '/images/markers/actualMarker.png',
-      )
+      const actualLocationMarker = createMarker(actualLocation, map, '/images/markers/actualMarker.png')
 
       actualLocationMarker.addListener('click', () => {
-        window.open(
-          `http://www.google.com/maps?layer=c&cbll=${actualLocation.lat},${actualLocation.lng}`,
-          '_blank',
-        )
+        window.open(`http://www.google.com/maps?layer=c&cbll=${actualLocation.lat},${actualLocation.lng}`, '_blank')
       })
 
       new google.maps.Polyline({

@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { StyledCountItem } from '.'
-import { Skeleton } from '../../../System/Skeleton'
+import { Skeleton } from '@components/System/Skeleton'
 
 type Props = {
   title: string

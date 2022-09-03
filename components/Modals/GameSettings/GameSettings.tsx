@@ -11,15 +11,15 @@ import { useRouter } from 'next/router'
 import React, { FC, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { StyledGameSettings } from '.'
-import { mailman } from '../../../backend/utils/mailman'
-import { updateStartTime } from '../../../redux/game'
-import { selectUser, updateLocation } from '../../../redux/user'
-import { GameSettingsType, LocationType, MapType, UserType } from '../../../types'
-import { formatTimeLimit } from '../../../utils/helperFunctions'
-import { Banner } from '../../Layout'
-import { Button, FlexGroup, Icon, Slider, Checkbox, Avatar } from '../../System'
+import { mailman } from '@backend/utils/mailman'
+import { updateStartTime } from '@redux/game'
+import { selectUser, updateLocation } from '@redux/user'
+import { GameSettingsType, LocationType, MapType, UserType } from '@types'
+import { formatTimeLimit } from '@utils/helperFunctions'
+import { Button, FlexGroup, Icon, Slider, Checkbox, Avatar } from '@components/System'
 import { Challenge } from './Challenge'
 import { toast } from 'react-toastify'
+import { Banner } from '@components/Layout'
 
 type Props = {
   closeModal: () => void
@@ -256,17 +256,8 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
             Cancel
           </Button>
 
-          <Button
-            type="solidPurple"
-            callback={() => handleClickBtn()}
-            height="35px"
-            loading={isSubmitting}
-          >
-            {gameType === 'Single Player'
-              ? 'Start Game'
-              : showChallengeView
-              ? 'Start Game'
-              : 'Invite Friends'}
+          <Button type="solidPurple" callback={() => handleClickBtn()} height="35px" loading={isSubmitting}>
+            {gameType === 'Single Player' ? 'Start Game' : showChallengeView ? 'Start Game' : 'Invite Friends'}
           </Button>
         </div>
       </Banner>

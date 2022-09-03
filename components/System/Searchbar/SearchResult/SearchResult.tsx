@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import React, { FC } from 'react'
 import { StyledSearchResult } from '.'
-import { Avatar, FlexGroup } from '../..'
-import { SearchResultType } from '../../../../types'
+import { SearchResultType } from '@types'
+import { Avatar, FlexGroup } from '@components/System'
 
 type Props = {
   searchResult: SearchResultType
@@ -17,11 +17,15 @@ const SearchResult: FC<Props> = ({ searchResult }) => {
         <Link href={`/user/${searchResult._id}`}>
           <a className="linkWrapper">
             <FlexGroup>
-              <Avatar url={`/images/avatars/${searchResult.avatar}.jpg` || ''} size={30} alt={`${searchResult.name}'s avatar`} />
+              <Avatar
+                url={`/images/avatars/${searchResult.avatar}.jpg` || ''}
+                size={30}
+                alt={`${searchResult.name}'s avatar`}
+              />
               <span className="searchResultLabel">{searchResult.name}</span>
-            </FlexGroup>     
-          </a> 
-        </Link>   
+            </FlexGroup>
+          </a>
+        </Link>
       )}
 
       {type === 'map' && (
@@ -30,10 +34,10 @@ const SearchResult: FC<Props> = ({ searchResult }) => {
             <FlexGroup>
               <Avatar url={searchResult.previewImg || ''} size={30} alt={`${searchResult.name} map avatar`} />
               <span className="searchResultLabel">{searchResult.name}</span>
-            </FlexGroup>     
-          </a> 
-        </Link>   
-      )}   
+            </FlexGroup>
+          </a>
+        </Link>
+      )}
     </StyledSearchResult>
   )
 }

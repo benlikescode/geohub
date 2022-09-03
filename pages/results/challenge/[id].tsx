@@ -1,15 +1,15 @@
 import type { NextPage } from 'next'
 import router from 'next/router'
 import React, { useEffect, useState } from 'react'
-import { Game } from '../../../backend/models'
-import { mailman } from '../../../backend/utils/mailman'
-import { Layout, LoadingPage } from '../../../components/Layout'
-import { Navbar } from '../../../components/Layout/Navbar'
-import { ResultMap } from '../../../components/ResultMap'
-import { LeaderboardCard } from '../../../components/Results'
-import { FlexGroup } from '../../../components/System'
-import StyledResultPage from '../../../styles/ResultPage.Styled'
-import { MapType } from '../../../types'
+import { Game } from '@backend/models'
+import { mailman } from '@backend/utils/mailman'
+import { Layout, LoadingPage } from '@components/Layout'
+import { Navbar } from '@components/Layout/Navbar'
+import { ResultMap } from '@components/ResultMap'
+import { LeaderboardCard } from '@components/Results'
+import { FlexGroup } from '@components/System'
+import StyledResultPage from '@styles/ResultPage.Styled'
+import { MapType } from '@types'
 
 const ChallengeResultsPage: NextPage = () => {
   const [gamesFromChallenge, setGamesFromChallenge] = useState<Game[] | null>()
@@ -43,9 +43,7 @@ const ChallengeResultsPage: NextPage = () => {
           <div className="errorContainer">
             <div className="errorContent">
               <h1 className="errorPageTitle">Page not found</h1>
-              <span className="errorPageMsg">
-                This challenge does not exist or has not been played yet
-              </span>
+              <span className="errorPageMsg">This challenge does not exist or has not been played yet</span>
             </div>
             <div className="errorGif"></div>
           </div>

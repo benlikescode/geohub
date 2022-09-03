@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import React, { FC } from 'react'
 import { StyledListItem } from '.'
-import { GameType, UserType } from '../../../../types'
-import { formatMonthDayYearTime } from '../../../../utils/dateHelpers'
-import { Avatar } from '../../../System'
+import { GameType, UserType } from '@types'
+import { formatMonthDayYearTime } from '@utils/dateHelpers'
+import { Avatar } from '@components/System'
 
 type Props = {
   title: string

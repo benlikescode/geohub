@@ -1,8 +1,7 @@
 import { FC } from 'react'
 import { StyledLoadingPage } from '.'
-import { Spinner } from '../../System/Spinner'
-import { Navbar, Sidebar } from '..'
-import { MobileNav } from '../Sidebar/MobileNav'
+import { Spinner } from '@components/System/Spinner'
+import { Navbar, Sidebar, MobileNav } from '@components/Layout'
 
 const LoadingPage: FC = () => {
   return (
@@ -17,7 +16,7 @@ const LoadingPage: FC = () => {
         <main>
           <Spinner />
         </main>
-      </div>   
+      </div>
 
       <MobileNav />
     </StyledLoadingPage>
