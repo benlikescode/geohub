@@ -28,7 +28,7 @@ const GuessMap: FC<Props> = ({ currGuess, setCurrGuess, gameMode, gameData, setG
   const user = useSelector(selectUser)
   const game = useSelector(selectGame)
 
-  const handleMapClick = (e: mapboxgl.MapLayerMouseEvent) => {
+  const handleMapClick = (e: any) => {
     const clickedLat = e.lngLat.lat
     const clickedLng = e.lngLat.lng
 
