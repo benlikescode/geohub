@@ -31,9 +31,9 @@ const MyMapsPage: NextPage = () => {
     <Layout>
       <Head title="My Maps" />
       <StyledHeader>Coming Soon!</StyledHeader>
-      <SkeletonMapInfo />
-      <SkeletonLeaderboard />
-      <SkeletonCards />
+
+      <span>😎</span>
+      <span>😢</span>
 
       {/*<div>
         <img
