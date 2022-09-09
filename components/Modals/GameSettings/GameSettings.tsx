@@ -266,7 +266,7 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
           </Button>
 
           <Button type="solidPurple" callback={() => handleClickBtn()} height="35px" loading={isSubmitting}>
-            {gameType === 'Single Player' ? 'Start Game' : showChallengeView ? 'Start Game' : 'Invite Friends'}
+            {gameType === 'Single Player' ? 'Start' : showChallengeView ? 'Start' : 'Invite'}
           </Button>
         </div>
       </Banner>

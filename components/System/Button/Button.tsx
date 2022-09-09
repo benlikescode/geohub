@@ -48,8 +48,7 @@ const Button: FC<Props> = ({
       isSmall={isSmall}
     >
       <button onClick={callback ? (e) => callback(e) : undefined} className={className}>
-        {children}
-        {loading && <Spinner size={20} />}
+        {loading ? <Spinner size={20} /> : children}
       </button>
     </StyledButton>
   )
