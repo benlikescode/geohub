@@ -475,6 +475,8 @@ export const formatLargeNumber = (num: number) => {
 }
 
 export const getMapName = (mapId: string) => {
+  if (!mapId) return ''
+
   if (mapId.includes('-')) {
     const split = mapId.split('-')
 
@@ -482,6 +484,12 @@ export const getMapName = (mapId: string) => {
   }
 
   return capitalizeString(mapId)
+}
+
+export const getMapSlug = (mapName: string) => {
+  if (!mapName) return ''
+
+  return mapName.split(' ').join('-').toLowerCase()
 }
 
 const capitalizeString = (str: string) => {

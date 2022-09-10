@@ -1,7 +1,9 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { Map } from '@backend/models'
 import { collections, dbConnect } from '@backend/utils/dbConnect'
+import { getMapSlug } from '@utils/helperFunctions'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -9,29 +11,33 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     // Creates a map
     if (req.method === 'POST') {
-      // body will contain:
-      // name, description, creator, isPublished (can also contain customLocations)
-      // note that data in body can override the defaults specified above it
+      const { name, description, previewImg, creator } = req.body
+
+      if (!name || !description) {
+        return res.status(400).send({ message: 'Missing map name or description' })
+      }
 
       const newMap = {
-        previewImg: 'https://wallpaperaccess.com/full/2707446.jpg',
-        createdAt: new Date().toString(),
+        name,
+        description,
+        previewImg: previewImg || 'https://wallpaperaccess.com/full/2707446.jpg',
+        creator: creator || 'GeoHub',
+        createdAt: new Date(),
         usersPlayed: 0,
         locationCount: 0,
         avgScore: 0,
         likes: 0,
         isPublished: true,
-        slug: null,
-        ...req.body,
+        slug: getMapSlug(name),
       } as Map
 
       const result = await collections.maps?.insertOne(newMap)
 
       if (!result) {
-        return res.status(500).send('Failed to create new map')
+        return res.status(500).send({ message: 'Failed to create new map' })
       }
 
-      res.status(201).send(result.insertedId)
+      res.status(201).send({ message: 'Map was successfully created' })
     } else {
       res.status(500).json({ message: 'Invalid request' })
     }

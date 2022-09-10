@@ -14,7 +14,7 @@ const StyledInput = styled.div<StyledProps>`
     color: var(--color2);
   }
 
-  .input-styled {
+  .input-wrapper {
     height: 38px;
     display: flex;
     align-items: center;
@@ -68,6 +68,33 @@ const StyledInput = styled.div<StyledProps>`
     display: block;
     margin-top: 3px;
     margin-left: 10px;
+  }
+
+  .textarea-wrapper {
+    height: 80px;
+
+    textarea {
+      height: 100%;
+      border-radius: 5px;
+      padding: 8px 14px;
+      background-color: var(--background3);
+      width: 100%;
+      box-sizing: border-box;
+      color: var(--color3);
+      font-size: ${({ fontSize }) => (fontSize ? fontSize : '1rem')};
+      font-weight: 400;
+      transition: background-color 240ms, box-shadow 240ms;
+      border: 1px solid #282828;
+      resize: none;
+
+      ::placeholder {
+        color: #808080;
+      }
+
+      :focus {
+        box-shadow: 0 0 0 2px var(--mediumPurple);
+      }
+    }
   }
 `
 

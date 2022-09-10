@@ -3,6 +3,7 @@ import canadaHandPicked from '@utils/locations/canada.json'
 import diverseWorld from '@utils/locations/diverseWorld.json'
 import europeHandPicked from '@utils/locations/europe.json'
 import famousHandPicked from '@utils/locations/famousLocations.json'
+import populatedAreas from '@utils/locations/populatedAreas.json'
 import usaHandPicked from '@utils/locations/unitedStates.json'
 import worldHandPicked from '@utils/locations/world.json'
 
@@ -80,6 +81,9 @@ export const getRandomLocation = (
       } else {
         return randomElement(europeHandPicked)
       }
+    case 'urban-world':
+      const location = randomElement(populatedAreas)
+      return getRandomLocationsInRadius([location])
     default:
       console.log('Invalid Map Id')
       return null
@@ -119,6 +123,9 @@ export const getRandomLocations = (locationType: 'random' | 'handpicked', mapId:
       } else {
         return getRandomLocationsFromArray(europeHandPicked)
       }
+    case 'urban-world':
+      const locations = getRandomLocationsFromArray(populatedAreas)
+      return getRandomLocationsInRadius(locations)
     default:
       console.log('Invalid Map Id')
       return null
@@ -150,6 +157,7 @@ export const getRandomLocationsInRadius = (locations: LocationType[], radius = 0
       const centerLng = locations[i].lng
 
       const randomLocation: LocationType = {
+        ...locations[i],
         lat: randomRange(centerLat - radius, centerLat + radius),
         lng: randomRange(centerLng - radius, centerLng + radius),
       }
@@ -163,6 +171,7 @@ export const getRandomLocationsInRadius = (locations: LocationType[], radius = 0
   const centerLng = locations[0].lng
 
   const randomLocation: LocationType = {
+    ...locations[0],
     lat: randomRange(centerLat - radius, centerLat + radius),
     lng: randomRange(centerLng - radius, centerLng + radius),
   }

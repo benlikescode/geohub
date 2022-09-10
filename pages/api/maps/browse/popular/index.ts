@@ -6,13 +6,15 @@ import { collections, dbConnect } from '@backend/utils/dbConnect'
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await dbConnect()
+
+    // TODO: Sort maps by most liked -> going to need to query the mapLikes collection
     const countQuery = req.query.count as string
     const mapCount = Number(countQuery)
     const mapId = req.query.mapId as string
 
     if (req.method === 'GET') {
       const maps = await collections.maps
-        ?.find({ likes: { $gte: 0 }, slug: { $ne: mapId } })
+        ?.find({ slug: { $ne: mapId } })
         .limit(mapCount || 3)
         .toArray()
 

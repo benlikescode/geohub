@@ -62,7 +62,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const result = await collections.locations?.insertOne(newLocation)
 
       if (!result) {
-        return res.status(500).send('Failed to add location to DB')
+        return res.status(500).send({ message: 'Failed to add location to DB' })
       }
 
       res.status(201).send({ message: 'The location was successfully added to the DB' })

@@ -83,6 +83,12 @@ const Sidebar: FC = () => {
                 <span>Add Locations</span>
               </a>
             </Link>
+
+            <Link href="/admin/create-map">
+              <a className="linkItem">
+                <span>Create Map</span>
+              </a>
+            </Link>
           </div>
         </div>
       )}

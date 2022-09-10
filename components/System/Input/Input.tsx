@@ -18,6 +18,7 @@ type Props = {
   autoComplete?: string
   maxLength?: number
   fontSize?: string
+  isTextarea?: boolean
 }
 
 const Input: FC<Props> = ({
@@ -33,6 +34,7 @@ const Input: FC<Props> = ({
   autoComplete,
   maxLength,
   fontSize,
+  isTextarea,
 }) => {
   const [currValue, setCurrValue] = useState<string | number>(value || '')
   const [showErrorMsg, setShowErrorMsg] = useState(false)
@@ -59,27 +61,42 @@ const Input: FC<Props> = ({
     <StyledInput fontSize={fontSize}>
       {label && <label>{label}</label>}
 
-      <div className="input-styled">
-        <input
-          placeholder={placeholder}
-          onChange={(e) => onInputChange(e.currentTarget.value)}
-          value={currValue}
-          type={showPassword ? 'text' : type}
-          lang="en"
-          readOnly={readOnly}
-          onBlur={() => handleBlur()}
-          autoComplete={autoComplete}
-          maxLength={maxLength || 2000}
-        />
+      {isTextarea ? (
+        <div className="textarea-wrapper">
+          <textarea
+            placeholder={placeholder}
+            onChange={(e) => onInputChange(e.currentTarget.value)}
+            value={currValue}
+            lang="en"
+            readOnly={readOnly}
+            onBlur={() => handleBlur()}
+            autoComplete={autoComplete}
+            maxLength={maxLength || 2000}
+          />
+        </div>
+      ) : (
+        <div className="input-wrapper">
+          <input
+            placeholder={placeholder}
+            onChange={(e) => onInputChange(e.currentTarget.value)}
+            value={currValue}
+            type={showPassword ? 'text' : type}
+            lang="en"
+            readOnly={readOnly}
+            onBlur={() => handleBlur()}
+            autoComplete={autoComplete}
+            maxLength={maxLength || 2000}
+          />
 
-        {type === 'password' && currValue !== '' && (
-          <button className="input-icon" type="button" onClick={() => setShowPassword(!showPassword)}>
-            <Icon size={18} fill="var(--gray-500)">
-              {showPassword ? <EyeOffIcon /> : <EyeIcon />}
-            </Icon>
-          </button>
-        )}
-      </div>
+          {type === 'password' && currValue !== '' && (
+            <button className="input-icon" type="button" onClick={() => setShowPassword(!showPassword)}>
+              <Icon size={18} fill="var(--gray-500)">
+                {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+              </Icon>
+            </button>
+          )}
+        </div>
+      )}
 
       {errorMessage && showErrorMsg && (
         <div className="inputError">
