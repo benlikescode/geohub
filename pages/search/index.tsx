@@ -45,27 +45,54 @@ const SearchResultsPage: NextPage = () => {
 
         <div style={{ width: 'fit-content' }}>
           {loading &&
-            Array.from({ length: 5 }).map((_, idx) => (
+            Array.from({ length: 3 }).map((_, idx) => (
               <div key={idx} className="search-result">
                 <Skeleton variant="circular" height={40} width={40} />
                 <Skeleton height={16} width={80} noBorder />
               </div>
             ))}
 
-          {!loading && searchResults.length === 0 && <span>{`No results found for ${q}`}</span>}
+          {!loading && searchResults.length === 0 && (
+            <h2 className="no-search-results">
+              No results found for <span>{q}</span>
+            </h2>
+          )}
 
-          {searchResults.map((result, idx) => (
-            <Link key={idx} href={`/user/${result._id}`}>
-              <a className="search-result">
-                <div className="user-avatar">
-                  <Avatar url={`/images/avatars/${result.avatar}.jpg`} size={40} />
-                </div>
-                <div className="user-name">
-                  <span>{result.name}</span>
-                </div>
-              </a>
-            </Link>
-          ))}
+          {!loading && searchResults.length > 0 && (
+            <h2 className="num-search-results">
+              {`Showing ${searchResults.length} result${searchResults.length > 1 ? 's' : ''} for ${q}`}
+            </h2>
+          )}
+
+          {searchResults.map((result, idx) => {
+            if (result.avatar) {
+              return (
+                <Link key={idx} href={`/user/${result._id}`}>
+                  <a className="search-result">
+                    <div className="user-avatar">
+                      <Avatar url={`/images/avatars/${result.avatar}.jpg`} size={40} alt={`${result.name}'s avatar`} />
+                    </div>
+                    <div className="user-name">
+                      <span>{result.name}</span>
+                    </div>
+                  </a>
+                </Link>
+              )
+            } else {
+              return (
+                <Link key={idx} href={`/map/${result.slug}`}>
+                  <a className="search-result">
+                    <div className="user-avatar">
+                      <Avatar url={result.previewImg} size={40} alt={`${result.name} avatar`} />
+                    </div>
+                    <div className="user-name">
+                      <span>{result.name}</span>
+                    </div>
+                  </a>
+                </Link>
+              )
+            }
+          })}
         </div>
       </Layout>
     </StyledSearchPage>
