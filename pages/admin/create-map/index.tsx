@@ -51,8 +51,15 @@ const AdminCreateMapPage: NextPage = () => {
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [avatarPath, setAvatarPath] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleCreateMap = async () => {
+    if (!name || !description) {
+      return showErrorToast('Missing map name or description')
+    }
+
+    setIsSubmitting(true)
+
     const body = {
       name,
       description,
@@ -66,6 +73,8 @@ const AdminCreateMapPage: NextPage = () => {
     } else {
       showErrorToast(res.message)
     }
+
+    setIsSubmitting(false)
   }
 
   return (
@@ -80,7 +89,7 @@ const AdminCreateMapPage: NextPage = () => {
 
         <Input type="text" label="Avatar Path" value={`/images/mapPreviews/`} callback={setAvatarPath} />
 
-        <Button type="solidPurple" width="100%" callback={() => handleCreateMap()}>
+        <Button type="solidPurple" width="100%" callback={() => handleCreateMap()} loading={isSubmitting}>
           Create
         </Button>
       </StyledAdminCreateMapPage>
