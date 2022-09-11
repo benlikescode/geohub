@@ -159,7 +159,11 @@ const ProfilePage: NextPage = () => {
                 </div>
               )}
             </div>
-            {leaderboardData && <MapLeaderboard removeHeader leaderboard={leaderboardData} />}
+            {leaderboardData && leaderboardData.length > 0 ? (
+              <MapLeaderboard removeHeader leaderboard={leaderboardData} />
+            ) : (
+              <span className="no-games-message">This user has not finished any games yet</span>
+            )}
           </div>
         </div>
       </Layout>
