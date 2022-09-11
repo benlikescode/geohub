@@ -12,7 +12,7 @@ import { Head } from '@components/Head'
 import { Layout } from '@components/Layout'
 import { Skeleton } from '@components/System/Skeleton'
 import { selectUser } from '@redux/user'
-import { UserType } from '@types'
+import { GameType, UserType } from '@types'
 
 const StyledHeader = styled.h1`
   font-size: 1.75rem;
@@ -23,6 +23,7 @@ const StyledHeader = styled.h1`
 type AnalyticsType = {
   counts: [{ title: string; count: number }]
   recentUsers: UserType[]
+  recentGames: GameType[]
 }
 
 const AnalyticsPage: NextPage = () => {
@@ -87,7 +88,7 @@ const AnalyticsPage: NextPage = () => {
           {!loading && (
             <>
               <ListItem title="New Users" data={analytics?.recentUsers as UserType[]} />
-              <ListItem title="New Users" data={analytics?.recentUsers as UserType[]} />
+              <ListItem title="Recent Games" data={analytics?.recentGames as GameType[]} />
             </>
           )}
         </div>

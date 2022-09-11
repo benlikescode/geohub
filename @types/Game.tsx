@@ -1,9 +1,10 @@
 import { ObjectId } from 'mongodb'
 
-import { GameSettingsType, GuessType, LocationType } from './'
+import { GameSettingsType, GuessType, LocationType, MapType } from './'
 
 type Game = {
   id: ObjectId | string
+  _id?: string // replace id with _id throughout app
   mapId: string
   mapName?: string
   userId: string
@@ -14,6 +15,8 @@ type Game = {
   guesses: GuessType[]
   rounds: LocationType[]
   gameSettings: GameSettingsType
+  createdAt?: Date
+  mapDetails?: MapType[]
 }
 
 export default Game

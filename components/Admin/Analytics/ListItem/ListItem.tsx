@@ -2,7 +2,7 @@ import Link from 'next/link'
 import React, { FC } from 'react'
 
 import { Avatar } from '@components/System'
-import { GameType, UserType } from '@types'
+import { GameType, MapType, UserType } from '@types'
 import { formatMonthDayYearTime } from '@utils/dateHelpers'
 
 import { StyledListItem } from './'
@@ -18,19 +18,19 @@ const ListItem: FC<Props> = ({ title, data }) => {
       const userData = data as UserType[]
 
       return userData.map((user, idx) => (
-        <div className="user-item" key={idx}>
+        <div className="item-wrapper" key={idx}>
           <Link href={`/user/${user._id}`}>
-            <a className="user-details">
-              <div className="user-avatar">
+            <a className="item-details">
+              <div className="item-avatar">
                 <Avatar url={`/images/avatars/${user.avatar}.jpg`} />
               </div>
-              <div className="user-name">
+              <div className="item-name">
                 <span>{user.name}</span>
               </div>
             </a>
           </Link>
 
-          <div className="user-created-date">
+          <div className="item-created-date">
             <span>{formatMonthDayYearTime(user.createdAt)}</span>
           </div>
         </div>
@@ -41,8 +41,19 @@ const ListItem: FC<Props> = ({ title, data }) => {
       const gameData = data as GameType[]
 
       return gameData.map((game, idx) => (
-        <div key={idx}>
-          <span>YOO</span>
+        <div className="item-wrapper" key={idx}>
+          <Link href={`/results/${game._id}`}>
+            <a className="item-details">
+              <div className="item-avatar">{game.mapDetails && <Avatar url={game.mapDetails?.[0]?.previewImg} />}</div>
+              <div className="item-name">
+                <span>{game.mapDetails?.[0]?.name}</span>
+              </div>
+            </a>
+          </Link>
+
+          <div className="item-created-date">
+            <span>{formatMonthDayYearTime(game.createdAt)}</span>
+          </div>
         </div>
       ))
     }

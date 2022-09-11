@@ -23,6 +23,7 @@ type Game = {
   countryCode?: string
   challengeId?: ObjectId | string | null
   userDetails?: [User]
+  createdAt?: Date
 }
 
 export default Game

@@ -30,6 +30,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         totalPoints: 0,
         totalDistance: 0,
         totalTime: 0,
+        createdAt: new Date(),
       } as Game
 
       // check if user has played this map before

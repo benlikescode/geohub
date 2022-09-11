@@ -23,7 +23,7 @@ const StyledListItem = styled.div`
       max-height: 450px;
       overflow-y: auto;
 
-      .user-item {
+      .item-wrapper {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -38,12 +38,12 @@ const StyledListItem = styled.div`
         }
       }
 
-      .user-details {
+      .item-details {
         display: flex;
         align-items: center;
         gap: 1rem;
 
-        .user-name {
+        .item-name {
           cursor: pointer;
 
           &:hover {
@@ -52,7 +52,7 @@ const StyledListItem = styled.div`
         }
       }
 
-      .user-created-date {
+      .item-created-date {
         color: rgb(255, 255, 255, 0.45);
         font-weight: 400;
       }
