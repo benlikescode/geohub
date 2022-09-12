@@ -14,8 +14,8 @@ import StyledProfilePage from '@styles/ProfilePage.Styled'
 import { MapLeaderboardType } from '@types'
 
 import type { NextPage } from 'next'
+
 const ProfilePage: NextPage = () => {
-  const banner = '/images/backgrounds/prettyImage2.jpeg'
   const [leaderboardData, setLeaderboardData] = useState<MapLeaderboardType[] | null>()
   const [newProfileValues, setNewProfileValues] = useState<{ name: string; bio?: string }>()
   const [isEditing, setIsEditing] = useState(false)
@@ -191,5 +191,12 @@ const ProfilePage: NextPage = () => {
     </StyledProfilePage>
   )
 }
+
+ProfilePage.getInitialProps = ({ query }) => ({
+  leaderboardData: null,
+  leaderboardPage: 0,
+  leaderboardHasMore: true,
+  key: query.id,
+})
 
 export default ProfilePage
