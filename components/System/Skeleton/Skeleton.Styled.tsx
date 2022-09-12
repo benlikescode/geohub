@@ -19,7 +19,7 @@ const shimmer = keyframes`
 const StyledSkeleton = styled.div<StyledProps>`
   display: inline-block;
   height: ${({ height }) => height ?? 118}px;
-  width: ${({ width }) => width && `${width}px`};
+  width: ${({ width }) => (width ? `${width}px` : '100%')};
   position: relative;
   opacity: 0.08;
   overflow: hidden;

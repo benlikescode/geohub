@@ -4,9 +4,11 @@ import { Skeleton } from '@components/System/Skeleton'
 
 import { StyledSkeletonLeaderboard } from './'
 
-type Props = {}
+type Props = {
+  numRows?: number
+}
 
-const SkeletonLeaderboard: FC<Props> = ({}) => {
+const SkeletonLeaderboard: FC<Props> = ({ numRows }) => {
   return (
     <StyledSkeletonLeaderboard>
       <div className="leaderboardTop">
@@ -14,7 +16,7 @@ const SkeletonLeaderboard: FC<Props> = ({}) => {
         <Skeleton height={36} width={150} />
       </div>
 
-      {Array.from({ length: 5 }).map((_, idx) => (
+      {Array.from({ length: numRows || 5 }).map((_, idx) => (
         <div className="skeleton-user-item" key={idx}>
           <div className="skeleton-user-details">
             <Skeleton height={16} width={24} noBorder />

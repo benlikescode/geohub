@@ -6,6 +6,8 @@ import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
 import { Layout, LoadingPage } from '@components/Layout'
 import { MapLeaderboard } from '@components/MapLeaderboard'
+import { SkeletonLeaderboard } from '@components/SkeletonLeaderboard'
+import { SkeletonProfile } from '@components/SkeletonProfile'
 import { BadgeCheckIcon, PencilAltIcon } from '@heroicons/react/solid'
 import { logOutUser, selectUser, updateBio, updateUsername } from '@redux/user'
 import StyledProfilePage from '@styles/ProfilePage.Styled'
@@ -19,6 +21,8 @@ const ProfilePage: NextPage = () => {
   const [isEditing, setIsEditing] = useState(false)
   const [userDetails, setUserDetails] = useState<any>()
   const [loading, setLoading] = useState(true)
+  const [leaderboardPage, setLeaderboardPage] = useState(0)
+  const [leaderboardHasMore, setLeaderboardHasMore] = useState(true)
   const user = useSelector(selectUser)
   const router = useRouter()
   const userId = router.query.id
@@ -39,13 +43,23 @@ const ProfilePage: NextPage = () => {
   }
 
   const fetchLeaderboard = async () => {
-    const { status, res } = await mailman(`scores/user/${userId}`)
+    const { status, res } = await mailman(`scores/user/${userId}?page=${leaderboardPage}`)
 
     if (status === 404 || status === 500) {
       return setLeaderboardData(null)
     }
 
-    setLeaderboardData(res)
+    if (res.length === 0) {
+      setLeaderboardHasMore(false)
+    }
+
+    if (!leaderboardData) {
+      setLeaderboardData(res)
+    } else {
+      setLeaderboardData((prev) => prev?.concat(res))
+    }
+
+    setLeaderboardPage((prev) => prev + 1)
   }
 
   const updateUserInfo = async () => {
@@ -90,82 +104,89 @@ const ProfilePage: NextPage = () => {
     }
   }, [userId])
 
-  if (loading) {
-    return <LoadingPage />
-  }
-
   return (
     <StyledProfilePage>
       <Layout>
-        <Head title={userDetails.name} />
-        <div>
-          <div className="banner"></div>
-          <div className="profile-details">
-            <div className="profile-heading">
-              <div className="profile-avatar">
-                <img src={`/images/avatars/${userDetails.avatar}.jpg`} alt={userDetails.name} />
-              </div>
-              <h1 className="profile-name">
-                {isEditing ? (
-                  <input
-                    type="text"
-                    value={newProfileValues?.name}
-                    onChange={(e) => setNewProfileValues({ name: e.target.value, bio: newProfileValues?.bio })}
-                  />
-                ) : (
-                  <div className="name-container">
-                    {userDetails.name}
-                    {userDetails.isAdmin && (
-                      <div className="verified">
-                        <BadgeCheckIcon />
-                      </div>
+        <Head title={userDetails ? userDetails.name : 'GeoHub'} />
+
+        {loading || !leaderboardData ? (
+          <SkeletonProfile />
+        ) : (
+          <div>
+            <div className="banner"></div>
+            <div className="profile-details">
+              <div className="profile-heading">
+                <div className="profile-avatar">
+                  <img src={`/images/avatars/${userDetails.avatar}.jpg`} alt={userDetails.name} />
+                </div>
+                <h1 className="profile-name">
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      value={newProfileValues?.name}
+                      onChange={(e) => setNewProfileValues({ name: e.target.value, bio: newProfileValues?.bio })}
+                    />
+                  ) : (
+                    <div className="name-container">
+                      {userDetails.name}
+                      {userDetails.isAdmin && (
+                        <div className="verified">
+                          <BadgeCheckIcon />
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </h1>
+                {(userDetails.bio || isEditing) && (
+                  <span className="profile-bio">
+                    {isEditing ? (
+                      <textarea
+                        value={newProfileValues?.bio}
+                        onChange={(e) =>
+                          setNewProfileValues({
+                            name: newProfileValues?.name || '',
+                            bio: e.target.value,
+                          })
+                        }
+                      ></textarea>
+                    ) : (
+                      userDetails.bio
                     )}
+                  </span>
+                )}
+                {isThisUsersProfile() && !isEditing && (
+                  <div className="profile-actions">
+                    <button onClick={() => setIsEditing(true)}>
+                      <PencilAltIcon /> Edit Profile
+                    </button>
+                    <button className="logout-btn" onClick={() => handleLogout()}>
+                      Logout
+                    </button>
                   </div>
                 )}
-              </h1>
-              {(userDetails.bio || isEditing) && (
-                <span className="profile-bio">
-                  {isEditing ? (
-                    <textarea
-                      value={newProfileValues?.bio}
-                      onChange={(e) =>
-                        setNewProfileValues({
-                          name: newProfileValues?.name || '',
-                          bio: e.target.value,
-                        })
-                      }
-                    ></textarea>
-                  ) : (
-                    userDetails.bio
-                  )}
-                </span>
-              )}
-              {isThisUsersProfile() && !isEditing && (
-                <div className="profile-actions">
-                  <button onClick={() => setIsEditing(true)}>
-                    <PencilAltIcon /> Edit Profile
-                  </button>
-                  <button className="logout-btn" onClick={() => handleLogout()}>
-                    Logout
-                  </button>
-                </div>
-              )}
-              {isEditing && (
-                <div className="profile-actions">
-                  <button onClick={() => updateUserInfo()}>Save Changes</button>
-                  <button className="logout-btn" onClick={() => cancelEditing()}>
-                    Cancel
-                  </button>
-                </div>
+                {isEditing && (
+                  <div className="profile-actions">
+                    <button onClick={() => updateUserInfo()}>Save Changes</button>
+                    <button className="logout-btn" onClick={() => cancelEditing()}>
+                      Cancel
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {leaderboardData.length > 0 ? (
+                <MapLeaderboard
+                  removeHeader
+                  leaderboard={leaderboardData}
+                  infiniteScrollCallback={fetchLeaderboard}
+                  hasMore={leaderboardHasMore}
+                />
+              ) : (
+                <span className="no-games-message">This user has not finished any games yet</span>
               )}
             </div>
-            {leaderboardData && leaderboardData.length > 0 ? (
-              <MapLeaderboard removeHeader leaderboard={leaderboardData} />
-            ) : (
-              <span className="no-games-message">This user has not finished any games yet</span>
-            )}
           </div>
-        </div>
+        )}
       </Layout>
     </StyledProfilePage>
   )

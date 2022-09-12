@@ -7,16 +7,20 @@ import { collections, dbConnect } from '@backend/utils/dbConnect'
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await dbConnect()
-    const userId = req.query.id as string
 
-    console.log(req.query)
-
+    // Paginated endpoint to get a specified user's game history
     if (req.method === 'GET') {
+      const userId = req.query.id as string
+      const page = req.query.page ? Number(req.query.page) : 0
+      const gamesPerPage = 20
+
       const query = { userId: new ObjectId(userId), round: 6 }
       const data = await collections.games
         ?.aggregate([
           { $match: query },
           { $sort: { totalPoints: -1 } },
+          { $skip: page * gamesPerPage },
+          { $limit: gamesPerPage },
           {
             $project: {
               rounds: 0,
