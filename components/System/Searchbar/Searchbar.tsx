@@ -48,7 +48,6 @@ const Searchbar: FC<Props> = ({ placeholder, autoFocus, isSmall, onClickOutside 
   }
 
   const handleKeyDown = async (e: KeyboardEvent) => {
-    console.log(`IS FOCUSED: ${isFocusedRef.current}`)
     if (!isFocusedRef.current && e.key === 'k' && e.ctrlKey) {
       e.preventDefault()
 
@@ -112,13 +111,7 @@ const Searchbar: FC<Props> = ({ placeholder, autoFocus, isSmall, onClickOutside 
 
   return (
     <StyledSearchbar isFocused={isFocused} isSmall={isSmall} ref={wrapperRef}>
-      <div
-        className="searchbarWrapper"
-        onClick={() => {
-          console.log('clicked searchbar')
-          setIsFocused(true)
-        }}
-      >
+      <div className="searchbarWrapper" onClick={() => setIsFocused(true)}>
         <input
           type="text"
           placeholder={placeholder ? placeholder : 'Search'}

@@ -114,8 +114,6 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData, isTesting }) =>
     })
 
     const processSVData = (data: any, status: any) => {
-      console.log(`STREETVIEW ROUND DATA: ${JSON.stringify(data)}`)
-
       if (data == null) {
         console.log('There was an error loading the round :(')
       } else {
