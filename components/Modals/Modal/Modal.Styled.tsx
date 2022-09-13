@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 type StyledProps = {
   width?: string
+  isSubmitting?: boolean
 }
 
 const StyledModal = styled.div<StyledProps>`
@@ -30,13 +31,14 @@ const StyledModal = styled.div<StyledProps>`
     pointer-events: all;
     overflow: hidden;
     border-radius: 6px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
     .modal-header {
       padding: 1rem 1.5rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: var(--border);
+      border-bottom: 1px solid #282828;
 
       .modal-title {
         font-size: 1.25rem;
@@ -47,14 +49,28 @@ const StyledModal = styled.div<StyledProps>`
     .modal-body {
       background-color: var(--background1);
       overflow: hidden auto;
-      padding: 2rem;
     }
 
     .modal-footer {
-      border-top: var(--border);
+      border-top: 1px solid #282828;
       padding: 1rem 1.5rem;
       display: flex;
       justify-content: flex-end;
+      gap: 1rem;
+
+      .cancel-button {
+        background-color: rgb(255, 255, 255, 0.1);
+        color: rgb(255, 255, 255, 0.7);
+        border-radius: 4px;
+        font-size: 1rem;
+        font-weight: 400;
+        user-select: none;
+        padding: 10px 16px;
+
+        &:hover {
+          background-color: rgb(255, 255, 255, 0.15);
+        }
+      }
 
       .action-button {
         background-color: var(--mediumPurple);
@@ -63,7 +79,7 @@ const StyledModal = styled.div<StyledProps>`
         font-size: 1rem;
         font-weight: 400;
         user-select: none;
-        padding: 12px 10px;
+        padding: ${({ isSubmitting }) => (isSubmitting ? '10px 25px' : '10px 16px')};
 
         :hover {
           background-color: #732fe9;

@@ -24,7 +24,7 @@ const UnfinishedCard: FC<Props> = ({ mapName, mapAvatar, round, points, gameId, 
   return (
     <StyledUnfinishedCard>
       <div className="mapWrapper">
-        <Avatar url={mapAvatar} size={40} alt={`${mapName} map avatar`} />
+        <Avatar type="map" src={mapAvatar} size={40} />
         <span className="mapName">{mapName}</span>
       </div>
       <div className="bottomWrapper">

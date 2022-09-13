@@ -1,62 +1,68 @@
-import { CheckIcon } from '@heroicons/react/outline'
+/* eslint-disable @next/next/no-img-element */
 import React, { FC, useState } from 'react'
-import { StyledAvatarPickerModal } from '.'
+import { useDispatch, useSelector } from 'react-redux'
+
+import { mailman } from '@backend/utils/mailman'
+import { CheckIcon } from '@heroicons/react/outline'
+import { selectUser } from '@redux/user'
+import { BACKGROUND_COLORS, EMOJIS } from '@utils/constants/avatarOptions'
+
 import { Modal } from '../Modal'
+import { StyledAvatarPickerModal } from './'
 
 type Props = {
   closeModal: () => void
+  setNewUserDetails: (changedValues: any) => void
 }
 
-const EMOJIS = ['1f3b1', '26bd', '1f3c6', '1f34c', '1f334', '1f435', '1f4a9', '1f47b', '1f355']
-const BACKGROUND_COLORS = ['#fee2e2', '#fb923c', '#4a3b00', '#4ade80', '#38bdf8', '#c084fc', '#f472b6']
+const AvatarPickerModal: FC<Props> = ({ closeModal, setNewUserDetails }) => {
+  const user = useSelector(selectUser)
 
-const AvatarPickerModal: FC<Props> = ({ closeModal }) => {
-  const [selectedColor, setSelectedColor] = useState('')
-  const [currentView, setCurrentView] = useState<'Background' | 'Emoji'>('Background')
+  const [selectedColor, setSelectedColor] = useState(user.avatar?.color || BACKGROUND_COLORS[0])
+  const [selectedEmoji, setSelectedEmoji] = useState(user.avatar?.emoji || '')
 
-  const handleActionButton = () => {
-    if (currentView === 'Background') {
-      setCurrentView('Emoji')
-    }
-
-    if (currentView === 'Emoji') {
-      closeModal()
-    }
+  const handleActionButton = async () => {
+    const newAvatar = { emoji: selectedEmoji, color: selectedColor }
+    setNewUserDetails({ avatar: newAvatar })
+    closeModal()
   }
 
   return (
     <Modal closeModal={closeModal} title="Customize Avatar" onActionButton={handleActionButton}>
       <StyledAvatarPickerModal>
-        {currentView === 'Background' && (
-          <>
-            <h2 className="color-selection-title">Choose a background color</h2>
+        <div>
+          <h2 className="color-selection-title">Choose a background color</h2>
 
-            <div className="color-options-wrapper">
-              {BACKGROUND_COLORS.map((color, idx) => (
-                <div
-                  key={idx}
-                  style={{ backgroundColor: color }}
-                  className="color-option"
-                  onClick={() => setSelectedColor(color)}
-                >
-                  {selectedColor === color && (
-                    <div className="checkmark-wrapper">
-                      <CheckIcon height={20} />
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </>
-        )}
+          <div className="color-options-wrapper">
+            {BACKGROUND_COLORS.map((color, idx) => (
+              <div
+                key={idx}
+                style={{ backgroundColor: color }}
+                className="color-option"
+                onClick={() => setSelectedColor(color)}
+              >
+                {selectedColor === color && (
+                  <div className="checkmark-wrapper">
+                    <CheckIcon height={20} />
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
 
-        {currentView === 'Emoji' && (
-          <>
+        {selectedColor && (
+          <div>
             <h2 className="color-selection-title">Choose an emoji</h2>
 
             <div className="color-options-wrapper">
               {EMOJIS.map((emoji, idx) => (
-                <div key={idx} style={{ backgroundColor: selectedColor }} className="color-option">
+                <div
+                  key={idx}
+                  style={{ backgroundColor: selectedColor }}
+                  className={`color-option ${selectedEmoji === emoji ? 'selected' : ''}`}
+                  onClick={() => setSelectedEmoji(emoji)}
+                >
                   <img
                     src={`https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/${emoji}.svg`}
                     alt={emoji}
@@ -65,7 +71,7 @@ const AvatarPickerModal: FC<Props> = ({ closeModal }) => {
                 </div>
               ))}
             </div>
-          </>
+          </div>
         )}
       </StyledAvatarPickerModal>
     </Modal>

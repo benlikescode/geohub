@@ -1,3 +1,4 @@
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import { useRouter } from 'next/router'
 import React, { FC, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -27,6 +28,7 @@ import { selectUser, updateLocation } from '@redux/user'
 import { GameSettingsType, LocationType, MapType, UserType } from '@types'
 import { formatTimeLimit } from '@utils/helperFunctions'
 
+import { Modal } from '../Modal'
 import { StyledGameSettings } from './'
 import { Challenge } from './Challenge'
 
@@ -155,29 +157,27 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
   }
 
   return (
-    <StyledGameSettings>
-      <Banner>
-        <div className="header">
-          <h2>{showChallengeView ? 'Start Challenge' : 'Start Game'}</h2>
-          <Button type="icon" callback={() => closeModal()}>
-            <Icon size={30} hoverColor="var(--color2)">
-              <XIcon />
-            </Icon>
-          </Button>
-        </div>
-
+    <Modal
+      closeModal={closeModal}
+      title={showChallengeView ? 'Start Challenge' : 'Start Game'}
+      onActionButton={handleClickBtn}
+      actionButtonText={gameType === 'Single Player' ? 'Start' : showChallengeView ? 'Start' : 'Invite'}
+      cancelButtonText="Cancel"
+      isSubmitting={isSubmitting}
+    >
+      <StyledGameSettings>
         <div className="mainContent">
           {showChallengeView ? (
             <Challenge challengeId={challengeId} />
           ) : (
             <>
-              <FlexGroup gap={15}>
-                <Avatar url={mapDetails.previewImg} size={60} alt="Map Avatar" />
-                <div className="mapInfo">
-                  <span className="mapName">{mapDetails.name}</span>
-                  <span className="mapDescription">{mapDetails.description}</span>
+              <div className="test">
+                <div className="test123">
+                  <Avatar type="map" src={mapDetails.previewImg} size={50} />
+                  <h2 className="mapName">{mapDetails.name}</h2>
                 </div>
-              </FlexGroup>
+                <span className="mapDescription">{mapDetails.description}</span>
+              </div>
 
               <div className="toggleBar">
                 <div
@@ -259,18 +259,8 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
             </>
           )}
         </div>
-
-        <div className="footer">
-          <Button type="ghost" callback={() => closeModal()} height="35px">
-            Cancel
-          </Button>
-
-          <Button type="solidPurple" callback={() => handleClickBtn()} height="35px" loading={isSubmitting}>
-            {gameType === 'Single Player' ? 'Start' : showChallengeView ? 'Start' : 'Invite'}
-          </Button>
-        </div>
-      </Banner>
-    </StyledGameSettings>
+      </StyledGameSettings>
+    </Modal>
   )
 }
 

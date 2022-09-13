@@ -37,22 +37,14 @@ const MyMapsPage: NextPage = () => {
       <Head title="My Maps" />
       <StyledHeader>Coming Soon!</StyledHeader>
 
-      <button onClick={() => setModalOpen(true)}>Change Avatar</button>
-
-      {modalOpen && <AvatarPickerModal closeModal={() => setModalOpen(false)} />}
-
-      <img src="😎" alt="cool" />
-      <div style={{ height: '40px', width: '40px' }}>😎</div>
-      <span>😢</span>
-      <span style={{ fontSize: '4rem', width: '100%', textAlign: 'center' }}>😠</span>
-      {/*<div>
+      <div>
         <img
           src="https://ouch-cdn2.icons8.com/7ouKWLmWN1-WhDpK28kH-TnrGhfKQEz3GZvo7zr7VsM/rs:fit:256:256/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvNzY4/LzFkYjE2MmU4LTM5/NDQtNDhhMS04ZGJh/LTc0ZDc1MGYxN2E2/Yy5zdmc.png"
           alt=""
         />
         <StyledMessage>You do not appear to have any liked maps</StyledMessage>
         <span>Like a map for it to show here</span>
-      </div>*/}
+      </div>
     </Layout>
   )
 }

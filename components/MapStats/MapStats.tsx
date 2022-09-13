@@ -1,3 +1,4 @@
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import { FC, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
@@ -24,6 +25,8 @@ const MapStats: FC<Props> = ({ map }) => {
   const [numLikes, setNumLikes] = useState(0)
   const [modalOpen, setModalOpen] = useState(false)
   const user = useSelector(selectUser)
+
+  modalOpen ? disableBodyScroll(document as any) : enableBodyScroll(document as any)
 
   const handleLike = async () => {
     if (!user.id) {
@@ -100,11 +103,7 @@ const MapStats: FC<Props> = ({ map }) => {
           </div>
         </FlexGroup>
 
-        {modalOpen && (
-          <Modal closeModal={() => setModalOpen(false)} width="450px">
-            <Auth closeModal={() => setModalOpen(false)} />
-          </Modal>
-        )}
+        {modalOpen && <Auth closeModal={() => setModalOpen(false)} />}
       </div>
     </StyledMapStats>
   )

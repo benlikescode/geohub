@@ -53,7 +53,7 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
     // If this is final results map, load all the round markers. Otherwise, simply load the current round markers
     if (isFinalResults) {
       for (let i = 0; i < actualLocations.length; i++) {
-        createMarker(guessedLocations[i], map, `/images/markers/${user.avatar}.png`)
+        createMarker(guessedLocations[i], map, `/images/markers/testMarker2.png`)
         const actualLocationMarker = createMarker(actualLocations[i], map, `/images/markers/actualMarker${i + 1}.png`)
 
         actualLocationMarker.addListener('click', () => {
@@ -71,7 +71,7 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
         })
       }
     } else {
-      createMarker(guessedLocation, map, `/images/markers/${user.avatar}.png`)
+      createMarker(guessedLocation, map, `/images/markers/testMarker2.png`)
       const actualLocationMarker = createMarker(actualLocation, map, '/images/markers/actualMarker.png')
 
       actualLocationMarker.addListener('click', () => {

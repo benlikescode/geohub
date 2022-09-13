@@ -153,7 +153,7 @@
 
   --border: 1px solid #2f3133;
   --borderLight: 1px solid #454546;
-  --modalPadding: 15px;
+  --modalPadding: 2.5rem 1.5rem;
   --mainPadding: 4rem;
   --iconColor: #8d8f92;
   --activeColor: #a5adff;

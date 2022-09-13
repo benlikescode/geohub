@@ -19,11 +19,8 @@ const SearchResult: FC<Props> = ({ searchResult }) => {
         <Link href={`/user/${searchResult._id}`}>
           <a className="linkWrapper">
             <FlexGroup>
-              <Avatar
-                url={`/images/avatars/${searchResult.avatar}.jpg` || ''}
-                size={30}
-                alt={`${searchResult.name}'s avatar`}
-              />
+              <Avatar type="user" src={searchResult.avatar?.emoji} backgroundColor={searchResult.avatar?.color} />
+
               <span className="searchResultLabel">{searchResult.name}</span>
             </FlexGroup>
           </a>
@@ -34,7 +31,7 @@ const SearchResult: FC<Props> = ({ searchResult }) => {
         <Link href={`/map/${searchResult.slug}`}>
           <a className="linkWrapper">
             <FlexGroup>
-              <Avatar url={searchResult.previewImg || ''} size={30} alt={`${searchResult.name} map avatar`} />
+              <Avatar type="map" src={searchResult.previewImg} />
               <span className="searchResultLabel">{searchResult.name}</span>
             </FlexGroup>
           </a>

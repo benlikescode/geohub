@@ -1,5 +1,8 @@
 import { GameSettingsType, GuessType, LocationType } from '@types'
 
+import { BACKGROUND_COLORS, EMOJIS } from './constants/avatarOptions'
+import { randomElement } from './functions/generateLocations'
+
 export const formatErrorMessage = (error: any) => {
   let formattedMsg = ''
 
@@ -420,7 +423,10 @@ export const createMarker = (position: LocationType, map: google.maps.Map, marke
   return new window.google.maps.Marker({
     position: position,
     map: map,
-    icon: image,
+    icon: {
+      url: markerImage,
+      scaledSize: new google.maps.Size(30, 30),
+    },
   })
 }
 
@@ -521,4 +527,11 @@ export const removeDuplicateLocations = (locations: LocationType[]) => {
   })
 
   return filteredLocations
+}
+
+export const getRandomAvatar = () => {
+  const randomEmoji = randomElement(EMOJIS)
+  const randomColor = randomElement(BACKGROUND_COLORS)
+
+  return { emoji: randomEmoji, color: randomColor }
 }

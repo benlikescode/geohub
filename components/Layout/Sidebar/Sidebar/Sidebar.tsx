@@ -43,20 +43,6 @@ const Sidebar: FC = () => {
             </a>
           </Link>
 
-          <div className="linkItem">
-            <span>Classic Game</span>
-          </div>
-
-          <div className="linkItem">
-            <span>Challenges</span>
-          </div>
-
-          <Link href="/bingo">
-            <a className="linkItem">
-              <span>Geo-Bingo</span>
-            </a>
-          </Link>
-
           <Link href="/puzzles">
             <a className="linkItem">
               <span>Puzzles</span>

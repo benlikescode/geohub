@@ -5,7 +5,7 @@ const initialState: UserType = {
   id: '',
   name: '',
   email: '',
-  avatar: '',
+  avatar: { emoji: '1f3b1', color: '#fecaca' },
   guessMapSize: 1,
   location: '',
 }
@@ -23,7 +23,7 @@ export const userSlice = createSlice({
       state.avatar = action.payload.avatar || ''
     },
     updateAvatar: (state, action) => {
-      state.avatar = action.payload.avatar
+      state.avatar = action.payload
     },
     updateUsername: (state, action) => {
       state.name = action.payload

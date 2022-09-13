@@ -1,3 +1,4 @@
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import React, { useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
@@ -6,7 +7,6 @@ import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
 import { Banner, Layout } from '@components/Layout'
 import { BingoSettings } from '@components/Modals/BingoSettings'
-import { Modal } from '@components/Modals/Modal'
 import { Avatar, Button, Icon, Input } from '@components/System'
 import { CheckIcon } from '@heroicons/react/outline'
 import { selectUser } from '@redux/user'
@@ -18,6 +18,8 @@ const BingoPage: NextPage = () => {
   const [suggestion1, setSuggestion1] = useState('')
   const [suggestion2, setSuggestion2] = useState('')
   const user = useSelector(selectUser)
+
+  settingsModalOpen ? disableBodyScroll(document as any) : enableBodyScroll(document as any)
 
   const submitSuggestionDisabled = useMemo(() => !suggestion1 && !suggestion2, [suggestion1, suggestion2])
 
@@ -71,7 +73,7 @@ const BingoPage: NextPage = () => {
         <Banner>
           <div className="mapDetailsSection">
             <div className="mapDescriptionWrapper">
-              <Avatar url={'/images/bingoAvatar.jpg'} alt="Bingo" size={100} outline />
+              <Avatar type="map" src="/images/bingoAvatar.jpg" size={100} />
 
               <div className="descriptionColumnWrapper">
                 <div className="descriptionColumn">
@@ -144,11 +146,7 @@ const BingoPage: NextPage = () => {
         </Banner>
       </Layout>
 
-      {settingsModalOpen && (
-        <Modal closeModal={closeModal}>
-          <BingoSettings closeModal={closeModal} />
-        </Modal>
-      )}
+      {settingsModalOpen && <BingoSettings closeModal={closeModal} />}
     </StyledBingoPage>
   )
 }

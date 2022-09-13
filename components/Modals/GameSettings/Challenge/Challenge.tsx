@@ -17,7 +17,7 @@ const Challenge: FC<Props> = ({ challengeId }) => {
   const testUser: UserType = {
     id: '123',
     name: 'BenZ',
-    avatar: '/images/avatars/default1.jpg',
+    avatar: { emoji: '1f435', color: '#fed7aa' },
     email: '',
     createdAt: new Date(),
     location: 'Canada',
@@ -26,7 +26,7 @@ const Challenge: FC<Props> = ({ challengeId }) => {
   const testUser2: UserType = {
     id: '123',
     name: 'Jamel',
-    avatar: '/images/avatars/default2.jpg',
+    avatar: { emoji: '1f435', color: '#fed7aa' },
     email: '',
     createdAt: new Date(),
     location: 'Canada',
@@ -35,7 +35,7 @@ const Challenge: FC<Props> = ({ challengeId }) => {
   const testUser3: UserType = {
     id: '123',
     name: 'Jonathan',
-    avatar: '/images/avatars/default3.jpg',
+    avatar: { emoji: '1f435', color: '#fed7aa' },
     email: '',
     createdAt: new Date(),
     location: 'Canada',
@@ -87,7 +87,7 @@ const Challenge: FC<Props> = ({ challengeId }) => {
             friends.map((friend, idx) => (
               <div className="friendItem" key={idx}>
                 <FlexGroup gap={12}>
-                  <Avatar url={friend.avatar} size={40} alt="" />
+                  <Avatar type="user" src={friend.avatar.emoji} backgroundColor={friend.avatar.color} size={40} />
                   <span className="username">{friend.name}</span>
                 </FlexGroup>
                 <button className="inviteBtn">Invite</button>

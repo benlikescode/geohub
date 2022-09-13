@@ -1,8 +1,6 @@
 import styled from 'styled-components'
 
-type StyledProps = {
-  
-}
+type StyledProps = {}
 
 const StyledAuth = styled.div<StyledProps>`
   .header {
@@ -17,11 +15,11 @@ const StyledAuth = styled.div<StyledProps>`
       font-weight: 500;
     }
   }
-  
+
   .closeBtn {
     position: absolute;
     top: 16px;
-    right: 20px
+    right: 20px;
   }
 
   .mainContent {
@@ -39,9 +37,10 @@ const StyledAuth = styled.div<StyledProps>`
     justify-content: center;
     flex-direction: column;
     gap: 1.5rem;
+    padding: 1rem 0;
 
     a {
-      width: 100%;
+      width: 80%;
     }
   }
 `

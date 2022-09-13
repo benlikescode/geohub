@@ -10,6 +10,7 @@ import { XIcon } from '@heroicons/react/outline'
 import { selectUser } from '@redux/user'
 import { UserType } from '@types'
 
+import { Modal } from '../Modal'
 import { StyledAerialSettings } from './'
 
 type Props = {
@@ -43,21 +44,18 @@ const AerialSettings: FC<Props> = ({ closeModal }) => {
   }
 
   return (
-    <StyledAerialSettings>
-      <Banner>
-        <div className="header">
-          <h2>Start Game</h2>
-          <Button type="icon" callback={() => closeModal()}>
-            <Icon size={30} hoverColor="var(--color2)">
-              <XIcon />
-            </Icon>
-          </Button>
-        </div>
-
+    <Modal
+      closeModal={closeModal}
+      title="Start Game"
+      cancelButtonText="Cancel"
+      actionButtonText="Start"
+      onActionButton={handleStartGame}
+    >
+      <StyledAerialSettings>
         <div className="mainContent">
           <div className="flexTest">
             <div className="mapAvatar">
-              <Avatar url="/images/mapPreviews/testAerial.jpg" alt="Satelite View" size={80} outline />
+              <Avatar type="map" src="/images/mapPreviews/testAerial.jpg" size={60} />
             </div>
             <div className="mapInfo">
               <span className="mapName">Aerial</span>
@@ -90,18 +88,8 @@ const AerialSettings: FC<Props> = ({ closeModal }) => {
             </div>
           </div>
         </div>
-
-        <div className="footer">
-          <Button type="ghost" callback={() => closeModal()} height="35px">
-            Cancel
-          </Button>
-
-          <Button type="solidPurple" callback={() => handleStartGame()} height="35px">
-            Start Game
-          </Button>
-        </div>
-      </Banner>
-    </StyledAerialSettings>
+      </StyledAerialSettings>
+    </Modal>
   )
 }
 

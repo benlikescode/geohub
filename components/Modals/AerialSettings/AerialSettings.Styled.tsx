@@ -1,30 +1,11 @@
 import styled from 'styled-components'
 
 const StyledAerialSettings = styled.div`
-  background-color: var(--background1);
-  border-radius: 4px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  max-width: 650px;
-
-  .header {
-    border-bottom: var(--border);
-    padding: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px 30px;
-    
-    h2 {
-      font-size: 20px;
-      font-weight: 500;
-    }
-  }
-
   .mainContent {
-    padding: 30px;
+    padding: var(--modalPadding);
     display: grid;
-    gap: 50px;
-    background-color: #131314;
+    gap: 3rem;
+    background-color: #101010;
   }
 
   .mapInfo {
@@ -39,7 +20,7 @@ const StyledAerialSettings = styled.div`
 
   .mapDescription {
     color: var(--color2);
-    font-weight: 400;  
+    font-weight: 400;
   }
 
   .difficultyWrapper {
@@ -54,16 +35,6 @@ const StyledAerialSettings = styled.div`
     color: var(--color2);
     font-weight: 400;
     user-select: none;
-  }
-
-  .footer {
-    border-top: var(--border);
-    padding: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 15px;
-    padding: 15px 30px;
   }
 
   .flexTest {

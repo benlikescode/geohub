@@ -53,7 +53,12 @@ const ChallengeStart: FC<Props> = ({ challengeData, handleStartChallenge, setVie
       <div className="challengeStartWrapper">
         <h1 className="challengeTitle">You have been challenged!</h1>
         <div className="challengeCreator">
-          <Avatar url={`/images/avatars/${challengeData.creatorAvatar}.jpg`} size={40} alt="Challenge Creator Avatar" />
+          <Avatar
+            type="user"
+            src={challengeData.creatorAvatar.emoji}
+            backgroundColor={challengeData.creatorAvatar.color}
+            size={40}
+          />
           <span>{`${challengeData.creatorName} has challenged you to play GeoHub`}</span>
         </div>
 

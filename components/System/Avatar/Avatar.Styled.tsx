@@ -1,29 +1,60 @@
 import styled from 'styled-components'
 
 type StyledProps = {
-  size?: number;
-  mobileSize?: number;
-  outline?: boolean;
-  customOutline?: string;
+  backgroundColor?: string
+  size?: number
+  mobileSize?: number
+  outlineSize?: number
 }
 
 const StyledAvatar = styled.div<StyledProps>`
-  height: ${({ size }) => size ? size : '32'}px;
-  width: ${({ size }) => size ? size : '32'}px;
-  cursor: pointer;
-  background-color: #131315;
-  border-radius: 50%;
-  position: relative;
+  .user-avatar {
+    height: ${({ size }) => size}px;
+    width: ${({ size }) => size}px;
+    background-color: ${({ backgroundColor }) => backgroundColor ?? '#131315'};
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    box-shadow: ${({ outlineSize }) => `0 0 0 ${outlineSize || 2}px #0e0e10`};
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  @media (max-width: 600px) {
-    height: ${({ mobileSize }) => mobileSize && mobileSize}px;
-    width: ${({ mobileSize }) => mobileSize && mobileSize}px;
+    @media (max-width: 600px) {
+      height: ${({ mobileSize, size }) => mobileSize ?? size}px;
+      width: ${({ mobileSize, size }) => mobileSize ?? size}px;
+    }
+
+    img {
+      height: 60%;
+    }
   }
 
-  img {
-    box-shadow: ${({ outline, customOutline }) => outline ? 'inset 0 0 0 1px rgba(255, 255, 255, 0.10)' : 
-    (customOutline ? customOutline : 'none')}!important;
-    border-radius: 50%!important;
+  .map-avatar {
+    height: ${({ size }) => size}px;
+    width: ${({ size }) => size}px;
+    background-color: ${({ backgroundColor }) => backgroundColor ?? '#131315'};
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    box-shadow: ${({ outlineSize }) => `0 0 0 ${outlineSize || 2}px #0e0e10`};
+
+    @media (max-width: 600px) {
+      height: ${({ mobileSize, size }) => mobileSize ?? size}px;
+      width: ${({ mobileSize, size }) => mobileSize ?? size}px;
+    }
+
+    img {
+      position: absolute;
+      object-fit: cover;
+      border-radius: 50%;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
   }
 `
 

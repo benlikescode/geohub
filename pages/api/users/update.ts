@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 
@@ -8,16 +9,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     await dbConnect()
 
     if (req.method === 'POST') {
-      const { _id, name, bio } = req.body
+      console.log(JSON.stringify(req.body))
+      const { _id, name, bio, avatar } = req.body
 
-      await collections.users?.updateOne({ _id: new ObjectId(_id) }, { $set: { name: name, bio: bio } })
+      await collections.users?.updateOne({ _id: new ObjectId(_id) }, { $set: { name: name, bio: bio, avatar: avatar } })
 
       res.status(200).send({
         status: 'ok',
       })
     } else {
-
-    /* Need to add extra security measures for this endpoint
+      /* Need to add extra security measures for this endpoint
     else if (req.method === 'DELETE') {
       const deletedUser = await collections.users?.deleteOne({ userId: userId })
 

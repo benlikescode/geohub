@@ -1,3 +1,4 @@
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import React, { FC, useEffect, useState } from 'react'
 
 import { mailman } from '@backend/utils/mailman'
@@ -15,6 +16,8 @@ const PlayAerialPage: FC = () => {
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [otherMaps, setOtherMaps] = useState<MapType[] | null>()
   const [leaderboardData, setLeaderboardData] = useState<MapLeaderboardType[] | null>()
+
+  settingsOpen ? disableBodyScroll(document as any) : enableBodyScroll(document as any)
 
   const fetchOtherMaps = async () => {
     const { status, res } = await mailman(`maps/browse/popular?count=4`)
@@ -52,7 +55,7 @@ const PlayAerialPage: FC = () => {
         <div className="mapDetailsSection">
           <div className="mapDescriptionWrapper">
             <div className="mapAvatar">
-              <Avatar url="/images/mapPreviews/testAerial.jpg" alt="Satelite View" size={100} outline />
+              <Avatar type="map" src="/images/mapPreviews/testAerial.jpg" size={100} />
             </div>
 
             <div className="descriptionColumnWrapper">
@@ -81,11 +84,7 @@ const PlayAerialPage: FC = () => {
         </div>
       </Layout>
 
-      {settingsOpen && (
-        <Modal closeModal={() => setSettingsOpen(false)}>
-          <AerialSettings closeModal={() => setSettingsOpen(false)} />
-        </Modal>
-      )}
+      {settingsOpen && <AerialSettings closeModal={() => setSettingsOpen(false)} />}
     </StyledPlayAerial>
   )
 }

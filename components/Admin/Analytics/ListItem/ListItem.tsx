@@ -22,7 +22,7 @@ const ListItem: FC<Props> = ({ title, data }) => {
           <Link href={`/user/${user._id}`}>
             <a className="item-details">
               <div className="item-avatar">
-                <Avatar url={`/images/avatars/${user.avatar}.jpg`} />
+                <Avatar type="user" src={user.avatar.emoji} backgroundColor={user.avatar.color} />
               </div>
               <div className="item-name">
                 <span>{user.name}</span>
@@ -44,7 +44,9 @@ const ListItem: FC<Props> = ({ title, data }) => {
         <div className="item-wrapper" key={idx}>
           <Link href={`/results/${game._id}`}>
             <a className="item-details">
-              <div className="item-avatar">{game.mapDetails && <Avatar url={game.mapDetails?.[0]?.previewImg} />}</div>
+              <div className="item-avatar">
+                {game.mapDetails && <Avatar type="map" src={game.mapDetails?.[0]?.previewImg} outlineSize={1} />}
+              </div>
               <div className="item-name">
                 <span>{game.mapDetails?.[0]?.name}</span>
               </div>

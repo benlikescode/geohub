@@ -4,7 +4,7 @@ type User = {
   name: string
   bio?: string
   email: string
-  avatar: string
+  avatar: { emoji: string; color: string }
   createdAt?: Date
   location?: string
   isAdmin?: boolean

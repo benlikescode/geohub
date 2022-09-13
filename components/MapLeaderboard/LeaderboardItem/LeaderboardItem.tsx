@@ -23,7 +23,7 @@ const LeaderboardItem: FC<Props> = ({ finishPlace, row }) => {
       <div className="userSection">
         <span className="userPlace">#{finishPlace}</span>
         <div className="userInfo">
-          <Avatar url={`/images/avatars/${row.userAvatar}.jpg`} alt="" size={30} customOutline="1px solid #fff" />
+          <Avatar type="user" src={row.userAvatar.emoji} backgroundColor={row.userAvatar.color} />
           <Link href={`/user/${row.userId}`}>
             <a>
               <span className="username">{row.userName}</span>

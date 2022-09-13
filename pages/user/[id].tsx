@@ -1,32 +1,50 @@
+/* eslint-disable @next/next/no-img-element */
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
-import { Layout, LoadingPage } from '@components/Layout'
+import { Layout } from '@components/Layout'
 import { MapLeaderboard } from '@components/MapLeaderboard'
-import { SkeletonLeaderboard } from '@components/SkeletonLeaderboard'
+import { AvatarPickerModal } from '@components/Modals/AvatarPickerModal'
 import { SkeletonProfile } from '@components/SkeletonProfile'
+import { CameraIcon } from '@heroicons/react/outline'
 import { BadgeCheckIcon, PencilAltIcon } from '@heroicons/react/solid'
-import { logOutUser, selectUser, updateBio, updateUsername } from '@redux/user'
+import {
+  logOutUser,
+  selectUser,
+  updateAvatar,
+  updateBio,
+  updateUsername
+} from '@redux/user'
 import StyledProfilePage from '@styles/ProfilePage.Styled'
 import { MapLeaderboardType } from '@types'
 
 import type { NextPage } from 'next'
 
+type NewProfileValuesType = {
+  name: string
+  bio?: string
+  avatar?: { emoji: string; color: string }
+}
+
 const ProfilePage: NextPage = () => {
   const [leaderboardData, setLeaderboardData] = useState<MapLeaderboardType[] | null>()
-  const [newProfileValues, setNewProfileValues] = useState<{ name: string; bio?: string }>()
+  const [newProfileValues, setNewProfileValues] = useState<NewProfileValuesType>()
   const [isEditing, setIsEditing] = useState(false)
   const [userDetails, setUserDetails] = useState<any>()
   const [loading, setLoading] = useState(true)
   const [leaderboardPage, setLeaderboardPage] = useState(0)
   const [leaderboardHasMore, setLeaderboardHasMore] = useState(true)
+  const [avatarModalOpen, setAvatarModalOpen] = useState(false)
   const user = useSelector(selectUser)
   const router = useRouter()
   const userId = router.query.id
   const dispatch = useDispatch()
+
+  avatarModalOpen ? disableBodyScroll(document as any) : enableBodyScroll(document as any)
 
   const isThisUsersProfile = () => {
     if (!user.id) {
@@ -62,13 +80,20 @@ const ProfilePage: NextPage = () => {
     setLeaderboardPage((prev) => prev + 1)
   }
 
+  const setNewUserDetails = (changedValues: any) => {
+    setNewProfileValues({ ...newProfileValues, ...changedValues })
+  }
+
   const updateUserInfo = async () => {
     dispatch(updateBio(newProfileValues?.bio))
     dispatch(updateUsername(newProfileValues?.name))
+    dispatch(updateAvatar(newProfileValues?.avatar))
+
     setUserDetails({
       ...userDetails,
       name: newProfileValues?.name,
       bio: newProfileValues?.bio,
+      avatar: newProfileValues?.avatar,
     })
     setIsEditing(false)
 
@@ -76,7 +101,7 @@ const ProfilePage: NextPage = () => {
   }
 
   const cancelEditing = () => {
-    setNewProfileValues({ name: userDetails.name, bio: userDetails.bio })
+    setNewProfileValues({ name: userDetails.name, bio: userDetails.bio, avatar: userDetails.avatar })
     setIsEditing(false)
   }
 
@@ -90,13 +115,13 @@ const ProfilePage: NextPage = () => {
     // If this users profile, use the cached data in redux store
     if (isThisUsersProfile()) {
       setUserDetails({ name: user.name, bio: user.bio, avatar: user.avatar, isAdmin: user.isAdmin })
-      setNewProfileValues({ name: user.name, bio: user.bio })
+      setNewProfileValues({ name: user.name, bio: user.bio, avatar: user.avatar })
       setLoading(false)
     } else {
       const fetchUserDetails = async () => {
         const { res } = await mailman(`users/${userId}`)
         setUserDetails(res)
-        setNewProfileValues({ name: res.name, bio: res.bio })
+        setNewProfileValues({ name: res.name, bio: res.bio, avatar: user.avatar })
         setLoading(false)
       }
 
@@ -105,7 +130,7 @@ const ProfilePage: NextPage = () => {
   }, [userId])
 
   return (
-    <StyledProfilePage>
+    <StyledProfilePage isEditing={isEditing}>
       <Layout>
         <Head title={userDetails ? userDetails.name : 'GeoHub'} />
 
@@ -116,15 +141,41 @@ const ProfilePage: NextPage = () => {
             <div className="banner"></div>
             <div className="profile-details">
               <div className="profile-heading">
-                <div className="profile-avatar">
-                  <img src={`/images/avatars/${userDetails.avatar}.jpg`} alt={userDetails.name} />
-                </div>
+                {isEditing ? (
+                  <button
+                    className="profile-avatar"
+                    style={{ backgroundColor: newProfileValues?.avatar?.color }}
+                    onClick={() => setAvatarModalOpen(true)}
+                  >
+                    <img
+                      src={`https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/${newProfileValues?.avatar?.emoji}.svg`}
+                      alt={`${userDetails.name}'s avatar`}
+                    />
+                    <div className="profile-avatar-editing-icon">
+                      <CameraIcon height={24} color="var(--color2)" />
+                    </div>
+                  </button>
+                ) : (
+                  <div className="profile-avatar" style={{ backgroundColor: userDetails.avatar?.color }}>
+                    <img
+                      src={`https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/${userDetails.avatar?.emoji}.svg`}
+                      alt={`${userDetails.name}'s avatar`}
+                    />
+                  </div>
+                )}
+
                 <h1 className="profile-name">
                   {isEditing ? (
                     <input
                       type="text"
                       value={newProfileValues?.name}
-                      onChange={(e) => setNewProfileValues({ name: e.target.value, bio: newProfileValues?.bio })}
+                      onChange={(e) =>
+                        setNewProfileValues({
+                          name: e.target.value,
+                          bio: newProfileValues?.bio,
+                          avatar: newProfileValues?.avatar,
+                        })
+                      }
                     />
                   ) : (
                     <div className="name-container">
@@ -146,6 +197,7 @@ const ProfilePage: NextPage = () => {
                           setNewProfileValues({
                             name: newProfileValues?.name || '',
                             bio: e.target.value,
+                            avatar: newProfileValues?.avatar,
                           })
                         }
                       ></textarea>
@@ -187,11 +239,16 @@ const ProfilePage: NextPage = () => {
             </div>
           </div>
         )}
+
+        {avatarModalOpen && (
+          <AvatarPickerModal closeModal={() => setAvatarModalOpen(false)} setNewUserDetails={setNewUserDetails} />
+        )}
       </Layout>
     </StyledProfilePage>
   )
 }
 
+// Fixes issue where state doesnt reset when navigating to same page
 ProfilePage.getInitialProps = ({ query }) => ({
   leaderboardData: null,
   leaderboardPage: 0,

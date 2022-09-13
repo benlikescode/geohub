@@ -55,16 +55,14 @@ const GuessMap: FC<Props> = ({ coordinate, zoom, currGuess, setCurrGuess, handle
       }
       setCurrGuess(location)
 
-      const marker = createMarker(location, map, `/images/markers/${user.avatar}.png`)
+      const marker = createMarker(location, map, `/images/markers/testMarker2.png`)
       clearMarkers(prevMarkersRef.current)
       prevMarkersRef.current.push(marker)
     })
   }
 
   const clearMarkers = (markers: google.maps.Marker[]) => {
-    for (let m of markers) {
-      m.setMap(null)
-    }
+    markers.map((marker) => marker.setMap(null))
   }
 
   const handleMapHover = () => {
@@ -136,7 +134,9 @@ const GuessMap: FC<Props> = ({ coordinate, zoom, currGuess, setCurrGuess, handle
         zoom={zoom}
         yesIWantToUseGoogleMapApiInternals
         onGoogleApiLoaded={handleApiLoaded}
-      ></GoogleMapReact>
+      >
+        <div>HELLO WORLD</div>
+      </GoogleMapReact>
     </StyledGuessMap>
   )
 }

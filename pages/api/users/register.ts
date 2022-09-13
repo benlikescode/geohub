@@ -4,6 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 /* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { randomInt } from '@utils/functions/generateLocations'
+import { getRandomAvatar } from '@utils/helperFunctions'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -39,7 +40,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         name,
         email,
         password: hashPassword,
-        avatar: `default${randomInt(1, 6)}`,
+        avatar: getRandomAvatar(),
         createdAt: new Date(),
         location: 'Canada',
       }

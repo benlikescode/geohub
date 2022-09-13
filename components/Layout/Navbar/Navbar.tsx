@@ -50,12 +50,7 @@ const Navbar: FC = () => {
                 <Link href={`/user/${user.id}`}>
                   <a className="userInfo">
                     <span className="username">{user.name}</span>
-                    <Avatar
-                      url={`/images/avatars/${user.avatar}.jpg`}
-                      alt=""
-                      size={30}
-                      customOutline="1px solid rgba(255, 255, 255, 0.15)"
-                    />
+                    <Avatar type="user" src={user.avatar?.emoji} backgroundColor={user.avatar?.color} />
                   </a>
                 </Link>
               )}

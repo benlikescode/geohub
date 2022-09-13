@@ -1,6 +1,10 @@
 import styled from 'styled-components'
 
-const StyledProfilePage = styled.div`
+type StyledProps = {
+  isEditing?: boolean
+}
+
+const StyledProfilePage = styled.div<StyledProps>`
   .banner {
     width: 100%;
     height: 250px;
@@ -42,19 +46,26 @@ const StyledProfilePage = styled.div`
         border-radius: 50%;
         position: relative;
         box-shadow: 0 0 0 5px #0e0e10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
         img {
-          position: absolute;
-          object-fit: cover;
-          border-radius: 50%;
-          width: 100%;
-          height: 100%;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
+          height: 70px;
+          width: 70px;
         }
 
+        .profile-avatar-editing-icon {
+          background-color: #363636;
+          border-radius: 50rem;
+          padding: 0.5rem;
+          border: 1px solid rgba(255, 255, 255, 0.55);
+          position: absolute;
+          top: -0.5rem;
+          right: 0;
+        }
+
+        /*
         &::after {
           content: '';
           position: absolute;
@@ -66,7 +77,12 @@ const StyledProfilePage = styled.div`
           left: 0;
           right: 0;
           bottom: 0;
-          box-shadow: inset 0 0 0 1px rgb(255, 255, 255, 0.1);
+        }
+*/
+        &:hover {
+          opacity: ${({ isEditing }) => (isEditing ? 0.95 : 1)};
+
+          //background-color: #333 !important;
         }
       }
 

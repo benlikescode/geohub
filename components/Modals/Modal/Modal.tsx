@@ -1,8 +1,9 @@
 import { FC, ReactNode } from 'react'
 import ReactDOM from 'react-dom'
-import { XIcon } from '@heroicons/react/outline'
-import { Button, Icon } from '../../System'
 
+import { XIcon } from '@heroicons/react/outline'
+
+import { Button, Icon, Spinner } from '../../System'
 import { StyledModal } from './'
 
 type Props = {
@@ -12,12 +13,26 @@ type Props = {
   title?: string
   actionButtonText?: string
   onActionButton?: () => any
+  cancelButtonText?: string
+  isSubmitting?: boolean
+  removeFooter?: boolean
   children: ReactNode
 }
 
-const Modal: FC<Props> = ({ width, closeModal, isCustom, title, actionButtonText, onActionButton, children }) => {
+const Modal: FC<Props> = ({
+  width,
+  closeModal,
+  isCustom,
+  title,
+  actionButtonText,
+  onActionButton,
+  cancelButtonText,
+  isSubmitting,
+  removeFooter,
+  children,
+}) => {
   return ReactDOM.createPortal(
-    <StyledModal width={width}>
+    <StyledModal width={width} isSubmitting={isSubmitting}>
       <div className="layerContainer">
         <div className="modal">
           {isCustom ? (
@@ -33,11 +48,18 @@ const Modal: FC<Props> = ({ width, closeModal, isCustom, title, actionButtonText
                 </Button>
               </div>
               <div className="modal-body">{children}</div>
-              <div className="modal-footer">
-                <button className="action-button" onClick={onActionButton}>
-                  {actionButtonText || 'Confirm'}
-                </button>
-              </div>
+              {!removeFooter && (
+                <div className="modal-footer">
+                  {cancelButtonText && (
+                    <button className="cancel-button" onClick={closeModal}>
+                      {cancelButtonText || 'Cancel'}
+                    </button>
+                  )}
+                  <button className="action-button" onClick={onActionButton}>
+                    {isSubmitting ? <Spinner size={20} /> : actionButtonText || 'Confirm'}
+                  </button>
+                </div>
+              )}
             </>
           )}
         </div>

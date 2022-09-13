@@ -11,7 +11,7 @@ type Game = {
   mapName?: string
   userId: ObjectId
   userName?: string
-  userAvatar?: string
+  userAvatar?: { emoji: string; color: string }
   gameSettings: GameSettingsType
   rounds: LocationType[]
   guesses: GuessType[]

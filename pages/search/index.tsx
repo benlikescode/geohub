@@ -70,7 +70,7 @@ const SearchResultsPage: NextPage = () => {
                 <Link key={idx} href={`/user/${result._id}`}>
                   <a className="search-result">
                     <div className="user-avatar">
-                      <Avatar url={`/images/avatars/${result.avatar}.jpg`} size={40} alt={`${result.name}'s avatar`} />
+                      <Avatar type="user" src={result.avatar?.emoji} backgroundColor={result.avatar?.color} size={40} />
                     </div>
                     <div className="user-name">
                       <span>{result.name}</span>
@@ -83,7 +83,7 @@ const SearchResultsPage: NextPage = () => {
                 <Link key={idx} href={`/map/${result.slug}`}>
                   <a className="search-result">
                     <div className="user-avatar">
-                      <Avatar url={result.previewImg} size={40} alt={`${result.name} avatar`} />
+                      <Avatar type="map" src={result.previewImg} size={40} />
                     </div>
                     <div className="user-name">
                       <span>{result.name}</span>

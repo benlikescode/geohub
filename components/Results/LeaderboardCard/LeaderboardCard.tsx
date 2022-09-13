@@ -84,12 +84,11 @@ const LeaderboardCard: FC<Props> = ({ gameData, mapData }) => {
                   {/*showPlace && <span className="userPlace">#{idx + 1}</span>*/}
                   <div className="userInfo">
                     <Avatar
-                      url={
-                        `/images/avatars/${game.userDetails ? game.userDetails[0]!.avatar : game.userAvatar}.jpg` || ''
-                      }
-                      alt=""
-                      size={30}
+                      type="user"
+                      src={game.userDetails ? game.userDetails[0]!.avatar.emoji : game.userAvatar?.emoji}
+                      backgroundColor={game.userDetails ? game.userDetails[0]!.avatar.color : game.userAvatar?.color}
                     />
+
                     <span className="username">{game.userDetails ? game.userDetails[0]!.name : game.userName}</span>
                   </div>
                 </div>

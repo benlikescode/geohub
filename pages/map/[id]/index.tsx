@@ -1,3 +1,4 @@
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import router from 'next/router'
 import React, { FC, useEffect, useState } from 'react'
 
@@ -24,6 +25,8 @@ const MapPage: FC = () => {
   const [otherMaps, setOtherMaps] = useState<MapType[] | null>()
   const [loading, setLoading] = useState(true)
   const mapId = router.query.id as string
+
+  settingsModalOpen ? disableBodyScroll(document as any) : enableBodyScroll(document as any)
 
   const closeModal = () => {
     setSettingsModalOpen(false)
@@ -77,9 +80,7 @@ const MapPage: FC = () => {
         {mapDetails ? (
           <div className="mapDetailsSection">
             <div className="mapDescriptionWrapper">
-              <div className="mapAvatar">
-                <Avatar url={mapDetails.previewImg || ''} alt="" size={100} outline />
-              </div>
+              <Avatar type="map" src={mapDetails.previewImg} size={100} />
 
               <div className="descriptionColumnWrapper">
                 <div className="descriptionColumn">
@@ -116,11 +117,7 @@ const MapPage: FC = () => {
         )}
       </Layout>
 
-      {settingsModalOpen && mapDetails && (
-        <Modal closeModal={closeModal}>
-          <GameSettings closeModal={closeModal} mapDetails={mapDetails} />
-        </Modal>
-      )}
+      {settingsModalOpen && mapDetails && <GameSettings closeModal={closeModal} mapDetails={mapDetails} />}
     </StyledMapPage>
   )
 }

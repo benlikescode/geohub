@@ -19,6 +19,7 @@ import { selectUser } from '@redux/user'
 import { UserType } from '@types'
 import { formatTimeLimit } from '@utils/helperFunctions'
 
+import { Modal } from '../Modal'
 import { StyledBingoSettings } from './'
 
 type Props = {
@@ -65,21 +66,18 @@ const BingoSettings: FC<Props> = ({ closeModal }) => {
   }
 
   return (
-    <StyledBingoSettings>
-      <Banner>
-        <div className="header">
-          <h2>Start Game</h2>
-          <Button type="icon" callback={() => closeModal()}>
-            <Icon size={30} hoverColor="var(--color2)">
-              <XIcon />
-            </Icon>
-          </Button>
-        </div>
-
+    <Modal
+      closeModal={closeModal}
+      title="Start Game"
+      cancelButtonText="Cancel"
+      actionButtonText="Start"
+      onActionButton={handleStartGame}
+    >
+      <StyledBingoSettings>
         <div className="mainContent">
           <FlexGroup gap={15}>
             <div>
-              <Avatar url={'/images/bingoAvatar.jpg'} size={60} alt="Bingo" outline />
+              <Avatar type="map" src="/images/bingoAvatar.jpg" size={60} />
             </div>
             <div className="mapInfo">
               <span className="mapName">Geo-Bingo</span>
@@ -121,18 +119,8 @@ const BingoSettings: FC<Props> = ({ closeModal }) => {
             </div>
           </div>
         </div>
-
-        <div className="footer">
-          <Button type="ghost" width="130px" callback={() => closeModal()}>
-            Cancel
-          </Button>
-
-          <Button type="solidPurple" width="175px" callback={() => handleStartGame()}>
-            Start Game
-          </Button>
-        </div>
-      </Banner>
-    </StyledBingoSettings>
+      </StyledBingoSettings>
+    </Modal>
   )
 }
 
