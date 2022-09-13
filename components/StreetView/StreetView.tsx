@@ -26,8 +26,8 @@ type Props = {
 const StreetView: FC<Props> = ({ gameData, setView, setGameData, isTesting }) => {
   const [loading, setLoading] = useState(true)
   const [currGuess, setCurrGuess] = useState<LocationType | null>(null)
+  const [adjustedLocation, setAdjustedLocation] = useState<LocationType | null>(null)
   const location = gameData.rounds[gameData.round - 1]
-  //console.log(`LOCATION: ${JSON.stringify(location)}`)
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
   const game = useSelector(selectGame)
   const user = useSelector(selectUser)
@@ -45,6 +45,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData, isTesting }) =>
         userLocation: user.location,
         timedOut: false,
         timedOutWithGuess: false,
+        adjustedLocation,
       }
 
       const { status, res } = await mailman(`games/${gameData.id}`, 'PUT', JSON.stringify(body))
@@ -113,9 +114,17 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData, isTesting }) =>
     })
 
     const processSVData = (data: any, status: any) => {
+      console.log(`STREETVIEW ROUND DATA: ${JSON.stringify(data)}`)
+
       if (data == null) {
         console.log('There was an error loading the round :(')
       } else {
+        const adjustedLat = data.location.latLng.lat()
+        const adjustedLng = data.location.latLng.lng()
+        const adjustedLocation = { ...location, lat: adjustedLat, lng: adjustedLng }
+
+        setAdjustedLocation(adjustedLocation)
+
         panorama.setPano(data.location.pano)
         panorama.setPov({
           heading: location.heading || 0,

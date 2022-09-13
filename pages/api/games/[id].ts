@@ -11,6 +11,7 @@ import { getResultData } from '@utils/helperFunctions'
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await dbConnect()
+
     const gameId = req.query.id as string
 
     if (req.method === 'GET') {
@@ -39,9 +40,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       res.status(200).send(result)
-    } else if (req.method === 'PUT') {
+    }
+
+    // Stores previous round info and gets next round
+    else if (req.method === 'PUT') {
       const query = { _id: new ObjectId(gameId) }
-      const { guess, guessTime, localRound, userLocation, timedOut, timedOutWithGuess } = req.body
+      const { guess, guessTime, localRound, userLocation, timedOut, timedOutWithGuess, adjustedLocation } = req.body
 
       const game = (await collections.games?.findOne(query)) as Game
 
@@ -68,6 +72,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           duplicate = game.rounds.some((r) => r.lat === newLocation.lat && r.lng === newLocation.lng)
           buffer++
         }
+
+        // updates the previously generated round to the coordinates returned by the Google SV Pano
+        game.rounds[localRound - 1] = adjustedLocation
 
         game.rounds = game.rounds.concat(newLocation)
       }
@@ -98,7 +105,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       res.status(200).send(game)
-    } else if (req.method === 'DELETE') {
+    }
+
+    // Deletes a specified game
+    // TODO: Instead of deleting game -> maybe mark as deleted in DB (so i dont lose round data)
+    // THIS ENDPOINT NEEDS AUTH -> check that this game belongs to user making request
+    else if (req.method === 'DELETE') {
       const deletedGame = await collections.games?.deleteOne({ _id: new ObjectId(gameId) })
 
       if (!deletedGame) {
