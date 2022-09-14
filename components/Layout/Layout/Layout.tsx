@@ -16,10 +16,6 @@ const Layout: FC<Props> = ({ isHome, maxWidth, children }) => {
       <Navbar />
 
       <div className="appBody">
-        <div className="sidebarWrapper">
-          <Sidebar />
-        </div>
-
         <main>
           {isHome && (
             <div className="heroBannerWrapper">

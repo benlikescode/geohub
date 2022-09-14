@@ -7,6 +7,7 @@ import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
 import { Layout, LoadingPage } from '@components/Layout'
 import { BlockQuote } from '@components/System/'
+import { Skeleton } from '@components/System/Skeleton'
 import { UnfinishedCard } from '@components/UnfinishedCard'
 import { selectUser } from '@redux/user'
 
@@ -46,30 +47,32 @@ const OngoingGamesPage: NextPage = () => {
     setGames(filtered)
   }
 
-  if (loading) return <LoadingPage />
-
   return (
     <Layout>
       <Head title="Ongoing Games" />
       <StyledHeader>Ongoing Games</StyledHeader>
 
-      {(!user.id || !games || games.length === 0) && (
+      {/*(!user.id || !games || games.length === 0) && (
         <BlockQuote>You do not appear to have any ongoing games</BlockQuote>
-      )}
+      )*/}
 
-      <StyledGamesWrapper>
-        {games.map((game, idx) => (
-          <UnfinishedCard
-            key={idx}
-            mapAvatar={game.mapDetails[0].previewImg}
-            mapName={game.mapDetails[0].name}
-            round={game.round}
-            points={game.totalPoints}
-            gameId={game._id}
-            reloadGames={reloadGames}
-          />
-        ))}
-      </StyledGamesWrapper>
+      {loading ? (
+        Array.from({ length: 10 }).map((_, idx) => <Skeleton key={idx} />)
+      ) : (
+        <StyledGamesWrapper>
+          {games.map((game, idx) => (
+            <UnfinishedCard
+              key={idx}
+              mapAvatar={game.mapDetails[0].previewImg}
+              mapName={game.mapDetails[0].name}
+              round={game.round}
+              points={game.totalPoints}
+              gameId={game._id}
+              reloadGames={reloadGames}
+            />
+          ))}
+        </StyledGamesWrapper>
+      )}
     </Layout>
   )
 }

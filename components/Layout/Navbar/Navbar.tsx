@@ -32,6 +32,25 @@ const Navbar: FC = () => {
                 <h2 className="appTitle">GeoHub</h2>
               </a>
             </Link>
+
+            <div className="navLinks">
+              <Link href="/liked">
+                <a>
+                  <h2 className="navLink">Liked Maps</h2>
+                </a>
+              </Link>
+
+              <Link href="/ongoing">
+                <a>
+                  <h2 className="navLink">Ongoing Games</h2>
+                </a>
+              </Link>
+              <Link href="/friends">
+                <a>
+                  <h2 className="navLink">Friends</h2>
+                </a>
+              </Link>
+            </div>
           </div>
 
           <div className="middleContainer">

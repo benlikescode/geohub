@@ -4,7 +4,7 @@ const StyledNavbar = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 1rem;
+  padding: 0 1.5rem;
   height: 50px;
   position: sticky;
   top: 0;
@@ -12,25 +12,38 @@ const StyledNavbar = styled.div`
   background-color: #18181b;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.9), 0 0px 2px rgba(0, 0, 0, 0.9);
 
-  .appTitle {
-    font-size: 1.25rem;
-    font-weight: 600;
-
-    @media (max-width: 800px) {
-      font-size: 1rem;
-    }
-  }
-
   .leftContainer {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     flex-grow: 1;
-    width: 100%; 
+    width: 100%;
     height: 100%;
 
     @media (max-width: 500px) {
       flex-shrink: 3;
+    }
+
+    .appTitle {
+      font-size: 1.25rem;
+      font-weight: 600;
+
+      @media (max-width: 800px) {
+        font-size: 1rem;
+      }
+    }
+
+    .navLinks {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-left: 2rem;
+
+      .navLink {
+        font-size: 1rem;
+        color: #a0a0a0;
+        font-weight: 400;
+      }
     }
   }
 
@@ -39,7 +52,7 @@ const StyledNavbar = styled.div`
     align-items: center;
     justify-content: center;
     flex-grow: 2;
-    width: 100%; 
+    width: 100%;
 
     @media (max-width: 700px) {
       display: none;
@@ -51,7 +64,7 @@ const StyledNavbar = styled.div`
     align-items: center;
     justify-content: flex-end;
     flex-grow: 1;
-    width: 100%;   
+    width: 100%;
   }
 
   .navLinks {
@@ -74,7 +87,7 @@ const StyledNavbar = styled.div`
   }
 
   .username {
-    color: #BEC3C9;
+    color: #bec3c9;
     font-size: 18px;
 
     @media (max-width: 800px) {
