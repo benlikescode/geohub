@@ -1,10 +1,12 @@
-import image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React, { FC } from 'react'
+import { useSelector } from 'react-redux'
 
 import { Avatar, FlexGroup, Icon } from '@components/System'
 /* eslint-disable @next/next/no-img-element */
 import { ChartBarIcon } from '@heroicons/react/outline'
+import { selectUser } from '@redux/user'
 import { MapLeaderboardType } from '@types'
 import { formatRoundTime } from '@utils/helperFunctions'
 
@@ -17,13 +19,24 @@ type Props = {
 
 const LeaderboardItem: FC<Props> = ({ finishPlace, row }) => {
   const isAerialLeaderboard = row.difficulty
+  const router = useRouter()
+  const user = useSelector(selectUser)
+
+  // If we are on the profile page of this user, show their avatar in redux
+  // this allows it to update immediately after editing profile
+  const isProfilePage = router.asPath.includes('user')
+  const isThisUsersProfile = router.query?.id === user.id
 
   return (
     <StyledLeaderboardItem>
       <div className="userSection">
         <span className="userPlace">#{finishPlace}</span>
         <div className="userInfo">
-          <Avatar type="user" src={row.userAvatar.emoji} backgroundColor={row.userAvatar.color} />
+          {isProfilePage && isThisUsersProfile ? (
+            <Avatar type="user" src={user.avatar.emoji} backgroundColor={user.avatar.color} />
+          ) : (
+            <Avatar type="user" src={row.userAvatar.emoji} backgroundColor={row.userAvatar.color} />
+          )}
           <Link href={`/user/${row.userId}`}>
             <a>
               <span className="username">{row.userName}</span>
