@@ -15,12 +15,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const gamesPerPage = 20
 
       const query = { userId: new ObjectId(userId), round: 6 }
-      const data = await collections.games
+      const games = await collections.games
         ?.aggregate([
           { $match: query },
           { $sort: { totalPoints: -1 } },
           { $skip: page * gamesPerPage },
-          { $limit: gamesPerPage },
+          { $limit: gamesPerPage + 1 },
           {
             $project: {
               rounds: 0,
@@ -38,20 +38,27 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         ])
         .toArray()
 
-      if (!data) {
-        return res.status(404).send(`Failed to find data`)
+      if (!games) {
+        return res.status(404).send(`Failed to find games for user with id: ${userId}`)
       }
 
-      res.status(200).send(
-        data.map((item) => ({
-          userId: item.userId,
-          userName: item.userDetails[0].name,
-          userAvatar: item.userDetails[0].avatar,
-          gameId: item._id,
-          totalPoints: item.totalPoints,
-          totalTime: item.totalTime,
-        }))
-      )
+      const data = games.slice(0, gamesPerPage).map((item) => ({
+        userId: item.userId,
+        userName: item.userDetails[0].name,
+        userAvatar: item.userDetails[0].avatar,
+        gameId: item._id,
+        totalPoints: item.totalPoints,
+        totalTime: item.totalTime,
+      }))
+
+      // we set limit to gamesPerPage + 1 so we know if there is atleast 1 more game after this batch
+      // note that we still slice the response to only return gamesPerPage elements
+      const hasMore = games.length > gamesPerPage
+
+      res.status(200).send({
+        data,
+        hasMore,
+      })
     } else {
       res.status(500).json('Nothing to see here.')
     }

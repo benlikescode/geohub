@@ -63,18 +63,16 @@ const ProfilePage: NextPage = () => {
   const fetchLeaderboard = async () => {
     const { status, res } = await mailman(`scores/user/${userId}?page=${leaderboardPage}`)
 
-    if (status === 404 || status === 500) {
+    if (status === 404 || status === 500 || !res.data) {
       return setLeaderboardData(null)
     }
 
-    if (res.length === 0) {
-      setLeaderboardHasMore(false)
-    }
+    setLeaderboardHasMore(res.hasMore)
 
     if (!leaderboardData) {
-      setLeaderboardData(res)
+      setLeaderboardData(res.data)
     } else {
-      setLeaderboardData((prev) => prev?.concat(res))
+      setLeaderboardData((prev) => prev?.concat(res.data))
     }
 
     setLeaderboardPage((prev) => prev + 1)
