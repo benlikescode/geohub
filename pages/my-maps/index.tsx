@@ -1,6 +1,7 @@
-import type { NextPage } from 'next'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+
+import { NoResults } from '@components/ErrorViews/NoResults'
 
 import { Head } from '../../components/Head'
 import { Layout } from '../../components/Layout'
@@ -13,6 +14,7 @@ import { SkeletonMapInfo } from '../../components/SkeletonMapInfo'
 import { removeDuplicateLocations } from '../../utils/helperFunctions'
 import diverseWorld from '../../utils/locations/diverseWorld.json'
 
+import type { NextPage } from 'next'
 const StyledHeader = styled.h1`
   font-size: 1.75rem;
   font-weight: 700;
@@ -37,13 +39,8 @@ const MyMapsPage: NextPage = () => {
       <Head title="My Maps" />
       <StyledHeader>Coming Soon!</StyledHeader>
 
-      <div>
-        <img
-          src="https://ouch-cdn2.icons8.com/7ouKWLmWN1-WhDpK28kH-TnrGhfKQEz3GZvo7zr7VsM/rs:fit:256:256/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvNzY4/LzFkYjE2MmU4LTM5/NDQtNDhhMS04ZGJh/LTc0ZDc1MGYxN2E2/Yy5zdmc.png"
-          alt=""
-        />
-        <StyledMessage>You do not appear to have any liked maps</StyledMessage>
-        <span>Like a map for it to show here</span>
+      <div style={{ height: 'calc(100vh - 400px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <NoResults message="Like a map for it to show here" />
       </div>
     </Layout>
   )
