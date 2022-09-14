@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
 type StyledProps = {
-  isHome?: boolean;
-  maxWidth?: string;
+  isHome?: boolean
+  maxWidth?: string
 }
 
 const StyledLayout = styled.div<StyledProps>`
@@ -10,7 +10,7 @@ const StyledLayout = styled.div<StyledProps>`
 
   .appBody {
     display: grid;
-    grid-template-columns: 230px auto;
+    grid-template-columns: var(--sidebarWidth) auto;
     min-height: calc(100vh - 50px);
     //height: 100%;
 
@@ -39,7 +39,7 @@ const StyledLayout = styled.div<StyledProps>`
   }
 
   .mainContent {
-    max-width: ${({ theme, maxWidth }) => maxWidth ? maxWidth : theme.breakpoint.l};
+    max-width: ${({ theme, maxWidth }) => (maxWidth ? maxWidth : theme.breakpoint.l)};
     width: 100%;
     padding: 3.5rem;
     display: grid;
@@ -55,13 +55,14 @@ const StyledLayout = styled.div<StyledProps>`
   .heroBannerWrapper {
     position: absolute;
     top: 0;
-    width: 100%;  
+    width: 100%;
     height: 296px;
     border-bottom: 1px solid #222;
   }
 
   .heroBanner {
-    background-image: linear-gradient(180deg, rgba(19, 19, 20, 0) 0%, #131314 100%), url('/images/backgrounds/hero1.jpeg');
+    background-image: linear-gradient(180deg, rgba(19, 19, 20, 0) 0%, #131314 100%),
+      url('/images/backgrounds/hero1.jpeg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;

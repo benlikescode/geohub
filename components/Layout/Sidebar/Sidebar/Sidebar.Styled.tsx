@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const StyledSidebar = styled.div`
-  width: 230px;
+  width: var(--sidebarWidth);
   border-right: 1px solid #252525;
   height: 100%;
   position: fixed;
@@ -45,7 +45,7 @@ const StyledSidebar = styled.div`
 
   .linkItem {
     cursor: pointer;
-    color: #878D93;
+    color: #878d93;
     font-size: 15px;
 
     :hover {

@@ -6,7 +6,7 @@ const StyledHomePage = styled.div`
     grid-template-columns: repeat(4, 1fr);
     gap: 1.2rem;
     z-index: 1;
-    
+
     @media (max-width: 1350px) {
       grid-template-columns: 1fr 1fr;
     }
@@ -70,14 +70,14 @@ const StyledHomePage = styled.div`
     display: flex;
     align-items: center;
     background: transparent;
-    color: #0EA5E9;
+    color: #0ea5e9;
     cursor: pointer;
-  } 
+  }
 
   .gamemodesWrapper {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1.2rem; 
+    gap: 1.2rem;
 
     @media (max-width: 1200px) {
       grid-template-columns: 1fr;

@@ -6,7 +6,7 @@ type StyledProps = {
 }
 
 const StyledSearchbar = styled.div<StyledProps>`
-  max-width: 400px;
+  max-width: 450px;
   width: 100%;
   position: relative;
 
@@ -15,7 +15,7 @@ const StyledSearchbar = styled.div<StyledProps>`
     align-items: center;
     gap: 10px;
     width: 100%;
-    height: ${({ isSmall }) => isSmall ? 30 : 34}px;
+    height: ${({ isSmall }) => (isSmall ? 30 : 34)}px;
     border-radius: 3px;
     background: #121313;
     color: rgba(206, 206, 206, 0.6);
@@ -29,7 +29,7 @@ const StyledSearchbar = styled.div<StyledProps>`
     width: 100%;
     pointer-events: all;
     height: 100%;
-    background: transparent;  
+    background: transparent;
     font-weight: 400;
     margin-left: 10px;
     border-radius: 3px;
@@ -39,7 +39,7 @@ const StyledSearchbar = styled.div<StyledProps>`
       font-weight: 400;
     }
   }
-  
+
   .searchBtn {
     display: flex;
     align-items: center;
