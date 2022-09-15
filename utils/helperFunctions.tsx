@@ -1,3 +1,5 @@
+import { toast } from 'react-toastify'
+
 import { GameSettingsType, GuessType, LocationType } from '@types'
 
 import { BACKGROUND_COLORS, EMOJIS } from './constants/avatarOptions'
@@ -534,4 +536,17 @@ export const getRandomAvatar = () => {
   const randomColor = randomElement(BACKGROUND_COLORS)
 
   return { emoji: randomEmoji, color: randomColor }
+}
+
+export const showErrorToast = (message?: string) => {
+  toast.error(message || 'An unexpected error occured', {
+    position: 'bottom-right',
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: 0,
+    theme: 'dark',
+  })
 }

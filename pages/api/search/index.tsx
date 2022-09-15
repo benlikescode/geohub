@@ -10,10 +10,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await dbConnect()
 
-    const query = req.query.q as string
-    const count = Number(req.query.count as string)
-
+    // Takes in a search query and returns at most 3 users and 3 maps matching the query
     if (req.method === 'GET') {
+      const query = req.query.q as string
+      const count = Number(req.query.count as string)
+
       const users = await collections.users
         ?.aggregate([
           {

@@ -1,5 +1,7 @@
 import { Collection, Db, MongoClient } from 'mongodb'
 
+import { RecentSearch } from '@types'
+
 import { IS_PROD, MONGO_URI } from './secrets'
 
 export const collections: {
@@ -13,6 +15,7 @@ export const collections: {
   friends?: Collection
   aerialGames?: Collection
   locations?: Collection
+  recentSearches?: Collection<RecentSearch>
 } = {}
 
 let cachedDb: Db | null = null
@@ -33,39 +36,20 @@ export const dbConnect = async () => {
 
     cachedDb = db
 
-    const usersCollection: Collection = db.collection('users')
-    const gamesCollection: Collection = db.collection('games')
-    const challengesCollection: Collection = db.collection('challenges')
-    const mapsCollection: Collection = db.collection('maps')
-    const bingoGames: Collection = db.collection('bingoGames')
-    const bingoSuggestions: Collection = db.collection('bingoSuggestions')
-    const mapLikes: Collection = db.collection('mapLikes')
-    const friends: Collection = db.collection('friends')
-    const aerialGames: Collection = db.collection('aerialGames')
-    const locations: Collection = db.collection('locations')
-
-    collections.users = usersCollection
-    collections.games = gamesCollection
-    collections.challenges = challengesCollection
-    collections.maps = mapsCollection
-    collections.bingoGames = bingoGames
-    collections.bingoSuggestions = bingoSuggestions
-    collections.mapLikes = mapLikes
-    collections.friends = friends
-    collections.aerialGames = aerialGames
-    collections.locations = locations
+    collections.users = db.collection('users')
+    collections.games = db.collection('games')
+    collections.challenges = db.collection('challenges')
+    collections.maps = db.collection('maps')
+    collections.bingoGames = db.collection('bingoGames')
+    collections.bingoSuggestions = db.collection('bingoSuggestions')
+    collections.mapLikes = db.collection('mapLikes')
+    collections.friends = db.collection('friends')
+    collections.aerialGames = db.collection('aerialGames')
+    collections.locations = db.collection('locations')
+    collections.recentSearches = db.collection('recentSearches')
 
     return cachedDb
   } catch (err) {
-    console.log(err)
-  }
-}
-
-export const closeDbConnection = async () => {
-  try {
-    await client.close()
-  } catch (err) {
-    console.log('Could not close DB connection')
     console.log(err)
   }
 }
