@@ -84,6 +84,47 @@ const StyledHomePage = styled.div`
       gap: 3rem;
     }
   }
+
+  .heroBannerWrapper {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 296px;
+    border-bottom: 1px solid #222;
+  }
+
+  .heroBanner {
+    background-image: linear-gradient(180deg, rgba(19, 19, 20, 0) 0%, #131314 100%),
+      url('/images/backgrounds/hero1.jpeg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    position: relative;
+  }
+
+  .heroGradient {
+    height: 200px;
+    width: 100%;
+    background: linear-gradient(180deg, rgba(19, 19, 20, 0) 0%, rgba(19, 19, 20, 0.75) 100%);
+    transform: rotate(-180deg);
+    position: absolute;
+    top: 0;
+  }
+
+  .main-content {
+    max-width: var(--mainMaxWidth);
+    width: 100%;
+    padding: 3.5rem;
+    display: grid;
+    gap: 3rem;
+    margin: 0 auto;
+    padding-top: 4rem;
+
+    @media (max-width: 500px) {
+      padding: 3rem 1rem;
+    }
+  }
 `
 
 export default StyledHomePage

@@ -1,32 +1,21 @@
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import { useRouter } from 'next/router'
 import React, { FC, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { toast } from 'react-toastify'
 
 import { mailman } from '@backend/utils/mailman'
-import { Banner } from '@components/Layout'
-import {
-  Avatar,
-  Button,
-  Checkbox,
-  FlexGroup,
-  Icon,
-  Slider
-} from '@components/System'
+import { Avatar, Checkbox, FlexGroup, Icon, Slider } from '@components/System'
 import {
   ArrowsExpandIcon,
   ClockIcon,
   SwitchHorizontalIcon,
   UserGroupIcon,
   UserIcon,
-  XIcon,
   ZoomInIcon
 } from '@heroicons/react/outline'
 import { updateStartTime } from '@redux/game'
 import { selectUser, updateLocation } from '@redux/user'
 import { GameSettingsType, LocationType, MapType, UserType } from '@types'
-import { formatTimeLimit } from '@utils/helperFunctions'
+import { formatTimeLimit, showErrorToast } from '@utils/helperFunctions'
 
 import { Modal } from '../Modal'
 import { StyledGameSettings } from './'
@@ -51,18 +40,6 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
   const user: UserType = useSelector(selectUser)
   const dispatch = useDispatch()
   const mapId = router.asPath.split('/')[2]
-
-  const notify = () =>
-    toast.error('This map does not seem to have any locations', {
-      position: 'bottom-right',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: 0,
-      theme: 'dark',
-    })
 
   useEffect(() => {
     if (mapId === 'near-you') {
@@ -150,7 +127,7 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
     const { status, res } = await mailman('games', 'POST', JSON.stringify(gameData))
 
     if (status === 400) {
-      notify()
+      showErrorToast('This map does not seem to have any locations')
     } else {
       router.push(`/game/${res}`)
     }

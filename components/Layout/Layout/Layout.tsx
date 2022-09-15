@@ -5,14 +5,13 @@ import { MobileNav, Navbar, Sidebar } from '@components/Layout'
 import { StyledLayout } from './'
 
 type Props = {
-  isHome?: boolean
-  maxWidth?: string
+  removeWrapper?: boolean
   children: ReactNode
 }
 
-const Layout: FC<Props> = ({ isHome, maxWidth, children }) => {
+const Layout: FC<Props> = ({ removeWrapper, children }) => {
   return (
-    <StyledLayout isHome={isHome} maxWidth={maxWidth}>
+    <StyledLayout>
       <Navbar />
 
       <div className="appBody">
@@ -20,17 +19,7 @@ const Layout: FC<Props> = ({ isHome, maxWidth, children }) => {
           <Sidebar />
         </div>
 
-        <main>
-          {isHome && (
-            <div className="heroBannerWrapper">
-              <div className="heroBanner">
-                <div className="heroGradient"></div>
-              </div>
-            </div>
-          )}
-
-          <div className="mainContent">{children}</div>
-        </main>
+        <main>{removeWrapper ? children : <div className="mainContent">{children}</div>}</main>
       </div>
 
       <MobileNav />

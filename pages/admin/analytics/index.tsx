@@ -65,7 +65,7 @@ const AnalyticsPage: NextPage = () => {
                   <Skeleton variant="rectangular" height={16} width={200} />
                 </div>
                 <div className="skeleton-data">
-                  {Array.from({ length: 5 }).map((_, idx) => (
+                  {Array.from({ length: 7 }).map((_, idx) => (
                     <div className="skeleton-user-item" key={idx}>
                       <div className="skeleton-user-details">
                         <Skeleton variant="circular" height={30} width={30} />

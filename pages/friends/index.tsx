@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import React from 'react'
 
+import { NoResults } from '@components/ErrorViews/NoResults'
 import { Head } from '@components/Head'
 import { Layout, PageHeader } from '@components/Layout'
 import { BlockQuote } from '@components/System'
@@ -11,7 +12,7 @@ const FriendsPage: NextPage = () => {
       <Head title="Friends" />
       <PageHeader>Friends</PageHeader>
 
-      <BlockQuote>You do not appear to have any friends</BlockQuote>
+      <NoResults message="Add friends for them to show here" />
     </Layout>
   )
 }

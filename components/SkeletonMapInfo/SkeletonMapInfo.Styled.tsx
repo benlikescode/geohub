@@ -4,10 +4,10 @@ type StyledProps = {}
 
 const StyledSkeletonMapInfo = styled.div<StyledProps>`
   display: flex;
-  height: 100%;
   background-color: var(--background2);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 6px;
+  margin-bottom: 3rem;
 
   @media (max-width: 1200px) {
     flex-direction: column;

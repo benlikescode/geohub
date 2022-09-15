@@ -2,14 +2,14 @@ import styled from 'styled-components'
 
 const StyledResultsCard = styled.div`
   margin: -20px 50px 0 50px;
-  max-width: var(--maxWidth);
+  max-width: 1560px;
   width: 100%;
   z-index: 1;
   background-color: #121212;
   border-radius: 12px;
   border: 1px solid #202020;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.55);
-  
+
   .resultsWrapper {
     display: flex;
     align-items: center;
@@ -56,7 +56,6 @@ const StyledResultsCard = styled.div`
     font-size: 1rem;
     color: #d1d1d1;
   }
-  
 `
 
 export default StyledResultsCard

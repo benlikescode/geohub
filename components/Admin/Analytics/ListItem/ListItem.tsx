@@ -60,6 +60,7 @@ const ListItem: FC<Props> = ({ title, data }) => {
       ))
     }
   }
+
   return (
     <StyledListItem>
       <div className="analytics-group-item">

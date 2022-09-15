@@ -157,6 +157,8 @@
   --sidebarWidth: 220px;
   --navbarHeight: 50px;
   --mobileNavHeight: 50px;
+  --mainMaxWidth: 1362px;
+
   --mainPadding: 4rem;
   --iconColor: #8d8f92;
   --activeColor: #a5adff;
@@ -179,7 +181,6 @@
   --bronze: #6a3805;
   --silver: #d7d7d7;
   --gold: #c9b037;
-  --maxWidth: 1560px;
 }
 
 html,

@@ -21,40 +21,48 @@ const Home: NextPage = () => {
 
   return (
     <StyledHomePage>
-      <Layout isHome>
-        <div className="bannerContent">
-          <h2 className="bannerTitle">Today&apos;s Tip</h2>
-          <div className="tipWrapper">
-            <span className="tip">{geoTip.tip}</span>
+      <Layout removeWrapper>
+        <div className="heroBannerWrapper">
+          <div className="heroBanner">
+            <div className="heroGradient"></div>
           </div>
-          <div className="pillsWrapper">
-            {geoTip.tags.map((label, idx) => (
-              <Pill key={idx} label={label} />
+        </div>
+
+        <div className="main-content">
+          <div className="bannerContent">
+            <h2 className="bannerTitle">Today&apos;s Tip</h2>
+            <div className="tipWrapper">
+              <span className="tip">{geoTip.tip}</span>
+            </div>
+            <div className="pillsWrapper">
+              {geoTip.tags.map((label, idx) => (
+                <Pill key={idx} label={label} />
+              ))}
+            </div>
+          </div>
+
+          <div className="mapPreviewSection">
+            {officialMaps.maps.map((map, idx) => (
+              <MapPreviewCard key={idx} map={map} />
             ))}
           </div>
-        </div>
 
-        <div className="mapPreviewSection">
-          {officialMaps.maps.map((map, idx) => (
-            <MapPreviewCard key={idx} map={map} />
-          ))}
-        </div>
+          <div className="gamemodesWrapper">
+            <GamemodeCard
+              title="Aerial Game"
+              titleColor="var(--blue-500)"
+              description="Can you pinpoint a city looking down from the sky?"
+              buttonText="Play Now"
+              href="/aerial"
+            />
 
-        <div className="gamemodesWrapper">
-          <GamemodeCard
-            title="Aerial Game"
-            titleColor="var(--blue-500)"
-            description="Can you pinpoint a city looking down from the sky?"
-            buttonText="Play Now"
-            href="/aerial"
-          />
-
-          <GamemodeCard
-            title="Geo Learn"
-            titleColor="var(--green-500)"
-            description="Facts and fun quizes to improve your knowledge and up your game!"
-            buttonText="Learn Now"
-          />
+            <GamemodeCard
+              title="Geo Learn"
+              titleColor="var(--green-500)"
+              description="Facts and fun quizes to improve your knowledge and up your game!"
+              buttonText="Learn Now"
+            />
+          </div>
         </div>
       </Layout>
     </StyledHomePage>

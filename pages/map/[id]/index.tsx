@@ -113,7 +113,9 @@ const MapPage: FC = () => {
             </div>
           </div>
         ) : (
-          <SkeletonCards />
+          <div className="skeletonCards">
+            <SkeletonCards />
+          </div>
         )}
       </Layout>
 

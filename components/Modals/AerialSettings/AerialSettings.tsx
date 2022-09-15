@@ -1,12 +1,10 @@
 import { useRouter } from 'next/router'
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import { mailman } from '@backend/utils/mailman'
 import { CountrySelect } from '@components/CountrySelect'
-import { Banner } from '@components/Layout'
-import { Avatar, Button, Checkbox, FlexGroup, Icon } from '@components/System'
-import { XIcon } from '@heroicons/react/outline'
+import { Avatar, Checkbox } from '@components/System'
 import { selectUser } from '@redux/user'
 import { UserType } from '@types'
 
@@ -20,6 +18,7 @@ type Props = {
 const AerialSettings: FC<Props> = ({ closeModal }) => {
   const [difficulty, setDifficulty] = useState('Normal')
   const [countryCode, setCountryCode] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
   const user: UserType = useSelector(selectUser)
 
@@ -28,6 +27,8 @@ const AerialSettings: FC<Props> = ({ closeModal }) => {
       return router.push('/register')
     }
 
+    setIsSubmitting(true)
+
     const gameData = {
       userId: user.id,
       difficulty,
@@ -35,6 +36,8 @@ const AerialSettings: FC<Props> = ({ closeModal }) => {
     }
 
     const { status, res } = await mailman('aerial', 'POST', JSON.stringify(gameData))
+
+    setIsSubmitting(false)
 
     if (status === 400) {
       alert('Game could not be created, try again later.')
@@ -50,6 +53,7 @@ const AerialSettings: FC<Props> = ({ closeModal }) => {
       cancelButtonText="Cancel"
       actionButtonText="Start"
       onActionButton={handleStartGame}
+      isSubmitting={isSubmitting}
     >
       <StyledAerialSettings>
         <div className="mainContent">

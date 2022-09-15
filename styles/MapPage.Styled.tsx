@@ -18,6 +18,8 @@ const StyledMapPage = styled.div`
   }
 
   .otherMapsWrapper {
+    margin-top: 3rem;
+
     @media (max-width: 600px) {
       padding: 1rem;
     }
@@ -51,10 +53,10 @@ const StyledMapPage = styled.div`
 
   .mapDetailsSection {
     display: flex;
-    height: 100%;
     background-color: var(--background2);
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 6px;
+    margin-bottom: 3rem;
 
     @media (max-width: 1200px) {
       flex-direction: column;
@@ -135,6 +137,10 @@ const StyledMapPage = styled.div`
     display: flex;
     flex-direction: column;
     gap: 12px;
+  }
+
+  .skeletonCards {
+    margin-top: 3rem;
   }
 `
 

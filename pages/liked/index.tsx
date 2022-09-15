@@ -40,11 +40,7 @@ const LikedMapsPage: NextPage = () => {
         {loading && <SkeletonCards numCards={8} />}
 
         {/* Finished loading and No Results */}
-        {!loading && (!user.id || likedMaps.length === 0) && (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <NoResults message="Like a map for it to show here" />
-          </div>
-        )}
+        {!loading && (!user.id || likedMaps.length === 0) && <NoResults message="Like a map for it to show here" />}
 
         <div className="map-wrapper">
           {likedMaps.map((map, idx) => (

@@ -3,11 +3,12 @@ import React, { FC, useEffect, useState } from 'react'
 
 import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
-import { Layout, LoadingPage } from '@components/Layout'
+import { Layout } from '@components/Layout'
 import { MapLeaderboard } from '@components/MapLeaderboard'
 import { MapPreviewCard } from '@components/MapPreviewCard'
 import { AerialSettings } from '@components/Modals/AerialSettings'
-import { Modal } from '@components/Modals/Modal'
+import { SkeletonCards } from '@components/SkeletonCards'
+import SkeletonLeaderboard from '@components/SkeletonLeaderboard/SkeletonLeaderboard'
 import { Avatar, Button } from '@components/System'
 import StyledPlayAerial from '@styles/PlayAerial.Styled'
 import { MapLeaderboardType, MapType } from '@types'
@@ -44,14 +45,11 @@ const PlayAerialPage: FC = () => {
     fetchMapScores()
   }, [])
 
-  if (!otherMaps || !leaderboardData) {
-    return <LoadingPage />
-  }
-
   return (
     <StyledPlayAerial>
-      <Head title="Play - Aerial" />
       <Layout>
+        <Head title="Play - Aerial" />
+
         <div className="mapDetailsSection">
           <div className="mapDescriptionWrapper">
             <div className="mapAvatar">
@@ -72,16 +70,22 @@ const PlayAerialPage: FC = () => {
           </div>
         </div>
 
-        <MapLeaderboard leaderboard={leaderboardData} />
+        {leaderboardData ? <MapLeaderboard leaderboard={leaderboardData} /> : <SkeletonLeaderboard />}
 
-        <div className="otherMapsWrapper">
-          <span className="otherMapsTitle">Other Popular Maps</span>
-          <div className="otherMaps">
-            {otherMaps.map((otherMap, idx) => (
-              <MapPreviewCard key={idx} map={otherMap} />
-            ))}
+        {otherMaps ? (
+          <div className="otherMapsWrapper">
+            <span className="otherMapsTitle">Other Popular Maps</span>
+            <div className="otherMaps">
+              {otherMaps.map((otherMap, idx) => (
+                <MapPreviewCard key={idx} map={otherMap} />
+              ))}
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="skeletonCards">
+            <SkeletonCards />
+          </div>
+        )}
       </Layout>
 
       {settingsOpen && <AerialSettings closeModal={() => setSettingsOpen(false)} />}

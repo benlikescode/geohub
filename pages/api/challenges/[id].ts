@@ -57,6 +57,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         totalPoints: 0,
         totalDistance: 0,
         totalTime: 0,
+        createdAt: new Date(),
       }
 
       // Create game that is associated with this challenge
