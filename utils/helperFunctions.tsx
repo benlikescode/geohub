@@ -550,3 +550,16 @@ export const showErrorToast = (message?: string) => {
     theme: 'dark',
   })
 }
+
+export const showSuccessToast = (message: string) => {
+  toast.error(message, {
+    position: 'bottom-right',
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: 0,
+    theme: 'dark',
+  })
+}

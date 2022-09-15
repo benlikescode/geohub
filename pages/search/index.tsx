@@ -2,22 +2,13 @@ import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import styled from 'styled-components'
 
 import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
-import { Layout } from '@components/Layout'
+import { Layout, PageHeader } from '@components/Layout'
 import { Avatar } from '@components/System'
 import { Skeleton } from '@components/System/Skeleton'
-import { selectUser } from '@redux/user'
 import StyledSearchPage from '@styles/SearchPage.Styled'
-
-const StyledHeader = styled.h1`
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #fff;
-`
 
 const SearchResultsPage: NextPage = () => {
   const [searchResults, setSearchResults] = useState<any[]>([])
@@ -41,7 +32,7 @@ const SearchResultsPage: NextPage = () => {
     <StyledSearchPage>
       <Layout>
         <Head title={`Search Results - ${q}`} />
-        <StyledHeader>Search Results</StyledHeader>
+        <PageHeader>Search Results</PageHeader>
 
         <div style={{ width: 'fit-content' }}>
           {loading &&

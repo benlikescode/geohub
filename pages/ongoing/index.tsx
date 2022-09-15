@@ -5,16 +5,10 @@ import styled from 'styled-components'
 
 import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
-import { Layout, LoadingPage } from '@components/Layout'
+import { Layout, LoadingPage, PageHeader } from '@components/Layout'
 import { BlockQuote } from '@components/System/'
 import { UnfinishedCard } from '@components/UnfinishedCard'
 import { selectUser } from '@redux/user'
-
-const StyledHeader = styled.h1`
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #fff;
-`
 
 const StyledGamesWrapper = styled.section`
   display: grid;
@@ -51,7 +45,7 @@ const OngoingGamesPage: NextPage = () => {
   return (
     <Layout>
       <Head title="Ongoing Games" />
-      <StyledHeader>Ongoing Games</StyledHeader>
+      <PageHeader>Ongoing Games</PageHeader>
 
       {(!user.id || !games || games.length === 0) && (
         <BlockQuote>You do not appear to have any ongoing games</BlockQuote>

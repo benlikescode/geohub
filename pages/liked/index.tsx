@@ -4,35 +4,15 @@ import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import { mailman } from '@backend/utils/mailman'
+import { NoResults } from '@components/ErrorViews/NoResults'
 import { Head } from '@components/Head'
-import { Layout, LoadingPage } from '@components/Layout'
+import { Layout, PageHeader } from '@components/Layout'
 import { MapPreviewCard } from '@components/MapPreviewCard'
 import { SkeletonCards } from '@components/SkeletonCards'
-import { BlockQuote } from '@components/System/BlockQuote'
 import { selectUser } from '@redux/user'
+import StyledLikedMapsPage from '@styles/LikedMapsPage.Styled'
 
-const StyledHeader = styled.h1`
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #fff;
-`
-
-const StyledMapWrapper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.2rem;
-
-  @media (max-width: 1350px) {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  @media (max-width: 850px) {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-  }
-`
-
-const LikedPage: NextPage = () => {
+const LikedMapsPage: NextPage = () => {
   const [likedMaps, setLikedMaps] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const user = useSelector(selectUser)
@@ -52,25 +32,28 @@ const LikedPage: NextPage = () => {
   }, [user.id])
 
   return (
-    <Layout>
-      <Head title="Liked Maps" />
-      <StyledHeader>Liked Maps</StyledHeader>
+    <StyledLikedMapsPage>
+      <Layout>
+        <Head title="Liked Maps" />
+        <PageHeader>Liked Maps</PageHeader>
 
-      {loading && <SkeletonCards numCards={8} />}
+        {loading && <SkeletonCards numCards={8} />}
 
-      {/*(!user.id || !likedMaps || likedMaps.length === 0) && (
-        <BlockQuote>You do not appear to have any liked maps</BlockQuote>
-      )*/}
+        {/* Finished loading and No Results */}
+        {!loading && (!user.id || likedMaps.length === 0) && (
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <NoResults message="Like a map for it to show here" />
+          </div>
+        )}
 
-      {likedMaps.length > 0 && (
-        <StyledMapWrapper>
+        <div className="map-wrapper">
           {likedMaps.map((map, idx) => (
             <MapPreviewCard key={idx} map={map.mapDetails[0]} />
           ))}
-        </StyledMapWrapper>
-      )}
-    </Layout>
+        </div>
+      </Layout>
+    </StyledLikedMapsPage>
   )
 }
 
-export default LikedPage
+export default LikedMapsPage

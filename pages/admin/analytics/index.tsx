@@ -9,16 +9,10 @@ import { CountItem } from '@components/Admin/Analytics/CountItem'
 import { ListItem } from '@components/Admin/Analytics/ListItem'
 import { NotAuthenticated } from '@components/ErrorViews/NotAuthenticated'
 import { Head } from '@components/Head'
-import { Layout } from '@components/Layout'
+import { Layout, PageHeader } from '@components/Layout'
 import { Skeleton } from '@components/System/Skeleton'
 import { selectUser } from '@redux/user'
 import { GameType, UserType } from '@types'
-
-const StyledHeader = styled.h1`
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #fff;
-`
 
 type AnalyticsType = {
   counts: [{ title: string; count: number }]
@@ -52,7 +46,7 @@ const AnalyticsPage: NextPage = () => {
   return (
     <Layout>
       <Head title="Admin - Analytics" />
-      <StyledHeader>Analytics</StyledHeader>
+      <PageHeader>Analytics</PageHeader>
 
       <StyledAnalytics>
         <div className="analytics-group ">
