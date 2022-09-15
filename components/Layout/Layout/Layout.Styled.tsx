@@ -11,7 +11,7 @@ const StyledLayout = styled.div<StyledProps>`
   .appBody {
     display: grid;
     grid-template-columns: var(--sidebarWidth) auto;
-    min-height: calc(100vh - 50px);
+    min-height: calc(100vh - var(--navbarHeight));
     //height: 100%;
 
     @media (max-width: 1000px) {
@@ -24,7 +24,7 @@ const StyledLayout = styled.div<StyledProps>`
 
     @media (max-width: 600px) {
       grid-template-columns: auto;
-      min-height: calc(100vh - 50px - 50px);
+      min-height: calc(100vh - var(--navbarHeight) - var(--mobileNavHeight));
     }
   }
 

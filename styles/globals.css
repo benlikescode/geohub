@@ -155,6 +155,8 @@
   --borderLight: 1px solid #454546;
   --modalPadding: 2.5rem 1.5rem;
   --sidebarWidth: 220px;
+  --navbarHeight: 50px;
+  --mobileNavHeight: 50px;
   --mainPadding: 4rem;
   --iconColor: #8d8f92;
   --activeColor: #a5adff;

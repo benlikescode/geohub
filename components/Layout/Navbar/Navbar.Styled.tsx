@@ -1,11 +1,11 @@
 import styled from 'styled-components'
 
 const StyledNavbar = styled.div`
+  height: var(--navbarHeight);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 1rem;
-  height: 50px;
   position: sticky;
   top: 0;
   z-index: 20;
@@ -26,7 +26,7 @@ const StyledNavbar = styled.div`
     align-items: center;
     justify-content: flex-start;
     flex-grow: 1;
-    width: 100%; 
+    width: 100%;
     height: 100%;
 
     @media (max-width: 500px) {
@@ -39,7 +39,7 @@ const StyledNavbar = styled.div`
     align-items: center;
     justify-content: center;
     flex-grow: 2;
-    width: 100%; 
+    width: 100%;
 
     @media (max-width: 700px) {
       display: none;
@@ -51,7 +51,7 @@ const StyledNavbar = styled.div`
     align-items: center;
     justify-content: flex-end;
     flex-grow: 1;
-    width: 100%;   
+    width: 100%;
   }
 
   .navLinks {
@@ -74,7 +74,7 @@ const StyledNavbar = styled.div`
   }
 
   .username {
-    color: #BEC3C9;
+    color: #bec3c9;
     font-size: 18px;
 
     @media (max-width: 800px) {
