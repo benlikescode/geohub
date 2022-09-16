@@ -1,15 +1,17 @@
 import styled from 'styled-components'
 
 const StyledMapStats = styled.div`
-  background-color: #171718;
   border-top-right-radius: 12px;
   border-bottom-right-radius: 12px;
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
-  display: flex;
+  border-left: 1pxsolidrgba (255, 255, 255, 0.1);
+
   align-items: center;
+
   justify-content: center;
   height: 100%;
-  padding-left: 2rem;
+
+  padding: 20px;
+  padding-top: 10px;
 
   @media (max-width: 1200px) {
     padding: 2rem 0 2rem 3rem;
@@ -30,16 +32,29 @@ const StyledMapStats = styled.div`
 
   .statsGrid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 44px;  
-    width: 100%;
-    
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 40px;
+
     @media (max-width: 1200px) {
       grid-template-columns: repeat(4, 1fr);
     }
 
     @media (max-width: 940px) {
       grid-template-columns: 1fr 1fr;
+    }
+
+    .stat-item {
+      display: flex;
+
+      align-items: center;
+      gap: 8px;
+
+      padding: 12px 14px;
+      background: #ffffff0a;
+      border-radius: 6px;
+      flex-shrink: 0;
+
+      box-sizing: border-box;
     }
   }
 
@@ -48,7 +63,7 @@ const StyledMapStats = styled.div`
     flex-direction: column;
     gap: 8px;
   }
-  
+
   .mainLabel {
     color: var(--color2);
   }
@@ -64,7 +79,6 @@ const StyledMapStats = styled.div`
     height: fit-content;
     width: fit-content;
   }
-  
 `
 
 export default StyledMapStats

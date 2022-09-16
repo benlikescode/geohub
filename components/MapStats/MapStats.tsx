@@ -60,7 +60,7 @@ const MapStats: FC<Props> = ({ map }) => {
   return (
     <StyledMapStats>
       <div className="statsGrid">
-        <FlexGroup>
+        <div className="stat-item">
           <Icon size={30} fill="var(--lightPurple)">
             <ScaleIcon />
           </Icon>
@@ -68,9 +68,9 @@ const MapStats: FC<Props> = ({ map }) => {
             <span className="mainLabel">Avg. Score</span>
             <span className="subLabel">{map.avgScore}</span>
           </div>
-        </FlexGroup>
+        </div>
 
-        <FlexGroup>
+        <div className="stat-item">
           <Icon size={30} fill="var(--lightPurple)">
             <UserIcon />
           </Icon>
@@ -78,9 +78,9 @@ const MapStats: FC<Props> = ({ map }) => {
             <span className="mainLabel">Explorers</span>
             <span className="subLabel">{map.usersPlayed}</span>
           </div>
-        </FlexGroup>
+        </div>
 
-        <FlexGroup>
+        <div className="stat-item">
           <Icon size={30} fill="var(--lightPurple)">
             <LocationMarkerIcon />
           </Icon>
@@ -88,9 +88,9 @@ const MapStats: FC<Props> = ({ map }) => {
             <span className="mainLabel">Locations</span>
             <span className="subLabel">{map.locationCount}</span>
           </div>
-        </FlexGroup>
+        </div>
 
-        <FlexGroup>
+        <div className="stat-item">
           <button className="likeBtn" onClick={() => handleLike()}>
             <Icon size={30} fill={isLiked ? 'var(--red-500)' : 'var(--lightPurple)'} hoverColor="var(--red-500)">
               <HeartIcon />
@@ -101,7 +101,7 @@ const MapStats: FC<Props> = ({ map }) => {
             <span className="mainLabel">Likes</span>
             <span className="subLabel">{numLikes}</span>
           </div>
-        </FlexGroup>
+        </div>
 
         {modalOpen && <Auth closeModal={() => setModalOpen(false)} />}
       </div>

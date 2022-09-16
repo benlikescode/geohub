@@ -1,15 +1,24 @@
 import styled from 'styled-components'
 
 const StyledMapPage = styled.div`
-  // Override Horizontal Padding In Layout.Styled
+  // Override Horizontal Padding and Max Width In Layout.Styled
   .mainContent {
+    max-width: 1300px;
+
     @media (max-width: 600px) {
       padding: 0;
     }
   }
 
   .name {
-    font-size: 32px;
+    font-size: 22px;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .tempWrapper {
+    margin-left: 16px;
   }
 
   .description {
@@ -52,9 +61,8 @@ const StyledMapPage = styled.div`
   }
 
   .mapDetailsSection {
-    display: flex;
     background-color: var(--background2);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 6px;
     margin-bottom: 3rem;
 
@@ -104,10 +112,6 @@ const StyledMapPage = styled.div`
   }
 
   .mapDescriptionWrapper {
-    display: flex;
-    gap: 1.5rem;
-    padding: 25px 30px;
-    flex-grow: 1;
     width: 100%;
 
     @media (max-width: 1550px) {
@@ -121,22 +125,19 @@ const StyledMapPage = styled.div`
   }
 
   .statsWrapper {
-    width: 100%;
-    flex-grow: 1;
-    flex-shrink: 1.25;
+    display: contents;
   }
 
   .descriptionColumnWrapper {
     display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    margin-top: 0.5rem;
+    justify-content: space-between;
+    padding: 20px;
+    width: 100%;
   }
 
   .descriptionColumn {
     display: flex;
-    flex-direction: column;
-    gap: 12px;
+    align-items: center;
   }
 
   .skeletonCards {

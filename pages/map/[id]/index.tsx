@@ -80,14 +80,20 @@ const MapPage: FC = () => {
         {mapDetails ? (
           <div className="mapDetailsSection">
             <div className="mapDescriptionWrapper">
-              <Avatar type="map" src={mapDetails.previewImg} size={100} />
-
               <div className="descriptionColumnWrapper">
                 <div className="descriptionColumn">
-                  <span className="name">{mapDetails.name}</span>
-                  <span className="description">{mapDetails.description}</span>
+                  <Avatar
+                    type="map"
+                    src={'https://c.tenor.com/4NKYe36DcE8AAAAj/taclan-world.gif'}
+                    size={50}
+                    outlineSize={0}
+                  />
+                  <div className="tempWrapper">
+                    <span className="name">{mapDetails.name}</span>
+                    <span className="description">{mapDetails.description}</span>
+                  </div>
                 </div>
-                <Button type="solidPurple" width="200px" callback={() => setSettingsModalOpen(true)}>
+                <Button type="solidPurple" width="148px" height="52px" callback={() => setSettingsModalOpen(true)}>
                   Play Now
                 </Button>
               </div>
