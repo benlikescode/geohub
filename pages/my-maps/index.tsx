@@ -13,16 +13,6 @@ const MyMapsPage: NextPage = () => {
     <Layout>
       <Head title="My Maps" />
       <PageHeader>Coming Soon!</PageHeader>
-
-      <div style={{ height: '500px', width: '100%' }}>
-        <GoogleMapReact
-          bootstrapURLKeys={{ key: googleKey }}
-          defaultCenter={{ lat: 11.0168, lng: 76.9558 }}
-          defaultZoom={5}
-        >
-          <Marker lat={11.0168} lng={76.9558} name="My Marker" color="blue" />
-        </GoogleMapReact>
-      </div>
     </Layout>
   )
 }
