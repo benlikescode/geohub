@@ -4,20 +4,24 @@ import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import { mailman } from '@backend/utils/mailman'
+import { NoResults } from '@components/ErrorViews/NoResults'
 import { Head } from '@components/Head'
 import { Layout, LoadingPage, PageHeader } from '@components/Layout'
-import { BlockQuote } from '@components/System/'
+import { MapPreviewCard } from '@components/MapPreviewCard'
+import { SkeletonCards } from '@components/SkeletonCards'
+import { Avatar, BlockQuote, Button } from '@components/System/'
 import { UnfinishedCard } from '@components/UnfinishedCard'
 import { selectUser } from '@redux/user'
+import StyledOngoingGamesPage from '@styles/OngoingGamesPage.Styled'
+import { GameType, MapType } from '@types'
+import { getFormattedDate } from '@utils/helperFunctions'
 
-const StyledGamesWrapper = styled.section`
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
-`
+type OngoingGame = GameType & {
+  mapDetails: MapType[]
+}
 
 const OngoingGamesPage: NextPage = () => {
-  const [games, setGames] = useState<any[]>([])
+  const [games, setGames] = useState<OngoingGame[]>([])
   const [loading, setLoading] = useState(true)
   const user = useSelector(selectUser)
 
@@ -43,28 +47,43 @@ const OngoingGamesPage: NextPage = () => {
   if (loading) return <LoadingPage />
 
   return (
-    <Layout>
-      <Head title="Ongoing Games" />
-      <PageHeader>Ongoing Games</PageHeader>
+    <StyledOngoingGamesPage>
+      <Layout>
+        <Head title="Ongoing Games" />
+        <PageHeader>Ongoing Games</PageHeader>
 
-      {(!user.id || !games || games.length === 0) && (
-        <BlockQuote>You do not appear to have any ongoing games</BlockQuote>
-      )}
+        {loading && <SkeletonCards numCards={8} />}
 
-      <StyledGamesWrapper>
-        {games.map((game, idx) => (
-          <UnfinishedCard
-            key={idx}
-            mapAvatar={game.mapDetails[0].previewImg}
-            mapName={game.mapDetails[0].name}
-            round={game.round}
-            points={game.totalPoints}
-            gameId={game._id}
-            reloadGames={reloadGames}
-          />
-        ))}
-      </StyledGamesWrapper>
-    </Layout>
+        {/* Finished loading and No Results */}
+        {!loading && (!user.id || games.length === 0) && (
+          <NoResults message="You can find your unfinished games here" />
+        )}
+
+        <div className="ongoing-table">
+          {games.map((game, idx) => (
+            <div key={idx} className="ongoing-item">
+              <div className="flex-left">
+                <div className="map-details">
+                  <Avatar type="map" src={game.mapDetails[0].previewImg} size={40} />
+                  <span className="mapName">{game.mapDetails[0].name}</span>
+                </div>
+
+                <span className="game-detail">{`Round ${game.round}`}</span>
+                <span className="game-detail">{`${game.totalPoints} pts.`}</span>
+                <span className="game-detail">{getFormattedDate(game.createdAt)}</span>
+              </div>
+
+              <div className="ongoing-buttons">
+                <button className="delete-button">Delete</button>
+                <Button type="solidPurple" isSmall>
+                  Resume
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </Layout>
+    </StyledOngoingGamesPage>
   )
 }
 

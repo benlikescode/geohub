@@ -563,3 +563,14 @@ export const showSuccessToast = (message: string) => {
     theme: 'dark',
   })
 }
+
+export const getFormattedDate = (utcDate?: Date) => {
+  console.log(utcDate)
+  if (!utcDate) {
+    return ''
+  }
+
+  const localDate = new Date(utcDate)
+
+  return localDate.toLocaleDateString()
+}
