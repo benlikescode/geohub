@@ -88,7 +88,7 @@ const MapPage: FC = () => {
                     size={50}
                     outlineSize={0}
                   />
-                  <div className="tempWrapper">
+                  <div className="map-details">
                     <span className="name">{mapDetails.name}</span>
                     <span className="description">{mapDetails.description}</span>
                   </div>

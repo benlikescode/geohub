@@ -17,7 +17,7 @@ const StyledMapPage = styled.div`
     margin-bottom: 8px;
   }
 
-  .tempWrapper {
+  .map-details {
     margin-left: 16px;
     margin-top: 2px;
   }
