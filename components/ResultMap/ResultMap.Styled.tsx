@@ -4,10 +4,9 @@ const StyledResultMap = styled.div`
   height: calc(100vh - 300px);
 
   .map {
-    height: calc(100vh - 300px);
+    height: 100%;
     width: 100%;
   }
-  
 `
 
 export default StyledResultMap

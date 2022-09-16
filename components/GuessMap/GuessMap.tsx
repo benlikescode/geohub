@@ -2,6 +2,7 @@ import GoogleMapReact from 'google-map-react'
 import React, { FC, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
+import { Marker } from '@components/Marker'
 import { Icon } from '@components/System'
 import { Button } from '@components/System/Button'
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/outline'
@@ -32,6 +33,8 @@ const GuessMap: FC<Props> = ({ coordinate, zoom, currGuess, setCurrGuess, handle
   const user = useSelector(selectUser)
   const hoverDelay = useRef<any>()
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
+
+  const [marker, setMarker] = useState<{ lat: number; lng: number } | null>(null)
 
   const GoogleMapConfig = {
     key: googleKey,
@@ -98,6 +101,21 @@ const GuessMap: FC<Props> = ({ coordinate, zoom, currGuess, setCurrGuess, handle
     dispatch(updateGuessMapSize({ guessMapSize: newMapSize }))
   }
 
+  const addMarker = (e: any) => {
+    const location = {
+      lat: e.lat(),
+      lng: e.lng(),
+    }
+    setCurrGuess(location)
+    setMarker(location)
+  }
+
+  const onInit = (map: any, maps: any) => {
+    maps.event.addListener(map, 'click', (e: any) => {
+      addMarker(e.latLng)
+    })
+  }
+
   return (
     <StyledGuessMap mapHeight={mapHeight} mapWidth={mapWidth}>
       <div className="guessMapWrapper" onMouseOver={handleMapHover} onMouseLeave={handleMapLeave}>
@@ -122,21 +140,28 @@ const GuessMap: FC<Props> = ({ coordinate, zoom, currGuess, setCurrGuess, handle
             </button>
           </div>
         )}
-        <div id="guessMap" className="map"></div>
+        <div className="map">
+          <GoogleMapReact
+            bootstrapURLKeys={GoogleMapConfig}
+            defaultCenter={{ lat: 0, lng: 0 }}
+            defaultZoom={2}
+            yesIWantToUseGoogleMapApiInternals
+            onGoogleApiLoaded={({ map, maps }) => onInit(map, maps)}
+            //onClick={(e) => addMarker(e)}
+            options={{
+              disableDefaultUI: true,
+              styles: getMapTheme('Light'),
+              clickableIcons: false,
+            }}
+          >
+            {marker && <Marker lat={marker.lat} lng={marker.lng} />}
+          </GoogleMapReact>
+        </div>
 
         <Button type="solidPurple" width="100%" isDisabled={currGuess === null} callback={handleSubmitGuess}>
           Submit Guess
         </Button>
       </div>
-      <GoogleMapReact
-        bootstrapURLKeys={GoogleMapConfig}
-        center={coordinate}
-        zoom={zoom}
-        yesIWantToUseGoogleMapApiInternals
-        onGoogleApiLoaded={handleApiLoaded}
-      >
-        <div>HELLO WORLD</div>
-      </GoogleMapReact>
     </StyledGuessMap>
   )
 }

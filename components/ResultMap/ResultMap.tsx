@@ -87,15 +87,22 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
     }
   }
 
+  const onInit = (map: any, maps: any) => {}
+
   return (
     <StyledResultMap>
-      <div id="resultMap" className="map">
+      <div className="map">
         <GoogleMapReact
           bootstrapURLKeys={GoogleMapConfig}
-          center={deafultCoords}
-          zoom={2}
+          defaultCenter={deafultCoords}
+          zoom={10}
           yesIWantToUseGoogleMapApiInternals
-          onGoogleApiLoaded={handleApiLoaded}
+          onGoogleApiLoaded={({ map, maps }) => onInit(map, maps)}
+          //onClick={(e) => addMarker(e)}
+          options={{
+            styles: getMapTheme('Light'),
+            clickableIcons: false,
+          }}
         ></GoogleMapReact>
       </div>
     </StyledResultMap>

@@ -15,19 +15,19 @@ const StyledGuessMap = styled.div<StyledProps>`
     flex-direction: column;
     gap: 10px;
   }
-  
+
   .map {
     height: ${({ mapHeight }) => mapHeight}vh;
     width: ${({ mapWidth }) => mapWidth}vw;
-    opacity: ${({ mapWidth }) => mapWidth === 300 ? 0.5 : 1};
+    opacity: ${({ mapWidth }) => (mapWidth === 300 ? 0.5 : 1)};
     border-radius: 4px;
-    transition: opacity .1s ease,width .1s ease,height .1s ease;
+    transition: opacity 0.1s ease, width 0.1s ease, height 0.1s ease;
   }
 
   .controls {
     display: flex;
     align-items: center;
-    gap: 5px;  
+    gap: 5px;
   }
 
   .controlBtn {
@@ -41,7 +41,6 @@ const StyledGuessMap = styled.div<StyledProps>`
     opacity: 0.5;
     cursor: default;
   }
-
 `
 
 export default StyledGuessMap
