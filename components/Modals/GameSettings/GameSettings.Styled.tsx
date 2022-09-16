@@ -1,18 +1,6 @@
 import styled from 'styled-components'
 
 const StyledGameSettings = styled.div`
-  .test {
-    display: grid;
-    gap: 1.25rem;
-    padding-bottom: 1.5rem;
-  }
-
-  .test123 {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-
   .mainContent {
     padding: var(--modalPadding);
     display: grid;
@@ -20,22 +8,26 @@ const StyledGameSettings = styled.div`
     background-color: #101010;
   }
 
-  .mapInfo {
+  .map-details-wrapper {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
+    align-items: center;
 
-  .mapName {
-    font-size: 28px;
-    font-weight: 600;
-    color: var(--color2);
-  }
+    .map-details {
+      margin-left: 16px;
+      margin-top: 2px;
 
-  .mapDescription {
-    color: var(--color3);
-    font-weight: 400;
-    font-size: 18px;
+      .map-name {
+        font-size: 22px;
+        font-weight: 600;
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .map-description {
+        color: var(--color3);
+        font-weight: 400;
+      }
+    }
   }
 
   .toggleBar {

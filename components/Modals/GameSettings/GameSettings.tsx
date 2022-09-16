@@ -148,12 +148,17 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
             <Challenge challengeId={challengeId} />
           ) : (
             <>
-              <div className="test">
-                <div className="test123">
-                  <Avatar type="map" src={mapDetails.previewImg} size={50} />
-                  <h2 className="mapName">{mapDetails.name}</h2>
+              <div className="map-details-wrapper">
+                <Avatar
+                  type="map"
+                  src={'https://c.tenor.com/4NKYe36DcE8AAAAj/taclan-world.gif'}
+                  size={50}
+                  outlineSize={0}
+                />
+                <div className="map-details">
+                  <span className="map-name">{mapDetails.name}</span>
+                  <span className="map-description">{mapDetails.description}</span>
                 </div>
-                <span className="mapDescription">{mapDetails.description}</span>
               </div>
 
               <div className="toggleBar">
