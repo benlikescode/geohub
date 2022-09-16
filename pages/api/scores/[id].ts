@@ -12,53 +12,55 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const query = { mapId: mapId, round: 6 }
       const data = await collections.games
         ?.aggregate([
+          // Match the documents
           { $match: query },
-          { $sort: { totalPoints: -1 } },
+          // Sort the matches in descending order
+          { $sort: { totalPoints: -1, totalTime: 1 } },
+          // Group by unique userId, getting the first document
+          // (We know that the first will be the highest, due to the sort)
           {
-            $project: {
-              rounds: 0,
-              guesses: 0,
+            $group: {
+              _id: '$userId',
+              gameId: { $first: '$_id' },
+              totalTime: { $first: '$totalTime' },
+              totalPoints: { $first: '$totalPoints' },
             },
           },
+          // Query the user's details
           {
             $lookup: {
               from: 'users',
-              localField: 'userId',
+              localField: '_id',
               foreignField: '_id',
               as: 'userDetails',
             },
           },
+          // Unwind the user details from an array into an object
+          {
+            $unwind: '$userDetails',
+          },
+          // Format the result
+          {
+            $project: {
+              _id: '$gameId',
+              totalPoints: 1,
+              totalTime: 1,
+              userId: '$_id',
+              userName: '$userDetails.name',
+              userAvatar: '$userDetails.avatar',
+            },
+          },
+          // Re-sort the resulting documents
+          { $sort: { totalPoints: -1, totalTime: 1 } },
         ])
-        .limit(10)
+        .limit(5)
         .toArray()
 
       if (!data) {
-        return res.status(404).send(`Failed to find data`)
+        return res.status(404).send(`Failed to get scores for map with id: ${mapId}`)
       }
 
-      // a bit of a "hacky" temp solution as I can not seem to query unqiue userIds in the
-      // above aggregate query... so for now query extra documents and remove duplicates
-      // in theory this may not return 5 unique user scores even if there is, if the same
-      // users in the top 5 have multiple games with scores in the top 5
-      const result: any[] = []
-
-      data.forEach((item) => {
-        const idx = result.findIndex((x: any) => x.userId.toString() === item.userId.toString())
-        if (idx <= -1) {
-          result.push({
-            userId: item.userId,
-            userName: item.userDetails[0].name,
-            userAvatar: item.userDetails[0].avatar,
-            gameId: item._id,
-            totalPoints: item.totalPoints,
-            totalTime: item.totalTime,
-          })
-        }
-      })
-
-      const slicedResult = result.slice(0, 5)
-
-      res.status(200).send(slicedResult)
+      res.status(200).send(data)
     } else {
       res.status(500).json('Nothing to see here.')
     }
