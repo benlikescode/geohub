@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 const StyledMapLeaderboard = styled.div`
   background-color: var(--background2);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 6px;
 
   @media (max-width: 600px) {

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 const StyledMapPage = styled.div`
   // Override Horizontal Padding and Max Width In Layout.Styled
   .mainContent {
-    max-width: 1300px;
+    max-width: 1100px;
 
     @media (max-width: 600px) {
       padding: 0;
@@ -19,10 +19,11 @@ const StyledMapPage = styled.div`
 
   .tempWrapper {
     margin-left: 16px;
+    margin-top: 2px;
   }
 
   .description {
-    color: var(--color2);
+    color: var(--color3);
     font-weight: 400;
   }
 
@@ -46,7 +47,7 @@ const StyledMapPage = styled.div`
 
   .otherMaps {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.2rem;
     margin-top: 1rem;
 

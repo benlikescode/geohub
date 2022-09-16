@@ -33,7 +33,7 @@ const StyledMapStats = styled.div`
   .statsGrid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    column-gap: 40px;
+    column-gap: 20px;
 
     @media (max-width: 1200px) {
       grid-template-columns: repeat(4, 1fr);

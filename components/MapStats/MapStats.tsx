@@ -65,7 +65,7 @@ const MapStats: FC<Props> = ({ map }) => {
             <ScaleIcon />
           </Icon>
           <div className="textWrapper">
-            <span className="mainLabel">Avg. Score</span>
+            <span className="mainLabel">Average Score</span>
             <span className="subLabel">{map.avgScore}</span>
           </div>
         </div>
