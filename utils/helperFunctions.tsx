@@ -418,10 +418,6 @@ export const getResultData = (guess: GuessType, actual: LocationType, mapId: str
 }
 
 export const createMarker = (position: LocationType, map: google.maps.Map, markerImage: string) => {
-  const image = {
-    url: markerImage,
-  }
-
   return new window.google.maps.Marker({
     position: position,
     map: map,

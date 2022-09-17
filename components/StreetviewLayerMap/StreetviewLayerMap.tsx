@@ -23,22 +23,30 @@ const StreetviewLayerMap: FC = () => {
       disableDefaultUI: true,
       styles: getMapTheme('Light'),
       clickableIcons: false,
+      gestureHandling: 'greedy',
     })
 
     window.google.maps.event.addListener(map, 'click', (e: any) => {
-      console.log(e)
       const location = {
         lat: e.latLng.lat(),
         lng: e.latLng.lng(),
       }
 
       setLocations((prev) => prev.concat(location))
-
-      const marker = createMarker(location, map, `/images/markers/testMarker2.png`)
-      clearMarkers(prevMarkersRef.current)
+      /*
+      const marker = new window.google.maps.Marker({
+        position: location,
+        map: map,
+      })
+*/
+      const marker = createMarker(
+        location,
+        map,
+        `https://www.geoguessr.com/_next/static/images/unselected-pin-cf969fcac1571b7f58824eaebb5ed4a5.png`
+      )
       prevMarkersRef.current.push(marker)
     })
-
+    // SELECTED PIN: https://www.geoguessr.com/_next/static/images/selected-pin-0bac3f371ed0d5625bcd873ebce4e59e.png
     const svLayer = new window.google.maps.StreetViewCoverageLayer()
     svLayer.setMap(map)
   }
