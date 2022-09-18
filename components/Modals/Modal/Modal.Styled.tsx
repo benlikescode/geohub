@@ -81,6 +81,13 @@ const StyledModal = styled.div<StyledProps>`
         user-select: none;
         padding: ${({ isSubmitting }) => (isSubmitting ? '10px 25px' : '10px 16px')};
 
+        &.disabled {
+          background-color: #404040;
+          color: var(--color2);
+          pointer-events: none;
+          opacity: 0.5;
+        }
+
         :hover {
           background-color: #732fe9;
         }

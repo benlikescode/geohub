@@ -19,6 +19,7 @@ const StreetviewLayerMap: FC = () => {
   const setSelectionMap = () => {
     const map = new window.google.maps.Map(document.getElementById('selectionMap') as HTMLElement, {
       zoom: 2,
+      minZoom: 1,
       center: { lat: 0, lng: 0 },
       disableDefaultUI: true,
       styles: getMapTheme('Light'),

@@ -15,6 +15,7 @@ type Props = {
   onActionButton?: () => any
   cancelButtonText?: string
   isSubmitting?: boolean
+  isDisabled?: boolean
   removeFooter?: boolean
   children: ReactNode
 }
@@ -28,6 +29,7 @@ const Modal: FC<Props> = ({
   onActionButton,
   cancelButtonText,
   isSubmitting,
+  isDisabled,
   removeFooter,
   children,
 }) => {
@@ -55,7 +57,11 @@ const Modal: FC<Props> = ({
                       {cancelButtonText || 'Cancel'}
                     </button>
                   )}
-                  <button className="action-button" onClick={onActionButton}>
+                  <button
+                    className={`action-button ${isDisabled ? 'disabled' : ''}`}
+                    onClick={onActionButton}
+                    disabled={isDisabled}
+                  >
                     {isSubmitting ? <Spinner size={20} /> : actionButtonText || 'Confirm'}
                   </button>
                 </div>

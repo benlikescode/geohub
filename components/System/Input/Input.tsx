@@ -73,6 +73,10 @@ const Input: FC<Props> = ({
             autoComplete={autoComplete}
             maxLength={maxLength || 2000}
           />
+
+          {maxLength && typeof currValue === 'string' && (
+            <span className="char-count">{`${currValue.length} / ${maxLength}`}</span>
+          )}
         </div>
       ) : (
         <div className="input-wrapper">

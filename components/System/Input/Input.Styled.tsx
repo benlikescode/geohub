@@ -72,6 +72,7 @@ const StyledInput = styled.div<StyledProps>`
 
   .textarea-wrapper {
     height: 80px;
+    position: relative;
 
     textarea {
       height: 100%;
@@ -94,6 +95,15 @@ const StyledInput = styled.div<StyledProps>`
       :focus {
         box-shadow: 0 0 0 2px var(--mediumPurple);
       }
+    }
+
+    .char-count {
+      color: var(--color3);
+      font-size: 14px;
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      font-weight: 400;
     }
   }
 `

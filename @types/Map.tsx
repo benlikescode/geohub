@@ -14,7 +14,7 @@ type Map = {
   usersPlayed: number
   locationCount: number
   avgScore: number
-  likes: number
+  likes: { numLikes: number; likedByUser: boolean }
   isPublished?: boolean
   createdAt?: Date
   customLocations?: LocationType[]

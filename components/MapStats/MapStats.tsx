@@ -13,6 +13,7 @@ import {
 import { HeartIcon } from '@heroicons/react/solid'
 import { selectUser } from '@redux/user'
 import { MapType } from '@types'
+import { formatGameScore } from '@utils/helperFunctions'
 
 import { StyledMapStats } from './'
 
@@ -21,8 +22,8 @@ type Props = {
 }
 
 const MapStats: FC<Props> = ({ map }) => {
-  const [isLiked, setIsLiked] = useState(false)
-  const [numLikes, setNumLikes] = useState(0)
+  const [isLiked, setIsLiked] = useState(map.likes.likedByUser)
+  const [numLikes, setNumLikes] = useState(map.likes.numLikes)
   const [modalOpen, setModalOpen] = useState(false)
   const user = useSelector(selectUser)
 
@@ -45,18 +46,6 @@ const MapStats: FC<Props> = ({ map }) => {
     }
   }
 
-  const fetchLikes = async () => {
-    const { res } = await mailman(`likes/${map.slug}?userId=${user.id}`)
-    setIsLiked(res.likedByUser === 1)
-    setNumLikes(res.numLikes)
-  }
-
-  useEffect(() => {
-    if (!map.slug) return
-
-    fetchLikes()
-  }, [map.slug])
-
   return (
     <StyledMapStats>
       <div className="statsGrid">
@@ -66,7 +55,7 @@ const MapStats: FC<Props> = ({ map }) => {
           </Icon>
           <div className="textWrapper">
             <span className="mainLabel">Average Score</span>
-            <span className="subLabel">{map.avgScore}</span>
+            <span className="subLabel">{formatGameScore(map.avgScore)}</span>
           </div>
         </div>
 

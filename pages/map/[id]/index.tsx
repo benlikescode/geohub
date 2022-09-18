@@ -1,6 +1,7 @@
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import router from 'next/router'
 import React, { FC, useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
@@ -14,6 +15,7 @@ import { SkeletonCards } from '@components/SkeletonCards'
 import { SkeletonLeaderboard } from '@components/SkeletonLeaderboard'
 import { SkeletonMapInfo } from '@components/SkeletonMapInfo'
 import { Avatar, Button } from '@components/System'
+import { selectUser } from '@redux/user'
 import StyledMapPage from '@styles/MapPage.Styled'
 import { MapLeaderboardType, MapType } from '@types'
 import { getMapName } from '@utils/helperFunctions'
@@ -25,6 +27,7 @@ const MapPage: FC = () => {
   const [otherMaps, setOtherMaps] = useState<MapType[] | null>()
   const [loading, setLoading] = useState(true)
   const mapId = router.query.id as string
+  const user = useSelector(selectUser)
 
   settingsModalOpen ? disableBodyScroll(document as any) : enableBodyScroll(document as any)
 
@@ -33,7 +36,7 @@ const MapPage: FC = () => {
   }
 
   const fetchMapDetails = async () => {
-    const { status, res } = await mailman(`maps/${mapId}`)
+    const { status, res } = await mailman(`maps/${mapId}?userId=${user?.id}`)
 
     if (status === 404 || status === 500) {
       return setMapDetails(null)
