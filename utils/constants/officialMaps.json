@@ -10,7 +10,7 @@
       "usersPlayed": 3,
       "locationCount": 250,
       "avgScore": 15000,
-      "likes": 12
+      "likes": { "numLikes": 0, "likedByUser": false }
     },
     {
       "id": "6185dfb37b54baf63473a53f",
@@ -22,7 +22,7 @@
       "usersPlayed": 15,
       "locationCount": 500,
       "avgScore": 18000,
-      "likes": 8
+      "likes": { "numLikes": 0, "likedByUser": false }
     },
     {
       "id": "6185dfd47b54baf63473a540",
@@ -34,7 +34,7 @@
       "usersPlayed": 8,
       "locationCount": 20,
       "avgScore": 20000,
-      "likes": 12
+      "likes": { "numLikes": 0, "likedByUser": false }
     },
     {
       "id": "6185dff27b54baf63473a541",
@@ -46,7 +46,7 @@
       "usersPlayed": 2,
       "locationCount": 100,
       "avgScore": 12000,
-      "likes": 8
+      "likes": { "numLikes": 0, "likedByUser": false }
     }
   ]
 }
