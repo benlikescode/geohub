@@ -15,6 +15,8 @@ type Map = {
   isPublished?: boolean
   createdAt?: Date
   locations?: LocationType[]
+  // backwards compatibility
+  locationCount: number
 }
 
 export default Map

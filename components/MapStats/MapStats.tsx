@@ -22,8 +22,8 @@ type Props = {
 }
 
 const MapStats: FC<Props> = ({ map }) => {
-  const [isLiked, setIsLiked] = useState(map.likes.likedByUser)
-  const [numLikes, setNumLikes] = useState(map.likes.numLikes)
+  const [isLiked, setIsLiked] = useState(map.likes?.likedByUser || false)
+  const [numLikes, setNumLikes] = useState(map.likes?.numLikes || 0)
   const [modalOpen, setModalOpen] = useState(false)
   const user = useSelector(selectUser)
 
@@ -55,7 +55,7 @@ const MapStats: FC<Props> = ({ map }) => {
           </Icon>
           <div className="textWrapper">
             <span className="mainLabel">Average Score</span>
-            <span className="subLabel">{formatGameScore(map.avgScore)}</span>
+            <span className="subLabel">{formatGameScore(map.avgScore || 0)}</span>
           </div>
         </div>
 
@@ -75,7 +75,7 @@ const MapStats: FC<Props> = ({ map }) => {
           </Icon>
           <div className="textWrapper">
             <span className="mainLabel">Locations</span>
-            <span className="subLabel">{map.locationCount}</span>
+            <span className="subLabel">{map.locationCount || map.locations?.length}</span>
           </div>
         </div>
 
