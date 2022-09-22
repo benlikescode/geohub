@@ -7,7 +7,7 @@ import { Button, Icon, Spinner } from '../../System'
 import { StyledModal } from './'
 
 type Props = {
-  width?: string
+  maxWidth?: string
   closeModal: () => void
   isCustom?: boolean
   title?: string
@@ -17,11 +17,12 @@ type Props = {
   isSubmitting?: boolean
   isDisabled?: boolean
   removeFooter?: boolean
+
   children: ReactNode
 }
 
 const Modal: FC<Props> = ({
-  width,
+  maxWidth,
   closeModal,
   isCustom,
   title,
@@ -34,7 +35,7 @@ const Modal: FC<Props> = ({
   children,
 }) => {
   return ReactDOM.createPortal(
-    <StyledModal width={width} isSubmitting={isSubmitting}>
+    <StyledModal maxWidth={maxWidth} isSubmitting={isSubmitting}>
       <div className="layerContainer">
         <div className="modal">
           {isCustom ? (

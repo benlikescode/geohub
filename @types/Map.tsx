@@ -1,23 +1,20 @@
 import { ObjectId } from 'mongodb'
 
-import { User } from '@backend/models'
-
-import { LocationType, UserType } from './'
+import { LocationType } from './'
 
 type Map = {
-  id: ObjectId | string
-  slug: string | null
+  _id?: ObjectId
+  slug: string | null // remove this in future -> official maps can use _id too
   name: string
-  description: string
+  description?: string
   previewImg: string
-  creator: 'GeoHub' | string | User
+  creator: 'GeoHub' | ObjectId
   usersPlayed: number
-  locationCount: number
-  avgScore: number
-  likes: { numLikes: number; likedByUser: boolean }
+  avgScore?: number
+  likes?: { numLikes: number; likedByUser: boolean }
   isPublished?: boolean
   createdAt?: Date
-  customLocations?: LocationType[]
+  locations?: LocationType[]
 }
 
 export default Map

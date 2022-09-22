@@ -1,3 +1,5 @@
+import { ObjectId } from 'mongodb'
+
 type Location = {
   lat: number
   lng: number
@@ -5,6 +7,7 @@ type Location = {
   heading?: number
   pitch?: number
   zoom?: number
+  mapId?: ObjectId
 }
 
 export default Location

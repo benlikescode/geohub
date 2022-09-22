@@ -7,18 +7,27 @@ import { StyledMapPreviewCard } from './'
 
 type Props = {
   map: MapType
+  showEditButton?: boolean
 }
 
-const MapPreviewCard: FC<Props> = ({ map }) => {
+const MapPreviewCard: FC<Props> = ({ map, showEditButton }) => {
+  const isOfficialMap = map.creator === 'GeoHub'
+
   return (
-    <StyledMapPreviewCard mapImage={map.previewImg}>
+    <StyledMapPreviewCard mapImage={map.previewImg} isOfficialMap={isOfficialMap}>
       <div className="mapImage"></div>
 
       <div className="contentWrapper">
         <div className="mapName">{map.name}</div>
-        <div className="mapDescription">{map.description}</div>
+        {isOfficialMap && <div className="mapDescription">{map.description}</div>}
         <div className="playWrapper">
-          <Link href={`/map/${map.slug ? map.slug : map.id}`}>
+          {showEditButton && (
+            <Link href={`/create-map/${map._id}`}>
+              <a className="mapEditBtn">Edit</a>
+            </Link>
+          )}
+
+          <Link href={`/map/${map.slug ? map.slug : map._id}`}>
             <a className="mapPlayBtn">Play</a>
           </Link>
         </div>

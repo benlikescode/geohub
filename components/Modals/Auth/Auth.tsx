@@ -13,7 +13,7 @@ type Props = {
 
 const Auth: FC<Props> = ({ closeModal }) => {
   return (
-    <Modal closeModal={closeModal} title="Log In To GeoHub" removeFooter>
+    <Modal closeModal={closeModal} title="Login To GeoHub" maxWidth="500px" removeFooter>
       <StyledAuth>
         <div className="mainContent">
           <div className="buttonsWrapper">

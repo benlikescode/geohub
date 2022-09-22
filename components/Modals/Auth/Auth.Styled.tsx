@@ -40,7 +40,7 @@ const StyledAuth = styled.div<StyledProps>`
     padding: 1rem 0;
 
     a {
-      width: 80%;
+      width: 100%;
     }
   }
 `

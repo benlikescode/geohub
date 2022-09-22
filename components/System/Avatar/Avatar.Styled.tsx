@@ -5,6 +5,7 @@ type StyledProps = {
   size?: number
   mobileSize?: number
   outlineSize?: number
+  outlineColor?: string
 }
 
 const StyledAvatar = styled.div<StyledProps>`
@@ -15,7 +16,8 @@ const StyledAvatar = styled.div<StyledProps>`
     border-radius: 50%;
     position: relative;
     cursor: pointer;
-    box-shadow: ${({ outlineSize }) => `0 0 0 ${outlineSize || 2}px #0e0e10`};
+    box-shadow: ${({ outlineSize, outlineColor }) =>
+      `0 0 0 ${outlineSize !== undefined ? outlineSize : 2}px ${outlineColor || '#0e0e10'}`};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -37,7 +39,9 @@ const StyledAvatar = styled.div<StyledProps>`
     border-radius: 50%;
     position: relative;
     cursor: pointer;
-    box-shadow: ${({ outlineSize }) => `0 0 0 ${outlineSize !== undefined ? outlineSize : 2}px #0e0e10`};
+
+    box-shadow: ${({ outlineSize, outlineColor }) =>
+      `0 0 0 ${outlineSize !== undefined ? outlineSize : 2}px ${outlineColor || '#0e0e10'}`};
 
     @media (max-width: 600px) {
       height: ${({ mobileSize, size }) => mobileSize ?? size}px;

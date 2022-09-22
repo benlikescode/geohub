@@ -46,9 +46,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         ])
         .toArray()
 
-      if (!avgScore || avgScore.length !== 1) {
+      if (!avgScore) {
         return throwError(res, 404, `Failed to get average score for map with id: ${mapId}`)
       }
+
+      const adjustedAvgScore = avgScore.length ? Math.ceil(avgScore[0].avgScore) : 0
 
       const result = {
         ...mapDetails,
@@ -56,7 +58,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           numLikes: likes.length,
           likedByUser,
         },
-        avgScore: Math.ceil(avgScore[0].avgScore),
+        avgScore: adjustedAvgScore,
       }
 
       res.status(200).send(result)

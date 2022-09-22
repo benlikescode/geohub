@@ -44,6 +44,7 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
     const { center, zoom } = getResultMapValues(guessedLocation, actualLocation, isFinalResults)
     const map = new window.google.maps.Map(document.getElementById('resultMap') as HTMLElement, {
       zoom: zoom,
+      minZoom: 1,
       center: center,
       disableDefaultUI: true,
       styles: getMapTheme(''),
@@ -53,6 +54,11 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
     // If this is final results map, load all the round markers. Otherwise, simply load the current round markers
     if (isFinalResults) {
       for (let i = 0; i < actualLocations.length; i++) {
+        const midPoint = {
+          lat: (guessedLocations[i].lat + actualLocations[i].lat) / 2,
+          lng: (guessedLocations[i].lng + actualLocations[i].lng) / 2,
+        }
+
         createMarker(guessedLocations[i], map, `/images/markers/testMarker2.png`)
         const actualLocationMarker = createMarker(actualLocations[i], map, `/images/markers/actualMarker${i + 1}.png`)
 
@@ -64,7 +70,7 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
         })
 
         new google.maps.Polyline({
-          path: [guessedLocations[i], actualLocations[i]],
+          path: [guessedLocations[i], midPoint, actualLocations[i]],
           map: map,
           strokeOpacity: 0,
           icons: [{ icon: lineSymbol, offset: '0', repeat: '10px' }],

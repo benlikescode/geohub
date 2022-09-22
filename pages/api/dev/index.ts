@@ -18,6 +18,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     if (req.method === 'POST') {
+      /*
+      const result = await collections.maps?.deleteMany({ creator: { $ne: 'GeoHub' } })
+
+      if (!result) {
+        return res.status(400).send({ message: 'somethin wrong' })
+      }
+
+      res.status(200).send(result)
+*/
+      /*
       const randomDate = (start: Date, end: Date) => {
         return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
       }
@@ -35,6 +45,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       res.status(200).send({
         message: 'Successfully updated all users in the DB',
       })
+      */
     } else {
       res.status(405).end(`Method ${req.method} Not Allowed`)
     }

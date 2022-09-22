@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 type StyledProps = {
-  width?: string
+  maxWidth?: string
   isSubmitting?: boolean
 }
 
@@ -19,9 +19,7 @@ const StyledModal = styled.div<StyledProps>`
 
   .modal {
     width: 100%;
-    max-width: ${({ width }) => (width ? width : '650px')};
-    max-height: 700px;
-    min-height: 200px;
+    max-width: ${({ maxWidth }) => maxWidth ?? '650px'};
     background-color: var(--background2);
     position: fixed;
     top: 50%;
@@ -48,6 +46,7 @@ const StyledModal = styled.div<StyledProps>`
 
     .modal-body {
       background-color: var(--background1);
+      max-height: calc(100vh * 0.7);
       overflow: hidden auto;
     }
 

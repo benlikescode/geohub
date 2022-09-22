@@ -417,13 +417,20 @@ export const getResultData = (guess: GuessType, actual: LocationType, mapId: str
   return { distance, points }
 }
 
-export const createMarker = (position: LocationType, map: google.maps.Map, markerImage: string) => {
+export const createMarker = (
+  position: LocationType,
+  map: google.maps.Map,
+  markerImage: string,
+  markerSize?: number
+) => {
+  const size = markerSize !== undefined ? markerSize : 30
+
   return new window.google.maps.Marker({
     position: position,
     map: map,
     icon: {
       url: markerImage,
-      scaledSize: new google.maps.Size(30, 30),
+      scaledSize: new google.maps.Size(size, size),
     },
   })
 }
@@ -548,7 +555,7 @@ export const showErrorToast = (message?: string) => {
 }
 
 export const showSuccessToast = (message: string) => {
-  toast.error(message, {
+  toast.success(message, {
     position: 'bottom-right',
     autoClose: 3000,
     hideProgressBar: false,

@@ -9,7 +9,7 @@ const StyledInput = styled.div<StyledProps>`
 
   label {
     font-weight: 500;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     display: block;
     color: var(--color2);
   }
@@ -77,7 +77,7 @@ const StyledInput = styled.div<StyledProps>`
     textarea {
       height: 100%;
       border-radius: 5px;
-      padding: 8px 14px;
+      padding: 10px 14px;
       background-color: var(--background3);
       width: 100%;
       box-sizing: border-box;

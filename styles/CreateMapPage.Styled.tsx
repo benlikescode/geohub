@@ -64,7 +64,8 @@ const StyledCreateMapPage = styled.div<StyledProps>`
         display: flex;
         align-items: center;
         justify-content: center;
-        padding-top: 6rem;
+        //padding-top: 6rem;
+        height: calc(100% - (92px * 2));
 
         .no-locations {
           max-width: 450px;
@@ -75,8 +76,8 @@ const StyledCreateMapPage = styled.div<StyledProps>`
 
           img {
             filter: grayscale(1);
-            height: 150px;
-            width: 150px;
+            height: 100px;
+            width: 100px;
           }
 
           h2 {
@@ -101,8 +102,8 @@ const StyledCreateMapPage = styled.div<StyledProps>`
         display: ${({ isShowingPreview }) => (isShowingPreview ? 'flex' : 'none')};
         align-items: center;
         justify-content: flex-end;
-        gap: 1rem;
-        margin-top: 1rem;
+        gap: 20px;
+        margin-top: 20px;
       }
     }
   }
@@ -123,9 +124,9 @@ const StyledCreateMapPage = styled.div<StyledProps>`
       gap: 1rem;
 
       .map-name {
-        color: var(--color2);
-        font-size: 24px;
-        font-weight: 600;
+        color: #fff;
+        font-size: 20px;
+        font-weight: 500;
       }
     }
 
@@ -139,6 +140,18 @@ const StyledCreateMapPage = styled.div<StyledProps>`
       color: var(--color2);
       font-size: 18px;
       font-weight: 400;
+    }
+
+    .visibility-selection {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      .visibility-warning {
+        color: var(--color2);
+        font-size: 1rem;
+        font-weight: 500;
+      }
     }
   }
 `

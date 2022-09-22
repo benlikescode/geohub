@@ -19,6 +19,7 @@ type Props = {
   maxLength?: number
   fontSize?: string
   isTextarea?: boolean
+  autoFocus?: boolean
 }
 
 const Input: FC<Props> = ({
@@ -35,6 +36,7 @@ const Input: FC<Props> = ({
   maxLength,
   fontSize,
   isTextarea,
+  autoFocus,
 }) => {
   const [currValue, setCurrValue] = useState<string | number>(value || '')
   const [showErrorMsg, setShowErrorMsg] = useState(false)
@@ -72,6 +74,7 @@ const Input: FC<Props> = ({
             onBlur={() => handleBlur()}
             autoComplete={autoComplete}
             maxLength={maxLength || 2000}
+            autoFocus={autoFocus}
           />
 
           {maxLength && typeof currValue === 'string' && (
@@ -90,6 +93,7 @@ const Input: FC<Props> = ({
             onBlur={() => handleBlur()}
             autoComplete={autoComplete}
             maxLength={maxLength || 2000}
+            autoFocus={autoFocus}
           />
 
           {type === 'password' && currValue !== '' && (

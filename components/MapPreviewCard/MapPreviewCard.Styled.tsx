@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 type StyledProps = {
   mapImage: string
+  isOfficialMap?: boolean
 }
 
 const StyledMapPreviewCard = styled.div<StyledProps>`
@@ -12,17 +13,17 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
   display: grid;
   gap: 1rem;
   max-height: 300px;
-  height: 100%;
+  //height: 100%;
 
   .mapImage {
     height: 125px;
     width: 100%;
-    border-radius: 5px;
+    border-radius: 5px 5px 0 0;
     background: linear-gradient(
         180deg,
         rgba(25, 26, 27, 0) 0%,
         rgba(25, 26, 27, 0.57) 47.4%,
-        #191a1b 100%
+        ${({ isOfficialMap }) => (isOfficialMap ? '#191a1b' : '#222')} 100%
       ),
       url(${({ mapImage }) => mapImage});
     background-position: center;
@@ -48,12 +49,20 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
     justify-content: center;
     flex-direction: column;
     gap: 18px;
-    margin-top: -3rem;
+    margin-top: ${({ isOfficialMap }) => (isOfficialMap ? '-48px' : '10px')};
   }
 
   .mapName {
     font-size: 22px;
     font-weight: 600;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
+    white-space: pre-wrap;
+    -moz-white-space: pre-wrap;
+    padding: 0 1rem;
 
     @media (max-width: 1500px) {
       font-size: 20px;
@@ -66,7 +75,12 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
     line-height: 25px;
     text-align: center;
     padding: 0 1.7rem;
-    height: 50px;
+    //height: 50px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
 
     @media (max-width: 1550px) {
       display: none;
@@ -96,7 +110,28 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 1rem;
     padding: 1rem 1rem 2rem 1rem;
+  }
+
+  .mapEditBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    height: 40px;
+    padding: 0 25px;
+    font-size: 1rem;
+    font-weight: 500;
+    user-select: none;
+    width: clamp(120px, 70%, 300px);
+    background-color: rgb(255, 255, 255, 0.1);
+    color: rgb(255, 255, 255, 0.7);
+    //border: 1px solid rgba(255, 255, 255, 0.19);
+
+    &:hover {
+      background-color: rgb(255, 255, 255, 0.15);
+    }
   }
 
   .mapPlayBtn {

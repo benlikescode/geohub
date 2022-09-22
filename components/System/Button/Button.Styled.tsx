@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 type StyledProps = {
-  type: 'solidPurple' | 'solidGray' | 'solidCustom' | 'ghost' | 'ghostLight' | 'icon' | 'iconRounded'
+  type: 'solidPurple' | 'solidGray' | 'solidCustom' | 'ghost' | 'ghostLight' | 'icon' | 'iconRounded' | 'destroy'
   color?: string
   backgroundColor?: string
   hoverColor?: string
@@ -57,7 +57,7 @@ const StyledButton = styled.div<StyledProps>`
       !isDisabled &&
       `
         background-color: rgb(255, 255, 255, 0.1);
-        color: rgb(255, 255, 255, 0.7);
+        color: #fee2e2;
         border-radius: 4px;
         font-size: 1rem;
         font-weight: 400;
@@ -66,6 +66,18 @@ const StyledButton = styled.div<StyledProps>`
 
         &:hover {
           background-color: rgb(255, 255, 255, 0.15);
+        }
+    `}
+
+    ${({ type, isDisabled }) =>
+      type === 'destroy' &&
+      !isDisabled &&
+      `     
+        color: #fee2e2;
+        background-color: #7f1d1d;
+
+        &:hover {
+          background-color: #991b1b;
         }
     `}
 

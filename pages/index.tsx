@@ -7,7 +7,7 @@ import { Layout } from '@components/Layout/'
 import { MapPreviewCard } from '@components/MapPreviewCard'
 import { Pill } from '@components/System/Pill'
 import StyledHomePage from '@styles/HomePage.Styled'
-import { GeoTipType } from '@types'
+import { GeoTipType, MapType } from '@types'
 import geoTips from '@utils/constants/geotips.json'
 import officialMaps from '@utils/constants/officialMaps.json'
 
@@ -42,7 +42,7 @@ const Home: NextPage = () => {
           </div>
 
           <div className="mapPreviewSection">
-            {officialMaps.maps.map((map, idx) => (
+            {(officialMaps.maps as MapType[]).map((map, idx) => (
               <MapPreviewCard key={idx} map={map} />
             ))}
           </div>

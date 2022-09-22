@@ -11,6 +11,7 @@ type Props = {
   mobileSize?: number
   altText?: string
   outlineSize?: number
+  outlineColor?: string
 }
 
 const FALLBACK_AVATAR = '/images/avatars/fallback.png'
@@ -22,7 +23,7 @@ const getUserAvatarUrl = (emojiCode: string | undefined) => {
   return `https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/${emojiCode}.svg`
 }
 
-const Avatar: FC<Props> = ({ type, src, backgroundColor, size, mobileSize, altText, outlineSize }) => {
+const Avatar: FC<Props> = ({ type, src, backgroundColor, size, mobileSize, altText, outlineSize, outlineColor }) => {
   const [currSrc, setCurrSrc] = useState(type === 'user' ? getUserAvatarUrl(src) : src)
 
   useEffect(() => {
@@ -49,7 +50,13 @@ const Avatar: FC<Props> = ({ type, src, backgroundColor, size, mobileSize, altTe
   }
 
   return (
-    <StyledAvatar backgroundColor={backgroundColor} size={size || 32} mobileSize={mobileSize} outlineSize={outlineSize}>
+    <StyledAvatar
+      backgroundColor={backgroundColor}
+      size={size || 32}
+      mobileSize={mobileSize}
+      outlineSize={outlineSize}
+      outlineColor={outlineColor}
+    >
       <div className="map-avatar">
         <img
           src={currSrc || FALLBACK_AVATAR}
