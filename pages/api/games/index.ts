@@ -4,6 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import Game from '@backend/models/game'
 /* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '@backend/utils/dbConnect'
+import { getLocations, throwError } from '@backend/utils/helpers'
 import { getRandomLocation } from '@utils/functions/generateLocations'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -12,11 +13,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     if (req.method === 'POST') {
       const userLocation = req.body.userLocation
-      const roundLocation = getRandomLocation('handpicked', req.body.mapId, userLocation)
+      const roundLocation = await getLocations(req.body.mapId)
       const userId = new ObjectId(req.body.userId)
 
-      if (roundLocation === null) {
-        return res.status(400).send('Invalid Map Id, Game could not be created')
+      if (!roundLocation) {
+        return throwError(res, 400, 'Failed to get location')
       }
 
       req.body.userLocation = null
