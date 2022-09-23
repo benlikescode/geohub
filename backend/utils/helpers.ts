@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb'
 import { NextApiResponse } from 'next'
 
 import { LocationType } from '@types'
@@ -38,7 +39,7 @@ export const getLocations = async (mapId: string, count: number = 1) => {
   // Otherwise: get random locations from DB
 
   const locations = await collections.locations
-    ?.aggregate([{ $match: { mapId: mapId }, $sample: { size: count } }])
+    ?.aggregate([{ $match: { mapId: new ObjectId(mapId) }, $sample: { size: count } }])
     .toArray()
 
   if (!locations || locations.length === 0) return null
