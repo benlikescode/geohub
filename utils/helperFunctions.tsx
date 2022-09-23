@@ -583,8 +583,12 @@ export const formatGameScore = (score: number) => {
 
   if (scoreAsString.length > 5) return null
 
-  if (score >= 1000) {
+  if (score >= 10000) {
     return scoreAsString.substring(0, 2) + ',' + scoreAsString.substring(2, 5)
+  }
+
+  if (score >= 1000) {
+    return scoreAsString.substring(0, 1) + ',' + scoreAsString.substring(1, 5)
   }
 
   return scoreAsString
