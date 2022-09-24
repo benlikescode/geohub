@@ -101,6 +101,7 @@ const CreateMapPage: FC = () => {
       gestureHandling: 'greedy',
     })
 
+    // Add markers for locations already stored for this map
     locationsRef.current.map((location) => {
       const marker = createMarker(location, map, REGULAR_MARKER_ICON, REGULAR_MARKER_SIZE)
       prevMarkersRef.current.push(marker)
@@ -143,6 +144,8 @@ const CreateMapPage: FC = () => {
         lat: e.latLng.lat(),
         lng: e.latLng.lng(),
       }
+
+      console.log(`INITIAL COORDS: ${JSON.stringify(location)}`)
 
       setLocations([...locationsRef.current, location])
 
@@ -221,6 +224,7 @@ const CreateMapPage: FC = () => {
         const adjustedLat = data.location.latLng.lat()
         const adjustedLng = data.location.latLng.lng()
         const adjustedLocation = { ...location, lat: adjustedLat, lng: adjustedLng }
+        console.log(`ADJUSTED COORDS: ${JSON.stringify(adjustedLocation)}`)
 
         const locationsCopy = [...locationsRef.current]
         locationsCopy[indexOfLoc !== undefined ? indexOfLoc : locationsCopy.length - 1] = adjustedLocation
@@ -239,8 +243,8 @@ const CreateMapPage: FC = () => {
     sv.getPanorama(
       {
         location: location,
-        radius: 100000, // 100km radius
-        source: google.maps.StreetViewSource.OUTDOOR,
+        //radius: 10000, // 100km radius
+        //preference: google.maps.StreetViewPreference.NEAREST,
       },
       processSVData
     )
