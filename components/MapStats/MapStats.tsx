@@ -27,6 +27,8 @@ const MapStats: FC<Props> = ({ map }) => {
   const [modalOpen, setModalOpen] = useState(false)
   const user = useSelector(selectUser)
 
+  console.log(`MAP ON MAP STATS: ${JSON.stringify(map)}`)
+
   modalOpen ? disableBodyScroll(document as any) : enableBodyScroll(document as any)
 
   const handleLike = async () => {
@@ -35,11 +37,11 @@ const MapStats: FC<Props> = ({ map }) => {
     }
 
     if (isLiked) {
-      const { res } = await mailman(`likes/${map.slug}?userId=${user.id}`, 'DELETE')
+      const { res } = await mailman(`likes/${map._id}?userId=${user.id}`, 'DELETE')
       setIsLiked(false)
       setNumLikes(numLikes - 1)
     } else {
-      const data = { mapId: map.slug, userId: user.id }
+      const data = { mapId: map._id, userId: user.id }
       const { res } = await mailman(`likes`, 'POST', JSON.stringify(data))
       setIsLiked(true)
       setNumLikes(numLikes + 1)

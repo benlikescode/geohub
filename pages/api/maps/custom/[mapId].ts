@@ -5,7 +5,6 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { throwError } from '@backend/utils/helpers'
 import { LocationType } from '@types'
-import { getMapSlug } from '@utils/helperFunctions'
 
 type ReqBody = {
   name?: string
@@ -15,7 +14,7 @@ type ReqBody = {
   locations?: LocationType[]
 }
 
-type UpdatedMap = { name?: string; description?: string; previewImg?: string; isPublished?: boolean; slug?: string }
+type UpdatedMap = { name?: string; description?: string; previewImg?: string; isPublished?: boolean }
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -52,7 +51,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       if (name) {
         updatedMap['name'] = name
-        updatedMap['slug'] = getMapSlug(name)
       }
 
       if (description) {

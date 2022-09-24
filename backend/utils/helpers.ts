@@ -23,6 +23,7 @@ export const throwError = (res: NextApiResponse, status: number, message: string
 // Used for generating game/challenge locations
 // count = 1: return LocationType, count > 1: return LocationType[]
 export const getLocations = async (mapId: string, count: number = 1) => {
+  console.log(`MAPID: ${mapId}`)
   if (!mapId) return null
 
   // Custom round generation
@@ -37,7 +38,6 @@ export const getLocations = async (mapId: string, count: number = 1) => {
   }
 
   // Otherwise: get random locations from DB
-
   const locations = await collections.locations
     ?.aggregate([{ $match: { mapId: new ObjectId(mapId) } }, { $sample: { size: count } }])
     .toArray()

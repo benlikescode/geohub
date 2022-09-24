@@ -45,9 +45,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const { mapId, gameSettings, userId, locations, challengeId } = req.body
       const userObjectId = new ObjectId(userId)
       const challengeObjectId = new ObjectId(challengeId)
+      const mapObjectId = new ObjectId(mapId)
 
       const newGame = {
-        mapId,
+        mapId: mapObjectId,
         gameSettings,
         challengeId: challengeObjectId,
         userId: userObjectId,

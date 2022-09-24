@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 /* eslint-disable import/no-anonymous-default-export */
@@ -7,10 +8,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await dbConnect()
 
+    /* Marks this map as liked by this user */
     if (req.method === 'POST') {
-      const { userId, mapId } = req.body
+      const userId = req.body.userId as string
+      const mapId = req.body.mapId as string
 
-      const result = await collections.mapLikes?.insertOne({ userId: userId, mapId: mapId })
+      const result = await collections.mapLikes?.insertOne({ userId: new ObjectId(userId), mapId: new ObjectId(mapId) })
 
       if (!result) {
         return res.status(500).send(`Failed to add like to map with id: ${mapId}`)
@@ -18,6 +21,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       res.status(201).send(result.insertedId)
     } else if (req.method === 'GET') {
+      /* Gets a user's liked maps -> returns 10 maps if {count} not passed */
       const userId = req.query.userId as string
       const count = Number(req.query.count as string)
 
@@ -25,15 +29,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(400).send(`Missing userId in query params`)
       }
 
-      const query = { userId: userId }
       const likedMaps = await collections.mapLikes
         ?.aggregate([
-          { $match: query },
+          { $match: { userId: new ObjectId(userId) } },
           {
             $lookup: {
               from: 'maps',
               localField: 'mapId',
-              foreignField: 'slug',
+              foreignField: '_id',
               as: 'mapDetails',
             },
           },

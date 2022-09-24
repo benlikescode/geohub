@@ -2,10 +2,10 @@ import { ObjectId } from 'mongodb'
 /* eslint-disable import/no-anonymous-default-export */
 import { NextApiRequest, NextApiResponse } from 'next'
 
+import { Map } from '@backend/models'
 import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { throwError } from '@backend/utils/helpers'
 import { MapType } from '@types'
-import { getMapSlug } from '@utils/helperFunctions'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -47,8 +47,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         createdAt: new Date(),
         usersPlayed: 0,
         isPublished: false,
-        slug: getMapSlug(name),
-      } as MapType
+      } as Map
 
       const result = await collections.maps?.insertOne(newMap)
 

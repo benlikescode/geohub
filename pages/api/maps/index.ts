@@ -3,7 +3,6 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 import { Map } from '@backend/models'
 import { collections, dbConnect } from '@backend/utils/dbConnect'
-import { getMapSlug } from '@utils/helperFunctions'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -26,9 +25,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         usersPlayed: 0,
         locationCount: 0,
         avgScore: 0,
-        likes: 0,
+        likes: { numLikes: 0, likedByUser: false },
         isPublished: true,
-        slug: getMapSlug(name),
       } as Map
 
       const result = await collections.maps?.insertOne(newMap)

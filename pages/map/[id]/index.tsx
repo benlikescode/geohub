@@ -18,7 +18,6 @@ import { Avatar, Button } from '@components/System'
 import { selectUser } from '@redux/user'
 import StyledMapPage from '@styles/MapPage.Styled'
 import { MapLeaderboardType, MapType } from '@types'
-import { getMapName } from '@utils/helperFunctions'
 
 const MapPage: FC = () => {
   const [settingsModalOpen, setSettingsModalOpen] = useState(false)
@@ -78,7 +77,7 @@ const MapPage: FC = () => {
   return (
     <StyledMapPage>
       <Layout>
-        <Head title={`Play - ${getMapName(mapId)}`} />
+        <Head title={mapDetails?.name ? `Play - ${mapDetails.name}` : 'GeoHub'} />
 
         {mapDetails ? (
           <div className="mapDetailsSection">

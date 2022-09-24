@@ -6,7 +6,7 @@ import { mailman } from '@backend/utils/mailman'
 import { selectGame } from '@redux/game'
 import { selectUser } from '@redux/user'
 import { LocationType } from '@types'
-import { formatTimeLeft, getMapName } from '@utils/helperFunctions'
+import { formatTimeLeft } from '@utils/helperFunctions'
 
 import { StyledGameStatus } from './'
 
@@ -65,7 +65,7 @@ const GameStatus: FC<Props> = ({ gameData, setView, setGameData, currGuess, noTi
           <span>Map</span>
         </div>
         <div className="value">
-          <span>{noTime ? 'Aerial' : getMapName(gameData.mapId)}</span>
+          <span>{noTime ? 'Aerial' : gameData.mapName}</span>
         </div>
       </div>
 

@@ -39,7 +39,7 @@ const getRecentGames = async () => {
         $lookup: {
           from: 'maps',
           localField: 'mapId',
-          foreignField: 'slug',
+          foreignField: '_id',
           as: 'mapDetails',
         },
       },

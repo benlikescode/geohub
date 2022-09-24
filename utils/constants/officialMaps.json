@@ -1,8 +1,7 @@
 {
   "maps": [
     {
-      "id": "6185df7a7b54baf63473a53e",
-      "slug": "world",
+      "_id": "6185df7a7b54baf63473a53e",
       "name": "World",
       "description": "The classic game mode we all love, any country is fair game!",
       "previewImg": "/images/mapPreviews/worldMap.jpg",
@@ -13,8 +12,7 @@
       "likes": { "numLikes": 0, "likedByUser": false }
     },
     {
-      "id": "6185dfb37b54baf63473a53f",
-      "slug": "near-you",
+      "_id": "6185dfb37b54baf63473a53f",
       "name": "Near You",
       "description": "How well do you know your own city? Find out now!",
       "previewImg": "/images/mapPreviews/nearYou.jpg",
@@ -25,8 +23,7 @@
       "likes": { "numLikes": 0, "likedByUser": false }
     },
     {
-      "id": "6185dfd47b54baf63473a540",
-      "slug": "famous-landmarks",
+      "_id": "6185dfd47b54baf63473a540",
       "name": "Famous Landmarks",
       "description": "Explore the greatest sights our world has to offer.",
       "previewImg": "/images/mapPreviews/LandmarksMap.jfif",
@@ -37,8 +34,7 @@
       "likes": { "numLikes": 0, "likedByUser": false }
     },
     {
-      "id": "6185dff27b54baf63473a541",
-      "slug": "canada",
+      "_id": "6185dff27b54baf63473a541",
       "name": "Canada",
       "description": "Good ol' Canada eh, explore The Great White North!",
       "previewImg": "/images/mapPreviews/CanadaMap.jpg",

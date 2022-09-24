@@ -18,7 +18,6 @@ type Props = {
 
 const SearchResult: FC<Props> = ({ searchResult, hasNoResults, setIsFocused }) => {
   const user = useSelector(selectUser)
-  console.log(searchResult)
   const type = searchResult.type || (!searchResult.avatar ? 'map' : 'user')
 
   const handleResultClick = async () => {
@@ -55,7 +54,7 @@ const SearchResult: FC<Props> = ({ searchResult, hasNoResults, setIsFocused }) =
       )}
 
       {type === 'map' && (
-        <Link href={`/map/${searchResult.slug}`}>
+        <Link href={`/map/${searchResult._id}`}>
           <a className="linkWrapper" onClick={() => handleResultClick()}>
             <FlexGroup>
               <Avatar type="map" src={searchResult.previewImg} />

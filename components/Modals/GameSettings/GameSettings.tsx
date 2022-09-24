@@ -39,7 +39,7 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
   const router = useRouter()
   const user: UserType = useSelector(selectUser)
   const dispatch = useDispatch()
-  const mapId = router.asPath.split('/')[2]
+  const mapId = router.query.id as string
 
   useEffect(() => {
     if (mapId === 'near-you') {
@@ -97,7 +97,7 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
       userId: user.id,
     }
 
-    const { status, res } = await mailman('challenges', 'POST', JSON.stringify(gameData))
+    const { res } = await mailman('challenges', 'POST', JSON.stringify(gameData))
 
     setChallengeId(res)
   }
@@ -115,7 +115,7 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
     }
 
     const gameData = {
-      mapId,
+      mapId: mapDetails._id,
       gameSettings,
       userId: user.id,
       userLocation: user.location,

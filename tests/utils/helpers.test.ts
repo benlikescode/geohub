@@ -1,13 +1,4 @@
-import { formatRoundTime, getMapName } from '@utils/helperFunctions'
-
-// getMapName
-test('MapId with hyphen should be split and first letters capitalized', () => {
-  expect(getMapName('famous-landmarks')).toBe('Famous Landmarks')
-})
-
-test('MapId with no hypen should just capitalize the first letter', () => {
-  expect(getMapName('canada')).toBe('Canada')
-})
+import { formatGameScore, formatRoundTime } from '@utils/helperFunctions'
 
 // formatRoundTime
 test('Round time less than 60 should return the time in seconds', () => {
@@ -28,4 +19,17 @@ test('Round time of 125 should return 2:05 min', () => {
 
 test('Round time of 3600 should return 1 hr', () => {
   expect(formatRoundTime(3600)).toBe('1 hr')
+})
+
+// formatGameScore
+test('Score of 20000 should return 20,000', () => {
+  expect(formatGameScore(20000)).toBe('20,000')
+})
+
+test('Score of 9999 should return 9,999', () => {
+  expect(formatGameScore(9999)).toBe('9,999')
+})
+
+test('Score of 600 should return 600', () => {
+  expect(formatGameScore(600)).toBe('600')
 })

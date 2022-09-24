@@ -2,22 +2,20 @@ import { ObjectId } from 'mongodb'
 
 import { LocationType } from '@types'
 
-import User from './user'
-
 type Map = {
-  id: ObjectId | string
-  slug: string | null
+  _id?: ObjectId
   name: string
-  description: string
-  previewImg?: string
-  creator: 'GeoHub' | User
+  description?: string
+  previewImg: string
+  creator: 'GeoHub' | ObjectId
   usersPlayed: number
-  locationCount: number
-  avgScore: number
-  likes: number
+  avgScore?: number
+  likes?: { numLikes: number; likedByUser: boolean }
   isPublished?: boolean
   createdAt?: Date
-  customLocations?: LocationType[]
+  locations?: LocationType[]
+  // backwards compatibility
+  locationCount: number
 }
 
 export default Map

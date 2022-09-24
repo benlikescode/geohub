@@ -25,7 +25,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             $lookup: {
               from: 'maps',
               localField: 'mapId',
-              foreignField: 'slug',
+              foreignField: '_id',
               as: 'mapDetails',
             },
           },

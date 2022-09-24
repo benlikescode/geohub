@@ -7,9 +7,8 @@ type StyledProps = {
 }
 
 const StyledPill = styled.div<StyledProps>`
-  background: rgba(255, 255, 255, 0.2);
-  //border: 1px solid rgba(225, 225, 225, 0.25);
-  color: ${({ color }) => color ? color : '#fff'};
+  background: rgba(200, 200, 200, 0.2);
+  color: ${({ color }) => (color ? color : '#fff')};
   padding: 0 16px;
   display: flex;
   align-items: center;
@@ -17,7 +16,7 @@ const StyledPill = styled.div<StyledProps>`
   width: fit-content;
   border-radius: 20px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 400;
   height: 30px;
 `
 

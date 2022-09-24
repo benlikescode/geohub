@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 /* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '@backend/utils/dbConnect'
+import { getLocations } from '@backend/utils/helpers'
 import { getRandomLocations } from '@utils/functions/generateLocations'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -11,15 +12,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     if (req.method === 'POST') {
       const { mapId, gameSettings } = req.body
-      const locations = getRandomLocations('handpicked', req.body.mapId)
       const creatorId = new ObjectId(req.body.userId)
+
+      const locations = await getLocations(mapId, 5)
 
       if (locations === null) {
         return res.status(400).send('Invalid Map Id, Challenge could not be created')
       }
 
       const newChallenge = {
-        mapId,
+        mapId: new ObjectId(mapId),
         gameSettings,
         locations,
         creatorId,

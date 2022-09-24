@@ -22,28 +22,30 @@ const StyledHomePage = styled.div`
   }
 
   .bannerTitle {
-    font-size: 2.5rem;
-    font-weight: 700;
-    line-height: 44px;
-    color: #e0e0e0;
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 40px;
+    color: #ffffff;
 
     @media (max-width: 1200px) {
-      font-size: 2.2rem;
+      font-size: 28px;
       max-width: 500px;
     }
   }
 
   .tipWrapper {
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 25px;
-    color: rgba(255, 255, 255, 0.8);
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 30px;
+    color: rgb(191 191 191);
     margin: 1rem 0;
     max-width: 500px;
 
     @media (max-width: 1200px) {
-      font-size: 1rem;
+      font-size: 18px;
       max-width: 100%;
+      margin-top: 0.5rem;
+      font-weight: 500;
     }
   }
 
@@ -106,7 +108,7 @@ const StyledHomePage = styled.div`
   .heroGradient {
     height: 200px;
     width: 100%;
-    background: linear-gradient(180deg, rgba(19, 19, 20, 0) 0%, rgba(19, 19, 20, 0.75) 100%);
+    background: linear-gradient(180deg, rgba(19, 19, 20, 0) 0%, rgb(33 0 51 / 75%) 100%);
     transform: rotate(-180deg);
     position: absolute;
     top: 0;

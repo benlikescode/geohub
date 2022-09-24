@@ -12,7 +12,7 @@ type Props = {
 
 const MapPreviewCard: FC<Props> = ({ map, showEditButton }) => {
   const isOfficialMap = map.creator === 'GeoHub'
-
+  console.log(`MAP IN PREVIEW CARD: ${JSON.stringify(map)}`)
   return (
     <StyledMapPreviewCard mapImage={map.previewImg} isOfficialMap={isOfficialMap}>
       <div className="mapImage"></div>
@@ -27,7 +27,7 @@ const MapPreviewCard: FC<Props> = ({ map, showEditButton }) => {
             </Link>
           )}
 
-          <Link href={`/map/${map.slug ? map.slug : map._id}`}>
+          <Link href={`/map/${map._id}`}>
             <a className="mapPlayBtn">Play</a>
           </Link>
         </div>

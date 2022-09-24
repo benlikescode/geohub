@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb'
 /* eslint-disable import/no-anonymous-default-export */
 import { NextApiRequest, NextApiResponse } from 'next'
 
@@ -15,28 +16,28 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     if (req.method === 'GET') {
-      const query = { slug: mapId }
-
       // Get Map Details
-      const mapDetails = await collections.maps?.findOne(query)
+      const mapDetails = await collections.maps?.findOne({ _id: new ObjectId(mapId) })
 
       if (!mapDetails) {
         return throwError(res, 404, `Failed to find map with id: ${mapId}`)
       }
 
       // Get Map's likes and if it's liked by this user
-      const likes = await collections.mapLikes?.find({ mapId: mapId }).toArray()
+      const likes = await collections.mapLikes?.find({ mapId: new ObjectId(mapId) }).toArray()
 
       if (!likes) {
         return throwError(res, 404, `Failed to get likes for map with id: ${mapId}`)
       }
 
-      const likedByUser = likes.some((like) => like.userId === userId)
+      const likedByUser = likes.some((like) => {
+        return like.userId.toString() === userId.toString()
+      })
 
       // Get Map's average score
       const avgScore = await collections.games
         ?.aggregate([
-          { $match: { mapId: mapId, round: 6 } },
+          { $match: { mapId: new ObjectId(mapId), round: 6 } },
           {
             $group: {
               _id: null,

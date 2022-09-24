@@ -47,7 +47,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           _id: mapDetails._id,
           name: mapDetails.name,
           previewImg: mapDetails.previewImg,
-          slug: mapDetails.slug,
         }
 
         return result

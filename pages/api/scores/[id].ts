@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 /* eslint-disable import/no-anonymous-default-export */
@@ -9,7 +10,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const mapId = req.query.id as string
 
     if (req.method === 'GET') {
-      const query = { mapId: mapId, round: 6 }
+      const query = { mapId: new ObjectId(mapId), round: 6 }
       const data = await collections.games
         ?.aggregate([
           // Match the documents

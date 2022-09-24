@@ -24,6 +24,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       const newGame = {
         ...req.body,
+        mapId: new ObjectId(req.body.mapId),
         userId: userId,
         guesses: [],
         rounds: [roundLocation],
@@ -35,8 +36,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       } as Game
 
       // check if user has played this map before
-      const hasPlayedQuery = { userId: userId, mapId: req.body.mapId }
-      const hasPlayedResult = await collections.games?.find(hasPlayedQuery).limit(1).toArray()
+      const hasPlayedResult = await collections.games
+        ?.find({ userId: userId, mapId: new ObjectId(req.body.mapId) })
+        .limit(1)
+        .toArray()
 
       // create game
       const result = await collections.games?.insertOne(newGame)
@@ -47,7 +50,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       // if this is users first game, increment usersPlayed for the map
       if (hasPlayedResult?.length === 0) {
-        collections.maps?.updateOne({ slug: req.body.mapId }, { $inc: { usersPlayed: 1 } })
+        collections.maps?.updateOne({ _id: new ObjectId(req.body.mapId) }, { $inc: { usersPlayed: 1 } })
       }
 
       res.status(201).send(result.insertedId)

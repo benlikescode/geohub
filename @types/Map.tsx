@@ -3,8 +3,7 @@ import { ObjectId } from 'mongodb'
 import { LocationType } from './'
 
 type Map = {
-  _id?: ObjectId
-  slug: string | null // remove this in future -> official maps can use _id too
+  _id?: ObjectId | string
   name: string
   description?: string
   previewImg: string

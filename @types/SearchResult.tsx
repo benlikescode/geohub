@@ -4,7 +4,6 @@ type SearchResult = {
   name: string
   avatar?: { emoji: string; color: string }
   previewImg?: string
-  slug?: string
   term?: string
 }
 

@@ -10,14 +10,22 @@ const StyledChallenge = styled.div`
   }
 
   .copyBtn {
-    width: 70px;
-    height: 30px;
-    background-color: var(--mediumPurple);
-    color: var(--color1);
+    width: 60px;
+    height: 38px;
+    background-color: #303030;
+    color: #fee2e2;
     border-radius: 5px;
-    margin-left: -75px;
+    margin-left: -40px;
     font-size: 14px;
     z-index: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      height: 22px;
+    }
   }
 
   .inputLabel {
@@ -26,34 +34,6 @@ const StyledChallenge = styled.div`
     margin-bottom: 10px;
     display: block;
     color: var(--color2);
-  }
-
-  .friendsList {
-    display: grid;
-    gap: 20px;
-    padding-top: 8px;
-  }
-
-  .friendItem {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .inviteBtn {
-    border: var(--borderLight);
-    background: transparent;
-    border-radius: 5px;
-    color: #9c9c9c;
-    width: 75px;
-    height: 30px;
-    font-size: 14px;
-    font-weight: 500;
-  }
-
-  .noFriends {
-    font-size: 14px;
-    color: #ff4747;
   }
 `
 

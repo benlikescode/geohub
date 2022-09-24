@@ -71,7 +71,7 @@ const SearchResultsPage: NextPage = () => {
               )
             } else {
               return (
-                <Link key={idx} href={`/map/${result.slug}`}>
+                <Link key={idx} href={`/map/${result._id}`}>
                   <a className="search-result">
                     <div className="user-avatar">
                       <Avatar type="map" src={result.previewImg} size={40} />

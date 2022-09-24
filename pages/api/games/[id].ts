@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { Game } from '@backend/models'
 /* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '@backend/utils/dbConnect'
-import { getLocations } from '@backend/utils/helpers'
+import { getLocations, throwError } from '@backend/utils/helpers'
 import { GuessType } from '@types'
 import { getRandomLocation } from '@utils/functions/generateLocations'
 import { getResultData } from '@utils/helperFunctions'
@@ -69,7 +69,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         // generates new location until unique or 5 failed attempts
         while (duplicate && buffer < 5) {
-          newLocation = getLocations(game.mapId)
+          newLocation = await getLocations(game.mapId)
+
+          if (!newLocation) {
+            return throwError(res, 400, 'Failed to get new location')
+          }
+
           duplicate = game.rounds.some((r) => r.lat === newLocation.lat && r.lng === newLocation.lng)
           buffer++
         }

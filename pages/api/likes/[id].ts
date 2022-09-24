@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 /* eslint-disable import/no-anonymous-default-export */
@@ -12,7 +13,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === 'GET') {
       const likes = await collections.mapLikes?.countDocuments({ mapId: mapId })
 
-      const likedByUser = await collections.mapLikes?.countDocuments({ mapId: mapId, userId: userId }, { limit: 1 })
+      const likedByUser = await collections.mapLikes?.countDocuments(
+        { mapId: new ObjectId(mapId), userId: new ObjectId(userId) },
+        { limit: 1 }
+      )
 
       const result = {
         numLikes: likes,
@@ -21,7 +25,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       res.status(200).send(result)
     } else if (req.method === 'DELETE') {
-      const removedLike = await collections.mapLikes?.deleteMany({ mapId: mapId, userId: userId })
+      const removedLike = await collections.mapLikes?.deleteMany({
+        mapId: new ObjectId(mapId),
+        userId: new ObjectId(userId),
+      })
 
       if (!removedLike) {
         return res.status(400).send(`Failed to remove like from map with id: ${mapId}`)
