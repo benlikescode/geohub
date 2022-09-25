@@ -32,6 +32,8 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData, isTesting }) =>
   const game = useSelector(selectGame)
   const user = useSelector(selectUser)
 
+  console.log(`INITIAL COORDS: ${JSON.stringify(location)}`)
+
   const GoogleMapConfig = {
     key: googleKey,
   }
@@ -120,6 +122,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData, isTesting }) =>
         const adjustedLat = data.location.latLng.lat()
         const adjustedLng = data.location.latLng.lng()
         const adjustedLocation = { ...location, lat: adjustedLat, lng: adjustedLng }
+        console.log(`ADJUSTED COORDS: ${JSON.stringify(adjustedLocation)}`)
 
         setAdjustedLocation(adjustedLocation)
 
