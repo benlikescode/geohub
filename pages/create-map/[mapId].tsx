@@ -125,15 +125,8 @@ const CreateMapPage: FC = () => {
 
         setSelectedIndex(markerIndex)
 
-        if (markerPosition) {
-          const location = {
-            lat: markerPosition.lat(),
-            lng: markerPosition.lng(),
-          }
-
-          setPreviewMap(location, markerIndex)
-          setIsShowingPreview(true)
-        }
+        setPreviewMap(markerIndex)
+        setIsShowingPreview(true)
       })
     })
 
@@ -162,7 +155,7 @@ const CreateMapPage: FC = () => {
       const markerIndex = prevMarkersRef.current.indexOf(marker)
       setSelectedIndex(markerIndex)
 
-      setPreviewMap(location)
+      setPreviewMap()
       setIsShowingPreview(true)
 
       marker.addListener('click', () => {
@@ -184,15 +177,8 @@ const CreateMapPage: FC = () => {
 
         setSelectedIndex(markerIndex)
 
-        if (markerPosition) {
-          const location = {
-            lat: markerPosition.lat(),
-            lng: markerPosition.lng(),
-          }
-
-          setPreviewMap(location, markerIndex)
-          setIsShowingPreview(true)
-        }
+        setPreviewMap(markerIndex)
+        setIsShowingPreview(true)
       })
     })
 
@@ -200,11 +186,13 @@ const CreateMapPage: FC = () => {
     svLayer.setMap(map)
   }
 
-  const setPreviewMap = (loc?: LocationType, indexOfLoc?: number) => {
-    const location = loc || locationsRef.current[locationsRef.current.length - 1]
+  const setPreviewMap = (indexOfLoc?: number) => {
+    const location = locationsRef.current[indexOfLoc !== undefined ? indexOfLoc : locationsRef.current.length - 1]
 
-    var sv = new window.google.maps.StreetViewService()
-    var panorama = new window.google.maps.StreetViewPanorama(document.getElementById('previewMap') as HTMLElement, {
+    console.log(`LOCCCC: ${JSON.stringify(location)}`)
+
+    const streetViewService = new window.google.maps.StreetViewService()
+    const panorama = new window.google.maps.StreetViewPanorama(document.getElementById('previewMap') as HTMLElement, {
       addressControl: false,
       panControl: true,
       panControlOptions: {
@@ -212,9 +200,24 @@ const CreateMapPage: FC = () => {
       },
       enableCloseButton: false,
       zoomControl: false,
-    })
-    panorama.setOptions({
       showRoadLabels: false,
+      position: location,
+    })
+
+    // HALP - Throttle / Debounce these listeners
+    panorama.addListener('position_changed', () => {
+      const newLatLng = panorama.getPosition()
+      if (!newLatLng) return
+
+      const updatedLocation = { ...location, lat: newLatLng.lat(), lng: newLatLng.lng() }
+      locationsRef.current[indexOfLoc !== undefined ? indexOfLoc : locationsRef.current.length - 1] = updatedLocation
+    })
+
+    panorama.addListener('pov_changed', () => {
+      const { heading, pitch } = panorama.getPov()
+
+      const updatedLocation = { ...location, heading, pitch }
+      locationsRef.current[indexOfLoc !== undefined ? indexOfLoc : locationsRef.current.length - 1] = updatedLocation
     })
 
     const processSVData = (data: any, status: any) => {
@@ -240,7 +243,7 @@ const CreateMapPage: FC = () => {
       }
     }
 
-    sv.getPanorama(
+    streetViewService.getPanorama(
       {
         location: location,
         //radius: 10000, // 100km radius
@@ -260,7 +263,7 @@ const CreateMapPage: FC = () => {
   const handleSaveMap = async () => {
     const isPublishedHasChanged = initiallyPublished !== isPublished
 
-    if (haveLocationsChanged || isPublishedHasChanged) {
+    if (true /*haveLocationsChanged || isPublishedHasChanged*/) {
       setIsSubmitting(true)
 
       const { res } = await mailman(
