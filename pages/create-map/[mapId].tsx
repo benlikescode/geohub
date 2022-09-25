@@ -42,6 +42,17 @@ const CreateMapPage: FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [googleMapsLoaded, setGoogleMapsLoaded] = useState(false)
 
+  const [modifiedHeading, setModifiedHeading] = useState<number | null>(null)
+  const [modifiedPitch, setModifiedPitch] = useState<number | null>(null)
+  const [modifiedPosition, setModifiedPosition] = useState<{ lat: number; lng: number } | null>(null)
+
+  /*
+  const [modfiedLocationDetails, setModifiedLocationDetails] = useState<{
+    heading: number
+    pitch: number
+    location: { lat: number; lng: number }
+  } | null>(null)
+*/
   const router = useRouter()
   const mapId = router.query.mapId as string
 
@@ -207,17 +218,26 @@ const CreateMapPage: FC = () => {
     // HALP - Throttle / Debounce these listeners
     panorama.addListener('position_changed', () => {
       const newLatLng = panorama.getPosition()
+      //console.log(newLatLng?.lat(), newLatLng?.lng())
       if (!newLatLng) return
 
+      setModifiedPosition({ lat: newLatLng.lat(), lng: newLatLng.lng() })
+
+      /*
       const updatedLocation = { ...location, lat: newLatLng.lat(), lng: newLatLng.lng() }
       locationsRef.current[indexOfLoc !== undefined ? indexOfLoc : locationsRef.current.length - 1] = updatedLocation
+      */
     })
 
     panorama.addListener('pov_changed', () => {
       const { heading, pitch } = panorama.getPov()
 
+      setModifiedHeading(heading)
+      setModifiedPitch(pitch)
+      /*
       const updatedLocation = { ...location, heading, pitch }
       locationsRef.current[indexOfLoc !== undefined ? indexOfLoc : locationsRef.current.length - 1] = updatedLocation
+      */
     })
 
     const processSVData = (data: any, status: any) => {
@@ -315,16 +335,33 @@ const CreateMapPage: FC = () => {
     setIsShowingPreview(false)
   }
 
-  // Hide preview map, no longer selecting a location
-  const handleClosePreview = () => {
+  const handleSaveLocation = () => {
     setIsShowingPreview(false)
 
-    if (selectedIndexRef.current !== -1) {
-      prevMarkersRef.current[selectedIndexRef.current].setIcon({
-        url: REGULAR_MARKER_ICON,
-        scaledSize: new google.maps.Size(REGULAR_MARKER_SIZE, REGULAR_MARKER_SIZE),
+    // If location has been modified in the preview window -> update the respective fields
+    if (modifiedPosition) {
+      locationsRef.current[selectedIndexRef.current].lat = modifiedPosition.lat
+      locationsRef.current[selectedIndexRef.current].lng = modifiedPosition.lng
+
+      prevMarkersRef.current[selectedIndexRef.current].setPosition({
+        lat: modifiedPosition.lat,
+        lng: modifiedPosition.lng,
       })
     }
+
+    if (modifiedHeading) {
+      locationsRef.current[selectedIndexRef.current].heading = modifiedHeading
+    }
+
+    if (modifiedPitch) {
+      locationsRef.current[selectedIndexRef.current].pitch = modifiedPitch
+    }
+
+    // Reset the marker to unselected icon
+    prevMarkersRef.current[selectedIndexRef.current].setIcon({
+      url: REGULAR_MARKER_ICON,
+      scaledSize: new google.maps.Size(REGULAR_MARKER_SIZE, REGULAR_MARKER_SIZE),
+    })
 
     setSelectedIndex(-1)
   }
@@ -398,8 +435,8 @@ const CreateMapPage: FC = () => {
             <Button type="destroy" callback={handleRemoveLocation}>
               Remove Location
             </Button>
-            <Button type="solidGray" callback={handleClosePreview}>
-              Close Preview
+            <Button type="solidGray" callback={handleSaveLocation}>
+              Save Location
             </Button>
           </div>
 
