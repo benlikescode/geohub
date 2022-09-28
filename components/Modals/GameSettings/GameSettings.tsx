@@ -149,12 +149,7 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
           ) : (
             <>
               <div className="map-details-wrapper">
-                <Avatar
-                  type="map"
-                  src={'https://c.tenor.com/4NKYe36DcE8AAAAj/taclan-world.gif'}
-                  size={50}
-                  outlineSize={0}
-                />
+                <Avatar type="map" src={mapDetails.previewImg} size={50} />
                 <div className="map-details">
                   <span className="map-name">{mapDetails.name}</span>
                   <span className="map-description">{mapDetails.description}</span>
