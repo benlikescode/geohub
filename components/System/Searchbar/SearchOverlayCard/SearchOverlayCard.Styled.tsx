@@ -13,6 +13,18 @@ const StyledSearchOverlayCard = styled.div`
     pointer-events: all;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
     border: 1px solid #2f3133;
+
+    .searchOverlayBody {
+      display: grid;
+      width: 100%;
+
+      .search-result-skeleton {
+        padding: 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+    }
   }
 
   .seeAllResults {

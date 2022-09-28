@@ -44,7 +44,7 @@ const SearchResult: FC<Props> = ({ searchResult, hasNoResults, setIsFocused }) =
       {type === 'user' && (
         <Link href={`/user/${searchResult._id}`}>
           <a className="linkWrapper" onClick={() => handleResultClick()}>
-            <FlexGroup>
+            <FlexGroup gap={12}>
               <Avatar type="user" src={searchResult.avatar?.emoji} backgroundColor={searchResult.avatar?.color} />
 
               <span className="searchResultLabel">{searchResult.name}</span>
@@ -56,7 +56,7 @@ const SearchResult: FC<Props> = ({ searchResult, hasNoResults, setIsFocused }) =
       {type === 'map' && (
         <Link href={`/map/${searchResult._id}`}>
           <a className="linkWrapper" onClick={() => handleResultClick()}>
-            <FlexGroup>
+            <FlexGroup gap={12}>
               <Avatar type="map" src={searchResult.previewImg} />
               <span className="searchResultLabel">{searchResult.name}</span>
             </FlexGroup>
@@ -67,7 +67,7 @@ const SearchResult: FC<Props> = ({ searchResult, hasNoResults, setIsFocused }) =
       {type === 'term' && (
         <Link href={`/search?q=${searchResult.term}`}>
           <a className="linkWrapper" onClick={() => handleResultClick()}>
-            <FlexGroup>
+            <FlexGroup gap={12}>
               <div className="termAvatar">
                 <SearchIcon height={18} color="#888" />
               </div>

@@ -25,7 +25,8 @@ const Searchbar: FC<Props> = ({ placeholder, autoFocus, isSmall, onClickOutside 
   const [query, _setQuery] = useState('')
   const [results, setResults] = useState<SearchResultType[]>([])
   const [isFocused, _setIsFocused] = useState(autoFocus || false)
-  const [loading, setLoading] = useState(false)
+  const [loadingQueryResults, setLoadingQueryResults] = useState(false)
+  const [loadingRecents, setLoadingRecents] = useState(false)
   const [recentSearches, setRecentSearches] = useState([])
   const wrapperRef = useRef(null)
   const router = useRouter()
@@ -99,30 +100,35 @@ const Searchbar: FC<Props> = ({ placeholder, autoFocus, isSmall, onClickOutside 
 
   // Gets user's recent searches on mount
   const getRecentSearches = async () => {
+    setLoadingRecents(true)
+
     const { res } = await mailman(`search/recent?userId=${user.id}`)
+
+    setLoadingRecents(false)
 
     if (res.error) return
 
-    console.log(res)
     setRecentSearches(res)
   }
 
   useEffect(() => {
-    if (!user.id) return
+    if (!user.id || !isFocused) return
 
-    getRecentSearches()
-  }, [user.id])
+    if (recentSearches.length === 0) {
+      getRecentSearches()
+    }
+  }, [user.id, isFocused])
 
   // Gets search results for specified query
   useEffect(() => {
     if (query) {
-      setLoading(true)
+      setLoadingQueryResults(true)
     }
 
     const search = async () => {
       const { res } = await mailman(`search?q=${query}&count=6`)
       setResults(res)
-      setLoading(false)
+      setLoadingQueryResults(false)
     }
 
     const throttle = setTimeout(() => {
@@ -130,7 +136,7 @@ const Searchbar: FC<Props> = ({ placeholder, autoFocus, isSmall, onClickOutside 
         search()
       } else {
         setResults([])
-        setLoading(false)
+        setLoadingQueryResults(false)
       }
     }, 300)
 
@@ -153,14 +159,19 @@ const Searchbar: FC<Props> = ({ placeholder, autoFocus, isSmall, onClickOutside 
         <div className="searchBtn">
           <Button type="icon">
             <Icon size={20} fill="rgba(206, 206, 206, 0.6)">
-              {loading ? <Spinner size={20} /> : <SearchIcon />}
+              {loadingQueryResults ? <Spinner size={20} /> : <SearchIcon />}
             </Icon>
           </Button>
         </div>
       </div>
 
       {isFocused && (
-        <SearchOverlayCard results={query ? results : recentSearches} query={query} setIsFocused={setIsFocused} />
+        <SearchOverlayCard
+          results={query ? results : recentSearches}
+          query={query}
+          isLoading={loadingRecents}
+          setIsFocused={setIsFocused}
+        />
       )}
     </StyledSearchbar>
   )
