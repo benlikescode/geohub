@@ -525,6 +525,7 @@ export const getRandomAvatar = () => {
 
 export const showErrorToast = (message?: string) => {
   toast.error(message || 'An unexpected error occured', {
+    toastId: 'error',
     position: 'bottom-right',
     autoClose: 3000,
     hideProgressBar: false,
@@ -533,11 +534,23 @@ export const showErrorToast = (message?: string) => {
     draggable: true,
     progress: 0,
     theme: 'dark',
+    progressStyle: {
+      background: 'var(--red-500)',
+    },
+    bodyStyle: {
+      fontFamily: 'var(--font-family1)',
+      fontWeight: 400,
+      color: 'rgb(195, 195, 195)',
+      lineHeight: '20px',
+    },
+    style: { border: '1px solid #333333', background: '#1b1b1b' },
+    icon: true,
   })
 }
 
 export const showSuccessToast = (message: string) => {
   toast.success(message, {
+    toastId: 'success',
     position: 'bottom-right',
     autoClose: 3000,
     hideProgressBar: false,
@@ -546,6 +559,17 @@ export const showSuccessToast = (message: string) => {
     draggable: true,
     progress: 0,
     theme: 'dark',
+    progressStyle: {
+      background: 'var(--green-500)',
+    },
+    bodyStyle: {
+      fontFamily: 'var(--font-family1)',
+      fontWeight: 400,
+      color: 'rgb(195, 195, 195)',
+      lineHeight: '20px',
+    },
+    style: { border: '1px solid #333333', background: '#1b1b1b' },
+    icon: true,
   })
 }
 
