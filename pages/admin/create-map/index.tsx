@@ -48,7 +48,7 @@ const AdminCreateMapPage: NextPage = () => {
 
         <Input type="text" label="Description" isTextarea value={description} callback={setDescription} />
 
-        <Input type="text" label="Avatar Path" value={`/images/mapPreviews/`} callback={setAvatarPath} />
+        <Input type="text" label="Avatar Path" value={`/images/mapAvatars/`} callback={setAvatarPath} />
 
         <Button type="solidPurple" width="100%" callback={() => handleCreateMap()} loading={isSubmitting}>
           Create

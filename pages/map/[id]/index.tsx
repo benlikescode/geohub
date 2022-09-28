@@ -1,9 +1,10 @@
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import router from 'next/router'
 import React, { FC, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { mailman } from '@backend/utils/mailman'
+import { DailyChallengeWinners } from '@components/DailyChallengeWinners'
 import { Head } from '@components/Head'
 import { Layout, LoadingPage } from '@components/Layout'
 import { MapLeaderboard } from '@components/MapLeaderboard'
@@ -15,9 +16,11 @@ import { SkeletonCards } from '@components/SkeletonCards'
 import { SkeletonLeaderboard } from '@components/SkeletonLeaderboard'
 import { SkeletonMapInfo } from '@components/SkeletonMapInfo'
 import { Avatar, Button } from '@components/System'
+import { updateStartTime } from '@redux/game'
 import { selectUser } from '@redux/user'
 import StyledMapPage from '@styles/MapPage.Styled'
-import { MapLeaderboardType, MapType } from '@types'
+import { GameSettingsType, MapLeaderboardType, MapType } from '@types'
+import { showErrorToast, showSuccessToast } from '@utils/helperFunctions'
 
 const MapPage: FC = () => {
   const [settingsModalOpen, setSettingsModalOpen] = useState(false)
@@ -25,8 +28,15 @@ const MapPage: FC = () => {
   const [leaderboardData, setLeaderboardData] = useState<MapLeaderboardType[] | null>()
   const [otherMaps, setOtherMaps] = useState<MapType[] | null>()
   const [loading, setLoading] = useState(true)
+
+  // State for "The Daily Challenge"
+  const [isDailyChallenge, setIsDailyChallenge] = useState(false)
+  const [hasPlayedDailyChallenge, setHasPlayedDailyChallenge] = useState(false)
+  const [previousWinners, setPreviousWinners] = useState([])
+
   const mapId = router.query.id as string
   const user = useSelector(selectUser)
+  const dispatch = useDispatch()
 
   settingsModalOpen ? disableBodyScroll(document as any) : enableBodyScroll(document as any)
 
@@ -64,9 +74,49 @@ const MapPage: FC = () => {
     setOtherMaps(res)
   }
 
+  const startDailyChallenge = async () => {
+    if (!user.id) {
+      return router.push('/register')
+    }
+
+    const alreadyPlayedMessage = `You already played today's challenge.`
+
+    if (hasPlayedDailyChallenge) {
+      return showErrorToast(alreadyPlayedMessage)
+    }
+
+    const { res } = await mailman(`challenges/daily?userId=${user.id}`, 'POST')
+
+    const { hasPlayed, challengeId } = res
+
+    setHasPlayedDailyChallenge(hasPlayed)
+
+    if (hasPlayed) {
+      return showErrorToast(alreadyPlayedMessage)
+    }
+
+    router.push(`/challenge/${challengeId}`)
+  }
+
+  // Called if this is "The Daily Challenge"
+  const fetchPreviousWinners = async () => {
+    const { res } = await mailman(`scores/challenges/dailyWinners`)
+
+    if (res.error) return
+
+    setPreviousWinners(res)
+  }
+
   useEffect(() => {
     if (!mapId) {
       return
+    }
+
+    setIsDailyChallenge(false)
+
+    if (mapId === '63349eb5090804522c2180b7') {
+      setIsDailyChallenge(true)
+      fetchPreviousWinners()
     }
 
     fetchMapDetails()
@@ -90,7 +140,12 @@ const MapPage: FC = () => {
                     <span className="description">{mapDetails.description}</span>
                   </div>
                 </div>
-                <Button type="solidPurple" width="148px" height="52px" callback={() => setSettingsModalOpen(true)}>
+                <Button
+                  type="solidPurple"
+                  width="148px"
+                  height="52px"
+                  callback={() => (isDailyChallenge ? startDailyChallenge() : setSettingsModalOpen(true))}
+                >
                   Play Now
                 </Button>
               </div>
@@ -105,6 +160,12 @@ const MapPage: FC = () => {
         )}
 
         {leaderboardData ? <MapLeaderboard leaderboard={leaderboardData} /> : <SkeletonLeaderboard />}
+
+        {isDailyChallenge && (
+          <div style={{ marginTop: '3rem' }}>
+            {previousWinners ? <DailyChallengeWinners prevWinners={previousWinners} /> : <SkeletonLeaderboard />}
+          </div>
+        )}
 
         {otherMaps ? (
           <div className="otherMapsWrapper">

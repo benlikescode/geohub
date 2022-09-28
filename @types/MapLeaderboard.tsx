@@ -9,6 +9,7 @@ type MapLeaderboard = {
   totalTime?: number
   difficulty?: 'Normal' | 'Easy' | 'Challenging'
   countryCode?: string
+  createdAt?: Date
 }
 
 export default MapLeaderboard

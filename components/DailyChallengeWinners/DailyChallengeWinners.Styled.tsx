@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 
-const StyledMapLeaderboard = styled.div`
+type StyledProps = {}
+
+const StyledDailyChallengeWinners = styled.div<StyledProps>`
   background-color: var(--background2);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 6px;
@@ -41,4 +43,4 @@ const StyledMapLeaderboard = styled.div`
   }
 `
 
-export default StyledMapLeaderboard
+export default StyledDailyChallengeWinners

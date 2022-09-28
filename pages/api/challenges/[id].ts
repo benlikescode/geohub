@@ -18,10 +18,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(404).send(`Failed to find challenge with id: ${challengeId}`)
       }
 
-      const challengeCreator = await collections.users?.findOne({ _id: challenge.creatorId })
+      // Get user details of challenge creator (if not the daily challenge)
+      let challengeCreator = null
+      if (!challenge.isDailyChallenge) {
+        challengeCreator = await collections.users?.findOne({ _id: challenge.creatorId })
 
-      if (!challengeCreator) {
-        return res.status(404).send(`Failed to find data for the challenge creator with id: ${challenge.creatorId}`)
+        if (!challengeCreator) {
+          return res.status(404).send(`Failed to find data for the challenge creator with id: ${challenge.creatorId}`)
+        }
       }
 
       let playersGame = null
@@ -35,8 +39,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       const result = {
         ...challenge,
-        creatorName: challengeCreator.name,
-        creatorAvatar: challengeCreator.avatar,
+        creatorName: challengeCreator?.name,
+        creatorAvatar: challengeCreator?.avatar,
         playersGame,
       }
 

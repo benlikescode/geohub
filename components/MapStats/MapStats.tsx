@@ -77,7 +77,9 @@ const MapStats: FC<Props> = ({ map }) => {
           </Icon>
           <div className="textWrapper">
             <span className="mainLabel">Locations</span>
-            <span className="subLabel">{map.locationCount || map.locations?.length}</span>
+            <span className="subLabel">
+              {typeof map.locationCount !== 'undefined' ? map.locationCount : map.locations?.length}
+            </span>
           </div>
         </div>
 

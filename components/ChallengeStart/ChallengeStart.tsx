@@ -52,15 +52,17 @@ const ChallengeStart: FC<Props> = ({ challengeData, handleStartChallenge, setVie
     <StyledChallengeStart>
       <div className="challengeStartWrapper">
         <h1 className="challengeTitle">You have been challenged!</h1>
-        <div className="challengeCreator">
-          <Avatar
-            type="user"
-            src={challengeData.creatorAvatar.emoji}
-            backgroundColor={challengeData.creatorAvatar.color}
-            size={40}
-          />
-          <span>{`${challengeData.creatorName} has challenged you to play GeoHub`}</span>
-        </div>
+        {!challengeData.isDailyChallenge && (
+          <div className="challengeCreator">
+            <Avatar
+              type="user"
+              src={challengeData.creatorAvatar.emoji}
+              backgroundColor={challengeData.creatorAvatar.color}
+              size={40}
+            />
+            <span>{`${challengeData.creatorName} has challenged you to play GeoHub`}</span>
+          </div>
+        )}
 
         <button className="challengeBtn" onClick={() => handleButtonClick()}>
           {isLoggedIn ? 'Play Game' : 'Create Account'}

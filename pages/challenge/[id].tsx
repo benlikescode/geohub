@@ -38,7 +38,7 @@ const ChallengePage: FC = () => {
 
     //console.log(res)
 
-    const isThisUsersChallenge = res.creatorId === user.id
+    const isThisUsersChallenge = res?.creatorId === user.id
     //console.log(isThisUsersChallenge)
     const userHasStartedChallenge = res.playersGame !== null
     //console.log(userHasStartedChallenge)

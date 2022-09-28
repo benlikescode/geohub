@@ -26,8 +26,8 @@ export const getLocations = async (mapId: string, count: number = 1) => {
   console.log(`MAPID: ${mapId}`)
   if (!mapId) return null
 
-  // Custom round generation
-  if (mapId === 'urban-world') {
+  // If map is Urban World
+  if (mapId === '631d1a5be3615f68c5ffc4eb') {
     const locations: LocationType[] = []
 
     for (let i = 0; i < count; i++) {

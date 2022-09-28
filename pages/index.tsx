@@ -57,6 +57,7 @@ const Home: NextPage = () => {
               titleColor="var(--green-500)"
               description="One game everyday. Five new locations. Just one winner!"
               buttonText="Play Challenge"
+              href="/map/63349eb5090804522c2180b7"
             />
           </div>
         </div>

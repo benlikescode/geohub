@@ -49,6 +49,12 @@ const Sidebar: FC = () => {
               <span>Puzzles</span>
             </a>
           </Link>
+
+          <Link href="/map/63349eb5090804522c2180b7">
+            <a className="linkItem">
+              <span>The Daily Challenge</span>
+            </a>
+          </Link>
         </div>
       </div>
 

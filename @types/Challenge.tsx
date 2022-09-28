@@ -10,6 +10,7 @@ type Challenge = {
   creatorId: ObjectId | string
   creatorName: string
   creatorAvatar: { emoji: string; color: string }
+  isDailyChallenge?: boolean
 }
 
 export default Challenge
