@@ -12,12 +12,7 @@ import { Skeleton } from '@components/System/Skeleton'
 import { ToggleSwitch } from '@components/System/ToggleSwitch'
 import StyledCreateMapPage from '@styles/CreateMapPage.Styled'
 import { LocationType, MapType } from '@types'
-import {
-  createMarker,
-  getMapTheme,
-  showErrorToast,
-  showSuccessToast
-} from '@utils/helperFunctions'
+import { createMarker, getMapTheme, showErrorToast, showSuccessToast } from '@utils/helperFunctions'
 
 const SELECTED_MARKER_ICON =
   'https://www.geoguessr.com/_next/static/images/selected-pin-0bac3f371ed0d5625bcd873ebce4e59e.png'
@@ -222,22 +217,21 @@ const CreateMapPage: FC = () => {
       if (!newLatLng) return
 
       setModifiedPosition({ lat: newLatLng.lat(), lng: newLatLng.lng() })
-
-      /*
-      const updatedLocation = { ...location, lat: newLatLng.lat(), lng: newLatLng.lng() }
-      locationsRef.current[indexOfLoc !== undefined ? indexOfLoc : locationsRef.current.length - 1] = updatedLocation
-      */
     })
 
-    panorama.addListener('pov_changed', () => {
-      const { heading, pitch } = panorama.getPov()
+    let debounce: any = null
 
-      setModifiedHeading(heading)
-      setModifiedPitch(pitch)
-      /*
-      const updatedLocation = { ...location, heading, pitch }
-      locationsRef.current[indexOfLoc !== undefined ? indexOfLoc : locationsRef.current.length - 1] = updatedLocation
-      */
+    panorama.addListener('pov_changed', () => {
+      return () => {
+        clearTimeout(debounce)
+        debounce = setTimeout(() => {
+          const { heading, pitch } = panorama.getPov()
+          console.log(panorama.getPov())
+
+          setModifiedHeading(heading)
+          setModifiedPitch(pitch)
+        }, 300)
+      }
     })
 
     const processSVData = (data: any, status: any) => {

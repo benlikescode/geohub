@@ -24,7 +24,6 @@ const MapLeaderboard: FC<Props> = ({ removeHeader, leaderboard, infiniteScrollCa
       {!removeHeader && (
         <div className="leaderboardTop">
           <span className="title">Leaderboard</span>
-          <Select options={selectOptions} callback={setSelectState} />
         </div>
       )}
 

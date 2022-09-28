@@ -11,21 +11,15 @@ type Props = {
   description: string
   buttonText: string
   href?: string
-  isNew?: boolean
 }
 
-const GamemodeCard: FC<Props> = ({ title, titleColor, description, buttonText, href, isNew }) => {
+const GamemodeCard: FC<Props> = ({ title, titleColor, description, buttonText, href }) => {
   return (
     <StyledGamemodeCard titleColor={titleColor}>
-      <div className="titleWrapper">
-        <h2 className="gamemodeTitle">{title}</h2>
-        {isNew && (
-          <div className="newTag">
-            <span>New</span>
-          </div>
-        )}
+      <div className="gamemode-details">
+        <h2>{title}</h2>
+        <p>{description}</p>
       </div>
-      <span className="gamemodeDescription">{description}</span>
 
       {href && (
         <Link href={href}>

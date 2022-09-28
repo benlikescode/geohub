@@ -17,7 +17,7 @@ const StyledAvatar = styled.div<StyledProps>`
     position: relative;
     cursor: pointer;
     box-shadow: ${({ outlineSize, outlineColor }) =>
-      `0 0 0 ${outlineSize !== undefined ? outlineSize : 2}px ${outlineColor || '#0e0e10'}`};
+      `0 0 0 ${outlineSize !== undefined ? outlineSize : 2}px ${outlineColor || 'rgba(255, 255, 255, 0.25)'}`};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -39,9 +39,8 @@ const StyledAvatar = styled.div<StyledProps>`
     border-radius: 50%;
     position: relative;
     cursor: pointer;
-
     box-shadow: ${({ outlineSize, outlineColor }) =>
-      `0 0 0 ${outlineSize !== undefined ? outlineSize : 2}px ${outlineColor || '#0e0e10'}`};
+      `0 0 0 ${outlineSize !== undefined ? outlineSize : 2}px ${outlineColor || 'rgba(255, 255, 255, 0.25)'}`};
 
     @media (max-width: 600px) {
       height: ${({ mobileSize, size }) => mobileSize ?? size}px;

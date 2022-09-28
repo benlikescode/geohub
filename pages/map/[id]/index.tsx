@@ -55,7 +55,7 @@ const MapPage: FC = () => {
   }
 
   const fetchOtherMaps = async () => {
-    const { status, res } = await mailman(`maps/browse/popular?count=3&mapId=${mapId}`)
+    const { status, res } = await mailman(`maps/browse/popular?count=6&mapId=${mapId}`)
 
     if (status === 400 || status === 500) {
       return setOtherMaps(null)
@@ -84,12 +84,7 @@ const MapPage: FC = () => {
             <div className="mapDescriptionWrapper">
               <div className="descriptionColumnWrapper">
                 <div className="descriptionColumn">
-                  <Avatar
-                    type="map"
-                    src={'https://c.tenor.com/4NKYe36DcE8AAAAj/taclan-world.gif'}
-                    size={50}
-                    outlineSize={0}
-                  />
+                  <Avatar type="map" src={mapDetails.previewImg} size={50} />
                   <div className="map-details">
                     <span className="name">{mapDetails.name}</span>
                     <span className="description">{mapDetails.description}</span>

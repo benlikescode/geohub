@@ -3,6 +3,7 @@ import React, { FC } from 'react'
 import { useSelector } from 'react-redux'
 
 import {
+  ClockIcon,
   DesktopComputerIcon,
   HeartIcon,
   HomeIcon,
@@ -24,7 +25,7 @@ const Sidebar: FC = () => {
 
         <Item text="My Maps" icon={<MapIcon />} route="/my-maps" />
 
-        <Item text="Friends" icon={<UsersIcon />} route="/friends" />
+        <Item text="History" icon={<ClockIcon />} route="/history" />
 
         <Item text="Liked Maps" icon={<HeartIcon />} route="/liked" />
 

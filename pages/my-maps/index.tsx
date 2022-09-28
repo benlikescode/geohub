@@ -76,7 +76,7 @@ const MyMapsPage: NextPage = () => {
 
         <div className="map-wrapper">
           {maps.map((map, idx) => (
-            <MapPreviewCard key={idx} map={map} showEditButton />
+            <MapPreviewCard key={idx} map={map} type="small" />
           ))}
         </div>
 

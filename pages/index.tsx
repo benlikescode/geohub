@@ -22,45 +22,41 @@ const Home: NextPage = () => {
   return (
     <StyledHomePage>
       <Layout removeWrapper>
-        <div className="heroBannerWrapper">
-          <div className="heroBanner">
-            <div className="heroGradient"></div>
-          </div>
-        </div>
-
-        <div className="main-content">
-          <div className="bannerContent">
-            <h2 className="bannerTitle">Today&apos;s Tip</h2>
-            <div className="tipWrapper">
+        <div className="hero-section">
+          <div className="hero-content">
+            <h2 className="banner-title">Today&apos;s Tip</h2>
+            <div className="tip-wrapper">
               <span className="tip">{geoTip.tip}</span>
             </div>
-            <div className="pillsWrapper">
+            <div className="pills-wrapper">
               {geoTip.tags.map((label, idx) => (
                 <Pill key={idx} label={label} />
               ))}
             </div>
           </div>
+        </div>
 
-          <div className="mapPreviewSection">
+        <div className="main-content">
+          <div className="map-preview-section">
             {(officialMaps.maps as MapType[]).map((map, idx) => (
               <MapPreviewCard key={idx} map={map} />
             ))}
           </div>
 
-          <div className="gamemodesWrapper">
+          <div className="other-gamemodes">
             <GamemodeCard
               title="Aerial Game"
               titleColor="var(--blue-500)"
               description="Can you pinpoint a city looking down from the sky?"
-              buttonText="Play Now"
+              buttonText="Play Aerial"
               href="/aerial"
             />
 
             <GamemodeCard
-              title="Geo Learn"
+              title="The Daily Challenge"
               titleColor="var(--green-500)"
-              description="Facts and fun quizes to improve your knowledge and up your game!"
-              buttonText="Learn Now"
+              description="One game everyday. Five new locations. Just one winner!"
+              buttonText="Play Challenge"
             />
           </div>
         </div>
