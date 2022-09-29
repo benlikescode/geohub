@@ -65,7 +65,7 @@ const GameStatus: FC<Props> = ({ gameData, setView, setGameData, currGuess, noTi
           <span>Map</span>
         </div>
         <div className="value">
-          <span>{noTime ? 'Aerial' : gameData.mapName}</span>
+          <span>{noTime ? 'Aerial' : gameData.mapDetails?.name}</span>
         </div>
       </div>
 

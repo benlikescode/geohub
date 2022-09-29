@@ -1,4 +1,5 @@
-import { FC, useState } from 'react'
+/* eslint-disable @next/next/no-img-element */
+import { FC, Fragment, useState } from 'react'
 
 import { Game } from '@backend/models'
 import { Banner } from '@components/Layout'
@@ -77,19 +78,19 @@ const LeaderboardCard: FC<Props> = ({ gameData, mapData }) => {
               <span>Total</span>
             </div>
 
-            {gameData.map((game) => (
-              <>
+            {gameData.map((game, idx) => (
+              <Fragment key={idx}>
                 <div className="rowDivider"></div>
                 <div className="userSection">
                   {/*showPlace && <span className="userPlace">#{idx + 1}</span>*/}
                   <div className="userInfo">
                     <Avatar
                       type="user"
-                      src={game.userDetails ? game.userDetails[0]!.avatar.emoji : game.userAvatar?.emoji}
-                      backgroundColor={game.userDetails ? game.userDetails[0]!.avatar.color : game.userAvatar?.color}
+                      src={game.userDetails ? game.userDetails?.avatar?.emoji : game.userAvatar?.emoji}
+                      backgroundColor={game.userDetails ? game.userDetails?.avatar?.color : game.userAvatar?.color}
                     />
 
-                    <span className="username">{game.userDetails ? game.userDetails[0]!.name : game.userName}</span>
+                    <span className="username">{game.userDetails ? game.userDetails?.name : game.userName}</span>
                   </div>
                 </div>
                 <div className="userResultSection hideOnSmall">
@@ -152,7 +153,7 @@ const LeaderboardCard: FC<Props> = ({ gameData, mapData }) => {
                     <span className="time">{formatRoundTime(game.totalTime)}</span>
                   </div>
                 </div>
-              </>
+              </Fragment>
             ))}
           </div>
         </div>

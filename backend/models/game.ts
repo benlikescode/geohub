@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb'
 
-import { GameSettingsType, GuessType, LocationType } from '@types'
+import { GameSettingsType, GuessType, LocationType, MapType } from '@types'
 
 import User from './user'
 
@@ -22,8 +22,9 @@ type Game = {
   difficulty?: 'Normal' | 'Easy' | 'Challenging'
   countryCode?: string
   challengeId?: ObjectId | string | null
-  userDetails?: [User]
+  userDetails?: User
   createdAt?: Date
+  mapDetails?: MapType
 }
 
 export default Game

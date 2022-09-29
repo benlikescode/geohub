@@ -10,6 +10,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     await dbConnect()
     const mapId = req.query.id as string
     const userId = req.query.userId as string
+    const includeStats = req.query.stats as string // true or false
 
     if (!mapId) {
       return throwError(res, 400, 'You must pass a valid mapId')
@@ -21,6 +22,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       if (!mapDetails) {
         return throwError(res, 404, `Failed to find map with id: ${mapId}`)
+      }
+
+      // If query does not want stats, return early
+      if (!includeStats || includeStats === 'false') {
+        return res.status(200).send(mapDetails)
       }
 
       // Get Map's likes and if it's liked by this user

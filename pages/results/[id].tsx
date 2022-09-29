@@ -31,13 +31,8 @@ const ResultsPage: NextPage = () => {
       setIsCompleted(true)
     }
 
-    const gameData = {
-      id: gameId,
-      ...res,
-    }
-
-    setGameData(gameData)
-    fetchMap(gameData.mapId)
+    setGameData(res)
+    fetchMap(res.mapId)
   }
 
   const fetchMap = async (mapId: string) => {

@@ -16,31 +16,45 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const gameId = req.query.id as string
 
     if (req.method === 'GET') {
-      // If gameId is not valid
       if (gameId.length !== 24) {
         return res.status(404).send(`Failed to find game with id: ${gameId}`)
       }
 
-      const query = { _id: new ObjectId(gameId) }
-      const game = await collections.games?.findOne(query)
+      const gameQuery = await collections.games
+        ?.aggregate([
+          { $match: { _id: new ObjectId(gameId) } },
+          {
+            $lookup: {
+              from: 'maps',
+              localField: 'mapId',
+              foreignField: '_id',
+              as: 'mapDetails',
+            },
+          },
+          {
+            $unwind: '$mapDetails',
+          },
+          {
+            $lookup: {
+              from: 'users',
+              localField: 'userId',
+              foreignField: '_id',
+              as: 'userDetails',
+            },
+          },
+          {
+            $unwind: '$userDetails',
+          },
+        ])
+        .toArray()
 
-      if (!game) {
+      if (!gameQuery || gameQuery.length !== 1) {
         return res.status(404).send(`Failed to find game with id: ${gameId}`)
       }
 
-      const user = await collections.users?.findOne({ _id: game.userId })
+      const game = gameQuery[0]
 
-      if (!user) {
-        return res.status(404).send(`Failed to find user with id: ${game.userId}`)
-      }
-
-      const result = {
-        ...game,
-        userName: user.name,
-        userAvatar: user.avatar,
-      }
-
-      res.status(200).send(result)
+      res.status(200).send(game)
     }
 
     // Stores previous round info and gets next round

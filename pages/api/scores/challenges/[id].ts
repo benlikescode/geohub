@@ -24,6 +24,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               as: 'userDetails',
             },
           },
+          {
+            $unwind: '$userDetails',
+          },
         ])
         .limit(10)
         .toArray()

@@ -45,7 +45,7 @@ const MapPage: FC = () => {
   }
 
   const fetchMapDetails = async () => {
-    const { status, res } = await mailman(`maps/${mapId}?userId=${user?.id}`)
+    const { status, res } = await mailman(`maps/${mapId}?userId=${user?.id}&stats=true`)
 
     if (status === 404 || status === 500) {
       return setMapDetails(null)
