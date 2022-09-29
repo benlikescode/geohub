@@ -137,7 +137,7 @@ const MapPage: FC = () => {
                   <Avatar type="map" src={mapDetails.previewImg} size={50} />
                   <div className="map-details">
                     <span className="name">{mapDetails.name}</span>
-                    <span className="description">{mapDetails.description}</span>
+                    {mapDetails.description && <span className="description">{mapDetails.description}</span>}
                   </div>
                 </div>
                 <Button

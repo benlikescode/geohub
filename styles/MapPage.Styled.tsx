@@ -13,13 +13,13 @@ const StyledMapPage = styled.div`
   .name {
     font-size: 22px;
     font-weight: 600;
-    display: block;
-    margin-bottom: 8px;
   }
 
   .map-details {
     margin-left: 16px;
     margin-top: 2px;
+    display: grid;
+    gap: 8px;
   }
 
   .description {
