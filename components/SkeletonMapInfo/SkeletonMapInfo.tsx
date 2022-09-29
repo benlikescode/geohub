@@ -9,17 +9,25 @@ type Props = {}
 const SkeletonMapInfo: FC<Props> = ({}) => {
   return (
     <StyledSkeletonMapInfo>
-      <div className="mapDescriptionWrapper">
-        <div className="mapAvatar">
-          <Skeleton variant="circular" height={100} width={100} />
+      <div className="mapDetailsSection">
+        <div className="mapDescriptionWrapper">
+          <div className="descriptionColumnWrapper">
+            <div className="descriptionColumn">
+              <Skeleton variant="circular" height={52} width={52} />
+              <div className="map-details">
+                <Skeleton height={24} width={150} noBorder />
+                <Skeleton height={16} width={450} noBorder />
+              </div>
+            </div>
+            <Skeleton height={52} width={148} />
+          </div>
         </div>
 
-        <div className="descriptionColumnWrapper">
-          <div className="descriptionColumn">
-            <Skeleton height={24} width={150} noBorder />
-            <Skeleton height={16} width={450} noBorder />
-          </div>
-          <Skeleton height={40} width={200} />
+        <div className="statsGrid">
+          <Skeleton height={65} />
+          <Skeleton height={65} />
+          <Skeleton height={65} />
+          <Skeleton height={65} />
         </div>
       </div>
     </StyledSkeletonMapInfo>

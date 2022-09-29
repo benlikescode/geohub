@@ -3,27 +3,31 @@ import styled from 'styled-components'
 type StyledProps = {}
 
 const StyledSkeletonMapInfo = styled.div<StyledProps>`
-  display: flex;
-  background-color: var(--background2);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 6px;
-  margin-bottom: 3rem;
-
-  @media (max-width: 1200px) {
-    flex-direction: column;
+  .map-details {
+    margin-left: 16px;
+    margin-top: 2px;
+    display: grid;
+    grid-gap: 8px;
   }
 
-  @media (max-width: 600px) {
-    border-radius: 0;
-    border: none;
-    background-color: transparent;
+  .mapDetailsSection {
+    background-color: var(--background2);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    margin-bottom: 3rem;
+
+    @media (max-width: 1200px) {
+      flex-direction: column;
+    }
+
+    @media (max-width: 600px) {
+      border-radius: 0;
+      border: none;
+      background-color: transparent;
+    }
   }
 
   .mapDescriptionWrapper {
-    display: flex;
-    gap: 25px;
-    padding: 25px 30px;
-    flex-grow: 1;
     width: 100%;
 
     @media (max-width: 1550px) {
@@ -36,40 +40,23 @@ const StyledSkeletonMapInfo = styled.div<StyledProps>`
     }
   }
 
-  .statsWrapper {
-    width: 100%;
-    flex-grow: 1;
-    flex-shrink: 1.25;
-  }
-
   .descriptionColumnWrapper {
     display: flex;
-    flex-direction: column;
-    gap: 25px;
-    margin-top: 0.5rem;
+    justify-content: space-between;
+    padding: 20px;
+    width: 100%;
   }
 
   .descriptionColumn {
     display: flex;
-    flex-direction: column;
-    gap: 12px;
+    align-items: center;
   }
 
-  .mapStats {
-    background-color: #171718;
-    border-top-right-radius: 12px;
-    border-bottom-right-radius: 12px;
-    border-left: 1px solid rgba(255, 255, 255, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    padding-left: 2rem;
-
+  .statsGrid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 44px;
-    width: 100%;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 20px;
+    padding: 15px 20px 20px;
 
     @media (max-width: 1200px) {
       grid-template-columns: repeat(4, 1fr);
@@ -77,6 +64,17 @@ const StyledSkeletonMapInfo = styled.div<StyledProps>`
 
     @media (max-width: 940px) {
       grid-template-columns: 1fr 1fr;
+    }
+
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 14px;
+      background: #ffffff0a;
+      border-radius: 6px;
+      flex-shrink: 0;
+      box-sizing: border-box;
     }
   }
 `

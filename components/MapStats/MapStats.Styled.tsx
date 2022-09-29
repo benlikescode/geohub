@@ -1,17 +1,29 @@
 import styled from 'styled-components'
 
 const StyledMapStats = styled.div`
-  border-top-right-radius: 12px;
-  border-bottom-right-radius: 12px;
-  border-left: 1pxsolidrgba (255, 255, 255, 0.1);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 20px;
+  padding: 15px 20px 20px;
 
-  align-items: center;
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
 
-  justify-content: center;
-  height: 100%;
+  @media (max-width: 940px) {
+    grid-template-columns: 1fr 1fr;
+  }
 
-  padding: 20px;
-  padding-top: 10px;
+  .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 14px;
+    background: #ffffff0a;
+    border-radius: 6px;
+    flex-shrink: 0;
+    box-sizing: border-box;
+  }
 
   @media (max-width: 1200px) {
     padding: 2rem 0 2rem 3rem;
@@ -28,34 +40,6 @@ const StyledMapStats = styled.div`
   @media (max-width: 600px) {
     border-radius: 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .statsGrid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    column-gap: 20px;
-
-    @media (max-width: 1200px) {
-      grid-template-columns: repeat(4, 1fr);
-    }
-
-    @media (max-width: 940px) {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .stat-item {
-      display: flex;
-
-      align-items: center;
-      gap: 8px;
-
-      padding: 12px 14px;
-      background: #ffffff0a;
-      border-radius: 6px;
-      flex-shrink: 0;
-
-      box-sizing: border-box;
-    }
   }
 
   .textWrapper {

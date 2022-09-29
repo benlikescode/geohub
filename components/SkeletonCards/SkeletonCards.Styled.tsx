@@ -1,10 +1,12 @@
 import styled from 'styled-components'
 
-type StyledProps = {}
+type StyledProps = {
+  numColumns: number
+}
 
 const StyledSkeletonCard = styled.div<StyledProps>`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(${({ numColumns }) => numColumns}, 1fr);
   gap: 1.2rem;
   z-index: 1;
 

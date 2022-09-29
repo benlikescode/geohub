@@ -50,54 +50,52 @@ const MapStats: FC<Props> = ({ map }) => {
 
   return (
     <StyledMapStats>
-      <div className="statsGrid">
-        <div className="stat-item">
-          <Icon size={30} fill="var(--lightPurple)">
-            <ScaleIcon />
-          </Icon>
-          <div className="textWrapper">
-            <span className="mainLabel">Average Score</span>
-            <span className="subLabel">{formatGameScore(map.avgScore || 0)}</span>
-          </div>
+      <div className="stat-item">
+        <Icon size={30} fill="var(--lightPurple)">
+          <ScaleIcon />
+        </Icon>
+        <div className="textWrapper">
+          <span className="mainLabel">Average Score</span>
+          <span className="subLabel">{formatGameScore(map.avgScore || 0)}</span>
         </div>
-
-        <div className="stat-item">
-          <Icon size={30} fill="var(--lightPurple)">
-            <UserIcon />
-          </Icon>
-          <div className="textWrapper">
-            <span className="mainLabel">Explorers</span>
-            <span className="subLabel">{map.usersPlayed}</span>
-          </div>
-        </div>
-
-        <div className="stat-item">
-          <Icon size={30} fill="var(--lightPurple)">
-            <LocationMarkerIcon />
-          </Icon>
-          <div className="textWrapper">
-            <span className="mainLabel">Locations</span>
-            <span className="subLabel">
-              {typeof map.locationCount !== 'undefined' ? map.locationCount : map.locations?.length}
-            </span>
-          </div>
-        </div>
-
-        <div className="stat-item">
-          <button className="likeBtn" onClick={() => handleLike()}>
-            <Icon size={30} fill={isLiked ? 'var(--red-500)' : 'var(--lightPurple)'} hoverColor="var(--red-500)">
-              <HeartIcon />
-            </Icon>
-          </button>
-
-          <div className="textWrapper">
-            <span className="mainLabel">Likes</span>
-            <span className="subLabel">{numLikes}</span>
-          </div>
-        </div>
-
-        {modalOpen && <Auth closeModal={() => setModalOpen(false)} />}
       </div>
+
+      <div className="stat-item">
+        <Icon size={30} fill="var(--lightPurple)">
+          <UserIcon />
+        </Icon>
+        <div className="textWrapper">
+          <span className="mainLabel">Explorers</span>
+          <span className="subLabel">{map.usersPlayed}</span>
+        </div>
+      </div>
+
+      <div className="stat-item">
+        <Icon size={30} fill="var(--lightPurple)">
+          <LocationMarkerIcon />
+        </Icon>
+        <div className="textWrapper">
+          <span className="mainLabel">Locations</span>
+          <span className="subLabel">
+            {typeof map.locationCount !== 'undefined' ? map.locationCount : map.locations?.length}
+          </span>
+        </div>
+      </div>
+
+      <div className="stat-item">
+        <button className="likeBtn" onClick={() => handleLike()}>
+          <Icon size={30} fill={isLiked ? 'var(--red-500)' : 'var(--lightPurple)'} hoverColor="var(--red-500)">
+            <HeartIcon />
+          </Icon>
+        </button>
+
+        <div className="textWrapper">
+          <span className="mainLabel">Likes</span>
+          <span className="subLabel">{numLikes}</span>
+        </div>
+      </div>
+
+      {modalOpen && <Auth closeModal={() => setModalOpen(false)} />}
     </StyledMapStats>
   )
 }
