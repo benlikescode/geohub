@@ -1,5 +1,5 @@
 import GoogleMapReact from 'google-map-react'
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import { Game } from '@backend/models'
@@ -31,6 +31,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData, isTesting }) =>
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
   const game = useSelector(selectGame)
   const user = useSelector(selectUser)
+  const panoramaRef = useRef<google.maps.StreetViewPanorama | null>(null)
 
   console.log(`INITIAL COORDS: ${JSON.stringify(location)}`)
 
@@ -56,6 +57,17 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData, isTesting }) =>
         setGameData({ id: res._id, ...res })
         setView('Result')
       }
+    }
+  }
+
+  const handleBackToStart = () => {
+    if (!panoramaRef.current) return
+
+    panoramaRef.current.setPosition(adjustedLocation)
+
+    // Have to check heading and pitch exist since Location type has them as possibly undefined...
+    if (typeof adjustedLocation?.heading !== 'undefined' && typeof adjustedLocation.pitch !== 'undefined') {
+      panoramaRef.current.setPov({ heading: adjustedLocation?.heading, pitch: adjustedLocation?.pitch })
     }
   }
 
@@ -145,6 +157,8 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData, isTesting }) =>
       processSVData
     )
 
+    panoramaRef.current = panorama
+
     setLoading(false)
   }
 
@@ -153,7 +167,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData, isTesting }) =>
       {loading && <LoadingPage />}
 
       <div id="map">
-        <StreetViewControls />
+        <StreetViewControls handleBackToStart={handleBackToStart} />
         <GameStatus
           gameData={gameData}
           setView={setView}

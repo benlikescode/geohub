@@ -1,17 +1,16 @@
 import React, { FC, useState } from 'react'
 
 import { Button, Icon, Tooltip } from '@components/System'
-import { FlagIcon, LocationMarkerIcon } from '@heroicons/react/outline'
+import { FlagIcon } from '@heroicons/react/outline'
 
 import { StyledStreetViewControls } from './'
 
-const StreetViewControls: FC = () => {
-  const [showTip, setShowTip] = useState(false)
+type Props = {
+  handleBackToStart: () => void
+}
 
-  const handleBackToStart = () => {
-    // temp solution lol
-    window.location.reload()
-  }
+const StreetViewControls: FC<Props> = ({ handleBackToStart }) => {
+  const [showTip, setShowTip] = useState(false)
 
   return (
     <StyledStreetViewControls>
