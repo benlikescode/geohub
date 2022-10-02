@@ -51,8 +51,12 @@ const StyledProfilePage = styled.div<StyledProps>`
         justify-content: center;
 
         &:hover {
-          outline: 1px solid #1c1c1c;
-          outline-offset: 5px;
+          ${({ isEditing }) =>
+            isEditing &&
+            `
+              outline: 1px solid #1c1c1c;
+              outline-offset: 5px;
+          `}
         }
 
         img {
