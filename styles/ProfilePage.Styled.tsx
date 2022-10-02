@@ -50,6 +50,11 @@ const StyledProfilePage = styled.div<StyledProps>`
         align-items: center;
         justify-content: center;
 
+        &:hover {
+          outline: 1px solid #1c1c1c;
+          outline-offset: 5px;
+        }
+
         img {
           height: 70px;
           width: 70px;
@@ -63,26 +68,18 @@ const StyledProfilePage = styled.div<StyledProps>`
           position: absolute;
           top: -0.5rem;
           right: 0;
-        }
+          height: 42px;
+          width: 42px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
 
-        /*
-        &::after {
-          content: '';
-          position: absolute;
-          z-index: 1;
-          border-radius: 50%;
-          width: 100%;
-          height: 100%;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-        }
-*/
-        &:hover {
-          opacity: ${({ isEditing }) => (isEditing ? 0.95 : 1)};
-
-          //background-color: #333 !important;
+          svg {
+            height: 20px;
+            color: var(--color2);
+            position: relative;
+            top: -2px;
+          }
         }
       }
 

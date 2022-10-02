@@ -12,13 +12,7 @@ import { AvatarPickerModal } from '@components/Modals/AvatarPickerModal'
 import { SkeletonProfile } from '@components/SkeletonProfile'
 import { CameraIcon } from '@heroicons/react/outline'
 import { BadgeCheckIcon, PencilAltIcon } from '@heroicons/react/solid'
-import {
-  logOutUser,
-  selectUser,
-  updateAvatar,
-  updateBio,
-  updateUsername
-} from '@redux/user'
+import { logOutUser, selectUser, updateAvatar, updateBio, updateUsername } from '@redux/user'
 import StyledProfilePage from '@styles/ProfilePage.Styled'
 import { MapLeaderboardType } from '@types'
 
@@ -150,7 +144,7 @@ const ProfilePage: NextPage = () => {
                       alt={`${userDetails.name}'s avatar`}
                     />
                     <div className="profile-avatar-editing-icon">
-                      <CameraIcon height={24} color="var(--color2)" />
+                      <CameraIcon />
                     </div>
                   </button>
                 ) : (
