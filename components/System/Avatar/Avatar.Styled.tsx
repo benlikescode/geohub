@@ -17,7 +17,7 @@ const StyledAvatar = styled.div<StyledProps>`
     position: relative;
     cursor: pointer;
     box-shadow: ${({ outlineSize, outlineColor }) =>
-      `0 0 0 ${outlineSize !== undefined ? outlineSize : 2}px ${outlineColor || 'rgba(255, 255, 255, 0.25)'}`};
+      `0 0 0 ${outlineSize !== undefined ? outlineSize : 2}px inset ${outlineColor || 'rgba(0, 0, 0, 0.25)'}`};
     display: flex;
     align-items: center;
     justify-content: center;
