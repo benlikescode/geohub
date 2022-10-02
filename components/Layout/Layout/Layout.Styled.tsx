@@ -6,7 +6,8 @@ const StyledLayout = styled.div`
   .appBody {
     display: grid;
     grid-template-columns: var(--sidebarWidth) auto;
-    min-height: calc(100vh - var(--navbarHeight));
+    min-height: 100vh;
+    padding-top: var(--navbarHeight);
 
     @media (max-width: 1000px) {
       grid-template-columns: 185px auto;

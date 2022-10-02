@@ -2,11 +2,12 @@ import styled from 'styled-components'
 
 const StyledNavbar = styled.div`
   height: var(--navbarHeight);
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 1rem;
-  position: sticky;
+  position: fixed;
   top: 0;
   z-index: 20;
   background-color: #18181b;
