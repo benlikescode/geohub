@@ -3,18 +3,42 @@ import styled from 'styled-components'
 const StyledHomePage = styled.div`
   .hero-section {
     width: 100%;
-    height: 270px;
-    border-bottom: 1px solid #202020;
-    box-shadow: 0 1px 2px rgb(0 0 0 / 90%), 0 0px 2px rgb(0 0 0 / 90%);
-    background: #0f0f0f;
     display: flex;
     align-items: center;
+    position: relative;
+    padding: 56px 0 256px 0;
+    margin-bottom: -200px;
+
+    &::before {
+      content: '';
+      background-image: url('/images/backgrounds/newHero.jpg');
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      bottom: 0px;
+      left: 0px;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(0deg, #0e0e10 10%, #0e0e1050);
+      z-index: 1;
+    }
 
     .hero-content {
       max-width: var(--mainMaxWidth);
       width: 100%;
       margin: 0 auto;
       padding: 0 40px;
+      position: relative;
+      z-index: 2;
 
       @media (max-width: 500px) {
         padding: 3rem 1rem;
@@ -59,7 +83,7 @@ const StyledHomePage = styled.div`
   .main-content {
     max-width: var(--mainMaxWidth);
     width: 100%;
-    padding: 40px;
+    padding: 0 40px;
     display: grid;
     gap: 40px;
     margin: 0 auto;
