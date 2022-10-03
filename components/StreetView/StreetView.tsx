@@ -151,7 +151,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData, isTesting }) =>
     sv.getPanorama(
       {
         location: location,
-        radius: gameData.mapId === 'near-you' ? 50000 : 10000,
+        //radius: gameData.mapId === 'near-you' ? 50000 : 10000,
         //source: google.maps.StreetViewSource.OUTDOOR,
       },
       processSVData
