@@ -12,5 +12,5 @@ export const formatMonthDayYearTime = (dateRaw: Date | undefined) => {
   const meridiem = hours < 12 ? 'AM' : 'PM'
   const mins = date.getMinutes().toString().padStart(2, '0')
 
-  return `${month} ${day}, ${year} ${formattedHours}:${mins} ${meridiem}`
+  return `${month} ${day}, ${year} ${formattedHours || 12}:${mins} ${meridiem}`
 }
