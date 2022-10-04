@@ -1,4 +1,4 @@
-import { formatGameScore, formatRoundTime } from '@utils/helperFunctions'
+import { formatLargeNumber, formatRoundTime } from '@utils/helperFunctions'
 
 // formatRoundTime
 test('Round time less than 60 should return the time in seconds', () => {
@@ -21,15 +21,15 @@ test('Round time of 3600 should return 1 hr', () => {
   expect(formatRoundTime(3600)).toBe('1 hr')
 })
 
-// formatGameScore
+// formatLargeNumber
 test('Score of 20000 should return 20,000', () => {
-  expect(formatGameScore(20000)).toBe('20,000')
+  expect(formatLargeNumber(20000)).toBe('20,000')
 })
 
 test('Score of 9999 should return 9,999', () => {
-  expect(formatGameScore(9999)).toBe('9,999')
+  expect(formatLargeNumber(9999)).toBe('9,999')
 })
 
 test('Score of 600 should return 600', () => {
-  expect(formatGameScore(600)).toBe('600')
+  expect(formatLargeNumber(600)).toBe('600')
 })

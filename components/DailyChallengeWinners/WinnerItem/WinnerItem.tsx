@@ -7,7 +7,7 @@ import user from '@redux/user'
 import { GameType, MapLeaderboardType } from '@types'
 import { formatMonthDayYearTime } from '@utils/dateHelpers'
 import {
-  formatGameScore,
+  formatLargeNumber,
   formatRoundTime,
   getFormattedDate
 } from '@utils/helperFunctions'
@@ -35,7 +35,7 @@ const WinnerItem: FC<Props> = ({ winner }) => {
       </div>
 
       <div className="resultsSection">
-        <span className="totalPoints">{formatGameScore(winner.totalPoints)} points</span>
+        <span className="totalPoints">{formatLargeNumber(winner.totalPoints)} points</span>
         <FlexGroup gap={5}>
           {winner.totalTime && <span className="totalTime">{formatRoundTime(winner.totalTime)}</span>}
 

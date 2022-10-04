@@ -13,7 +13,7 @@ import {
 import { HeartIcon } from '@heroicons/react/solid'
 import { selectUser } from '@redux/user'
 import { MapType } from '@types'
-import { formatGameScore } from '@utils/helperFunctions'
+import { formatLargeNumber } from '@utils/helperFunctions'
 
 import { StyledMapStats } from './'
 
@@ -56,7 +56,7 @@ const MapStats: FC<Props> = ({ map }) => {
         </Icon>
         <div className="textWrapper">
           <span className="mainLabel">Average Score</span>
-          <span className="subLabel">{formatGameScore(map.avgScore || 0)}</span>
+          <span className="subLabel">{formatLargeNumber(map.avgScore || 0)}</span>
         </div>
       </div>
 
@@ -77,7 +77,9 @@ const MapStats: FC<Props> = ({ map }) => {
         <div className="textWrapper">
           <span className="mainLabel">Locations</span>
           <span className="subLabel">
-            {typeof map.locationCount !== 'undefined' ? map.locationCount : map.locations?.length}
+            {formatLargeNumber(
+              (typeof map.locationCount !== 'undefined' ? map.locationCount : map.locations?.length) || 0
+            )}
           </span>
         </div>
       </div>

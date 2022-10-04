@@ -476,15 +476,6 @@ export const formatTimeLeft = (time: number) => {
   return `${mins}:${secs}`
 }
 
-// Takes in a number and formats it if greater than 1000 (ex. 25000 -> 25k)
-export const formatLargeNumber = (num: number) => {
-  if (num >= 1000000) {
-    const prefix = Math.floor(num / 1000000)
-  }
-  if (num >= 1000) {
-  }
-}
-
 const capitalizeString = (str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
@@ -584,18 +575,24 @@ export const getFormattedDate = (utcDate?: Date) => {
   return localDate.toLocaleDateString()
 }
 
-export const formatGameScore = (score: number) => {
-  const scoreAsString = score.toString()
+export const formatLargeNumber = (number: number) => {
+  const numberAsString = number.toString()
 
-  if (scoreAsString.length > 5) return null
-
-  if (score >= 10000) {
-    return scoreAsString.substring(0, 2) + ',' + scoreAsString.substring(2, 5)
+  if (number >= 1000000) {
+    return '1M +'
   }
 
-  if (score >= 1000) {
-    return scoreAsString.substring(0, 1) + ',' + scoreAsString.substring(1, 5)
+  if (number >= 100000) {
+    return '100K +'
   }
 
-  return scoreAsString
+  if (number >= 10000) {
+    return numberAsString.substring(0, 2) + ',' + numberAsString.substring(2, 5)
+  }
+
+  if (number >= 1000) {
+    return numberAsString.substring(0, 1) + ',' + numberAsString.substring(1, 5)
+  }
+
+  return numberAsString
 }

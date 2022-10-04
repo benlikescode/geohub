@@ -8,7 +8,7 @@ import { Avatar, FlexGroup, Icon } from '@components/System'
 import { ChartBarIcon } from '@heroicons/react/outline'
 import { selectUser } from '@redux/user'
 import { MapLeaderboardType } from '@types'
-import { formatGameScore, formatRoundTime } from '@utils/helperFunctions'
+import { formatLargeNumber, formatRoundTime } from '@utils/helperFunctions'
 
 import { StyledLeaderboardItem } from './'
 
@@ -46,7 +46,7 @@ const LeaderboardItem: FC<Props> = ({ finishPlace, row }) => {
       </div>
 
       <div className="resultsSection">
-        <span className="totalPoints">{formatGameScore(row.totalPoints)} points</span>
+        <span className="totalPoints">{formatLargeNumber(row.totalPoints)} points</span>
         <FlexGroup gap={5}>
           {row.totalTime && <span className="totalTime">{formatRoundTime(row.totalTime)}</span>}
           {isAerialLeaderboard && <span className="totalTime">{row.difficulty}</span>}
