@@ -68,7 +68,7 @@ const GamePage: FC = () => {
 
   return (
     <StyledGamePage>
-      <Head title={`Game - Round ${gameData.round}`} />
+      <Head title={`Game - ${gameData.round <= 5 ? `Round ${gameData.round}` : 'Results'}`} />
 
       {view === 'Game' ? (
         <StreetView gameData={gameData} setGameData={setGameData} setView={setView} />
