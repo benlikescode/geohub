@@ -21,7 +21,7 @@ const StyledStreetView = styled.div`
       align-items: center;
       justify-content: center;
       position: absolute;
-      bottom: 30px;
+      bottom: 92px;
       right: 20px;
       z-index: 2;
 
