@@ -54,6 +54,7 @@ const GuessMap: FC<Props> = ({
       disableDefaultUI: true,
       styles: getMapTheme('Light'),
       clickableIcons: false,
+      gestureHandling: 'greedy',
     })
 
     clearMarkers(prevMarkersRef.current)
