@@ -94,7 +94,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         // updates the previously generated round to the coordinates returned by the Google SV Pano
-        game.rounds[localRound - 1] = adjustedLocation
+        if (adjustedLocation) {
+          game.rounds[localRound - 1] = adjustedLocation
+        }
 
         game.rounds = game.rounds.concat(newLocation)
       }
