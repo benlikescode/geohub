@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { Icon } from '@components/System'
 import { Button } from '@components/System/Button'
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/outline'
+import { ChevronDownIcon, ChevronUpIcon, XIcon } from '@heroicons/react/outline'
 import { selectUser, updateGuessMapSize } from '@redux/user'
 import { LocationType } from '@types'
 import {
@@ -20,10 +20,20 @@ type Props = {
   zoom: number
   currGuess: LocationType | null
   setCurrGuess: any
+  mobileMapOpen?: boolean
+  closeMobileMap: () => void
   handleSubmitGuess: () => void
 }
 
-const GuessMap: FC<Props> = ({ coordinate, zoom, currGuess, setCurrGuess, handleSubmitGuess }) => {
+const GuessMap: FC<Props> = ({
+  coordinate,
+  zoom,
+  currGuess,
+  setCurrGuess,
+  mobileMapOpen,
+  closeMobileMap,
+  handleSubmitGuess,
+}) => {
   const [mapHeight, setMapHeight] = useState(15) // height in vh
   const [mapWidth, setMapWidth] = useState(15) // width in vw
   const [hovering, setHovering] = useState(false)
@@ -99,7 +109,7 @@ const GuessMap: FC<Props> = ({ coordinate, zoom, currGuess, setCurrGuess, handle
   }
 
   return (
-    <StyledGuessMap mapHeight={mapHeight} mapWidth={mapWidth}>
+    <StyledGuessMap mapHeight={mapHeight} mapWidth={mapWidth} mobileMapOpen={mobileMapOpen}>
       <div className="guessMapWrapper" onMouseOver={handleMapHover} onMouseLeave={handleMapLeave}>
         {hovering && (
           <div className="controls">
@@ -126,9 +136,15 @@ const GuessMap: FC<Props> = ({ coordinate, zoom, currGuess, setCurrGuess, handle
         )}
         <div id="guessMap" className="map"></div>
 
-        <Button type="solidPurple" width="100%" isDisabled={currGuess === null} callback={handleSubmitGuess}>
-          Submit Guess
-        </Button>
+        <button className="close-map-button" onClick={closeMobileMap}>
+          <XIcon />
+        </button>
+
+        <div className="submit-button-wrapper">
+          <Button type="solidPurple" width="100%" isDisabled={currGuess === null} callback={handleSubmitGuess}>
+            Submit Guess
+          </Button>
+        </div>
       </div>
       <GoogleMapReact
         bootstrapURLKeys={GoogleMapConfig}

@@ -8,6 +8,7 @@ import { GameStatus } from '@components/GameStatus'
 import { GuessMap } from '@components/GuessMap'
 import { LoadingPage } from '@components/Layout'
 import { StreetViewControls } from '@components/StreetViewControls'
+import { MapIcon } from '@heroicons/react/outline'
 import { selectGame } from '@redux/game'
 import { selectUser } from '@redux/user'
 import { GuessType, LocationType } from '@types'
@@ -27,6 +28,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData, isTesting }) =>
   const [loading, setLoading] = useState(true)
   const [currGuess, setCurrGuess] = useState<LocationType | null>(null)
   const [adjustedLocation, setAdjustedLocation] = useState<LocationType | null>(null)
+  const [mobileMapOpen, setMobileMapOpen] = useState(false)
   const location = gameData.rounds[gameData.round - 1]
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
   const game = useSelector(selectGame)
@@ -181,7 +183,12 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData, isTesting }) =>
           currGuess={currGuess}
           setCurrGuess={setCurrGuess}
           handleSubmitGuess={isTesting ? handleSubmitGuessForTesting : handleSubmitGuess}
+          mobileMapOpen={mobileMapOpen}
+          closeMobileMap={() => setMobileMapOpen(false)}
         />
+        <button className="toggle-map-button" onClick={() => setMobileMapOpen(true)}>
+          <MapIcon />
+        </button>
       </div>
 
       <GoogleMapReact
