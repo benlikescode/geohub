@@ -106,6 +106,7 @@ const GuessMap: FC<Props> = ({ coordinate, zoom, currGuess, setCurrGuess, handle
             <button
               className={`controlBtn ${user.guessMapSize === 4 ? 'disabled' : ''}`}
               onClick={() => changeMapSize('increase')}
+              disabled={user.guessMapSize === 4}
             >
               <Icon size={16} fill="#fff">
                 <ChevronUpIcon />
@@ -115,6 +116,7 @@ const GuessMap: FC<Props> = ({ coordinate, zoom, currGuess, setCurrGuess, handle
             <button
               className={`controlBtn ${user.guessMapSize === 1 ? 'disabled' : ''}`}
               onClick={() => changeMapSize('decrease')}
+              disabled={user.guessMapSize === 1}
             >
               <Icon size={16} fill="#fff">
                 <ChevronDownIcon />
