@@ -17,8 +17,7 @@ import StyledAerialPage from '@styles/AerialPage.Styled'
 import { LocationType } from '@types'
 
 const AerialPage: FC = () => {
-  mapboxgl.accessToken =
-    'pk.eyJ1IjoiYmVubGlrZXNjb2RlIiwiYSI6ImNsMXFxbXAwYjFxNjMzZW1tazQ5N21jZTgifQ.bt9S5fzwugjjnZT0eR_wnQ'
+  mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_API_KEY as string
   const mapContainer = useRef<any>(null)
   const [gameData, setGameData] = useState<Game | null>()
   const [view, setView] = useState<'Game' | 'Result' | 'FinalResults'>('Game')
