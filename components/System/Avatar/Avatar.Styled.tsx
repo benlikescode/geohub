@@ -31,7 +31,7 @@ const StyledAvatar = styled.div<StyledProps>`
       height: 60%;
     }
   }
-
+  // REMOVE LATER
   .map-avatar {
     height: ${({ size }) => size}px;
     width: ${({ size }) => size}px;
