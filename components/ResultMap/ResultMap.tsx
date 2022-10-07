@@ -37,19 +37,25 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
   }
 
   const resultMapRef = useRef<google.maps.Map | null>(null)
+  const markersRef = useRef<google.maps.Marker[]>([])
 
   useEffect(() => {
     if (!resultMapRef.current) return
 
     loadMapMarkers(resultMapRef.current)
-  }, [guessedLocations, actualLocations])
+  }, [guessedLocations, actualLocations, resultMapRef])
 
   const loadMapMarkers = (map: google.maps.Map) => {
+    // Remove old markers from map
+    markersRef.current.map((marker) => marker.setMap(null))
+
     // If this is final results map, load all the round markers. Otherwise, simply load the current round markers
     if (isFinalResults) {
       for (let i = 0; i < actualLocations.length; i++) {
-        createMarker(guessedLocations[i], map, `/images/markers/testMarker2.png`)
+        const guessedLocationMarker = createMarker(guessedLocations[i], map, `/images/markers/testMarker2.png`)
         const actualLocationMarker = createMarker(actualLocations[i], map, `/images/markers/actualMarker${i + 1}.png`)
+        markersRef.current.push(guessedLocationMarker)
+        markersRef.current.push(actualLocationMarker)
 
         actualLocationMarker.addListener('click', () => {
           window.open(
@@ -73,8 +79,10 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
         })
       }
     } else {
-      createMarker(guessedLocation, map, `/images/markers/testMarker2.png`)
+      const guessedLocationMarker = createMarker(guessedLocation, map, `/images/markers/testMarker2.png`)
       const actualLocationMarker = createMarker(actualLocation, map, '/images/markers/actualMarker.png')
+      markersRef.current.push(guessedLocationMarker)
+      markersRef.current.push(actualLocationMarker)
 
       actualLocationMarker.addListener('click', () => {
         window.open(`http://www.google.com/maps?layer=c&cbll=${actualLocation.lat},${actualLocation.lng}`, '_blank')
