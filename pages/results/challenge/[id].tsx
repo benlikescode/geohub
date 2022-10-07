@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import router from 'next/router'
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 import { Game } from '@backend/models'
 import { mailman } from '@backend/utils/mailman'
@@ -9,13 +10,16 @@ import { Navbar } from '@components/Layout/Navbar'
 import { ResultMap } from '@components/ResultMap'
 import { LeaderboardCard } from '@components/Results'
 import { FlexGroup } from '@components/System'
+import { selectUser } from '@redux/user'
 import StyledResultPage from '@styles/ResultPage.Styled'
 import { MapType } from '@types'
 
 const ChallengeResultsPage: NextPage = () => {
   const [gamesFromChallenge, setGamesFromChallenge] = useState<Game[] | null>()
   const [mapData, setMapData] = useState<MapType>()
+  const [selectedGameIndex, setSelectedGameIndex] = useState(0)
   const challengeId = router.query.id as string
+  const user = useSelector(selectUser)
 
   const fetchGames = async () => {
     const { status, res } = await mailman(`scores/challenges/${challengeId}`)
@@ -29,6 +33,14 @@ const ChallengeResultsPage: NextPage = () => {
     setMapData(res.map)
   }
 
+  const getDefaultGameToShow = () => {
+    const thisUserIndex = gamesFromChallenge?.map((game) => game.userId.toString()).indexOf(user?.id)
+
+    if (thisUserIndex && thisUserIndex !== -1) {
+      setSelectedGameIndex(thisUserIndex)
+    }
+  }
+
   useEffect(() => {
     if (!challengeId) {
       return
@@ -36,6 +48,10 @@ const ChallengeResultsPage: NextPage = () => {
 
     fetchGames()
   }, [challengeId])
+
+  useEffect(() => {
+    getDefaultGameToShow()
+  }, [gamesFromChallenge])
 
   if (gamesFromChallenge === null) {
     return (
@@ -64,14 +80,19 @@ const ChallengeResultsPage: NextPage = () => {
 
         <main>
           <ResultMap
-            guessedLocations={gamesFromChallenge[0].guesses}
-            actualLocations={gamesFromChallenge[0].rounds}
-            round={gamesFromChallenge[0].round}
+            guessedLocations={gamesFromChallenge[selectedGameIndex].guesses}
+            actualLocations={gamesFromChallenge[selectedGameIndex].rounds}
+            round={gamesFromChallenge[selectedGameIndex].round}
             isFinalResults
           />
 
           <FlexGroup justify="center">
-            <LeaderboardCard gameData={gamesFromChallenge} mapData={mapData} />
+            <LeaderboardCard
+              gameData={gamesFromChallenge}
+              mapData={mapData}
+              selectedGameIndex={selectedGameIndex}
+              setSelectedGameIndex={setSelectedGameIndex}
+            />
           </FlexGroup>
         </main>
       </section>
