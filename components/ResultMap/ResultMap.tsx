@@ -1,14 +1,10 @@
 import GoogleMapReact from 'google-map-react'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
 import { selectUser } from '@redux/user'
 import { GuessType, LocationType } from '@types'
-import {
-  createMarker,
-  getMapTheme,
-  getResultMapValues
-} from '@utils/helperFunctions'
+import { createMarker, getMapTheme, getResultMapValues } from '@utils/helperFunctions'
 
 import { StyledResultMap } from './'
 
@@ -40,7 +36,11 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
     key: googleKey,
   }
 
-  const handleApiLoaded = () => {
+  useEffect(() => {
+    handleLoadMap()
+  }, [guessedLocations, actualLocations])
+
+  const handleLoadMap = () => {
     const { center, zoom } = getResultMapValues(guessedLocation, actualLocation, isFinalResults)
     const map = new window.google.maps.Map(document.getElementById('resultMap') as HTMLElement, {
       zoom: zoom,
@@ -109,7 +109,7 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
           center={deafultCoords}
           zoom={2}
           yesIWantToUseGoogleMapApiInternals
-          onGoogleApiLoaded={handleApiLoaded}
+          onGoogleApiLoaded={handleLoadMap}
         ></GoogleMapReact>
       </div>
     </StyledResultMap>
