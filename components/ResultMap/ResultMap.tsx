@@ -38,16 +38,18 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
 
   const resultMapRef = useRef<google.maps.Map | null>(null)
   const markersRef = useRef<google.maps.Marker[]>([])
+  const polylinesRef = useRef<google.maps.Polyline[]>([])
 
   useEffect(() => {
     if (!resultMapRef.current) return
 
     loadMapMarkers(resultMapRef.current)
-  }, [guessedLocations, actualLocations, resultMapRef])
+  }, [guessedLocations, actualLocations, resultMapRef.current])
 
   const loadMapMarkers = (map: google.maps.Map) => {
-    // Remove old markers from map
+    // Remove old markers and polylines from map
     markersRef.current.map((marker) => marker.setMap(null))
+    polylinesRef.current.map((polyline) => polyline.setMap(null))
 
     // If this is final results map, load all the round markers. Otherwise, simply load the current round markers
     if (isFinalResults) {
@@ -71,12 +73,14 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
           lng: (guessedLocations[i].lng + actualLocations[i].lng) / 2,
         }
 
-        new google.maps.Polyline({
+        const polyline = new google.maps.Polyline({
           path: [guessedLocations[i], midPoint, actualLocations[i]],
           map: map,
           strokeOpacity: 0,
           icons: [{ icon: lineSymbol, offset: '0', repeat: '10px' }],
         })
+
+        polylinesRef.current.push(polyline)
       }
     } else {
       const guessedLocationMarker = createMarker(guessedLocation, map, `/images/markers/testMarker2.png`)
@@ -93,12 +97,14 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
         lng: (guessedLocation.lng + actualLocation.lng) / 2,
       }
 
-      new google.maps.Polyline({
+      const polyline = new google.maps.Polyline({
         path: [guessedLocation, midPoint, actualLocation],
         map: map,
         strokeOpacity: 0,
         icons: [{ icon: lineSymbol, offset: '0', repeat: '10px' }],
       })
+
+      polylinesRef.current.push(polyline)
     }
   }
 
