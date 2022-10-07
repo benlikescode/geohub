@@ -10,51 +10,66 @@ const StyledFinalResultsCard = styled.div`
   border: 1px solid #202020;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.55);
 
+  @media (max-width: 600px) {
+    border-radius: 0;
+    border: none;
+    margin-top: -25px;
+  }
+
   .finalResultsWrapper {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 25px;
-  }
 
-  .contentGrid {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-    width: 500px;
-  }
+    @media (max-width: 600px) {
+      padding: 25px 16px;
+    }
 
-  .textWrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    color: #808080;
-    font-size: 1.25rem;
-  }
+    .contentGrid {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      width: 500px;
 
-  .pointsWrapper {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 1.25rem;
-  }
+      .textWrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        color: #808080;
+        font-size: 20px;
 
-  .distanceMessage {
-    font-size: 24px;
-  }
+        @media (max-width: 600px) {
+          gap: 30px;
+        }
 
-  .emphasisText {
-    color: #fff;
-  }
+        .finishedMsg {
+          font-size: 24px;
 
-  .totalPoints {
-    color: #bebebe;
-  }
+          @media (max-width: 600px) {
+            font-size: 20px;
+            text-align: center;
+          }
+        }
 
-  .finishedMsg {
-    font-size: 1.5rem;
+        .pointsWrapper {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 20px;
+
+          @media (max-width: 600px) {
+            font-size: 18px;
+          }
+
+          .totalPoints {
+            color: #bebebe;
+          }
+        }
+      }
+    }
   }
 `
 

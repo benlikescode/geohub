@@ -58,9 +58,7 @@ const FinalResultsCard: FC<Props> = ({ gameData }) => {
 
             <Link href={gameData.mapId ? `/map/${gameData.mapId}` : '/aerial'}>
               <a>
-                <Button type="solidPurple" width="180px">
-                  Play Again
-                </Button>
+                <Button type="solidPurple">Play Again</Button>
               </a>
             </Link>
           </FlexGroup>
