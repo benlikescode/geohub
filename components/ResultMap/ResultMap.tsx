@@ -120,6 +120,8 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
       gestureHandling: 'greedy',
     })
 
+    loadMapMarkers(map)
+
     resultMapRef.current = map
   }
 
