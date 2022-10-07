@@ -1,5 +1,5 @@
 import GoogleMapReact from 'google-map-react'
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 
 import { selectUser } from '@redux/user'
@@ -36,22 +36,15 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
     key: googleKey,
   }
 
+  const resultMapRef = useRef<google.maps.Map | null>(null)
+
   useEffect(() => {
-    handleLoadMap()
+    if (!resultMapRef.current) return
+
+    loadMapMarkers(resultMapRef.current)
   }, [guessedLocations, actualLocations])
 
-  const handleLoadMap = () => {
-    const { center, zoom } = getResultMapValues(guessedLocation, actualLocation, isFinalResults)
-    const map = new window.google.maps.Map(document.getElementById('resultMap') as HTMLElement, {
-      zoom: zoom,
-      minZoom: 1,
-      center: center,
-      disableDefaultUI: true,
-      styles: getMapTheme(''),
-      clickableIcons: false,
-      gestureHandling: 'greedy',
-    })
-
+  const loadMapMarkers = (map: google.maps.Map) => {
     // If this is final results map, load all the round markers. Otherwise, simply load the current round markers
     if (isFinalResults) {
       for (let i = 0; i < actualLocations.length; i++) {
@@ -101,6 +94,21 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
     }
   }
 
+  const handleApiLoaded = () => {
+    const { center, zoom } = getResultMapValues(guessedLocation, actualLocation, isFinalResults)
+    const map = new window.google.maps.Map(document.getElementById('resultMap') as HTMLElement, {
+      zoom: zoom,
+      minZoom: 1,
+      center: center,
+      disableDefaultUI: true,
+      styles: getMapTheme(''),
+      clickableIcons: false,
+      gestureHandling: 'greedy',
+    })
+
+    resultMapRef.current = map
+  }
+
   return (
     <StyledResultMap>
       <div id="resultMap" className="map">
@@ -109,7 +117,7 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
           center={deafultCoords}
           zoom={2}
           yesIWantToUseGoogleMapApiInternals
-          onGoogleApiLoaded={handleLoadMap}
+          onGoogleApiLoaded={handleApiLoaded}
         ></GoogleMapReact>
       </div>
     </StyledResultMap>
