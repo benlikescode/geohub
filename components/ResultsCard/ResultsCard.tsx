@@ -50,7 +50,7 @@ const ResultsCard: FC<Props> = ({ round, distance, points, setView }) => {
             <div className="pointsWrapper">
               <span>
                 You earned
-                <span className="test">{`${points} points`}</span>
+                <span className="points">{`${points} points`}</span>
               </span>
             </div>
           </div>
