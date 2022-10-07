@@ -13,8 +13,8 @@ import { StyledLeaderboardCard } from './'
 type Props = {
   gameData: Game[]
   mapData: MapType
-  selectedGameIndex: number
-  setSelectedGameIndex: (newIndex: number) => void
+  selectedGameIndex?: number
+  setSelectedGameIndex?: (newIndex: number) => void
 }
 
 const LeaderboardCard: FC<Props> = ({ gameData, mapData, selectedGameIndex, setSelectedGameIndex }) => {
@@ -76,7 +76,7 @@ const LeaderboardCard: FC<Props> = ({ gameData, mapData, selectedGameIndex, setS
             <div
               key={gameIdx}
               className={`leaderboardRow ${selectedGameIndex === gameIdx ? 'selected' : ''}`}
-              onClick={() => setSelectedGameIndex(gameIdx)}
+              onClick={() => setSelectedGameIndex && setSelectedGameIndex(gameIdx)}
             >
               <div className="userSection">
                 {showPlace && <span className="userPlace">#{gameIdx + 1}</span>}
