@@ -39,8 +39,15 @@ const StyledAvatar = styled.div<StyledProps>`
     border-radius: 50%;
     position: relative;
     cursor: pointer;
-    box-shadow: ${({ outlineSize, outlineColor }) =>
-      `0 0 0 ${outlineSize !== undefined ? outlineSize : 2}px ${outlineColor || 'rgba(255, 255, 255, 0.25)'}`};
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      box-shadow: ${({ outlineSize, outlineColor }) =>
+        `0 0 0 ${outlineSize !== undefined ? outlineSize : 2}px inset ${outlineColor || 'rgba(0, 0, 0, 0.25)'}`};
+    }
 
     @media (max-width: 600px) {
       height: ${({ mobileSize, size }) => mobileSize ?? size}px;
