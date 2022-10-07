@@ -57,7 +57,7 @@ const LeaderboardItem: FC<Props> = ({ finishPlace, row }) => {
           )}
 
           {!isAerialLeaderboard && (
-            <Link href={`/results/${row.gameId}`}>
+            <Link href={`/results/${row._id}`}>
               <a>
                 <Icon size={20} fill="#fff">
                   <ChartBarIcon />
