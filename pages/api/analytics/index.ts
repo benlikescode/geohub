@@ -20,11 +20,10 @@ const getCounts = async () => {
 
 const getRecentUsers = async () => {
   const recentUsers = await collections.users
-    ?.find({
-      createdAt: { $gt: monthAgo },
-    })
+    ?.find({})
     .sort({ createdAt: -1 })
     .project({ password: 0 })
+    .limit(20)
     .toArray()
 
   return recentUsers
