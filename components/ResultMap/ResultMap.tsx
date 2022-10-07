@@ -49,6 +49,7 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
       disableDefaultUI: true,
       styles: getMapTheme(''),
       clickableIcons: false,
+      gestureHandling: 'greedy',
     })
 
     // If this is final results map, load all the round markers. Otherwise, simply load the current round markers
