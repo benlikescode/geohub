@@ -55,11 +55,6 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
     // If this is final results map, load all the round markers. Otherwise, simply load the current round markers
     if (isFinalResults) {
       for (let i = 0; i < actualLocations.length; i++) {
-        const midPoint = {
-          lat: (guessedLocations[i].lat + actualLocations[i].lat) / 2,
-          lng: (guessedLocations[i].lng + actualLocations[i].lng) / 2,
-        }
-
         createMarker(guessedLocations[i], map, `/images/markers/testMarker2.png`)
         const actualLocationMarker = createMarker(actualLocations[i], map, `/images/markers/actualMarker${i + 1}.png`)
 
@@ -69,6 +64,13 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
             '_blank'
           )
         })
+
+        // Get midpoint between guess and actual to add to polyline path
+        // This is to prevent the polyline going across multiple maps
+        const midPoint = {
+          lat: (guessedLocations[i].lat + actualLocations[i].lat) / 2,
+          lng: (guessedLocations[i].lng + actualLocations[i].lng) / 2,
+        }
 
         new google.maps.Polyline({
           path: [guessedLocations[i], midPoint, actualLocations[i]],
@@ -85,8 +87,13 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
         window.open(`http://www.google.com/maps?layer=c&cbll=${actualLocation.lat},${actualLocation.lng}`, '_blank')
       })
 
+      const midPoint = {
+        lat: (guessedLocation.lat + actualLocation.lat) / 2,
+        lng: (guessedLocation.lng + actualLocation.lng) / 2,
+      }
+
       new google.maps.Polyline({
-        path: [guessedLocation, actualLocation],
+        path: [guessedLocation, midPoint, actualLocation],
         map: map,
         strokeOpacity: 0,
         icons: [{ icon: lineSymbol, offset: '0', repeat: '10px' }],
