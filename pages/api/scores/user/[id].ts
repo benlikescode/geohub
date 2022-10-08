@@ -43,10 +43,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       const data = games.slice(0, gamesPerPage).map((item) => ({
+        _id: item._id,
         userId: item.userId,
         userName: item.userDetails[0].name,
         userAvatar: item.userDetails[0].avatar,
-        gameId: item._id,
         totalPoints: item.totalPoints,
         totalTime: item.totalTime,
       }))

@@ -44,11 +44,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           {
             $project: {
               _id: '$gameId',
-              totalPoints: 1,
-              totalTime: 1,
               userId: '$_id',
               userName: '$userDetails.name',
               userAvatar: '$userDetails.avatar',
+              totalPoints: 1,
+              totalTime: 1,
             },
           },
           // Re-sort the resulting documents
