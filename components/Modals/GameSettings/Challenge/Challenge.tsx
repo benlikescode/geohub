@@ -1,8 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 
-import { Avatar, Button, FlexGroup, Input } from '@components/System'
+import { Input } from '@components/System'
 import { CheckIcon, ClipboardIcon } from '@heroicons/react/outline'
-import { UserType } from '@types'
 
 import { StyledChallenge } from './'
 
@@ -38,10 +37,11 @@ const Challenge: FC<Props> = ({ challengeId }) => {
 
   return (
     <StyledChallenge>
-      <div className="challengeSection">
-        <label className="inputLabel">Invite people with this URL</label>
-        <div className="inputWrapper">
-          <Input type="text" value={inviteLink} readOnly fontSize="15px" />
+      <label className="inputLabel">Invite people with this URL</label>
+      <div className="inputWrapper">
+        <Input type="text" value={inviteLink} readOnly fontSize="15px" />
+
+        <div className="copyBtnWrapper">
           <button className="copyBtn" onClick={() => handleCopy()}>
             {isCopied ? <CheckIcon color="#5cffc0" /> : <ClipboardIcon />}
           </button>
