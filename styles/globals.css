@@ -191,8 +191,6 @@ body {
   font-weight: 500;
   background-color: #0e0e10;
   color: var(--color1);
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
   /*overflow-x: hidden;*/
 }
 
