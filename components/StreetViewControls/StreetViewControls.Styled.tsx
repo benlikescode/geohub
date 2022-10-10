@@ -5,14 +5,13 @@ const StyledStreetViewControls = styled.div`
   bottom: 100px;
   left: 10px;
   z-index: 2;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+  display: grid;
   gap: 15px;
 
   .controlBtn {
     height: 48px;
     width: 48px;
+    position: relative;
   }
 `
 

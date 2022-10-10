@@ -123,10 +123,15 @@ const StyledButton = styled.div<StyledProps>`
       !isDisabled &&
       `
       border-radius: 50%;
-      background-color: #222222;
+      background-color: rgba(0, 0, 0, 0.6);
       height: 48px;
       width: 48px;
       padding: 0;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+
+      :hover {
+          background-color: rgba(0, 0, 0, 0.75);
+        }
     `}
 
     ${({ color, backgroundColor, isDisabled }) =>
