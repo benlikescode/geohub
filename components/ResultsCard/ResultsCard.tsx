@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 
 import { Button, ProgressBar } from '@components/System'
 import { updateStartTime } from '@redux/game'
-import { formatDistance } from '@utils/helperFunctions'
+import { formatDistance, formatLargeNumber } from '@utils/helperFunctions'
 
 import { StyledResultsCard } from './'
 
@@ -50,7 +50,7 @@ const ResultsCard: FC<Props> = ({ round, distance, points, setView }) => {
             <div className="pointsWrapper">
               <span>
                 You earned
-                <span className="points">{`${points} points`}</span>
+                <span className="points">{`${formatLargeNumber(points)} points`}</span>
               </span>
             </div>
           </div>

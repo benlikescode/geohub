@@ -3,6 +3,7 @@ import React, { FC } from 'react'
 
 import { Game } from '@backend/models'
 import { Button, FlexGroup, ProgressBar } from '@components/System'
+import { formatLargeNumber } from '@utils/helperFunctions'
 
 import { StyledFinalResultsCard } from './'
 
@@ -34,7 +35,7 @@ const FinalResultsCard: FC<Props> = ({ gameData }) => {
             </div>
             <div className="pointsWrapper">
               <span>
-                <strong className="totalPoints">{gameData.totalPoints}</strong> points total
+                <strong className="totalPoints">{formatLargeNumber(gameData.totalPoints)}</strong> points total
               </span>
             </div>
           </div>

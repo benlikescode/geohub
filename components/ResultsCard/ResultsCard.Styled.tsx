@@ -33,7 +33,7 @@ const StyledResultsCard = styled.div`
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 15px;
+        gap: 20px;
         color: #808080;
 
         @media (max-width: 600px) {
