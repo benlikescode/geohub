@@ -120,6 +120,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData, isTesting }) =>
         position: google.maps.ControlPosition.LEFT_BOTTOM,
       },
       motionTracking: false,
+      motionTrackingControl: false,
       enableCloseButton: false,
       zoomControl: false,
       fullscreenControl: false,
