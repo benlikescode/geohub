@@ -119,6 +119,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData, isTesting }) =>
       panControlOptions: {
         position: google.maps.ControlPosition.LEFT_BOTTOM,
       },
+      motionTracking: false,
       enableCloseButton: false,
       zoomControl: false,
       fullscreenControl: false,
