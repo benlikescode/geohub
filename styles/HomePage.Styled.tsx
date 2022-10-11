@@ -9,6 +9,10 @@ const StyledHomePage = styled.div`
     padding: 56px 0 256px 0;
     margin-bottom: -200px;
 
+    @media (max-width: 500px) {
+      padding: 30px 0 200px 0;
+    }
+
     &::before {
       content: '';
       background-image: url('/images/backgrounds/newHero.jpg');
@@ -41,7 +45,7 @@ const StyledHomePage = styled.div`
       z-index: 2;
 
       @media (max-width: 500px) {
-        padding: 3rem 1rem;
+        padding: 0 1rem;
       }
 
       .banner-title {
