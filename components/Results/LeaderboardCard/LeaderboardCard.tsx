@@ -6,7 +6,7 @@ import { Banner } from '@components/Layout'
 import { Avatar, Icon } from '@components/System'
 import { CogIcon } from '@heroicons/react/outline'
 import { MapType } from '@types'
-import { formatDistance, formatRoundTime, formatSettingsLabel } from '@utils/helperFunctions'
+import { formatDistance, formatLargeNumber, formatRoundTime, formatSettingsLabel } from '@utils/helperFunctions'
 
 import { StyledLeaderboardCard } from './'
 
@@ -94,11 +94,11 @@ const LeaderboardCard: FC<Props> = ({ gameData, mapData, selectedGameIndex, setS
               {game.guesses.map((guess, guessIdx) => (
                 <div key={guessIdx} className="userResultSection hideOnSmall">
                   <div className="pointsWrapper">
-                    <span>{guess.points} pts</span>
+                    <span>{formatLargeNumber(guess.points)} pts</span>
                   </div>
                   <div className="distanceTimeWrapper">
                     <span className="distance">{formatDistance(guess.distance)}</span>
-                    <div className="divider"></div>
+                    <div className="divider">-</div>
                     <span className="time">{formatRoundTime(guess.time)}</span>
                   </div>
                 </div>
@@ -106,11 +106,11 @@ const LeaderboardCard: FC<Props> = ({ gameData, mapData, selectedGameIndex, setS
 
               <div className="userResultSection">
                 <div className="pointsWrapper">
-                  <span>{game.totalPoints} pts</span>
+                  <span>{formatLargeNumber(game.totalPoints)} pts</span>
                 </div>
                 <div className="distanceTimeWrapper">
                   <span className="distance">{formatDistance(game.totalDistance)}</span>
-                  <div className="divider"></div>
+                  <div className="divider">-</div>
                   <span className="time">{formatRoundTime(game.totalTime)}</span>
                 </div>
               </div>

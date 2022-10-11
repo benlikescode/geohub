@@ -18,7 +18,7 @@ const StyledLeaderboardCard = styled.div`
     gap: 25px;
     background-color: var(--background2);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 6px 6px 0 0;
+    border-radius: 6px;
 
     .gameInfoWrapper {
       display: flex;
@@ -74,7 +74,7 @@ const StyledLeaderboardCard = styled.div`
   .leaderboardSection {
     .titleSection {
       font-size: 14px;
-      color: var(--color2);
+      color: var(--color3);
       padding-bottom: 8px;
 
       &:first-child {
@@ -96,6 +96,7 @@ const StyledLeaderboardCard = styled.div`
       grid-template-columns: 250px repeat(6, 1fr);
       border-top: 1px solid #2f3133;
       cursor: pointer;
+      padding: 6px 0;
 
       @media (max-width: 800px) {
         grid-template-columns: 1fr 90px;
@@ -103,6 +104,10 @@ const StyledLeaderboardCard = styled.div`
 
       &.selected {
         background-color: #222;
+      }
+
+      &:last-child {
+        border-radius: 0 0 6px 6px;
       }
     }
 
@@ -148,6 +153,7 @@ const StyledLeaderboardCard = styled.div`
 
     .pointsWrapper {
       font-weight: 400;
+      font-size: 15px;
       margin-top: auto;
 
       @media (max-width: 1100px) {
@@ -167,6 +173,10 @@ const StyledLeaderboardCard = styled.div`
 
       @media (max-width: 1100px) {
         display: none;
+      }
+
+      .divider {
+        color: #606060;
       }
     }
   }
