@@ -11,8 +11,8 @@ type Props = {
 const Head: FC<Props> = ({ title, description, ogUrl, ogImage }) => {
   const defaultTitle = 'GeoHub'
   const defaultDescription = 'A fun geography guessing game'
-  const defaultOGURL = ''
-  const defaultOGImage = ''
+  const defaultOGURL = 'https://geohub.vercel.app/'
+  const defaultOGImage = '/images/ogImage.png'
 
   return (
     <NextHead>
@@ -30,14 +30,18 @@ const Head: FC<Props> = ({ title, description, ogUrl, ogImage }) => {
       <meta name="msapplication-TileColor" content="#9f00a7" />
 
       <meta property="og:url" content={ogUrl || defaultOGURL} />
-      <meta property="og:title" content={title || ''} />
+      <meta property="og:title" content={title || defaultTitle} />
       <meta property="og:description" content={description || defaultDescription} />
-      <meta name="twitter:site" content={ogUrl || defaultOGURL} />
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:image" content={ogImage || defaultOGImage} />
       <meta property="og:image" content={ogImage || defaultOGImage} />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
+      <meta property="og:image:type" content="image/png" />
+      <meta property="og:image:width" content="400" />
+      <meta property="og:image:height" content="300" />
+      <meta property="og:image:alt" content={description || defaultDescription} />
+
+      <meta name="twitter:image" content={ogImage || defaultOGImage} />
+      <meta name="twitter:url" content={ogUrl || defaultOGURL} />
+      <meta name="twitter:title" content={title || defaultTitle} />
+      <meta name="twitter:description" content={description || defaultDescription} />
     </NextHead>
   )
 }
