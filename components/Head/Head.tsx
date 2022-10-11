@@ -16,7 +16,7 @@ const Head: FC<Props> = ({ title, description, ogUrl, ogImage }) => {
 
   return (
     <NextHead>
-      <meta charSet="UTF-8" />
+      <meta charSet="utf-8" />
       <title>{title || defaultTitle}</title>
       <meta name="description" content={description || defaultDescription} />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -34,8 +34,8 @@ const Head: FC<Props> = ({ title, description, ogUrl, ogImage }) => {
       <meta property="og:description" content={description || defaultDescription} />
       <meta property="og:image" content={ogImage || defaultOGImage} />
       <meta property="og:image:type" content="image/png" />
-      <meta property="og:image:width" content="400" />
-      <meta property="og:image:height" content="300" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
       <meta property="og:image:alt" content={description || defaultDescription} />
 
       <meta name="twitter:image" content={ogImage || defaultOGImage} />
