@@ -38,7 +38,7 @@ const GameStatus: FC<Props> = ({ gameData, setView, setGameData, currGuess, noTi
 
       return () => clearTimeout(timer)
     }
-  })
+  }, [hasTimeLimit, timeLeft])
 
   const handleTimeOver = async () => {
     if (!startTime) return
