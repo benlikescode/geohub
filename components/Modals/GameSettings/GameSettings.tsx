@@ -36,10 +36,11 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
   const user: UserType = useSelector(selectUser)
 
   const [showDetailedChecked, setShowDetailedChecked] = useState(
-    user.gameSettings?.canMove &&
-      user.gameSettings?.canPan &&
-      user.gameSettings?.canZoom &&
-      user.gameSettings?.timeLimit === 0
+    typeof user.gameSettings === 'undefined' ||
+      (user.gameSettings?.canMove &&
+        user.gameSettings?.canPan &&
+        user.gameSettings?.canZoom &&
+        user.gameSettings?.timeLimit === 0)
   )
   const [canMove, setCanMove] = useState(user.gameSettings?.canMove ?? true)
   const [canPan, setCanPan] = useState(user.gameSettings?.canPan ?? true)
