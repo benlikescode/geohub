@@ -1,10 +1,12 @@
 import GoogleMapReact from 'google-map-react'
 import { FC, useEffect, useRef } from 'react'
-import { useSelector } from 'react-redux'
 
-import { selectUser } from '@redux/user'
 import { GuessType, LocationType } from '@types'
-import { createMarker, getMapTheme, getResultMapValues } from '@utils/helperFunctions'
+import {
+  createMarker,
+  getMapTheme,
+  getResultMapValues
+} from '@utils/helperFunctions'
 
 import { StyledResultMap } from './'
 
@@ -18,7 +20,6 @@ type Props = {
 const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFinalResults }) => {
   const guessedLocation = guessedLocations[guessedLocations.length - 1]
   const actualLocation = actualLocations[round - 2]
-  const user = useSelector(selectUser)
   const deafultCoords = {
     lat: 0,
     lng: 0,
@@ -42,7 +43,6 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
 
   useEffect(() => {
     if (!resultMapRef.current) return
-
     loadMapMarkers(resultMapRef.current)
   }, [guessedLocations, actualLocations, resultMapRef.current])
 
@@ -108,36 +108,11 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
     }
   }
 
-  const zoomDelay = (map: google.maps.Map, zoom: number) => {
-    setTimeout(() => {
-      console.log('HELLLLLLLLLLLLLLLO')
-      map.setZoom(zoom)
-    }, 500)
-  }
-
-  // the smooth zoom function
-  function smoothZoom(map: google.maps.Map, max: number, cnt: number) {
-    if (cnt >= max) {
-      return map.setZoom(max)
-    } else {
-      const z = google.maps.event.addListener(map, 'zoom_changed', function () {
-        google.maps.event.removeListener(z)
-        smoothZoom(map, max, cnt + 1)
-      })
-      setTimeout(function () {
-        map.setZoom(cnt)
-      }, 80) // 80ms is what I found to work well on my system -- it might not work well on all systems
-    }
-  }
-
   const handleApiLoaded = () => {
     const { center, zoom } = getResultMapValues(guessedLocation, actualLocation, isFinalResults)
-
-    const shouldAnimate = zoom >= 5 && !isFinalResults
-
     const map = new window.google.maps.Map(document.getElementById('resultMap') as HTMLElement, {
-      zoom: shouldAnimate ? 2 : zoom,
-      minZoom: 2,
+      zoom: zoom,
+      minZoom: 1,
       center: center,
       disableDefaultUI: true,
       styles: getMapTheme(''),
@@ -145,29 +120,9 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
       gestureHandling: 'greedy',
     })
 
-    // If we have a relatively close guess, add a little zoom animation
-    if (shouldAnimate) {
-      smoothZoom(map, zoom, 3)
-    }
-
     loadMapMarkers(map)
 
     resultMapRef.current = map
-
-    //map.setZoom(zoom)
-
-    /*
-
-    while (currZoom > zoom) {
-      delay = setTimeout(() => {
-        console.log('yo')
-        currZoom = currZoom - 2
-        map.setZoom(currZoom)
-      }, 1000)
-
-      clearTimeout(delay)
-    }
-*/
   }
 
   return (
@@ -184,5 +139,4 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
     </StyledResultMap>
   )
 }
-
 export default ResultMap
