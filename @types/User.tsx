@@ -11,7 +11,7 @@ type User = {
   location?: string
   isAdmin?: boolean
   guessMapSize?: number
-  gameSettings: GameSettingsType
+  gameSettings?: GameSettingsType
 }
 
 export default User
