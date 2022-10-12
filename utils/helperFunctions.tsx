@@ -384,7 +384,7 @@ export const formatSettingsLabel = (settings: GameSettingsType) => {
 
   const time = timeLimit === 0 ? 'No time limit' : `${formatTimeLimit(timeLimit)} per round`
 
-  return `${time} ${!canMove && '- No move'} ${!canPan && '- No pan'} ${!canZoom && '- No zoom'}`
+  return `${time} ${!canMove ? '- No move' : ''} ${!canPan ? '- No pan' : ''} ${!canZoom ? '- No zoom' : ''}`
 }
 
 // Formats the round time limit (timeLimit will be in range [0, 600])
