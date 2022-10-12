@@ -1,3 +1,4 @@
+import fs from 'fs'
 import { ObjectId } from 'mongodb'
 import { NextApiResponse } from 'next'
 
@@ -49,4 +50,20 @@ export const getLocations = async (mapId: string, count: number = 1) => {
   }
 
   return locations
+}
+
+// Appends array of data to an existing JSON array of data
+export const writeToFile = (fileName: string, newData: any[]) => {
+  const currData = fs.readFileSync(fileName)
+  const currDataParsed = JSON.parse(currData as any)
+
+  const joinedData = currDataParsed.concat(newData)
+  const newDataStringified = JSON.stringify(joinedData)
+
+  fs.writeFile(fileName, newDataStringified, (err) => {
+    // error checking
+    if (err) throw err
+
+    console.log('New data added')
+  })
 }
