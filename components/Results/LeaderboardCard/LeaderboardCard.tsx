@@ -6,7 +6,12 @@ import { Banner } from '@components/Layout'
 import { Avatar, Icon } from '@components/System'
 import { CogIcon } from '@heroicons/react/outline'
 import { MapType } from '@types'
-import { formatDistance, formatLargeNumber, formatRoundTime, formatSettingsLabel } from '@utils/helperFunctions'
+import {
+  formatDistance,
+  formatLargeNumber,
+  formatRoundTime,
+  formatSettingsLabel
+} from '@utils/helperFunctions'
 
 import { StyledLeaderboardCard } from './'
 
@@ -97,7 +102,9 @@ const LeaderboardCard: FC<Props> = ({ gameData, mapData, selectedGameIndex, setS
                     <span>{formatLargeNumber(guess.points)} pts</span>
                   </div>
                   <div className="distanceTimeWrapper">
-                    <span className="distance">{formatDistance(guess.distance)}</span>
+                    <span className="distance">
+                      {guess.timedOut && !guess.timedOutWithGuess ? 'Timed out' : formatDistance(guess.distance)}
+                    </span>
                     <div className="divider">-</div>
                     <span className="time">{formatRoundTime(guess.time)}</span>
                   </div>
