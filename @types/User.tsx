@@ -1,3 +1,5 @@
+import { GameSettingsType } from './'
+
 type User = {
   id: string
   _id?: string // replace id with _id throughout app
@@ -9,6 +11,7 @@ type User = {
   location?: string
   isAdmin?: boolean
   guessMapSize?: number
+  gameSettings: GameSettingsType
 }
 
 export default User

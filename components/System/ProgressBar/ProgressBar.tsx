@@ -4,13 +4,17 @@ import { StyledProgressBar } from './'
 
 type Props = {
   progress: number
+  setProgressFinished?: (progressFinished: boolean) => void
 }
 
-const ProgressBar: FC<Props> = ({ progress }) => {
+const ProgressBar: FC<Props> = ({ progress, setProgressFinished }) => {
   const [currProgress, setCurrProgress] = useState(0)
 
   useEffect(() => {
-    const animateDelay = setTimeout(() => setCurrProgress(progress), 200)
+    const animateDelay = setTimeout(() => {
+      setCurrProgress(progress)
+      setProgressFinished && setProgressFinished(true)
+    }, 200)
 
     return () => clearTimeout(animateDelay)
   }, [])

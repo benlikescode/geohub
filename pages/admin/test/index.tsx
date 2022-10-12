@@ -19,7 +19,7 @@ import StyledGamePage from '@styles/GamePage.Styled'
 
 const defaultGameValues = {
   gameSettings: {
-    timeLimit: 61,
+    timeLimit: 0,
     canMove: true,
     canPan: true,
     canZoom: true,

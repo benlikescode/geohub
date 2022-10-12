@@ -7,6 +7,7 @@ const initialState: UserType = {
   email: '',
   avatar: { emoji: '1f3b1', color: '#fecaca' },
   guessMapSize: 1,
+  gameSettings: { canMove: true, canPan: true, canZoom: true, timeLimit: 0 },
   location: '',
 }
 
@@ -20,7 +21,8 @@ export const userSlice = createSlice({
       state.bio = action.payload.bio
       state.isAdmin = action.payload.isAdmin
       state.email = action.payload.email || ''
-      state.avatar = action.payload.avatar || ''
+      ;(state.avatar = action.payload.avatar || ''),
+        (state.gameSettings = action.payload.gameSettings || initialState.gameSettings)
     },
     updateAvatar: (state, action) => {
       state.avatar = action.payload
@@ -37,11 +39,17 @@ export const userSlice = createSlice({
     updateGuessMapSize: (state, action) => {
       state.guessMapSize = action.payload.guessMapSize
     },
+    updateGameSettings: (state, action) => {
+      state.gameSettings = action.payload.gameSettings
+    },
     updateLocation: (state, action) => {
       state.location = action.payload.location
     },
     logOutUser: (state) => {
       state.id = ''
+    },
+    resetGameSettings: (state) => {
+      state.gameSettings = initialState.gameSettings
     },
   },
 })
@@ -53,8 +61,10 @@ export const {
   updateBio,
   updateEmail,
   updateGuessMapSize,
+  updateGameSettings,
   updateLocation,
   logOutUser,
+  resetGameSettings,
 } = userSlice.actions
 
 export const selectUser = (state: any) => state.user as UserType

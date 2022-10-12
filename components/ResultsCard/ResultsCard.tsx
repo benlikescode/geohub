@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 import { Button, ProgressBar } from '@components/System'
@@ -11,18 +11,16 @@ type Props = {
   round: number
   distance: number
   points: number
+  noGuess?: boolean
   setView: (view: 'Game' | 'Result' | 'FinalResults') => void
 }
 
-const ResultsCard: FC<Props> = ({ round, distance, points, setView }) => {
+const ResultsCard: FC<Props> = ({ round, distance, points, noGuess, setView }) => {
+  const [progressFinished, setProgressFinished] = useState(false)
   const dispatch = useDispatch()
 
   const calculateProgress = () => {
     const progress = (points / 5000) * 100
-
-    if (progress < 1) {
-      return 1
-    }
 
     return progress
   }
@@ -38,25 +36,27 @@ const ResultsCard: FC<Props> = ({ round, distance, points, setView }) => {
   }
 
   return (
-    <StyledResultsCard>
+    <StyledResultsCard showPoints={progressFinished}>
       <div className="resultsWrapper">
-        <div className="contentGrid">
-          <div className="textWrapper">
+        <div className="pointsWrapper">{`${formatLargeNumber(points)} points`}</div>
+
+        <div className="progress-bar">
+          <ProgressBar progress={calculateProgress()} setProgressFinished={setProgressFinished} />
+        </div>
+
+        <div>
+          {noGuess ? (
+            <span className="noGuessMessage">You did not make a guess this round 😢</span>
+          ) : (
             <span className="distanceMessage">
               Your guess was
               <span className="emphasisText"> {formatDistance(distance)} </span>
               from the correct location
             </span>
-            <div className="pointsWrapper">
-              <span>
-                You earned
-                <span className="points">{`${formatLargeNumber(points)} points`}</span>
-              </span>
-            </div>
-          </div>
+          )}
+        </div>
 
-          <ProgressBar progress={calculateProgress()} />
-
+        <div className="actionButton">
           <Button type="solidPurple" callback={handleNextRound} width="200px">
             {round > 5 ? 'View Results' : 'Play Next Round'}
           </Button>

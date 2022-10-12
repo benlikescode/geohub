@@ -53,7 +53,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         createdAt: new Date(),
         isDailyChallenge: true,
         gameSettings: {
-          timeLimit: 61,
+          timeLimit: 0,
           canMove: true,
           canPan: true,
           canZoom: true,

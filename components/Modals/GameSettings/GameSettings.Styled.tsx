@@ -78,25 +78,44 @@ const StyledGameSettings = styled.div`
   .movementOptions {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    color: var(--color2);
+    gap: 20px;
+    color: var(--color4);
+    font-size: 14px;
   }
 
   .movementOption {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
+
+    .movementOptionLabel {
+      margin-top: 2px;
+    }
   }
 
   .detailedSettings {
-    display: grid;
-    gap: 40px;
     margin-top: 40px;
   }
 
-  .timeLimitWrapper {
+  .setting-options {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+
+    .time-slider {
+      margin-top: 5px;
+    }
+  }
+
+  .roundTimeLabel {
+    color: var(--color5);
+    font-size: 15px;
+
+    .timeLimit {
+      font-size: 14px;
+      color: var(--color3);
+    }
   }
 
   .timeLabel {

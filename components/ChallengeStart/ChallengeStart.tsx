@@ -29,7 +29,7 @@ const ChallengeStart: FC<Props> = ({ challengeData, handleStartChallenge, setVie
   const CAN_MOVE = challengeData.gameSettings.canMove
   const CAN_PAN = challengeData.gameSettings.canMove
   const CAN_ZOOM = challengeData.gameSettings.canZoom
-  const HAS_TIME_LIMIT = challengeData.gameSettings.timeLimit !== 61
+  const HAS_TIME_LIMIT = challengeData.gameSettings.timeLimit !== 0
   const TIME_LIMIT = challengeData.gameSettings.timeLimit
 
   useEffect(() => {

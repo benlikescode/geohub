@@ -29,7 +29,7 @@ type Props = {
 const BingoSettings: FC<Props> = ({ closeModal }) => {
   const [showDetailedChecked, setShowDetailedChecked] = useState(true)
   const [difficulty, setDifficulty] = useState('Easy')
-  const [sliderVal, setSliderVal] = useState(61)
+  const [sliderVal, setSliderVal] = useState(0)
   const router = useRouter()
   const user: UserType = useSelector(selectUser)
   const dispatch = useDispatch()

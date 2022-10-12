@@ -12,12 +12,18 @@ const StyledGameStatus = styled.div`
   font-weight: 400;
   font-size: 1rem;
   font-family: var(--font-family1);
-  
+
   .infoSection {
     padding: 10px 25px;
 
     :not(:last-child) {
       border-right: 1px solid var(--background3);
+    }
+
+    &.mapName {
+      @media (max-width: 600px) {
+        display: none;
+      }
     }
   }
 

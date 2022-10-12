@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { mailman } from '@backend/utils/mailman'
 import { Avatar, Checkbox, FlexGroup, Icon, Slider } from '@components/System'
+import { ToggleSwitch } from '@components/System/ToggleSwitch'
 import {
   ArrowsExpandIcon,
   ClockIcon,
@@ -13,7 +14,12 @@ import {
   ZoomInIcon
 } from '@heroicons/react/outline'
 import { updateStartTime } from '@redux/game'
-import { selectUser, updateLocation } from '@redux/user'
+import {
+  resetGameSettings,
+  selectUser,
+  updateGameSettings,
+  updateLocation
+} from '@redux/user'
 import { GameSettingsType, LocationType, MapType, UserType } from '@types'
 import { formatTimeLimit, showErrorToast } from '@utils/helperFunctions'
 
@@ -27,17 +33,24 @@ type Props = {
 }
 
 const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
-  const [showDetailedChecked, setShowDetailedChecked] = useState(true)
-  const [movingChecked, setMovingChecked] = useState(true)
-  const [panningChecked, setPanningChecked] = useState(true)
-  const [zoomingChecked, setZoomingChecked] = useState(true)
+  const user: UserType = useSelector(selectUser)
+
+  const [showDetailedChecked, setShowDetailedChecked] = useState(
+    user.gameSettings.canMove &&
+      user.gameSettings.canPan &&
+      user.gameSettings.canZoom &&
+      user.gameSettings.timeLimit === 0
+  )
+  const [canMove, setCanMove] = useState(user.gameSettings?.canMove ?? true)
+  const [canPan, setCanPan] = useState(user.gameSettings?.canPan ?? true)
+  const [canZoom, setCanZoom] = useState(user.gameSettings?.canZoom ?? true)
   const [gameType, setGameType] = useState<'Single Player' | 'Challenge'>('Single Player')
   const [showChallengeView, setShowChallengeView] = useState(false)
-  const [sliderVal, setSliderVal] = useState(61)
+  const [sliderVal, setSliderVal] = useState(user.gameSettings?.timeLimit ?? 0)
   const [challengeId, setChallengeId] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
-  const user: UserType = useSelector(selectUser)
+
   const dispatch = useDispatch()
   const mapId = router.query.id as string
 
@@ -86,9 +99,9 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
 
     const gameSettings: GameSettingsType = {
       timeLimit: sliderVal,
-      canMove: movingChecked,
-      canPan: panningChecked,
-      canZoom: zoomingChecked,
+      canMove,
+      canPan,
+      canZoom,
     }
 
     const gameData = {
@@ -108,10 +121,10 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
     }
 
     const gameSettings: GameSettingsType = {
-      timeLimit: sliderVal,
-      canMove: movingChecked,
-      canPan: panningChecked,
-      canZoom: zoomingChecked,
+      timeLimit: sliderVal * 10,
+      canMove,
+      canPan,
+      canZoom,
     }
 
     const gameData = {
@@ -124,12 +137,31 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
     // store start time
     dispatch(updateStartTime({ startTime: new Date().getTime() }))
 
+    // store game settings
+    dispatch(updateGameSettings({ gameSettings: { canMove, canPan, canZoom, timeLimit: sliderVal } }))
+
     const { status, res } = await mailman('games', 'POST', JSON.stringify(gameData))
 
     if (status === 400) {
       showErrorToast('This map does not seem to have any locations')
     } else {
       router.push(`/game/${res}`)
+    }
+  }
+
+  const handleCheck = () => {
+    // If we uncheck => show the settings container
+    if (showDetailedChecked) {
+      setShowDetailedChecked(false)
+    }
+    // If we check => reset settings to default
+    else {
+      dispatch(resetGameSettings())
+      setShowDetailedChecked(true)
+      setCanMove(true)
+      setCanPan(true)
+      setCanZoom(true)
+      setSliderVal(0)
     }
   }
 
@@ -184,50 +216,34 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
 
               <div className="settingsWrapper">
                 <div className="checkboxWrapper">
-                  <Checkbox isChecked={showDetailedChecked} setChecked={setShowDetailedChecked} />
-                  <span>Default Settings (No time limit, moving, panning, zooming allowed)</span>
+                  <Checkbox isChecked={showDetailedChecked} setChecked={() => handleCheck()} />
+                  <span>Default Settings: No time limit, moving allowed</span>
                 </div>
 
                 {!showDetailedChecked && (
                   <div className="detailedSettings">
-                    <div className="timeLimitWrapper">
-                      <div className="timeLabel">
-                        <Icon size={24} fill="#888888">
-                          <ClockIcon />
-                        </Icon>
-                        <span className="timeLimit">{formatTimeLimit(sliderVal)}</span>
+                    <span className="roundTimeLabel">
+                      Round Time: <span className="timeLimit">{formatTimeLimit(sliderVal * 10)}</span>
+                    </span>
+
+                    <div className="setting-options">
+                      <div className="time-slider">
+                        <Slider onChange={setSliderVal} defaultValue={sliderVal} />
                       </div>
 
-                      <Slider onChange={setSliderVal} />
-                    </div>
-
-                    <div className="movementOptions">
-                      <div className="movementOption">
-                        <Checkbox isChecked={movingChecked} setChecked={setMovingChecked} />
-                        <FlexGroup>
-                          <Icon size={24} fill="#888888">
-                            <ArrowsExpandIcon />
-                          </Icon>
-                          <span>Moving</span>
-                        </FlexGroup>
-                      </div>
-                      <div className="movementOption">
-                        <Checkbox isChecked={panningChecked} setChecked={setPanningChecked} />
-                        <FlexGroup>
-                          <Icon size={24} fill="#888888">
-                            <SwitchHorizontalIcon />
-                          </Icon>
-                          <span>Panning</span>
-                        </FlexGroup>
-                      </div>
-                      <div className="movementOption">
-                        <Checkbox isChecked={zoomingChecked} setChecked={setZoomingChecked} />
-                        <FlexGroup>
-                          <Icon size={24} fill="#888888">
-                            <ZoomInIcon />
-                          </Icon>
-                          <span>Zooming</span>
-                        </FlexGroup>
+                      <div className="movementOptions">
+                        <div className="movementOption">
+                          <ToggleSwitch isActive={canMove} setIsActive={setCanMove} />
+                          <div className="movementOptionLabel">Move</div>
+                        </div>
+                        <div className="movementOption">
+                          <ToggleSwitch isActive={canPan} setIsActive={setCanPan} />
+                          <div className="movementOptionLabel">Pan</div>
+                        </div>
+                        <div className="movementOption">
+                          <ToggleSwitch isActive={canZoom} setIsActive={setCanZoom} />
+                          <div className="movementOptionLabel">Zoom</div>
+                        </div>
                       </div>
                     </div>
                   </div>

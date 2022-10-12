@@ -1,12 +1,16 @@
 import styled from 'styled-components'
 
-const StyledResultsCard = styled.div`
+type StyledProps = {
+  showPoints?: boolean
+}
+
+const StyledResultsCard = styled.div<StyledProps>`
   margin-top: -20px;
-  max-width: 1560px;
+  max-width: ${({ theme }) => theme.breakpoint.l};
   width: 100%;
   z-index: 1;
   background-color: #121212;
-  border-radius: 12px;
+  border-radius: 6px;
   border: 1px solid #202020;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.55);
 
@@ -20,57 +24,62 @@ const StyledResultsCard = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 25px;
+    flex-direction: column;
+    padding: 30px;
 
-    .contentGrid {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2rem;
-      padding-top: 1rem;
+    .pointsWrapper {
+      font-size: 20px;
+      font-weight: 600;
+      font-style: italic;
+      letter-spacing: 1px;
+      color: #ababab;
+      opacity: 0;
+      transform: translateY(3rem) scale(0.5);
+      transition: opacity 0.6s linear, transform 0.6s ease;
+      transition-delay: 0.3s;
 
-      .textWrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-        color: #808080;
+      @media (max-width: 600px) {
+        font-size: 18px;
+      }
 
-        @media (max-width: 600px) {
-          gap: 40px;
-        }
+      ${({ showPoints }) =>
+        showPoints &&
+        `
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        `}
+    }
 
-        .distanceMessage {
-          font-size: 20px;
+    .progress-bar {
+      margin-top: 10px;
+      margin-bottom: 16px;
+      max-width: 525px;
+      width: 100%;
+    }
 
-          @media (max-width: 600px) {
-            font-size: 18px;
-            text-align: center;
-          }
-        }
+    .noGuessMessage {
+      font-size: 16px;
+      color: #6b6b6b;
+    }
 
-        .pointsWrapper {
-          font-size: 20px;
+    .distanceMessage {
+      font-size: 16px;
+      color: #808080;
 
-          @media (max-width: 600px) {
-            font-size: 18px;
-          }
+      @media (max-width: 600px) {
+        font-size: 14px;
+        text-align: center;
+      }
 
-          .points {
-            background-color: #333;
-            padding: 0.5rem;
-            border-radius: 0.5rem;
-            margin-left: 0.5rem;
-            font-size: 1rem;
-            color: #d1d1d1;
-          }
-        }
+      .emphasisText {
+        font-weight: bold;
+        color: #909090;
       }
     }
-  }
 
-  .emphasisText {
-    color: #d1d1d1;
+    .actionButton {
+      margin-top: 30px;
+    }
   }
 `
 

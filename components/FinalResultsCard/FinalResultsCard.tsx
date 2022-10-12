@@ -18,52 +18,41 @@ const FinalResultsCard: FC<Props> = ({ gameData }) => {
   const calculateProgress = () => {
     const progress = (gameData.totalPoints / 25000) * 100
 
-    if (progress < 1) {
-      return 1
-    }
-
     return progress
   }
 
   return (
     <StyledFinalResultsCard>
       <div className="finalResultsWrapper">
-        <div className="contentGrid">
-          <div className="textWrapper">
-            <div className="finishedMsg">
-              <span>The game is finished, well done!</span>
-            </div>
-            <div className="pointsWrapper">
-              <span>
-                <strong className="totalPoints">{formatLargeNumber(gameData.totalPoints)}</strong> points total
-              </span>
-            </div>
-          </div>
+        <div className="pointsWrapper">{`${formatLargeNumber(gameData.totalPoints)} total points`}</div>
 
+        <div className="progress-bar">
           <ProgressBar progress={calculateProgress()} />
-
-          <FlexGroup gap={20}>
-            <Link
-              href={
-                gameData.mapId
-                  ? IS_CHALLENGE
-                    ? `/results/challenge/${gameData.challengeId}`
-                    : `/results/${gameData.id}`
-                  : '/'
-              }
-            >
-              <a>
-                <Button type="ghostLight">{gameData.mapId ? 'Detailed Results' : 'Return To Home'}</Button>
-              </a>
-            </Link>
-
-            <Link href={gameData.mapId ? `/map/${gameData.mapId}` : '/aerial'}>
-              <a>
-                <Button type="solidPurple">Play Again</Button>
-              </a>
-            </Link>
-          </FlexGroup>
         </div>
+
+        <div className="finishedMessage">The game is finished, well done!</div>
+
+        <FlexGroup gap={20}>
+          <Link
+            href={
+              gameData.mapId
+                ? IS_CHALLENGE
+                  ? `/results/challenge/${gameData.challengeId}`
+                  : `/results/${gameData.id}`
+                : '/'
+            }
+          >
+            <a>
+              <Button type="ghostLight">{gameData.mapId ? 'Detailed Results' : 'Return To Home'}</Button>
+            </a>
+          </Link>
+
+          <Link href={gameData.mapId ? `/map/${gameData.mapId}` : '/aerial'}>
+            <a>
+              <Button type="solidPurple">Play Again</Button>
+            </a>
+          </Link>
+        </FlexGroup>
       </div>
     </StyledFinalResultsCard>
   )

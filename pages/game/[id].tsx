@@ -95,6 +95,10 @@ const GamePage: FC = () => {
                 round={gameData.round}
                 distance={gameData.guesses[gameData.guesses.length - 1].distance}
                 points={gameData.guesses[gameData.guesses.length - 1].points}
+                noGuess={
+                  gameData.guesses[gameData.guesses.length - 1].timedOut &&
+                  !gameData.guesses[gameData.guesses.length - 1].timedOutWithGuess
+                }
                 setView={setView}
               />
             )}

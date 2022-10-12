@@ -5,6 +5,7 @@ import { GameSettingsType, GuessType, LocationType } from '@types'
 import { BACKGROUND_COLORS, EMOJIS } from './constants/avatarOptions'
 import { randomElement } from './functions/generateLocations'
 
+// DEPRECATED
 export const formatErrorMessage = (error: any) => {
   let formattedMsg = ''
 
@@ -25,6 +26,7 @@ export const formatErrorMessage = (error: any) => {
   return formattedMsg
 }
 
+// Gets google map theme -> Not really used at the moment
 export const getMapTheme = (theme: string) => {
   if (theme === 'Dark') {
     return [
@@ -239,7 +241,7 @@ export const getMapTheme = (theme: string) => {
   return []
 }
 
-// gets distance between guess and actual locations (in km)
+// Gets the distance between guess and actual locations (in km)
 export const getDistance = (loc1: GuessType, loc2: LocationType, format = false) => {
   const earthRadius = 6371.071
 
@@ -270,7 +272,8 @@ export const getDistance = (loc1: GuessType, loc2: LocationType, format = false)
   return distance
 }
 
-// calculates the points based on distance away (works for official maps only as of now)
+// Calculates the points based on distance away
+// HALP - Make dynamic for all maps
 export const getPoints = (distance: number, mapId: string) => {
   const e = Math.E
   let mapFactor = 2000
@@ -305,6 +308,7 @@ export const getPoints = (distance: number, mapId: string) => {
   return Math.round(score)
 }
 
+// Gets dimensions of guess map based on users preferred size
 export const getGuessMapDimensions = (size: number) => {
   if (size === 2) {
     return { width: 30, height: 40 }
@@ -318,6 +322,7 @@ export const getGuessMapDimensions = (size: number) => {
   return { width: 15, height: 15 }
 }
 
+// Gets the map center and appropiate zoom value to set as default for result map
 export const getResultMapValues = (
   guessedLocation: GuessType,
   actualLocation: LocationType,
@@ -368,41 +373,33 @@ export const getResultMapValues = (
   return { center, zoom }
 }
 
+// Returns a formatted string containing info about the game settings
 export const formatSettingsLabel = (settings: GameSettingsType) => {
-  let formattedLabel = ''
-  if (settings.timeLimit === 61 && settings.canMove && settings.canPan && settings.canZoom) {
-    formattedLabel = 'Default Settings'
-  } else {
-    let time = ''
-    if (settings.timeLimit === 61) {
-      time = 'No time limit'
-    } else {
-      time = `${formatTimeLimit(settings.timeLimit)} per round`
-    }
+  const { timeLimit, canMove, canPan, canZoom } = settings
 
-    formattedLabel = `
-      ${time} - ${!settings.canMove ? 'No move' : ''} ${!settings.canPan ? '- No pan' : ''} ${
-      !settings.canZoom ? '- No zoom' : ''
-    }
-    `
+  // If settings are default
+  if (timeLimit === 0 && canMove && canPan && canZoom) {
+    return 'Default Settings'
   }
 
-  return formattedLabel
+  const time = timeLimit === 0 ? 'No time limit' : `${formatTimeLimit(timeLimit)} per round`
+
+  return `${time} ${!canMove && '- No move'} ${!canPan && '- No pan'} ${!canZoom && '- No zoom'}`
 }
 
-// sliderVal will be in range of 0 - 61
-export const formatTimeLimit = (sliderVal: number) => {
-  const time = Math.floor(sliderVal * 10)
+// Formats the round time limit (timeLimit will be in range [0, 600])
+export const formatTimeLimit = (timeLimit: number) => {
+  const time = Math.floor(timeLimit)
   const mins = Math.floor(time / 60)
   const secs = Math.floor(time - mins * 60)
 
-  if (secs === 0) {
-    return `${mins}:${secs}0`
+  // replace 0:00 with "No Time Limit"
+  if (timeLimit === 0) {
+    return 'No Time Limit'
   }
 
-  // replace 10:10 with infinity
-  if (mins === 10 && secs === 10) {
-    return '∞'
+  if (secs === 0) {
+    return `${mins}:${secs}0`
   }
 
   return `${mins}:${secs}`
@@ -410,6 +407,7 @@ export const formatTimeLimit = (sliderVal: number) => {
 
 export const formatTimer = (time: number) => {}
 
+// Gets the distance and points for a round guess
 export const getResultData = (guess: GuessType, actual: LocationType, mapId: string) => {
   const distance = getDistance(guess, actual)
   const points = getPoints(distance as number, mapId)
@@ -417,6 +415,7 @@ export const getResultData = (guess: GuessType, actual: LocationType, mapId: str
   return { distance, points }
 }
 
+// Creates a google map marker
 export const createMarker = (
   position: LocationType,
   map: google.maps.Map,
@@ -435,16 +434,16 @@ export const createMarker = (
   })
 }
 
-// takes in a single parameter distance (in km)
+// Takes in a distance value (should be in km) and returns a formatted string
 export const formatDistance = (distance: number) => {
   if (distance < 1) {
     return `${Math.round(distance * 1000)} m`
   }
 
-  return `${Math.round(distance)} km`
+  return `${formatLargeNumber(Math.round(distance))} km`
 }
 
-// takes in single parameter time (in seconds)
+// Takes in a time value (should be in seconds) and returns a formatted string
 export const formatRoundTime = (time: number) => {
   if (time < 60) {
     return `${time} sec`
@@ -463,8 +462,7 @@ export const formatRoundTime = (time: number) => {
   }
 }
 
-// similar to above function (takes in time in seconds) except this
-// is used in the gameStatus timer
+// Similar to formatRoundTime but this is used in gameStatus timer
 export const formatTimeLeft = (time: number) => {
   const mins = Math.floor(time / 60)
   const secs = Math.floor(time - mins * 60)
@@ -507,6 +505,7 @@ export const removeDuplicateLocations = (locations: LocationType[]) => {
   return filteredLocations
 }
 
+// Gets a random emoji and background color
 export const getRandomAvatar = () => {
   const randomEmoji = randomElement(EMOJIS)
   const randomColor = randomElement(BACKGROUND_COLORS)
@@ -514,6 +513,7 @@ export const getRandomAvatar = () => {
   return { emoji: randomEmoji, color: randomColor }
 }
 
+// Displays an error toast on page
 export const showErrorToast = (message?: string) => {
   toast.error(message || 'An unexpected error occured', {
     toastId: 'error',
@@ -539,6 +539,7 @@ export const showErrorToast = (message?: string) => {
   })
 }
 
+// Displays a success toast on page
 export const showSuccessToast = (message: string) => {
   toast.success(message, {
     toastId: 'success',
@@ -564,6 +565,7 @@ export const showSuccessToast = (message: string) => {
   })
 }
 
+// Converts UTC date (from DB) to local date
 export const getFormattedDate = (utcDate?: Date) => {
   console.log(utcDate)
   if (!utcDate) {
@@ -575,6 +577,7 @@ export const getFormattedDate = (utcDate?: Date) => {
   return localDate.toLocaleDateString()
 }
 
+// Formats a large number (mainly used for round points and number of map locations)
 export const formatLargeNumber = (number: number) => {
   const numberAsString = number.toString()
 

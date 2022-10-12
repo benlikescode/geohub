@@ -20,20 +20,20 @@ type Props = {
 }
 
 const GameStatus: FC<Props> = ({ gameData, setView, setGameData, currGuess, noTime, hasCustomRoundLength }) => {
-  const startTime = noTime ? null : gameData!.gameSettings!.timeLimit * 10
+  const startTime = noTime ? null : gameData.gameSettings?.timeLimit
   const [timeLeft, setTimeLeft] = useState(startTime)
-  const hasTimeLimit = !noTime && gameData.gameSettings.timeLimit !== 61
+  const hasTimeLimit = !noTime && gameData.gameSettings.timeLimit !== 0
   const game = useSelector(selectGame)
   const user = useSelector(selectUser)
 
   useEffect(() => {
     if (hasTimeLimit) {
+      if (timeLeft === 0) {
+        handleTimeOver()
+      }
+
       const timer = setTimeout(() => {
-        if (timeLeft === 0) {
-          handleTimeOver()
-        } else {
-          setTimeLeft((timeLeft as number) - 1)
-        }
+        setTimeLeft((timeLeft as number) - 1)
       }, 1000)
 
       return () => clearTimeout(timer)
@@ -41,9 +41,15 @@ const GameStatus: FC<Props> = ({ gameData, setView, setGameData, currGuess, noTi
   })
 
   const handleTimeOver = async () => {
+    if (!startTime) return
+
+    const guessTime = (new Date().getTime() - game.startTime) / 1000
+
+    // If guess time is greater than the timeLimit (due to slight inaccuracies with startTime and timer)
+    // then just set the guessTime to be the timeLimit (used all the time)
     const body = {
       guess: currGuess ? currGuess : { lat: 0, lng: 0 },
-      guessTime: (new Date().getTime() - game.startTime) / 1000,
+      guessTime: guessTime > startTime ? startTime : guessTime,
       localRound: gameData.round,
       userLocation: user.location,
       timedOut: true,
@@ -60,7 +66,7 @@ const GameStatus: FC<Props> = ({ gameData, setView, setGameData, currGuess, noTi
 
   return (
     <StyledGameStatus>
-      <div className="infoSection">
+      <div className="infoSection mapName">
         <div className="label">
           <span>Map</span>
         </div>
