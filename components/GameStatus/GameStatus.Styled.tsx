@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const StyledGameStatus = styled.div`
-  background-color: var(--background1);
+  background-color: rgba(0, 0, 0, 0.8);
   border-radius: 4px;
   position: absolute;
   top: 20px;
@@ -17,7 +17,7 @@ const StyledGameStatus = styled.div`
     padding: 10px 25px;
 
     :not(:last-child) {
-      border-right: 1px solid var(--background3);
+      border-right: 1px solid #252525;
     }
 
     &.mapName {
