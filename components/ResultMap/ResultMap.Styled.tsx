@@ -7,6 +7,10 @@ const StyledResultMap = styled.div`
     height: 100%;
     width: 100%;
   }
+
+  .result-line {
+    border: 1px dashed black;
+  }
 `
 
 export default StyledResultMap

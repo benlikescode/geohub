@@ -28,6 +28,10 @@ const StyledAvatar = styled.div<StyledProps>`
     img {
       height: 60%;
     }
+
+    &:hover {
+      transform: scale(1.02);
+    }
   }
 
   .map-avatar {
