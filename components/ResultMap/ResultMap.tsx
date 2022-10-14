@@ -83,6 +83,7 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
             clickableIcons: false,
             minZoom: 2,
             disableDefaultUI: true,
+            gestureHandling: 'greedy',
           }}
         >
           {markers?.guesses.map((marker, idx) => (

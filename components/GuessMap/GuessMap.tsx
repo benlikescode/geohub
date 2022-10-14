@@ -165,6 +165,7 @@ const GuessMap: FC<Props> = ({
               disableDefaultUI: true,
               styles: getMapTheme('Light'),
               clickableIcons: false,
+              gestureHandling: 'greedy',
             }}
           >
             {marker && (
