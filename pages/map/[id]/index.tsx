@@ -1,4 +1,5 @@
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
+import Link from 'next/link'
 import router from 'next/router'
 import React, { FC, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -138,6 +139,16 @@ const MapPage: FC = () => {
                   <div className="map-details">
                     <span className="name">{mapDetails.name}</span>
                     {mapDetails.description && <span className="description">{mapDetails.description}</span>}
+                    {!mapDetails.description && mapDetails.creatorDetails && (
+                      <span className="map-creator">
+                        {'Created by '}
+                        <span className="map-creator-link">
+                          <Link href={`/user/${mapDetails.creatorDetails._id}` || ''}>
+                            <a>{mapDetails.creatorDetails.name}</a>
+                          </Link>
+                        </span>
+                      </span>
+                    )}
                   </div>
                 </div>
                 <Button
