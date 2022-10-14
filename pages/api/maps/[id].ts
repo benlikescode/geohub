@@ -18,34 +18,24 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     if (req.method === 'GET') {
       // Get Map Details
-      const mapDetailsQuery = await collections.maps
-        ?.aggregate([
-          { $match: { _id: new ObjectId(mapId) } },
-          {
-            $lookup: {
-              from: 'users',
-              localField: 'creator',
-              foreignField: '_id',
-              as: 'creatorDetails',
-            },
-          },
-          {
-            $unwind: '$creatorDetails',
-          },
-          {
-            $project: {
-              password: 0,
-            },
-          },
-        ])
-        .limit(1)
-        .toArray()
+      let mapDetails = await collections.maps?.findOne({ _id: new ObjectId(mapId) })
 
-      if (!mapDetailsQuery || mapDetailsQuery.length !== 1) {
+      if (!mapDetails) {
         return throwError(res, 404, `Failed to find map with id: ${mapId}`)
       }
 
-      const mapDetails = mapDetailsQuery[0]
+      const isOfficialMap = mapDetails.creator === 'GeoHub'
+
+      // If map is user created -> get the user details
+      if (!isOfficialMap) {
+        const creatorDetails = await collections.users?.findOne({ _id: new ObjectId(mapDetails.creator) })
+
+        if (!creatorDetails) {
+          return throwError(res, 404, `Failed to get creator details for map with id: ${mapId}`)
+        }
+
+        mapDetails = { ...mapDetails, creatorDetails: { ...creatorDetails, password: null } }
+      }
 
       // If query does not want stats, return early
       if (!includeStats || includeStats === 'false') {
