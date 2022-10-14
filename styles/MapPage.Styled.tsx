@@ -15,6 +15,22 @@ const StyledMapPage = styled.div`
     font-weight: 600;
   }
 
+  .map-creator {
+    font-size: 14px;
+    color: var(--color3);
+    position: relative;
+    top: 1px;
+  }
+
+  .map-creator-link {
+    color: var(--color3);
+
+    &:hover {
+      text-decoration: underline;
+      color: var(--color2);
+    }
+  }
+
   .map-details {
     margin-left: 16px;
     margin-top: 2px;
