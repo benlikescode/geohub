@@ -40,7 +40,7 @@ const MyMapsPage: NextPage = () => {
   const getCustomMaps = async () => {
     setLoading(true)
 
-    const { res } = await mailman(`/maps/custom?userId=${user.id}`)
+    const { res } = await mailman(`maps/custom?userId=${user.id}`)
 
     if (res.error) {
       return showErrorToast(res.error.message)
