@@ -323,6 +323,58 @@ export const getGuessMapDimensions = (size: number) => {
 }
 
 // Gets the map center and appropiate zoom value to set as default for result map
+export const getResultMapValuesV2 = (
+  guessedLocations: GuessType[],
+  actualLocations: LocationType[],
+  isFinalResults = false
+) => {
+  // Get center
+  const mergedLocations = [...guessedLocations, ...actualLocations]
+
+  const averageLat = mergedLocations.reduce((a, b) => a + b.lat, 0) / mergedLocations.length
+  const averageLng = mergedLocations.reduce((a, b) => a + b.lng, 0) / mergedLocations.length
+
+  const center = {
+    lat: averageLat,
+    lng: averageLng,
+  }
+
+  // Get Zoom
+  const averageDistance = guessedLocations.reduce((a, b) => a + b.distance, 0)
+  let zoom = 2
+
+  if (averageDistance < 50) {
+    zoom = 10
+  } else if (averageDistance < 100) {
+    zoom = 8
+  } else if (averageDistance < 500) {
+    zoom = 7
+  } else if (averageDistance < 1200) {
+    zoom = 6
+  } else if (averageDistance < 2000) {
+    zoom = 5
+  } else if (averageDistance < 4000) {
+    zoom = 4
+  } else if (averageDistance < 6000) {
+    zoom = 4
+  } else if (averageDistance < 8000) {
+    zoom = 3
+  } else if (averageDistance < 10000) {
+    zoom = 3
+  } else {
+    zoom = 2
+  }
+
+  // zoom out a bit more if showing all rounds
+  if (isFinalResults) {
+    zoom = zoom - 2
+  }
+
+  return { center, zoom }
+}
+
+// Gets the map center and appropiate zoom value to set as default for result map
+// DEPRECATED
 export const getResultMapValues = (
   guessedLocation: GuessType,
   actualLocation: LocationType,
@@ -332,7 +384,7 @@ export const getResultMapValues = (
   let zoom = 2
 
   if (!isFinalResults) {
-    const distance = getDistance(guessedLocation, actualLocation)
+    const { distance } = guessedLocation
 
     center = {
       lat: (actualLocation.lat + guessedLocation.lat) / 2,
@@ -431,6 +483,28 @@ export const createMarker = (
       url: markerImage,
       scaledSize: new google.maps.Size(size, size),
     },
+  })
+}
+
+// Creates a google map polyline between a guess marker and actual marker
+export const createPolyline = (guessedLocation: GuessType, actualLocation: LocationType, map: google.maps.Map) => {
+  // Get midpoint between guess and actual (this prevents polyline going between two maps)
+  const midPoint = {
+    lat: (guessedLocation.lat + actualLocation.lat) / 2,
+    lng: (guessedLocation.lng + actualLocation.lng) / 2,
+  }
+
+  const lineSymbol = {
+    path: 'M 0,-1 0,1',
+    strokeOpacity: 1,
+    scale: 2,
+  }
+
+  return new google.maps.Polyline({
+    path: [guessedLocation, midPoint, actualLocation],
+    map: map,
+    strokeOpacity: 0,
+    icons: [{ icon: lineSymbol, offset: '0', repeat: '10px' }],
   })
 }
 

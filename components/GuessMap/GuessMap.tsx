@@ -2,6 +2,7 @@ import GoogleMapReact from 'google-map-react'
 import React, { FC, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
+import { Marker } from '@components/Marker'
 import { Icon } from '@components/System'
 import { Button } from '@components/System/Button'
 import { ChevronDownIcon, ChevronUpIcon, XIcon } from '@heroicons/react/outline'
@@ -42,6 +43,8 @@ const GuessMap: FC<Props> = ({
   const user = useSelector(selectUser)
   const hoverDelay = useRef<any>()
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
+
+  const [marker, setMarker] = useState<{ lat: number; lng: number } | null>(null)
 
   const GoogleMapConfig = {
     key: googleKey,
@@ -109,6 +112,21 @@ const GuessMap: FC<Props> = ({
     dispatch(updateGuessMapSize({ guessMapSize: newMapSize }))
   }
 
+  const addMarker = (e: any) => {
+    const location = {
+      lat: e.lat(),
+      lng: e.lng(),
+    }
+    setCurrGuess(location)
+    setMarker(location)
+  }
+
+  const onInit = (map: any, maps: any) => {
+    maps.event.addListener(map, 'click', (e: any) => {
+      addMarker(e.latLng)
+    })
+  }
+
   return (
     <StyledGuessMap mapHeight={mapHeight} mapWidth={mapWidth} mobileMapOpen={mobileMapOpen}>
       <div className="guessMapWrapper" onMouseOver={handleMapHover} onMouseLeave={handleMapLeave}>
@@ -135,7 +153,25 @@ const GuessMap: FC<Props> = ({
             </button>
           </div>
         )}
-        <div id="guessMap" className="map"></div>
+        <div className="map">
+          <GoogleMapReact
+            bootstrapURLKeys={GoogleMapConfig}
+            defaultCenter={{ lat: 0, lng: 0 }}
+            defaultZoom={2}
+            yesIWantToUseGoogleMapApiInternals
+            onGoogleApiLoaded={({ map, maps }) => onInit(map, maps)}
+            //onClick={(e) => addMarker(e)}
+            options={{
+              disableDefaultUI: true,
+              styles: getMapTheme('Light'),
+              clickableIcons: false,
+            }}
+          >
+            {marker && (
+              <Marker lat={marker.lat} lng={marker.lng} type="guess" userAvatar={user.avatar} isFinalResults={false} />
+            )}
+          </GoogleMapReact>
+        </div>
 
         <button className="close-map-button" onClick={closeMobileMap}>
           <XIcon />
@@ -147,15 +183,6 @@ const GuessMap: FC<Props> = ({
           </Button>
         </div>
       </div>
-      <GoogleMapReact
-        bootstrapURLKeys={GoogleMapConfig}
-        center={coordinate}
-        zoom={zoom}
-        yesIWantToUseGoogleMapApiInternals
-        onGoogleApiLoaded={handleApiLoaded}
-      >
-        <div>HELLO WORLD</div>
-      </GoogleMapReact>
     </StyledGuessMap>
   )
 }

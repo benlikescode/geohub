@@ -18,11 +18,34 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     if (req.method === 'GET') {
       // Get Map Details
-      const mapDetails = await collections.maps?.findOne({ _id: new ObjectId(mapId) })
+      const mapDetailsQuery = await collections.maps
+        ?.aggregate([
+          { $match: { _id: new ObjectId(mapId) } },
+          {
+            $lookup: {
+              from: 'users',
+              localField: 'creator',
+              foreignField: '_id',
+              as: 'creatorDetails',
+            },
+          },
+          {
+            $unwind: '$creatorDetails',
+          },
+          {
+            $project: {
+              password: 0,
+            },
+          },
+        ])
+        .limit(1)
+        .toArray()
 
-      if (!mapDetails) {
+      if (!mapDetailsQuery || mapDetailsQuery.length !== 1) {
         return throwError(res, 404, `Failed to find map with id: ${mapId}`)
       }
+
+      const mapDetails = mapDetailsQuery[0]
 
       // If query does not want stats, return early
       if (!includeStats || includeStats === 'false') {

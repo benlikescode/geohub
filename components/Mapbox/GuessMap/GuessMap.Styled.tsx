@@ -22,7 +22,7 @@ const StyledGuessMap = styled.div<StyledProps>`
     border: 2px solid #fff;
     border-radius: 50%;
   }
-  
+
   // removes watermark (takes too much space on guess map => already give credit on larger maps)
   .mapboxgl-ctrl-bottom-left {
     display: none;
@@ -31,7 +31,7 @@ const StyledGuessMap = styled.div<StyledProps>`
   .controls {
     display: flex;
     align-items: center;
-    gap: 5px;  
+    gap: 5px;
   }
 
   .controlBtn {

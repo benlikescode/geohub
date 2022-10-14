@@ -1,6 +1,7 @@
 import { ObjectId } from 'mongodb'
 
 import { LocationType } from './'
+import User from './User'
 
 type Map = {
   _id?: ObjectId | string
@@ -16,6 +17,7 @@ type Map = {
   locations?: LocationType[]
   // backwards compatibility
   locationCount: number
+  creatorDetails: User
 }
 
 export default Map
