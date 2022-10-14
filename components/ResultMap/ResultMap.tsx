@@ -19,11 +19,21 @@ type Props = {
   actualLocations: LocationType[]
   round: number
   isFinalResults?: boolean
+  isLeaderboard?: boolean
+  userAvatar?: { emoji: string; color: string }
 }
 
-const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFinalResults }) => {
-  const [markers, setMarkers] = useState<{ guesses: GuessType[]; actuals: LocationType[] } | null>(null)
-  const [apiLoaded, setApiLoaded] = useState(false)
+const ResultMap: FC<Props> = ({
+  guessedLocations,
+  actualLocations,
+  round,
+  isFinalResults,
+  isLeaderboard,
+  userAvatar,
+}) => {
+  const [guessMarkers, setGuessMarkers] = useState<GuessType[]>([])
+  const [actualMarkers, setActualMarkers] = useState<LocationType[]>([])
+
   const guessedLocation = guessedLocations[guessedLocations.length - 1]
   const actualLocation = actualLocations[round - 2]
   const resultMapRef = useRef<google.maps.Map | null>(null)
@@ -33,34 +43,40 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
   useEffect(() => {
     if (!resultMapRef.current) return
 
-    loadMapMarkers(resultMapRef.current)
+    loadMapMarkers(resultMapRef.current, false)
   }, [guessedLocations, actualLocations])
 
-  const loadMapMarkers = (map: google.maps.Map) => {
-    // Clear prev markers and polylines
-    setMarkers({ guesses: [], actuals: [] })
+  const loadMapMarkers = (map: google.maps.Map, isInitialCall: boolean) => {
+    // Clear prev guess markers and polylines
+    setGuessMarkers([])
     polylinesRef.current.map((polyline) => polyline.setMap(null))
 
-    // Set map center and zoom
-    const { center, zoom } = getResultMapValuesV2(
-      isFinalResults ? guessedLocations : [guessedLocation],
-      isFinalResults ? actualLocations : [actualLocation],
-      isFinalResults
-    )
+    // Only set map center and zoom on mount, not on subsequent calls
+    if (isInitialCall) {
+      const { center, zoom } = getResultMapValuesV2(
+        isFinalResults ? guessedLocations : [guessedLocation],
+        isFinalResults ? actualLocations : [actualLocation],
+        !!isFinalResults,
+        !!isLeaderboard
+      )
 
-    map.setZoom(zoom)
-    map.setCenter(center)
+      map.setZoom(zoom)
+      map.setCenter(center)
+    }
 
     // Set map markers and polylines
     if (isFinalResults) {
-      setMarkers({ guesses: guessedLocations, actuals: actualLocations })
+      setGuessMarkers(guessedLocations)
+      setActualMarkers(actualLocations)
 
       for (let i = 0; i < actualLocations.length; i++) {
         const polyline = createPolyline(guessedLocations[i], actualLocations[i], map)
         polylinesRef.current.push(polyline)
       }
     } else {
-      setMarkers({ guesses: [guessedLocation], actuals: [actualLocation] })
+      setGuessMarkers([guessedLocation])
+      setActualMarkers([actualLocation])
+
       const polyline = createPolyline(guessedLocation, actualLocation, map)
       polylinesRef.current.push(polyline)
     }
@@ -75,7 +91,7 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
           zoom={2}
           yesIWantToUseGoogleMapApiInternals
           onGoogleApiLoaded={({ map }) => {
-            loadMapMarkers(map)
+            loadMapMarkers(map, true)
             resultMapRef.current = map
           }}
           options={{
@@ -86,18 +102,18 @@ const ResultMap: FC<Props> = ({ guessedLocations, actualLocations, round, isFina
             gestureHandling: 'greedy',
           }}
         >
-          {markers?.guesses.map((marker, idx) => (
+          {guessMarkers.map((marker, idx) => (
             <Marker
               key={idx}
               type="guess"
               lat={marker.lat}
               lng={marker.lng}
-              userAvatar={user.avatar}
+              userAvatar={userAvatar ?? user.avatar}
               isFinalResults={!!isFinalResults}
             />
           ))}
 
-          {markers?.actuals.map((marker, idx) => (
+          {actualMarkers.map((marker, idx) => (
             <Marker
               key={idx}
               type="actual"

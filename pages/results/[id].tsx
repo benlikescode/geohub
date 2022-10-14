@@ -82,6 +82,8 @@ const ResultsPage: NextPage = () => {
               actualLocations={gameData.rounds}
               round={gameData.round}
               isFinalResults
+              isLeaderboard
+              userAvatar={gameData.userDetails?.avatar}
             />
 
             <FlexGroup justify="center">

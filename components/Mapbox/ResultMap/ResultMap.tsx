@@ -1,11 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useState } from 'react'
 import Map, { Layer, Marker, Source } from 'react-map-gl'
 import { useSelector } from 'react-redux'
 
 import { selectUser } from '@redux/user'
 import { GuessType, LocationType } from '@types'
-import { getDistance, getResultMapValues } from '@utils/helperFunctions'
+import { getDistance } from '@utils/helperFunctions'
 
 import { StyledResultMap } from './'
 

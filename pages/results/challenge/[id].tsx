@@ -84,6 +84,8 @@ const ChallengeResultsPage: NextPage = () => {
             actualLocations={gamesFromChallenge[selectedGameIndex].rounds}
             round={gamesFromChallenge[selectedGameIndex].round}
             isFinalResults
+            isLeaderboard
+            userAvatar={gamesFromChallenge[selectedGameIndex].userDetails?.avatar}
           />
 
           <FlexGroup justify="center">
