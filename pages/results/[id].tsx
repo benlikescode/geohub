@@ -1,111 +1,108 @@
-import type { NextPage } from 'next'
-import router from 'next/router'
-import React, { useEffect, useState } from 'react'
+import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next'
+import { ObjectId } from 'mongodb'
+import React from 'react'
 
-import { Game } from '@backend/models'
-import { mailman } from '@backend/utils/mailman'
+import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { Head } from '@components/Head'
-import { Layout, LoadingPage } from '@components/Layout'
 import { Navbar } from '@components/Layout/Navbar'
 import { ResultMap } from '@components/ResultMap'
 import { LeaderboardCard } from '@components/Results'
+import { GameResultsSkeleton } from '@components/Skeletons/GameResultsSkeleton'
 import { FlexGroup } from '@components/System'
 import StyledResultPage from '@styles/ResultPage.Styled'
-import { MapType } from '@types'
+import { GameType } from '@types'
 
-const ResultsPage: NextPage = () => {
-  const [gameData, setGameData] = useState<Game | null>()
-  const [mapData, setMapData] = useState<MapType>()
-  const [isCompleted, setIsCompleted] = useState(false)
-  const gameId = router.query.id as string
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  try {
+    await dbConnect()
+    const gameId = query.id as string
 
-  const fetchGame = async () => {
-    const { status, res } = await mailman(`games/${gameId}`)
-
-    // If game not found, set gameData to null so an error page can be displayed
-    if (status === 400 || status === 404 || status === 500) {
-      return setGameData(null)
-    }
-
-    if (res.round > 5) {
-      setIsCompleted(true)
-    }
-
-    setGameData(res)
-    fetchMap(res.mapId)
-  }
-
-  const fetchMap = async (mapId: string) => {
-    const { res } = await mailman(`maps/${mapId}`)
-    setMapData(res)
-  }
-
-  useEffect(() => {
     if (!gameId) {
-      return
+      return {
+        notFound: true,
+      }
     }
 
-    fetchGame()
-  }, [gameId])
+    const gameQuery = await collections.games
+      ?.aggregate([
+        { $match: { _id: new ObjectId(gameId) } },
+        {
+          $lookup: {
+            from: 'maps',
+            localField: 'mapId',
+            foreignField: '_id',
+            as: 'mapDetails',
+          },
+        },
+        {
+          $unwind: '$mapDetails',
+        },
+        {
+          $lookup: {
+            from: 'users',
+            localField: 'userId',
+            foreignField: '_id',
+            as: 'userDetails',
+          },
+        },
+        {
+          $unwind: '$userDetails',
+        },
+      ])
+      .toArray()
 
-  // Game does not exist with this id
-  if (gameData === null) {
-    return (
-      <StyledResultPage>
-        <Layout>
-          <div className="errorContainer">
-            <div className="errorContent">
-              <h1 className="errorPageTitle">Page not found</h1>
-              <span className="errorPageMsg">This game does not exist</span>
-            </div>
-            <div className="errorGif"></div>
-          </div>
-        </Layout>
-      </StyledResultPage>
-    )
+    if (!gameQuery || gameQuery.length !== 1) {
+      return {
+        notFound: true,
+      }
+    }
+
+    const game = gameQuery[0] as GameType
+
+    if (game.round <= 5) {
+      return {
+        notFound: true,
+      }
+    }
+
+    return {
+      props: {
+        game: JSON.parse(JSON.stringify(game)),
+      },
+    }
+  } catch (err) {
+    return {
+      notFound: true,
+    }
   }
+}
 
-  if (!gameData || !mapData) {
-    return <LoadingPage />
+const ResultsPage: NextPage = ({ game }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  if (!game) {
+    return <GameResultsSkeleton />
   }
 
   return (
     <StyledResultPage>
       <Head title="Game Results" />
-      {isCompleted && (
-        <section>
-          <Navbar />
+      <section>
+        <Navbar />
 
-          <main>
-            <ResultMap
-              guessedLocations={gameData.guesses}
-              actualLocations={gameData.rounds}
-              round={gameData.round}
-              isFinalResults
-              isLeaderboard
-              userAvatar={gameData.userDetails?.avatar}
-            />
+        <main>
+          <ResultMap
+            guessedLocations={game.guesses}
+            actualLocations={game.rounds}
+            round={game.round}
+            isFinalResults
+            isLeaderboard
+            userAvatar={game.userDetails?.avatar}
+          />
 
-            <FlexGroup justify="center">
-              <LeaderboardCard gameData={[gameData]} mapData={mapData} />
-            </FlexGroup>
-          </main>
-        </section>
-      )}
-
-      {!isCompleted && (
-        <StyledResultPage>
-          <Layout>
-            <div className="errorContainer">
-              <div className="errorContent">
-                <h1 className="errorPageTitle">Page not found</h1>
-                <span className="errorPageMsg">This game has not been completed</span>
-              </div>
-              <div className="errorGif"></div>
-            </div>
-          </Layout>
-        </StyledResultPage>
-      )}
+          <FlexGroup justify="center">
+            <LeaderboardCard gameData={[game]} mapData={game.mapDetails} />
+          </FlexGroup>
+        </main>
+      </section>
     </StyledResultPage>
   )
 }

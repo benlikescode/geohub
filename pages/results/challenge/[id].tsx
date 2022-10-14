@@ -9,6 +9,7 @@ import { Layout, LoadingPage } from '@components/Layout'
 import { Navbar } from '@components/Layout/Navbar'
 import { ResultMap } from '@components/ResultMap'
 import { LeaderboardCard } from '@components/Results'
+import { GameResultsSkeleton } from '@components/Skeletons/GameResultsSkeleton'
 import { FlexGroup } from '@components/System'
 import { selectUser } from '@redux/user'
 import StyledResultPage from '@styles/ResultPage.Styled'
@@ -69,34 +70,34 @@ const ChallengeResultsPage: NextPage = () => {
     )
   }
 
-  if (!gamesFromChallenge || !mapData) {
-    return <LoadingPage />
-  }
-
   return (
     <StyledResultPage>
       <section>
         <Navbar />
 
-        <main>
-          <ResultMap
-            guessedLocations={gamesFromChallenge[selectedGameIndex].guesses}
-            actualLocations={gamesFromChallenge[selectedGameIndex].rounds}
-            round={gamesFromChallenge[selectedGameIndex].round}
-            isFinalResults
-            isLeaderboard
-            userAvatar={gamesFromChallenge[selectedGameIndex].userDetails?.avatar}
-          />
-
-          <FlexGroup justify="center">
-            <LeaderboardCard
-              gameData={gamesFromChallenge}
-              mapData={mapData}
-              selectedGameIndex={selectedGameIndex}
-              setSelectedGameIndex={setSelectedGameIndex}
+        {!gamesFromChallenge || !mapData ? (
+          <GameResultsSkeleton />
+        ) : (
+          <main>
+            <ResultMap
+              guessedLocations={gamesFromChallenge[selectedGameIndex].guesses}
+              actualLocations={gamesFromChallenge[selectedGameIndex].rounds}
+              round={gamesFromChallenge[selectedGameIndex].round}
+              isFinalResults
+              isLeaderboard
+              userAvatar={gamesFromChallenge[selectedGameIndex].userDetails?.avatar}
             />
-          </FlexGroup>
-        </main>
+
+            <FlexGroup justify="center">
+              <LeaderboardCard
+                gameData={gamesFromChallenge}
+                mapData={mapData}
+                selectedGameIndex={selectedGameIndex}
+                setSelectedGameIndex={setSelectedGameIndex}
+              />
+            </FlexGroup>
+          </main>
+        )}
       </section>
     </StyledResultPage>
   )

@@ -50,7 +50,7 @@ const AnalyticsPage: NextPage = () => {
 
       <StyledAnalytics>
         <div className="analytics-group ">
-          {loading && Array.from({ length: 4 }).map((_, idx) => <Skeleton key={idx} />)}
+          {loading && Array.from({ length: 4 }).map((_, idx) => <Skeleton key={idx} height={118} />)}
           {!loading &&
             analytics?.counts.map((countItem, idx) => (
               <CountItem key={idx} title={countItem.title} count={countItem.count} />
