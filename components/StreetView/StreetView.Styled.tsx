@@ -1,10 +1,21 @@
 import styled from 'styled-components'
 
-const StyledStreetView = styled.div`
+type StyledProps = {
+  showMap?: boolean
+}
+
+const StyledStreetView = styled.div<StyledProps>`
   #map {
     height: 100vh;
     width: 100%;
     position: relative;
+    display: none;
+
+    ${({ showMap }) =>
+      showMap &&
+      `
+      display: block
+    `}
   }
 
   .toggle-map-button {

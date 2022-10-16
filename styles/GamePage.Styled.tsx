@@ -34,6 +34,13 @@ const StyledGamePage = styled.div`
       }
     }
   }
+
+  .loading-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
 `
 
 export default StyledGamePage

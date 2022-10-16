@@ -157,7 +157,7 @@ const GuessMap: FC<Props> = ({
           <GoogleMapReact
             bootstrapURLKeys={GoogleMapConfig}
             defaultCenter={{ lat: 0, lng: 0 }}
-            defaultZoom={2}
+            defaultZoom={1}
             yesIWantToUseGoogleMapApiInternals
             onGoogleApiLoaded={({ map, maps }) => onInit(map, maps)}
             //onClick={(e) => addMarker(e)}
@@ -166,6 +166,7 @@ const GuessMap: FC<Props> = ({
               styles: getMapTheme('Light'),
               clickableIcons: false,
               gestureHandling: 'greedy',
+              minZoom: 1,
             }}
           >
             {marker && (

@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 
-type StyledProps = {}
+type StyledProps = {
+  type: 'guess' | 'actual'
+}
 
 const StyledMarker = styled.div<StyledProps>`
   position: absolute;
@@ -13,9 +15,13 @@ const StyledMarker = styled.div<StyledProps>`
   //pointer-events: none !important;
   //background-color: red !important;
 
-  &:hover {
-    transform: translate(-50%, -50%) scale(1.05);
-  }
+  ${({ type }) =>
+    type === 'actual' &&
+    `
+      &:hover {
+        transform: translate(-50%, -50%) scale(1.05);
+      }
+  `}
 
   .actual-marker {
     height: 26px;
@@ -27,7 +33,7 @@ const StyledMarker = styled.div<StyledProps>`
     display: flex;
     align-items: center;
     justify-content: center;
-    font: bold 16px Helvetica, Verdana, Tahoma;
+    font: bold 14px Helvetica, Verdana, Tahoma;
 
     svg {
       height: 16px;

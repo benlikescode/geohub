@@ -8,6 +8,7 @@ import { GameStatus } from '@components/GameStatus'
 import { GuessMap } from '@components/GuessMap'
 import { LoadingPage } from '@components/Layout'
 import { StreetViewControls } from '@components/StreetViewControls'
+import { Spinner } from '@components/System'
 import { MapIcon } from '@heroicons/react/outline'
 import { selectGame } from '@redux/game'
 import { selectUser } from '@redux/user'
@@ -167,8 +168,12 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData, isTesting }) =>
   }
 
   return (
-    <StyledStreetView>
-      {loading && <LoadingPage />}
+    <StyledStreetView showMap={!loading}>
+      {loading && (
+        <div className="loading-screen">
+          <Spinner size={50} />
+        </div>
+      )}
 
       <div id="map">
         <StreetViewControls handleBackToStart={handleBackToStart} />

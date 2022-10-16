@@ -11,6 +11,7 @@ import { LoadingPage } from '@components/Layout'
 import { ResultMap } from '@components/ResultMap'
 import { ResultsCard } from '@components/ResultsCard'
 import { StreetView } from '@components/StreetView'
+import { Spinner } from '@components/System'
 import { selectUser } from '@redux/user'
 import StyledGamePage from '@styles/GamePage.Styled'
 
@@ -63,7 +64,13 @@ const GamePage: FC = () => {
   }
 
   if (!gameData) {
-    return <LoadingPage />
+    return (
+      <StyledGamePage>
+        <div className="loading-screen">
+          <Spinner size={50} />
+        </div>
+      </StyledGamePage>
+    )
   }
 
   return (

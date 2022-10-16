@@ -34,35 +34,79 @@ const ResultMap: FC<Props> = ({
   const [guessMarkers, setGuessMarkers] = useState<GuessType[]>([])
   const [actualMarkers, setActualMarkers] = useState<LocationType[]>([])
 
+  const [center, setCenter] = useState<any>(null)
+  const [zoom, setZoom] = useState<any>(null)
+
+  const [mapBounds, setMapBounds] = useState<google.maps.LatLngBounds | null>(null)
+
   const guessedLocation = guessedLocations[guessedLocations.length - 1]
   const actualLocation = actualLocations[round - 2]
   const resultMapRef = useRef<google.maps.Map | null>(null)
   const polylinesRef = useRef<google.maps.Polyline[]>([])
   const user = useSelector(selectUser)
 
+  // Only set map center and zoom on mount
+  useEffect(() => {
+    //setZoom(2)
+    //setCenter({ lat: 0, lng: 0 })
+    /*
+    const bounds = new google.maps.LatLngBounds()
+
+    for (let i = 0; i < 5; i++) {
+      bounds.extend(guessedLocations[i])
+      bounds.extend(actualLocations[i])
+    }
+
+    resultMapRef.current?.setCenter(bounds.getCenter())
+
+    resultMapRef.current?.fitBounds(bounds)
+
+*/
+    /*
+    const { center, zoom } = getResultMapValuesV2(
+      isFinalResults ? guessedLocations : [guessedLocation],
+      isFinalResults ? actualLocations : [actualLocation],
+      !!isFinalResults,
+      !!isLeaderboard
+    )
+
+    setCenter(center)
+    setZoom(zoom)
+
+    console.log(center)
+    console.log(zoom)
+    */
+  }, [])
+
+  // If locations change (because we toggle the view on challenge results) -> reload the markers
   useEffect(() => {
     if (!resultMapRef.current) return
 
-    loadMapMarkers(resultMapRef.current, false)
+    loadMapMarkers(resultMapRef.current)
   }, [guessedLocations, actualLocations])
 
-  const loadMapMarkers = (map: google.maps.Map, isInitialCall: boolean) => {
+  const getMapBounds = (map: google.maps.Map) => {
+    const bounds = new google.maps.LatLngBounds()
+
+    // I do this weirdly because actual location is 1 location ahead of guessed...
+    if (isFinalResults) {
+      for (let i = 0; i < guessedLocations.length; i++) {
+        bounds.extend(guessedLocations[i])
+        bounds.extend(actualLocations[i])
+      }
+    } else {
+      bounds.extend(guessedLocation)
+      bounds.extend(actualLocation)
+    }
+
+    map.setCenter(bounds.getCenter())
+    map.fitBounds(bounds)
+  }
+
+  const loadMapMarkers = (map: google.maps.Map) => {
     // Clear prev guess markers and polylines
     setGuessMarkers([])
     polylinesRef.current.map((polyline) => polyline.setMap(null))
-
-    // Only set map center and zoom on mount, not on subsequent calls
-    if (isInitialCall) {
-      const { center, zoom } = getResultMapValuesV2(
-        isFinalResults ? guessedLocations : [guessedLocation],
-        isFinalResults ? actualLocations : [actualLocation],
-        !!isFinalResults,
-        !!isLeaderboard
-      )
-
-      map.setZoom(zoom)
-      map.setCenter(center)
-    }
 
     // Set map markers and polylines
     if (isFinalResults) {
@@ -82,6 +126,11 @@ const ResultMap: FC<Props> = ({
     }
   }
 
+  /*
+  if (center === null || zoom === null) {
+    return <div className="map-skeleton"></div>
+  }
+*/
   return (
     <StyledResultMap>
       <div className="map">
@@ -91,7 +140,8 @@ const ResultMap: FC<Props> = ({
           zoom={2}
           yesIWantToUseGoogleMapApiInternals
           onGoogleApiLoaded={({ map }) => {
-            loadMapMarkers(map, true)
+            loadMapMarkers(map)
+            getMapBounds(map)
             resultMapRef.current = map
           }}
           options={{

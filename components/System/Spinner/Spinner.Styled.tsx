@@ -6,15 +6,15 @@ type StyledProps = {
 }
 
 const StyledSpinner = styled.div<StyledProps>`
-  height: ${({ size }) => size ? size : 40}px;
-  width: ${({ size }) => size ? size : 40}px;
+  height: ${({ size }) => (size ? size : 40)}px;
+  width: ${({ size }) => (size ? size : 40)}px;
 
   svg {
     height: 100%;
     width: 100%;
     fill: var(--color2);
-    animation: loading-spinner .5s linear infinite;
-    
+    animation: loading-spinner 0.5s linear infinite;
+
     @keyframes loading-spinner {
       100% {
         transform: rotate(1turn);

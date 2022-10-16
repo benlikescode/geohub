@@ -349,34 +349,36 @@ export const getResultMapValuesV2 = (
   }
 
   const getZoom = () => {
-    const averageDistance = guessedLocations.reduce((a, b) => a + b.distance, 0)
+    const guessDistances = guessedLocations.map((x) => x.distance)
+
+    //const d1 = google.maps.geometry.spherical.computeDistanceBetween(guessedLocations[0], actualLocations[0])
+    //const d2 = getDistance(guessedLocations[0], actualLocations[0])
+
+    //const largestDistance = Math.max(...)
+    const largestDistance = 4000
+    console.log(`LARGEST ${largestDistance}`)
     let zoom = 2
 
-    if (averageDistance < 50) {
+    if (largestDistance < 50) {
       zoom = 10
-    } else if (averageDistance < 100) {
+    } else if (largestDistance < 100) {
       zoom = 8
-    } else if (averageDistance < 500) {
+    } else if (largestDistance < 500) {
       zoom = 7
-    } else if (averageDistance < 1200) {
+    } else if (largestDistance < 1200) {
       zoom = 6
-    } else if (averageDistance < 2000) {
+    } else if (largestDistance < 2000) {
       zoom = 5
-    } else if (averageDistance < 4000) {
+    } else if (largestDistance < 4000) {
       zoom = 4
-    } else if (averageDistance < 6000) {
+    } else if (largestDistance < 6000) {
       zoom = 4
-    } else if (averageDistance < 8000) {
+    } else if (largestDistance < 8000) {
       zoom = 3
-    } else if (averageDistance < 10000) {
+    } else if (largestDistance < 10000) {
       zoom = 3
     } else {
       zoom = 2
-    }
-
-    // zoom out a bit more if showing all rounds
-    if (isFinalResults) {
-      zoom = zoom - 2
     }
 
     return zoom
@@ -509,14 +511,15 @@ export const createPolyline = (guessedLocation: GuessType, actualLocation: Locat
   const lineSymbol = {
     path: 'M 0,-1 0,1',
     strokeOpacity: 1,
-    scale: 2,
+    scale: 1.75,
   }
 
   return new google.maps.Polyline({
-    path: [guessedLocation, midPoint, actualLocation],
+    path: [guessedLocation, actualLocation],
     map: map,
+    clickable: false,
     strokeOpacity: 0,
-    icons: [{ icon: lineSymbol, offset: '0', repeat: '10px' }],
+    icons: [{ icon: lineSymbol, offset: '30px', repeat: '7px' }],
   })
 }
 

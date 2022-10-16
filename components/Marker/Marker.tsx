@@ -20,7 +20,7 @@ const Marker: FC<Props> = ({ lat, lng, type, userAvatar, roundNumber, isFinalRes
   }
 
   return (
-    <StyledMarker onClick={() => type === 'actual' && handleActualLocationClick()}>
+    <StyledMarker type={type} onClick={() => type === 'actual' && handleActualLocationClick()}>
       {type === 'guess' && <Avatar size={26} type="user" src={userAvatar?.emoji} backgroundColor={userAvatar?.color} />}
 
       {type === 'actual' && <div className="actual-marker">{isFinalResults ? roundNumber : <FlagIcon />}</div>}
