@@ -148,7 +148,7 @@ returns a single random location (if given 1 location) or
 an array of random locations (if given more than 1 location)
 
 */
-export const getRandomLocationsInRadius = (locations: LocationType[], radius = 0.05) => {
+export const getRandomLocationsInRadius = (locations: LocationType[], radius = 0.01) => {
   if (locations.length > 1) {
     const newLocations: LocationType[] = []
 
