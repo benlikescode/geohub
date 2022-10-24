@@ -8,19 +8,9 @@ import { StyledLoadingPage } from './'
 const LoadingPage: FC = () => {
   return (
     <StyledLoadingPage>
-      <Navbar />
-
-      <div className="appBody">
-        <div className="sidebarWrapper">
-          <Sidebar />
-        </div>
-
-        <main>
-          <Spinner />
-        </main>
-      </div>
-
-      <MobileNav />
+      <main>
+        <Spinner />
+      </main>
     </StyledLoadingPage>
   )
 }

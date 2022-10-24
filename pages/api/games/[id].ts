@@ -83,7 +83,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         // generates new location until unique or 5 failed attempts
         while (duplicate && buffer < 5) {
-          newLocation = await getLocations(game.mapId)
+          newLocation = await getLocations(game.mapId.toString())
 
           if (!newLocation) {
             return throwError(res, 400, 'Failed to get new location')

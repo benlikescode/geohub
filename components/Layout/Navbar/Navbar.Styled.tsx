@@ -7,11 +7,12 @@ const StyledNavbar = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 0 1rem;
-  position: fixed;
-  top: 0;
+  //position: sticky;
+  //top: 0;
   z-index: 20;
   background-color: #18181b;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.9), 0 0px 2px rgba(0, 0, 0, 0.9);
+  flex-shrink: 0 !important;
 
   .appTitle {
     font-size: 1.25rem;

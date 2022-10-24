@@ -6,6 +6,7 @@ import { toast } from 'react-toastify'
 import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
 import { Banner, Layout } from '@components/Layout'
+import { WidthController } from '@components/Layout/WidthController'
 import { BingoSettings } from '@components/Modals/BingoSettings'
 import { Avatar, Button, Icon, Input } from '@components/System'
 import { CheckIcon } from '@heroicons/react/outline'
@@ -68,7 +69,7 @@ const BingoPage: NextPage = () => {
 
   return (
     <StyledBingoPage>
-      <Layout>
+      <WidthController>
         <Head title="Play - Bingo" />
         <Banner>
           <div className="mapDetailsSection">
@@ -144,7 +145,7 @@ const BingoPage: NextPage = () => {
             </form>
           </div>
         </Banner>
-      </Layout>
+      </WidthController>
 
       {settingsModalOpen && <BingoSettings closeModal={closeModal} />}
     </StyledBingoPage>

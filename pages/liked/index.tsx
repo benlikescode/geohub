@@ -7,6 +7,7 @@ import { mailman } from '@backend/utils/mailman'
 import { NoResults } from '@components/ErrorViews/NoResults'
 import { Head } from '@components/Head'
 import { Layout, PageHeader } from '@components/Layout'
+import { WidthController } from '@components/Layout/WidthController'
 import { MapPreviewCard } from '@components/MapPreviewCard'
 import { SkeletonCards } from '@components/SkeletonCards'
 import { selectUser } from '@redux/user'
@@ -33,7 +34,7 @@ const LikedMapsPage: NextPage = () => {
 
   return (
     <StyledLikedMapsPage>
-      <Layout>
+      <WidthController>
         <Head title="Liked Maps" />
         <PageHeader>Liked Maps</PageHeader>
 
@@ -47,7 +48,7 @@ const LikedMapsPage: NextPage = () => {
             <MapPreviewCard key={idx} map={map.mapDetails[0]} />
           ))}
         </div>
-      </Layout>
+      </WidthController>
     </StyledLikedMapsPage>
   )
 }

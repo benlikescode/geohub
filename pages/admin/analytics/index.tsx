@@ -10,6 +10,7 @@ import { ListItem } from '@components/Admin/Analytics/ListItem'
 import { NotAuthenticated } from '@components/ErrorViews/NotAuthenticated'
 import { Head } from '@components/Head'
 import { Layout, PageHeader } from '@components/Layout'
+import { WidthController } from '@components/Layout/WidthController'
 import { Skeleton } from '@components/System/Skeleton'
 import { selectUser } from '@redux/user'
 import { GameType, UserType } from '@types'
@@ -44,7 +45,7 @@ const AnalyticsPage: NextPage = () => {
   }, [])
 
   return (
-    <Layout>
+    <WidthController>
       <Head title="Admin - Analytics" />
       <PageHeader>Analytics</PageHeader>
 
@@ -87,7 +88,7 @@ const AnalyticsPage: NextPage = () => {
           )}
         </div>
       </StyledAnalytics>
-    </Layout>
+    </WidthController>
   )
 }
 

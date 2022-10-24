@@ -7,6 +7,7 @@ import { mailman } from '@backend/utils/mailman'
 import { NoResults } from '@components/ErrorViews/NoResults'
 import { Head } from '@components/Head'
 import { Layout, LoadingPage, PageHeader } from '@components/Layout'
+import { WidthController } from '@components/Layout/WidthController'
 import { MapPreviewCard } from '@components/MapPreviewCard'
 import { SkeletonCards } from '@components/SkeletonCards'
 import { Avatar, BlockQuote, Button } from '@components/System/'
@@ -48,7 +49,7 @@ const OngoingGamesPage: NextPage = () => {
 
   return (
     <StyledOngoingGamesPage>
-      <Layout>
+      <WidthController>
         <Head title="Ongoing Games" />
         <PageHeader>Ongoing Games</PageHeader>
 
@@ -82,7 +83,7 @@ const OngoingGamesPage: NextPage = () => {
             </div>
           ))}
         </div>
-      </Layout>
+      </WidthController>
     </StyledOngoingGamesPage>
   )
 }

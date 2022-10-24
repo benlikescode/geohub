@@ -87,7 +87,7 @@ const StyledHomePage = styled.div`
   .main-content {
     max-width: var(--mainMaxWidth);
     width: 100%;
-    padding: 0 40px;
+    padding: 0 40px 40px 40px;
     display: grid;
     gap: 40px;
     margin: 0 auto;
@@ -106,7 +106,7 @@ const StyledHomePage = styled.div`
         grid-template-columns: 1fr 1fr;
       }
 
-      @media (max-width: 850px) {
+      @media (max-width: 700px) {
         grid-template-columns: 1fr;
         gap: 2.5rem;
       }

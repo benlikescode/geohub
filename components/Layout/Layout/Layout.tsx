@@ -12,17 +12,17 @@ type Props = {
 const Layout: FC<Props> = ({ removeWrapper, children }) => {
   return (
     <StyledLayout>
-      <Navbar />
+      <div className="app-layout">
+        <Navbar />
 
-      <div className="appBody">
-        <div className="sidebarWrapper">
+        <div className="appBody">
           <Sidebar />
+
+          <main>{children}</main>
         </div>
 
-        <main>{removeWrapper ? children : <div className="mainContent">{children}</div>}</main>
+        <MobileNav />
       </div>
-
-      <MobileNav />
     </StyledLayout>
   )
 }

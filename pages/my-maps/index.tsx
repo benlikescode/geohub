@@ -7,6 +7,7 @@ import { mailman } from '@backend/utils/mailman'
 import { NoResults } from '@components/ErrorViews/NoResults'
 import { Head } from '@components/Head'
 import { Layout, PageHeader } from '@components/Layout'
+import { WidthController } from '@components/Layout/WidthController'
 import { MapPreviewCard } from '@components/MapPreviewCard'
 import { Marker } from '@components/Marker'
 import { Auth } from '@components/Modals'
@@ -58,7 +59,7 @@ const MyMapsPage: NextPage = () => {
 
   return (
     <StyledMyMapsPage>
-      <Layout>
+      <WidthController>
         <Head title="My Maps" />
         <div className="title-wrapper">
           <PageHeader removeMargin>My Maps</PageHeader>
@@ -82,7 +83,7 @@ const MyMapsPage: NextPage = () => {
 
         {createMapModalOpen && <CreateMapModal closeModal={() => setCreateMapModalOpen(false)} />}
         {authModalOpen && <Auth closeModal={() => setAuthModalOpen(false)} />}
-      </Layout>
+      </WidthController>
     </StyledMyMapsPage>
   )
 }

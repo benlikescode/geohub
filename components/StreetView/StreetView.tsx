@@ -153,18 +153,29 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData, isTesting }) =>
       }
     }
 
-    sv.getPanorama(
-      {
-        location: location,
-        //radius: gameData.mapId === 'near-you' ? 50000 : 10000,
-        //source: google.maps.StreetViewSource.OUTDOOR,
-      },
-      processSVData
-    )
+    sv.getPanorama(getPanoSettings(location, gameData.mapId.toString()), processSVData)
 
     panoramaRef.current = panorama
 
     setLoading(false)
+  }
+
+  const getPanoSettings = (location: LocationType, mapId: string) => {
+    // Need a larger radius for Urban World
+    if (mapId === '631d1a5be3615f68c5ffc4eb') {
+      console.log('me fire')
+
+      return {
+        location,
+        radius: 1000,
+        source: google.maps.StreetViewSource.OUTDOOR,
+      }
+    }
+
+    return {
+      location,
+      radius: 50,
+    }
   }
 
   return (

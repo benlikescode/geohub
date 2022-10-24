@@ -7,17 +7,23 @@ import { useDispatch, useSelector } from 'react-redux'
 import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
 import { Layout } from '@components/Layout'
+import { WidthController } from '@components/Layout/WidthController'
 import { MapLeaderboard } from '@components/MapLeaderboard'
 import { AvatarPickerModal } from '@components/Modals/AvatarPickerModal'
 import { SkeletonProfile } from '@components/SkeletonProfile'
 import { CameraIcon } from '@heroicons/react/outline'
 import { BadgeCheckIcon, PencilAltIcon } from '@heroicons/react/solid'
-import { logOutUser, selectUser, updateAvatar, updateBio, updateUsername } from '@redux/user'
+import {
+  logOutUser,
+  selectUser,
+  updateAvatar,
+  updateBio,
+  updateUsername
+} from '@redux/user'
 import StyledProfilePage from '@styles/ProfilePage.Styled'
 import { MapLeaderboardType } from '@types'
 
 import type { NextPage } from 'next'
-
 type NewProfileValuesType = {
   name: string
   bio?: string
@@ -123,7 +129,7 @@ const ProfilePage: NextPage = () => {
 
   return (
     <StyledProfilePage isEditing={isEditing}>
-      <Layout>
+      <WidthController>
         <Head title={userDetails ? userDetails.name : 'GeoHub'} />
 
         {loading || !leaderboardData ? (
@@ -235,7 +241,7 @@ const ProfilePage: NextPage = () => {
         {avatarModalOpen && (
           <AvatarPickerModal closeModal={() => setAvatarModalOpen(false)} setNewUserDetails={setNewUserDetails} />
         )}
-      </Layout>
+      </WidthController>
     </StyledProfilePage>
   )
 }

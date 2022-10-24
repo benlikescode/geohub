@@ -5,12 +5,21 @@ type StyledProps = {
 }
 
 const StyledItem = styled.div<StyledProps>`
-  border-radius: 3px;
+  border-radius: 4px;
+  background-color: ${({ isActive }) => (isActive ? '#2f2f36' : 'transparent')};
+  // #271d37 #2f2a39
+  &:hover {
+    background-color: ${({ isActive }) => (isActive ? '#2f2f36' : '#2a2a30')};
 
-  ${({ isActive }) => isActive && `
-    background-color: var(--background4);
-  `}
-  
+    .item {
+      color: var(--color2);
+
+      svg {
+        color: #aeb1b5;
+      }
+    }
+  }
+
   a {
     color: inherit;
     text-decoration: none;
@@ -18,28 +27,33 @@ const StyledItem = styled.div<StyledProps>`
 
   .item {
     background-color: transparent;
+    color: ${({ isActive }) => (isActive ? 'var(--color2)' : '#8b8f93')};
     padding: 6px 8px;
-    color: #8B8F93;
     display: flex;
     align-items: center;
     cursor: pointer;
     width: 100%;
 
-    ${({ isActive }) => isActive && `
-      color: var(--color2);
-    `}
-
-    :hover {
-      color: var(--color2);
+    @media (max-width: 1200px) {
+      justify-content: center;
     }
-  }  
+
+    svg {
+      height: 22px;
+      color: ${({ isActive }) => (isActive ? '#aeb1b5' : '#555')};
+
+      @media (max-width: 1200px) {
+        height: 22px;
+      }
+    }
+  }
 
   .itemText {
     margin-top: 2px;
-    font-size: 15px;
-    margin-left: 10px;
-    
-    @media (max-width: 800px) {
+    font-size: 14px;
+    margin-left: 8px;
+
+    @media (max-width: 1200px) {
       display: none;
     }
   }

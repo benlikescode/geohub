@@ -14,8 +14,9 @@ import { StreetView } from '@components/StreetView'
 import { Spinner } from '@components/System'
 import { selectUser } from '@redux/user'
 import StyledGamePage from '@styles/GamePage.Styled'
+import { PageType } from '@types'
 
-const GamePage: FC = () => {
+const GamePage: PageType = () => {
   const [view, setView] = useState<'Game' | 'Result' | 'FinalResults'>('Game')
   const [gameData, setGameData] = useState<Game | null>()
   const router = useRouter()
@@ -115,5 +116,7 @@ const GamePage: FC = () => {
     </StyledGamePage>
   )
 }
+
+GamePage.noLayout = true
 
 export default GamePage

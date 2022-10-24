@@ -5,14 +5,15 @@ import { NoResults } from '@components/ErrorViews/NoResults'
 import { NotFound } from '@components/ErrorViews/NotFound'
 import { Head } from '@components/Head'
 import { Layout } from '@components/Layout'
+import { WidthController } from '@components/Layout/WidthController'
 
 const Custom404: NextPage = () => {
   return (
-    <Layout>
+    <WidthController>
       <Head title="Page Not Found" />
 
       <NotFound />
-    </Layout>
+    </WidthController>
   )
 }
 

@@ -5,6 +5,7 @@ import React from 'react'
 import { Head } from '@components/Head'
 import { Layout } from '@components/Layout'
 import { Navbar } from '@components/Layout/Navbar'
+import { WidthController } from '@components/Layout/WidthController'
 import StyledPuzzlesPage from '@styles/PuzzlesPage.Styled'
 
 const PuzzlesPage: NextPage = () => {
@@ -368,7 +369,7 @@ const PuzzlesPage: NextPage = () => {
 
   return (
     <StyledPuzzlesPage>
-      <Layout>
+      <WidthController>
         <Head title="Play - Puzzles" />
         <div id="map">
           <GoogleMapReact
@@ -379,7 +380,7 @@ const PuzzlesPage: NextPage = () => {
             onGoogleApiLoaded={handleApiLoaded}
           ></GoogleMapReact>
         </div>
-      </Layout>
+      </WidthController>
     </StyledPuzzlesPage>
   )
 }

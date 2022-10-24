@@ -14,15 +14,13 @@ type Props = {
 
 const Item: FC<Props> = ({ text, icon, route }) => {
   const router = useRouter()
-  const isActive = `/${router.pathname.split('/')[1]}` === route
+  const isActive = router.asPath === route
 
   return (
     <StyledItem isActive={isActive}>
       <Link href={route}>
         <a className="item">
-          <Icon size={24} fill={isActive ? '#AEB1B5' : ''}>
-            {icon}
-          </Icon>
+          {icon}
           <span className="itemText">{text}</span>
         </a>
       </Link>

@@ -10,7 +10,7 @@ import { LeaderboardCard } from '@components/Results'
 import { GameResultsSkeleton } from '@components/Skeletons/GameResultsSkeleton'
 import { FlexGroup } from '@components/System'
 import StyledResultPage from '@styles/ResultPage.Styled'
-import { GameType } from '@types'
+import { GameType, PageType } from '@types'
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   try {
@@ -77,7 +77,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   }
 }
 
-const ResultsPage: NextPage = ({ game }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const ResultsPage: PageType = ({ game }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   if (!game) {
     return <GameResultsSkeleton />
   }
@@ -106,5 +106,7 @@ const ResultsPage: NextPage = ({ game }: InferGetServerSidePropsType<typeof getS
     </StyledResultPage>
   )
 }
+
+ResultsPage.noLayout = true
 
 export default ResultsPage

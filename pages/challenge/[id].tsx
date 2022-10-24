@@ -15,9 +15,9 @@ import { StreetView } from '@components/StreetView'
 import { updateStartTime } from '@redux/game'
 import { selectUser } from '@redux/user'
 import StyledGamePage from '@styles/GamePage.Styled'
-import { ChallengeType, GameSettingsType, LocationType } from '@types'
+import { ChallengeType, PageType } from '@types'
 
-const ChallengePage: FC = () => {
+const ChallengePage: PageType = () => {
   const [view, setView] = useState<'Start' | 'Game' | 'Result' | 'FinalResults'>('Game')
   const [challengeData, setChallengeData] = useState<ChallengeType | null>()
   const [gameData, setGameData] = useState<Game | null>()
@@ -145,5 +145,7 @@ const ChallengePage: FC = () => {
     </StyledGamePage>
   )
 }
+
+ChallengePage.noLayout = true
 
 export default ChallengePage

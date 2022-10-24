@@ -4,6 +4,7 @@ import React, { FC, useEffect, useState } from 'react'
 import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
 import { Layout } from '@components/Layout'
+import { WidthController } from '@components/Layout/WidthController'
 import { MapLeaderboard } from '@components/MapLeaderboard'
 import { MapPreviewCard } from '@components/MapPreviewCard'
 import { AerialSettings } from '@components/Modals/AerialSettings'
@@ -47,7 +48,7 @@ const PlayAerialPage: FC = () => {
 
   return (
     <StyledPlayAerial>
-      <Layout>
+      <WidthController>
         <Head title="Play - Aerial" />
 
         <div className="mapDetailsSection">
@@ -86,7 +87,7 @@ const PlayAerialPage: FC = () => {
             <SkeletonCards />
           </div>
         )}
-      </Layout>
+      </WidthController>
 
       {settingsOpen && <AerialSettings closeModal={() => setSettingsOpen(false)} />}
     </StyledPlayAerial>

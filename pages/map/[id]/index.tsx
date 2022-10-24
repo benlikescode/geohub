@@ -8,6 +8,7 @@ import { mailman } from '@backend/utils/mailman'
 import { DailyChallengeWinners } from '@components/DailyChallengeWinners'
 import { Head } from '@components/Head'
 import { Layout, LoadingPage } from '@components/Layout'
+import { WidthController } from '@components/Layout/WidthController'
 import { MapLeaderboard } from '@components/MapLeaderboard'
 import { MapPreviewCard } from '@components/MapPreviewCard'
 import { MapStats } from '@components/MapStats'
@@ -127,7 +128,7 @@ const MapPage: FC = () => {
 
   return (
     <StyledMapPage>
-      <Layout>
+      <WidthController customWidth="1100px" mobilePadding="0px">
         <Head title={mapDetails?.name ? `Play - ${mapDetails.name}` : 'GeoHub'} />
 
         {mapDetails ? (
@@ -192,7 +193,7 @@ const MapPage: FC = () => {
             <SkeletonCards numCards={6} numColumns={3} />
           </div>
         )}
-      </Layout>
+      </WidthController>
 
       {settingsModalOpen && mapDetails && <GameSettings closeModal={closeModal} mapDetails={mapDetails} />}
     </StyledMapPage>

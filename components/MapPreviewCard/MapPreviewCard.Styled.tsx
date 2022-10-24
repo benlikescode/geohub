@@ -83,10 +83,14 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
       -webkit-box-orient: vertical;
       word-break: break-word;
 
-      @media (max-width: 1550px) {
+      @media (max-width: 1050px) {
         display: none;
       }
 
+      @media (max-width: 700px) {
+        display: block;
+      }
+      /*
       @media (max-width: 1350px) {
         display: block;
         padding: 0 3.5rem;
@@ -100,10 +104,11 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
       @media (max-width: 1000px) {
         display: none;
       }
-
+      
       @media (max-width: 850px) {
         display: block;
       }
+      */
     }
 
     .playWrapper {

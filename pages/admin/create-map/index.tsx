@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
 import { Layout, PageHeader } from '@components/Layout'
+import { WidthController } from '@components/Layout/WidthController'
 import { Button, Input } from '@components/System'
 import StyledAdminCreateMapPage from '@styles/AdminCreateMapPage.Styled'
 import { showErrorToast, showSuccessToast } from '@utils/helperFunctions'
@@ -39,7 +40,7 @@ const AdminCreateMapPage: NextPage = () => {
   }
 
   return (
-    <Layout>
+    <WidthController>
       <Head title="Admin - Create Map" />
       <PageHeader>Create A Map</PageHeader>
 
@@ -54,7 +55,7 @@ const AdminCreateMapPage: NextPage = () => {
           Create
         </Button>
       </StyledAdminCreateMapPage>
-    </Layout>
+    </WidthController>
   )
 }
 

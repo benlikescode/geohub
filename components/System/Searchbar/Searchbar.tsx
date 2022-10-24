@@ -112,12 +112,10 @@ const Searchbar: FC<Props> = ({ placeholder, autoFocus, isSmall, onClickOutside 
   }
 
   useEffect(() => {
-    if (!user.id || !isFocused) return
+    if (!user.id) return
 
-    if (recentSearches.length === 0) {
-      getRecentSearches()
-    }
-  }, [user.id, isFocused])
+    getRecentSearches()
+  }, [user.id])
 
   // Gets search results for specified query
   useEffect(() => {

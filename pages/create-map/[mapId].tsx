@@ -11,8 +11,13 @@ import { Avatar, Button } from '@components/System'
 import { Skeleton } from '@components/System/Skeleton'
 import { ToggleSwitch } from '@components/System/ToggleSwitch'
 import StyledCreateMapPage from '@styles/CreateMapPage.Styled'
-import { LocationType, MapType } from '@types'
-import { createMarker, getMapTheme, showErrorToast, showSuccessToast } from '@utils/helperFunctions'
+import { LocationType, MapType, PageType } from '@types'
+import {
+  createMarker,
+  getMapTheme,
+  showErrorToast,
+  showSuccessToast
+} from '@utils/helperFunctions'
 
 const SELECTED_MARKER_ICON =
   'https://www.geoguessr.com/_next/static/images/selected-pin-0bac3f371ed0d5625bcd873ebce4e59e.png'
@@ -21,7 +26,7 @@ const REGULAR_MARKER_ICON =
 const SELECTED_MARKER_SIZE = 40
 const REGULAR_MARKER_SIZE = 30
 
-const CreateMapPage: FC = () => {
+const CreateMapPage: PageType = () => {
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
   const [locations, _setLocations] = useState<LocationType[]>([])
   const [haveLocationsChanged, setHaveLocationsChanged] = useState(false)
@@ -471,5 +476,7 @@ const CreateMapPage: FC = () => {
     </StyledCreateMapPage>
   )
 }
+
+CreateMapPage.noLayout = true
 
 export default CreateMapPage

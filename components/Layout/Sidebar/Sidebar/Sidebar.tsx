@@ -1,90 +1,126 @@
 import Link from 'next/link'
-import React, { FC } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
+import { mailman } from '@backend/utils/mailman'
+import { Avatar } from '@components/System'
+import { Skeleton } from '@components/System/Skeleton'
 import {
-  ClockIcon,
-  DesktopComputerIcon,
+  GlobeIcon,
   HeartIcon,
   HomeIcon,
+  LocationMarkerIcon,
   MapIcon,
-  UsersIcon
+  PauseIcon
 } from '@heroicons/react/outline'
 import { selectUser } from '@redux/user'
+import { MapType } from '@types'
 
 import { StyledSidebar } from './'
 import { Item } from './Item'
 
 const Sidebar: FC = () => {
+  const [maps, setMaps] = useState<MapType[]>([])
+  const [loading, setLoading] = useState(false)
   const user = useSelector(selectUser)
+
+  useEffect(() => {
+    getRecentMaps()
+  }, [user.id])
+
+  const getRecentMaps = async () => {
+    setLoading(true)
+
+    if (!user.id) {
+      const { res } = await mailman(`maps/browse/popular?count=5`)
+
+      if (!res.error) {
+        setMaps(res)
+      }
+
+      return setLoading(false)
+    }
+
+    const { res } = await mailman(`maps/recent?userId=${user.id}`)
+
+    if (!res.error) {
+      setMaps(res)
+    }
+
+    setLoading(false)
+  }
 
   return (
     <StyledSidebar>
-      <div className="sidebarItemGrid">
-        <Item text="Home" icon={<HomeIcon />} route="/" />
+      <div className="sidebar">
+        <div className="sidebarItemGrid">
+          <Item text="Home" icon={<HomeIcon />} route="/" />
 
-        <Item text="My Maps" icon={<MapIcon />} route="/my-maps" />
+          <Item text="My Maps" icon={<MapIcon />} route="/my-maps" />
 
-        <Item text="History" icon={<ClockIcon />} route="/history" />
+          <Item text="Liked Maps" icon={<HeartIcon />} route="/liked" />
 
-        <Item text="Liked Maps" icon={<HeartIcon />} route="/liked" />
+          <Item text="Ongoing Games" icon={<PauseIcon />} route="/ongoing" />
 
-        <Item text="Ongoing Games" icon={<DesktopComputerIcon />} route="/ongoing" />
-      </div>
+          <Item text="Daily Challenge" icon={<LocationMarkerIcon />} route="/map/63349eb5090804522c2180b7" />
 
-      <div className="quickLinksSection">
-        <div className="title">
-          <span>Quick Play</span>
+          {/*<Item text="Streaks" icon={<LightningBoltIcon />} route="/streaks" />*/}
+
+          <Item text="Aerial" icon={<GlobeIcon />} route="/aerial" />
         </div>
 
-        <div className="quickLinkItemWrapper">
-          <Link href="/aerial">
-            <a className="linkItem">
-              <span>Aerial</span>
-            </a>
-          </Link>
-
-          <Link href="/puzzles">
-            <a className="linkItem">
-              <span>Puzzles</span>
-            </a>
-          </Link>
-
-          <Link href="/map/63349eb5090804522c2180b7">
-            <a className="linkItem">
-              <span>The Daily Challenge</span>
-            </a>
-          </Link>
-        </div>
-      </div>
-
-      {user.isAdmin && (
         <div className="quickLinksSection">
           <div className="title">
-            <span>Admin</span>
+            <span>Recently Played</span>
           </div>
 
-          <div className="quickLinkItemWrapper">
-            <Link href="/admin/analytics">
-              <a className="linkItem">
-                <span>Analytics</span>
-              </a>
-            </Link>
-
-            <Link href="/admin/test">
-              <a className="linkItem">
-                <span>Add Locations</span>
-              </a>
-            </Link>
-
-            <Link href="/admin/create-map">
-              <a className="linkItem">
-                <span>Create Map</span>
-              </a>
-            </Link>
+          <div className="recentMapsWrapper">
+            {loading
+              ? Array.from({ length: 5 }).map((_, idx) => (
+                  <div key={idx} className="recent-map-skeleton">
+                    <Skeleton variant="circular" height={20} width={20} />
+                    <Skeleton height={16} width={160} noBorder />
+                  </div>
+                ))
+              : maps?.map((map, idx) => (
+                  <Link key={idx} href={`/map/${map._id}`}>
+                    <a className="recentMap">
+                      <Avatar type="map" src={map.previewImg} size={24} />
+                      <span className="recentMapName">{map.name}</span>
+                    </a>
+                  </Link>
+                ))}
           </div>
         </div>
-      )}
+
+        {user.isAdmin && (
+          <div className="quickLinksSection">
+            <div className="title">
+              <span>Admin</span>
+            </div>
+
+            <div className="quickLinkItemWrapper">
+              <Link href="/admin/analytics">
+                <a className="linkItem">
+                  <span>Analytics</span>
+                </a>
+              </Link>
+
+              <Link href="/admin/test">
+                <a className="linkItem">
+                  <span>Add Locations</span>
+                </a>
+              </Link>
+
+              <Link href="/admin/create-map">
+                <a className="linkItem">
+                  <span>Create Map</span>
+                </a>
+              </Link>
+            </div>
+          </div>
+        )}
+      </div>
     </StyledSidebar>
   )
 }

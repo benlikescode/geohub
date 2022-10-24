@@ -191,7 +191,12 @@ body {
   font-weight: 500;
   background-color: #0e0e10;
   color: var(--color1);
-  /*overflow-x: hidden;*/
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  width: 100%;
 }
 
 a {

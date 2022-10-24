@@ -14,9 +14,9 @@ import { ResultMap } from '@components/Mapbox/ResultMap'
 import { ResultsCard } from '@components/ResultsCard'
 import { selectUser } from '@redux/user'
 import StyledAerialPage from '@styles/AerialPage.Styled'
-import { LocationType } from '@types'
+import { LocationType, PageType } from '@types'
 
-const AerialPage: FC = () => {
+const AerialPage: PageType = () => {
   mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_API_KEY as string
   const mapContainer = useRef<any>(null)
   const [gameData, setGameData] = useState<Game | null>()
@@ -141,5 +141,7 @@ const AerialPage: FC = () => {
     </StyledAerialPage>
   )
 }
+
+AerialPage.noLayout = true
 
 export default AerialPage

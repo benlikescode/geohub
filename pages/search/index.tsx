@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
 import { Layout, PageHeader } from '@components/Layout'
+import { WidthController } from '@components/Layout/WidthController'
 import { Avatar } from '@components/System'
 import { Skeleton } from '@components/System/Skeleton'
 import StyledSearchPage from '@styles/SearchPage.Styled'
@@ -30,7 +31,7 @@ const SearchResultsPage: NextPage = () => {
 
   return (
     <StyledSearchPage>
-      <Layout>
+      <WidthController>
         <Head title={`Search Results - ${q}`} />
         <PageHeader>Search Results</PageHeader>
 
@@ -85,7 +86,7 @@ const SearchResultsPage: NextPage = () => {
             }
           })}
         </div>
-      </Layout>
+      </WidthController>
     </StyledSearchPage>
   )
 }
