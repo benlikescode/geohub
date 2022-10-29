@@ -2,7 +2,6 @@ import { FC, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
 import { Spinner } from '@components/System'
-import { Select } from '@components/System/Select'
 import { MapLeaderboardType } from '@types'
 
 import { StyledMapLeaderboard } from './'
@@ -32,6 +31,7 @@ const MapLeaderboard: FC<Props> = ({ removeHeader, leaderboard, infiniteScrollCa
           dataLength={leaderboard.length}
           next={() => infiniteScrollCallback()}
           hasMore={hasMore || false}
+          scrollableTarget="main"
           loader={
             <div
               style={{

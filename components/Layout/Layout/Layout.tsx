@@ -18,7 +18,7 @@ const Layout: FC<Props> = ({ removeWrapper, children }) => {
         <div className="appBody">
           <Sidebar />
 
-          <main>{children}</main>
+          <main id="main">{children}</main>
         </div>
 
         <MobileNav />
