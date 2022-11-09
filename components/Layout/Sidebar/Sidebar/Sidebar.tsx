@@ -6,12 +6,14 @@ import { mailman } from '@backend/utils/mailman'
 import { Avatar } from '@components/System'
 import { Skeleton } from '@components/System/Skeleton'
 import {
+  DesktopComputerIcon,
   GlobeIcon,
   HeartIcon,
   HomeIcon,
   LocationMarkerIcon,
   MapIcon,
-  PauseIcon
+  PauseIcon,
+  PlayIcon
 } from '@heroicons/react/outline'
 import { selectUser } from '@redux/user'
 import { MapType } from '@types'
@@ -60,7 +62,7 @@ const Sidebar: FC = () => {
 
           <Item text="Liked Maps" icon={<HeartIcon />} route="/liked" />
 
-          <Item text="Ongoing Games" icon={<PauseIcon />} route="/ongoing" />
+          <Item text="Ongoing Games" icon={<PlayIcon />} route="/ongoing" />
 
           <Item text="Daily Challenge" icon={<LocationMarkerIcon />} route="/map/63349eb5090804522c2180b7" />
 
@@ -75,21 +77,14 @@ const Sidebar: FC = () => {
           </div>
 
           <div className="recentMapsWrapper">
-            {loading
-              ? Array.from({ length: 5 }).map((_, idx) => (
-                  <div key={idx} className="recent-map-skeleton">
-                    <Skeleton variant="circular" height={20} width={20} />
-                    <Skeleton height={16} width={160} noBorder />
-                  </div>
-                ))
-              : maps?.map((map, idx) => (
-                  <Link key={idx} href={`/map/${map._id}`}>
-                    <a className="recentMap">
-                      <Avatar type="map" src={map.previewImg} size={24} />
-                      <span className="recentMapName">{map.name}</span>
-                    </a>
-                  </Link>
-                ))}
+            {maps?.map((map, idx) => (
+              <Link key={idx} href={`/map/${map._id}`}>
+                <a className="recentMap">
+                  <Avatar type="map" src={map.previewImg} size={24} />
+                  <span className="recentMapName">{map.name}</span>
+                </a>
+              </Link>
+            ))}
           </div>
         </div>
 
