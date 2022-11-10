@@ -36,7 +36,7 @@ const Sidebar: FC = () => {
     if (!user.id) {
       const { res } = await mailman(`maps/browse/popular?count=5`)
 
-      if (!res.error) {
+      if (!res?.error) {
         setMaps(res)
       }
 
