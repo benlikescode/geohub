@@ -22,6 +22,11 @@ const StyledResultPage = styled.div`
     font-size: 22px;
     font-weight: 400;
   }
+
+  main {
+    overflow: hidden auto;
+    height: calc(100vh - var(--navbarHeight));
+  }
 `
 
 export default StyledResultPage

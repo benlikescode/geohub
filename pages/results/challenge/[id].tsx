@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'
 
 import { Game } from '@backend/models'
 import { mailman } from '@backend/utils/mailman'
+import { Head } from '@components/Head'
 import { Layout, LoadingPage } from '@components/Layout'
 import { Navbar } from '@components/Layout/Navbar'
 import { WidthController } from '@components/Layout/WidthController'
@@ -73,6 +74,7 @@ const ChallengeResultsPage: PageType = () => {
 
   return (
     <StyledResultPage>
+      <Head title="Challenge Results" />
       <section>
         <Navbar />
 
