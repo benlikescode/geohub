@@ -99,7 +99,7 @@ const GameSettings: FC<Props> = ({ closeModal, mapDetails }) => {
     }
 
     const gameSettings: GameSettingsType = {
-      timeLimit: sliderVal,
+      timeLimit: sliderVal * 10,
       canMove,
       canPan,
       canZoom,
