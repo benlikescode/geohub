@@ -10,12 +10,15 @@ import { Layout, LoadingPage, PageHeader } from '@components/Layout'
 import { WidthController } from '@components/Layout/WidthController'
 import { MapPreviewCard } from '@components/MapPreviewCard'
 import { SkeletonCards } from '@components/SkeletonCards'
-import { Avatar, BlockQuote, Button } from '@components/System/'
+import { Avatar, BlockQuote, Button, Pill } from '@components/System/'
 import { UnfinishedCard } from '@components/UnfinishedCard'
 import { selectUser } from '@redux/user'
 import StyledOngoingGamesPage from '@styles/OngoingGamesPage.Styled'
 import { GameType, MapType } from '@types'
-import { getFormattedDate } from '@utils/helperFunctions'
+import { getFormattedDate, getFormattedOngoingScore } from '@utils/helperFunctions'
+import { TrashIcon } from '@heroicons/react/outline'
+import Link from 'next/link'
+import map from 'react-map-gl/dist/esm/components/map'
 
 type OngoingGame = GameType & {
   mapDetails: MapType[]
@@ -49,7 +52,7 @@ const OngoingGamesPage: NextPage = () => {
 
   return (
     <StyledOngoingGamesPage>
-      <WidthController>
+      <WidthController customWidth="960px">
         <Head title="Ongoing Games" />
         <PageHeader>Ongoing Games</PageHeader>
 
@@ -68,17 +71,25 @@ const OngoingGamesPage: NextPage = () => {
                   <Avatar type="map" src={game.mapDetails[0].previewImg} size={40} />
                   <span className="mapName">{game.mapDetails[0].name}</span>
                 </div>
-
-                <span className="game-detail">{`Round ${game.round}`}</span>
-                <span className="game-detail">{`${game.totalPoints} pts.`}</span>
-                <span className="game-detail">{getFormattedDate(game.createdAt)}</span>
               </div>
 
               <div className="ongoing-buttons">
-                <button className="delete-button">Delete</button>
-                <Button type="solidPurple" isSmall>
-                  Resume
-                </Button>
+                <div className="game-info-pills">
+                  <Pill label={`Round ${game.round}`} className="game-info-pill" />
+                  {/*
+                  <Pill
+                    label={getFormattedOngoingScore(idx === 1 ? 20000 : game.totalPoints)}
+                    className="game-info-pill"
+          />*/}
+                  <Pill label={getFormattedDate(game.createdAt)} className="game-info-pill" />
+                </div>
+
+                <button className="mapDeleteBtn">
+                  <TrashIcon />
+                </button>
+                <Link href={`/game/${game._id}`}>
+                  <Button type="solidPurple">Resume</Button>
+                </Link>
               </div>
             </div>
           ))}

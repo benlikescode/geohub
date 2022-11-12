@@ -14,6 +14,7 @@ const StyledPill = styled.div<StyledProps>`
   align-items: center;
   justify-content: center;
   width: fit-content;
+  font-family: 'SF Mono', SFMono-Regular, ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace;
   border-radius: 20px;
   font-size: 14px;
   font-weight: 400;

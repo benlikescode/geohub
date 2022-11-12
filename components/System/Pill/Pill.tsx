@@ -7,17 +7,18 @@ type Props = {
   background?: string
   color?: string
   transparent?: boolean
+  className?: string
 }
 
-const Pill: FC<Props> = ({ label, background, color, transparent }) => {
+const Pill: FC<Props> = ({ label, background, color, transparent, className }) => {
   // if we dont specify we want transparent and we dont pass a background color
   // then we want a random pill color
   if (!background && !transparent) {
-    background = "#9D174D"
+    background = '#9D174D'
   }
 
   return (
-    <StyledPill background={background} color={color} transparent={transparent}>
+    <StyledPill className={className} background={background} color={color} transparent={transparent}>
       <span className="pillLabel">{label}</span>
     </StyledPill>
   )

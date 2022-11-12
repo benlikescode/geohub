@@ -175,6 +175,18 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
       align-items: flex-end;
       justify-content: center;
 
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(0deg, #191a1b 0%, transparent 90%);
+      }
+
       img {
         position: absolute;
         top: 0;
@@ -219,7 +231,7 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
       padding: 20px;
     }
 
-    .mapEditBtn {
+    .mapEditBtn, .mapDeleteBtn {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -233,11 +245,15 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
 
       svg {
         height: 20px;
-        fill: #fff;
+        color: #fff;
       }
 
       &:hover {
         background-color: rgb(255, 255, 255, 0.15);
+
+        &.mapDeleteBtn {
+          background-color: #991b1b;
+        }
       }
     }
 

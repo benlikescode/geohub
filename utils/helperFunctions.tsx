@@ -662,8 +662,26 @@ export const getFormattedDate = (utcDate?: Date) => {
   }
 
   const localDate = new Date(utcDate)
+  //const month = localDate.getMonth()
 
-  return localDate.toLocaleDateString()
+  const formattedDate =
+    localDate.getDate().toString().padStart(2, '0') +
+    '/' +
+    (localDate.getMonth() + 1).toString().padStart(2, '0') +
+    '/' +
+    localDate.getFullYear()
+
+  console.log(formattedDate)
+
+  return formattedDate
+}
+
+export const getFormattedOngoingScore = (rawScore: number) => {
+  if (rawScore === 0) {
+    return '0.0k pts'
+  }
+
+  return `${(rawScore / 1000).toFixed(1)}k pts`
 }
 
 // Formats a large number (mainly used for round points and number of map locations)

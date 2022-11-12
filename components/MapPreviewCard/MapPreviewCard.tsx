@@ -1,11 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 
 import { PlayIcon } from '@heroicons/react/solid'
 import { MapType } from '@types'
 
 import { StyledMapPreviewCard } from './'
+import { TrashIcon } from '@heroicons/react/outline'
+import { Button } from '@components/System'
+import { Modal } from '@components/System/Modal'
 
 type Props = {
   map: MapType
@@ -13,6 +16,7 @@ type Props = {
 }
 
 const MapPreviewCard: FC<Props> = ({ map, type = 'large' }) => {
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const isOfficialMap = map.creator === 'GeoHub'
 
   return (
@@ -55,8 +59,17 @@ const MapPreviewCard: FC<Props> = ({ map, type = 'large' }) => {
                 </svg>
               </a>
             </Link>
+            <button className="mapDeleteBtn" onClick={() => setDeleteModalOpen(true)}>
+              <TrashIcon />
+            </button>
           </div>
         </div>
+      )}
+
+      {deleteModalOpen && (
+        <Modal isOpen={deleteModalOpen} onClose={() => setDeleteModalOpen(false)}>
+          <span>YOOO</span>
+        </Modal>
       )}
     </StyledMapPreviewCard>
   )
