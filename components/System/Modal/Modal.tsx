@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 /*
 import { FC, ReactNode } from 'react'
 import { StyledModal } from "@components/Modals/Modal"
@@ -26,10 +27,18 @@ const Modal: FC<Props> = ({ isOpen, onClose, children }) => {
 export default Modal
 */
 
-import React, { useState, useEffect, ReactNode, createRef, forwardRef, useImperativeHandle } from 'react'
+import { clearAllBodyScrollLocks, disableBodyScroll } from 'body-scroll-lock'
+import React, {
+  createRef,
+  forwardRef,
+  ReactNode,
+  useEffect,
+  useImperativeHandle,
+  useState
+} from 'react'
 import { createPortal } from 'react-dom'
-import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
-import { StyledModal } from '.'
+
+import { StyledModal } from './'
 
 type Props = {
   children: ReactNode
