@@ -1,5 +1,7 @@
 import type { NextPage } from 'next'
+import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
+import map from 'react-map-gl/dist/esm/components/map'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
@@ -12,13 +14,14 @@ import { MapPreviewCard } from '@components/MapPreviewCard'
 import { SkeletonCards } from '@components/SkeletonCards'
 import { Avatar, BlockQuote, Button, Pill } from '@components/System/'
 import { UnfinishedCard } from '@components/UnfinishedCard'
+import { TrashIcon } from '@heroicons/react/outline'
 import { selectUser } from '@redux/user'
 import StyledOngoingGamesPage from '@styles/OngoingGamesPage.Styled'
 import { GameType, MapType } from '@types'
-import { getFormattedDate, getFormattedOngoingScore } from '@utils/helperFunctions'
-import { TrashIcon } from '@heroicons/react/outline'
-import Link from 'next/link'
-import map from 'react-map-gl/dist/esm/components/map'
+import {
+  getFormattedDate,
+  getFormattedOngoingScore
+} from '@utils/helperFunctions'
 
 type OngoingGame = GameType & {
   mapDetails: MapType[]
@@ -87,9 +90,15 @@ const OngoingGamesPage: NextPage = () => {
                 <button className="mapDeleteBtn">
                   <TrashIcon />
                 </button>
-                <Link href={`/game/${game._id}`}>
-                  <Button type="solidPurple">Resume</Button>
-                </Link>
+                <a className="mapEditBtn" href={`/game/${game._id}`}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                    <path
+                      fillRule="evenodd"
+                      d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </a>
               </div>
             </div>
           ))}
