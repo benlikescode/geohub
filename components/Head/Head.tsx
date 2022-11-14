@@ -32,6 +32,7 @@ const Head: FC<Props> = ({ title, description, ogUrl, ogImage }) => {
       <meta property="og:url" content={ogUrl || defaultOGURL} />
       <meta property="og:title" content={title || defaultTitle} />
       <meta property="og:description" content={description || defaultDescription} />
+      <meta property="og:site_name" content={title || defaultTitle} />
       <meta property="og:image" content={ogImage || defaultOGImage} />
       <meta property="og:image:type" content="image/png" />
       <meta property="og:image:width" content="1200" />
