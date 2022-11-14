@@ -4,7 +4,6 @@ import { NextApiRequest, NextApiResponse } from 'next'
 /* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { getLocations } from '@backend/utils/helpers'
-import { getRandomLocations } from '@utils/functions/generateLocations'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {

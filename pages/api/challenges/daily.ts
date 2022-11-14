@@ -3,13 +3,8 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 /* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '@backend/utils/dbConnect'
-import { throwError } from '@backend/utils/helpers'
-import { LocationType } from '@types'
-import {
-  getRandomLocationsInRadius,
-  randomElement
-} from '@utils/functions/generateLocations'
-import populatedAreas from '@utils/locations/populatedAreas.json'
+import { getLocations, throwError } from '@backend/utils/helpers'
+import { URBAN_WORLD_ID } from '@utils/constants/random'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -40,16 +35,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         })
       }
 
-      const locations: LocationType[] = []
-
-      for (let i = 0; i < 5; i++) {
-        locations.push(randomElement(populatedAreas))
-      }
-
-      const dailyChallengeLocations = getRandomLocationsInRadius(locations)
+      const locations = await getLocations(URBAN_WORLD_ID, 5)
 
       const newDailyChallenge = {
-        locations: dailyChallengeLocations,
+        locations,
         createdAt: new Date(),
         isDailyChallenge: true,
         gameSettings: {

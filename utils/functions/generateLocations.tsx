@@ -1,11 +1,4 @@
 import { LocationType } from '@types'
-import canadaHandPicked from '@utils/locations/canada.json'
-import diverseWorld from '@utils/locations/diverseWorld.json'
-import europeHandPicked from '@utils/locations/europe.json'
-import famousHandPicked from '@utils/locations/famousLocations.json'
-import populatedAreas from '@utils/locations/populatedAreas.json'
-import usaHandPicked from '@utils/locations/unitedStates.json'
-import worldHandPicked from '@utils/locations/world.json'
 
 export const randomRange = (min = 0, max = 100, precision = 10) => {
   return parseFloat((Math.random() * (max - min) + min).toFixed(precision))
@@ -38,98 +31,6 @@ export const getRandomLocationsFromArray = (array: any[], numLocations = 5) => {
   }
 
   return locations
-}
-
-// CURRENT METHOD THAT GETS CALLED FROM API (GENERATES 1 ROUND AT A TIME)
-export const getRandomLocation = (
-  locationType: 'random' | 'handpicked',
-  mapId: string,
-  userLocation: { lat: number; lng: number } | null = null
-) => {
-  switch (mapId) {
-    case 'world':
-      if (locationType === 'random') {
-        // TODO
-      } else {
-        return randomElement(diverseWorld)
-      }
-    case 'famous-landmarks':
-      if (locationType === 'random') {
-        // TODO
-      } else {
-        return randomElement(famousHandPicked)
-      }
-    case 'canada':
-      if (locationType === 'random') {
-        // TODO
-      } else {
-        return randomElement(canadaHandPicked)
-      }
-    case 'usa':
-      if (locationType === 'random') {
-        // TODO
-      } else {
-        return randomElement(usaHandPicked)
-      }
-    case 'near-you':
-      if (userLocation != null) {
-        return getRandomLocationsInRadius([userLocation], 0.3)
-      }
-    case 'europe':
-      if (locationType === 'random') {
-        // TODO
-      } else {
-        return randomElement(europeHandPicked)
-      }
-    case 'urban-world':
-      const location = randomElement(populatedAreas)
-      return getRandomLocationsInRadius([location])
-    default:
-      console.log('Invalid Map Id')
-      return null
-  }
-}
-
-// CURRENT METHOD USED FOR CHALLENGES (GETS ALL 5 LOCATIONS AT ONCE)
-export const getRandomLocations = (locationType: 'random' | 'handpicked', mapId: string) => {
-  switch (mapId) {
-    case 'world':
-      if (locationType === 'random') {
-        // TODO
-      } else {
-        return getRandomLocationsFromArray(worldHandPicked)
-      }
-    case 'famous-landmarks':
-      if (locationType === 'random') {
-        // TODO
-      } else {
-        return getRandomLocationsFromArray(famousHandPicked)
-      }
-    case 'canada':
-      if (locationType === 'random') {
-        // TODO
-      } else {
-        return getRandomLocationsFromArray(canadaHandPicked)
-      }
-    case 'usa':
-      if (locationType === 'random') {
-        // TODO
-      } else {
-        return getRandomLocationsFromArray(usaHandPicked)
-      }
-    case 'europe':
-      if (locationType === 'random') {
-        // TODO
-      } else {
-        return getRandomLocationsFromArray(europeHandPicked)
-      }
-    case 'urban-world':
-      const locations = getRandomLocationsFromArray(populatedAreas)
-      return getRandomLocationsInRadius(locations)
-    default:
-      console.log('Invalid Map Id')
-      return null
-  }
 }
 
 /* 

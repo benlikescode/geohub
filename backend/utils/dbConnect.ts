@@ -15,6 +15,8 @@ export const collections: {
   friends?: Collection
   aerialGames?: Collection
   locations?: Collection
+  userLocations?: Collection
+  aerialLocations?: Collection
   recentSearches?: Collection<RecentSearch>
 } = {}
 
@@ -46,7 +48,9 @@ export const dbConnect = async () => {
     collections.friends = db.collection('friends')
     collections.aerialGames = db.collection('aerialGames')
     collections.locations = db.collection('locations')
+    collections.userLocations = db.collection('userLocations')
     collections.recentSearches = db.collection('recentSearches')
+    collections.aerialLocations = db.collection('aerialLocations')
 
     return cachedDb
   } catch (err) {

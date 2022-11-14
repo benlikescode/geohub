@@ -3,37 +3,17 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 /* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '@backend/utils/dbConnect'
-import { randomElement } from '@utils/functions/generateLocations'
-import cities from '@utils/locations/cities.json'
+import { getAerialLocations } from '@backend/utils/helpers'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  // Generates location from cities array based on difficulty and a country code filter
-  const generateLocation = (difficulty: 'Normal' | 'Easy' | 'Challenging', countryCode: string, locations: any[]) => {
-    if (countryCode !== '') {
-      const locationsFromCountry = locations.filter((location) => location.iso2 === countryCode)
-      return randomElement(locationsFromCountry)
-    }
-
-    if (difficulty === 'Normal') {
-      return locations[Math.floor(Math.random() * 10000)]
-    }
-
-    if (difficulty === 'Easy') {
-      return locations[Math.floor(Math.random() * 500)]
-    }
-
-    return randomElement(locations)
-  }
-
   try {
     await dbConnect()
 
     if (req.method === 'POST') {
       const { userId, difficulty, countryCode } = req.body
       const uid = new ObjectId(userId)
-      const locations = cities as Array<Object>
 
-      const roundLocation = generateLocation(difficulty, countryCode, locations)
+      const roundLocation = getAerialLocations(difficulty, countryCode)
 
       if (roundLocation === null) {
         return res.status(400).send('Round could not be generated')

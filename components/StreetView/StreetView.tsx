@@ -22,10 +22,9 @@ type Props = {
   gameData: Game
   setView: (view: 'Game' | 'Result' | 'FinalResults') => void
   setGameData: any
-  isTesting?: boolean
 }
 
-const StreetView: FC<Props> = ({ gameData, setView, setGameData, isTesting }) => {
+const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
   const [loading, setLoading] = useState(true)
   const [currGuess, setCurrGuess] = useState<LocationType | null>(null)
   const [adjustedLocation, setAdjustedLocation] = useState<LocationType | null>(null)
@@ -74,32 +73,9 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData, isTesting }) =>
     }
   }
 
-  const handleSubmitGuessForTesting = async () => {
-    if (currGuess) {
-      /*
-      const body = {
-        guess: currGuess,
-        guessTime: (new Date().getTime() - game.startTime) / 1000,
-        localRound: gameData.round,
-        userLocation: user.location,
-        timedOut: false,
-        timedOutWithGuess: false,
-      }
-
-      const { status, res } = await mailman('games/testing', 'PUT', JSON.stringify(body))
-*/
-
-      const { points, distance } = getResultData(currGuess as GuessType, location, gameData.mapId)
-
-      setView('Result')
-
-      //alert(`You were ${distance} far away. You have earned ${points} points!`)
-    }
-  }
-
   const handleKeyDown = async (e: KeyboardEvent) => {
     if (e.key === KEY_CODES.SPACE || e.key === KEY_CODES.SPACE_IE11 || e.key === KEY_CODES.ENTER) {
-      isTesting ? handleSubmitGuessForTesting() : await handleSubmitGuess()
+      await handleSubmitGuess()
     }
   }
 
@@ -114,20 +90,18 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData, isTesting }) =>
   const loadLocation = () => {
     var sv = new window.google.maps.StreetViewService()
     var panorama = new window.google.maps.StreetViewPanorama(document.getElementById('map') as HTMLElement, {
-      addressControl: false,
-      linksControl: gameData.gameSettings.canMove,
-      panControl: true,
+      addressControl: false, // hide address
+      linksControl: gameData.gameSettings.canMove, // arrows to move
+      panControl: true, // compass
       panControlOptions: {
         position: google.maps.ControlPosition.LEFT_BOTTOM,
       },
-      motionTracking: false,
+      motionTracking: false, // mobile tracking
       motionTrackingControl: false,
-      enableCloseButton: false,
+      enableCloseButton: false, // hide default UI elements
       zoomControl: false,
       fullscreenControl: false,
-    })
-    panorama.setOptions({
-      showRoadLabels: false,
+      showRoadLabels: false, // hide road labels
       clickToGo: gameData.gameSettings.canMove,
       scrollwheel: gameData.gameSettings.canZoom,
     })
@@ -180,27 +154,17 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData, isTesting }) =>
 
   return (
     <StyledStreetView showMap={!loading}>
-      {loading && (
-        <div className="loading-screen">
-          <Spinner size={50} />
-        </div>
-      )}
+      {loading && <LoadingPage />}
 
       <div id="map">
         <StreetViewControls handleBackToStart={handleBackToStart} />
-        <GameStatus
-          gameData={gameData}
-          setView={setView}
-          setGameData={setGameData}
-          currGuess={currGuess}
-          hasCustomRoundLength={isTesting}
-        />
+        <GameStatus gameData={gameData} setView={setView} setGameData={setGameData} currGuess={currGuess} />
         <GuessMap
           coordinate={location}
           zoom={8}
           currGuess={currGuess}
           setCurrGuess={setCurrGuess}
-          handleSubmitGuess={isTesting ? handleSubmitGuessForTesting : handleSubmitGuess}
+          handleSubmitGuess={handleSubmitGuess}
           mobileMapOpen={mobileMapOpen}
           closeMobileMap={() => setMobileMapOpen(false)}
         />
