@@ -23,26 +23,28 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout = (page: ReactElement) => (Component.noLayout ? page : <Layout>{page}</Layout>)
 
   return (
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <ThemeProvider theme={theme}>
-          <Head />
-          {getLayout(<Component {...pageProps} />)}
+    <>
+      <Head />
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <ThemeProvider theme={theme}>
+            {getLayout(<Component {...pageProps} />)}
 
-          <ToastContainer
-            position="bottom-right"
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop={true}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-          />
-        </ThemeProvider>
-      </PersistGate>
-    </Provider>
+            <ToastContainer
+              position="bottom-right"
+              autoClose={3000}
+              hideProgressBar={false}
+              newestOnTop={true}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
+          </ThemeProvider>
+        </PersistGate>
+      </Provider>
+    </>
   )
 }
 
