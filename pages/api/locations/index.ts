@@ -4,8 +4,8 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import Game from '@backend/models/game'
 /* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '@backend/utils/dbConnect'
-import { getRandomLocation } from '@utils/functions/generateLocations'
 
+// DEPREACTED -> NOT BEING USED ANYWHERE IN THE FE
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await dbConnect()

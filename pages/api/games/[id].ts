@@ -6,7 +6,6 @@ import { Game } from '@backend/models'
 import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { getLocations, throwError } from '@backend/utils/helpers'
 import { GuessType } from '@types'
-import { getRandomLocation } from '@utils/functions/generateLocations'
 import { getResultData } from '@utils/helperFunctions'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {

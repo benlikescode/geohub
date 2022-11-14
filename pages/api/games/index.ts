@@ -5,7 +5,6 @@ import Game from '@backend/models/game'
 /* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { getLocations, throwError } from '@backend/utils/helpers'
-import { getRandomLocation } from '@utils/functions/generateLocations'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
