@@ -1,6 +1,5 @@
 import { FC } from 'react'
 
-import { MobileNav, Navbar, Sidebar } from '@components/Layout'
 import { Spinner } from '@components/System/Spinner'
 
 import { StyledLoadingPage } from './'
@@ -8,9 +7,7 @@ import { StyledLoadingPage } from './'
 const LoadingPage: FC = () => {
   return (
     <StyledLoadingPage>
-      <main>
-        <Spinner />
-      </main>
+      <Spinner size={50} />
     </StyledLoadingPage>
   )
 }
