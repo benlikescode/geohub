@@ -10,9 +10,13 @@ const StyledMapPage = styled.div`
     }
   }
 
-  .name {
-    font-size: 22px;
-    font-weight: 600;
+  .name-wrapper {
+    display: flex;
+    align-items: center;
+    .name {
+      font-size: 22px;
+      font-weight: 600;
+    }
   }
 
   .map-creator {

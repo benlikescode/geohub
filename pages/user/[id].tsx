@@ -11,15 +11,10 @@ import { WidthController } from '@components/Layout/WidthController'
 import { MapLeaderboard } from '@components/MapLeaderboard'
 import { AvatarPickerModal } from '@components/Modals/AvatarPickerModal'
 import { SkeletonProfile } from '@components/SkeletonProfile'
+import { VerifiedBadge } from '@components/VerifiedBadge'
 import { CameraIcon } from '@heroicons/react/outline'
 import { BadgeCheckIcon, PencilAltIcon } from '@heroicons/react/solid'
-import {
-  logOutUser,
-  selectUser,
-  updateAvatar,
-  updateBio,
-  updateUsername
-} from '@redux/user'
+import { logOutUser, selectUser, updateAvatar, updateBio, updateUsername } from '@redux/user'
 import StyledProfilePage from '@styles/ProfilePage.Styled'
 import { MapLeaderboardType } from '@types'
 
@@ -178,11 +173,7 @@ const ProfilePage: NextPage = () => {
                   ) : (
                     <div className="name-container">
                       {userDetails.name}
-                      {userDetails.isAdmin && (
-                        <div className="verified">
-                          <BadgeCheckIcon />
-                        </div>
-                      )}
+                      {userDetails.isAdmin && <VerifiedBadge />}
                     </div>
                   )}
                 </h1>

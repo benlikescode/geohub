@@ -18,6 +18,7 @@ import { SkeletonCards } from '@components/SkeletonCards'
 import { SkeletonLeaderboard } from '@components/SkeletonLeaderboard'
 import { SkeletonMapInfo } from '@components/SkeletonMapInfo'
 import { Avatar, Button } from '@components/System'
+import { VerifiedBadge } from '@components/VerifiedBadge'
 import { updateStartTime } from '@redux/game'
 import { selectUser } from '@redux/user'
 import StyledMapPage from '@styles/MapPage.Styled'
@@ -138,7 +139,10 @@ const MapPage: FC = () => {
                 <div className="descriptionColumn">
                   <Avatar type="map" src={mapDetails.previewImg} size={50} />
                   <div className="map-details">
-                    <span className="name">{mapDetails.name}</span>
+                    <div className="name-wrapper">
+                      <span className="name">{mapDetails.name}</span>
+                      <VerifiedBadge size={20} />
+                    </div>
                     {mapDetails.description && <span className="description">{mapDetails.description}</span>}
                     {!mapDetails.description && mapDetails.creatorDetails && (
                       <span className="map-creator">

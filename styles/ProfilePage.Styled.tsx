@@ -105,18 +105,6 @@ const StyledProfilePage = styled.div<StyledProps>`
         .name-container {
           display: flex;
           align-items: center;
-
-          .verified {
-            margin-left: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            svg {
-              height: 24px;
-              color: #1d9bf0;
-            }
-          }
         }
       }
 
