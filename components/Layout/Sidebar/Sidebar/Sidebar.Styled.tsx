@@ -112,7 +112,7 @@ const StyledSidebar = styled.div`
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        width: 160px;
+        width: 150px;
       }
     }
 
