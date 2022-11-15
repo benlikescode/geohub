@@ -6,7 +6,7 @@ import { mailman } from '@backend/utils/mailman'
 import { selectGame } from '@redux/game'
 import { selectUser } from '@redux/user'
 import { LocationType } from '@types'
-import { formatTimeLeft } from '@utils/helperFunctions'
+import { formatLargeNumber, formatTimeLeft } from '@utils/helperFunctions'
 
 import { StyledGameStatus } from './'
 
@@ -89,7 +89,7 @@ const GameStatus: FC<Props> = ({ gameData, setView, setGameData, currGuess, noTi
           <span>Points</span>
         </div>
         <div className="value">
-          <span>{gameData.totalPoints}</span>
+          <span>{formatLargeNumber(gameData.totalPoints)}</span>
         </div>
       </div>
 

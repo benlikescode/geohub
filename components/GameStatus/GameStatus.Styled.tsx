@@ -11,14 +11,10 @@ const StyledGameStatus = styled.div`
   align-items: center;
   font-weight: 400;
   font-size: 1rem;
-  border: 1px solid #101010;
+  border: 1px solid #0e0e0e;
 
   .infoSection {
     padding: 10px 25px;
-
-    :not(:last-child) {
-      border-right: 1px solid #252525;
-    }
 
     &.mapName {
       @media (max-width: 600px) {
