@@ -11,7 +11,7 @@ const StyledGameStatus = styled.div`
   align-items: center;
   font-weight: 400;
   font-size: 1rem;
-  font-family: var(--font-family1);
+  border: 1px solid #101010;
 
   .infoSection {
     padding: 10px 25px;
@@ -31,6 +31,14 @@ const StyledGameStatus = styled.div`
     color: var(--color2);
     font-size: 14px;
     margin-bottom: 8px;
+  }
+
+  .value {
+    &.time {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      margin-top: -4px;
+    }
   }
 `
 

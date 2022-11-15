@@ -98,7 +98,7 @@ const GameStatus: FC<Props> = ({ gameData, setView, setGameData, currGuess, noTi
           <div className="label">
             <span>Time</span>
           </div>
-          <div className="value">
+          <div className="value time">
             <span>{formatTimeLeft(timeLeft as number)}</span>
           </div>
         </div>
