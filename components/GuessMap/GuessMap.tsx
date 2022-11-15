@@ -167,6 +167,7 @@ const GuessMap: FC<Props> = ({
               clickableIcons: false,
               gestureHandling: 'greedy',
               minZoom: 1,
+              draggableCursor: 'crosshair',
             }}
           >
             {marker && (
