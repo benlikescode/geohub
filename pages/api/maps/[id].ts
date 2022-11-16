@@ -72,6 +72,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       const adjustedAvgScore = avgScore.length ? Math.ceil(avgScore[0].avgScore) : 0
 
+      // Get Map's location count
+      const locationCount = await collections.locations?.find({ mapId: new ObjectId(mapId) }).count()
+
       const result = {
         ...mapDetails,
         likes: {
@@ -79,6 +82,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           likedByUser,
         },
         avgScore: adjustedAvgScore,
+        locationCount,
       }
 
       res.status(200).send(result)
