@@ -7,6 +7,7 @@ import { mailman } from '@backend/utils/mailman'
 import { GameStatus } from '@components/GameStatus'
 import { GuessMap } from '@components/GuessMap'
 import { LoadingPage } from '@components/Layout'
+import { StreaksGuessMap } from '@components/StreaksGuessMap'
 import { StreetViewControls } from '@components/StreetViewControls'
 import { Spinner } from '@components/System'
 import { MapIcon } from '@heroicons/react/outline'
@@ -159,7 +160,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
       <div id="map">
         <StreetViewControls handleBackToStart={handleBackToStart} />
         <GameStatus gameData={gameData} setView={setView} setGameData={setGameData} currGuess={currGuess} />
-        <GuessMap
+        <StreaksGuessMap
           coordinate={location}
           zoom={8}
           currGuess={currGuess}
