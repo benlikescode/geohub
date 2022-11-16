@@ -8,8 +8,7 @@ import { Button } from '@components/System/Button'
 import { ChevronDownIcon, ChevronUpIcon, XIcon } from '@heroicons/react/outline'
 import { selectUser, updateGuessMapSize } from '@redux/user'
 import { LocationType } from '@types'
-import * as bounds from '@utils/constants/countryBounds.json'
-import countryBounds2 from '@utils/constants/countryBounds2.json'
+import countryBounds from '@utils/constants/countryBounds.json'
 import {
   createMarker,
   getGuessMapDimensions,
@@ -168,7 +167,7 @@ const StreaksGuessMap: FC<Props> = ({
       })
     }
 
-    countryBounds2.map((country) => {
+    countryBounds.map((country) => {
       var countryCoords
       var ca
       var co
