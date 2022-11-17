@@ -7,6 +7,8 @@ type StyledProps = {
 const StyledItem = styled.div<StyledProps>`
   border-radius: 4px;
   background-color: ${({ isActive }) => (isActive ? '#2f2f36' : 'transparent')};
+  transition: background-color 0.2s ease 0s, color 0.2s ease 0s;
+
   // #271d37 #2f2a39
   &:hover {
     background-color: ${({ isActive }) => (isActive ? '#2f2f36' : '#2a2a30')};
