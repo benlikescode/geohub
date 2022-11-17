@@ -43,7 +43,7 @@ const Challenge: FC<Props> = ({ challengeId }) => {
 
         <div className="copyBtnWrapper">
           <button className="copyBtn" onClick={() => handleCopy()}>
-            {isCopied ? <CheckIcon color="#5cffc0" /> : <ClipboardIcon />}
+            {isCopied ? <CheckIcon className="check" /> : <ClipboardIcon />}
           </button>
         </div>
       </div>

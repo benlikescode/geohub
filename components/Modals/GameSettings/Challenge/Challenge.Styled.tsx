@@ -1,4 +1,10 @@
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
+
+const check = keyframes`
+  100% {
+    stroke-dashoffset: 0;
+  }
+`
 
 const StyledChallenge = styled.div`
   .inputLabel {
@@ -21,7 +27,7 @@ const StyledChallenge = styled.div`
         width: 60px;
         height: 38px;
         background-color: #303030;
-        color: #fee2e2;
+        color: #fff;
         border-radius: 5px;
         font-size: 14px;
         z-index: 1;
@@ -30,7 +36,18 @@ const StyledChallenge = styled.div`
         justify-content: center;
 
         svg {
-          height: 22px;
+          height: 20px;
+
+          &.check {
+            height: 24px;
+
+            path {
+              stroke-width: 2.2px;
+              stroke-dasharray: 1000;
+              stroke-dashoffset: 1000;
+              animation: 15s linear 0s 1 normal forwards running ${check};
+            }
+          }
         }
       }
     }
