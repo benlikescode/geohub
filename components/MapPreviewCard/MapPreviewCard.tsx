@@ -2,21 +2,23 @@
 import Link from 'next/link'
 import { FC, useState } from 'react'
 
+import { DestroyModal } from '@components/Modals/DestroyModal'
+import { MainModal } from '@components/Modals/MainModal'
+import { Button } from '@components/System'
+import { Modal } from '@components/System/Modal'
+import { TrashIcon } from '@heroicons/react/outline'
 import { PlayIcon } from '@heroicons/react/solid'
 import { MapType } from '@types'
 
 import { StyledMapPreviewCard } from './'
-import { TrashIcon } from '@heroicons/react/outline'
-import { Button } from '@components/System'
-import { Modal } from '@components/System/Modal'
 
 type Props = {
   map: MapType
   type?: 'large' | 'small'
+  openDeleteModal?: () => void
 }
 
-const MapPreviewCard: FC<Props> = ({ map, type = 'large' }) => {
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+const MapPreviewCard: FC<Props> = ({ map, type = 'large', openDeleteModal }) => {
   const isOfficialMap = map.creator === 'GeoHub'
 
   return (
@@ -59,17 +61,11 @@ const MapPreviewCard: FC<Props> = ({ map, type = 'large' }) => {
                 </svg>
               </a>
             </Link>
-            <button className="mapDeleteBtn" onClick={() => setDeleteModalOpen(true)}>
+            <button className="mapDeleteBtn" onClick={openDeleteModal}>
               <TrashIcon />
             </button>
           </div>
         </div>
-      )}
-
-      {deleteModalOpen && (
-        <Modal isOpen={deleteModalOpen} onClose={() => setDeleteModalOpen(false)}>
-          <span>YOOO</span>
-        </Modal>
       )}
     </StyledMapPreviewCard>
   )
