@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { FC, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { FC, useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { mailman } from '@backend/utils/mailman'
 import { Button, Icon, Input } from '@components/System'
 import { Spinner } from '@components/System/Spinner'
 import { LocationMarkerIcon } from '@heroicons/react/outline'
-import { updateUser } from '@redux/user'
+import { selectUser, updateUser } from '@redux/user'
 
 const Login: FC = () => {
   const [email, setEmail] = useState('')
@@ -18,6 +18,13 @@ const Login: FC = () => {
   const [showBtnSpinner, setShowBtnSpinner] = useState(false)
   const router = useRouter()
   const dispatch = useDispatch()
+  const user = useSelector(selectUser)
+
+  useEffect(() => {
+    if (user.id) {
+      router.push('/')
+    }
+  }, [user])
 
   const validateEmail = () => {
     const basicRE = /\S+@\S+\.\S+/

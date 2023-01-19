@@ -14,6 +14,7 @@ import { StyledMapPreviewCard } from './'
 
 type Props = {
   map: MapType
+  showDescription?: boolean
   type?: 'large' | 'small'
   openDeleteModal?: () => void
 }
@@ -22,19 +23,18 @@ const MapPreviewCard: FC<Props> = ({ map, type = 'large', openDeleteModal }) => 
   const isOfficialMap = map.creator === 'GeoHub'
 
   return (
-    <StyledMapPreviewCard mapImage={map.previewImg} isOfficialMap={isOfficialMap}>
+    <StyledMapPreviewCard mapImage={map.previewImg}>
       {type === 'large' && (
         <div className="large-card-wrapper">
-          <div className="mapImage"></div>
-
-          <div className="contentWrapper">
+          <div className="mapImage">
             <div className="mapName">{map.name}</div>
-            {isOfficialMap && <div className="mapDescription">{map.description}</div>}
-            <div className="playWrapper">
-              <Link href={`/map/${map._id}`}>
-                <a className="mapPlayBtn">Play</a>
-              </Link>
-            </div>
+          </div>
+
+          {showDescription && <div className="mapDescription">{map.description}</div>}
+          <div className="playWrapper">
+            <Link href={`/map/${map._id}`}>
+              <a className="mapPlayBtn">Play</a>
+            </Link>
           </div>
         </div>
       )}

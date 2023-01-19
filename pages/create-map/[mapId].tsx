@@ -402,81 +402,96 @@ const CreateMapPage: PageType = () => {
       <Head title="Create A Map" />
       <Navbar />
 
-      <div className="main-content">
-        <div className="selection-map-wrapper">
-          {!isLoading ? (
-            <div className="map-top-menu">
-              <div className="map-details">
-                <Avatar type="map" src={mapAvatar} size={40} outlineColor="rgba(255, 255, 255, 0.5)" />
-                <span className="map-name">{mapName}</span>
+      <div className="app-body">
+        <div className="main-content">
+          <div className="selection-map-wrapper">
+            {!isLoading ? (
+              <div className="map-top-menu">
+                <div className="map-details">
+                  <Avatar type="map" src={mapAvatar} size={40} outlineColor="rgba(255, 255, 255, 0.5)" />
+                  <span className="map-name">{mapName}</span>
+                </div>
+                <div className="map-action-buttons">
+                  <Button type="solidGray" callback={() => setEditModalOpen(true)}>
+                    Edit Details
+                  </Button>
+                  <Button type="solidPurple" callback={handleSaveMap} loading={isSubmitting}>
+                    Save Map
+                  </Button>
+                </div>
               </div>
-              <div className="map-action-buttons">
-                <Button type="solidGray" callback={() => setEditModalOpen(true)}>
-                  Edit Details
-                </Button>
-                <Button type="solidPurple" callback={handleSaveMap} loading={isSubmitting}>
-                  Save Map
-                </Button>
+            ) : (
+              <div className="map-top-menu">
+                <div className="map-details">
+                  <Skeleton variant="circular" height={40} width={40} />
+                  <Skeleton height={20} width={200} noBorder />
+                </div>
+                <div className="map-action-buttons">
+                  <Skeleton height={36} width={120} />
+                  <Skeleton height={36} width={120} />
+                </div>
               </div>
-            </div>
-          ) : (
-            <div className="map-top-menu">
-              <div className="map-details">
-                <Skeleton variant="circular" height={40} width={40} />
-                <Skeleton height={20} width={200} noBorder />
-              </div>
-              <div className="map-action-buttons">
-                <Skeleton height={36} width={120} />
-                <Skeleton height={36} width={120} />
-              </div>
-            </div>
-          )}
+            )}
 
-          <div id="selectionMap"></div>
-        </div>
-
-        <div className="preview-map-wrapper">
-          {!isLoading ? (
-            <div className="map-top-menu">
-              <span className="locations-count">{`${locations.length} location${
-                locations.length !== 1 ? 's' : ''
-              }`}</span>
-
-              <div className="visibility-selection">
-                <h2 className="visibility-warning">Publish Map</h2>
-                <ToggleSwitch isActive={isPublished} setIsActive={setIsPublished} />
-              </div>
-            </div>
-          ) : (
-            <div className="map-top-menu">
-              <Skeleton height={20} width={100} />
-              <Skeleton height={20} width={200} />
-            </div>
-          )}
-
-          <div id="previewMap"></div>
-          <div className="preview-action-buttons">
-            <Button type="destroy" callback={handleRemoveLocation}>
-              Remove Location
-            </Button>
-            <Button type="solidGray" callback={handleSaveLocation}>
-              Save Location
-            </Button>
+            <div id="selectionMap"></div>
           </div>
 
-          {!isLoading && locationsRef.current.length === 0 && (
-            <div className="no-locations-wrapper">
-              <div className="no-locations">
-                <img
-                  src="https://ouch-cdn2.icons8.com/wheN45aua7reMiicprxTGUEcr9SLNm7f2PyQGGlf5Os/rs:fit:256:256/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvMTE4/LzcyOGU3NTM1LWE2/ZmYtNDYwZi05MTlh/LTE1YzIyYjk3NDQ0/OC5wbmc.png"
-                  alt=""
-                />
-                <h2>No locations added</h2>
-                <h3>Click a location on the map to preview it here</h3>
+          <div className="preview-map-wrapper">
+            {!isLoading ? (
+              <div className="map-top-menu">
+                <span className="locations-count">{`${locations.length} location${
+                  locations.length !== 1 ? 's' : ''
+                }`}</span>
+
+                <div className="visibility-selection">
+                  <h2 className="visibility-warning">Publish Map</h2>
+                  <ToggleSwitch isActive={isPublished} setIsActive={setIsPublished} />
+                </div>
               </div>
+            ) : (
+              <div className="map-top-menu">
+                <Skeleton height={20} width={100} />
+                <Skeleton height={20} width={200} />
+              </div>
+            )}
+
+            <div id="previewMap"></div>
+            <div className="preview-action-buttons">
+              <Button type="destroy" callback={handleRemoveLocation}>
+                Remove Location
+              </Button>
+              <Button type="solidGray" callback={handleSaveLocation}>
+                Save Location
+              </Button>
             </div>
-          )}
+
+            {!isLoading && locationsRef.current.length === 0 && (
+              <div className="no-locations-wrapper">
+                <div className="no-locations">
+                  <img
+                    src="https://ouch-cdn2.icons8.com/wheN45aua7reMiicprxTGUEcr9SLNm7f2PyQGGlf5Os/rs:fit:256:256/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvMTE4/LzcyOGU3NTM1LWE2/ZmYtNDYwZi05MTlh/LTE1YzIyYjk3NDQ0/OC5wbmc.png"
+                    alt=""
+                  />
+                  <h2>No locations added</h2>
+                  <h3>Click a location on the map to preview it here</h3>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
+
+        <MobileNav />
+
+        {editModalOpen && (
+          <CreateMapModal
+            closeModal={() => setEditModalOpen(false)}
+            mapId={mapId}
+            mapName={mapName}
+            mapDescription={mapDescription}
+            mapAvatar={mapAvatar}
+            updateMapDetails={updateMapDetails}
+          />
+        )}
       </div>
 
       <GoogleMapReact

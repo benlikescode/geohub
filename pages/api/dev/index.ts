@@ -1,3 +1,4 @@
+import fs from 'fs'
 /* eslint-disable import/no-anonymous-default-export */
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
@@ -105,25 +106,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       })
 */
       /*
-      const games = await collections.games?.find({}).toArray()
+      //UPDATES ALL LOCATIONS MISSING A MAPID WITH A SPECIFIED MAPID
+      const result = await collections.locations?.updateMany(
+        { mapId: null },
+        { $set: { mapId: new ObjectId('6185df7a7b54baf63473a53e') } }
+      )
 
-      if (!games) return throwError(res, 400, 'issue')
-
-      for (const game of games) {
-        const map = await collections.maps?.findOne({ slug: game.mapId })
-        if (!map) return throwError(res, 400, 'issue')
-
-        console.log(JSON.stringify(map))
-
-        const result = await collections.games?.updateOne(
-          { _id: game._id },
-          { $set: { mapId: new ObjectId(map?._id) } }
-        )
-
-        if (!result) return throwError(res, 400, 'issue')
-      }
-
-      return res.status(200).send(games.length)
+      return res.status(200).send(result)
 */
       /*
       const result = await collections.maps?.deleteMany({ creator: { $ne: 'GeoHub' } })

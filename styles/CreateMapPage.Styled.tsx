@@ -5,16 +5,19 @@ type StyledProps = {
 }
 
 const StyledCreateMapPage = styled.div<StyledProps>`
-  height: 100vh;
-  overflow: hidden;
+  .app-body {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: auto;
+    //padding-top: var(--navbarHeight);
+  }
 
   .main-content {
     max-width: 2000px;
     width: 100%;
     padding: 1rem;
     margin: 0 auto;
-    height: calc(100% - var(--navbarHeight));
-
+    height: calc(100vh - var(--navbarHeight));
     display: flex;
     flex: 1 1;
     flex-direction: row;
