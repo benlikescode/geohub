@@ -1,13 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link'
-import { FC, useState } from 'react'
+import React, { FC } from 'react'
 
-import { DestroyModal } from '@components/Modals/DestroyModal'
-import { MainModal } from '@components/Modals/MainModal'
-import { Button } from '@components/System'
-import { Modal } from '@components/System/Modal'
 import { TrashIcon } from '@heroicons/react/outline'
-import { PlayIcon } from '@heroicons/react/solid'
 import { MapType } from '@types'
 
 import { StyledMapPreviewCard } from './'
@@ -15,29 +10,32 @@ import { StyledMapPreviewCard } from './'
 type Props = {
   map: MapType
   showDescription?: boolean
-  type?: 'large' | 'small'
+  type?: 'large' | 'small' | 'liked'
   openDeleteModal?: () => void
 }
 
-const MapPreviewCard: FC<Props> = ({ map, type = 'large', openDeleteModal }) => {
+const MapPreviewCard: FC<Props> = ({ map, showDescription, type = 'large', openDeleteModal }) => {
   const isOfficialMap = map.creator === 'GeoHub'
 
   return (
-    <StyledMapPreviewCard mapImage={map.previewImg}>
+    <StyledMapPreviewCard mapImage={map.previewImg} isOfficialMap={isOfficialMap}>
       {type === 'large' && (
         <div className="large-card-wrapper">
-          <div className="mapImage">
-            <div className="mapName">{map.name}</div>
-          </div>
+          <div className="mapImage"></div>
 
-          {showDescription && <div className="mapDescription">{map.description}</div>}
-          <div className="playWrapper">
-            <Link href={`/map/${map._id}`}>
-              <a className="mapPlayBtn">Play</a>
-            </Link>
+          <div className="contentWrapper">
+            <div className="mapName">{map.name}</div>
+            {showDescription && <div className="mapDescription">{map.description}</div>}
+            <div className="playWrapper">
+              <Link href={`/map/${map._id}`}>
+                <a className="mapPlayBtn">Play</a>
+              </Link>
+            </div>
           </div>
         </div>
       )}
+
+      {/* {type === ''} */}
 
       {type === 'small' && (
         <div className="small-card-wrapper">
