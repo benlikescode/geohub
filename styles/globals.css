@@ -177,20 +177,21 @@
   --lightYellow: #fcd34d;
   --lightRed: #f87171;
   --lightPurple: #a5adff;
-  --mediumPurple: #7c3aed;
+  /* --mediumPurple: #7c3aed; */
+  --mediumPurple: var(--indigo-700);
   --darkPurple: #6d28d9;
   --bronze: #6a3805;
   --silver: #d7d7d7;
   --gold: #c9b037;
 }
 
-html,
 body {
   padding: 0;
   margin: 0;
   font-family: var(--font-family1);
   font-weight: 500;
-  background-color: #0e0e10;
+  /* background-color: #0e0e10; */
+  background-color: #121212;
   color: var(--color1);
   overflow: hidden;
   display: flex;
@@ -198,6 +199,7 @@ body {
   height: 100%;
   position: relative;
   width: 100%;
+  /* overflow-y: auto; */
 }
 
 a {
@@ -245,12 +247,10 @@ img[src="https://www.geoguessr.com/images/auto/30/30/ce/0/plain/pin/c2fe16562d9a
 /* Custom Scrollbar */
 
 ::-webkit-scrollbar {
-  width: 7px;
+  width: 10px;
   background: var(--background2);
-  border-radius: 50rem;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--background4);
-  border-radius: 50rem;
+  background: var(--background3);
 }

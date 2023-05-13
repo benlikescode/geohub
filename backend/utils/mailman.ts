@@ -1,24 +1,64 @@
-// Custom script that simplifies api calls
+import toast from 'react-hot-toast'
 
-export const mailman = async (
-  endpoint: string,
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
-  body?: BodyInit
-) => {
-  const fetchConfig = {
-    method: method,
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: body,
+export const mailman = async (endpoint: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET', body?: BodyInit) => {
+  const store = localStorage.getItem('persist:root') || ''
+  let fetchConfig = {}
+
+  if (store) {
+    const parsedStore = JSON.parse(store)
+    const user = JSON.parse(parsedStore.user)
+
+    if (user.id) {
+      // Pass userId as a header
+      fetchConfig = {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Uid: user.id,
+        },
+        body,
+      }
+    } else {
+      fetchConfig = {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body,
+      }
+    }
+  } else {
+    fetchConfig = {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body,
+    }
   }
 
   try {
-    const res = await fetch(`/api/${endpoint}`, fetchConfig)
-    return { status: res.status, res: await res.json() }
+    const serverUrl = `/api/${endpoint}`
+
+    const responseRaw = await fetch(serverUrl, fetchConfig)
+    const response = await responseRaw.json()
+
+    // If response is not defined (likely a DB connection issue) -> return a 500 error
+    if (!response) {
+      return {
+        error: {
+          message: 'There was a problem connecting to the server, please try again later',
+          code: 500,
+        },
+      }
+    }
+
+    return response
   } catch (err) {
     console.log(`ERR FROM CATCH: ${err}}`)
-    return { status: 400, res: null }
+    return null
   }
 }

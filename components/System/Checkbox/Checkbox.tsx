@@ -6,19 +6,23 @@ import { StyledCheckbox } from './'
 import { HiddenCheckbox } from './Checkbox.Styled'
 
 type Props = {
-  isChecked: boolean;
-  setChecked: (isChecked: boolean) => void;
+  isChecked: boolean
+  setChecked: (isChecked: boolean) => void
+  label: string
 }
 
-const Checkbox: FC<Props> = ({ isChecked, setChecked }) => {
+const Checkbox: FC<Props> = ({ isChecked, setChecked, label }) => {
   return (
     <StyledCheckbox onClick={() => setChecked(!isChecked)}>
-      <HiddenCheckbox />
-      {isChecked &&
-        <div className="checkIcon">
-          <CheckIcon />
-        </div>
-      }   
+      <div className="checkbox">
+        {isChecked && (
+          <div className="checkIcon">
+            <CheckIcon />
+          </div>
+        )}
+      </div>
+
+      <label>{label}</label>
     </StyledCheckbox>
   )
 }

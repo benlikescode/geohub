@@ -1,8 +1,13 @@
 import { ObjectId } from 'bson'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { getServerSession } from 'next-auth'
+import { getToken } from 'next-auth/jwt'
 
 /* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '@backend/utils/dbConnect'
+
+import { throwError } from '../../../../backend/utils/helpers'
+import { authOptions } from '../../auth/[...nextauth]'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -10,11 +15,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     // Paginated endpoint to get a specified user's game history
     if (req.method === 'GET') {
-      const userId = req.query.id as string
+      // const token = await getToken({ req })
+      const session = await getServerSession(req, res, authOptions)
+
+      if (!session) {
+        return throwError(res, 401, 'You are not authorized')
+      }
+
+      const userId = session.user.id
       const page = req.query.page ? Number(req.query.page) : 0
       const gamesPerPage = 20
 
-      const query = { userId: new ObjectId(userId), round: 6 }
+      const query = { userId: new ObjectId(userId), mode: 'standard', state: 'finished' }
       const games = await collections.games
         ?.aggregate([
           { $match: query },

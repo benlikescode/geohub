@@ -5,21 +5,23 @@ type StyledProps = {
 }
 
 const StyledGamemodeCard = styled.div<StyledProps>`
-  background-color: #141414;
+  background-color: #181818;
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 6px;
   padding: 30px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.55);
+  box-shadow: 0px 2px 4px rgb(0 0 0 / 55%);
 
   .gamemode-details {
     margin-bottom: 28px;
 
     h2 {
-      color: ${({ titleColor }) => titleColor};
-      font-size: 30px;
-      font-weight: 600;
+      color: #ffffff;
+
+      font-weight: 500;
       margin-bottom: 12px;
-      letter-spacing: 2px;
+
+      letter-spacing: -0.01rem;
+      font-size: 26px;
     }
 
     p {

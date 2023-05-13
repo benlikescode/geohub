@@ -6,8 +6,9 @@ const StyledNotFound = styled.div<StyledProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  height: 100vh;
   margin-top: calc(-1 * var(--navbarHeight));
+  padding: 0 1rem;
 
   .no-results-container {
     max-width: 450px;
@@ -20,7 +21,6 @@ const StyledNotFound = styled.div<StyledProps>`
       filter: grayscale(1) drop-shadow(-5px 5px 5px #000000);
       height: 250px;
       width: 250px;
-      transform: rotate(275deg);
     }
 
     h2 {
@@ -30,6 +30,10 @@ const StyledNotFound = styled.div<StyledProps>`
       font-weight: 500;
       line-height: 35px;
       text-align: center;
+
+      @media (max-width: 600px) {
+        font-size: 1.25rem;
+      }
     }
 
     h3 {
@@ -37,6 +41,13 @@ const StyledNotFound = styled.div<StyledProps>`
       color: #ababab;
       font-size: 1.25rem;
       font-weight: 400;
+      text-align: center;
+      line-height: 30px;
+
+      @media (max-width: 600px) {
+        font-size: 1rem;
+        line-height: 26px;
+      }
     }
   }
 `

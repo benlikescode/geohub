@@ -3,7 +3,7 @@ import styled from 'styled-components'
 const StyledLeaderboardCard = styled.div`
   margin-top: -20px;
   padding: 0 3.5rem;
-  max-width: 1600px;
+  max-width: 1400px;
   width: 100%;
   z-index: 1;
   padding-bottom: 3rem;

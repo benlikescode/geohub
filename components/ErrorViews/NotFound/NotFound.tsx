@@ -3,9 +3,12 @@ import React, { FC } from 'react'
 
 import { StyledNotFound } from './'
 
-type Props = {}
+type Props = {
+  title?: string
+  message?: string
+}
 
-const NotFound: FC<Props> = ({}) => {
+const NotFound: FC<Props> = ({ title, message }) => {
   return (
     <StyledNotFound>
       <div className="no-results-container">
@@ -13,8 +16,8 @@ const NotFound: FC<Props> = ({}) => {
           src="https://ouch-cdn2.icons8.com/7ouKWLmWN1-WhDpK28kH-TnrGhfKQEz3GZvo7zr7VsM/rs:fit:256:256/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvNzY4/LzFkYjE2MmU4LTM5/NDQtNDhhMS04ZGJh/LTc0ZDc1MGYxN2E2/Yy5zdmc.png"
           alt=""
         />
-        <h2>404 - Page Not Found</h2>
-        <h3>Hmm... this page is not on our map.</h3>
+        <h2>{title ?? `404 - Page Not Found`}</h2>
+        <h3>{message ?? `Hmm... this page is not on our map.`}</h3>
       </div>
     </StyledNotFound>
   )

@@ -1,10 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import GoogleMapReact from 'google-map-react'
 import { FC, useEffect, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
 
 import { Marker } from '@components/Marker'
-import { selectUser } from '@redux/user'
+import { useAppSelector } from '@redux/hook'
 import { GuessType, LocationType } from '@types'
 import {
   createPolyline,
@@ -43,7 +42,7 @@ const ResultMap: FC<Props> = ({
   const actualLocation = actualLocations[round - 2]
   const resultMapRef = useRef<google.maps.Map | null>(null)
   const polylinesRef = useRef<google.maps.Polyline[]>([])
-  const user = useSelector(selectUser)
+  const user = useAppSelector((state) => state.user)
 
   // Only set map center and zoom on mount
   useEffect(() => {

@@ -2,7 +2,8 @@ import Link from 'next/link'
 import React, { FC } from 'react'
 
 import { Avatar } from '@components/System'
-import { GameType, MapType, UserType } from '@types'
+import { GameType, UserType } from '@types'
+import { COUNTRY_STREAK_DETAILS } from '@utils/constants/random'
 import { formatMonthDayYearTime } from '@utils/dateHelpers'
 
 import { StyledListItem } from './'
@@ -45,10 +46,16 @@ const ListItem: FC<Props> = ({ title, data }) => {
           <Link href={`/results/${game._id}`}>
             <a className="item-details">
               <div className="item-avatar">
-                {game.mapDetails && <Avatar type="map" src={game.mapDetails?.[0]?.previewImg} outlineSize={1} />}
+                {game.mapDetails && (
+                  <Avatar
+                    type="map"
+                    src={game.mode === 'streak' ? COUNTRY_STREAK_DETAILS.previewImg : game.mapDetails?.[0]?.previewImg}
+                    outlineSize={1}
+                  />
+                )}
               </div>
               <div className="item-name">
-                <span>{game.mapDetails?.[0]?.name}</span>
+                <span>{game.mode === 'streak' ? COUNTRY_STREAK_DETAILS.name : game.mapDetails?.[0]?.name}</span>
               </div>
             </a>
           </Link>

@@ -1,10 +1,6 @@
 import styled from 'styled-components'
 
-type StyledProps = {
-  previewMapImg: string
-}
-
-const StyledCreateMapModal = styled.div<StyledProps>`
+const StyledCreateMapModal = styled.div`
   display: grid;
   grid-template-columns: 1.4fr 1fr;
 
@@ -26,10 +22,10 @@ const StyledCreateMapModal = styled.div<StyledProps>`
         flex-wrap: wrap;
 
         .avatar-item {
-          height: 40px;
-          width: 40px;
+          height: 36px;
+          width: 36px;
           position: relative;
-          border-radius: 50%;
+          border-radius: 30%;
           outline: 1px solid rgba(255, 255, 255, 0.25);
           display: flex;
           align-items: center;
@@ -37,44 +33,34 @@ const StyledCreateMapModal = styled.div<StyledProps>`
           user-select: none;
           cursor: pointer;
           background-color: #888888;
-          transition: 0.1s;
 
           &:hover {
             outline: 2px solid #ffffff;
           }
-
           &.selected {
-            outline: 4px solid #ffffff;
+            outline: 3px solid #ffffff;
           }
 
           img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            object-fit: cover;
             border-radius: 50%;
-            height: 100%;
-            width: 100%;
           }
         }
       }
     }
 
     .section-title {
-      font-size: 1rem;
-      font-weight: 500;
-      color: var(--color2);
-      margin-bottom: 16px;
+      font-size: 14px;
+      font-weight: 400;
+      color: #919191;
+      margin-bottom: 12px;
     }
   }
 
   .map-preview-section {
-    background: rgb(12 12 12);
+    //background: rgb(12 12 12);
     height: 100%;
     padding: 25px;
-    border-left: 1px solid #222;
+    border-left: 1px solid #181818;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -82,7 +68,7 @@ const StyledCreateMapModal = styled.div<StyledProps>`
     @media (max-width: 750px) {
       //display: none;
       border-left: none;
-      border-top: 1px solid #222;
+      border-top: 1px solid #181818;
     }
 
     .mapPreviewCard {
@@ -95,7 +81,7 @@ const StyledCreateMapModal = styled.div<StyledProps>`
       max-width: 400px;
       width: 100%;
 
-      .mapImage {
+      /* .mapImage {
         height: 125px;
         width: 100%;
         border-radius: 5px 5px 0 0;
@@ -104,6 +90,17 @@ const StyledCreateMapModal = styled.div<StyledProps>`
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
+      } */
+
+      .mapImage {
+        height: 125px;
+        width: 100%;
+        border-radius: 5px 5px 0 0;
+        position: relative;
+
+        span img {
+          border-radius: 5px 5px 0 0;
+        }
       }
 
       .contentWrapper {
@@ -124,8 +121,7 @@ const StyledCreateMapModal = styled.div<StyledProps>`
         -webkit-box-orient: vertical;
         word-break: break-word;
         white-space: pre-wrap;
-        -moz-white-space: pre-wrap;
-        padding: 0 1rem;
+        padding: 0px 1rem;
 
         @media (max-width: 1500px) {
           font-size: 20px;
@@ -151,13 +147,8 @@ const StyledCreateMapModal = styled.div<StyledProps>`
         font-weight: 500;
         user-select: none;
         width: clamp(120px, 70%, 300px);
-        background-color: var(--mediumPurple);
-        color: #fff;
-        //border: 1px solid rgba(255, 255, 255, 0.19);
-
-        :hover {
-          background-color: var(--darkPurple);
-        }
+        background-color: #222;
+        color: #777;
       }
     }
   }

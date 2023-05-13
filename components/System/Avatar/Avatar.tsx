@@ -1,3 +1,4 @@
+import Image from 'next/image'
 /* eslint-disable @next/next/no-img-element */
 import { FC, useEffect, useState } from 'react'
 
@@ -12,9 +13,11 @@ type Props = {
   altText?: string
   outlineSize?: number
   outlineColor?: string
+  cursor?: string
 }
 
 const FALLBACK_AVATAR = '/images/avatars/fallback.png'
+const MAP_AVATAR_PATH = '/images/mapAvatars/'
 
 const getUserAvatarUrl = (emojiCode: string | undefined) => {
   if (!emojiCode) {
@@ -23,7 +26,17 @@ const getUserAvatarUrl = (emojiCode: string | undefined) => {
   return `https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/${emojiCode}.svg`
 }
 
-const Avatar: FC<Props> = ({ type, src, backgroundColor, size, mobileSize, altText, outlineSize, outlineColor }) => {
+const Avatar: FC<Props> = ({
+  type,
+  src,
+  backgroundColor,
+  size,
+  mobileSize,
+  altText,
+  outlineSize,
+  outlineColor,
+  cursor,
+}) => {
   const [currSrc, setCurrSrc] = useState(type === 'user' ? getUserAvatarUrl(src) : src)
 
   useEffect(() => {
@@ -37,6 +50,7 @@ const Avatar: FC<Props> = ({ type, src, backgroundColor, size, mobileSize, altTe
         size={size || 32}
         mobileSize={mobileSize}
         outlineSize={outlineSize}
+        cursor={cursor}
       >
         <div className="user-avatar">
           <img
@@ -58,10 +72,11 @@ const Avatar: FC<Props> = ({ type, src, backgroundColor, size, mobileSize, altTe
       outlineColor={outlineColor}
     >
       <div className="map-avatar">
-        <img
-          src={currSrc || FALLBACK_AVATAR}
-          alt={altText || 'User Avatar'}
+        <Image
+          src={`/images/mapAvatars/${currSrc}` || FALLBACK_AVATAR}
+          alt={altText || 'Map Avatar'}
           onError={() => setCurrSrc(FALLBACK_AVATAR)}
+          layout="fill"
         />
       </div>
     </StyledAvatar>

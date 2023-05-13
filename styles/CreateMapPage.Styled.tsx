@@ -21,8 +21,12 @@ const StyledCreateMapPage = styled.div<StyledProps>`
     display: flex;
     flex: 1 1;
     flex-direction: row;
-    gap: 1rem;
+    gap: 8px;
     position: relative;
+
+    @media (max-width: 1060px) and (orientation: portrait) {
+      flex-direction: column;
+    }
 
     @media (max-width: 500px) {
       padding: 3rem 1rem;
@@ -34,7 +38,7 @@ const StyledCreateMapPage = styled.div<StyledProps>`
       //overflow: hidden;
       background-color: #212121;
       border-radius: 6px;
-      padding: 1rem;
+      padding: 16px;
 
       flex: 3 1;
       position: relative;
@@ -52,8 +56,7 @@ const StyledCreateMapPage = styled.div<StyledProps>`
       overflow: hidden;
       background-color: #212121;
       border-radius: 6px;
-      padding: 1rem;
-
+      padding: 16px;
       flex: 2 1;
 
       #previewMap {
@@ -124,11 +127,11 @@ const StyledCreateMapPage = styled.div<StyledProps>`
     .map-details {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 12px;
 
       .map-name {
         color: #fff;
-        font-size: 20px;
+        font-size: 18px;
         font-weight: 500;
       }
     }
@@ -136,7 +139,7 @@ const StyledCreateMapPage = styled.div<StyledProps>`
     .map-action-buttons {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 12px;
     }
 
     .locations-count {

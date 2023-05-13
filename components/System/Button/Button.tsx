@@ -1,11 +1,10 @@
 import { FC, ReactNode } from 'react'
-
 import { Spinner } from '@components/System'
-
 import { StyledButton } from './'
 
 type Props = {
   type: 'solidPurple' | 'solidGray' | 'solidCustom' | 'ghost' | 'ghostLight' | 'icon' | 'iconRounded' | 'destroy'
+  size?: 'sm' | 'md' | 'lg'
   callback?: any
   color?: string
   backgroundColor?: string
@@ -16,12 +15,12 @@ type Props = {
   width?: string
   height?: string
   isRound?: boolean
-  isSmall?: boolean
   loading?: boolean
 }
 
 const Button: FC<Props> = ({
   type,
+  size,
   callback,
   color,
   backgroundColor,
@@ -32,12 +31,12 @@ const Button: FC<Props> = ({
   width,
   height,
   isRound,
-  isSmall,
   loading,
 }) => {
   return (
     <StyledButton
       type={type}
+      size={size}
       color={color}
       backgroundColor={backgroundColor}
       hoverColor={hoverColor}
@@ -45,7 +44,6 @@ const Button: FC<Props> = ({
       width={width}
       height={height}
       isRound={isRound}
-      isSmall={isSmall}
     >
       <button onClick={callback ? (e) => callback(e) : undefined} className={className}>
         {loading ? <Spinner size={20} /> : children}

@@ -2,6 +2,7 @@ import styled, { keyframes } from 'styled-components'
 
 type StyledProps = {
   noOverflow?: boolean
+  maxWidth?: string
   isOpen?: boolean
   showCloseAnim?: boolean
 }
@@ -44,7 +45,7 @@ const StyledModal = styled.div<StyledProps>`
 
   .modal {
     z-index: 50;
-    border-radius: 10px;
+    border-radius: 6px;
     position: fixed;
     margin: 2rem;
     top: 50%;
@@ -57,7 +58,16 @@ const StyledModal = styled.div<StyledProps>`
     padding: 0;
     border: 0;
     box-shadow: 0 0 0 1px #00000019, 0 2px 4px 0px #00000036;
-    animation: forwards 0.1s ease-in-out ${({ showCloseAnim }) => (showCloseAnim ? popOutAnim : popInAnim)};
+    /* animation: forwards 0.05s ease-in-out ${({ showCloseAnim }) => (showCloseAnim ? popOutAnim : popInAnim)}; */
+    /* animation: forwards 0.1s ease-in-out ${({ showCloseAnim }) => showCloseAnim && popOutAnim}; */
+    color: #fff;
+
+    ${({ maxWidth }) =>
+      maxWidth &&
+      `
+      max-width: ${maxWidth};
+      width: 100%;
+    `}
 
     .modal-content {
       max-height: 100vh;
@@ -80,7 +90,7 @@ const StyledModal = styled.div<StyledProps>`
     height: 100%;
     transition: 0.1s;
     opacity: ${({ showCloseAnim }) => (showCloseAnim ? 0 : 1)};
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.95);
   }
 
   @media (pointer: none), (pointer: coarse) {

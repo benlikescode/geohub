@@ -1,18 +1,16 @@
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import React, { FC, useState } from 'react'
-import { useSelector } from 'react-redux'
 
 import { Avatar, Button, Icon, Searchbar } from '@components/System'
 import { SearchIcon } from '@heroicons/react/outline'
-import { selectUser } from '@redux/user'
-import { UserType } from '@types'
 
 import { StyledNavbar } from './'
 
 const Navbar: FC = () => {
-  const user: UserType = useSelector(selectUser)
+  const { data: session } = useSession()
   const [searchOpen, setSearchOpen] = useState(false)
-
+  console.log(session)
   return (
     <StyledNavbar>
       {searchOpen && (
@@ -46,20 +44,18 @@ const Navbar: FC = () => {
                 </Icon>
               </Button>
 
-              {user.id && (
-                <Link href={`/user/${user.id}`}>
+              {session ? (
+                <Link href={`/user/${session.user.id}`}>
                   <a className="userInfo">
-                    <span className="username">{user.name}</span>
-                    <Avatar type="user" src={user.avatar?.emoji} backgroundColor={user.avatar?.color} />
+                    <span className="username">{session.user.name}</span>
+                    <Avatar type="user" src={session.user.avatar.emoji} backgroundColor={session.user.avatar.color} />
                   </a>
                 </Link>
-              )}
-
-              {!user.id && (
+              ) : (
                 <>
                   <Link href="/login">
                     <a>
-                      <Button type="solidCustom" backgroundColor="#3d3d3d" color="#fff" hoverColor="#444" isSmall>
+                      <Button type="solidCustom" size="sm" backgroundColor="#3d3d3d" color="#fff" hoverColor="#444">
                         Login
                       </Button>
                     </a>
@@ -67,7 +63,7 @@ const Navbar: FC = () => {
 
                   <Link href="/register">
                     <a>
-                      <Button type="solidPurple" isSmall>
+                      <Button type="solidPurple" size="sm">
                         Sign Up
                       </Button>
                     </a>

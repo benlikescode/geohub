@@ -1,12 +1,12 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { FC } from 'react'
-import { useSelector } from 'react-redux'
 
 import { Avatar, FlexGroup, Icon } from '@components/System'
 /* eslint-disable @next/next/no-img-element */
 import { ChartBarIcon } from '@heroicons/react/outline'
-import { selectUser } from '@redux/user'
+import { LightningBoltIcon } from '@heroicons/react/solid'
+import { useAppSelector } from '@redux/hook'
 import { MapLeaderboardType } from '@types'
 import { formatLargeNumber, formatRoundTime } from '@utils/helperFunctions'
 
@@ -20,7 +20,9 @@ type Props = {
 const LeaderboardItem: FC<Props> = ({ finishPlace, row }) => {
   const isAerialLeaderboard = row.difficulty
   const router = useRouter()
-  const user = useSelector(selectUser)
+  const user = useAppSelector((state) => state.user)
+
+  const LAST_PLACE = 6
 
   // If we are on the profile page of this user, show their avatar in redux
   // this allows it to update immediately after editing profile
@@ -28,9 +30,9 @@ const LeaderboardItem: FC<Props> = ({ finishPlace, row }) => {
   const isThisUsersProfile = router.query?.id === user.id
 
   return (
-    <StyledLeaderboardItem>
+    <StyledLeaderboardItem highlight={!!row.highlight}>
       <div className="userSection">
-        <span className="userPlace">#{finishPlace}</span>
+        <span className="userPlace">{finishPlace === LAST_PLACE && row.highlight ? '' : `#${finishPlace}`}</span>
         <div className="userInfo">
           {isProfilePage && isThisUsersProfile ? (
             <Avatar type="user" src={user.avatar.emoji} backgroundColor={user.avatar.color} />
@@ -46,7 +48,17 @@ const LeaderboardItem: FC<Props> = ({ finishPlace, row }) => {
       </div>
 
       <div className="resultsSection">
-        <span className="totalPoints">{formatLargeNumber(row.totalPoints)} points</span>
+        {typeof row.totalPoints !== 'undefined' && (
+          <span className="totalPoints">{formatLargeNumber(row.totalPoints)} points</span>
+        )}
+
+        {row.streak && (
+          <div className="bestStreakWrapper">
+            <LightningBoltIcon />
+            <span className="bestStreak">{row.streak}</span>
+          </div>
+        )}
+
         <FlexGroup gap={5}>
           {row.totalTime && <span className="totalTime">{formatRoundTime(row.totalTime)}</span>}
           {isAerialLeaderboard && <span className="totalTime">{row.difficulty}</span>}

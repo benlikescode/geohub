@@ -8,10 +8,11 @@ const StyledInput = styled.div<StyledProps>`
   width: 100%;
 
   label {
-    font-weight: 500;
+    font-weight: 400;
     margin-bottom: 8px;
     display: block;
-    color: var(--color2);
+    color: #919191;
+    font-size: 14px;
   }
 
   .input-wrapper {

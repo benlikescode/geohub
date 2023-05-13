@@ -8,7 +8,7 @@ import { throwError } from '@backend/utils/helpers'
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await dbConnect()
-    const userId = req.query.userId as string
+    const userId = req.headers.uid as string
 
     if (!userId) {
       return throwError(res, 400, 'You must pass a valid userId')

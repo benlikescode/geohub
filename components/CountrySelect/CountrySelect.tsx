@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 
-import countries from '@utils/constants/countries.json'
+import countries from '@utils/constants/countries'
 
 import { StyledCountrySelect } from './'
 

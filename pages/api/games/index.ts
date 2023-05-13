@@ -5,15 +5,28 @@ import Game from '@backend/models/game'
 /* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { getLocations, throwError } from '@backend/utils/helpers'
+import { OFFICIAL_WORLD_ID } from '@utils/constants/random'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await dbConnect()
 
     if (req.method === 'POST') {
-      const userLocation = req.body.userLocation
-      const roundLocation = await getLocations(req.body.mapId)
-      const userId = new ObjectId(req.body.userId)
+      const { mode, mapId, userId } = req.body
+
+      console.log(mapId)
+
+      const roundLocation = await getLocations(mapId)
+
+      // let roundLocation = null
+
+      // if (mode === 'streak') {
+      //   roundLocation = await getLocations('streak')
+      // }
+
+      // if (mode === 'standard') {
+      //   roundLocation = await getLocations(req.body.mapId)
+      // }
 
       if (!roundLocation) {
         return throwError(res, 400, 'Failed to get location')
@@ -23,22 +36,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       const newGame = {
         ...req.body,
-        mapId: new ObjectId(req.body.mapId),
-        userId: userId,
+        mapId: mode === 'standard' ? new ObjectId(mapId) : mapId,
+        userId: new ObjectId(userId),
         guesses: [],
         rounds: [roundLocation],
         round: 1,
         totalPoints: 0,
         totalDistance: 0,
         totalTime: 0,
+        streak: 0,
+        state: 'started',
         createdAt: new Date(),
       } as Game
-
-      // check if user has played this map before
-      const hasPlayedResult = await collections.games
-        ?.find({ userId: userId, mapId: new ObjectId(req.body.mapId) })
-        .limit(1)
-        .toArray()
 
       // create game
       const result = await collections.games?.insertOne(newGame)
@@ -47,14 +56,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(500).send('Failed to create a new game.')
       }
 
-      // if this is users first game, increment usersPlayed for the map
-      if (hasPlayedResult?.length === 0) {
-        collections.maps?.updateOne({ _id: new ObjectId(req.body.mapId) }, { $inc: { usersPlayed: 1 } })
-      }
-
       res.status(201).send(result.insertedId)
     } else {
-      res.status(500).json({ message: 'Invalid request' })
+      res.status(405).end(`Method ${req.method} Not Allowed`)
     }
   } catch (err) {
     console.log(err)

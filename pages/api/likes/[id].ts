@@ -4,11 +4,13 @@ import { NextApiRequest, NextApiResponse } from 'next'
 /* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '@backend/utils/dbConnect'
 
+import { throwError } from '../../../backend/utils/helpers'
+
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await dbConnect()
     const mapId = req.query.id as string
-    const userId = req.query.userId as string
+    const userId = req.headers.uid as string
 
     if (req.method === 'GET') {
       const likes = await collections.mapLikes?.countDocuments({ mapId: mapId })
@@ -24,17 +26,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       res.status(200).send(result)
-    } else if (req.method === 'DELETE') {
+    }
+
+    // Unlike a map
+    else if (req.method === 'DELETE') {
       const removedLike = await collections.mapLikes?.deleteMany({
         mapId: new ObjectId(mapId),
         userId: new ObjectId(userId),
       })
 
       if (!removedLike) {
-        return res.status(400).send(`Failed to remove like from map with id: ${mapId}`)
+        return throwError(res, 400, 'Failed to unlike map')
       }
 
-      return res.status(200).send('Map was successfully unliked')
+      return res.status(200).send({ message: 'Map was successfully unliked' })
     } else {
       res.status(405).end(`Method ${req.method} Not Allowed`)
     }

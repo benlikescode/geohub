@@ -6,6 +6,8 @@ const StyledNavbar = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: sticky;
+  top: 0;
   padding: 0 1rem;
   //position: sticky;
   //top: 0;
@@ -15,7 +17,7 @@ const StyledNavbar = styled.div`
   flex-shrink: 0 !important;
 
   .appTitle {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
     font-weight: 600;
 
     @media (max-width: 800px) {
@@ -72,12 +74,12 @@ const StyledNavbar = styled.div`
   .userInfo {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
   }
 
   .username {
     color: #bec3c9;
-    font-size: 18px;
+    font-size: 16px;
 
     @media (max-width: 800px) {
       font-size: 1rem;

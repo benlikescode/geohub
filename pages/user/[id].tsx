@@ -1,20 +1,21 @@
 /* eslint-disable @next/next/no-img-element */
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
+import { signOut, useSession } from 'next-auth/react'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 
 import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
-import { Layout } from '@components/Layout'
 import { WidthController } from '@components/Layout/WidthController'
 import { MapLeaderboard } from '@components/MapLeaderboard'
-import { AvatarPickerModal } from '@components/Modals/AvatarPickerModal'
+import { AvatarPickerModal } from '@components/Modals'
 import { SkeletonProfile } from '@components/SkeletonProfile'
 import { VerifiedBadge } from '@components/VerifiedBadge'
 import { CameraIcon } from '@heroicons/react/outline'
-import { BadgeCheckIcon, PencilAltIcon } from '@heroicons/react/solid'
-import { logOutUser, selectUser, updateAvatar, updateBio, updateUsername } from '@redux/user'
+import { PencilAltIcon } from '@heroicons/react/solid'
+import { useAppDispatch, useAppSelector } from '@redux/hook'
+import { logOutUser, updateAvatar, updateBio, updateUsername } from '@redux/slices'
 import StyledProfilePage from '@styles/ProfilePage.Styled'
 import { MapLeaderboardType } from '@types'
 
@@ -26,7 +27,7 @@ type NewProfileValuesType = {
 }
 
 const ProfilePage: NextPage = () => {
-  const [leaderboardData, setLeaderboardData] = useState<MapLeaderboardType[] | null>()
+  const [leaderboardData, setLeaderboardData] = useState<MapLeaderboardType[]>([])
   const [newProfileValues, setNewProfileValues] = useState<NewProfileValuesType>()
   const [isEditing, setIsEditing] = useState(false)
   const [userDetails, setUserDetails] = useState<any>()
@@ -34,41 +35,37 @@ const ProfilePage: NextPage = () => {
   const [leaderboardPage, setLeaderboardPage] = useState(0)
   const [leaderboardHasMore, setLeaderboardHasMore] = useState(true)
   const [avatarModalOpen, setAvatarModalOpen] = useState(false)
-  const user = useSelector(selectUser)
+  const user = useAppSelector((state) => state.user)
   const router = useRouter()
   const userId = router.query.id
-  const dispatch = useDispatch()
-
-  avatarModalOpen ? disableBodyScroll(document as any) : enableBodyScroll(document as any)
+  const dispatch = useAppDispatch()
+  const { data: session } = useSession()
+  // avatarModalOpen ? disableBodyScroll(document as any) : enableBodyScroll(document as any)
 
   const isThisUsersProfile = () => {
-    if (!user.id) {
-      return false
-    }
-
-    return user.id === userId
+    return session?.user.id === userId
   }
 
   const handleLogout = () => {
-    router.push('/login')
+    signOut({ callbackUrl: '/login' })
 
-    dispatch(logOutUser())
+    // dispatch(logOutUser())
   }
 
   const fetchLeaderboard = async () => {
-    const { status, res } = await mailman(`scores/user/${userId}?page=${leaderboardPage}`)
+    const res = await mailman(`scores/user/${userId}?page=${leaderboardPage}`)
 
-    if (status === 404 || status === 500 || !res.data) {
-      return setLeaderboardData(null)
-    }
+    if (res.error || !res.data) return
 
     setLeaderboardHasMore(res.hasMore)
 
-    if (!leaderboardData) {
-      setLeaderboardData(res.data)
-    } else {
-      setLeaderboardData((prev) => prev?.concat(res.data))
-    }
+    setLeaderboardData((prev) => [...prev, ...res.data])
+
+    // if (!leaderboardData) {
+    //   setLeaderboardData(res.data)
+    // } else {
+    //   setLeaderboardData((prev) => prev?.concat(res.data))
+    // }
 
     setLeaderboardPage((prev) => prev + 1)
   }
@@ -112,7 +109,7 @@ const ProfilePage: NextPage = () => {
       setLoading(false)
     } else {
       const fetchUserDetails = async () => {
-        const { res } = await mailman(`users/${userId}`)
+        const res = await mailman(`users/${userId}`)
         setUserDetails(res)
         setNewProfileValues({ name: res.name, bio: res.bio, avatar: user.avatar })
         setLoading(false)
@@ -131,7 +128,16 @@ const ProfilePage: NextPage = () => {
           <SkeletonProfile />
         ) : (
           <div>
-            <div className="banner"></div>
+            <div className="banner-image">
+              <Image
+                src={`/images/backgrounds/profile.jpg`}
+                alt=""
+                layout="fill"
+                objectFit="cover"
+                style={{ opacity: 0.55 }}
+              />
+            </div>
+
             <div className="profile-details">
               <div className="profile-heading">
                 {isEditing ? (
@@ -229,9 +235,11 @@ const ProfilePage: NextPage = () => {
           </div>
         )}
 
-        {avatarModalOpen && (
-          <AvatarPickerModal closeModal={() => setAvatarModalOpen(false)} setNewUserDetails={setNewUserDetails} />
-        )}
+        <AvatarPickerModal
+          isOpen={avatarModalOpen}
+          closeModal={() => setAvatarModalOpen(false)}
+          setNewUserDetails={setNewUserDetails}
+        />
       </WidthController>
     </StyledProfilePage>
   )

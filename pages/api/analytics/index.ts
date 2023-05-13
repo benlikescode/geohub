@@ -2,19 +2,20 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 /* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '@backend/utils/dbConnect'
+import { isUserAnAdmin, throwError } from '@backend/utils/helpers'
 import { monthAgo, weekAgo } from '@backend/utils/queryDates'
 
 const getCounts = async () => {
   const userCount = await collections.users?.estimatedDocumentCount()
-  const spGamesCount = await collections.games?.estimatedDocumentCount()
-  const challengesCount = await collections.challenges?.estimatedDocumentCount()
-  const aerialCount = await collections.aerialGames?.estimatedDocumentCount()
+  const singlePlayerGamesCount = await collections.games?.find({ challengeId: { $eq: null } }).count()
+  const challengesCount = await collections.games?.find({ challengeId: { $ne: null } }).count()
+  const streakGamesCount = await collections.games?.find({ mode: 'streak' }).count()
 
   return [
     { title: 'Users', count: userCount },
-    { title: 'Single Player Games', count: spGamesCount },
+    { title: 'Single Player Games', count: singlePlayerGamesCount },
     { title: 'Challenges', count: challengesCount },
-    { title: 'Aerial Games', count: aerialCount },
+    { title: 'Streak Games', count: streakGamesCount },
   ]
 }
 
@@ -32,7 +33,7 @@ const getRecentUsers = async () => {
 const getRecentGames = async () => {
   const recentGames = await collections.games
     ?.aggregate([
-      { $match: { createdAt: { $gt: weekAgo } } },
+      // { $match: { createdAt: { $gt: weekAgo } } },
       { $sort: { createdAt: -1 } },
       {
         $lookup: {
@@ -43,6 +44,7 @@ const getRecentGames = async () => {
         },
       },
     ])
+    .limit(20)
     .toArray()
 
   return recentGames
@@ -53,8 +55,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     await dbConnect()
 
     if (req.method === 'GET') {
-      // Chore: Add server side admin check instead of client side
+      const userId = req.headers.uid as string
 
+      // Ensure this user is an admin
+      const isAdmin = await isUserAnAdmin(userId)
+
+      if (!isAdmin) {
+        return throwError(res, 401, 'You are not authorized to view this page')
+      }
+
+      // Get analytics data
       const counts = await getCounts()
       const recentUsers = await getRecentUsers()
       const recentGames = await getRecentGames()
@@ -68,7 +78,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         },
       })
     } else {
-      res.status(500).json({ message: 'Invalid request' })
+      res.status(405).end(`Method ${req.method} Not Allowed`)
     }
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong, please try again later' })

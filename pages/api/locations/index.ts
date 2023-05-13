@@ -67,7 +67,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       res.status(201).send({ message: 'The location was successfully added to the DB' })
     } else {
-      res.status(405).end(`This endpoint does not allow the method: ${req.method}`)
+      res.status(405).end(`Method ${req.method} Not Allowed`)
     }
   } catch (err) {
     console.log(err)

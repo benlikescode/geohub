@@ -1,4 +1,4 @@
-import { ObjectId, PushOperator } from 'mongodb'
+import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { collections, dbConnect } from '@backend/utils/dbConnect'
@@ -12,11 +12,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     // Gets the 5 most recent searches from this user
     if (req.method === 'GET') {
-      const userId = req.query.userId as string
+      const userId = req.headers.uid as string
 
-      if (!userId) {
-        return throwError(res, 400, 'You must pass a valid userId as a query parameter')
-      }
+      // if (!userId) {
+      //   return throwError(res, 400, 'You must pass a valid userId as a query parameter')
+      // }
 
       const recentSearches = await collections.recentSearches?.findOne({ userId: new ObjectId(userId) })
 
@@ -54,7 +54,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       const result = []
 
-      for (let search of recentSearches.searches) {
+      for (const search of recentSearches.searches) {
         const type = search.type
 
         if (type === 'term') {
@@ -77,7 +77,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     // Stores a user's recent search in the DB
     else if (req.method === 'POST') {
-      const { userId, type, term, searchedUserId, searchedMapId } = req.body
+      const userId = req.headers.uid as string
+      const { type, term, searchedUserId, searchedMapId } = req.body
 
       //const result = await collections.recentSearches.findOne({ userId: new ObjectId() })
 

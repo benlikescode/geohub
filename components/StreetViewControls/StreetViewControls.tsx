@@ -14,11 +14,9 @@ const StreetViewControls: FC<Props> = ({ handleBackToStart }) => {
 
   return (
     <StyledStreetViewControls>
-      <div className="controlBtn" onMouseOver={() => setShowTip(true)} onMouseOut={() => setShowTip(false)}>
-        <Button type="iconRounded" callback={handleBackToStart}>
-          <Icon size={24} fill="#fff">
-            <FlagIcon />
-          </Icon>
+      <div className="control-button-wrapper" onMouseOver={() => setShowTip(true)} onMouseOut={() => setShowTip(false)}>
+        <Button className="control-button" type="iconRounded" callback={handleBackToStart}>
+          <FlagIcon />
         </Button>
         {showTip && <Tooltip label="Back To Start" position="left" />}
       </div>

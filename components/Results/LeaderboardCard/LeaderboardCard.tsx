@@ -1,17 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
-import { FC, Fragment, useState } from 'react'
+import { FC } from 'react'
 
 import { Game } from '@backend/models'
-import { Banner } from '@components/Layout'
 import { Avatar, Icon } from '@components/System'
 import { CogIcon } from '@heroicons/react/outline'
 import { MapType } from '@types'
-import {
-  formatDistance,
-  formatLargeNumber,
-  formatRoundTime,
-  formatSettingsLabel
-} from '@utils/helperFunctions'
+import { formatDistance, formatLargeNumber, formatRoundTime, formatSettingsLabel } from '@utils/helperFunctions'
 
 import { StyledLeaderboardCard } from './'
 

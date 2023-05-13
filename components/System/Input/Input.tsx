@@ -6,6 +6,7 @@ import { EyeIcon, EyeOffIcon } from '@heroicons/react/outline'
 import { StyledInput } from './'
 
 type Props = {
+  id: string
   label?: string
   type: string
   placeholder?: string
@@ -23,6 +24,7 @@ type Props = {
 }
 
 const Input: FC<Props> = ({
+  id,
   label,
   type,
   placeholder,
@@ -61,11 +63,12 @@ const Input: FC<Props> = ({
 
   return (
     <StyledInput fontSize={fontSize}>
-      {label && <label>{label}</label>}
+      {label && <label htmlFor={id}>{label}</label>}
 
       {isTextarea ? (
         <div className="textarea-wrapper">
           <textarea
+            id={id}
             placeholder={placeholder}
             onChange={(e) => onInputChange(e.currentTarget.value)}
             value={currValue}
@@ -84,6 +87,7 @@ const Input: FC<Props> = ({
       ) : (
         <div className="input-wrapper">
           <input
+            id={id}
             placeholder={placeholder}
             onChange={(e) => onInputChange(e.currentTarget.value)}
             value={currValue}

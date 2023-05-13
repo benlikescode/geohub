@@ -1,6 +1,9 @@
 import styled from 'styled-components'
 
 const StyledGamePage = styled.div`
+  height: 100vh;
+  overflow: hidden auto;
+
   .resultsWrapper {
     display: flex;
     align-items: center;

@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 /* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '@backend/utils/dbConnect'
-import { randomInt } from '@utils/functions/generateLocations'
+import { throwError } from '@backend/utils/helpers'
 import { getRandomAvatar } from '@utils/helperFunctions'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -13,27 +13,19 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === 'POST') {
       const { name, email, password } = req.body
 
-      // first check if we already have a user with this email
-      let findUser = await collections.users?.findOne({ email: email })
+      const findUserWithEmail = await collections.users?.findOne({ email: email })
 
-      if (findUser) {
-        return res.status(400).json({
-          errorField: 'email',
-          errorMessage: 'An account with that email already exists',
-        })
+      if (findUserWithEmail) {
+        return throwError(res, 400, 'An account with that email already exists')
       }
 
-      // next check if we have a user with this name
-      findUser = await collections.users?.findOne({ name: name })
+      const findUserWithName = await collections.users?.findOne({ name: name })
 
-      if (findUser) {
-        return res.status(400).json({
-          errorField: 'name',
-          errorMessage: `The name ${name} is already taken`,
-        })
+      if (findUserWithName) {
+        return throwError(res, 400, `The name ${name} is already taken`)
       }
 
-      // if we make it here, values are unique and we create the user
+      // Values are unique, so create user
       const hashPassword = bcrypt.hashSync(password, 10)
 
       const newUser = {
@@ -42,20 +34,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         password: hashPassword,
         avatar: getRandomAvatar(),
         createdAt: new Date(),
-        location: 'Canada',
       }
 
       await collections.users?.insertOne(newUser)
 
-      res.status(201).json({
-        success: true,
-        data: {
-          ...newUser,
-          password: '',
-        },
-      })
+      res.status(201).json({ ...newUser, password: '' })
     } else {
-      res.status(500).json({ message: 'Invalid request' })
+      res.status(405).end(`Method ${req.method} Not Allowed`)
     }
   } catch (err) {
     console.log(err)

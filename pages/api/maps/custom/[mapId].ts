@@ -19,6 +19,7 @@ type UpdatedMap = { name?: string; description?: string; previewImg?: string; is
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await dbConnect()
+
     const mapId = req.query.mapId as string
 
     if (!mapId) {
@@ -27,14 +28,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     // GET custom map
     if (req.method === 'GET') {
+      const userId = req.headers.uid
       const mapDetails = await collections.maps?.findOne({ _id: new ObjectId(mapId) })
 
       if (!mapDetails) {
         return throwError(res, 400, `Failed to find map details`)
       }
 
+      // Verify that this map belongs to this user
+      if (userId !== mapDetails.creator?.toString()) {
+        return throwError(res, 401, 'You are not authorized to view this page')
+      }
+
       // Get corresponding locations
-      const locations = await collections.locations?.find({ mapId: new ObjectId(mapId) }).toArray()
+      const locations = await collections.userLocations?.find({ mapId: new ObjectId(mapId) }).toArray()
 
       if (!locations) {
         return throwError(res, 400, 'Failed to get locations for map')
@@ -73,7 +80,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       if (locations) {
         // Removes old locations
-        const removeResult = await collections.locations?.deleteMany({ mapId: new ObjectId(mapId) })
+        const removeResult = await collections.userLocations?.deleteMany({ mapId: new ObjectId(mapId) })
 
         if (!removeResult) {
           return throwError(res, 400, 'Something went wrong updating locations')
@@ -86,7 +93,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         // Finally insert the new locations (if not empty)
         if (locations.length > 0) {
-          const result = await collections.locations?.insertMany(locations)
+          const result = await collections.userLocations?.insertMany(locations)
 
           if (!result) {
             return throwError(res, 400, 'Could not add locations')
@@ -95,8 +102,43 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       return res.status(200).send({ message: 'Map was successfully updated' })
+    }
+
+    // DELETE custom map
+    else if (req.method === 'DELETE') {
+      const userId = req.headers.uid as string
+      const mapQuery = { _id: new ObjectId(mapId), creator: new ObjectId(userId) }
+
+      const isThisUsersMap = await collections.maps?.find(mapQuery).count()
+
+      if (!isThisUsersMap) {
+        return throwError(res, 401, 'You do not have permission to delete this map')
+      }
+
+      // Remove map as a liked map for all users
+      await collections.mapLikes?.deleteMany({ mapId: new ObjectId(mapId) })
+
+      // Mark map as deleted in DB
+      const markMapAsDeleted = await collections.maps?.updateOne(
+        { _id: new ObjectId(mapId) },
+        { $set: { isDeleted: true } }
+      )
+
+      if (!markMapAsDeleted) {
+        return throwError(res, 400, 'An unexpected error occured while trying to delete')
+      }
+
+      // Choosing not to remove locations, atleast for now -> since ongoing games may still need locations
+      // // Remove it's locations
+      // const deleteLocations = await collections.userLocations?.deleteMany({ mapId: new ObjectId(mapId) })
+
+      // if (!deleteLocations) {
+      //   return throwError(res, 400, `There was a problem removing the locations from map with id: ${mapId}`)
+      // }
+
+      return res.status(200).send({ message: 'Map was successfully deleted' })
     } else {
-      res.status(500).json('Nothing to see here.')
+      res.status(405).end(`Method ${req.method} Not Allowed`)
     }
   } catch (err) {
     console.log(err)

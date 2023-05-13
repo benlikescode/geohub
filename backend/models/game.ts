@@ -25,6 +25,10 @@ type Game = {
   userDetails?: User
   createdAt?: Date
   mapDetails?: MapType
+  state: 'started' | 'finished'
+  mode: 'standard' | 'streak'
+  streak: number
+  isDailyChallenge?: boolean
 }
 
 export default Game

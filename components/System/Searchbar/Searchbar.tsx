@@ -1,14 +1,12 @@
 import { useRouter } from 'next/router'
 import React, { FC, useEffect, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
+import toast from 'react-hot-toast'
 
 import { mailman } from '@backend/utils/mailman'
-import { Button, Icon, Spinner } from '@components/System'
 import { SearchIcon } from '@heroicons/react/outline'
-import { selectUser } from '@redux/user'
+import { useAppSelector } from '@redux/hook'
 import { SearchResultType } from '@types'
 import { KEY_CODES } from '@utils/constants/keyCodes'
-import { showErrorToast } from '@utils/helperFunctions'
 import { useClickOutside } from '@utils/hooks'
 
 import { StyledSearchbar } from './'
@@ -30,7 +28,7 @@ const Searchbar: FC<Props> = ({ placeholder, autoFocus, isSmall, onClickOutside 
   const [recentSearches, setRecentSearches] = useState([])
   const wrapperRef = useRef(null)
   const router = useRouter()
-  const user = useSelector(selectUser)
+  const user = useAppSelector((state) => state.user)
 
   useClickOutside(wrapperRef, () => handleClickOutside())
 
@@ -53,6 +51,24 @@ const Searchbar: FC<Props> = ({ placeholder, autoFocus, isSmall, onClickOutside 
     setIsFocused(false)
   }
 
+  const handleSearch = async () => {
+    if (!queryRef.current) return
+
+    // Add to recently searched
+    const res = await mailman(
+      'search/recent',
+      'POST',
+      JSON.stringify({ userId: user.id, type: 'term', term: queryRef.current })
+    )
+
+    if (res.error) {
+      toast.error(res.error.message)
+    }
+
+    setIsFocused(false)
+    router.push(`/search?q=${queryRef.current}`)
+  }
+
   const handleKeyDown = async (e: KeyboardEvent) => {
     if (!isFocusedRef.current && e.key === 'k' && (e.ctrlKey || e.metaKey)) {
       e.preventDefault()
@@ -65,17 +81,7 @@ const Searchbar: FC<Props> = ({ placeholder, autoFocus, isSmall, onClickOutside 
     }
 
     if (isFocusedRef.current && e.key === KEY_CODES.ENTER) {
-      // Add to recently searched
-      const { res } = await mailman(
-        'search/recent',
-        'POST',
-        JSON.stringify({ userId: user.id, type: 'term', term: queryRef.current })
-      )
-
-      console.log(res)
-
-      setIsFocused(false)
-      router.push(`/search?q=${queryRef.current}`)
+      handleSearch()
     }
   }
 
@@ -102,7 +108,7 @@ const Searchbar: FC<Props> = ({ placeholder, autoFocus, isSmall, onClickOutside 
   const getRecentSearches = async () => {
     setLoadingRecents(true)
 
-    const { res } = await mailman(`search/recent?userId=${user.id}`)
+    const res = await mailman(`search/recent`)
 
     setLoadingRecents(false)
 
@@ -124,8 +130,13 @@ const Searchbar: FC<Props> = ({ placeholder, autoFocus, isSmall, onClickOutside 
     }
 
     const search = async () => {
-      const { res } = await mailman(`search?q=${query}&count=6`)
-      setResults(res)
+      const res = await mailman(`search?q=${query}&count=6`)
+
+      if (!res) {
+        return
+      }
+
+      setResults([...res.users, ...res.maps])
       setLoadingQueryResults(false)
     }
 
@@ -145,7 +156,7 @@ const Searchbar: FC<Props> = ({ placeholder, autoFocus, isSmall, onClickOutside 
 
   return (
     <StyledSearchbar isFocused={isFocused} isSmall={isSmall} ref={wrapperRef}>
-      <div className="searchbarWrapper" onClick={() => setIsFocused(true)}>
+      <div className="searchbarWrapper">
         <input
           type="text"
           placeholder={placeholder ? placeholder : 'Search'}
@@ -153,14 +164,11 @@ const Searchbar: FC<Props> = ({ placeholder, autoFocus, isSmall, onClickOutside 
           autoFocus={autoFocus}
           ref={inputElementRef}
           onFocus={() => setIsFocused(true)}
+          onClick={() => setIsFocused(true)}
         />
-        <div className="searchBtn">
-          <Button type="icon">
-            <Icon size={20} fill="rgba(206, 206, 206, 0.6)">
-              {loadingQueryResults ? <Spinner size={20} /> : <SearchIcon />}
-            </Icon>
-          </Button>
-        </div>
+        <button className="searchBtn" onClick={() => handleSearch()}>
+          <SearchIcon />
+        </button>
       </div>
 
       {isFocused && (

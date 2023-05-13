@@ -1,6 +1,10 @@
 import styled from 'styled-components'
 
-const StyledMapStats = styled.div`
+type StyledProps = {
+  isLiked?: boolean
+}
+
+const StyledMapStats = styled.div<StyledProps>`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   column-gap: 20px;
@@ -45,7 +49,7 @@ const StyledMapStats = styled.div`
   .textWrapper {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
   }
 
   .mainLabel {
@@ -58,10 +62,32 @@ const StyledMapStats = styled.div`
     font-size: 14px;
   }
 
+  .stat-icon {
+    svg {
+      height: 30px;
+      color: #9b9b9b;
+      transition: transform 200ms ease 0ms;
+      position: relative;
+
+      path {
+        stroke-width: 1.5;
+      }
+    }
+  }
+
   .likeBtn {
     background-color: transparent;
     height: fit-content;
     width: fit-content;
+
+    svg {
+      color: ${({ isLiked }) => isLiked && 'var(--red-500)'};
+
+      &:hover {
+        transform: scale(1.2);
+        color: var(--red-500);
+      }
+    }
   }
 `
 

@@ -23,6 +23,21 @@ const StyledGameStatus = styled.div`
     }
   }
 
+  .streak-section {
+    padding: 10px 20px;
+    padding-left: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    border-right: 1px solid #444;
+
+    svg {
+      height: 24px;
+      color: #fbbf24;
+    }
+  }
+
   .label {
     color: var(--color2);
     font-size: 14px;

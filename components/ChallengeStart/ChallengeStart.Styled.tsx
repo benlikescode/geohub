@@ -4,21 +4,64 @@ type StyledProps = {}
 
 const StyledChallengeStart = styled.div<StyledProps>`
   .challengeStartWrapper {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    height: fit-content;
-    gap: 1.5rem;
+    height: 300px;
     padding: 4rem 1rem;
     border-bottom: 1px solid #222;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.9), 0 0px 2px rgba(0, 0, 0, 0.9);
     width: 100%;
     background-color: #121212;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .challengeStartImg {
+      position: absolute;
+      inset: 0;
+      height: 100%;
+      width: 100%;
+      opacity: 0.12;
+      object-fit: cover;
+    }
+
+    .appTitle {
+      position: absolute;
+      top: 8px;
+      left: 10px;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--color4);
+      padding: 6px;
+
+      &:hover {
+        background-color: #363636;
+        border-radius: 8px;
+        color: var(--color1);
+      }
+
+      @media (max-width: 800px) {
+        font-size: 1rem;
+      }
+    }
+
+    .challengeStartContent {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      gap: 1.5rem;
+      z-index: 1;
+      position: absolute;
+    }
   }
 
   .challengeTitle {
-    font-size: 3rem;
+    font-size: 2.5rem;
     font-style: italic;
     text-align: center;
+
+    @media (max-width: 600px) {
+      font-size: 1.5rem;
+    }
   }
 
   .challengeCreator {
@@ -26,8 +69,18 @@ const StyledChallengeStart = styled.div<StyledProps>`
     align-items: center;
     margin-bottom: 1rem;
 
-    span {
-      margin-left: 0.5rem;
+    .challengeMessage {
+      margin-left: 8px;
+      color: var(--color2);
+
+      .emphasizedText {
+        color: #e4e4e4;
+        font-weight: 600;
+      }
+
+      @media (max-width: 600px) {
+        font-size: 0.875rem;
+      }
     }
   }
 
@@ -50,8 +103,8 @@ const StyledChallengeStart = styled.div<StyledProps>`
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
-    padding: 3rem;
+    gap: 10px;
+    padding: 30px 10px;
     flex-wrap: wrap;
   }
 
@@ -59,11 +112,18 @@ const StyledChallengeStart = styled.div<StyledProps>`
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
-    width: 220px;
+    gap: 8px;
+    width: 200px;
     border: 1px solid #202020;
     border-radius: 6px;
-    padding: 1rem 0;
+    padding: 16px 0;
+    background-color: #252525;
+    font-size: 14px;
+
+    @media (max-width: 600px) {
+      width: 160px;
+      font-size: 12px;
+    }
   }
 `
 

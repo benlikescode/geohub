@@ -24,8 +24,8 @@ const StyledMarker = styled.div<StyledProps>`
   `}
 
   .actual-marker {
-    height: 26px;
-    width: 26px;
+    height: 24px;
+    width: 24px;
     background-color: #29292e;
     border-radius: 50%;
     position: relative;
@@ -36,7 +36,7 @@ const StyledMarker = styled.div<StyledProps>`
     font: bold 14px Helvetica, Verdana, Tahoma;
 
     svg {
-      height: 16px;
+      height: 14px;
     }
 
     /*

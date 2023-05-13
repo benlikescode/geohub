@@ -8,9 +8,10 @@ import { throwError } from '@backend/utils/helpers'
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await dbConnect()
+
     const mapId = req.query.id as string
-    const userId = req.query.userId as string
     const includeStats = req.query.stats as string // true or false
+    const userId = req.headers.uid as string
 
     if (!mapId) {
       return throwError(res, 400, 'You must pass a valid mapId')
@@ -22,6 +23,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       if (!mapDetails) {
         return throwError(res, 404, `Failed to find map with id: ${mapId}`)
+      }
+
+      // If map is not published or is deleted -> return early
+      if (!mapDetails.isPublished || (mapDetails.isDeleted && mapDetails.creator?.toString() !== userId)) {
+        return throwError(res, 400, `This map has not been published or does not exist`)
       }
 
       const isOfficialMap = mapDetails.creator === 'GeoHub'
@@ -50,13 +56,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       const likedByUser = likes.some((like) => {
-        return like.userId.toString() === userId.toString()
+        return like.userId.toString() === userId?.toString()
       })
 
       // Get Map's average score
       const avgScore = await collections.games
         ?.aggregate([
-          { $match: { mapId: new ObjectId(mapId), round: 6 } },
+          { $match: { mapId: new ObjectId(mapId), state: 'finished' } },
           {
             $group: {
               _id: null,
@@ -73,7 +79,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const adjustedAvgScore = avgScore.length ? Math.ceil(avgScore[0].avgScore) : 0
 
       // Get Map's location count
-      const locationCount = await collections.locations?.find({ mapId: new ObjectId(mapId) }).count()
+      const locationCollection = mapDetails.creator === 'GeoHub' ? 'locations' : 'userLocations'
+
+      const locationCount = await collections[locationCollection]?.find({ mapId: new ObjectId(mapId) }).count()
+
+      // Get Map's explorers count
+      const explorers = await collections.games
+        ?.aggregate([
+          { $match: { mapId: new ObjectId(mapId), state: 'finished' } },
+          {
+            $group: {
+              _id: '$userId',
+            },
+          },
+        ])
+        .toArray()
+
+      if (!explorers) return throwError(res, 400, 'Failed to get the number of explorers')
 
       const result = {
         ...mapDetails,
@@ -83,6 +105,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         },
         avgScore: adjustedAvgScore,
         locationCount,
+        usersPlayed: explorers.length,
       }
 
       res.status(200).send(result)

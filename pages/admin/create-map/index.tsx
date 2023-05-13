@@ -1,13 +1,14 @@
 import type { NextPage } from 'next'
 import React, { useState } from 'react'
+import toast from 'react-hot-toast'
 
 import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
-import { Layout, PageHeader } from '@components/Layout'
+import { PageHeader } from '@components/Layout'
 import { WidthController } from '@components/Layout/WidthController'
 import { Button, Input } from '@components/System'
 import StyledAdminCreateMapPage from '@styles/AdminCreateMapPage.Styled'
-import { showErrorToast, showSuccessToast } from '@utils/helperFunctions'
+import { showErrorToast, showSuccessToast } from '@utils/helpers/showToasts'
 
 const AdminCreateMapPage: NextPage = () => {
   const [name, setName] = useState('')
@@ -17,7 +18,7 @@ const AdminCreateMapPage: NextPage = () => {
 
   const handleCreateMap = async () => {
     if (!name || !description) {
-      return showErrorToast('Missing map name or description')
+      toast.error('Missing map name or description')
     }
 
     setIsSubmitting(true)
@@ -28,12 +29,14 @@ const AdminCreateMapPage: NextPage = () => {
       previewImg: avatarPath,
     }
 
-    const { status, res } = await mailman('maps', 'POST', JSON.stringify(body))
+    const res = await mailman('maps', 'POST', JSON.stringify(body))
 
-    if (status === 201) {
+    if (res.error) {
+      showErrorToast(res.error.message)
+    }
+
+    if (res.message) {
       showSuccessToast(res.message)
-    } else {
-      showErrorToast(res.message)
     }
 
     setIsSubmitting(false)
@@ -45,11 +48,18 @@ const AdminCreateMapPage: NextPage = () => {
       <PageHeader>Create A Map</PageHeader>
 
       <StyledAdminCreateMapPage>
-        <Input type="text" label="Name" value={name} callback={setName} />
+        <Input id="name" type="text" label="Name" value={name} callback={setName} />
 
-        <Input type="text" label="Description" isTextarea value={description} callback={setDescription} />
+        <Input
+          id="description"
+          type="text"
+          label="Description"
+          isTextarea
+          value={description}
+          callback={setDescription}
+        />
 
-        <Input type="text" label="Avatar Path" value={`/images/mapAvatars/`} callback={setAvatarPath} />
+        <Input id="avatar" type="text" label="Avatar Path" value={`/images/mapAvatars/`} callback={setAvatarPath} />
 
         <Button type="solidPurple" width="100%" callback={() => handleCreateMap()} loading={isSubmitting}>
           Create

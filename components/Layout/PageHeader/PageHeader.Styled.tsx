@@ -5,10 +5,10 @@ type StyledProps = {
 }
 
 const StyledPageHeader = styled.h1<StyledProps>`
-  font-size: 1.75rem;
-  font-weight: 700;
+  font-size: 1.375rem;
+  font-weight: 600;
   color: #fff;
-  margin-bottom: ${({ removeMargin }) => (removeMargin ? 0 : '3rem')};
+  margin-bottom: ${({ removeMargin }) => (removeMargin ? 0 : '20px')};
 `
 
 export default StyledPageHeader

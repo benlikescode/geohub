@@ -1,21 +1,24 @@
 import DefaultErrorPage from 'next/error'
 import { useRouter } from 'next/router'
-import React, { FC, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react'
 
 import Game from '@backend/models/game'
 import { mailman } from '@backend/utils/mailman'
 import { ChallengeStart } from '@components/ChallengeStart'
-import { FinalResultsCard } from '@components/FinalResultsCard'
 import { Head } from '@components/Head'
 import { LoadingPage } from '@components/Layout'
+import { StandardFinalResults, StandardResults, StreakResults } from '@components/ResultCards'
 import { ResultMap } from '@components/ResultMap'
-import { ResultsCard } from '@components/ResultsCard'
 import { StreetView } from '@components/StreetView'
-import { updateStartTime } from '@redux/game'
-import { selectUser } from '@redux/user'
+import { useAppDispatch, useAppSelector } from '@redux/hook'
+import { updateStartTime } from '@redux/slices'
 import StyledGamePage from '@styles/GamePage.Styled'
 import { ChallengeType, PageType } from '@types'
+import { showErrorToast } from '@utils/helpers/showToasts'
+
+import { StreakFinalResults } from '../../components/ResultCards/StreakFinalResults'
+import { StreaksResultMap } from '../../components/StreaksResultMap'
+import { StreaksSummaryMap } from '../../components/StreaksSummaryMap'
 
 const ChallengePage: PageType = () => {
   const [view, setView] = useState<'Start' | 'Game' | 'Result' | 'FinalResults'>('Game')
@@ -24,64 +27,56 @@ const ChallengePage: PageType = () => {
 
   const router = useRouter()
   const challengeId = router.query.id as string
-  const user = useSelector(selectUser)
-  const dispatch = useDispatch()
+  const user = useAppSelector((state) => state.user)
+  const dispatch = useAppDispatch()
 
   const fetchChallenge = async () => {
-    const { status, res } = await mailman(`challenges/${challengeId}?userId=${user.id}`)
+    const res = await mailman(`challenges/${challengeId}`)
 
-    // If challenge not found, set gameData to null to display error page
-    if (status === 404 || status === 500) {
+    // If challenge not found -> show error page
+    if (res.error) {
       return setChallengeData(null)
     }
+
     setChallengeData(res)
 
-    //console.log(res)
+    console.log(`MAP DETAILS: ${JSON.stringify(res.mapDetails)}`)
 
     const isThisUsersChallenge = res?.creatorId === user.id
-    //console.log(isThisUsersChallenge)
     const userHasStartedChallenge = res.playersGame !== null
-    //console.log(userHasStartedChallenge)
 
-    // If user is guest and has not started this challenge yet
-    if (!isThisUsersChallenge && !userHasStartedChallenge) {
-      setView('Start')
+    if (!userHasStartedChallenge) {
+      return isThisUsersChallenge ? await createGame(res) : setView('Start')
     }
-    // Otherwise, if they have not started challenge, create a game object
-    // If they have started challenge, set gameData with their current game state
-    else {
-      if (!userHasStartedChallenge) {
-        await createGame(res)
-      } else {
-        if (res.playersGame.round > 5) {
-          router.push(`/results/challenge/${challengeId}`)
-        } else {
-          const formattedGameData = { id: res.playersGame._id, ...res.playersGame }
 
-          setGameData(formattedGameData)
-        }
-      }
+    // If they have finished the game, push to results page
+    if (res.playersGame.state === 'finished') {
+      return router.push(`/results/challenge/${challengeId}`)
     }
-    //console.log(challengeData, gameData)
+
+    // If they have not finished the game, set their game state
+    const formattedGameData = { id: res.playersGame._id, mapDetails: res.mapDetails, ...res.playersGame }
+    setGameData(formattedGameData)
   }
 
   const createGame = async (challengeData: ChallengeType) => {
     const gameData = {
       mapId: challengeData.mapId,
+      mode: challengeData.mode,
       gameSettings: challengeData.gameSettings,
-      userId: user.id,
       locations: challengeData.locations,
-      challengeId,
+      isDailyChallenge: challengeData.isDailyChallenge,
     }
 
     // Store start time
     dispatch(updateStartTime({ startTime: new Date().getTime() }))
 
-    const { status, res } = await mailman(`challenges/${challengeId}`, 'POST', JSON.stringify(gameData))
+    const res = await mailman(`challenges/${challengeId}`, 'POST', JSON.stringify(gameData))
 
-    if (status === 400) {
-      alert('An error occured')
+    if (res.error) {
+      return showErrorToast(res.error.message)
     }
+
     console.log(`GAME DATA: ${JSON.stringify(res)}`)
     setGameData(res)
   }
@@ -110,16 +105,18 @@ const ChallengePage: PageType = () => {
 
   return (
     <StyledGamePage>
-      <Head title={`Game - Round ${gameData.round}`} />
-      {view === 'Game' ? (
-        <StreetView gameData={gameData} setGameData={setGameData} setView={setView} />
-      ) : (
+      <Head title={`Challenge - GeoHub`} />
+
+      {view === 'Game' && <StreetView gameData={gameData} setGameData={setGameData} setView={setView} />}
+
+      {view !== 'Game' && (
         <>
-          {view === 'Result' && (
+          {/* Result Maps */}
+          {gameData.mode === 'standard' && view === 'Result' && (
             <ResultMap guessedLocations={gameData.guesses} actualLocations={gameData.rounds} round={gameData.round} />
           )}
 
-          {view === 'FinalResults' && (
+          {gameData.mode === 'standard' && view === 'FinalResults' && (
             <ResultMap
               guessedLocations={gameData.guesses}
               actualLocations={gameData.rounds}
@@ -128,16 +125,31 @@ const ChallengePage: PageType = () => {
             />
           )}
 
+          {gameData.mode === 'streak' && view === 'Result' && <StreaksResultMap gameData={gameData} />}
+
+          {gameData.mode === 'streak' && view === 'FinalResults' && <StreaksSummaryMap gameData={gameData} />}
+
+          {/* Result Cards */}
           <div className="resultsWrapper">
-            {view === 'FinalResults' ? (
-              <FinalResultsCard gameData={gameData} />
-            ) : (
-              <ResultsCard
+            {gameData.mode === 'standard' && view === 'Result' && (
+              <StandardResults
                 round={gameData.round}
                 distance={gameData.guesses[gameData.guesses.length - 1].distance}
                 points={gameData.guesses[gameData.guesses.length - 1].points}
+                noGuess={
+                  gameData.guesses[gameData.guesses.length - 1].timedOut &&
+                  !gameData.guesses[gameData.guesses.length - 1].timedOutWithGuess
+                }
                 setView={setView}
               />
+            )}
+
+            {gameData.mode === 'standard' && view === 'FinalResults' && <StandardFinalResults gameData={gameData} />}
+
+            {gameData.mode === 'streak' && view === 'Result' && <StreakResults gameData={gameData} setView={setView} />}
+
+            {gameData.mode === 'streak' && view === 'FinalResults' && (
+              <StreakFinalResults gameData={gameData} setView={setView} />
             )}
           </div>
         </>

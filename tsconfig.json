@@ -19,7 +19,7 @@
       "@types/*": ["@types/*"],
       "@components/*": ["components/*"],
       "@utils/*": ["utils/*"],
-      "@redux/*": ["redux/*"],
+      "@redux/*": ["redux-utils/*"],
       "@styles/*": ["styles/*"],
       "@backend/*": ["backend/*"],
       "@pages/*": ["pages/*"],

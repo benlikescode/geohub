@@ -13,10 +13,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(405).end(`Method ${req.method} Not Allowed`)
 
-    /*
+    /* DEPRECATED DEPRECATED DEPRECATED DEPRECATED DEPRECATED DEPRECATED
 
     // Updates all users in the DB (DONT enable on prod until proper auth introduced)
     // Currently updates all users avatar values to a random avatar
+
+    // PRETTY SURE THIS WAS JUST FOR DEV PURPOSES -> SO THIS ENDPOINT CAN BE REMOVED
     if (req.method === 'POST') {
       const result = await collections.users?.find({}).forEach((user) => {
         const avatar = getRandomAvatar()

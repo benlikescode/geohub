@@ -1,18 +1,14 @@
 import GoogleMapReact from 'google-map-react'
-import React, { FC, useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { FC, useRef, useState } from 'react'
 
 import { Marker } from '@components/Marker'
 import { Icon } from '@components/System'
 import { Button } from '@components/System/Button'
-import { ChevronDownIcon, ChevronUpIcon, XIcon } from '@heroicons/react/outline'
-import { selectUser, updateGuessMapSize } from '@redux/user'
+import { ArrowRightIcon, ChevronDownIcon, ChevronUpIcon, XIcon } from '@heroicons/react/outline'
+import { useAppDispatch, useAppSelector } from '@redux/hook'
+import { updateGuessMapSize } from '@redux/slices'
 import { LocationType } from '@types'
-import {
-  createMarker,
-  getGuessMapDimensions,
-  getMapTheme
-} from '@utils/helperFunctions'
+import { createMarker, getGuessMapDimensions, getMapTheme } from '@utils/helperFunctions'
 
 import { StyledGuessMap } from './'
 
@@ -39,10 +35,10 @@ const GuessMap: FC<Props> = ({
   const [mapWidth, setMapWidth] = useState(15) // width in vw
   const [hovering, setHovering] = useState(false)
   const prevMarkersRef = useRef<google.maps.Marker[]>([])
-  const dispatch = useDispatch()
-  const user = useSelector(selectUser)
+  const dispatch = useAppDispatch()
   const hoverDelay = useRef<any>()
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
+  const user = useAppSelector((state) => state.user)
 
   const [marker, setMarker] = useState<{ lat: number; lng: number } | null>(null)
 
@@ -93,7 +89,7 @@ const GuessMap: FC<Props> = ({
       setHovering(false)
       setMapHeight(15)
       setMapWidth(15)
-    }, 500)
+    }, 700)
   }
 
   const changeMapSize = (change: 'increase' | 'decrease') => {
@@ -133,23 +129,19 @@ const GuessMap: FC<Props> = ({
         {hovering && (
           <div className="controls">
             <button
-              className={`controlBtn ${user.guessMapSize === 4 ? 'disabled' : ''}`}
+              className={`controlBtn increase ${user.guessMapSize === 4 ? 'disabled' : ''}`}
               onClick={() => changeMapSize('increase')}
               disabled={user.guessMapSize === 4}
             >
-              <Icon size={16} fill="#fff">
-                <ChevronUpIcon />
-              </Icon>
+              <ArrowRightIcon />
             </button>
 
             <button
-              className={`controlBtn ${user.guessMapSize === 1 ? 'disabled' : ''}`}
+              className={`controlBtn decrease ${user.guessMapSize === 1 ? 'disabled' : ''}`}
               onClick={() => changeMapSize('decrease')}
               disabled={user.guessMapSize === 1}
             >
-              <Icon size={16} fill="#fff">
-                <ChevronDownIcon />
-              </Icon>
+              <ArrowRightIcon />
             </button>
           </div>
         )}

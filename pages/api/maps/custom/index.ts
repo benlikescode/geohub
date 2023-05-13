@@ -5,7 +5,6 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { Map } from '@backend/models'
 import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { throwError } from '@backend/utils/helpers'
-import { MapType } from '@types'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -13,14 +12,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     // Gets your custom maps - should likely be paginated - likely want to get official maps here if user is admin - need better auth though
     if (req.method === 'GET') {
-      const userId = req.query.userId as string
-
-      if (!userId) {
-        return throwError(res, 400, 'A userId is required')
-      }
+      const userId = req.headers.uid as string
 
       const customMaps = await collections.maps
-        ?.find({ creator: new ObjectId(userId) })
+        ?.find({ creator: new ObjectId(userId), isDeleted: { $exists: false } })
         .sort({ createdAt: -1 })
         .toArray()
 
@@ -45,8 +40,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         previewImg: avatar || 'https://wallpaperaccess.com/full/2707446.jpg',
         creator: new ObjectId(creatorId),
         createdAt: new Date(),
-        usersPlayed: 0,
-        isPublished: false,
+        isPublished: true,
       } as Map
 
       const result = await collections.maps?.insertOne(newMap)
@@ -60,7 +54,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         message: 'Successfully created map',
       })
     } else {
-      res.status(500).json({ message: 'Invalid request' })
+      res.status(405).end(`Method ${req.method} Not Allowed`)
     }
   } catch (err) {
     console.log(err)

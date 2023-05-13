@@ -1,6 +1,8 @@
+import Image from 'next/image'
+/* eslint-disable @next/next/no-img-element */
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { FC, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 
 import { Avatar, Icon } from '@components/System'
 import {
@@ -9,9 +11,9 @@ import {
   SwitchHorizontalIcon,
   ZoomInIcon
 } from '@heroicons/react/outline'
-import { selectUser } from '@redux/user'
+import { useAppSelector } from '@redux/hook'
 import { ChallengeType } from '@types'
-import { formatTimeLimit } from '@utils/helperFunctions'
+import { formatTimeLimit, redirectToRegister } from '@utils/helperFunctions'
 
 import { StyledChallengeStart } from './'
 
@@ -23,11 +25,11 @@ type Props = {
 
 const ChallengeStart: FC<Props> = ({ challengeData, handleStartChallenge, setView }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(true)
-  const user = useSelector(selectUser)
+  const user = useAppSelector((state) => state.user)
   const router = useRouter()
 
   const CAN_MOVE = challengeData.gameSettings.canMove
-  const CAN_PAN = challengeData.gameSettings.canMove
+  const CAN_PAN = challengeData.gameSettings.canPan
   const CAN_ZOOM = challengeData.gameSettings.canZoom
   const HAS_TIME_LIMIT = challengeData.gameSettings.timeLimit !== 0
   const TIME_LIMIT = challengeData.gameSettings.timeLimit
@@ -44,55 +46,74 @@ const ChallengeStart: FC<Props> = ({ challengeData, handleStartChallenge, setVie
       handleStartChallenge(challengeData)
       setView('Game')
     } else {
-      router.push('/register')
+      redirectToRegister(router)
     }
   }
 
   return (
     <StyledChallengeStart>
       <div className="challengeStartWrapper">
-        <h1 className="challengeTitle">You have been challenged!</h1>
-        {!challengeData.isDailyChallenge && (
-          <div className="challengeCreator">
-            <Avatar
-              type="user"
-              src={challengeData.creatorAvatar.emoji}
-              backgroundColor={challengeData.creatorAvatar.color}
-              size={40}
-            />
-            <span>{`${challengeData.creatorName} has challenged you to play GeoHub`}</span>
-          </div>
-        )}
+        <Image
+          src={`/images/mapAvatars/${challengeData?.mapDetails?.previewImg}`}
+          alt=""
+          layout="fill"
+          objectFit="cover"
+          style={{ opacity: 0.12 }}
+        />
 
-        <button className="challengeBtn" onClick={() => handleButtonClick()}>
-          {isLoggedIn ? 'Play Game' : 'Create Account'}
-        </button>
+        <Link href="/">
+          <a>
+            <h2 className="appTitle">GeoHub</h2>
+          </a>
+        </Link>
+        <div className="challengeStartContent">
+          <h1 className="challengeTitle">You have been challenged!</h1>
+          {!challengeData.isDailyChallenge && (
+            <div className="challengeCreator">
+              <Avatar
+                type="user"
+                src={challengeData.creatorAvatar.emoji}
+                backgroundColor={challengeData.creatorAvatar.color}
+                size={32}
+              />
+              <div className="challengeMessage">
+                <span className="emphasizedText">{challengeData.creatorName}</span>
+                <span> challenged you to play </span>
+                <span className="emphasizedText">{challengeData?.mapDetails?.name}</span>
+              </div>
+            </div>
+          )}
+
+          <button className="challengeBtn" onClick={() => handleButtonClick()}>
+            {isLoggedIn ? 'Play Game' : 'Create Account'}
+          </button>
+        </div>
       </div>
 
       <div className="challengeSettings">
         <div className="settingsItem">
-          <Icon size={30} fill={HAS_TIME_LIMIT ? 'var(--green-400)' : '#888'}>
+          <Icon size={24} fill={!HAS_TIME_LIMIT ? 'var(--green-300)' : '#888'}>
             <ClockIcon />
           </Icon>
           {HAS_TIME_LIMIT ? `${formatTimeLimit(TIME_LIMIT)} per round` : 'No Time Limit'}
         </div>
 
         <div className="settingsItem">
-          <Icon size={30} fill={CAN_MOVE ? 'var(--green-400)' : '#888'}>
+          <Icon size={24} fill={CAN_MOVE ? 'var(--green-300)' : '#888'}>
             <ArrowsExpandIcon />
           </Icon>
           {CAN_MOVE ? 'Moving Allowed' : 'No Move'}
         </div>
 
         <div className="settingsItem">
-          <Icon size={30} fill={CAN_MOVE ? 'var(--green-400)' : '#888'}>
+          <Icon size={24} fill={CAN_PAN ? 'var(--green-300)' : '#888'}>
             <SwitchHorizontalIcon />
           </Icon>
           {CAN_PAN ? 'Panning Allowed' : 'No Pan'}
         </div>
 
         <div className="settingsItem">
-          <Icon size={30} fill={CAN_MOVE ? 'var(--green-400)' : '#888'}>
+          <Icon size={24} fill={CAN_ZOOM ? 'var(--green-300)' : '#888'}>
             <ZoomInIcon />
           </Icon>
           {CAN_ZOOM ? 'Zooming Allowed' : 'No Zoom'}

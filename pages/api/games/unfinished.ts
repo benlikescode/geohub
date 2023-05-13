@@ -3,18 +3,24 @@ import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { collections, dbConnect } from '@backend/utils/dbConnect'
+import { throwError } from '@backend/utils/helpers'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await dbConnect()
-    const userId = req.query.userId as string
-    const count = Number(req.query.count as string)
+    const userId = req.headers.uid as string
 
     if (req.method === 'GET') {
-      const query = { userId: new ObjectId(userId), round: { $ne: 6 } }
+      const page = req.query.page ? Number(req.query.page) : 0
+      const gamesPerPage = 20
+
+      const query = { userId: new ObjectId(userId), state: { $ne: 'finished' } }
       const games = await collections.games
         ?.aggregate([
           { $match: query },
+          { $sort: { createdAt: -1 } },
+          { $skip: page * gamesPerPage },
+          { $limit: gamesPerPage + 1 },
           {
             $project: {
               rounds: 0,
@@ -30,15 +36,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             },
           },
         ])
-        .limit(count || 10)
         .toArray()
 
       if (!games) {
-        return res.status(400).send(`Failed to get unfinished games of user with id: ${userId}`)
+        return throwError(res, 400, 'There was a problem fetching your ongoing games')
       }
 
-      res.status(200).send(games)
-    } else if (req.method === 'DELETE') {
+      const data = games.slice(0, gamesPerPage)
+      const hasMore = games.length > gamesPerPage
+
+      res.status(200).send({ data, hasMore })
     } else {
       res.status(405).end(`Method ${req.method} Not Allowed`)
     }

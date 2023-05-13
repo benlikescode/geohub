@@ -1,11 +1,11 @@
 import styled from 'styled-components'
 
 const StyledLayout = styled.div`
-  overflow: hidden !important;
+  /* overflow: hidden !important; */
   display: flex !important;
   flex-flow: column nowrap !important;
-  position: absolute !important;
-  inset: 0px !important;
+  /* position: absolute !important; */
+  /* inset: 0px !important; */
 
   .app-layout {
     display: flex !important;
@@ -17,8 +17,8 @@ const StyledLayout = styled.div`
     display: flex !important;
     flex-wrap: nowrap !important;
     position: relative !important;
-    overflow: hidden !important;
-    height: 100% !important;
+    /* overflow: hidden !important;
+    height: 100% !important; */
     //display: grid;
     //grid-template-columns: var(--sidebarWidth) auto;
     //min-height: 100vh;
@@ -50,18 +50,20 @@ const StyledLayout = styled.div`
   }
 */
   main {
-    position: relative;
+    //position: relative;
 
     //overflow: hidden !important;
-    overflow: hidden auto;
-    position: relative !important;
-    -webkit-box-flex: 1 !important;
-    flex-grow: 1 !important;
-    height: 100% !important;
+    //overflow: hidden auto;
+    //position: relative !important;
+    //-webkit-box-flex: 1 !important;
+    //flex-grow: 1 !important;
+    //height: 100% !important;
     width: 100% !important;
-    display: flex !important;
-    flex-direction: column !important;
-    z-index: var(--z-index-default) !important;
+    overflow: hidden auto;
+    height: calc(100vh - var(--navbarHeight));
+    //display: flex !important;
+    //flex-direction: column !important;
+    //z-index: var(--z-index-default) !important;
   }
 
   .mainContent {

@@ -8,7 +8,7 @@ import { throwError } from '@backend/utils/helpers'
 import { IS_PROD } from '@backend/utils/secrets'
 import { BACKGROUND_COLORS, EMOJIS } from '@utils/constants/avatarOptions'
 import countryBounds from '@utils/constants/countryBoundsOld.json'
-import { randomElement } from '@utils/functions/generateLocations'
+import { randomElement, randomInt } from '@utils/functions/generateLocations'
 import { getRandomAvatar } from '@utils/helperFunctions'
 
 // This endpoint is used soley for testing during development
@@ -20,10 +20,74 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(405).end(`Method ${req.method} Not Allowed`)
     }
 
-    if (req.method === 'POST') {
-      const result = await collections.games?.updateMany({ streak: { $eq: null } }, { $set: { mode: 'standard' } })
+    // const getOfficial = () => {
+    //   const random = randomInt(1, 35)
 
-      return res.status(200).send(result)
+    //   return `official${random}.jpg`
+    // }
+
+    // const getCustom = () => {
+    //   const random = randomInt(1, 17)
+
+    //   return `custom${random}.jpg`
+    // }
+
+    if (req.method === 'POST') {
+      const updateLoc = await collections.locations?.updateMany({ countryCode: 'hk' }, { $set: { countryCode: 'cn' } })
+
+      if (!updateLoc) return throwError(res, 400, 'issue')
+
+      return res.status(200).send('bye bye hong kong')
+      // const officialMaps = await collections.maps?.find({ creator: { $eq: 'GeoHub' } }).toArray()
+
+      // if (!officialMaps) return throwError(res, 400, 'messed up official')
+      // let i = 1
+      // for (const map of officialMaps) {
+      //   if (i === 35) {
+      //     i = 1
+      //   }
+
+      //   const updateMap = await collections.maps?.updateOne(
+      //     { _id: map._id },
+      //     { $set: { previewImg: `official${i}.jpg` } }
+      //   )
+
+      //   if (!updateMap) {
+      //     return throwError(res, 400, 'messed up updating official')
+      //   }
+
+      //   i++
+      // }
+
+      // return res.status(200).send('ALL GOOD G')
+
+      // const result = await collections.maps?.updateMany(
+      //   { creator: { $eq: 'GeoHub' } },
+      //   { $set: { previewImg: getOfficial() } }
+      // )
+
+      // if (!result) return throwError(res, 400, 'messed up official')
+
+      // const result2 = await collections.maps?.updateMany(
+      //   { creator: { $ne: 'GeoHub' } },
+      //   { $set: { previewImg: getCustom() } }
+      // )
+
+      // if (!result2) return throwError(res, 400, 'messed up custom')
+
+      // return res.status(200).send('ALL GOOD')
+
+      // const result = await collections.games?.deleteMany({ mode: { $eq: null } })
+
+      // return res.status(200).send(result)
+
+      // const result = await collections.games?.updateMany({ mode: 'streak' }, { $set: { mapId: 'country-streaks' } })
+
+      // return res.status(200).send(result)
+
+      // const result = await collections.games?.updateMany({ streak: { $eq: null } }, { $set: { mode: 'standard' } })
+
+      // return res.status(200).send(result)
 
       // const result = [] as any[]
       // const countries = countryBounds as any

@@ -1,0 +1,49 @@
+import Link from 'next/link'
+import React, { FC } from 'react'
+
+import { Button, Modal } from '@components/System'
+import { XIcon } from '@heroicons/react/outline'
+
+import { StyledAuthModal } from './'
+
+type Props = {
+  isOpen: boolean
+  closeModal: () => void
+}
+
+const AuthModal: FC<Props> = ({ isOpen, closeModal }) => {
+  return (
+    <Modal isOpen={isOpen} onClose={closeModal} maxWidth="500px">
+      <StyledAuthModal>
+        <div className="header">
+          <h1 className="modal-title">Login To GeoHub</h1>
+          <button className="close-button" onClick={closeModal}>
+            <XIcon />
+          </button>
+        </div>
+
+        <div className="mainContent">
+          <div className="buttonsWrapper">
+            <Link href="/login">
+              <a>
+                <Button type="solidCustom" backgroundColor="#3d3d3d" color="#fff" hoverColor="#444" width="100%">
+                  Login
+                </Button>
+              </a>
+            </Link>
+
+            <Link href="/register">
+              <a>
+                <Button type="solidPurple" width="100%">
+                  Sign Up
+                </Button>
+              </a>
+            </Link>
+          </div>
+        </div>
+      </StyledAuthModal>
+    </Modal>
+  )
+}
+
+export default AuthModal

@@ -1,7 +1,13 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { collections, dbConnect } from '@backend/utils/dbConnect'
+
+// NOT SURE THE PURPOSE OF THIS ENDPOINT -> MUST HAVE MADE THIS SUPER EARLY ON TO TEST
+// DEPRECATED DEPRECATED DEPRECATED DEPRECATED DEPRECATED DEPRECATED
+// DEPRECATED DEPRECATED DEPRECATED DEPRECATED DEPRECATED DEPRECATED
+// DEPRECATED DEPRECATED DEPRECATED DEPRECATED DEPRECATED DEPRECATED
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -20,8 +26,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       res.status(200).send(user[0])
     } else {
-
-    /* Need to add extra security measures for this endpoint
+      /* Need to add extra security measures for this endpoint
     else if (req.method === 'DELETE') {
       const deletedUser = await collections.users?.deleteOne({ userId: userId })
 

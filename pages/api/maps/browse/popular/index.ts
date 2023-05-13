@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 /* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '@backend/utils/dbConnect'
+import { throwError } from '@backend/utils/helpers'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -15,12 +16,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     if (req.method === 'GET') {
       const maps = await collections.maps
-        ?.find({ _id: { $ne: new ObjectId(mapId) } })
+        ?.find({
+          _id: { $ne: new ObjectId(mapId) },
+          isPublished: true,
+          isDeleted: { $exists: false },
+        })
         .limit(mapCount || 3)
         .toArray()
 
       if (!maps) {
-        return res.status(400).send(`Failed to get maps`)
+        return throwError(res, 400, 'Failed to get popular maps')
       }
 
       res.status(200).send(maps)

@@ -8,9 +8,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await dbConnect()
 
-    /* Marks this map as liked by this user */
+    // Marks this map as liked by this user
     if (req.method === 'POST') {
-      const userId = req.body.userId as string
+      const userId = req.headers.uid as string
       const mapId = req.body.mapId as string
 
       const result = await collections.mapLikes?.insertOne({ userId: new ObjectId(userId), mapId: new ObjectId(mapId) })
@@ -20,9 +20,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       res.status(201).send(result.insertedId)
-    } else if (req.method === 'GET') {
-      /* Gets a user's liked maps -> returns 10 maps if {count} not passed */
-      const userId = req.query.userId as string
+    }
+
+    // Gets a user's liked maps -> returns 10 maps if {count} not passed
+    else if (req.method === 'GET') {
+      const userId = req.headers.uid as string
       const count = Number(req.query.count as string)
 
       if (!userId) {
@@ -39,6 +41,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               foreignField: '_id',
               as: 'mapDetails',
             },
+          },
+          {
+            $unwind: '$mapDetails',
           },
         ])
         .limit(count || 10)

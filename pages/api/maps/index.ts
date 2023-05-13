@@ -37,7 +37,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       res.status(201).send({ message: 'Map was successfully created' })
     } else {
-      res.status(500).json({ message: 'Invalid request' })
+      res.status(405).end(`Method ${req.method} Not Allowed`)
     }
   } catch (err) {
     console.log(err)

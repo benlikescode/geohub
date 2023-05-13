@@ -4,13 +4,15 @@ import { NextApiRequest, NextApiResponse } from 'next'
 /* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '@backend/utils/dbConnect'
 
+import { COUNTRY_STREAK_DETAILS, COUNTRY_STREAKS_ID } from '../../../../utils/constants/random'
+
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await dbConnect()
     const challengeId = req.query.id as string
 
     if (req.method === 'GET') {
-      const query = { challengeId: new ObjectId(challengeId), round: { $gte: 6 } } // gte: 6 means game is finished
+      const query = { challengeId: new ObjectId(challengeId), state: 'finished' }
 
       const gamesData = await collections.games
         ?.aggregate([
@@ -37,18 +39,21 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       // Get Map
       const mapId = gamesData[0].mapId
+
+      if (mapId === COUNTRY_STREAKS_ID) {
+        return res.status(200).send({ games: gamesData, map: COUNTRY_STREAK_DETAILS })
+      }
+
       const map = await collections.maps?.findOne({ _id: new ObjectId(mapId) })
 
       if (!map) {
         return res.status(404).json(`Failed to get map for challenged with id: ${challengeId}`)
       }
 
-      const result = {
+      res.status(200).send({
         games: gamesData,
         map,
-      }
-
-      res.status(200).send(result)
+      })
     } else {
       res.status(500).json('Nothing to see here.')
     }

@@ -1,7 +1,5 @@
-import { toast } from 'react-toastify'
-
+import { NextRouter } from 'next/router'
 import { GameSettingsType, GuessType, LocationType } from '@types'
-
 import { BACKGROUND_COLORS, EMOJIS } from './constants/avatarOptions'
 import { randomElement } from './functions/generateLocations'
 
@@ -503,10 +501,10 @@ export const createMarker = (
 // Creates a google map polyline between a guess marker and actual marker
 export const createPolyline = (guessedLocation: GuessType, actualLocation: LocationType, map: google.maps.Map) => {
   // Get midpoint between guess and actual (this prevents polyline going between two maps)
-  const midPoint = {
-    lat: (guessedLocation.lat + actualLocation.lat) / 2,
-    lng: (guessedLocation.lng + actualLocation.lng) / 2,
-  }
+  // const midPoint = {
+  //   lat: (guessedLocation.lat + actualLocation.lat) / 2,
+  //   lng: (guessedLocation.lng + actualLocation.lng) / 2,
+  // }
 
   const lineSymbol = {
     path: 'M 0,-1 0,1',
@@ -602,58 +600,6 @@ export const getRandomAvatar = () => {
   return { emoji: randomEmoji, color: randomColor }
 }
 
-// Displays an error toast on page
-export const showErrorToast = (message?: string) => {
-  toast.error(message || 'An unexpected error occured', {
-    toastId: 'error',
-    position: 'bottom-right',
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: 0,
-    theme: 'dark',
-    progressStyle: {
-      background: 'var(--red-500)',
-    },
-    bodyStyle: {
-      fontFamily: 'var(--font-family1)',
-      fontWeight: 400,
-      color: 'rgb(195, 195, 195)',
-      lineHeight: '20px',
-    },
-    style: { border: '1px solid #333333', background: '#1b1b1b' },
-    icon: true,
-  })
-}
-
-// Displays a success toast on page
-export const showSuccessToast = (message: string) => {
-  toast.success(message, {
-    toastId: 'success',
-    position: 'bottom-right',
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: 0,
-    theme: 'dark',
-    progressStyle: {
-      background: 'var(--green-500)',
-    },
-    bodyStyle: {
-      fontFamily: 'var(--font-family1)',
-      fontWeight: 400,
-      color: 'rgb(195, 195, 195)',
-      lineHeight: '20px',
-    },
-    style: { border: '1px solid #333333', background: '#1b1b1b' },
-    icon: true,
-  })
-}
-
 // Converts UTC date (from DB) to local date
 export const getFormattedDate = (utcDate?: Date) => {
   console.log(utcDate)
@@ -678,14 +624,16 @@ export const getFormattedDate = (utcDate?: Date) => {
 
 export const getFormattedOngoingScore = (rawScore: number) => {
   if (rawScore === 0) {
-    return '0.0k pts'
+    return '0k pts'
   }
 
-  return `${(rawScore / 1000).toFixed(1)}k pts`
+  return `${Math.floor(rawScore / 1000).toFixed(0)}k pts`
 }
 
 // Formats a large number (mainly used for round points and number of map locations)
 export const formatLargeNumber = (number: number) => {
+  if (typeof number === 'undefined') return
+
   const numberAsString = number.toString()
 
   if (number >= 1000000) {
@@ -705,4 +653,11 @@ export const formatLargeNumber = (number: number) => {
   }
 
   return numberAsString
+}
+
+// Stores current url and redirects to '/register'
+export const redirectToRegister = (router: NextRouter) => {
+  if (!router) return
+  console.log(router)
+  router.push(`/register?callback=${router.pathname}`)
 }

@@ -1,12 +1,17 @@
 import styled from 'styled-components'
 
 const StyledOngoingGamesPage = styled.div`
+  // May not be using anymore
+  .header-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   .ongoing-table {
     background-color: var(--background2);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgb(30 30 30);
     border-radius: 6px;
-    max-width: 900px;
-    width: 100%;
   }
 
   .ongoing-item {
@@ -15,27 +20,8 @@ const StyledOngoingGamesPage = styled.div`
     justify-content: space-between;
     padding: 1rem;
 
-    .game-info-pills {
-      margin-right: 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-
-      .game-info-pill {
-        letter-spacing: 0.06rem;
-        background: rgb(200 200 200 / 8%);
-        color: #ffffff82;
-        padding: 2px 14px 0 14px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-transform: uppercase;
-        width: fit-content;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: 500;
-        height: 30px;
-      }
+    &.variant {
+      background-color: #181818;
     }
 
     .game-detail {
@@ -49,7 +35,7 @@ const StyledOngoingGamesPage = styled.div`
     }
 
     &:not(:last-child) {
-      border-bottom: 1px solid #333;
+      border-bottom: 1px solid rgb(30 30 30);
     }
 
     .flex-left {
@@ -59,14 +45,18 @@ const StyledOngoingGamesPage = styled.div`
       .map-details {
         display: flex;
         align-items: center;
-        gap: 1rem;
+        gap: 12px;
 
         .mapName {
-          font-size: 1.25rem;
+          font-size: 1.125rem;
           width: 175px;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+
+          @media (max-width: 800px) {
+            font-size: 1rem;
+          }
         }
       }
 
@@ -77,39 +67,112 @@ const StyledOngoingGamesPage = styled.div`
       }
     }
 
-    .ongoing-buttons {
+    .flex-right {
       display: flex;
       align-items: center;
-      gap: 1rem;
-    }
+      gap: 30px;
 
-    .mapEditBtn,
-    .mapDeleteBtn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 5px;
-      padding: 10px;
-      font-size: 1rem;
-      font-weight: 500;
-      user-select: none;
-      background-color: var(--mediumPurple);
-      color: rgb(255, 255, 255, 0.7);
+      .game-info-pills {
+        display: flex;
+        align-items: center;
+        gap: 10px;
 
-      &.mapDeleteBtn {
-        background-color: rgb(255, 255, 255, 0.1);
+        .game-info-pill {
+          letter-spacing: 0.06rem;
+          font-family: var(--font-mono);
+          background: rgb(200 200 200 / 8%);
+          color: #ffffff82;
+          padding: 2px 14px 0 14px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-transform: uppercase;
+          width: fit-content;
+          border-radius: 20px;
+          font-size: 12px;
+          font-weight: 500;
+          height: 30px;
+
+          @media (max-width: 900px) {
+            &.score {
+              display: none;
+            }
+          }
+
+          @media (max-width: 800px) {
+            &.created {
+              display: none;
+            }
+          }
+
+          @media (max-width: 600px) {
+            &.round {
+              display: none;
+            }
+          }
+
+          span {
+            position: relative;
+            top: -1px;
+          }
+        }
       }
 
-      svg {
-        height: 20px;
-        color: #fff;
+      .ongoing-buttons {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
       }
 
-      &:hover {
-        background-color: #732fe9;
+      .mapResumeBtn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        padding: 10px 16px;
+        user-select: none;
+        background-color: var(--mediumPurple);
+
+        svg {
+          height: 20px;
+          color: #fff;
+          margin-left: 6px;
+        }
+
+        &:hover {
+          background-color: #732fe9;
+        }
+      }
+
+      // May be able to remove mapEditBtn (not in use anymore?)
+      .mapEditBtn,
+      .mapDeleteBtn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 1rem;
+        font-weight: 500;
+        user-select: none;
+        background-color: var(--mediumPurple);
+        color: rgb(255, 255, 255, 0.7);
 
         &.mapDeleteBtn {
-          background-color: #991b1b;
+          background-color: rgb(255, 255, 255, 0.1);
+        }
+
+        svg {
+          height: 20px;
+          color: #fff;
+        }
+
+        &:hover {
+          background-color: #732fe9;
+
+          &.mapDeleteBtn {
+            background-color: #991b1b;
+          }
         }
       }
     }

@@ -10,7 +10,7 @@ const StyledAvatarPickerModal = styled.div<StyledProps>`
   .color-selection-title {
     font-size: 1rem;
     font-weight: 500;
-    color: var(--color2);
+    color: #919191;
   }
 
   .color-options-wrapper {
@@ -18,11 +18,11 @@ const StyledAvatarPickerModal = styled.div<StyledProps>`
     align-items: center;
     gap: 1rem;
     flex-wrap: wrap;
-    margin-top: 2rem;
+    margin-top: 16px;
 
     .color-option {
-      height: 4rem;
-      width: 4rem;
+      height: 48px;
+      width: 48px;
       border-radius: 50rem;
       cursor: pointer;
       border: 2px solid #fff;
@@ -32,7 +32,7 @@ const StyledAvatarPickerModal = styled.div<StyledProps>`
       user-select: none;
 
       &.selected {
-        border: 2px solid #101010;
+        border: 2px solid var(--background1);
 
         outline: 3px solid white;
       }
@@ -54,8 +54,8 @@ const StyledAvatarPickerModal = styled.div<StyledProps>`
   }
 
   .emoji {
-    height: 2rem;
-    width: 2rem;
+    height: 24px;
+    width: 24px;
   }
 `
 

@@ -3,28 +3,46 @@ import { ObjectId } from 'mongodb'
 import { NextApiResponse } from 'next'
 
 import { LocationType } from '@types'
-import { URBAN_WORLD_ID } from '@utils/constants/random'
-import {
-  getRandomLocationsInRadius,
-  randomElement
-} from '@utils/functions/generateLocations'
+import { COUNTRY_STREAKS_ID, OFFICIAL_WORLD_ID, URBAN_WORLD_ID } from '@utils/constants/random'
+import { getRandomLocationsInRadius, randomElement } from '@utils/functions/generateLocations'
 
 import { collections } from './dbConnect'
 
 // Standard return for any error in API
-export const throwError = (res: NextApiResponse, status: number, message: string) => {
+export const throwError = (res: NextApiResponse, status: number, clientMessage: string, debugInfo?: string) => {
   return res.status(status).send({
     error: {
-      message,
+      message: clientMessage,
       code: status,
+      debug: debugInfo,
     },
   })
 }
 
-// Used for generating game/challenge locations
-// count = 1: return LocationType, count > 1: return LocationType[]
+// The MASTER function that retrieves game, challenge, or streak locations
+// (NOTE: may need to split this into multiple functions in future)
+// returns Location | Location[]
 export const getLocations = async (mapId: string, count: number = 1) => {
   if (!mapId) return null
+
+  if (mapId === COUNTRY_STREAKS_ID) {
+    const locations = (await collections.locations
+      ?.aggregate([
+        { $match: { mapId: new ObjectId(OFFICIAL_WORLD_ID), countryCode: { $ne: null } } },
+        { $sample: { size: count } },
+      ])
+      .toArray()) as LocationType[]
+
+    if (!locations || locations.length === 0) {
+      return null
+    }
+
+    if (locations.length === 1) {
+      return locations[0]
+    }
+
+    return locations
+  }
 
   // Determine if this map is an official or custom map
   const map = await collections.maps?.findOne({ _id: new ObjectId(mapId) })
@@ -36,9 +54,9 @@ export const getLocations = async (mapId: string, count: number = 1) => {
   const locationCollection = map.creator === 'GeoHub' ? 'locations' : 'userLocations'
 
   // Get random locations from DB
-  const locations = await collections[locationCollection]
+  const locations = (await collections[locationCollection]
     ?.aggregate([{ $match: { mapId: new ObjectId(mapId) } }, { $sample: { size: count } }])
-    .toArray()
+    .toArray()) as LocationType[]
 
   if (!locations || locations.length === 0) {
     return null
@@ -91,4 +109,18 @@ export const writeToFile = (fileName: string, newData: any[]) => {
 
     console.log('New data added')
   })
+}
+
+export const isUserAnAdmin = async (userId: string) => {
+  if (!userId) {
+    return false
+  }
+
+  const user = await collections.users?.findOne({ _id: new ObjectId(userId) })
+
+  if (!user) {
+    return false
+  }
+
+  return user.isAdmin
 }

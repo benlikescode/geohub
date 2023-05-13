@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 import { Button, ProgressBar } from '@components/System'
-import { updateStartTime } from '@redux/game'
+import { updateStartTime } from '@redux/slices'
 import { formatDistance, formatLargeNumber } from '@utils/helperFunctions'
 
 import { StyledResultsCard } from './'

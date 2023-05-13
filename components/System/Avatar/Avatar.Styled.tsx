@@ -6,6 +6,7 @@ type StyledProps = {
   mobileSize?: number
   outlineSize?: number
   outlineColor?: string
+  cursor?: string
 }
 
 const StyledAvatar = styled.div<StyledProps>`
@@ -15,7 +16,7 @@ const StyledAvatar = styled.div<StyledProps>`
     background-color: ${({ backgroundColor }) => backgroundColor ?? '#131315'};
     border-radius: 50%;
     position: relative;
-    cursor: pointer;
+    cursor: ${({ cursor }) => cursor};
     box-shadow: ${({ outlineSize, outlineColor }) =>
       `0 0 0 ${outlineSize !== undefined ? outlineSize : 2}px inset ${outlineColor || 'rgba(0, 0, 0, 0.25)'}`};
     display: flex;
@@ -36,7 +37,7 @@ const StyledAvatar = styled.div<StyledProps>`
     height: ${({ size }) => size}px;
     width: ${({ size }) => size}px;
     background-color: ${({ backgroundColor }) => backgroundColor ?? '#131315'};
-    border-radius: 50%;
+    border-radius: 30%;
     position: relative;
     cursor: pointer;
 
@@ -44,7 +45,7 @@ const StyledAvatar = styled.div<StyledProps>`
       content: '';
       position: absolute;
       inset: 0;
-      border-radius: 50%;
+      border-radius: 30%;
       box-shadow: ${({ outlineSize, outlineColor }) =>
         `0 0 0 ${outlineSize !== undefined ? outlineSize : 2}px inset ${outlineColor || 'rgba(0, 0, 0, 0.25)'}`};
     }
@@ -57,7 +58,7 @@ const StyledAvatar = styled.div<StyledProps>`
     img {
       position: absolute;
       object-fit: cover;
-      border-radius: 50%;
+      border-radius: 30%;
       width: 100%;
       height: 100%;
       top: 0;

@@ -3,10 +3,9 @@ import styled from 'styled-components'
 type StyledProps = {}
 
 const StyledWinnerItem = styled.div<StyledProps>`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 20px;
+  display: grid;
+  gap: 12px;
+  padding: 16px 0;
 
   &:not(:first-child) {
     border-top: var(--border);
@@ -16,55 +15,34 @@ const StyledWinnerItem = styled.div<StyledProps>`
     padding: 1rem;
   }
 
-  .userSection {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    user-select: none;
+  .challenge-day {
+    font-size: 12px;
+    color: #dcdcdc;
     font-weight: 400;
   }
 
-  .userInfo {
+  .winner-info {
     display: flex;
     align-items: center;
-    gap: 8px;
-  }
+    justify-content: space-between;
 
-  .username {
-    font-size: 1rem;
-    width: 100px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
 
-    @media (max-width: 850px) {
-      font-size: 14px;
+      .username {
+        font-size: 15px;
+        width: 100px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
-  }
 
-  .resultsSection {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .totalTime {
-    color: var(--color3);
-    font-size: 14px;
-    width: 80px;
-
-    @media (max-width: 650px) {
-      display: none;
-    }
-  }
-
-  .totalPoints {
-    width: 120px;
-    font-size: 16px;
-
-    @media (max-width: 850px) {
-      width: 100px;
-      font-size: 14px;
+    .total-points {
+      font-size: 15px;
+      color: #dcdcdc;
     }
   }
 `

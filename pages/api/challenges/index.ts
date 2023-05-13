@@ -5,25 +5,29 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { getLocations } from '@backend/utils/helpers'
 
+import { LocationType } from '../../../@types'
+
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await dbConnect()
 
+    // Creates a challenge
     if (req.method === 'POST') {
-      const { mapId, gameSettings } = req.body
-      const creatorId = new ObjectId(req.body.userId)
+      const { mapId, gameSettings, mode, userId } = req.body
 
-      const locations = await getLocations(mapId, 5)
+      const numLocationsToGenerate = mode === 'streak' ? 10 : 5
+      const locations = await getLocations(mapId, numLocationsToGenerate)
 
       if (locations === null) {
-        return res.status(400).send('Invalid Map Id, Challenge could not be created')
+        return res.status(400).send('Invalid map Id, challenge could not be created')
       }
 
       const newChallenge = {
-        mapId: new ObjectId(mapId),
+        mapId: mode === 'standard' ? new ObjectId(mapId) : mapId,
+        creatorId: new ObjectId(userId),
+        mode,
         gameSettings,
         locations,
-        creatorId,
       }
 
       // Create Challenge
@@ -35,7 +39,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       res.status(201).send(result.insertedId)
     } else {
-      res.status(500).json({ message: 'Invalid request' })
+      res.status(405).end(`Method ${req.method} Not Allowed`)
     }
   } catch (err) {
     console.log(err)

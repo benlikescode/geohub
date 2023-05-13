@@ -1,10 +1,19 @@
 import styled from 'styled-components'
 
-const StyledLeaderboardItem = styled.div`
+type StyledProps = {
+  highlight: boolean
+}
+
+const StyledLeaderboardItem = styled.div<StyledProps>`
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 1rem 20px;
+  background-color: ${({ highlight }) => (highlight ? '#202020' : 'transparent')};
+
+  &:last-child {
+    border-radius: 0 0 6px 6px;
+  }
 
   &:not(:first-child) {
     border-top: var(--border);
@@ -57,6 +66,27 @@ const StyledLeaderboardItem = styled.div`
 
     @media (max-width: 650px) {
       display: none;
+    }
+  }
+
+  .bestStreakWrapper {
+    display: flex;
+    align-items: center;
+
+    .bestStreak {
+      width: 70px;
+      font-size: 16px;
+
+      @media (max-width: 850px) {
+        width: 100px;
+        font-size: 14px;
+      }
+    }
+
+    svg {
+      height: 20px;
+      margin-right: 6px;
+      color: #fbbf24;
     }
   }
 

@@ -5,14 +5,13 @@ type StyledProps = {
 }
 
 const StyledProfilePage = styled.div<StyledProps>`
-  .banner {
+  /* .banner {
     width: 100%;
     height: 250px;
     border-radius: 10px;
-    background: rgb(255, 255, 255, 0.02)
-      url('https://images.pexels.com/photos/462162/pexels-photo-462162.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')
-      no-repeat center / cover;
-
+    background: rgb(255, 255, 255, 0.02) url('/images/backgrounds/profile.jpg') no-repeat center / cover;
+    opacity: 0.55;
+    // MOST RECENT: https://images.pexels.com/photos/462162/pexels-photo-462162.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1
     //https://images.pexels.com/photos/2658079/pexels-photo-2658079.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1
     //https://images.pexels.com/photos/4664347/pexels-photo-4664347.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1
     //https://images.pexels.com/photos/3244513/pexels-photo-3244513.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1
@@ -23,7 +22,19 @@ const StyledProfilePage = styled.div<StyledProps>`
     //https://images.pexels.com/photos/206359/pexels-photo-206359.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1
     //https://images.pexels.com/photos/158063/bellingrath-gardens-alabama-landscape-scenic-158063.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1
 
-    box-shadow: inset 0 0 0 1px rgb(255, 255, 255, 0.15);
+    box-shadow: inset 0 0 0 1px rgb(255, 255, 255, 0.1);
+  } */
+
+  .banner-image {
+    height: 250px;
+    width: 100%;
+    position: relative;
+    border-radius: 10px;
+    box-shadow: inset 0 0 0 1px rgb(255, 255, 255, 0.1);
+
+    span img {
+      border-radius: 10px;
+    }
   }
 
   .profile-details {

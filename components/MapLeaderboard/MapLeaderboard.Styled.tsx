@@ -25,7 +25,7 @@ const StyledMapLeaderboard = styled.div`
   }
 
   .title {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
     margin-top: 2px;
 
     @media (max-width: 1000px) {
@@ -34,7 +34,7 @@ const StyledMapLeaderboard = styled.div`
   }
 
   .notPlayedMsg {
-    color: var(--color3);
+    color: var(--color4);
     font-weight: 400;
     display: block;
     padding: 0 20px 20px;

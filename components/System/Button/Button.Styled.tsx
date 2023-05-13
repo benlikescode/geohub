@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 type StyledProps = {
   type: 'solidPurple' | 'solidGray' | 'solidCustom' | 'ghost' | 'ghostLight' | 'icon' | 'iconRounded' | 'destroy'
+  size?: 'sm' | 'md' | 'lg'
   color?: string
   backgroundColor?: string
   hoverColor?: string
@@ -9,7 +10,6 @@ type StyledProps = {
   width?: string
   height?: string
   isRound?: boolean
-  isSmall?: boolean
 }
 
 const StyledButton = styled.div<StyledProps>`
@@ -30,26 +30,35 @@ const StyledButton = styled.div<StyledProps>`
     width: 100%;
     user-select: none;
 
+    ${({ size }) =>
+      size === 'sm' &&
+      `
+        height: 30px;
+        font-size: 14px;
+        border-radius: 3px;
+        padding: 0 16px;
+    `}
+
+    ${({ size }) =>
+      size === 'md' &&
+      `
+        height: 36px;
+        font-size: 16px;
+        border-radius: 3px;
+        padding: 0 12px;
+    `}
+
     ${({ type, isDisabled }) =>
       type === 'solidPurple' &&
       !isDisabled &&
       `
         background-color: var(--mediumPurple);
         color: #fff;
+        min-width: 60px;
 
         :hover {
-          background-color: #732fe9;
+          background-color: var(--indigo-600);
         }
-    `}
-
-    ${({ isSmall, isDisabled }) =>
-      isSmall &&
-      !isDisabled &&
-      `
-        height: 30px;
-        font-size: 14px;
-        border-radius: 3px;
-        padding: 0 1rem;
     `}
 
     ${({ type, isDisabled }) =>
@@ -62,7 +71,6 @@ const StyledButton = styled.div<StyledProps>`
         font-size: 1rem;
         font-weight: 400;
         user-select: none;
-        padding: 10px 16px;
 
         &:hover {
           background-color: rgb(255, 255, 255, 0.15);
@@ -75,6 +83,7 @@ const StyledButton = styled.div<StyledProps>`
       `     
         color: #fee2e2;
         background-color: #7f1d1d;
+     
 
         &:hover {
           background-color: #991b1b;
@@ -107,7 +116,7 @@ const StyledButton = styled.div<StyledProps>`
           background-color: #252525;
         }
     `}
-
+    // To Deprecate
     ${({ type, isDisabled }) =>
       type === 'icon' &&
       !isDisabled &&
@@ -157,19 +166,7 @@ const StyledButton = styled.div<StyledProps>`
       `
         background-color: var(--background3);
         color: var(--color2);
-        pointer-events: none;
-        opacity: 0.5;
-    `}
-
-    ${({ isDisabled, type }) =>
-      isDisabled &&
-      type === 'solidGray' &&
-      `
-        background-color: var(--background3);
-        color: #a5a5a5;
-        border: 2px solid #4e4e4e;
-        border-radius: 20px;
-        pointer-events: none;
+        cursor: not-allowed !important;
         opacity: 0.5;
     `}
   }

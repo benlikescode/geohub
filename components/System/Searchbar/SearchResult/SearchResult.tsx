@@ -1,11 +1,10 @@
 import Link from 'next/link'
 import React, { FC } from 'react'
-import { useSelector } from 'react-redux'
 
 import { mailman } from '@backend/utils/mailman'
 import { Avatar, FlexGroup } from '@components/System'
 import { SearchIcon } from '@heroicons/react/outline'
-import { selectUser } from '@redux/user'
+import { useAppSelector } from '@redux/hook'
 import { SearchResultType } from '@types'
 
 import { StyledSearchResult } from './'
@@ -17,24 +16,24 @@ type Props = {
 }
 
 const SearchResult: FC<Props> = ({ searchResult, hasNoResults, setIsFocused }) => {
-  const user = useSelector(selectUser)
+  const user = useAppSelector((state) => state.user)
   const type = searchResult.type || (!searchResult.avatar ? 'map' : 'user')
 
   const handleResultClick = async () => {
-    const getBody = () => {
+    const createRequestBody = () => {
       switch (type) {
         case 'user':
-          return { userId: user.id, type, searchedUserId: searchResult._id }
+          return { type, searchedUserId: searchResult._id }
         case 'map':
-          return { userId: user.id, type, searchedMapId: searchResult._id }
+          return { type, searchedMapId: searchResult._id }
         case 'term':
-          return { userId: user.id, type, term: searchResult.term }
+          return { type, term: searchResult.term }
         default:
           return {}
       }
     }
 
-    await mailman('search/recent', 'POST', JSON.stringify(getBody()))
+    await mailman('search/recent', 'POST', JSON.stringify(createRequestBody()))
 
     setIsFocused(false)
   }

@@ -15,7 +15,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const query = req.query.q as string
       const count = Number(req.query.count as string)
 
-      const users = await collections.users
+      const usersQuery = await collections.users
         ?.aggregate([
           {
             $search: {
@@ -38,7 +38,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         ])
         .toArray()
 
-      const maps = await collections.maps
+      const mapsQuery = await collections.maps
         ?.aggregate([
           {
             $search: {
@@ -47,18 +47,30 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 query: query,
                 path: 'name',
               },
+
+              // compound: {
+              //   must: [
+              //     {
+              //       equals: {
+              //         value: true,
+              //         path: 'isPublished',
+              //       },
+              //     },
+              //   ],
+              // },
             },
           },
+          { $match: { isPublished: true, isDeleted: { $exists: false } } },
           {
             $limit: count || 3,
           },
         ])
         .toArray()
 
-      if (users && maps) {
-        const result = users?.concat(maps)
-        res.status(200).send(result)
-      }
+      const users = usersQuery || []
+      const maps = mapsQuery || []
+
+      res.status(200).send({ users, maps })
     } else {
       res.status(405).end(`Method ${req.method} Not Allowed`)
     }
