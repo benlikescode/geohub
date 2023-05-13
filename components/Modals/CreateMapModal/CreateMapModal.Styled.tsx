@@ -81,17 +81,6 @@ const StyledCreateMapModal = styled.div`
       max-width: 400px;
       width: 100%;
 
-      /* .mapImage {
-        height: 125px;
-        width: 100%;
-        border-radius: 5px 5px 0 0;
-        background: linear-gradient(180deg, rgba(25, 26, 27, 0) 0%, rgba(25, 26, 27, 0.57) 47.4%, #222 100%),
-          url(${({ previewMapImg }) => previewMapImg});
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-      } */
-
       .mapImage {
         height: 125px;
         width: 100%;

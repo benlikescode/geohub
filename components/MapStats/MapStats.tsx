@@ -1,15 +1,11 @@
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
-import { FC, useEffect, useState } from 'react'
-
+import { FC, useState } from 'react'
 import { mailman } from '@backend/utils/mailman'
 import { AuthModal } from '@components/Modals'
-import { FlexGroup, Icon } from '@components/System'
 import { HeartIcon as HeartIconOutline, LocationMarkerIcon, ScaleIcon, UserIcon } from '@heroicons/react/outline'
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/solid'
 import { useAppSelector } from '@redux/hook'
 import { MapType } from '@types'
 import { formatLargeNumber } from '@utils/helperFunctions'
-
 import { StyledMapStats } from './'
 
 type Props = {
