@@ -1,6 +1,5 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-
 /* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { throwError } from '@backend/utils/helpers'
@@ -37,13 +36,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         })
       }
 
-      // const mapDetails = await collections.maps?.findOne({ _id: challenge.mapId })
+      const mapDetails = await collections.maps?.findOne({ _id: challenge.mapId })
 
-      // if (!mapDetails) {
-      //   return throwError(res, 404, 'Failed to find challenge')
-      // }
-
-      const mapDetails = null
+      if (!mapDetails) {
+        return throwError(res, 404, 'Failed to find challenge')
+      }
 
       const result = {
         ...challenge,

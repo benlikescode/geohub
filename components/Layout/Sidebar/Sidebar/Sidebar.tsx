@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import React, { FC, useEffect, useState } from 'react'
-
 import { mailman } from '@backend/utils/mailman'
 import { Avatar } from '@components/System'
 import {
@@ -15,7 +14,6 @@ import {
 import { useAppDispatch, useAppSelector } from '@redux/hook'
 import { updateRecentlyPlayed } from '@redux/slices'
 import { MapType } from '@types'
-
 import { StyledSidebar } from './'
 import { Item } from './Item'
 

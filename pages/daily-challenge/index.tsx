@@ -1,5 +1,3 @@
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
-import Link from 'next/link'
 import router from 'next/router'
 import React, { FC, useEffect, useState } from 'react'
 import { mailman } from '@backend/utils/mailman'
@@ -8,7 +6,6 @@ import { DailyChallengeWinners } from '@components/DailyChallengeWinners'
 import { Head } from '@components/Head'
 import { WidthController } from '@components/Layout/WidthController'
 import { MapLeaderboard } from '@components/MapLeaderboard'
-import { GameSettingsModal } from '@components/Modals'
 import { SkeletonLeaderboard } from '@components/SkeletonLeaderboard'
 import { SkeletonMapInfo } from '@components/SkeletonMapInfo'
 import { Avatar, Button } from '@components/System'
@@ -16,38 +13,32 @@ import { VerifiedBadge } from '@components/VerifiedBadge'
 import { CheckIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
 import StyledDailyChallengePage from '@styles/DailyChallengePage.Styled'
-import { DailyChallengeStatsType, MapLeaderboardType, MapType } from '@types'
+import { DailyChallengeStatsType, MapLeaderboardType } from '@types'
 import { showErrorToast } from '@utils/helpers/showToasts'
+import { DAILY_CHALLENGE_DETAILS } from '../../utils/constants/random'
 
 const DailyChallengePage: FC = () => {
-  const [settingsModalOpen, setSettingsModalOpen] = useState(false)
-  const [mapDetails, setMapDetails] = useState<MapType | null>()
   const [mapStats, setMapStats] = useState<DailyChallengeStatsType | null>()
   const [allTimeScores, setAllTimeScores] = useState<MapLeaderboardType[] | null>()
   const [todayScores, setTodayScores] = useState<MapLeaderboardType[] | null>()
-  // const [otherMaps, setOtherMaps] = useState<MapType[] | null>()
   const [usersGameState, setUsersGameState] = useState<'started' | 'finished' | 'notStarted'>('notStarted')
   const [previousWinners, setPreviousWinners] = useState([])
 
   const user = useAppSelector((state) => state.user)
 
-  // settingsModalOpen ? disableBodyScroll(document as any) : enableBodyScroll(document as any)
-
   useEffect(() => {
     fetchMapDetails()
     fetchMapScores()
     fetchPreviousWinners()
-    //fetchOtherMaps()
   }, [])
 
   const fetchMapDetails = async () => {
     const res = await mailman(`challenges/daily`)
 
     if (res.error) {
-      return setMapDetails(null)
+      return showErrorToast(res.error.message)
     }
 
-    setMapDetails(res.details)
     setMapStats(res.stats)
     setUsersGameState(res.usersGameState)
   }
@@ -73,16 +64,6 @@ const DailyChallengePage: FC = () => {
     setPreviousWinners(res)
   }
 
-  // const fetchOtherMaps = async () => {
-  //   const res = await mailman(`maps/browse/popular?count=8&mapId=${DAILY_CHALLENGE_ID}`)
-
-  //   if (res.error) {
-  //     return showErrorToast(res.error.message)
-  //   }
-
-  //   setOtherMaps(res)
-  // }
-
   const startDailyChallenge = async () => {
     if (!user.id) {
       return router.push('/register')
@@ -101,44 +82,25 @@ const DailyChallengePage: FC = () => {
     router.push(`/challenge/${res.challengeId}`)
   }
 
-  //   if (mapDetails === null) {
-  //     return (
-  //       <NotFound
-  //         title="Page Not Found"
-  //         message="This map either does not exist, has not been published, or was recently deleted"
-  //       />
-  //     )
-  //   }
-
   return (
     <StyledDailyChallengePage>
       <WidthController customWidth="1400px" mobilePadding="0px">
-        <Head title={mapDetails?.name ? `Play - ${mapDetails.name}` : 'GeoHub'} />
+        <Head title={`Play - ${DAILY_CHALLENGE_DETAILS.name}`} />
 
         <div className="daily-challenge-wrapper">
           <div>
-            {mapDetails && mapStats ? (
+            {mapStats ? (
               <div className="mapDetailsSection">
                 <div className="mapDescriptionWrapper">
                   <div className="descriptionColumnWrapper">
                     <div className="descriptionColumn">
-                      <Avatar type="map" src={mapDetails.previewImg} size={50} />
+                      <Avatar type="map" src={DAILY_CHALLENGE_DETAILS.previewImg} size={50} />
                       <div className="map-details">
                         <div className="name-wrapper">
-                          <span className="name">{mapDetails.name}</span>
+                          <span className="name">{DAILY_CHALLENGE_DETAILS.name}</span>
                           <VerifiedBadge size={20} />
                         </div>
-                        {mapDetails.description && <span className="description">{mapDetails.description}</span>}
-                        {!mapDetails.description && mapDetails.creatorDetails && (
-                          <span className="map-creator">
-                            {'Created by '}
-                            <span className="map-creator-link">
-                              <Link href={`/user/${mapDetails.creatorDetails._id}` || ''}>
-                                <a>{mapDetails.creatorDetails.name}</a>
-                              </Link>
-                            </span>
-                          </span>
-                        )}
+                        <span className="description">{DAILY_CHALLENGE_DETAILS.description}</span>
                       </div>
                     </div>
 
@@ -184,31 +146,7 @@ const DailyChallengePage: FC = () => {
             {previousWinners ? <DailyChallengeWinners prevWinners={previousWinners} /> : <SkeletonLeaderboard />}
           </div>
         </div>
-
-        {/* {otherMaps ? (
-          <div className="otherMapsWrapper">
-            <span className="otherMapsTitle">Other Popular Maps</span>
-            <div className="otherMaps">
-              {otherMaps.map((otherMap, idx) => (
-                <MapPreviewCard key={idx} map={otherMap} showDescription />
-              ))}
-            </div>
-          </div>
-        ) : (
-          <div className="skeletonCards">
-            <SkeletonCards numCards={6} numColumns={3} />
-          </div>
-        )} */}
       </WidthController>
-
-      {mapDetails && (
-        <GameSettingsModal
-          isOpen={settingsModalOpen}
-          closeModal={() => setSettingsModalOpen(false)}
-          mapDetails={mapDetails}
-          gameMode="standard"
-        />
-      )}
     </StyledDailyChallengePage>
   )
 }

@@ -1,6 +1,5 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-
 /* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { getLocations, throwError } from '@backend/utils/helpers'
@@ -13,12 +12,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const userId = req.headers.uid as string
 
     if (req.method === 'GET') {
-      const dailyChallengeMapDetails = await collections.maps?.findOne({ _id: new ObjectId(DAILY_CHALLENGE_ID) })
-
-      if (!dailyChallengeMapDetails) {
-        return throwError(res, 400, 'Could not get details for the Daily Challenge')
-      }
-
       // Get average score
       const todaysAvgScore = await collections.games
         ?.aggregate([
@@ -62,7 +55,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       })
 
       const result = {
-        details: dailyChallengeMapDetails,
         stats: {
           avgScore: adjustedAvgScore,
           usersPlayed: explorers.length,
@@ -98,7 +90,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const locations = await getLocations(OFFICIAL_WORLD_ID, 5)
 
       const newDailyChallenge = {
-        mapId: new ObjectId(DAILY_CHALLENGE_ID),
+        mapId: new ObjectId(OFFICIAL_WORLD_ID),
         createdAt: new Date(),
         isDailyChallenge: true,
         mode: 'standard',

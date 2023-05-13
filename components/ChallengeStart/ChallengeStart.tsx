@@ -3,18 +3,17 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { FC, useEffect, useState } from 'react'
-
 import { Avatar, Icon } from '@components/System'
 import {
   ArrowsExpandIcon,
   ClockIcon,
+  LocationMarkerIcon,
   SwitchHorizontalIcon,
-  ZoomInIcon
+  ZoomInIcon,
 } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
 import { ChallengeType } from '@types'
 import { formatTimeLimit, redirectToRegister } from '@utils/helperFunctions'
-
 import { StyledChallengeStart } from './'
 
 type Props = {
@@ -33,7 +32,7 @@ const ChallengeStart: FC<Props> = ({ challengeData, handleStartChallenge, setVie
   const CAN_ZOOM = challengeData.gameSettings.canZoom
   const HAS_TIME_LIMIT = challengeData.gameSettings.timeLimit !== 0
   const TIME_LIMIT = challengeData.gameSettings.timeLimit
-
+  console.log('HERRO', challengeData)
   useEffect(() => {
     if (!user.id) {
       setIsLoggedIn(false)
@@ -61,13 +60,15 @@ const ChallengeStart: FC<Props> = ({ challengeData, handleStartChallenge, setVie
           style={{ opacity: 0.12 }}
         />
 
-        <Link href="/">
-          <a>
-            <h2 className="appTitle">GeoHub</h2>
-          </a>
-        </Link>
+        <div className="map-name">
+          <LocationMarkerIcon />
+          <span>{challengeData.mapDetails?.name}</span>
+        </div>
+
         <div className="challengeStartContent">
-          <h1 className="challengeTitle">You have been challenged!</h1>
+          <h1 className="challengeTitle">
+            {challengeData.isDailyChallenge ? 'The Daily Challenge' : 'You have been challenged!'}
+          </h1>
           {!challengeData.isDailyChallenge && (
             <div className="challengeCreator">
               <Avatar

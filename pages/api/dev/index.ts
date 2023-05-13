@@ -2,7 +2,6 @@ import fs from 'fs'
 /* eslint-disable import/no-anonymous-default-export */
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-
 import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { throwError } from '@backend/utils/helpers'
 import { IS_PROD } from '@backend/utils/secrets'
@@ -33,11 +32,21 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     // }
 
     if (req.method === 'POST') {
-      const updateLoc = await collections.locations?.updateMany({ countryCode: 'hk' }, { $set: { countryCode: 'cn' } })
+      const test = await collections.challenges?.updateMany(
+        { mapId: new ObjectId('63349eb5090804522c2180b7') },
+        { $set: { mapId: new ObjectId('6185df7a7b54baf63473a53e') } }
+      )
 
-      if (!updateLoc) return throwError(res, 400, 'issue')
+      if (!test) return throwError(res, 400, 'ISSUE')
 
-      return res.status(200).send('bye bye hong kong')
+      return res.status(200).send(test.modifiedCount)
+
+      // const updateLoc = await collections.locations?.updateMany({ countryCode: 'hk' }, { $set: { countryCode: 'cn' } })
+
+      // if (!updateLoc) return throwError(res, 400, 'issue')
+
+      // return res.status(200).send('bye bye hong kong')
+
       // const officialMaps = await collections.maps?.find({ creator: { $eq: 'GeoHub' } }).toArray()
 
       // if (!officialMaps) return throwError(res, 400, 'messed up official')

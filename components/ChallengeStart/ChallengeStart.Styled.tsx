@@ -24,23 +24,26 @@ const StyledChallengeStart = styled.div<StyledProps>`
       object-fit: cover;
     }
 
-    .appTitle {
+    .map-name {
       position: absolute;
-      top: 8px;
-      left: 10px;
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--color4);
-      padding: 6px;
+      bottom: 8px;
+      right: 10px;
+      background-color: rgba(255, 255, 255, 0.05);
+      padding: 8px 16px 8px 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #dcdcdc;
 
-      &:hover {
-        background-color: #363636;
-        border-radius: 8px;
-        color: var(--color1);
+      svg {
+        height: 20px;
+        margin-right: 6px;
       }
 
-      @media (max-width: 800px) {
-        font-size: 1rem;
+      span {
+        margin-top: 2px;
       }
     }
 

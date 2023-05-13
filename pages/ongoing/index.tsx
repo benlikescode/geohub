@@ -2,7 +2,6 @@ import type { NextPage } from 'next'
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import InfiniteScroll from 'react-infinite-scroll-component'
-
 import { mailman } from '@backend/utils/mailman'
 import { NoResults } from '@components/ErrorViews/NoResults'
 import { Head } from '@components/Head'
@@ -15,7 +14,7 @@ import { TrashIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
 import StyledOngoingGamesPage from '@styles/OngoingGamesPage.Styled'
 import { GameType, MapType } from '@types'
-import { COUNTRY_STREAK_DETAILS } from '@utils/constants/random'
+import { COUNTRY_STREAK_DETAILS, DAILY_CHALLENGE_DETAILS } from '@utils/constants/random'
 import { formatMonthDayYear } from '@utils/dateHelpers'
 import { getFormattedOngoingScore } from '@utils/helperFunctions'
 import { showErrorToast } from '@utils/helpers/showToasts'
@@ -128,12 +127,20 @@ const OngoingGamesPage: NextPage = () => {
                       <Avatar
                         type="map"
                         src={
-                          game.mode === 'streak' ? COUNTRY_STREAK_DETAILS.previewImg : game.mapDetails?.[0]?.previewImg
+                          game.mode === 'streak'
+                            ? COUNTRY_STREAK_DETAILS.previewImg
+                            : game.isDailyChallenge
+                            ? DAILY_CHALLENGE_DETAILS.previewImg
+                            : game.mapDetails?.[0]?.previewImg
                         }
                         size={32}
                       />
                       <span className="mapName">
-                        {game.mode === 'streak' ? COUNTRY_STREAK_DETAILS.name : game.mapDetails?.[0]?.name}
+                        {game.mode === 'streak'
+                          ? COUNTRY_STREAK_DETAILS.name
+                          : game.isDailyChallenge
+                          ? DAILY_CHALLENGE_DETAILS.name
+                          : game.mapDetails?.[0]?.name}
                       </span>
                     </div>
                   </div>
