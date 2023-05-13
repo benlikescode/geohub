@@ -48,7 +48,7 @@ const StyledMapPage = styled.div`
   }
 
   .otherMapsWrapper {
-    margin-top: 3rem;
+    margin-top: 2rem;
 
     @media (max-width: 600px) {
       padding: 1rem;
@@ -56,7 +56,8 @@ const StyledMapPage = styled.div`
   }
 
   .otherMapsTitle {
-    font-size: 20px;
+    font-size: 18px;
+    color: #dcdcdc;
   }
 
   .mapAvatar {
@@ -68,8 +69,8 @@ const StyledMapPage = styled.div`
   .otherMaps {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1.2rem;
-    margin-top: 1rem;
+    gap: 1rem;
+    margin-top: 12px;
 
     @media (max-width: 1350px) {
       grid-template-columns: 1fr 1fr;
@@ -77,7 +78,6 @@ const StyledMapPage = styled.div`
 
     @media (max-width: 850px) {
       grid-template-columns: 1fr;
-      gap: 2.5rem;
     }
   }
 
@@ -85,7 +85,7 @@ const StyledMapPage = styled.div`
     background-color: var(--background2);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 6px;
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
 
     @media (max-width: 1200px) {
       flex-direction: column;
