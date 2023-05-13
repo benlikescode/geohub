@@ -1,14 +1,7 @@
 import React, { FC } from 'react'
-
-import {
-  GlobeIcon,
-  LocationMarkerIcon,
-  ScaleIcon,
-  UserIcon
-} from '@heroicons/react/outline'
+import { GlobeIcon, LocationMarkerIcon, ScaleIcon, UserIcon } from '@heroicons/react/outline'
 import { DailyChallengeStatsType } from '@types'
 import { formatLargeNumber } from '@utils/helperFunctions'
-
 import { StyledDailyChallengeMapStats } from './'
 
 type Props = {
@@ -58,7 +51,7 @@ const DailyChallengeMapStats: FC<Props> = ({ dailyChallengeStats }) => {
 
         <div className="textWrapper">
           <span className="mainLabel">Countries</span>
-          <span className="subLabel">97</span>
+          <span className="subLabel">{dailyChallengeStats.countryCount}</span>
         </div>
       </div>
     </StyledDailyChallengeMapStats>
