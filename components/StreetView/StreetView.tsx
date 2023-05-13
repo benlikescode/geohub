@@ -1,6 +1,5 @@
 import GoogleMapReact from 'google-map-react'
 import React, { FC, useEffect, useRef, useState } from 'react'
-
 import { Game } from '@backend/models'
 import { mailman } from '@backend/utils/mailman'
 import { GameStatus } from '@components/GameStatus'
@@ -10,11 +9,9 @@ import { StreaksGuessMap } from '@components/StreaksGuessMap'
 import { StreetViewControls } from '@components/StreetViewControls'
 import { MapIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
-import { GuessType, LocationType } from '@types'
+import { LocationType } from '@types'
 import { KEY_CODES } from '@utils/constants/keyCodes'
-import { getResultData } from '@utils/helperFunctions'
 import { showErrorToast } from '@utils/helpers/showToasts'
-
 import { StyledStreetView } from './'
 
 type Props = {
@@ -34,8 +31,6 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
   const game = useAppSelector((state) => state.game)
   const user = useAppSelector((state) => state.user)
   const panoramaRef = useRef<google.maps.StreetViewPanorama | null>(null)
-
-  console.log(`INITIAL COORDS: ${JSON.stringify(location)}`)
 
   const GoogleMapConfig = {
     key: googleKey,

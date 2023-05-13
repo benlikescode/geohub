@@ -1,6 +1,5 @@
 import GoogleMapReact from 'google-map-react'
 import React, { FC, useRef, useState } from 'react'
-
 import { Marker } from '@components/Marker'
 import { Icon } from '@components/System'
 import { Button } from '@components/System/Button'
@@ -9,7 +8,6 @@ import { useAppDispatch, useAppSelector } from '@redux/hook'
 import { updateGuessMapSize } from '@redux/slices'
 import { LocationType } from '@types'
 import { createMarker, getGuessMapDimensions, getMapTheme } from '@utils/helperFunctions'
-
 import { StyledGuessMap } from './'
 
 type Props = {
@@ -173,7 +171,7 @@ const GuessMap: FC<Props> = ({
         </button>
 
         <div className="submit-button-wrapper">
-          <Button type="solidPurple" width="100%" isDisabled={currGuess === null} callback={handleSubmitGuess}>
+          <Button type="solidPurple" width="100%" isDisabled={currGuess === null} callback={() => handleSubmitGuess()}>
             Submit Guess
           </Button>
         </div>
