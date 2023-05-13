@@ -30,7 +30,6 @@ const StyledGameStatus = styled.div`
     align-items: center;
     gap: 8px;
     font-size: 18px;
-    border-right: 1px solid #444;
 
     svg {
       height: 24px;
