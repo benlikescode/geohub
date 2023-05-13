@@ -49,16 +49,20 @@ const StyledStreaksGuessMap = styled.div<StyledProps>`
       position: absolute;
       bottom: 10px;
       left: 10px;
-      background-color: rgba(0, 0, 0, 0.8);
+      background-color: rgba(0, 0, 0, 0.75);
       border-radius: 4px;
-      padding: 6px 10px;
+      padding: 8px;
       display: flex;
       align-items: center;
       gap: 6px;
       font-size: 14px;
 
       img {
-        height: 16px;
+        height: 14px;
+      }
+
+      span {
+        margin-top: 3px;
       }
     }
   }
@@ -97,7 +101,7 @@ const StyledStreaksGuessMap = styled.div<StyledProps>`
 
     &.disabled {
       opacity: 0.5;
-      cursor: default;
+      cursor: not-allowed !important;
     }
 
     svg {

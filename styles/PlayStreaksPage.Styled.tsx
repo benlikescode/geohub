@@ -85,7 +85,7 @@ const StyledPlayStreaksPage = styled.div`
     background-color: var(--background2);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 6px;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
 
     @media (max-width: 1200px) {
       flex-direction: column;
