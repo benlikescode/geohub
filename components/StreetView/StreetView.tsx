@@ -163,8 +163,6 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
         <GameStatus gameData={gameData} handleSubmitGuess={handleSubmitGuess} />
         {gameData.mode === 'standard' && (
           <GuessMap
-            coordinate={location}
-            zoom={8}
             currGuess={currGuess}
             setCurrGuess={setCurrGuess}
             handleSubmitGuess={handleSubmitGuess}
@@ -175,8 +173,6 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
 
         {gameData.mode === 'streak' && (
           <StreaksGuessMap
-            coordinate={location}
-            zoom={8}
             countryStreakGuess={countryStreakGuess}
             setCountryStreakGuess={setCountryStreakGuess}
             handleSubmitGuess={handleSubmitGuess}
