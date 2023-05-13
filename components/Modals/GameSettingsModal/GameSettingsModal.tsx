@@ -1,7 +1,5 @@
 import { useRouter } from 'next/router'
 import React, { FC, useEffect, useState } from 'react'
-import toast from 'react-hot-toast'
-
 import { mailman } from '@backend/utils/mailman'
 import { Avatar, Checkbox, FlexGroup, Icon, Slider } from '@components/System'
 import { ToggleSwitch } from '@components/System/ToggleSwitch'
@@ -11,7 +9,6 @@ import { resetGameSettings, updateGameSettings, updateLocation, updateStartTime 
 import { GameSettingsType, GameType, LocationType, MapType, UserType } from '@types'
 import { formatTimeLimit } from '@utils/helperFunctions'
 import { showErrorToast } from '@utils/helpers/showToasts'
-
 import { MainModal } from '../MainModal'
 import { StyledGameSettingsModal } from './'
 import { Challenge } from './Challenge'
@@ -46,6 +43,7 @@ const GameSettingsModal: FC<Props> = ({ isOpen, closeModal, mapDetails, gameMode
   const dispatch = useAppDispatch()
   const mapId = router.query.id as string // TODO
 
+  // TO DEPRECATE WHEN NEAR YOU MAP IS DELETED
   useEffect(() => {
     if (mapId === 'near-you') {
       // TODO
@@ -76,11 +74,13 @@ const GameSettingsModal: FC<Props> = ({ isOpen, closeModal, mapDetails, gameMode
     if (gameType === 'Single Player' && !showChallengeView) {
       await handleStartGame()
     }
+
     // Case 2: Challenge & Invite Friends
     if (gameType === 'Challenge' && !showChallengeView) {
       await createChallenge()
       setShowChallengeView(true)
     }
+
     // Case 3: Challenge & Start
     if (gameType === 'Challenge' && showChallengeView) {
       // store game settings
@@ -158,6 +158,7 @@ const GameSettingsModal: FC<Props> = ({ isOpen, closeModal, mapDetails, gameMode
     if (showDetailedChecked) {
       setShowDetailedChecked(false)
     }
+
     // If we check => reset settings to default
     else {
       dispatch(resetGameSettings())

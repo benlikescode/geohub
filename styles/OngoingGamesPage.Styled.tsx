@@ -140,7 +140,7 @@ const StyledOngoingGamesPage = styled.div`
         }
 
         &:hover {
-          background-color: #732fe9;
+          background-color: var(--indigo-600);
         }
       }
 
@@ -168,7 +168,7 @@ const StyledOngoingGamesPage = styled.div`
         }
 
         &:hover {
-          background-color: #732fe9;
+          background-color: var(--indigo-600);
 
           &.mapDeleteBtn {
             background-color: #991b1b;

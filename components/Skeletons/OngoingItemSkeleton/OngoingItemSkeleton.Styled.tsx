@@ -129,7 +129,7 @@ const StyledOngoingItemSkeleton = styled.div<StyledProps>`
         }
 
         &:hover {
-          background-color: #732fe9;
+          background-color: var(--indigo-600);
         }
       }
 
@@ -157,7 +157,7 @@ const StyledOngoingItemSkeleton = styled.div<StyledProps>`
         }
 
         &:hover {
-          background-color: #732fe9;
+          background-color: var(--indigo-600);
 
           &.mapDeleteBtn {
             background-color: #991b1b;

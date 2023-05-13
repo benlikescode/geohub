@@ -78,7 +78,7 @@ const StyledMainModal = styled.div<StyledProps>`
       }
 
       :hover {
-        background-color: #732fe9;
+        background-color: var(--indigo-600);
       }
     }
   }
