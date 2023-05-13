@@ -1,13 +1,6 @@
 import styled from 'styled-components'
 
 const StyledOngoingGamesPage = styled.div`
-  // May not be using anymore
-  .header-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
   .ongoing-table {
     background-color: var(--background2);
     border: 1px solid rgb(30 30 30);
@@ -122,56 +115,35 @@ const StyledOngoingGamesPage = styled.div`
         display: flex;
         align-items: center;
         gap: 1rem;
-      }
 
-      .mapResumeBtn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 5px;
-        padding: 10px 16px;
-        user-select: none;
-        background-color: var(--mediumPurple);
+        .play-button,
+        .delete-button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 5px;
+          padding: 10px;
+          font-size: 1rem;
+          font-weight: 500;
+          user-select: none;
+          background-color: var(--mediumPurple);
+          color: rgb(255, 255, 255, 0.7);
 
-        svg {
-          height: 20px;
-          color: #fff;
-          margin-left: 6px;
-        }
+          &.delete-button {
+            background-color: rgb(255, 255, 255, 0.1);
+          }
 
-        &:hover {
-          background-color: var(--indigo-600);
-        }
-      }
+          svg {
+            height: 20px;
+            color: #fff;
+          }
 
-      // May be able to remove mapEditBtn (not in use anymore?)
-      .mapEditBtn,
-      .mapDeleteBtn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 5px;
-        padding: 10px;
-        font-size: 1rem;
-        font-weight: 500;
-        user-select: none;
-        background-color: var(--mediumPurple);
-        color: rgb(255, 255, 255, 0.7);
+          &:hover {
+            background-color: var(--indigo-600);
 
-        &.mapDeleteBtn {
-          background-color: rgb(255, 255, 255, 0.1);
-        }
-
-        svg {
-          height: 20px;
-          color: #fff;
-        }
-
-        &:hover {
-          background-color: var(--indigo-600);
-
-          &.mapDeleteBtn {
-            background-color: #991b1b;
+            &.delete-button {
+              background-color: #991b1b;
+            }
           }
         }
       }

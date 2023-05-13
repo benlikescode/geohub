@@ -162,10 +162,10 @@ const OngoingGamesPage: NextPage = () => {
                     )}
 
                     <div className="ongoing-buttons">
-                      <button className="mapDeleteBtn" onClick={() => openDeleteModal(game._id as string)}>
+                      <button className="delete-button" onClick={() => openDeleteModal(game._id as string)}>
                         <TrashIcon />
                       </button>
-                      <a className="mapEditBtn" href={`/game/${game._id}`}>
+                      <a className="play-button" href={`/game/${game._id}`}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
