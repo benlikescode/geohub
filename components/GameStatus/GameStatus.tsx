@@ -30,7 +30,6 @@ const GameStatus: FC<Props> = ({ gameData, handleSubmitGuess, hasCustomRoundLeng
 
   const getMapName = async () => {
     const mapDetails = (await mailman(`maps/${gameData.mapId}`)) as MapType
-    console.log('YOOOO', mapDetails)
 
     dispatch(setMapName(mapDetails.name))
   }
