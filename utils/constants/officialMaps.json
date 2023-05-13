@@ -35,9 +35,9 @@
       "likes": { "numLikes": 0, "likedByUser": false }
     },
     {
-      "_id": "6185dfb37b54baf63473a53f",
+      "_id": "6185e0077b54baf63473a542",
       "name": "United States",
-      "description": "How well do you know your own city? Find out now!",
+      "description": "The land of the free! 50 states of locations waiting for you.",
       "previewImg": "official4.jpg",
       "creator": "GeoHub",
       "usersPlayed": 15,
