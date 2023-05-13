@@ -1,5 +1,4 @@
 import { ObjectId } from 'mongodb'
-
 import { GameSettingsType, LocationType, MapType } from './'
 
 type Challenge = {
@@ -11,7 +10,7 @@ type Challenge = {
   creatorName: string
   creatorAvatar: { emoji: string; color: string }
   isDailyChallenge?: boolean
-  mapDetails?: MapType[]
+  mapDetails?: MapType
   mode: 'standard' | 'streak'
 }
 
