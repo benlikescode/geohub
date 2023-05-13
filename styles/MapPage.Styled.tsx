@@ -45,6 +45,10 @@ const StyledMapPage = styled.div`
   .description {
     color: var(--color3);
     font-weight: 400;
+
+    @media (max-width: 1000px) {
+      display: none;
+    }
   }
 
   .otherMapsWrapper {
@@ -134,15 +138,6 @@ const StyledMapPage = styled.div`
 
   .mapDescriptionWrapper {
     width: 100%;
-
-    @media (max-width: 1550px) {
-      flex-shrink: 1.25;
-      padding: 1rem 1.5rem;
-    }
-
-    @media (max-width: 1200px) {
-      padding: 1.5rem;
-    }
   }
 
   .statsWrapper {

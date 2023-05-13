@@ -7,15 +7,12 @@ type StyledProps = {
 const StyledMapStats = styled.div<StyledProps>`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  column-gap: 20px;
+  gap: 20px;
   padding: 15px 20px 20px;
 
-  @media (max-width: 1200px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  @media (max-width: 940px) {
+  @media (max-width: 1000px) {
     grid-template-columns: 1fr 1fr;
+    gap: 12px;
   }
 
   .stat-item {
@@ -27,23 +24,6 @@ const StyledMapStats = styled.div<StyledProps>`
     border-radius: 6px;
     flex-shrink: 0;
     box-sizing: border-box;
-  }
-
-  @media (max-width: 1200px) {
-    padding: 2rem 0 2rem 3rem;
-    border-left: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    border-top-right-radius: 0;
-    border-bottom-left-radius: 12px;
-  }
-
-  @media (max-width: 1050px) {
-    padding: 2rem 0 2rem 1rem;
-  }
-
-  @media (max-width: 600px) {
-    border-radius: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .textWrapper {
