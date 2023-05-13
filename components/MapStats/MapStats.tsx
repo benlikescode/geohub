@@ -20,8 +20,6 @@ const MapStats: FC<Props> = ({ map, setMap }) => {
   const [isHoveringLike, setIsHoveringLike] = useState(false)
   const user = useAppSelector((state) => state.user)
 
-  console.log(`MAP ON MAP STATS: ${JSON.stringify(map)}`)
-
   // modalOpen ? disableBodyScroll(document as any) : enableBodyScroll(document as any)
 
   const handleLike = async () => {
