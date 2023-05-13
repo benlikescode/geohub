@@ -1,10 +1,8 @@
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import React, { FC, useState } from 'react'
-
 import { Avatar, Button, Icon, Searchbar } from '@components/System'
 import { SearchIcon } from '@heroicons/react/outline'
-
 import { StyledNavbar } from './'
 
 const Navbar: FC = () => {
@@ -38,7 +36,7 @@ const Navbar: FC = () => {
 
           <div className="rightContainer">
             <div className="rightWrapper">
-              <Button type="icon" className="mobileSearch" callback={() => setSearchOpen(true)}>
+              <Button variant="icon" className="mobileSearch" onClick={() => setSearchOpen(true)}>
                 <Icon size={20} fill="#efeff1">
                   <SearchIcon />
                 </Icon>
@@ -55,7 +53,7 @@ const Navbar: FC = () => {
                 <>
                   <Link href="/login">
                     <a>
-                      <Button type="solidCustom" size="sm" backgroundColor="#3d3d3d" color="#fff" hoverColor="#444">
+                      <Button variant="solidCustom" size="sm" backgroundColor="#3d3d3d" color="#fff" hoverColor="#444">
                         Login
                       </Button>
                     </a>
@@ -63,9 +61,7 @@ const Navbar: FC = () => {
 
                   <Link href="/register">
                     <a>
-                      <Button type="solidPurple" size="sm">
-                        Sign Up
-                      </Button>
+                      <Button size="sm">Sign Up</Button>
                     </a>
                   </Link>
                 </>

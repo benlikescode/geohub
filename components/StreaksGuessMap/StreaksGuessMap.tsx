@@ -2,7 +2,6 @@
 import GoogleMapReact from 'google-map-react'
 import React, { FC, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
-
 import { Marker } from '@components/Marker'
 import { Icon } from '@components/System'
 import { Button } from '@components/System/Button'
@@ -14,7 +13,6 @@ import { multiPolygon, point, polygon } from '@turf/turf'
 import { LocationType } from '@types'
 import countryBounds from '@utils/constants/countryBoundsOld.json'
 import { createMarker, getGuessMapDimensions, getMapTheme } from '@utils/helperFunctions'
-
 import { StyledStreaksGuessMap } from './'
 
 type Props = {
@@ -419,7 +417,7 @@ const StreaksGuessMap: FC<Props> = ({
         </button>
 
         <div className="submit-button-wrapper">
-          <Button type="solidPurple" width="100%" isDisabled={!countryStreakGuess} callback={handleSubmitGuess}>
+          <Button width="100%" disabled={!countryStreakGuess} onClick={() => handleSubmitGuess}>
             Submit Guess
           </Button>
         </div>

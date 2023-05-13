@@ -104,7 +104,7 @@ const DailyChallengePage: FC = () => {
                       </div>
                     </div>
 
-                    <Button type="solidPurple" width="148px" height="52px" callback={() => startDailyChallenge()}>
+                    <Button width="148px" height="52px" onClick={() => startDailyChallenge()}>
                       {usersGameState === 'started' && 'Continue'}
                       {usersGameState === 'notStarted' && 'Play Now'}
                       {usersGameState === 'finished' && (

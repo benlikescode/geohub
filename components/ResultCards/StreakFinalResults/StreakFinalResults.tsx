@@ -1,10 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { FC, useEffect, useState } from 'react'
-
 import Game from '@backend/models/game'
 import countries from '@utils/constants/countries'
-
 import { StreakCountryList } from '../../StreakCountryList'
 import { Button } from '../../System'
 import { ResultsWrapper } from '../ResultsWrapper'
@@ -31,13 +29,13 @@ const StreakFinalResults: FC<Props> = ({ gameData, setView }) => {
           <div className="actionButtons">
             <Link href="/streaks">
               <a>
-                <Button type="solidPurple">Play Again</Button>
+                <Button>Play Again</Button>
               </a>
             </Link>
 
             <Link href="/">
               <a>
-                <Button type="solidGray">Return To Home</Button>
+                <Button variant="solidGray">Return To Home</Button>
               </a>
             </Link>
           </div>

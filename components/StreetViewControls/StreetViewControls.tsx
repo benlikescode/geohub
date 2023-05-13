@@ -1,8 +1,6 @@
 import React, { FC, useState } from 'react'
-
 import { Button, Icon, Tooltip } from '@components/System'
 import { FlagIcon } from '@heroicons/react/outline'
-
 import { StyledStreetViewControls } from './'
 
 type Props = {
@@ -15,7 +13,7 @@ const StreetViewControls: FC<Props> = ({ handleBackToStart }) => {
   return (
     <StyledStreetViewControls>
       <div className="control-button-wrapper" onMouseOver={() => setShowTip(true)} onMouseOut={() => setShowTip(false)}>
-        <Button className="control-button" type="iconRounded" callback={handleBackToStart}>
+        <Button variant="iconRounded" className="control-button" onClick={handleBackToStart}>
           <FlagIcon />
         </Button>
         {showTip && <Tooltip label="Back To Start" position="left" />}

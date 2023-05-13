@@ -3,7 +3,6 @@ import GoogleMapReact from 'google-map-react'
 import { throttle } from 'lodash'
 import { useRouter } from 'next/router'
 import React, { useEffect, useRef, useState } from 'react'
-
 import { mailman } from '@backend/utils/mailman'
 import { NotFound } from '@components/ErrorViews/NotFound'
 import { Head } from '@components/Head'
@@ -424,10 +423,10 @@ const CreateMapPage: PageType = () => {
                 <span className="map-name">{mapName}</span>
               </div>
               <div className="map-action-buttons">
-                <Button type="solidGray" callback={() => setEditModalOpen(true)}>
+                <Button variant="solidGray" onClick={() => setEditModalOpen(true)}>
                   Edit Details
                 </Button>
-                <Button type="solidPurple" callback={handleSaveMap} loading={isSubmitting}>
+                <Button onClick={handleSaveMap} isLoading={isSubmitting} disabled={isSubmitting}>
                   Save Map
                 </Button>
               </div>
@@ -469,10 +468,10 @@ const CreateMapPage: PageType = () => {
 
           <div id="previewMap"></div>
           <div className="preview-action-buttons">
-            <Button type="destroy" callback={handleRemoveLocation}>
+            <Button variant="destroy" onClick={handleRemoveLocation}>
               Remove Location
             </Button>
-            <Button type="solidGray" callback={handleSaveLocation}>
+            <Button variant="solidGray" onClick={handleSaveLocation}>
               Save Location
             </Button>
           </div>

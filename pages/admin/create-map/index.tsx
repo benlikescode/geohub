@@ -1,7 +1,6 @@
 import type { NextPage } from 'next'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
-
 import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
 import { PageHeader } from '@components/Layout'
@@ -61,7 +60,7 @@ const AdminCreateMapPage: NextPage = () => {
 
         <Input id="avatar" type="text" label="Avatar Path" value={`/images/mapAvatars/`} callback={setAvatarPath} />
 
-        <Button type="solidPurple" width="100%" callback={() => handleCreateMap()} loading={isSubmitting}>
+        <Button width="100%" onClick={() => handleCreateMap()} isLoading={isSubmitting}>
           Create
         </Button>
       </StyledAdminCreateMapPage>

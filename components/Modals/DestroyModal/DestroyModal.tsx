@@ -1,9 +1,7 @@
 import React, { FC } from 'react'
-
 import { Button, Spinner } from '@components/System'
 import { Modal } from '@components/System/Modal'
 import { XIcon } from '@heroicons/react/outline'
-
 import { StyledDestroyModal } from './'
 
 type Props = {
@@ -31,10 +29,10 @@ const DestroyModal: FC<Props> = ({ title, message, isOpen, onClose, onAction, is
         </div>
 
         <div className="footer">
-          <Button type="solidGray" size="md" callback={onClose}>
+          <Button variant="solidGray" size="md" onClick={onClose}>
             Cancel
           </Button>
-          <Button type="destroy" size="md" callback={onAction} isDisabled={isSubmitting}>
+          <Button variant="destroy" size="md" onClick={onAction} disabled={isSubmitting}>
             {isSubmitting ? <Spinner size={20} /> : 'Delete'}
           </Button>
         </div>

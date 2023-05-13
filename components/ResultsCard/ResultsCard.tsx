@@ -1,10 +1,8 @@
 import React, { FC, useState } from 'react'
 import { useDispatch } from 'react-redux'
-
 import { Button, ProgressBar } from '@components/System'
 import { updateStartTime } from '@redux/slices'
 import { formatDistance, formatLargeNumber } from '@utils/helperFunctions'
-
 import { StyledResultsCard } from './'
 
 type Props = {
@@ -57,7 +55,7 @@ const ResultsCard: FC<Props> = ({ round, distance, points, noGuess, setView }) =
         </div>
 
         <div className="actionButton">
-          <Button type="solidPurple" callback={handleNextRound} width="200px">
+          <Button onClick={handleNextRound} width="200px">
             {round > 5 ? 'View Results' : 'Play Next Round'}
           </Button>
         </div>

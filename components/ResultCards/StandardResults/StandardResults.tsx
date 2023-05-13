@@ -1,10 +1,8 @@
 import React, { FC, useState } from 'react'
-
 import { Button, ProgressBar } from '@components/System'
 import { useAppDispatch } from '@redux/hook'
 import { updateStartTime } from '@redux/slices'
 import { formatDistance, formatLargeNumber } from '@utils/helperFunctions'
-
 import { ResultsWrapper } from '../ResultsWrapper'
 import { StyledStandardResults } from './'
 
@@ -58,7 +56,7 @@ const StandardResults: FC<Props> = ({ round, distance, points, noGuess, setView 
         </div>
 
         <div className="actionButton">
-          <Button type="solidPurple" callback={handleNextRound} width="200px">
+          <Button onClick={handleNextRound} width="200px">
             {round > 5 ? 'View Results' : 'Play Next Round'}
           </Button>
         </div>

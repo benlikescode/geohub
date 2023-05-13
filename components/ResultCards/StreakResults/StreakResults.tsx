@@ -1,13 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link'
 import React, { FC, useState } from 'react'
-
 import Game from '@backend/models/game'
 import { Button } from '@components/System'
 import { useAppDispatch } from '@redux/hook'
 import { updateStartTime } from '@redux/slices'
 import countries from '@utils/constants/countries'
-
 import { ResultsWrapper } from '../ResultsWrapper'
 import { StyledStreakResults } from './'
 
@@ -91,9 +89,7 @@ const StreakResults: FC<Props> = ({ gameData, setView }) => {
 
         {hasStreak ? (
           <div className="actionButtons">
-            <Button type="solidPurple" callback={handleNextRound}>
-              Play Next Round
-            </Button>
+            <Button onClick={handleNextRound}>Play Next Round</Button>
           </div>
         ) : (
           <div className="actionButtons">
@@ -113,11 +109,11 @@ const StreakResults: FC<Props> = ({ gameData, setView }) => {
 
             <Link href={`/streaks`}>
               <a>
-                <Button type="solidPurple">Play Again</Button>
+                <Button>Play Again</Button>
               </a>
             </Link>
 
-            <Button type="solidGray" callback={() => setView('FinalResults')}>
+            <Button variant="solidGray" onClick={() => setView('FinalResults')}>
               View Summary
             </Button>
           </div>

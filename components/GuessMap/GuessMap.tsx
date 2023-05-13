@@ -171,7 +171,7 @@ const GuessMap: FC<Props> = ({
         </button>
 
         <div className="submit-button-wrapper">
-          <Button type="solidPurple" width="100%" isDisabled={currGuess === null} callback={() => handleSubmitGuess()}>
+          <Button width="100%" disabled={currGuess === null} onClick={() => handleSubmitGuess()}>
             Submit Guess
           </Button>
         </div>

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-
 import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
 import { WidthController } from '@components/Layout/WidthController'
@@ -67,7 +66,7 @@ const StreaksPage = () => {
                     <span className="description">{COUNTRY_STREAK_DETAILS.description}</span>
                   </div>
                 </div>
-                <Button type="solidPurple" width="148px" height="52px" callback={() => setSettingsModalOpen(true)}>
+                <Button width="148px" height="52px" onClick={() => setSettingsModalOpen(true)}>
                   Play Now
                 </Button>
               </div>

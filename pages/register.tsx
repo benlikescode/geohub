@@ -124,8 +124,8 @@ const RegisterPage: PageType = () => {
           <Input id="email" type="text" label="Email Address" callback={setEmail} autoComplete="email" />
           <Input id="password" type="password" label="Password" callback={setPassword} autoComplete="new-password" />
 
-          <Button type="solidPurple" width="100%">
-            {showBtnSpinner ? <Spinner size={25} /> : 'Register'}
+          <Button width="100%" isLoading={showBtnSpinner}>
+            Register
           </Button>
         </form>
 

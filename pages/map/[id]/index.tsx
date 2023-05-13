@@ -2,7 +2,6 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import Link from 'next/link'
 import router from 'next/router'
 import React, { FC, useEffect, useState } from 'react'
-
 import { mailman } from '@backend/utils/mailman'
 import { NotFound } from '@components/ErrorViews/NotFound'
 import { Head } from '@components/Head'
@@ -109,7 +108,7 @@ const MapPage: FC = () => {
                     )}
                   </div>
                 </div>
-                <Button type="solidPurple" width="148px" height="52px" callback={() => setSettingsModalOpen(true)}>
+                <Button width="148px" height="52px" onClick={() => setSettingsModalOpen(true)}>
                   Play Now
                 </Button>
               </div>

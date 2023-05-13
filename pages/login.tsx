@@ -130,8 +130,8 @@ const LoginPage: PageType = () => {
             autoComplete="current-password"
           />
 
-          <Button type="solidPurple" width="100%">
-            {showBtnSpinner ? <Spinner size={25} /> : 'Login'}
+          <Button width="100%" isLoading={showBtnSpinner}>
+            Login
           </Button>
         </form>
 

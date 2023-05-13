@@ -1,10 +1,8 @@
 import Link from 'next/link'
 import React, { FC } from 'react'
-
 import { Game } from '@backend/models'
 import { Button, FlexGroup, ProgressBar } from '@components/System'
 import { formatLargeNumber } from '@utils/helperFunctions'
-
 import { ResultsWrapper } from '../ResultsWrapper'
 import { StyledStandardFinalResults } from './'
 
@@ -44,20 +42,20 @@ const StandardFinalResults: FC<Props> = ({ gameData }) => {
             }
           >
             <a>
-              <Button type="ghostLight">{gameData.mapId ? 'Detailed Results' : 'Return To Home'}</Button>
+              <Button variant="ghostLight">{gameData.mapId ? 'Detailed Results' : 'Return To Home'}</Button>
             </a>
           </Link>
 
           {gameData.isDailyChallenge ? (
             <Link href={'/daily-challenge'}>
               <a>
-                <Button type="solidPurple">Daily Challenge</Button>
+                <Button>Daily Challenge</Button>
               </a>
             </Link>
           ) : (
             <Link href={gameData.mapId ? `/map/${gameData.mapId}` : '/aerial'}>
               <a>
-                <Button type="solidPurple">Play Again</Button>
+                <Button>Play Again</Button>
               </a>
             </Link>
           )}

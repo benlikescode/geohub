@@ -1,9 +1,7 @@
 import Link from 'next/link'
 import React, { FC } from 'react'
-
 import { Button, Modal } from '@components/System'
 import { XIcon } from '@heroicons/react/outline'
-
 import { StyledAuthModal } from './'
 
 type Props = {
@@ -26,7 +24,7 @@ const AuthModal: FC<Props> = ({ isOpen, closeModal }) => {
           <div className="buttonsWrapper">
             <Link href="/login">
               <a>
-                <Button type="solidCustom" backgroundColor="#3d3d3d" color="#fff" hoverColor="#444" width="100%">
+                <Button variant="solidCustom" backgroundColor="#3d3d3d" color="#fff" hoverColor="#444" width="100%">
                   Login
                 </Button>
               </a>
@@ -34,9 +32,7 @@ const AuthModal: FC<Props> = ({ isOpen, closeModal }) => {
 
             <Link href="/register">
               <a>
-                <Button type="solidPurple" width="100%">
-                  Sign Up
-                </Button>
+                <Button width="100%">Sign Up</Button>
               </a>
             </Link>
           </div>

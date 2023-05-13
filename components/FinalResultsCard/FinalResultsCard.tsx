@@ -1,10 +1,8 @@
 import Link from 'next/link'
 import React, { FC } from 'react'
-
 import { Game } from '@backend/models'
 import { Button, FlexGroup, ProgressBar } from '@components/System'
 import { formatLargeNumber } from '@utils/helperFunctions'
-
 import { StyledFinalResultsCard } from './'
 
 type Props = {
@@ -43,13 +41,13 @@ const FinalResultsCard: FC<Props> = ({ gameData }) => {
             }
           >
             <a>
-              <Button type="ghostLight">{gameData.mapId ? 'Detailed Results' : 'Return To Home'}</Button>
+              <Button variant="ghostLight">{gameData.mapId ? 'Detailed Results' : 'Return To Home'}</Button>
             </a>
           </Link>
 
           <Link href={gameData.mapId ? `/map/${gameData.mapId}` : '/aerial'}>
             <a>
-              <Button type="solidPurple">Play Again</Button>
+              <Button>Play Again</Button>
             </a>
           </Link>
         </FlexGroup>
