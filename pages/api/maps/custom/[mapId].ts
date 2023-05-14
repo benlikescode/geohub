@@ -26,22 +26,24 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       return throwError(res, 400, 'You must pass a valid mapId')
     }
 
+    const session = await getSession({ req })
+
+    if (!session) {
+      return throwError(res, 401, 'You must be logged in')
+    }
+
+    const userId = session.user.id
+
+    const mapDetails = await collections.maps?.findOne({ _id: new ObjectId(mapId) })
+
+    if (!mapDetails) {
+      return throwError(res, 400, `Failed to find map details`)
+    }
+
     // GET custom map
     if (req.method === 'GET') {
-      const session = await getSession({ req })
-
-      if (!session) {
-        return throwError(res, 401, 'You must be logged in')
-      }
-
-      const mapDetails = await collections.maps?.findOne({ _id: new ObjectId(mapId) })
-
-      if (!mapDetails) {
-        return throwError(res, 400, `Failed to find map details`)
-      }
-
       // Verify that this map belongs to this user
-      if (session.user.id !== mapDetails.creator?.toString()) {
+      if (userId !== mapDetails.creator?.toString()) {
         return throwError(res, 401, 'You are not authorized to view this page')
       }
 
@@ -57,6 +59,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     // UPDATE custom map
     else if (req.method === 'PUT') {
+      if (userId !== mapDetails.creator?.toString()) {
+        return throwError(res, 401, 'You can only make changes to maps you create')
+      }
+
       let updatedMap: UpdatedMap = {}
 
       const { name, description, previewImg, isPublished, locations } = req.body as ReqBody
@@ -111,12 +117,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     // DELETE custom map
     else if (req.method === 'DELETE') {
-      const userId = req.headers.uid as string
-      const mapQuery = { _id: new ObjectId(mapId), creator: new ObjectId(userId) }
-
-      const isThisUsersMap = await collections.maps?.find(mapQuery).count()
-
-      if (!isThisUsersMap) {
+      if (userId !== mapDetails.creator?.toString()) {
         return throwError(res, 401, 'You do not have permission to delete this map')
       }
 
