@@ -71,7 +71,7 @@ const OngoingGamesPage: NextPage = () => {
     const res = await mailman(`games/${deletingGameId}`, 'DELETE')
 
     if (res?.error) {
-      toast.error('Something went wrong')
+      toast.error(res.error.message)
     }
 
     if (res.message) {
