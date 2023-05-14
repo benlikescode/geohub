@@ -1,15 +1,12 @@
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 /* eslint-disable @next/next/no-img-element */
-import React, { FC, useMemo, useState } from 'react'
-
+import React, { FC, useEffect, useMemo, useState } from 'react'
 import { mailman } from '@backend/utils/mailman'
 import { Input } from '@components/System'
 import { useAppSelector } from '@redux/hook'
-import { MAP_AVATARS } from '@utils/constants/avatarOptions'
-import { randomElement, randomInt } from '@utils/functions/generateLocations'
+import { randomInt } from '@utils/functions/generateLocations'
 import { showErrorToast } from '@utils/helpers/showToasts'
-
 import { MainModal } from '../'
 import { MAP_AVATAR_BASE_PATH } from '../../../utils/constants/random'
 import { MapPreviewCard } from '../../MapPreviewCard'
@@ -48,6 +45,13 @@ const CreateMapModal: FC<Props> = ({
     () => name !== mapName || description !== mapDescription || avatar !== mapAvatar,
     [name, description, avatar, mapName, mapDescription, mapAvatar]
   )
+
+  // Future Improvement: Store map details in a redux slice
+  useEffect(() => {
+    setName(mapName || '')
+    setDescription(mapDescription || '')
+    setAvatar(mapAvatar || '')
+  }, [mapName, mapDescription, mapAvatar])
 
   const handleEditMap = async () => {
     if (!hasMadeChanges) {
@@ -109,7 +113,7 @@ const CreateMapModal: FC<Props> = ({
       onAction={updateMapDetails ? handleEditMap : handleCreateMap}
       actionButtonText={updateMapDetails ? 'Update' : 'Next'}
       isSubmitting={isSubmitting}
-      maxWidth="815px"
+      maxWidth="768px"
     >
       <StyledCreateMapModal>
         <div className="map-details-section">
@@ -150,18 +154,6 @@ const CreateMapModal: FC<Props> = ({
             map={{ _id: mapId, name: name || 'Map Name' || '', previewImg: avatar || '', description: mapDescription }}
             isForDisplayOnly
           />
-
-          {/* <div className="mapPreviewCard">
-            <div className="mapImage">
-              <Image src={avatar} alt="" layout="fill" objectFit="cover" />
-            </div>
-            <div className="contentWrapper">
-              <div className="mapName">{name || 'Map Name'}</div>
-              <div className="playWrapper">
-                <div className="mapPlayBtn">Play</div>
-              </div>
-            </div>
-          </div> */}
         </div>
       </StyledCreateMapModal>
     </MainModal>
