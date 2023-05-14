@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb'
 /* eslint-disable import/no-anonymous-default-export */
 import { NextApiRequest, NextApiResponse } from 'next'
-
+import { getSession } from 'next-auth/react'
 import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { throwError } from '@backend/utils/helpers'
 import { LocationType } from '@types'
@@ -28,7 +28,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     // GET custom map
     if (req.method === 'GET') {
-      const userId = req.headers.uid
+      const session = await getSession({ req })
+
+      if (!session) {
+        return throwError(res, 401, 'You must be logged in')
+      }
+
       const mapDetails = await collections.maps?.findOne({ _id: new ObjectId(mapId) })
 
       if (!mapDetails) {
@@ -36,7 +41,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       // Verify that this map belongs to this user
-      if (userId !== mapDetails.creator?.toString()) {
+      if (session.user.id !== mapDetails.creator?.toString()) {
         return throwError(res, 401, 'You are not authorized to view this page')
       }
 
