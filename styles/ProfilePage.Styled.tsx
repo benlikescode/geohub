@@ -79,7 +79,7 @@ const StyledProfilePage = styled.div<StyledProps>`
           background-color: #363636;
           border-radius: 50rem;
           padding: 0.5rem;
-          border: 1px solid rgba(255, 255, 255, 0.55);
+          border: 1px solid rgba(255, 255, 255, 0.15);
           position: absolute;
           top: -0.5rem;
           right: 0;
@@ -93,7 +93,7 @@ const StyledProfilePage = styled.div<StyledProps>`
             height: 20px;
             color: var(--color2);
             position: relative;
-            top: -2px;
+            top: -1px;
           }
         }
       }
