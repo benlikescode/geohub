@@ -1,7 +1,6 @@
 import bcrypt from 'bcryptjs'
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import CredentialProvider from 'next-auth/providers/credentials'
-
 import { collections, dbConnect } from '../../../backend/utils/dbConnect'
 
 export const authOptions: NextAuthOptions = {
@@ -37,6 +36,8 @@ export const authOptions: NextAuthOptions = {
           email: user.email,
           name: user.name,
           avatar: user.avatar,
+          bio: user.bio,
+          isAdmin: user.isAdmin,
         }
       },
     }),

@@ -1,10 +1,11 @@
 import { ObjectId } from 'bson'
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextApiResponse } from 'next'
 import { Game } from '../../models'
+import NextApiRequestWithSession from '../../types/NextApiRequestWithSession'
 import { collections } from '../../utils/dbConnect'
 import { throwError } from '../../utils/helpers'
 
-const getGame = async (req: NextApiRequest, res: NextApiResponse) => {
+const getGame = async (req: NextApiRequestWithSession, res: NextApiResponse) => {
   const gameId = req.query.id as string
 
   if (gameId.length !== 24) {

@@ -1,56 +1,25 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { ObjectId } from 'mongodb'
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextApiResponse } from 'next'
+import { dbConnect } from '@backend/utils/dbConnect'
+import verifySession from '../../../backend/middlewares/verifySession'
+import getUnfinishedGames from '../../../backend/routes/games/getUnfinishedGames'
+import NextApiRequestWithSession from '../../../backend/types/NextApiRequestWithSession'
 
-import { collections, dbConnect } from '@backend/utils/dbConnect'
-import { throwError } from '@backend/utils/helpers'
-
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (req: NextApiRequestWithSession, res: NextApiResponse) => {
   try {
+    const hasSession = await verifySession(req, res)
+    if (!hasSession) return
+
     await dbConnect()
-    const userId = req.headers.uid as string
 
-    if (req.method === 'GET') {
-      const page = req.query.page ? Number(req.query.page) : 0
-      const gamesPerPage = 20
-
-      const query = { userId: new ObjectId(userId), state: { $ne: 'finished' } }
-      const games = await collections.games
-        ?.aggregate([
-          { $match: query },
-          { $sort: { createdAt: -1 } },
-          { $skip: page * gamesPerPage },
-          { $limit: gamesPerPage + 1 },
-          {
-            $project: {
-              rounds: 0,
-              guesses: 0,
-            },
-          },
-          {
-            $lookup: {
-              from: 'maps',
-              localField: 'mapId',
-              foreignField: '_id',
-              as: 'mapDetails',
-            },
-          },
-        ])
-        .toArray()
-
-      if (!games) {
-        return throwError(res, 400, 'There was a problem fetching your ongoing games')
-      }
-
-      const data = games.slice(0, gamesPerPage)
-      const hasMore = games.length > gamesPerPage
-
-      res.status(200).send({ data, hasMore })
-    } else {
-      res.status(405).end(`Method ${req.method} Not Allowed`)
+    switch (req.method) {
+      case 'GET':
+        return getUnfinishedGames(req, res)
+      default:
+        res.status(405).end(`Method ${req.method} Not Allowed`)
     }
   } catch (err) {
-    console.log(err)
-    res.status(500).json({ success: false })
+    console.error(err)
+    res.status(500).send({ success: false })
   }
 }

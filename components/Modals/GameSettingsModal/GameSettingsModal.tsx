@@ -134,8 +134,8 @@ const GameSettingsModal: FC<Props> = ({ isOpen, closeModal, mapDetails, gameMode
       mapName: mapDetails.name,
       gameSettings,
       mode: gameMode,
-      userId: user.id,
-      userLocation: user.location,
+      // userId: user.id,
+      // userLocation: user.location,
     }
 
     // store start time

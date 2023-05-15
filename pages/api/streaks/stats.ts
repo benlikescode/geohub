@@ -1,81 +1,25 @@
-import { ObjectId } from 'mongodb'
-import { NextApiRequest, NextApiResponse } from 'next'
+/* eslint-disable import/no-anonymous-default-export */
+import { NextApiResponse } from 'next'
+import { dbConnect } from '@backend/utils/dbConnect'
+import verifySession from '../../../backend/middlewares/verifySession'
+import getStreakStats from '../../../backend/routes/getStreakStats'
+import NextApiRequestWithSession from '../../../backend/types/NextApiRequestWithSession'
 
-import { collections, dbConnect } from '@backend/utils/dbConnect'
-import { throwError } from '@backend/utils/helpers'
-
-// eslint-disable-next-line import/no-anonymous-default-export
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (req: NextApiRequestWithSession, res: NextApiResponse) => {
   try {
+    const hasSession = await verifySession(req, res)
+    if (!hasSession) return
+
     await dbConnect()
 
-    if (req.method === 'GET') {
-      const LOCATION_COUNT = 250000
-      const COUNTRY_COUNT = 98
-
-      // Get average streak
-      const avgStreak = await collections.games
-        ?.aggregate([
-          { $match: { mode: 'streak', state: 'finished' } },
-          {
-            $group: {
-              _id: null,
-              avgStreak: { $avg: '$streak' },
-            },
-          },
-        ])
-        .toArray()
-
-      if (!avgStreak) {
-        return throwError(res, 404, `Failed to get average streak`)
-      }
-
-      const adjustedAvgStreak = avgStreak.length ? Math.ceil(avgStreak[0].avgStreak) : 0
-
-      // Get number of explorers
-      const explorers = await collections.games
-        ?.aggregate([
-          { $match: { mode: 'streak' } },
-          {
-            $group: {
-              _id: '$userId',
-            },
-          },
-        ])
-        .toArray()
-
-      if (!explorers) return throwError(res, 400, 'Failed to get the number of explorers')
-
-      const result = {
-        avgStreak: adjustedAvgStreak,
-        locationCount: LOCATION_COUNT,
-        countryCount: COUNTRY_COUNT,
-        usersPlayed: explorers.length,
-      }
-
-      // const games = await collections.games
-      //   ?.aggregate([
-      //     { $match: { userId: new ObjectId(userId), mode: 'streak' } },
-      //     { $group: { _id: null, max: { $max: '$streak' } } },
-      //   ])
-      //   .toArray()
-
-      // console.log(games)
-
-      // if (!games || games.length !== 1) {
-      //   return throwError(res, 400, 'Could not get your best streak at this time')
-      // }
-
-      // const result = {
-      //   bestStreak: games[0].max || 0,
-      // }
-
-      res.status(200).send(result)
-    } else {
-      res.status(405).end(`Method ${req.method} Not Allowed`)
+    switch (req.method) {
+      case 'GET':
+        return getStreakStats(req, res)
+      default:
+        res.status(405).end(`Method ${req.method} Not Allowed`)
     }
   } catch (err) {
-    console.log(err)
+    console.error(err)
     res.status(500).json({ success: false })
   }
 }

@@ -1,5 +1,4 @@
 import NextAuth, { DefaultSession } from 'next-auth'
-
 import { UserType } from './'
 
 declare module 'next-auth' {
@@ -10,6 +9,8 @@ declare module 'next-auth' {
     user: {
       id: string
       avatar: { emoji: string; color: string }
+      bio: string
+      isAdmin: boolean
     } & DefaultSession['user']
   }
 }

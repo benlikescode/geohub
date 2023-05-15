@@ -38,41 +38,6 @@ const StyledAuthPage = styled.div`
       padding: 2rem 1rem;
       background-color: inherit;
     }
-
-    /* .providers-group {
-      display: grid;
-      gap: 12px;
-      margin-bottom: 30px;
-
-      .provider-option {
-        height: 38px;
-        border-radius: 6px;
-        background-color: #333;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        font-size: 14px;
-        color: #dcdcdc;
-        border: 1px solid #404040;
-        font-weight: 500;
-
-        &:hover {
-          background-color: #383838;
-        }
-
-        svg {
-          width: 18px;
-          height: 18px;
-          display: block;
-          fill: inherit;
-          flex-shrink: 0;
-          backface-visibility: hidden;
-          margin-right: 10px;
-          margin-bottom: 2px;
-        }
-      }
-    } */
   }
 
   .title {
@@ -161,7 +126,7 @@ const StyledAuthPage = styled.div`
     left: 16px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     margin-bottom: 4rem;
 
     .appTitle {
@@ -174,7 +139,7 @@ const StyledAuthPage = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--darkPurple);
+    background-color: var(--mediumPurple);
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 2px 6px rgba(255, 255, 255, 0.25),
       inset 0px -3px 4px rgba(0, 0, 0, 0.25);

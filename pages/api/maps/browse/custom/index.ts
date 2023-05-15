@@ -1,6 +1,5 @@
-import { ObjectId } from 'mongodb'
-import { NextApiRequest, NextApiResponse } from 'next'
 /* eslint-disable import/no-anonymous-default-export */
+import { NextApiRequest, NextApiResponse } from 'next'
 import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { throwError } from '@backend/utils/helpers'
 
@@ -37,7 +36,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       res.status(405).end(`Method ${req.method} Not Allowed`)
     }
   } catch (err) {
-    console.log(err)
+    console.error(err)
     res.status(500).json({ success: false })
   }
 }

@@ -1,7 +1,6 @@
+/* eslint-disable import/no-anonymous-default-export */
 import bcrypt from 'bcryptjs'
 import { NextApiRequest, NextApiResponse } from 'next'
-
-/* eslint-disable import/no-anonymous-default-export */
 import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { throwError } from '@backend/utils/helpers'
 import { getRandomAvatar } from '@utils/helperFunctions'
@@ -43,7 +42,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       res.status(405).end(`Method ${req.method} Not Allowed`)
     }
   } catch (err) {
-    console.log(err)
-    res.status(400).json({ success: false })
+    console.error(err)
+    res.status(500).json({ success: false })
   }
 }

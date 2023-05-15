@@ -8,6 +8,7 @@ import { LocationMarkerIcon } from '@heroicons/react/outline'
 import { updateUser } from '@redux/slices'
 import StyledAuthPage from '@styles/AuthPage.Styled'
 import { PageType } from '@types'
+import { mailman } from '../backend/utils/mailman'
 import { showErrorToast } from '../utils/helpers/showToasts'
 
 const LoginPage: PageType = () => {
@@ -19,18 +20,17 @@ const LoginPage: PageType = () => {
   const { data: session } = useSession()
 
   useEffect(() => {
+    getUserDetails()
+  }, [session])
+
+  const getUserDetails = async () => {
     if (session) {
-      dispatch(
-        updateUser({
-          id: session.user.id,
-          name: session.user.name || '',
-          email: session.user.email || '',
-          avatar: session.user.avatar,
-        })
-      )
+      const userDetails = await mailman(`users/${session.user.id}`)
+
+      dispatch(updateUser(userDetails))
       router.replace('/')
     }
-  }, [session])
+  }
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -56,6 +56,7 @@ const LoginPage: PageType = () => {
 
     setShowBtnSpinner(false)
   }
+
   return (
     <StyledAuthPage>
       <Link href="/">

@@ -9,19 +9,10 @@ import { getLocations, throwError } from '../../utils/helpers'
 const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
   const gameId = req.query.id as string
 
-  const query = { _id: new ObjectId(gameId) }
-  const {
-    guess,
-    guessTime,
-    localRound,
-    userLocation,
-    timedOut,
-    timedOutWithGuess,
-    adjustedLocation,
-    streakLocationCode,
-  } = req.body
+  const getGameQuery = { _id: new ObjectId(gameId) }
+  const { guess, guessTime, localRound, timedOut, timedOutWithGuess, adjustedLocation, streakLocationCode } = req.body
 
-  const game = (await collections.games?.findOne(query)) as Game
+  const game = (await collections.games?.findOne(getGameQuery)) as Game
 
   if (!game) {
     return throwError(res, 500, 'Failed to save your recent guess')
@@ -152,7 +143,7 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
   game.totalDistance += distance as number
   game.totalTime += Math.floor(guessTime)
 
-  const updatedGame = await collections.games?.findOneAndUpdate(query, { $set: game })
+  const updatedGame = await collections.games?.findOneAndUpdate(getGameQuery, { $set: game })
 
   if (!updatedGame) {
     return throwError(res, 500, 'Failed to save your recent guess')

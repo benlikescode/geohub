@@ -1,3 +1,4 @@
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import React, { FC, useEffect, useState } from 'react'
 import { mailman } from '@backend/utils/mailman'
@@ -9,7 +10,7 @@ import {
   LightningBoltIcon,
   LocationMarkerIcon,
   MapIcon,
-  PlayIcon,
+  PlayIcon
 } from '@heroicons/react/outline'
 import { useAppDispatch, useAppSelector } from '@redux/hook'
 import { updateRecentlyPlayed } from '@redux/slices'
@@ -20,6 +21,7 @@ import { Item } from './Item'
 const Sidebar: FC = () => {
   const [maps, setMaps] = useState<MapType[]>([])
   const user = useAppSelector((state) => state.user)
+  const { data: session } = useSession()
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -91,17 +93,11 @@ const Sidebar: FC = () => {
           </Link>
         </div>
 
-        {true && (
+        {session?.user.isAdmin && (
           <>
             <div className="view-more">
               <Link href="/admin/analytics">
                 <a>Analytics</a>
-              </Link>
-            </div>
-
-            <div className="view-more">
-              <Link href="/admin/create-map">
-                <a>Create Map</a>
               </Link>
             </div>
           </>

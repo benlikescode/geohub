@@ -8,7 +8,7 @@ import { StyledNavbar } from './'
 const Navbar: FC = () => {
   const { data: session } = useSession()
   const [searchOpen, setSearchOpen] = useState(false)
-  console.log(session)
+
   return (
     <StyledNavbar>
       {searchOpen && (

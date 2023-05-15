@@ -1,68 +1,25 @@
-import { ObjectId } from 'mongodb'
-import { NextApiRequest, NextApiResponse } from 'next'
 /* eslint-disable import/no-anonymous-default-export */
-import { collections, dbConnect } from '@backend/utils/dbConnect'
-import { throwError } from '@backend/utils/helpers'
-import { dayAgo } from '@backend/utils/queryDates'
+import { NextApiResponse } from 'next'
+import { dbConnect } from '@backend/utils/dbConnect'
+import verifySession from '../../../../../backend/middlewares/verifySession'
+import getDailyChallengeWinners from '../../../../../backend/routes/scores/getDailyChallengeWinners'
+import NextApiRequestWithSession from '../../../../../backend/types/NextApiRequestWithSession'
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (req: NextApiRequestWithSession, res: NextApiResponse) => {
   try {
+    const hasSession = await verifySession(req, res)
+    if (!hasSession) return
+
     await dbConnect()
 
-    if (req.method === 'GET') {
-      const games = []
-      const challenges = await collections.challenges
-        ?.find({ isDailyChallenge: true, createdAt: { $lte: dayAgo } })
-        .sort({ createdAt: -1 })
-        .limit(7)
-        .toArray()
-
-      if (!challenges) {
-        return throwError(res, 400, 'Could not find recent challenges')
-      }
-
-      for (const challenge of challenges) {
-        const gamesData = await collections.games
-          ?.aggregate([
-            { $match: { challengeId: challenge._id } },
-            { $sort: { totalPoints: -1 } },
-            { $limit: 1 },
-            {
-              $lookup: {
-                from: 'users',
-                localField: 'userId',
-                foreignField: '_id',
-                as: 'userDetails',
-              },
-            },
-            {
-              $unwind: '$userDetails',
-            },
-            {
-              $project: {
-                gameId: '$_id',
-                totalPoints: 1,
-                totalTime: 1,
-                createdAt: 1,
-                userId: '$userDetails._id',
-                userName: '$userDetails.name',
-                userAvatar: '$userDetails.avatar',
-              },
-            },
-          ])
-          .toArray()
-
-        if (gamesData && gamesData?.length === 1) {
-          games.push(gamesData[0])
-        }
-      }
-
-      res.status(200).send(games)
-    } else {
-      res.status(500).json('Nothing to see here.')
+    switch (req.method) {
+      case 'GET':
+        return getDailyChallengeWinners(req, res)
+      default:
+        res.status(405).end(`Method ${req.method} Not Allowed`)
     }
   } catch (err) {
-    console.log(err)
+    console.error(err)
     res.status(500).json({ success: false })
   }
 }

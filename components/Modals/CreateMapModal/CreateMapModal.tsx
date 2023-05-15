@@ -91,7 +91,6 @@ const CreateMapModal: FC<Props> = ({
       name,
       description,
       avatar,
-      creatorId: user.id,
     }
 
     const res = await mailman('maps/custom', 'POST', JSON.stringify(reqBody))

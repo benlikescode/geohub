@@ -1,24 +1,20 @@
 import { ObjectId } from 'mongodb'
-import { NextApiRequest, NextApiResponse } from 'next'
-import { getSession } from 'next-auth/react'
+import { NextApiResponse } from 'next'
+import NextApiRequestWithSession from '../../types/NextApiRequestWithSession'
 import { collections } from '../../utils/dbConnect'
 import { throwError } from '../../utils/helpers'
 
-const deleteGame = async (req: NextApiRequest, res: NextApiResponse) => {
-  const session = await getSession({ req })
-
-  if (!session) {
-    return throwError(res, 401, 'You must be logged in')
-  }
-
+const deleteGame = async (req: NextApiRequestWithSession, res: NextApiResponse) => {
   const gameId = req.query.id as string
+  const userId = req.user.id
+
   const game = await collections.games?.findOne({ _id: new ObjectId(gameId) })
 
   if (!game) {
     return throwError(res, 401, 'The game you are trying to delete could not be found')
   }
 
-  if (game.userId.toString() !== session.user.id) {
+  if (userId !== game.userId.toString()) {
     return throwError(res, 401, 'You are not authorized to delete this game')
   }
 
@@ -29,7 +25,7 @@ const deleteGame = async (req: NextApiRequest, res: NextApiResponse) => {
     return throwError(res, 400, 'An error occured while deleting the game')
   }
 
-  return res.status(200).send({ message: 'The game was successfully deleted' })
+  res.status(200).send({ message: 'The game was successfully deleted' })
 }
 
 export default deleteGame

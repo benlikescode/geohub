@@ -32,14 +32,22 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     // }
 
     if (req.method === 'POST') {
-      const test = await collections.challenges?.updateMany(
-        { mapId: new ObjectId('63349eb5090804522c2180b7') },
-        { $set: { mapId: new ObjectId('6185df7a7b54baf63473a53e') } }
+      //UPDATES ALL LOCATIONS MISSING A MAPID WITH A SPECIFIED MAPID
+      const result = await collections.userLocations?.updateMany(
+        { mapId: null },
+        { $set: { mapId: new ObjectId('64606c961a8cba2359cbe781') } }
       )
 
-      if (!test) return throwError(res, 400, 'ISSUE')
+      return res.status(200).send(result?.modifiedCount)
 
-      return res.status(200).send(test.modifiedCount)
+      // const test = await collections.challenges?.updateMany(
+      //   { mapId: new ObjectId('63349eb5090804522c2180b7') },
+      //   { $set: { mapId: new ObjectId('6185df7a7b54baf63473a53e') } }
+      // )
+
+      // if (!test) return throwError(res, 400, 'ISSUE')
+
+      // return res.status(200).send(test.modifiedCount)
 
       // const updateLoc = await collections.locations?.updateMany({ countryCode: 'hk' }, { $set: { countryCode: 'cn' } })
 
@@ -132,15 +140,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
 */
 
-      /*
-      //UPDATES ALL LOCATIONS MISSING A MAPID WITH A SPECIFIED MAPID
-      const result = await collections.locations?.updateMany(
-        { mapId: null },
-        { $set: { mapId: new ObjectId('631d1a5be3615f68c5ffc4eb') } }
-      )
-
-      return res.status(200).send(result)
-      */
       /*
       const badGames = [] as any[]
 
