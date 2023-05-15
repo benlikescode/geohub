@@ -1,0 +1,308 @@
+[
+  {
+    "lat": 49.204628,
+    "lng": -2.0194123,
+    "panoId": null,
+    "heading": 290.86029052734375,
+    "pitch": 0.5466215014457703,
+    "zoom": 0,
+    "streakLocationCode": null
+  },
+  {
+    "lat": -3.0694073,
+    "lng": 37.3489967,
+    "panoId": null,
+    "heading": 292.8349914550781,
+    "pitch": -23.863561630249023,
+    "zoom": 0,
+    "streakLocationCode": "tz"
+  },
+  {
+    "lat": 48.86285,
+    "lng": 2.329741,
+    "panoId": null,
+    "heading": 161.15016174316406,
+    "pitch": -13.138559341430664,
+    "zoom": 0,
+    "streakLocationCode": "fr"
+  },
+  {
+    "lat": 53.9027367,
+    "lng": -9.681465099999999,
+    "panoId": null,
+    "heading": 199.87796020507812,
+    "pitch": -8.666921615600586,
+    "zoom": 0,
+    "streakLocationCode": "ie"
+  },
+  {
+    "lat": 40.419022,
+    "lng": -3.692921,
+    "panoId": null,
+    "heading": 31.455825805664062,
+    "pitch": -9.8988618850708,
+    "zoom": 0,
+    "streakLocationCode": "es"
+  },
+  {
+    "lat": 56.06356989101826,
+    "lng": -2.721879556775094,
+    "panoId": null,
+    "heading": 127.28507232666016,
+    "pitch": -9.0397367477417,
+    "zoom": 0,
+    "streakLocationCode": "gb"
+  },
+  {
+    "lat": 46.46194461571554,
+    "lng": 30.76722150215356,
+    "panoId": null,
+    "heading": 36.81547546386719,
+    "pitch": -3.096400737762451,
+    "zoom": 0,
+    "streakLocationCode": null
+  },
+  {
+    "lat": -21.809722,
+    "lng": 15.217778,
+    "panoId": null,
+    "heading": 19.977500915527344,
+    "pitch": 4.02071475982666,
+    "zoom": 0,
+    "streakLocationCode": "na"
+  },
+  {
+    "lat": 41.1172974,
+    "lng": 21.7131472,
+    "panoId": null,
+    "heading": 59.8962287902832,
+    "pitch": -13.180801391601562,
+    "zoom": 0,
+    "streakLocationCode": "mk"
+  },
+  {
+    "lat": -20.254444,
+    "lng": 149.022778,
+    "panoId": null,
+    "heading": 158.51681518554688,
+    "pitch": -21.852752685546875,
+    "zoom": 0,
+    "streakLocationCode": null
+  },
+  {
+    "lat": 40.530555,
+    "lng": 72.7903613,
+    "panoId": null,
+    "heading": 14.833032608032227,
+    "pitch": -6.765322208404541,
+    "zoom": 0,
+    "streakLocationCode": "kg"
+  },
+  {
+    "lat": 53.42167412416361,
+    "lng": 14.55963700078261,
+    "panoId": null,
+    "heading": 36.50554656982422,
+    "pitch": -21.04941177368164,
+    "zoom": 0,
+    "streakLocationCode": "pl"
+  },
+  {
+    "lat": 48.7841225,
+    "lng": 10.6863174,
+    "panoId": null,
+    "heading": 33.64801788330078,
+    "pitch": -16.324514389038086,
+    "zoom": 0,
+    "streakLocationCode": "de"
+  },
+  {
+    "lat": 34.2898533,
+    "lng": 35.9671333,
+    "panoId": null,
+    "heading": 12.428343772888184,
+    "pitch": 3.513580083847046,
+    "zoom": 0,
+    "streakLocationCode": "lb"
+  },
+  {
+    "lat": 6.494276999999999,
+    "lng": 3.0805013,
+    "panoId": null,
+    "heading": 105.87704467773438,
+    "pitch": -20.652259826660156,
+    "zoom": 0,
+    "streakLocationCode": "ng"
+  },
+  {
+    "lat": 54.048233,
+    "lng": -9.340722099999999,
+    "panoId": null,
+    "heading": 252.97042846679688,
+    "pitch": -0.32587730884552,
+    "zoom": 0,
+    "streakLocationCode": "ie"
+  },
+  {
+    "lat": 52.37917339896066,
+    "lng": 4.92517010373578,
+    "panoId": null,
+    "heading": 98.04419708251953,
+    "pitch": -15.415375709533691,
+    "zoom": 0,
+    "streakLocationCode": "nl"
+  },
+  {
+    "lat": 38.67286839587608,
+    "lng": 0.09872738255914684,
+    "panoId": null,
+    "heading": 47.034629821777344,
+    "pitch": -28.662595748901367,
+    "zoom": 0,
+    "streakLocationCode": "es"
+  },
+  {
+    "lat": 47.9215583,
+    "lng": 106.8949067,
+    "panoId": null,
+    "heading": 146.04505920410156,
+    "pitch": -16.86660385131836,
+    "zoom": 0,
+    "streakLocationCode": "mn"
+  },
+  {
+    "lat": 56.51258325,
+    "lng": 21.007990666667,
+    "panoId": null,
+    "heading": 162.27394104003906,
+    "pitch": -11.386649131774902,
+    "zoom": 0,
+    "streakLocationCode": "lv"
+  },
+  {
+    "lat": 55.58221169999999,
+    "lng": 42.0537695,
+    "panoId": null,
+    "heading": 72.21017456054688,
+    "pitch": -13.207051277160645,
+    "zoom": 0,
+    "streakLocationCode": "ru"
+  },
+  {
+    "lat": -23.499445,
+    "lng": -70.4281,
+    "panoId": null,
+    "heading": 41.779258728027344,
+    "pitch": -15.214656829833984,
+    "zoom": 0,
+    "streakLocationCode": "cl"
+  },
+  {
+    "lat": 40.2260627746582,
+    "lng": 69.67215728759766,
+    "panoId": null,
+    "heading": 26.055891036987305,
+    "pitch": -16.081912994384766,
+    "zoom": 0,
+    "streakLocationCode": "tj"
+  },
+  {
+    "lat": -31.76975156584858,
+    "lng": -52.34016001224518,
+    "panoId": null,
+    "heading": 286.5095520019531,
+    "pitch": -10.417145729064941,
+    "zoom": 0,
+    "streakLocationCode": "br"
+  },
+  {
+    "lat": -29.8180759,
+    "lng": 30.80230269999999,
+    "panoId": null,
+    "heading": 0,
+    "pitch": 0,
+    "zoom": 0,
+    "streakLocationCode": "za"
+  },
+  {
+    "lat": 63.813713,
+    "lng": -17.429924,
+    "panoId": null,
+    "heading": 208.70855712890625,
+    "pitch": -1.09565007686615,
+    "zoom": 0,
+    "streakLocationCode": "is"
+  },
+  {
+    "lat": 43.76884829999999,
+    "lng": 11.2616861,
+    "panoId": null,
+    "heading": 317.0678405761719,
+    "pitch": -8.626421928405762,
+    "zoom": 0,
+    "streakLocationCode": "it"
+  },
+  {
+    "lat": 45.3212471,
+    "lng": 20.4332886,
+    "panoId": null,
+    "heading": 356.4307861328125,
+    "pitch": -11.668279647827148,
+    "zoom": 0,
+    "streakLocationCode": "rs"
+  },
+  {
+    "lat": -8.3498717,
+    "lng": 115.68453,
+    "panoId": null,
+    "heading": 0,
+    "pitch": 0,
+    "zoom": 0,
+    "streakLocationCode": "id"
+  },
+  {
+    "lat": 4.73749,
+    "lng": -74.08565949999999,
+    "panoId": null,
+    "heading": 18.5967960357666,
+    "pitch": -15.943467140197754,
+    "zoom": 0,
+    "streakLocationCode": "co"
+  },
+  {
+    "lat": 48.848867,
+    "lng": 21.0996167,
+    "panoId": null,
+    "heading": 14.437908172607422,
+    "pitch": -22.558082580566406,
+    "zoom": 0,
+    "streakLocationCode": "sk"
+  },
+  {
+    "lat": 50.8182144,
+    "lng": -0.1471243,
+    "panoId": null,
+    "heading": 7.457786560058594,
+    "pitch": -2.0092732906341553,
+    "zoom": 0,
+    "streakLocationCode": "gb"
+  },
+  {
+    "lat": -34.9518911,
+    "lng": -54.942019,
+    "panoId": null,
+    "heading": 8.793876647949219,
+    "pitch": -29.415945053100586,
+    "zoom": 0,
+    "streakLocationCode": "uy"
+  },
+  {
+    "lat": 20.6502647,
+    "lng": -105.2444382,
+    "panoId": null,
+    "heading": 285.4727478027344,
+    "pitch": -14.333508491516113,
+    "zoom": 0,
+    "streakLocationCode": null
+  }
+]
