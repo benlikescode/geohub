@@ -1,6 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-/* eslint-disable @next/next/no-img-element */
 import React, { FC, useEffect, useMemo, useState } from 'react'
 import { mailman } from '@backend/utils/mailman'
 import { Input } from '@components/System'
@@ -33,12 +33,11 @@ const CreateMapModal: FC<Props> = ({
   mapAvatar,
   updateMapDetails,
 }) => {
-  const user = useAppSelector((state) => state.user)
   const router = useRouter()
 
-  const [name, setName] = useState(mapName || '')
-  const [description, setDescription] = useState(mapDescription || '')
-  const [avatar, setAvatar] = useState(mapAvatar || `custom${randomInt(1, 17)}.jpg`)
+  const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
+  const [avatar, setAvatar] = useState(`custom${randomInt(1, 17)}.jpg`)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const hasMadeChanges = useMemo(
@@ -48,9 +47,9 @@ const CreateMapModal: FC<Props> = ({
 
   // Future Improvement: Store map details in a redux slice
   useEffect(() => {
-    setName(mapName || '')
-    setDescription(mapDescription || '')
-    setAvatar(mapAvatar || '')
+    mapName && setName(mapName)
+    mapDescription && setDescription(mapDescription)
+    mapAvatar && setAvatar(mapAvatar)
   }, [mapName, mapDescription, mapAvatar])
 
   const handleEditMap = async () => {
