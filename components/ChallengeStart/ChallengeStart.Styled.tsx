@@ -97,7 +97,7 @@ const StyledChallengeStart = styled.div<StyledProps>`
     font-weight: 500;
 
     :hover {
-      background-color: var(--darkPurple);
+      background-color: var(--indigo-600);
       transform: scale(1.02);
     }
   }
