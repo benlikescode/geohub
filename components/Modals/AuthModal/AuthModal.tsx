@@ -11,7 +11,7 @@ type Props = {
 
 const AuthModal: FC<Props> = ({ isOpen, closeModal }) => {
   return (
-    <Modal isOpen={isOpen} onClose={closeModal} maxWidth="500px">
+    <Modal isOpen={isOpen} onClose={closeModal} maxWidth="400px">
       <StyledAuthModal>
         <div className="header">
           <h1 className="modal-title">Login To GeoHub</h1>
