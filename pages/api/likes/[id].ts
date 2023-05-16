@@ -1,17 +1,12 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from 'next'
 import { dbConnect } from '@backend/utils/dbConnect'
-import verifySession from '../../../backend/middlewares/verifySession'
 import getMapLikeCount from '../../../backend/routes/maps/getMapLikeCount'
 import likeMap from '../../../backend/routes/maps/likeMap'
 import unlikeMap from '../../../backend/routes/maps/unlikeMap'
-import NextApiRequestWithSession from '../../../backend/types/NextApiRequestWithSession'
 
-export default async (req: NextApiRequestWithSession, res: NextApiResponse) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const hasSession = await verifySession(req, res)
-    if (!hasSession) return
-
     await dbConnect()
 
     switch (req.method) {

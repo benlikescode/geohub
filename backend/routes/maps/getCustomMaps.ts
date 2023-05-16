@@ -1,12 +1,12 @@
 import { ObjectId } from 'bson'
-import { NextApiResponse } from 'next'
-import NextApiRequestWithSession from '../../types/NextApiRequestWithSession'
+import { NextApiRequest, NextApiResponse } from 'next'
 import { collections } from '../../utils/dbConnect'
+import getUserId from '../../utils/getUserId'
 import { throwError } from '../../utils/helpers'
 
 // HALP -> likely want to paginate in future
-const getCustomMaps = async (req: NextApiRequestWithSession, res: NextApiResponse) => {
-  const userId = req.user.id
+const getCustomMaps = async (req: NextApiRequest, res: NextApiResponse) => {
+  const userId = await getUserId(req, res)
 
   const customMaps = await collections.maps
     ?.find({ creator: new ObjectId(userId), isDeleted: { $exists: false } })

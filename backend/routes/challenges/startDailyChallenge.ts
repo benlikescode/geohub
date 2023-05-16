@@ -1,12 +1,11 @@
 import { ObjectId } from 'bson'
-import { NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from 'next'
 import { OFFICIAL_WORLD_ID } from '../../../utils/constants/random'
-import NextApiRequestWithSession from '../../types/NextApiRequestWithSession'
 import { collections } from '../../utils/dbConnect'
 import { getLocations, throwError } from '../../utils/helpers'
 import { todayEnd, todayStart } from '../../utils/queryDates'
 
-const startDailyChallenge = async (req: NextApiRequestWithSession, res: NextApiResponse) => {
+const startDailyChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
   const currentChallenge = await collections.challenges?.findOne({
     isDailyChallenge: true,
     createdAt: { $gte: todayStart, $lt: todayEnd },

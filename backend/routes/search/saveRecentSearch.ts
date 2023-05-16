@@ -1,12 +1,12 @@
 import { ObjectId } from 'mongodb'
-import { NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from 'next'
 import { RecentSearchItem } from '../../../@types'
-import NextApiRequestWithSession from '../../types/NextApiRequestWithSession'
 import { collections } from '../../utils/dbConnect'
+import getUserId from '../../utils/getUserId'
 import { throwError } from '../../utils/helpers'
 
-const saveRecentSearch = async (req: NextApiRequestWithSession, res: NextApiResponse) => {
-  const userId = req.headers.uid as string
+const saveRecentSearch = async (req: NextApiRequest, res: NextApiResponse) => {
+  const userId = await getUserId(req, res)
   const { type, term, searchedUserId, searchedMapId } = req.body
 
   const newSearchItem: RecentSearchItem = {

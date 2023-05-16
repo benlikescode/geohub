@@ -1,13 +1,13 @@
 import { ObjectId } from 'mongodb'
-import { NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from 'next'
 import { Map } from '@backend/models'
-import NextApiRequestWithSession from '../../types/NextApiRequestWithSession'
 import { collections } from '../../utils/dbConnect'
+import getUserId from '../../utils/getUserId'
 import { throwError } from '../../utils/helpers'
 
-const createCustomMap = async (req: NextApiRequestWithSession, res: NextApiResponse) => {
+const createCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
+  const creatorId = await getUserId(req, res)
   const { name, description, avatar } = req.body
-  const creatorId = req.user.id
 
   if (!name) {
     return throwError(res, 400, 'A map name is required')

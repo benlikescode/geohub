@@ -1,9 +1,8 @@
 import { ObjectId } from 'mongodb'
-import { NextApiResponse } from 'next'
-import NextApiRequestWithSession from '../../types/NextApiRequestWithSession'
+import { NextApiRequest, NextApiResponse } from 'next'
 import { collections } from '../../utils/dbConnect'
 
-const getUserScores = async (req: NextApiRequestWithSession, res: NextApiResponse) => {
+const getUserScores = async (req: NextApiRequest, res: NextApiResponse) => {
   const userId = req.query.id as string
   const page = req.query.page ? Number(req.query.page) : 0
   const gamesPerPage = 20

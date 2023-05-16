@@ -1,6 +1,5 @@
-import { NextApiResponse } from 'next'
-import NextApiRequestWithSession from '../../types/NextApiRequestWithSession'
+import { NextApiRequest, NextApiResponse } from 'next'
 
-const getPopularCustomMaps = async (req: NextApiRequestWithSession, res: NextApiResponse) => {}
+const getPopularCustomMaps = async (req: NextApiRequest, res: NextApiResponse) => {}
 
 export default getPopularCustomMaps

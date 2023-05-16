@@ -1,14 +1,14 @@
 import { ObjectId } from 'bson'
-import { NextApiResponse } from 'next'
-import NextApiRequestWithSession from '../../types/NextApiRequestWithSession'
+import { NextApiRequest, NextApiResponse } from 'next'
 import { collections } from '../../utils/dbConnect'
+import getUserId from '../../utils/getUserId'
 import { throwError } from '../../utils/helpers'
 
-const getUnfinishedGames = async (req: NextApiRequestWithSession, res: NextApiResponse) => {
+const getUnfinishedGames = async (req: NextApiRequest, res: NextApiResponse) => {
   const page = req.query.page ? Number(req.query.page) : 0
   const gamesPerPage = 20
 
-  const userId = req.user.id
+  const userId = await getUserId(req, res)
 
   const query = { userId: new ObjectId(userId), state: { $ne: 'finished' } }
   const games = await collections.games

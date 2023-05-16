@@ -1,9 +1,9 @@
-import { NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from 'next'
 import { collections } from '@backend/utils/dbConnect'
 import { isUserAnAdmin, throwError } from '@backend/utils/helpers'
-import NextApiRequestWithSession from '../types/NextApiRequestWithSession'
+import getUserId from '../utils/getUserId'
 
-const getAnalytics = async (req: NextApiRequestWithSession, res: NextApiResponse) => {
+const getAnalytics = async (req: NextApiRequest, res: NextApiResponse) => {
   const getCounts = async () => {
     const userCount = await collections.users?.estimatedDocumentCount()
     const singlePlayerGamesCount = await collections.games?.find({ challengeId: { $eq: null } }).count()
@@ -49,7 +49,7 @@ const getAnalytics = async (req: NextApiRequestWithSession, res: NextApiResponse
     return recentGames
   }
 
-  const userId = req.user.id
+  const userId = await getUserId(req, res)
 
   // Ensure this user is an admin
   const isAdmin = await isUserAnAdmin(userId)

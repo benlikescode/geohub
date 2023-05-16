@@ -1,11 +1,11 @@
 import { ObjectId } from 'bson'
-import { NextApiResponse } from 'next'
-import NextApiRequestWithSession from '../../types/NextApiRequestWithSession'
+import { NextApiRequest, NextApiResponse } from 'next'
 import { collections } from '../../utils/dbConnect'
+import getUserId from '../../utils/getUserId'
 import { getLocations } from '../../utils/helpers'
 
-const createChallenge = async (req: NextApiRequestWithSession, res: NextApiResponse) => {
-  const userId = req.user.id
+const createChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
+  const userId = await getUserId(req, res)
   const { mapId, gameSettings, mode } = req.body
 
   const numLocationsToGenerate = mode === 'streak' ? 10 : 5

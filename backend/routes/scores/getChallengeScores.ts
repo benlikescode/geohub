@@ -1,10 +1,12 @@
 import { ObjectId } from 'mongodb'
-import { NextApiResponse } from 'next'
-import { COUNTRY_STREAK_DETAILS, COUNTRY_STREAKS_ID } from '../../../utils/constants/random'
-import NextApiRequestWithSession from '../../types/NextApiRequestWithSession'
+import { NextApiRequest, NextApiResponse } from 'next'
+import {
+  COUNTRY_STREAK_DETAILS,
+  COUNTRY_STREAKS_ID
+} from '../../../utils/constants/random'
 import { collections } from '../../utils/dbConnect'
 
-const getChallengeScores = async (req: NextApiRequestWithSession, res: NextApiResponse) => {
+const getChallengeScores = async (req: NextApiRequest, res: NextApiResponse) => {
   const challengeId = req.query.id as string
 
   const query = { challengeId: new ObjectId(challengeId), state: 'finished' }

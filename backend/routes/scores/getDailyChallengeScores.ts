@@ -1,11 +1,11 @@
 import { ObjectId } from 'mongodb'
-import { NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from 'next'
 import queryTopScores from '../../queries/topScores'
-import NextApiRequestWithSession from '../../types/NextApiRequestWithSession'
+import getUserId from '../../utils/getUserId'
 import { throwError } from '../../utils/helpers'
 import { todayEnd, todayStart } from '../../utils/queryDates'
 
-const getScoresHelper = async (userId: string, query: any, res: NextApiResponse) => {
+const getScoresHelper = async (userId: string | undefined, query: any, res: NextApiResponse) => {
   const data = await queryTopScores(query, 5)
 
   if (!data) {
@@ -32,8 +32,8 @@ const getScoresHelper = async (userId: string, query: any, res: NextApiResponse)
   return data
 }
 
-const getDailyChallengeScores = async (req: NextApiRequestWithSession, res: NextApiResponse) => {
-  const userId = req.user.id
+const getDailyChallengeScores = async (req: NextApiRequest, res: NextApiResponse) => {
+  const userId = await getUserId(req, res)
 
   const allTimeQuery = { isDailyChallenge: true, state: 'finished' }
   const todayQuery = { isDailyChallenge: true, state: 'finished', createdAt: { $gte: todayStart, $lt: todayEnd } }

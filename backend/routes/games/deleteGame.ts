@@ -1,12 +1,12 @@
 import { ObjectId } from 'mongodb'
-import { NextApiResponse } from 'next'
-import NextApiRequestWithSession from '../../types/NextApiRequestWithSession'
+import { NextApiRequest, NextApiResponse } from 'next'
 import { collections } from '../../utils/dbConnect'
+import getUserId from '../../utils/getUserId'
 import { throwError } from '../../utils/helpers'
 
-const deleteGame = async (req: NextApiRequestWithSession, res: NextApiResponse) => {
+const deleteGame = async (req: NextApiRequest, res: NextApiResponse) => {
+  const userId = await getUserId(req, res)
   const gameId = req.query.id as string
-  const userId = req.user.id
 
   const game = await collections.games?.findOne({ _id: new ObjectId(gameId) })
 

@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb'
-import { NextApiResponse } from 'next'
-import NextApiRequestWithSession from '../../types/NextApiRequestWithSession'
+import { NextApiRequest, NextApiResponse } from 'next'
 import { collections } from '../../utils/dbConnect'
+import getUserId from '../../utils/getUserId'
 import { throwError } from '../../utils/helpers'
 
 const getUserDetailsHelper = async (userId: ObjectId) => {
@@ -33,8 +33,8 @@ const getMapDetailsHelper = async (mapId: ObjectId) => {
 }
 
 // Gets the 5 most recent searches from this user
-const getRecentSearches = async (req: NextApiRequestWithSession, res: NextApiResponse) => {
-  const userId = req.user.id
+const getRecentSearches = async (req: NextApiRequest, res: NextApiResponse) => {
+  const userId = await getUserId(req, res)
 
   const recentSearches = await collections.recentSearches?.findOne({ userId: new ObjectId(userId) })
 

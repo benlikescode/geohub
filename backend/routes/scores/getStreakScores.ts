@@ -1,11 +1,11 @@
 import { ObjectId } from 'mongodb'
-import { NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from 'next'
 import queryTopStreaks from '../../queries/topStreaks'
-import NextApiRequestWithSession from '../../types/NextApiRequestWithSession'
+import getUserId from '../../utils/getUserId'
 import { throwError } from '../../utils/helpers'
 
-const getStreakScores = async (req: NextApiRequestWithSession, res: NextApiResponse) => {
-  const userId = req.user.id
+const getStreakScores = async (req: NextApiRequest, res: NextApiResponse) => {
+  const userId = await getUserId(req, res)
 
   // Get the top 5 user streaks
   const query = { mode: 'streak', state: 'finished' }

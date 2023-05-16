@@ -1,11 +1,10 @@
-import { NextApiResponse } from 'next'
-import NextApiRequestWithSession from '../../types/NextApiRequestWithSession'
+import { NextApiRequest, NextApiResponse } from 'next'
 import { collections } from '../../utils/dbConnect'
 
 // Reference: https://docs.atlas.mongodb.com/reference/atlas-search/text/
 
 // Takes in a search query and returns at most 3 users and 3 maps matching the query
-const getSearchResults = async (req: NextApiRequestWithSession, res: NextApiResponse) => {
+const getSearchResults = async (req: NextApiRequest, res: NextApiResponse) => {
   const query = req.query.q as string
   const count = Number(req.query.count as string)
 

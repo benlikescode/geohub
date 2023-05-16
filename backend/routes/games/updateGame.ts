@@ -4,10 +4,12 @@ import { ChallengeType, GuessType } from '../../../@types'
 import { getResultData } from '../../../utils/helperFunctions'
 import { Game } from '../../models'
 import { collections } from '../../utils/dbConnect'
+import getUserId from '../../utils/getUserId'
 import { getLocations, throwError } from '../../utils/helpers'
 
 const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
   const gameId = req.query.id as string
+  const userId = await getUserId(req, res)
 
   const getGameQuery = { _id: new ObjectId(gameId) }
   const { guess, guessTime, localRound, timedOut, timedOutWithGuess, adjustedLocation, streakLocationCode } = req.body
@@ -16,6 +18,11 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (!game) {
     return throwError(res, 500, 'Failed to save your recent guess')
+  }
+
+  // Verify this is the game creator
+  if (userId !== game.userId.toString()) {
+    return throwError(res, 401, 'You are not authorized to modify this game')
   }
 
   // Checking if guess has already been submitted for this round
@@ -44,32 +51,6 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
 
   // Add new location if game type is not a challenge and game is not finished
   if (!isGameFinished) {
-    // Generates new location until unique or 5 failed attempts
-    // Note: this does not actually work now since I store the old rounds "adjusted" coordiantes
-    // If i really want to prevent duplicates, I will need to come up with some "golden" threshold
-    // If i dont have a threshold, there is no point of what I am doing below so commented out for now:
-
-    // let duplicate = true
-    // let newLocation: any = null
-    // let buffer = 0
-
-    // while (duplicate && buffer < 5) {
-    //   // console.log(`ATTEMPT AT GETTING LOC - ${buffer}`)
-    //   newLocation = await getLocations(game.mapId)
-
-    //   if (!newLocation) {
-    //     return throwError(res, 400, 'Failed to get new location')
-    //   }
-
-    //   // const THRESHOLD = 0.001
-
-    //   // duplicate = game.rounds.some(
-    //   //   (r) => r.lat - newLocation.lat < THRESHOLD && r.lng - newLocation.lng < THRESHOLD
-    //   // )
-    //   duplicate = game.rounds.some((r) => r.lat === newLocation.lat && r.lng === newLocation.lng)
-    //   buffer++
-    // }
-
     // Country Streak Challenge
     if (game.mode === 'streak' && game.challengeId) {
       const query = { _id: new ObjectId(game.challengeId) }

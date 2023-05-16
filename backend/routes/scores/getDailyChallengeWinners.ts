@@ -1,10 +1,9 @@
-import { NextApiResponse } from 'next'
-import NextApiRequestWithSession from '../../types/NextApiRequestWithSession'
+import { NextApiRequest, NextApiResponse } from 'next'
 import { collections } from '../../utils/dbConnect'
 import { throwError } from '../../utils/helpers'
 import { dayAgo } from '../../utils/queryDates'
 
-const getDailyChallengeWinners = async (req: NextApiRequestWithSession, res: NextApiResponse) => {
+const getDailyChallengeWinners = async (req: NextApiRequest, res: NextApiResponse) => {
   const games = []
   const challenges = await collections.challenges
     ?.find({ isDailyChallenge: true, createdAt: { $lte: dayAgo } })

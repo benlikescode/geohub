@@ -1,11 +1,16 @@
 import fs from 'fs'
 import { ObjectId } from 'mongodb'
 import { NextApiResponse } from 'next'
-
 import { LocationType } from '@types'
-import { COUNTRY_STREAKS_ID, OFFICIAL_WORLD_ID, URBAN_WORLD_ID } from '@utils/constants/random'
-import { getRandomLocationsInRadius, randomElement } from '@utils/functions/generateLocations'
-
+import {
+  COUNTRY_STREAKS_ID,
+  OFFICIAL_WORLD_ID,
+  URBAN_WORLD_ID
+} from '@utils/constants/random'
+import {
+  getRandomLocationsInRadius,
+  randomElement
+} from '@utils/functions/generateLocations'
 import { collections } from './dbConnect'
 
 // Standard return for any error in API
@@ -111,7 +116,7 @@ export const writeToFile = (fileName: string, newData: any[]) => {
   })
 }
 
-export const isUserAnAdmin = async (userId: string) => {
+export const isUserAnAdmin = async (userId?: string) => {
   if (!userId) {
     return false
   }

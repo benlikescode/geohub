@@ -1,8 +1,8 @@
 import { ObjectId } from 'mongodb'
-import { NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from 'next'
 import { LocationType } from '../../../@types'
-import NextApiRequestWithSession from '../../types/NextApiRequestWithSession'
 import { collections } from '../../utils/dbConnect'
+import getUserId from '../../utils/getUserId'
 import { throwError } from '../../utils/helpers'
 
 type ReqBody = {
@@ -15,8 +15,8 @@ type ReqBody = {
 
 type UpdatedMap = { name?: string; description?: string; previewImg?: string; isPublished?: boolean }
 
-const updateCustomMap = async (req: NextApiRequestWithSession, res: NextApiResponse) => {
-  const userId = req.user.id
+const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
+  const userId = await getUserId(req, res)
   const mapId = req.query.mapId as string
 
   if (!mapId) {

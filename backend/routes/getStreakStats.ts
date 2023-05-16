@@ -1,9 +1,8 @@
-import { NextApiResponse } from 'next'
-import NextApiRequestWithSession from '../types/NextApiRequestWithSession'
+import { NextApiRequest, NextApiResponse } from 'next'
 import { collections } from '../utils/dbConnect'
 import { throwError } from '../utils/helpers'
 
-const getStreakStats = async (req: NextApiRequestWithSession, res: NextApiResponse) => {
+const getStreakStats = async (req: NextApiRequest, res: NextApiResponse) => {
   const LOCATION_COUNT = 250000
   const COUNTRY_COUNT = 98
 

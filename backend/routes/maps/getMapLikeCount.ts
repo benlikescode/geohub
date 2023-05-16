@@ -1,10 +1,10 @@
 import { ObjectId } from 'mongodb'
-import { NextApiResponse } from 'next'
-import NextApiRequestWithSession from '../../types/NextApiRequestWithSession'
+import { NextApiRequest, NextApiResponse } from 'next'
 import { collections } from '../../utils/dbConnect'
+import getUserId from '../../utils/getUserId'
 
-const getMapLikeCount = async (req: NextApiRequestWithSession, res: NextApiResponse) => {
-  const userId = req.user.id
+const getMapLikeCount = async (req: NextApiRequest, res: NextApiResponse) => {
+  const userId = await getUserId(req, res)
   const mapId = req.query.id as string
 
   const likes = await collections.mapLikes?.countDocuments({ mapId: mapId })

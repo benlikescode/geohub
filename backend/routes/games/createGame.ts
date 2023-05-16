@@ -1,13 +1,13 @@
 import { ObjectId } from 'mongodb'
-import { NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from 'next'
 import Game from '@backend/models/game'
-import NextApiRequestWithSession from '../../types/NextApiRequestWithSession'
 import { collections } from '../../utils/dbConnect'
+import getUserId from '../../utils/getUserId'
 import { getLocations, throwError } from '../../utils/helpers'
 
-const createGame = async (req: NextApiRequestWithSession, res: NextApiResponse) => {
+const createGame = async (req: NextApiRequest, res: NextApiResponse) => {
+  const userId = await getUserId(req, res)
   const { mode, mapId } = req.body
-  const userId = req.user.id
 
   const roundLocation = await getLocations(mapId)
 

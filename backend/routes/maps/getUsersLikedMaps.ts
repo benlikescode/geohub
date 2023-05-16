@@ -1,11 +1,11 @@
 import { ObjectId } from 'mongodb'
-import { NextApiResponse } from 'next'
-import NextApiRequestWithSession from '../../types/NextApiRequestWithSession'
+import { NextApiRequest, NextApiResponse } from 'next'
 import { collections } from '../../utils/dbConnect'
+import getUserId from '../../utils/getUserId'
 
 // Returns 10 maps by default
-const getUsersLikedMaps = async (req: NextApiRequestWithSession, res: NextApiResponse) => {
-  const userId = req.user.id
+const getUsersLikedMaps = async (req: NextApiRequest, res: NextApiResponse) => {
+  const userId = await getUserId(req, res)
   const count = Number(req.query.count as string)
 
   const likedMaps = await collections.mapLikes

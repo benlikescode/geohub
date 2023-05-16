@@ -1,8 +1,9 @@
 import { NextApiRequest } from 'next'
 import { Session } from 'next-auth'
 
+// TO DELETE
 interface NextApiRequestWithSession extends NextApiRequest {
-  user: Session['user']
+  userId: Session['user']['id'] | undefined
 }
 
 export default NextApiRequestWithSession

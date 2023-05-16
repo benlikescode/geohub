@@ -1,12 +1,12 @@
 import { ObjectId } from 'mongodb'
-import { NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from 'next'
 import queryTopScores from '../../queries/topScores'
-import NextApiRequestWithSession from '../../types/NextApiRequestWithSession'
+import getUserId from '../../utils/getUserId'
 import { throwError } from '../../utils/helpers'
 
-const getGameScores = async (req: NextApiRequestWithSession, res: NextApiResponse) => {
+const getGameScores = async (req: NextApiRequest, res: NextApiResponse) => {
+  const userId = await getUserId(req, res)
   const mapId = req.query.id as string
-  const userId = req.user.id
 
   // Get the top 5 user scores
   const query = { mapId: new ObjectId(mapId), round: 6 }

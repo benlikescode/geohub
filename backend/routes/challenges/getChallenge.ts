@@ -1,12 +1,12 @@
 import { ObjectId } from 'bson'
-import { NextApiResponse } from 'next'
-import NextApiRequestWithSession from '../../types/NextApiRequestWithSession'
+import { NextApiRequest, NextApiResponse } from 'next'
 import { collections } from '../../utils/dbConnect'
+import getUserId from '../../utils/getUserId'
 import { throwError } from '../../utils/helpers'
 
-const getChallenge = async (req: NextApiRequestWithSession, res: NextApiResponse) => {
+const getChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
+  const userId = await getUserId(req, res)
   const challengeId = req.query.id as string
-  const userId = req.user.id
 
   const challenge = await collections.challenges?.findOne({ _id: new ObjectId(challengeId) })
 
