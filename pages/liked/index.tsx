@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
 import React, { useEffect, useState } from 'react'
-
 import { mailman } from '@backend/utils/mailman'
 import { NoResults } from '@components/ErrorViews/NoResults'
 import { Head } from '@components/Head'
@@ -9,7 +8,6 @@ import { WidthController } from '@components/Layout/WidthController'
 import { SkeletonCards } from '@components/SkeletonCards'
 import { useAppSelector } from '@redux/hook'
 import StyledLikedMapsPage from '@styles/LikedMapsPage.Styled'
-
 import { LikedMapCard } from '../../components/MapCards/LikedMapCard'
 import { showErrorToast } from '../../utils/helpers/showToasts'
 
@@ -51,7 +49,7 @@ const LikedMapsPage: NextPage = () => {
         {loading && <SkeletonCards numCards={8} />}
 
         {/* Finished loading and No Results */}
-        {!loading && (!user.id || likedMaps.length === 0) && <NoResults message="Like a map for it to show here" />}
+        {!loading && (!user.id || likedMaps.length === 0) && <NoResults message="Like a map for it to show here." />}
 
         <div className="map-wrapper">
           {likedMaps.map((map, idx) => (

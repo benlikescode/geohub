@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 
 const StyledOngoingGamesPage = styled.div`
+  height: 100%;
+
   .ongoing-table {
     background-color: var(--background2);
     border: 1px solid rgb(30 30 30);
