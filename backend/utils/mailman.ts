@@ -1,43 +1,11 @@
-import toast from 'react-hot-toast'
-
 export const mailman = async (endpoint: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET', body?: BodyInit) => {
-  const store = localStorage.getItem('persist:root') || ''
-  let fetchConfig = {}
-
-  if (store) {
-    const parsedStore = JSON.parse(store)
-    const user = JSON.parse(parsedStore.user)
-
-    if (user.id) {
-      // Pass userId as a header
-      fetchConfig = {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          Uid: user.id,
-        },
-        body,
-      }
-    } else {
-      fetchConfig = {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body,
-      }
-    }
-  } else {
-    fetchConfig = {
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body,
-    }
+  const fetchConfig = {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body,
   }
 
   try {
