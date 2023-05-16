@@ -4,7 +4,6 @@ import { signOut, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-
 import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
 import { WidthController } from '@components/Layout/WidthController'
@@ -15,7 +14,12 @@ import { VerifiedBadge } from '@components/VerifiedBadge'
 import { CameraIcon } from '@heroicons/react/outline'
 import { PencilAltIcon } from '@heroicons/react/solid'
 import { useAppDispatch, useAppSelector } from '@redux/hook'
-import { logOutUser, updateAvatar, updateBio, updateUsername } from '@redux/slices'
+import {
+  logOutUser,
+  updateAvatar,
+  updateBio,
+  updateUsername
+} from '@redux/slices'
 import StyledProfilePage from '@styles/ProfilePage.Styled'
 import { MapLeaderboardType } from '@types'
 
@@ -49,7 +53,7 @@ const ProfilePage: NextPage = () => {
   const handleLogout = () => {
     signOut({ callbackUrl: '/login' })
 
-    // dispatch(logOutUser())
+    dispatch(logOutUser())
   }
 
   const fetchLeaderboard = async () => {
