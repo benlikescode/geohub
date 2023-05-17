@@ -42,23 +42,41 @@ const getRecentSearches = async (req: NextApiRequest, res: NextApiResponse) => {
     return throwError(res, 400, `Failed to find recent searches for user with id: ${userId}`)
   }
 
-  const result = []
+  type Result = {
+    type: 'term' | 'user' | 'map'
+    term?: string
+    _id?: ObjectId
+    name?: string
+    avatar?: { emoji: string; color: string }
+    previewImg?: string
+  }
+
+  const result: Result[] = []
 
   for (const search of recentSearches.searches) {
     const type = search.type
 
     if (type === 'term') {
-      result.push({ type, term: search.term })
+      // Add term to result if unique
+      if (!result.some((x) => x.term === search.term)) {
+        result.push({ type, term: search.term })
+      }
     }
 
     if (type === 'user') {
-      const userDetails = await getUserDetailsHelper(search.userId as ObjectId)
-      result.push({ type, ...userDetails })
+      // Add user to result if unique
+      if (!result.some((x) => x._id?.toString() === search.userId?.toString())) {
+        const userDetails = await getUserDetailsHelper(search.userId as ObjectId)
+        result.push({ type, ...userDetails })
+      }
     }
 
     if (type === 'map') {
-      const mapDetails = await getMapDetailsHelper(search.mapId as ObjectId)
-      result.push({ type, ...mapDetails })
+      // Add map to result if unique
+      if (!result.some((x) => x._id?.toString() === search.mapId?.toString())) {
+        const mapDetails = await getMapDetailsHelper(search.mapId as ObjectId)
+        result.push({ type, ...mapDetails })
+      }
     }
   }
 
