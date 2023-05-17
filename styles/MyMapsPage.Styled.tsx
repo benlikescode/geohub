@@ -36,7 +36,7 @@ const StyledMyMapsPage = styled.div`
     align-items: center;
     justify-content: center;
     gap: 10px;
-    min-height: 100px;
+    min-height: 150px;
 
     &:hover {
       background-color: #202020;
