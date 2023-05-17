@@ -3,10 +3,12 @@ import Link from 'next/link'
 import React, { FC, useState } from 'react'
 import { Avatar, Button, Icon, Searchbar } from '@components/System'
 import { SearchIcon } from '@heroicons/react/outline'
+import { useAppSelector } from '../../../redux-utils'
 import { StyledNavbar } from './'
 
 const Navbar: FC = () => {
   const { data: session } = useSession()
+  const user = useAppSelector((state) => state.user)
   const [searchOpen, setSearchOpen] = useState(false)
 
   return (
@@ -43,10 +45,10 @@ const Navbar: FC = () => {
               </Button>
 
               {session ? (
-                <Link href={`/user/${session.user.id}`}>
+                <Link href={`/user/${user.id}`}>
                   <a className="userInfo">
-                    <span className="username">{session.user.name}</span>
-                    <Avatar type="user" src={session.user.avatar.emoji} backgroundColor={session.user.avatar.color} />
+                    <span className="username">{user.name}</span>
+                    <Avatar type="user" src={user.avatar.emoji} backgroundColor={user.avatar.color} />
                   </a>
                 </Link>
               ) : (
