@@ -484,7 +484,7 @@ const CreateMapPage: PageType = () => {
                   alt=""
                 />
                 <h2>No locations added</h2>
-                <h3>Click a location on the map to preview it here</h3>
+                <h3>Click a location on the map to preview it here.</h3>
               </div>
             </div>
           )}

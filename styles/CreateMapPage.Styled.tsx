@@ -70,7 +70,6 @@ const StyledCreateMapPage = styled.div<StyledProps>`
         display: flex;
         align-items: center;
         justify-content: center;
-        //padding-top: 6rem;
         height: calc(100% - (92px * 2));
 
         .no-locations {
@@ -87,18 +86,18 @@ const StyledCreateMapPage = styled.div<StyledProps>`
           }
 
           h2 {
-            font-size: 1.75rem;
-            margin-top: 1.5rem;
-            color: #fff;
+            font-size: 20px;
+            color: #e7e7e7;
             font-weight: 500;
             line-height: 35px;
             text-align: center;
+            margin-top: 12px;
           }
 
           h3 {
-            margin-top: 1rem;
-            color: #ababab;
-            font-size: 1.25rem;
+            margin-top: 10px;
+            color: #828181;
+            font-size: 16px;
             font-weight: 400;
           }
         }
