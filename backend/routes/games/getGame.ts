@@ -2,10 +2,12 @@ import { ObjectId } from 'bson'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Game } from '../../models'
 import { collections } from '../../utils/dbConnect'
+import getUserId from '../../utils/getUserId'
 import { throwError } from '../../utils/helpers'
 
 const getGame = async (req: NextApiRequest, res: NextApiResponse) => {
   const gameId = req.query.id as string
+  const userId = await getUserId(req, res)
 
   if (gameId.length !== 24) {
     return throwError(res, 404, 'Failed to find game')
@@ -41,13 +43,9 @@ const getGame = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const game = gameQuery[0] as Game
 
-  // // Dont expose country code to the FE -> Nvm, need for country streaks
-  // COULD hide for regular games if i want, but really who gives af, cheaters gunna cheat
-  // const roundsFiltered = game.rounds.map((round) => {
-  //   return { ...round, countryCode: null, streakLocationCode: null }
-  // })
+  const gameBelongsToUser = userId === game.userId.toString()
 
-  res.status(200).send(game)
+  res.status(200).send({ game, gameBelongsToUser })
 }
 
 export default getGame

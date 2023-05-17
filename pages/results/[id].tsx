@@ -1,11 +1,8 @@
-import type { NextPage } from 'next'
 import router from 'next/router'
 import React, { useEffect, useState } from 'react'
-
 import { Game } from '@backend/models'
 import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
-import { Layout, LoadingPage } from '@components/Layout'
 import { Navbar } from '@components/Layout/Navbar'
 import { ResultMap } from '@components/ResultMap'
 import { LeaderboardCard } from '@components/Results'
@@ -13,7 +10,7 @@ import { GameResultsSkeleton } from '@components/Skeletons/GameResultsSkeleton'
 import { FlexGroup } from '@components/System'
 import StyledResultPage from '@styles/ResultPage.Styled'
 import { MapType, PageType } from '@types'
-
+import { NotFound } from '../../components/ErrorViews/NotFound'
 import { StreaksLeaderboard } from '../../components/StreaksLeaderboard'
 import { StreaksSummaryMap } from '../../components/StreaksSummaryMap'
 
@@ -31,10 +28,12 @@ const ResultsPage: PageType = () => {
       return setGameData(null)
     }
 
-    setIsGameFinished(res.state === 'finished')
-    setGameData(res)
+    const { game } = res
 
-    fetchMap(res.mapId)
+    setIsGameFinished(game.state === 'finished')
+    setGameData(game)
+
+    fetchMap(game.mapId)
   }
 
   const fetchMap = async (mapId: string) => {
@@ -52,36 +51,12 @@ const ResultsPage: PageType = () => {
 
   // Game does not exist with this id
   if (gameData === null) {
-    return (
-      <StyledResultPage>
-        <Layout>
-          <div className="errorContainer">
-            <div className="errorContent">
-              <h1 className="errorPageTitle">Page not found</h1>
-              <span className="errorPageMsg">This game does not exist</span>
-            </div>
-            <div className="errorGif"></div>
-          </div>
-        </Layout>
-      </StyledResultPage>
-    )
+    return <NotFound message="This Game does not exist." />
   }
 
   // Game is not finished
   if (isGameFinished === false) {
-    return (
-      <StyledResultPage>
-        <Layout>
-          <div className="errorContainer">
-            <div className="errorContent">
-              <h1 className="errorPageTitle">Page not found</h1>
-              <span className="errorPageMsg">This game has not been completed</span>
-            </div>
-            <div className="errorGif"></div>
-          </div>
-        </Layout>
-      </StyledResultPage>
-    )
+    return <NotFound message="This game has not been completed." />
   }
 
   if (gameData?.mode === 'streak') {

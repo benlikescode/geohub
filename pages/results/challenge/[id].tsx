@@ -1,11 +1,9 @@
 import router from 'next/router'
 import React, { useEffect, useState } from 'react'
-
 import { Game } from '@backend/models'
 import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
 import { Navbar } from '@components/Layout/Navbar'
-import { WidthController } from '@components/Layout/WidthController'
 import { ResultMap } from '@components/ResultMap'
 import { LeaderboardCard } from '@components/Results'
 import { GameResultsSkeleton } from '@components/Skeletons/GameResultsSkeleton'
@@ -13,7 +11,7 @@ import { FlexGroup } from '@components/System'
 import { useAppSelector } from '@redux/hook'
 import StyledResultPage from '@styles/ResultPage.Styled'
 import { MapType, PageType } from '@types'
-
+import { NotFound } from '../../../components/ErrorViews/NotFound'
 import { StreaksLeaderboard } from '../../../components/StreaksLeaderboard'
 import { StreaksSummaryMap } from '../../../components/StreaksSummaryMap'
 
@@ -57,19 +55,7 @@ const ChallengeResultsPage: PageType = () => {
   }, [gamesFromChallenge])
 
   if (gamesFromChallenge === null) {
-    return (
-      <StyledResultPage>
-        <WidthController>
-          <div className="errorContainer">
-            <div className="errorContent">
-              <h1 className="errorPageTitle">Page not found</h1>
-              <span className="errorPageMsg">This challenge does not exist or has not been played yet</span>
-            </div>
-            <div className="errorGif"></div>
-          </div>
-        </WidthController>
-      </StyledResultPage>
-    )
+    return <NotFound message="This challenge does not exist or has not been played yet." />
   }
 
   if (gamesFromChallenge?.[0].mode === 'streak') {

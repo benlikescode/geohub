@@ -1,10 +1,8 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import {
-  COUNTRY_STREAK_DETAILS,
-  COUNTRY_STREAKS_ID
-} from '../../../utils/constants/random'
+import { COUNTRY_STREAK_DETAILS, COUNTRY_STREAKS_ID } from '../../../utils/constants/random'
 import { collections } from '../../utils/dbConnect'
+import { throwError } from '../../utils/helpers'
 
 const getChallengeScores = async (req: NextApiRequest, res: NextApiResponse) => {
   const challengeId = req.query.id as string
@@ -31,7 +29,7 @@ const getChallengeScores = async (req: NextApiRequest, res: NextApiResponse) => 
     .toArray()
 
   if (!gamesData || gamesData.length < 1) {
-    return res.status(404).json(`Failed to get scores for challenged with id: ${challengeId}`)
+    return throwError(res, 404, `Failed to get scores for challenged with id: ${challengeId}`)
   }
 
   // Get Map
@@ -44,7 +42,7 @@ const getChallengeScores = async (req: NextApiRequest, res: NextApiResponse) => 
   const map = await collections.maps?.findOne({ _id: new ObjectId(mapId) })
 
   if (!map) {
-    return res.status(404).json(`Failed to get map for challenged with id: ${challengeId}`)
+    return throwError(res, 404, `Failed to get map for challenged with id: ${challengeId}`)
   }
 
   res.status(200).send({

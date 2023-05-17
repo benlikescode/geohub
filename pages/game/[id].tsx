@@ -1,4 +1,3 @@
-import DefaultErrorPage from 'next/error'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Game from '@backend/models/game'
@@ -9,10 +8,11 @@ import { StandardFinalResults, StandardResults, StreakResults } from '@component
 import { ResultMap } from '@components/ResultMap'
 import { StreaksResultMap } from '@components/StreaksResultMap'
 import { StreetView } from '@components/StreetView'
-import { useAppDispatch, useAppSelector } from '@redux/hook'
+import { useAppDispatch } from '@redux/hook'
 import { updateRecentlyPlayed } from '@redux/slices'
 import StyledGamePage from '@styles/GamePage.Styled'
 import { PageType } from '@types'
+import { NotFound } from '../../components/ErrorViews/NotFound'
 import { StreakFinalResults } from '../../components/ResultCards/StreakFinalResults'
 import { StreaksSummaryMap } from '../../components/StreaksSummaryMap'
 
@@ -21,27 +21,24 @@ const GamePage: PageType = () => {
   const [gameData, setGameData] = useState<Game | null>()
   const router = useRouter()
   const gameId = router.query.id as string
-  const user = useAppSelector((state) => state.user)
   const dispatch = useAppDispatch()
 
   const fetchGame = async () => {
     const res = await mailman(`games/${gameId}`)
-
-    console.log(res)
 
     // If game not found -> show error page
     if (res.error) {
       return setGameData(null)
     }
 
-    // To make it more secure, I could do this in gSSP (this is fine for now)
-    // Actually... just check this on the BE
-    if (res.userId !== user.id) {
-      router.push('/')
+    const { game, gameBelongsToUser } = res
+
+    if (!gameBelongsToUser) {
+      return setGameData(null)
     }
 
     // If game is completed, set view to Result
-    if (res.state === 'finished') {
+    if (game.state === 'finished') {
       setView('Result')
     }
 
@@ -50,7 +47,7 @@ const GamePage: PageType = () => {
     // HALP -> update this to not need to use "id" -> should be using "_id"
     const gameData = {
       id: gameId,
-      ...res,
+      ...game,
     }
 
     setGameData(gameData)
@@ -66,9 +63,8 @@ const GamePage: PageType = () => {
     }
   }, [gameId, view])
 
-  // Should show a better error page than this shit
   if (gameData === null) {
-    return <DefaultErrorPage statusCode={500} />
+    return <NotFound title="Game Not Found" message="This game likely does not exist or does not belong to you." />
   }
 
   if (!gameData) {
