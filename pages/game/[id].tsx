@@ -1,23 +1,18 @@
 import DefaultErrorPage from 'next/error'
 import { useRouter } from 'next/router'
-import React, { FC, useEffect, useState } from 'react'
-
+import { useEffect, useState } from 'react'
 import Game from '@backend/models/game'
 import { mailman } from '@backend/utils/mailman'
-import { FinalResultsCard } from '@components/FinalResultsCard'
 import { Head } from '@components/Head'
 import { LoadingPage } from '@components/Layout'
 import { StandardFinalResults, StandardResults, StreakResults } from '@components/ResultCards'
 import { ResultMap } from '@components/ResultMap'
-import { ResultsCard } from '@components/ResultsCard'
 import { StreaksResultMap } from '@components/StreaksResultMap'
 import { StreetView } from '@components/StreetView'
-import { Spinner } from '@components/System'
 import { useAppDispatch, useAppSelector } from '@redux/hook'
 import { updateRecentlyPlayed } from '@redux/slices'
 import StyledGamePage from '@styles/GamePage.Styled'
 import { PageType } from '@types'
-
 import { StreakFinalResults } from '../../components/ResultCards/StreakFinalResults'
 import { StreaksSummaryMap } from '../../components/StreaksSummaryMap'
 
@@ -52,7 +47,7 @@ const GamePage: PageType = () => {
 
     dispatch(updateRecentlyPlayed({ recentlyPlayed: [] }))
 
-    // TODO: update this to not need to use "id" -> should be using "_id"
+    // HALP -> update this to not need to use "id" -> should be using "_id"
     const gameData = {
       id: gameId,
       ...res,
@@ -80,57 +75,8 @@ const GamePage: PageType = () => {
     return <LoadingPage />
   }
 
-  // // Get Result Map
-  // let ResultMapJSX = <></>
-
-  // if (view === 'Result' || view === 'FinalResults') {
-  //   if (gameData.mode === 'standard') {
-  //     ResultMapJSX = (
-  //       <ResultMap
-  //         guessedLocations={gameData.guesses}
-  //         actualLocations={gameData.rounds}
-  //         round={gameData.round}
-  //         isFinalResults={view === 'FinalResults'}
-  //       />
-  //     )
-  //   }
-
-  //   if (gameData.mode === 'streak') {
-  //     ResultMapJSX = <StreaksResultMap gameData={gameData} />
-  //   }
-  // }
-
-  // // Get Result Card
-  // let ResultCardJSX = <></>
-
-  // if (gameData.mode === 'standard') {
-  //   if (view === 'Result') {
-  //     ResultCardJSX = (
-  //       <StandardResults
-  //         round={gameData.round}
-  //         distance={gameData.guesses[gameData.guesses.length - 1].distance}
-  //         points={gameData.guesses[gameData.guesses.length - 1].points}
-  //         noGuess={
-  //           gameData.guesses[gameData.guesses.length - 1].timedOut &&
-  //           !gameData.guesses[gameData.guesses.length - 1].timedOutWithGuess
-  //         }
-  //         setView={setView}
-  //       />
-  //     )
-  //   }
-
-  //   if (view === 'FinalResults') {
-  //     ResultCardJSX = <StandardFinalResults gameData={gameData} />
-  //   }
-  // }
-
-  // if (gameData.mode === 'streak') {
-  //   ResultCardJSX = <StreakResults gameData={gameData} setView={setView} />
-  // }
-
   return (
     <StyledGamePage>
-      {/* <Head title={`Game - ${gameData.round <= 5 ? `Round ${gameData.round}` : 'Results'}`} /> */}
       <Head title={`Game - GeoHub`} />
 
       {view === 'Game' && <StreetView gameData={gameData} setGameData={setGameData} setView={setView} />}
