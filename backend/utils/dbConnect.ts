@@ -1,7 +1,5 @@
 import { Collection, Db, MongoClient } from 'mongodb'
-
 import { RecentSearch } from '@types'
-
 import { IS_PROD, MONGO_URI } from './secrets'
 
 export const collections: {
@@ -13,10 +11,8 @@ export const collections: {
   bingoSuggestions?: Collection
   mapLikes?: Collection
   friends?: Collection
-  aerialGames?: Collection
   locations?: Collection
   userLocations?: Collection
-  aerialLocations?: Collection
   recentSearches?: Collection<RecentSearch>
 } = {}
 
@@ -46,11 +42,9 @@ export const dbConnect = async () => {
     collections.bingoSuggestions = db.collection('bingoSuggestions')
     collections.mapLikes = db.collection('mapLikes')
     collections.friends = db.collection('friends')
-    collections.aerialGames = db.collection('aerialGames')
     collections.locations = db.collection('locations')
     collections.userLocations = db.collection('userLocations')
     collections.recentSearches = db.collection('recentSearches')
-    collections.aerialLocations = db.collection('aerialLocations')
 
     return cachedDb
   } catch (err) {

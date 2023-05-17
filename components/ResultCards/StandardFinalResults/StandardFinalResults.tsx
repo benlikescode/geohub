@@ -53,7 +53,7 @@ const StandardFinalResults: FC<Props> = ({ gameData }) => {
               </a>
             </Link>
           ) : (
-            <Link href={gameData.mapId ? `/map/${gameData.mapId}` : '/aerial'}>
+            <Link href={`/map/${gameData.mapId}`}>
               <a>
                 <Button>Play Again</Button>
               </a>

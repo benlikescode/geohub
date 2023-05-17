@@ -2,15 +2,8 @@ import fs from 'fs'
 import { ObjectId } from 'mongodb'
 import { NextApiResponse } from 'next'
 import { LocationType } from '@types'
-import {
-  COUNTRY_STREAKS_ID,
-  OFFICIAL_WORLD_ID,
-  URBAN_WORLD_ID
-} from '@utils/constants/random'
-import {
-  getRandomLocationsInRadius,
-  randomElement
-} from '@utils/functions/generateLocations'
+import { COUNTRY_STREAKS_ID, OFFICIAL_WORLD_ID, URBAN_WORLD_ID } from '@utils/constants/random'
+import { getRandomLocationsInRadius, randomElement } from '@utils/functions/generateLocations'
 import { collections } from './dbConnect'
 
 // Standard return for any error in API
@@ -77,27 +70,6 @@ export const getLocations = async (mapId: string, count: number = 1) => {
   }
 
   return locations
-}
-
-// Generates one or more locations for the Aerial game mode
-export const getAerialLocations = async (difficulty: 'Normal' | 'Easy' | 'Challenging', countryCode: string) => {
-  const populationFilter = {
-    Easy: 10000000, // 10M
-    Normal: 1000000, // 1M
-    Challenging: 100000, // 100K
-  }
-
-  const query = countryCode ? { iso2: countryCode } : { population: { $gte: populationFilter[difficulty] } }
-
-  const locations = await collections.aerialLocations
-    ?.aggregate([{ $match: query }, { $sample: { size: 1 } }])
-    .toArray()
-
-  if (!locations || locations.length !== 1) {
-    return null
-  }
-
-  return locations[0]
 }
 
 // Appends array of data to an existing JSON array of data
