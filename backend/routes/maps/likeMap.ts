@@ -5,7 +5,7 @@ import getUserId from '../../utils/getUserId'
 
 const likeMap = async (req: NextApiRequest, res: NextApiResponse) => {
   const userId = await getUserId(req, res)
-  const mapId = req.body.mapId as string
+  const mapId = req.query.id as string
 
   const result = await collections.mapLikes?.insertOne({ userId: new ObjectId(userId), mapId: new ObjectId(mapId) })
 

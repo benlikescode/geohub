@@ -1,7 +1,12 @@
 import { FC, useState } from 'react'
 import { mailman } from '@backend/utils/mailman'
 import { AuthModal } from '@components/Modals'
-import { HeartIcon as HeartIconOutline, LocationMarkerIcon, ScaleIcon, UserIcon } from '@heroicons/react/outline'
+import {
+  HeartIcon as HeartIconOutline,
+  LocationMarkerIcon,
+  ScaleIcon,
+  UserIcon
+} from '@heroicons/react/outline'
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/solid'
 import { useAppSelector } from '@redux/hook'
 import { MapType } from '@types'
@@ -14,8 +19,6 @@ type Props = {
 }
 
 const MapStats: FC<Props> = ({ map, setMap }) => {
-  //const [isLiked, setIsLiked] = useState(map.likes?.likedByUser || false)
-  //const [numLikes, setNumLikes] = useState(map.likes?.numLikes || 0)
   const [modalOpen, setModalOpen] = useState(false)
   const [isHoveringLike, setIsHoveringLike] = useState(false)
   const user = useAppSelector((state) => state.user)
@@ -28,15 +31,14 @@ const MapStats: FC<Props> = ({ map, setMap }) => {
     }
 
     if (map.likes?.likedByUser === true) {
-      const res = await mailman(`likes/${map._id}`, 'DELETE')
+      await mailman(`likes/${map._id}`, 'DELETE')
 
       setMap({ ...map, likes: { likedByUser: false, numLikes: map.likes?.numLikes - 1 } })
       setIsHoveringLike(false)
     }
 
     if (map.likes?.likedByUser === false) {
-      const data = { mapId: map._id, userId: user.id }
-      const res = await mailman(`likes`, 'POST', JSON.stringify(data))
+      await mailman(`likes/${map._id}`, 'POST')
       setMap({ ...map, likes: { likedByUser: true, numLikes: map.likes?.numLikes + 1 } })
     }
   }
