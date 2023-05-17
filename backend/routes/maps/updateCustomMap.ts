@@ -1,6 +1,7 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { LocationType } from '../../../@types'
+import calculateMapScoreFactor from '../../utils/calculateMapScoreFactor'
 import { collections } from '../../utils/dbConnect'
 import getUserId from '../../utils/getUserId'
 import { throwError } from '../../utils/helpers'
@@ -80,6 +81,18 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
 
       if (!result) {
         return throwError(res, 400, 'Could not add locations')
+      }
+
+      // Update map's score factor (since locations have changed)
+      const scoreFactor = calculateMapScoreFactor(locations)
+
+      const updateMap = await collections.maps?.updateOne(
+        { _id: new ObjectId(mapId) },
+        { $set: { scoreFactor: scoreFactor } }
+      )
+
+      if (!updateMap) {
+        return throwError(res, 400, 'Failed to save new map score factor')
       }
     }
   }

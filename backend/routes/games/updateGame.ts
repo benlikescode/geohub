@@ -105,7 +105,8 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   // Adding new guess
-  const { points, distance } = getResultData(guess, game.rounds[game.round - 1], game.mapId)
+  const map = await collections.maps?.findOne({ _id: game.mapId })
+  const { points, distance } = getResultData(guess, game.rounds[game.round - 1], map?.scoreFactor)
 
   const newGuess: GuessType = {
     lat: guess.lat,
