@@ -35,6 +35,8 @@ const StyledNotFound = styled.div<StyledProps>`
       color: #6a6a6a;
       font-size: 16px;
       font-weight: 400;
+      text-align: center;
+      line-height: 23px;
     }
   }
 `

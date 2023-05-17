@@ -73,8 +73,8 @@ const MapPage: FC = () => {
     // router.replace('/404')
     return (
       <NotFound
-        title="Page Not Found"
-        message="This map either does not exist, has not been published, or was recently deleted"
+        title="Map Not Found"
+        message="This map either does not exist, has not been published, or was recently deleted."
       />
     )
   }

@@ -406,7 +406,7 @@ const CreateMapPage: PageType = () => {
   }
 
   if (showErrorPage) {
-    return <NotFound title="Page Not Found" message="You are not authorized to edit this map" />
+    return <NotFound title="Page Not Found" message="You are not authorized to edit this map." />
   }
 
   return (
