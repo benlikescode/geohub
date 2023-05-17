@@ -70,7 +70,7 @@ const RegisterPage: PageType = () => {
         return showErrorToast(res?.error || '', { id: 'login-api' })
       }
 
-      const prevRoute = window.localStorage.getItem('path')
+      const prevRoute = router.query.callback as string
       router.push(prevRoute ?? '/')
     }
 

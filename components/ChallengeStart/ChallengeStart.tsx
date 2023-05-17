@@ -9,7 +9,7 @@ import {
   ClockIcon,
   LocationMarkerIcon,
   SwitchHorizontalIcon,
-  ZoomInIcon,
+  ZoomInIcon
 } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
 import { ChallengeType } from '@types'
@@ -32,11 +32,10 @@ const ChallengeStart: FC<Props> = ({ challengeData, handleStartChallenge, setVie
   const CAN_ZOOM = challengeData.gameSettings.canZoom
   const HAS_TIME_LIMIT = challengeData.gameSettings.timeLimit !== 0
   const TIME_LIMIT = challengeData.gameSettings.timeLimit
-  console.log('HERRO', challengeData)
+
   useEffect(() => {
     if (!user.id) {
       setIsLoggedIn(false)
-      //console.log(challengeData)
     }
   }, [])
 

@@ -658,6 +658,6 @@ export const formatLargeNumber = (number: number) => {
 // Stores current url and redirects to '/register'
 export const redirectToRegister = (router: NextRouter) => {
   if (!router) return
-  console.log(router)
-  router.push(`/register?callback=${router.pathname}`)
+
+  router.push(`/register?callback=${router.asPath}`)
 }
