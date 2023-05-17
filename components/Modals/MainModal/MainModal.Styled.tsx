@@ -11,7 +11,7 @@ const StyledMainModal = styled.div<StyledProps>`
     border-bottom: 1px solid #282828;
 
     .modal-title {
-      font-size: 1.25rem;
+      font-size: 18px;
       font-weight: 400;
     }
 

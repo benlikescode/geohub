@@ -17,7 +17,7 @@ const StyledGameSettingsModal = styled.div`
       margin-top: 2px;
 
       .map-name {
-        font-size: 22px;
+        font-size: 20px;
         font-weight: 600;
         display: block;
         margin-bottom: 8px;
