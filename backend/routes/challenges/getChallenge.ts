@@ -39,12 +39,15 @@ const getChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
     return throwError(res, 404, 'Failed to find challenge')
   }
 
+  const challengeBelongsToUser = userId === challenge.creatorId.toString()
+
   const result = {
     ...challenge,
     creatorName: challengeCreator?.name,
     creatorAvatar: challengeCreator?.avatar,
     playersGame,
     mapDetails,
+    challengeBelongsToUser,
   }
 
   res.status(200).send(result)

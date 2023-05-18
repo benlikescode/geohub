@@ -1,4 +1,3 @@
-import DefaultErrorPage from 'next/error'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Game from '@backend/models/game'
@@ -9,11 +8,12 @@ import { LoadingPage } from '@components/Layout'
 import { StandardFinalResults, StandardResults, StreakResults } from '@components/ResultCards'
 import { ResultMap } from '@components/ResultMap'
 import { StreetView } from '@components/StreetView'
-import { useAppDispatch, useAppSelector } from '@redux/hook'
+import { useAppDispatch } from '@redux/hook'
 import { updateStartTime } from '@redux/slices'
 import StyledGamePage from '@styles/GamePage.Styled'
 import { ChallengeType, PageType } from '@types'
 import { showErrorToast } from '@utils/helpers/showToasts'
+import { NotFound } from '../../components/ErrorViews/NotFound'
 import { StreakFinalResults } from '../../components/ResultCards/StreakFinalResults'
 import { StreaksResultMap } from '../../components/StreaksResultMap'
 import { StreaksSummaryMap } from '../../components/StreaksSummaryMap'
@@ -25,11 +25,12 @@ const ChallengePage: PageType = () => {
 
   const router = useRouter()
   const challengeId = router.query.id as string
-  const user = useAppSelector((state) => state.user)
   const dispatch = useAppDispatch()
 
   const fetchChallenge = async () => {
     const res = await mailman(`challenges/${challengeId}`)
+
+    const { challengeBelongsToUser, playersGame, mapDetails } = res
 
     // If challenge not found -> show error page
     if (res.error) {
@@ -38,22 +39,18 @@ const ChallengePage: PageType = () => {
 
     setChallengeData(res)
 
-    console.log(`MAP DETAILS: ${JSON.stringify(res.mapDetails)}`)
-
-    const isThisUsersChallenge = res?.creatorId === user.id
-    const userHasStartedChallenge = res.playersGame !== null
-
-    if (!userHasStartedChallenge) {
-      return isThisUsersChallenge ? await createGame(res) : setView('Start')
+    // If the user has not started the challenge yet
+    if (!playersGame) {
+      return challengeBelongsToUser ? await createGame(res) : setView('Start')
     }
 
     // If they have finished the game, push to results page
-    if (res.playersGame.state === 'finished') {
+    if (playersGame.state === 'finished') {
       return router.push(`/results/challenge/${challengeId}`)
     }
 
     // If they have not finished the game, set their game state
-    const formattedGameData = { id: res.playersGame._id, mapDetails: res.mapDetails, ...res.playersGame }
+    const formattedGameData = { id: playersGame._id, mapDetails, ...playersGame }
     setGameData(formattedGameData)
   }
 
@@ -75,7 +72,6 @@ const ChallengePage: PageType = () => {
       return showErrorToast(res.error.message)
     }
 
-    console.log(`GAME DATA: ${JSON.stringify(res)}`)
     setGameData(res)
   }
 
@@ -94,7 +90,7 @@ const ChallengePage: PageType = () => {
   }
 
   if (challengeData === null || gameData === null) {
-    return <DefaultErrorPage statusCode={500} />
+    return <NotFound title="Challenge Not Found" message="This challenge does not seem to exist." />
   }
 
   if (!challengeData || !gameData) {
