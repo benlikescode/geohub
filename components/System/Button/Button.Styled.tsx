@@ -2,7 +2,7 @@ import { ButtonHTMLAttributes } from 'react'
 import styled from 'styled-components'
 
 type StyledProps = {
-  variant?: 'primary' | 'solidGray' | 'solidCustom' | 'ghost' | 'ghostLight' | 'icon' | 'iconRounded' | 'destroy'
+  variant?: 'primary' | 'solidGray' | 'solidCustom' | 'ghost' | 'ghostLight' | 'iconRounded' | 'destroy'
   size?: 'sm' | 'md' | 'lg'
   color?: string
   backgroundColor?: string
@@ -110,16 +110,6 @@ const StyledButton = styled.button<StyledProps>`
         :hover {
           background-color: #252525;
         }
-    `}
-    // To Deprecate
-    ${({ variant, disabled }) =>
-    variant === 'icon' &&
-    !disabled &&
-    `
-        padding: 0;
-        background-color: transparent;
-        height: fit-content;
-        width: fit-content;
     `}
 
     ${({ variant, disabled }) =>

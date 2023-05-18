@@ -90,30 +90,26 @@ const ChallengeStart: FC<Props> = ({ challengeData, handleStartChallenge, setVie
 
       <div className="challengeSettings">
         <div className="settingsItem">
-          <Icon size={24} fill={!HAS_TIME_LIMIT ? 'var(--green-300)' : '#888'}>
-            <ClockIcon />
-          </Icon>
+          <ClockIcon color={!HAS_TIME_LIMIT ? 'var(--green-300)' : '#888'} />
+
           {HAS_TIME_LIMIT ? `${formatTimeLimit(TIME_LIMIT)} per round` : 'No Time Limit'}
         </div>
 
         <div className="settingsItem">
-          <Icon size={24} fill={CAN_MOVE ? 'var(--green-300)' : '#888'}>
-            <ArrowsExpandIcon />
-          </Icon>
+          <ArrowsExpandIcon color={CAN_MOVE ? 'var(--green-300)' : '#888'} />
+
           {CAN_MOVE ? 'Moving Allowed' : 'No Move'}
         </div>
 
         <div className="settingsItem">
-          <Icon size={24} fill={CAN_PAN ? 'var(--green-300)' : '#888'}>
-            <SwitchHorizontalIcon />
-          </Icon>
+          <SwitchHorizontalIcon color={CAN_PAN ? 'var(--green-300)' : '#888'} />
+
           {CAN_PAN ? 'Panning Allowed' : 'No Pan'}
         </div>
 
         <div className="settingsItem">
-          <Icon size={24} fill={CAN_ZOOM ? 'var(--green-300)' : '#888'}>
-            <ZoomInIcon />
-          </Icon>
+          <ZoomInIcon color={CAN_ZOOM ? 'var(--green-300)' : '#888'} />
+
           {CAN_ZOOM ? 'Zooming Allowed' : 'No Zoom'}
         </div>
       </div>

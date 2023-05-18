@@ -127,6 +127,14 @@ const StyledChallengeStart = styled.div<StyledProps>`
       width: 160px;
       font-size: 12px;
     }
+
+    svg {
+      height: 24px;
+
+      path {
+        stroke-width: 1.5;
+      }
+    }
   }
 `
 

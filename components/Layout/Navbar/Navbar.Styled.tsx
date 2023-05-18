@@ -69,6 +69,33 @@ const StyledNavbar = styled.div`
     display: flex;
     align-items: center;
     gap: 15px;
+
+    .mobile-search {
+      display: none;
+
+      @media (max-width: 700px) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.25rem;
+        border-radius: 5px;
+        user-select: none;
+        background-color: transparent;
+
+        :hover {
+          background-color: #444;
+        }
+      }
+
+      svg {
+        height: 20px;
+        color: #efeff1;
+
+        path {
+          stroke-width: 1.5;
+        }
+      }
+    }
   }
 
   .userInfo {
@@ -87,20 +114,6 @@ const StyledNavbar = styled.div`
 
     @media (max-width: 500px) {
       display: none;
-    }
-  }
-
-  .mobileSearch {
-    display: none;
-    padding: 0.25rem;
-    position: relative;
-
-    @media (max-width: 700px) {
-      display: block;
-
-      :hover {
-        background-color: #444;
-      }
     }
   }
 

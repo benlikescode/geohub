@@ -38,11 +38,9 @@ const Navbar: FC = () => {
 
           <div className="rightContainer">
             <div className="rightWrapper">
-              <Button variant="icon" className="mobileSearch" onClick={() => setSearchOpen(true)}>
-                <Icon size={20} fill="#efeff1">
-                  <SearchIcon />
-                </Icon>
-              </Button>
+              <button className="mobile-search" onClick={() => setSearchOpen(true)}>
+                <SearchIcon />
+              </button>
 
               {session ? (
                 <Link href={`/user/${user.id}`}>
