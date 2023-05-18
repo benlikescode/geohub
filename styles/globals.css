@@ -239,11 +239,6 @@ textarea {
   font-family: var(--font-family1);
 }
 
-img[src="https://www.geoguessr.com/images/auto/30/30/ce/0/plain/pin/c2fe16562d9ad321687532d53b067e75.png"]
-{
-  border-radius: 50%;
-}
-
 /* Custom Scrollbar */
 
 ::-webkit-scrollbar {
