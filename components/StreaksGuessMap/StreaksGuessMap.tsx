@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '@redux/hook'
 import { updateGuessMapSize } from '@redux/slices'
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon'
 import { multiPolygon, point } from '@turf/turf'
-import countryBounds from '@utils/constants/countryBoundsOld.json'
+import countryBounds from '@utils/constants/countryBounds.json'
 import { getGuessMapDimensions, getMapTheme } from '@utils/helperFunctions'
 import { StyledStreaksGuessMap } from './'
 

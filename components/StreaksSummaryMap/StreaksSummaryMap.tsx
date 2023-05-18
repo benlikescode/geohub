@@ -4,7 +4,7 @@ import { FC, useRef, useState } from 'react'
 import Game from '@backend/models/game'
 import { Marker } from '@components/Marker'
 import { LocationType } from '@types'
-import countryBounds from '@utils/constants/countryBoundsOld.json'
+import countryBounds from '@utils/constants/countryBounds.json'
 import { getMapTheme } from '@utils/helperFunctions'
 import { StyledStreaksSummaryMap } from './'
 
