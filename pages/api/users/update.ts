@@ -19,12 +19,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       // Validate avatar
-      if (
-        !BACKGROUND_COLORS.includes(avatar.color) ||
-        !EMOJIS.includes(avatar.emoji) ||
-        !avatar.color.startsWith('#') ||
-        avatar.color.length !== 7
-      ) {
+      if (!BACKGROUND_COLORS.includes(avatar.color) || !EMOJIS.includes(avatar.emoji)) {
         return throwError(res, 400, 'You picked an invalid avatar')
       }
 
