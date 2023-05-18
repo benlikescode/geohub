@@ -1,5 +1,4 @@
 import { FC, ReactNode } from 'react'
-
 import { StyledIcon } from './'
 
 type Props = {
@@ -11,16 +10,10 @@ type Props = {
   children: ReactNode
 }
 
-const Icon: FC<Props> = ({size, fill, padding, hoverColor, hoverTransition, children}) => {
+const Icon: FC<Props> = ({ size, fill, padding, hoverColor, hoverTransition, children }) => {
   return (
-    <StyledIcon 
-      size={size} 
-      fill={fill} 
-      padding={padding}
-      hoverColor={hoverColor} 
-      hoverTransition={hoverTransition}
-    >
-      { children }
+    <StyledIcon size={size} fill={fill} padding={padding} hoverColor={hoverColor} hoverTransition={hoverTransition}>
+      {children}
     </StyledIcon>
   )
 }

@@ -13,26 +13,13 @@ const StyledHomePage = styled.div`
       padding: 30px 0 200px 0;
     }
 
-    &::before {
-      content: '';
-      background-image: url('/images/backgrounds/newHero.jpg');
-      background-position: center center;
-      background-repeat: no-repeat;
-      background-size: cover;
-      position: absolute;
-      top: 0px;
-      right: 0px;
-      bottom: 0px;
-      left: 0px;
-    }
-
     &::after {
       content: '';
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(0deg, #0e0e10 10%, #0e0e1050);
+      background: linear-gradient(90deg, #121212 10%, #00000070);
       z-index: 1;
     }
 
@@ -49,9 +36,9 @@ const StyledHomePage = styled.div`
       }
 
       .banner-title {
-        font-size: 40px;
+        font-size: 32px;
         font-weight: 600;
-        line-height: 40px;
+        line-height: 32px;
         color: #ffffff;
 
         @media (max-width: 1200px) {

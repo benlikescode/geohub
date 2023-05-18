@@ -1,9 +1,6 @@
-import React, { FC } from 'react'
-
+import { FC } from 'react'
 import { SkeletonLeaderboard } from '@components/SkeletonLeaderboard'
-import { FlexGroup } from '@components/System'
 import { Skeleton } from '@components/System/Skeleton'
-
 import { StyledSkeletonProfile } from './'
 
 type Props = {}

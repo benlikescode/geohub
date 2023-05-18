@@ -6,11 +6,13 @@ type MapLeaderboard = {
   userName: string
   userAvatar: { emoji: string; color: string }
   gameId: ObjectId
-  totalPoints: number
+  totalPoints?: number
   totalTime?: number
+  streak?: number
   difficulty?: 'Normal' | 'Easy' | 'Challenging'
   countryCode?: string
   createdAt?: Date
+  highlight?: boolean
 }
 
 export default MapLeaderboard

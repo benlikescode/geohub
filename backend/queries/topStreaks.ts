@@ -1,0 +1,53 @@
+import { collections } from '@backend/utils/dbConnect'
+
+const queryTopStreaks = async (query: any, limit: number) => {
+  const data = await collections.games
+    ?.aggregate([
+      // Match the documents
+      { $match: query },
+      // Sort the matches in descending order
+      { $sort: { streak: -1, totalTime: 1 } },
+      // Group by unique userId, getting the first document
+      // (We know that the first will be the highest, due to the sort)
+      {
+        $group: {
+          _id: '$userId',
+          gameId: { $first: '$_id' },
+          totalTime: { $first: '$totalTime' },
+          streak: { $first: '$streak' },
+        },
+      },
+      // Query the user's details
+      {
+        $lookup: {
+          from: 'users',
+          localField: '_id',
+          foreignField: '_id',
+          as: 'userDetails',
+        },
+      },
+      // Unwind the user details from an array into an object
+      {
+        $unwind: '$userDetails',
+      },
+      // Format the result
+      {
+        $project: {
+          _id: '$gameId',
+          userId: '$_id',
+          userName: '$userDetails.name',
+          userAvatar: '$userDetails.avatar',
+          streak: 1,
+          totalTime: 1,
+        },
+      },
+      // Re-sort the resulting documents
+      { $sort: { streak: -1, totalTime: 1 } },
+    ])
+    .limit(limit)
+    .toArray()
+
+  return data
+}
+
+export default queryTopStreaks

@@ -1,11 +1,12 @@
 import styled from 'styled-components'
 
 type StyledProps = {
-  mapImage: string
-  isOfficialMap?: boolean
+  isForDisplayOnly?: boolean
 }
 
 const StyledMapPreviewCard = styled.div<StyledProps>`
+  width: 100%;
+
   .large-card-wrapper {
     border-radius: 6px;
     background-color: var(--background2);
@@ -14,33 +15,30 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
     display: grid;
     gap: 1rem;
     max-height: 300px;
+
+    ${({ isForDisplayOnly }) =>
+      isForDisplayOnly &&
+      `
+      width: 100%;
+    `}
     //height: 100%;
 
-    .mapImage {
+    .map-avatar {
       height: 125px;
       width: 100%;
       border-radius: 5px 5px 0 0;
-      background: linear-gradient(
-          180deg,
-          rgba(25, 26, 27, 0) 0%,
-          rgba(25, 26, 27, 0.57) 47.4%,
-          ${({ isOfficialMap }) => (isOfficialMap ? '#191a1b' : '#222')} 100%
-        ),
-        url(${({ mapImage }) => mapImage});
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
+      position: relative;
 
-      @media (max-width: 1600px) {
-        height: 120px;
+      span img {
+        border-radius: 5px 5px 0 0;
       }
 
-      @media (max-width: 1500px) {
-        height: 100px;
-      }
-
-      @media (max-width: 1350px) {
-        height: 125px;
+      .image-gradient {
+        z-index: 1;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background: linear-gradient(180deg, rgba(25, 26, 27, 0) 0%, rgba(25, 26, 27, 0.57) 47.4%, #191a1b 100%);
       }
     }
 
@@ -50,11 +48,11 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
       justify-content: center;
       flex-direction: column;
       gap: 18px;
-      margin-top: ${({ isOfficialMap }) => (isOfficialMap ? '-48px' : '10px')};
+      margin-top: -48px;
     }
 
     .mapName {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 600;
       display: -webkit-box;
       -webkit-line-clamp: 1;
@@ -64,7 +62,7 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
       white-space: pre-wrap;
       -moz-white-space: pre-wrap;
       padding: 0 1rem;
-
+      z-index: 1;
       @media (max-width: 1500px) {
         font-size: 20px;
       }
@@ -151,12 +149,18 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
       font-weight: 500;
       user-select: none;
       width: clamp(120px, 70%, 300px);
-      background-color: var(--mediumPurple);
+      background-color: var(--indigo-700);
       color: #fff;
-      //border: 1px solid rgba(255, 255, 255, 0.19);
+
+      ${({ isForDisplayOnly }) =>
+        isForDisplayOnly &&
+        `
+         background-color: #222;
+         color: #777;
+      `}
 
       :hover {
-        background-color: var(--darkPurple);
+        background-color: ${({ isForDisplayOnly }) => !isForDisplayOnly && 'var(--indigo-600)'};
       }
     }
   }
@@ -176,7 +180,7 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
       justify-content: center;
 
       &::after {
-        content: "";
+        content: '';
         position: absolute;
         left: 0;
         right: 0;
@@ -231,7 +235,8 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
       padding: 20px;
     }
 
-    .mapEditBtn, .mapDeleteBtn {
+    .mapEditBtn,
+    .mapDeleteBtn {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -272,7 +277,7 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
       width: 100%;
 
       :hover {
-        background-color: var(--darkPurple);
+        background-color: var(--indigo-600);
       }
     }
   }

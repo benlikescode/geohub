@@ -1,5 +1,5 @@
 import NextHead from 'next/head'
-import React, { FC } from 'react'
+import { FC } from 'react'
 
 type Props = {
   title?: string

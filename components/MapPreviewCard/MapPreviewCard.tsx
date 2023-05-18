@@ -1,37 +1,40 @@
-/* eslint-disable @next/next/no-img-element */
+import Image from 'next/image'
 import Link from 'next/link'
-import { FC, useState } from 'react'
-
-import { PlayIcon } from '@heroicons/react/solid'
-import { MapType } from '@types'
-
-import { StyledMapPreviewCard } from './'
+import { FC } from 'react'
 import { TrashIcon } from '@heroicons/react/outline'
-import { Button } from '@components/System'
-import { Modal } from '@components/System/Modal'
+import { MapType } from '@types'
+import { MAP_AVATAR_BASE_PATH } from '../../utils/constants/random'
+import { StyledMapPreviewCard } from './'
 
 type Props = {
-  map: MapType
+  map: Pick<MapType, '_id' | 'name' | 'description' | 'previewImg'>
+  showDescription?: boolean
   type?: 'large' | 'small'
+  openDeleteModal?: () => void
+  isForDisplayOnly?: boolean
 }
 
-const MapPreviewCard: FC<Props> = ({ map, type = 'large' }) => {
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
-  const isOfficialMap = map.creator === 'GeoHub'
-
+const MapPreviewCard: FC<Props> = ({ map, showDescription, type = 'large', openDeleteModal, isForDisplayOnly }) => {
   return (
-    <StyledMapPreviewCard mapImage={map.previewImg} isOfficialMap={isOfficialMap}>
+    <StyledMapPreviewCard isForDisplayOnly={isForDisplayOnly}>
       {type === 'large' && (
         <div className="large-card-wrapper">
-          <div className="mapImage"></div>
-
+          {/* <div className="mapImage"></div> */}
+          <div className="map-avatar">
+            <Image src={`/images/mapAvatars/${map.previewImg}`} layout="fill" objectFit="cover" alt="" />
+            <div className="image-gradient"></div>
+          </div>
           <div className="contentWrapper">
             <div className="mapName">{map.name}</div>
-            {isOfficialMap && <div className="mapDescription">{map.description}</div>}
+            {showDescription && <div className="mapDescription">{map.description}</div>}
             <div className="playWrapper">
-              <Link href={`/map/${map._id}`}>
-                <a className="mapPlayBtn">Play</a>
-              </Link>
+              {!isForDisplayOnly ? (
+                <Link href={`/map/${map._id}`}>
+                  <a className="mapPlayBtn">Play</a>
+                </Link>
+              ) : (
+                <div className="mapPlayBtn">Play</div>
+              )}
             </div>
           </div>
         </div>
@@ -40,7 +43,7 @@ const MapPreviewCard: FC<Props> = ({ map, type = 'large' }) => {
       {type === 'small' && (
         <div className="small-card-wrapper">
           <div className="preview-image">
-            <img src={map.previewImg} alt="" />
+            <Image src={MAP_AVATAR_BASE_PATH + map.previewImg} alt="" layout="fill" objectFit="cover" />
             <div className="mapName">{map.name}</div>
           </div>
 
@@ -59,17 +62,11 @@ const MapPreviewCard: FC<Props> = ({ map, type = 'large' }) => {
                 </svg>
               </a>
             </Link>
-            <button className="mapDeleteBtn" onClick={() => setDeleteModalOpen(true)}>
+            <button className="mapDeleteBtn" onClick={openDeleteModal}>
               <TrashIcon />
             </button>
           </div>
         </div>
-      )}
-
-      {deleteModalOpen && (
-        <Modal isOpen={deleteModalOpen} onClose={() => setDeleteModalOpen(false)}>
-          <span>YOOO</span>
-        </Modal>
       )}
     </StyledMapPreviewCard>
   )

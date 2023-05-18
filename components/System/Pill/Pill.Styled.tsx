@@ -1,20 +1,13 @@
 import styled from 'styled-components'
 
-type StyledProps = {
-  background?: string
-  color?: string
-  transparent?: boolean
-}
-
-const StyledPill = styled.div<StyledProps>`
+const StyledPill = styled.div`
   background: rgba(200, 200, 200, 0.2);
-  color: ${({ color }) => (color ? color : '#fff')};
+  color: #fff;
   padding: 0 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   width: fit-content;
-  font-family: 'SF Mono', SFMono-Regular, ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace;
   border-radius: 20px;
   font-size: 14px;
   font-weight: 400;

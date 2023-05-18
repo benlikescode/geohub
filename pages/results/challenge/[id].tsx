@@ -1,34 +1,32 @@
-import type { NextPage } from 'next'
 import router from 'next/router'
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-
+import { useEffect, useState } from 'react'
 import { Game } from '@backend/models'
 import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
-import { Layout, LoadingPage } from '@components/Layout'
 import { Navbar } from '@components/Layout/Navbar'
-import { WidthController } from '@components/Layout/WidthController'
 import { ResultMap } from '@components/ResultMap'
 import { LeaderboardCard } from '@components/Results'
 import { GameResultsSkeleton } from '@components/Skeletons/GameResultsSkeleton'
 import { FlexGroup } from '@components/System'
-import { selectUser } from '@redux/user'
+import { useAppSelector } from '@redux/hook'
 import StyledResultPage from '@styles/ResultPage.Styled'
 import { MapType, PageType } from '@types'
+import { NotFound } from '../../../components/ErrorViews/NotFound'
+import { StreaksLeaderboard } from '../../../components/StreaksLeaderboard'
+import { StreaksSummaryMap } from '../../../components/StreaksSummaryMap'
 
 const ChallengeResultsPage: PageType = () => {
   const [gamesFromChallenge, setGamesFromChallenge] = useState<Game[] | null>()
   const [mapData, setMapData] = useState<MapType>()
   const [selectedGameIndex, setSelectedGameIndex] = useState(0)
   const challengeId = router.query.id as string
-  const user = useSelector(selectUser)
+  const user = useAppSelector((state) => state.user)
 
   const fetchGames = async () => {
-    const { status, res } = await mailman(`scores/challenges/${challengeId}`)
+    const res = await mailman(`scores/challenges/${challengeId}`)
 
-    // If game not found, set gameData to null so an error page can be displayed
-    if (status === 404 || status === 400 || status === 500) {
+    // If game not found -> show error page
+    if (res.error) {
       return setGamesFromChallenge(null)
     }
 
@@ -57,17 +55,32 @@ const ChallengeResultsPage: PageType = () => {
   }, [gamesFromChallenge])
 
   if (gamesFromChallenge === null) {
+    return <NotFound message="This challenge does not exist or has not been played yet." />
+  }
+
+  if (gamesFromChallenge?.[0].mode === 'streak') {
     return (
       <StyledResultPage>
-        <WidthController>
-          <div className="errorContainer">
-            <div className="errorContent">
-              <h1 className="errorPageTitle">Page not found</h1>
-              <span className="errorPageMsg">This challenge does not exist or has not been played yet</span>
-            </div>
-            <div className="errorGif"></div>
-          </div>
-        </WidthController>
+        <Head title="Challenge Results" />
+        <section>
+          <Navbar />
+
+          {!gamesFromChallenge || !mapData ? (
+            <GameResultsSkeleton />
+          ) : (
+            <main>
+              <StreaksSummaryMap gameData={gamesFromChallenge[selectedGameIndex]} />
+
+              <FlexGroup justify="center">
+                <StreaksLeaderboard
+                  gameData={gamesFromChallenge}
+                  selectedGameIndex={selectedGameIndex}
+                  setSelectedGameIndex={setSelectedGameIndex}
+                />
+              </FlexGroup>
+            </main>
+          )}
+        </section>
       </StyledResultPage>
     )
   }

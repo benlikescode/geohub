@@ -1,15 +1,19 @@
 import type { NextPage } from 'next'
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 import { GamemodeCard } from '@components/GamemodeCard'
-import { Head } from '@components/Head'
-import { Layout } from '@components/Layout/'
 import { MapPreviewCard } from '@components/MapPreviewCard'
 import { Pill } from '@components/System/Pill'
+import { ArrowRightIcon } from '@heroicons/react/outline'
 import StyledHomePage from '@styles/HomePage.Styled'
 import { GeoTipType, MapType } from '@types'
 import geoTips from '@utils/constants/geotips.json'
 import officialMaps from '@utils/constants/officialMaps.json'
+import {
+  COUNTRY_STREAK_DETAILS,
+  DAILY_CHALLENGE_DETAILS
+} from '@utils/constants/random'
 
 const Home: NextPage = () => {
   const [geoTip, setGeoTip] = useState<GeoTipType>(geoTips[22])
@@ -22,6 +26,7 @@ const Home: NextPage = () => {
   return (
     <StyledHomePage>
       <div className="hero-section">
+        <Image src="/images/backgrounds/hero.jpg" alt="Homes on a street in Japan" layout="fill" objectFit="cover" />
         <div className="hero-content">
           <h2 className="banner-title">Today&apos;s Tip</h2>
           <div className="tip-wrapper">
@@ -38,25 +43,25 @@ const Home: NextPage = () => {
       <div className="main-content">
         <div className="map-preview-section">
           {(officialMaps.maps as MapType[]).map((map, idx) => (
-            <MapPreviewCard key={idx} map={map} />
+            <MapPreviewCard key={idx} map={map} showDescription />
           ))}
         </div>
 
         <div className="other-gamemodes">
           <GamemodeCard
-            title="Aerial Game"
+            title={COUNTRY_STREAK_DETAILS.name}
             titleColor="var(--blue-500)"
-            description="Can you pinpoint a city looking down from the sky?"
-            buttonText="Play Aerial"
-            href="/aerial"
+            description={COUNTRY_STREAK_DETAILS.description}
+            buttonText="Play Streaks"
+            href="/streaks"
           />
 
           <GamemodeCard
-            title="The Daily Challenge"
+            title={DAILY_CHALLENGE_DETAILS.name}
             titleColor="var(--green-500)"
-            description="One game everyday. Five new locations. Just one winner!"
+            description={DAILY_CHALLENGE_DETAILS.description}
             buttonText="Play Challenge"
-            href="/map/63349eb5090804522c2180b7"
+            href="/daily-challenge"
           />
         </div>
       </div>

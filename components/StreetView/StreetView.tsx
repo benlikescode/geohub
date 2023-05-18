@@ -1,21 +1,17 @@
 import GoogleMapReact from 'google-map-react'
-import React, { FC, useEffect, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
-
+import { FC, useEffect, useRef, useState } from 'react'
 import { Game } from '@backend/models'
 import { mailman } from '@backend/utils/mailman'
 import { GameStatus } from '@components/GameStatus'
 import { GuessMap } from '@components/GuessMap'
 import { LoadingPage } from '@components/Layout'
+import { StreaksGuessMap } from '@components/StreaksGuessMap'
 import { StreetViewControls } from '@components/StreetViewControls'
-import { Spinner } from '@components/System'
 import { MapIcon } from '@heroicons/react/outline'
-import { selectGame } from '@redux/game'
-import { selectUser } from '@redux/user'
-import { GuessType, LocationType } from '@types'
+import { useAppSelector } from '@redux/hook'
+import { LocationType } from '@types'
 import { KEY_CODES } from '@utils/constants/keyCodes'
-import { getResultData } from '@utils/helperFunctions'
-
+import { showErrorToast } from '@utils/helpers/showToasts'
 import { StyledStreetView } from './'
 
 type Props = {
@@ -27,38 +23,44 @@ type Props = {
 const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
   const [loading, setLoading] = useState(true)
   const [currGuess, setCurrGuess] = useState<LocationType | null>(null)
+  const [countryStreakGuess, setCountryStreakGuess] = useState('')
   const [adjustedLocation, setAdjustedLocation] = useState<LocationType | null>(null)
   const [mobileMapOpen, setMobileMapOpen] = useState(false)
   const location = gameData.rounds[gameData.round - 1]
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
-  const game = useSelector(selectGame)
-  const user = useSelector(selectUser)
+  const game = useAppSelector((state) => state.game)
+  const user = useAppSelector((state) => state.user)
   const panoramaRef = useRef<google.maps.StreetViewPanorama | null>(null)
-
-  console.log(`INITIAL COORDS: ${JSON.stringify(location)}`)
 
   const GoogleMapConfig = {
     key: googleKey,
   }
 
-  const handleSubmitGuess = async () => {
-    if (currGuess) {
+  const handleSubmitGuess = async (timedOut?: boolean) => {
+    if (currGuess || countryStreakGuess || timedOut) {
+      if (!game.startTime) {
+        return showErrorToast('Something went wrong')
+      }
+
       const body = {
-        guess: currGuess,
+        guess: currGuess || { lat: 0, lng: 0 },
         guessTime: (new Date().getTime() - game.startTime) / 1000,
         localRound: gameData.round,
         userLocation: user.location,
-        timedOut: false,
-        timedOutWithGuess: false,
+        timedOut,
+        timedOutWithGuess: currGuess !== null,
         adjustedLocation,
+        streakLocationCode: countryStreakGuess.toLowerCase(),
       }
 
-      const { status, res } = await mailman(`games/${gameData.id}`, 'PUT', JSON.stringify(body))
+      const res = await mailman(`games/${gameData.id}`, 'PUT', JSON.stringify(body))
 
-      if (status !== 400 && status !== 500) {
-        setGameData({ id: res._id, ...res })
-        setView('Result')
+      if (res.error) {
+        return showErrorToast(res.error.message, { id: 'streetView-submit' })
       }
+
+      setGameData({ id: res._id, ...res })
+      setView('Result')
     }
   }
 
@@ -85,7 +87,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
     return () => {
       document.removeEventListener('keydown', handleKeyDown)
     }
-  }, [currGuess])
+  }, [currGuess, countryStreakGuess])
 
   const loadLocation = () => {
     var sv = new window.google.maps.StreetViewService()
@@ -158,16 +160,27 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
 
       <div id="map">
         <StreetViewControls handleBackToStart={handleBackToStart} />
-        <GameStatus gameData={gameData} setView={setView} setGameData={setGameData} currGuess={currGuess} />
-        <GuessMap
-          coordinate={location}
-          zoom={8}
-          currGuess={currGuess}
-          setCurrGuess={setCurrGuess}
-          handleSubmitGuess={handleSubmitGuess}
-          mobileMapOpen={mobileMapOpen}
-          closeMobileMap={() => setMobileMapOpen(false)}
-        />
+        <GameStatus gameData={gameData} handleSubmitGuess={handleSubmitGuess} />
+        {gameData.mode === 'standard' && (
+          <GuessMap
+            currGuess={currGuess}
+            setCurrGuess={setCurrGuess}
+            handleSubmitGuess={handleSubmitGuess}
+            mobileMapOpen={mobileMapOpen}
+            closeMobileMap={() => setMobileMapOpen(false)}
+          />
+        )}
+
+        {gameData.mode === 'streak' && (
+          <StreaksGuessMap
+            countryStreakGuess={countryStreakGuess}
+            setCountryStreakGuess={setCountryStreakGuess}
+            handleSubmitGuess={handleSubmitGuess}
+            mobileMapOpen={mobileMapOpen}
+            closeMobileMap={() => setMobileMapOpen(false)}
+          />
+        )}
+
         <button className="toggle-map-button" onClick={() => setMobileMapOpen(true)}>
           <MapIcon />
         </button>

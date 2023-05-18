@@ -1,59 +1,20 @@
-import { ObjectId } from 'mongodb'
-import { NextApiRequest, NextApiResponse } from 'next'
-
 /* eslint-disable import/no-anonymous-default-export */
-import { collections, dbConnect } from '@backend/utils/dbConnect'
+import { NextApiRequest, NextApiResponse } from 'next'
+import { dbConnect } from '@backend/utils/dbConnect'
+import getChallengeScores from '../../../../backend/routes/scores/getChallengeScores'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await dbConnect()
-    const challengeId = req.query.id as string
 
-    if (req.method === 'GET') {
-      const query = { challengeId: new ObjectId(challengeId), round: { $gte: 6 } } // gte: 6 means game is finished
-
-      const gamesData = await collections.games
-        ?.aggregate([
-          { $match: query },
-          { $sort: { totalPoints: -1 } },
-          {
-            $lookup: {
-              from: 'users',
-              localField: 'userId',
-              foreignField: '_id',
-              as: 'userDetails',
-            },
-          },
-          {
-            $unwind: '$userDetails',
-          },
-        ])
-        .limit(10)
-        .toArray()
-
-      if (!gamesData || gamesData.length < 1) {
-        return res.status(404).json(`Failed to get scores for challenged with id: ${challengeId}`)
-      }
-
-      // Get Map
-      const mapId = gamesData[0].mapId
-      const map = await collections.maps?.findOne({ _id: new ObjectId(mapId) })
-
-      if (!map) {
-        return res.status(404).json(`Failed to get map for challenged with id: ${challengeId}`)
-      }
-
-      const result = {
-        games: gamesData,
-        map,
-      }
-
-      res.status(200).send(result)
-    } else {
-      res.status(500).json('Nothing to see here.')
+    switch (req.method) {
+      case 'GET':
+        return getChallengeScores(req, res)
+      default:
+        res.status(405).end(`Method ${req.method} Not Allowed`)
     }
   } catch (err) {
-    console.log(err)
+    console.error(err)
     res.status(500).json({ success: false })
   }
 }

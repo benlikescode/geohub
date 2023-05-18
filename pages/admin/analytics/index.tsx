@@ -1,19 +1,15 @@
 import type { NextPage } from 'next'
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import styled from 'styled-components'
-
+import { useEffect, useState } from 'react'
 import { mailman } from '@backend/utils/mailman'
 import { StyledAnalytics } from '@components/Admin/Analytics/Analytics.Styled'
 import { CountItem } from '@components/Admin/Analytics/CountItem'
 import { ListItem } from '@components/Admin/Analytics/ListItem'
-import { NotAuthenticated } from '@components/ErrorViews/NotAuthenticated'
 import { Head } from '@components/Head'
-import { Layout, PageHeader } from '@components/Layout'
+import { PageHeader } from '@components/Layout'
 import { WidthController } from '@components/Layout/WidthController'
 import { Skeleton } from '@components/System/Skeleton'
-import { selectUser } from '@redux/user'
 import { GameType, UserType } from '@types'
+import { showErrorToast } from '@utils/helpers/showToasts'
 
 type AnalyticsType = {
   counts: [{ title: string; count: number }]
@@ -24,23 +20,22 @@ type AnalyticsType = {
 const AnalyticsPage: NextPage = () => {
   const [loading, setLoading] = useState(true)
   const [analytics, setAnalytics] = useState<AnalyticsType>()
-  const user = useSelector(selectUser)
 
   const loadAnalytics = async () => {
     setLoading(true)
 
-    const {
-      status,
-      res: { data },
-    } = await mailman('analytics', 'GET')
+    const res = await mailman('analytics', 'GET')
 
-    setAnalytics(data)
+    if (res.error) {
+      return showErrorToast(res.error.message)
+    }
+
+    setAnalytics(res.data)
 
     setLoading(false)
   }
 
   useEffect(() => {
-    // HALP - add server side validation for isAdmiin
     loadAnalytics()
   }, [])
 

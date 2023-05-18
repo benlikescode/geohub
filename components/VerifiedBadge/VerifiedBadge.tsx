@@ -1,7 +1,5 @@
-import React, { FC } from 'react'
-
+import { FC } from 'react'
 import { BadgeCheckIcon } from '@heroicons/react/solid'
-
 import { StyledVerifiedBadge } from './'
 
 type Props = {

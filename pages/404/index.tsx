@@ -1,20 +1,16 @@
-import type { NextPage } from 'next'
-import React from 'react'
-
-import { NoResults } from '@components/ErrorViews/NoResults'
 import { NotFound } from '@components/ErrorViews/NotFound'
 import { Head } from '@components/Head'
-import { Layout } from '@components/Layout'
-import { WidthController } from '@components/Layout/WidthController'
+import { PageType } from '@types'
 
-const Custom404: NextPage = () => {
+const Custom404: PageType = () => {
   return (
-    <WidthController>
+    <>
       <Head title="Page Not Found" />
-
       <NotFound />
-    </WidthController>
+    </>
   )
 }
+
+Custom404.noLayout = true
 
 export default Custom404

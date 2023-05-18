@@ -1,11 +1,8 @@
 import Link from 'next/link'
 import { FC } from 'react'
-
-import { FlexGroup } from '@components/System/FlexGroup'
 import { SearchResult } from '@components/System/Searchbar/SearchResult'
 import { Skeleton } from '@components/System/Skeleton'
-import { RecentSearchItem, SearchResultType } from '@types'
-
+import { SearchResultType } from '@types'
 import { StyledSearchOverlayCard } from './'
 
 type Props = {
@@ -48,7 +45,7 @@ const SearchOverlayCard: FC<Props> = ({ results, query, isLoading, setIsFocused 
 
         {query && results.length > 0 && (
           <Link href={`/search?q=${query}`}>
-            <a>
+            <a onClick={() => setIsFocused(false)}>
               <div className="seeAllResults">
                 <span>See all results</span>
               </div>

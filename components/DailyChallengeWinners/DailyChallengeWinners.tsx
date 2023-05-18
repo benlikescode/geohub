@@ -1,10 +1,5 @@
-import { FC, useState } from 'react'
-import InfiniteScroll from 'react-infinite-scroll-component'
-
-import { Spinner } from '@components/System'
-import { Select } from '@components/System/Select'
+import { FC } from 'react'
 import { MapLeaderboardType } from '@types'
-
 import { StyledDailyChallengeWinners } from './'
 import { WinnerItem } from './WinnerItem'
 
@@ -22,10 +17,10 @@ const DailyChallengeWinners: FC<Props> = ({ removeHeader, prevWinners }) => {
         </div>
       )}
 
-      {prevWinners.length > 0 && prevWinners.map((winner, idx) => <WinnerItem key={idx} winner={winner} />)}
-
-      {prevWinners.length <= 0 && (
-        <span className="notPlayedMsg">There were no Daily Challenge winners in the last week.</span>
+      {prevWinners.length > 0 ? (
+        prevWinners.map((winner, idx) => <WinnerItem key={idx} winner={winner} />)
+      ) : (
+        <span className="notPlayedMsg">No daily challenge winners found...</span>
       )}
     </StyledDailyChallengeWinners>
   )

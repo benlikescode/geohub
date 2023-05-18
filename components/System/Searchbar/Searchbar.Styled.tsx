@@ -13,7 +13,6 @@ const StyledSearchbar = styled.div<StyledProps>`
   .searchbarWrapper {
     display: flex;
     align-items: center;
-    gap: 10px;
     width: 100%;
     height: ${({ isSmall }) => (isSmall ? 30 : 34)}px;
     border-radius: 3px;
@@ -49,6 +48,16 @@ const StyledSearchbar = styled.div<StyledProps>`
     background-color: #212424;
     border-left: 1px solid #353839;
     border-radius: 0 3px 3px 0;
+
+    svg {
+      height: 20px;
+      width: 20px;
+      color: rgba(206, 206, 206, 0.6);
+
+      path {
+        stroke-width: 1.5;
+      }
+    }
   }
 `
 

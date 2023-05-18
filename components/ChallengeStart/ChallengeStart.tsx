@@ -1,18 +1,17 @@
+import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React, { FC, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-
+import { FC, useEffect, useState } from 'react'
 import { Avatar, Icon } from '@components/System'
 import {
   ArrowsExpandIcon,
   ClockIcon,
+  LocationMarkerIcon,
   SwitchHorizontalIcon,
-  ZoomInIcon
+  ZoomInIcon,
 } from '@heroicons/react/outline'
-import { selectUser } from '@redux/user'
+import { useAppSelector } from '@redux/hook'
 import { ChallengeType } from '@types'
-import { formatTimeLimit } from '@utils/helperFunctions'
-
+import { formatTimeLimit, redirectToRegister } from '@utils/helperFunctions'
 import { StyledChallengeStart } from './'
 
 type Props = {
@@ -23,11 +22,11 @@ type Props = {
 
 const ChallengeStart: FC<Props> = ({ challengeData, handleStartChallenge, setView }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(true)
-  const user = useSelector(selectUser)
+  const user = useAppSelector((state) => state.user)
   const router = useRouter()
 
   const CAN_MOVE = challengeData.gameSettings.canMove
-  const CAN_PAN = challengeData.gameSettings.canMove
+  const CAN_PAN = challengeData.gameSettings.canPan
   const CAN_ZOOM = challengeData.gameSettings.canZoom
   const HAS_TIME_LIMIT = challengeData.gameSettings.timeLimit !== 0
   const TIME_LIMIT = challengeData.gameSettings.timeLimit
@@ -35,7 +34,6 @@ const ChallengeStart: FC<Props> = ({ challengeData, handleStartChallenge, setVie
   useEffect(() => {
     if (!user.id) {
       setIsLoggedIn(false)
-      //console.log(challengeData)
     }
   }, [])
 
@@ -44,57 +42,74 @@ const ChallengeStart: FC<Props> = ({ challengeData, handleStartChallenge, setVie
       handleStartChallenge(challengeData)
       setView('Game')
     } else {
-      router.push('/register')
+      redirectToRegister(router)
     }
   }
 
   return (
     <StyledChallengeStart>
       <div className="challengeStartWrapper">
-        <h1 className="challengeTitle">You have been challenged!</h1>
-        {!challengeData.isDailyChallenge && (
-          <div className="challengeCreator">
-            <Avatar
-              type="user"
-              src={challengeData.creatorAvatar.emoji}
-              backgroundColor={challengeData.creatorAvatar.color}
-              size={40}
-            />
-            <span>{`${challengeData.creatorName} has challenged you to play GeoHub`}</span>
-          </div>
-        )}
+        <Image
+          src={`/images/mapAvatars/${challengeData?.mapDetails?.previewImg}`}
+          alt=""
+          layout="fill"
+          objectFit="cover"
+          style={{ opacity: 0.12 }}
+        />
 
-        <button className="challengeBtn" onClick={() => handleButtonClick()}>
-          {isLoggedIn ? 'Play Game' : 'Create Account'}
-        </button>
+        <div className="map-name">
+          <LocationMarkerIcon />
+          <span>{challengeData.mapDetails?.name}</span>
+        </div>
+
+        <div className="challengeStartContent">
+          <h1 className="challengeTitle">
+            {challengeData.isDailyChallenge ? 'The Daily Challenge' : 'You have been challenged!'}
+          </h1>
+          {!challengeData.isDailyChallenge && (
+            <div className="challengeCreator">
+              <Avatar
+                type="user"
+                src={challengeData.creatorAvatar.emoji}
+                backgroundColor={challengeData.creatorAvatar.color}
+                size={32}
+              />
+              <div className="challengeMessage">
+                <span className="emphasizedText">{challengeData.creatorName}</span>
+                <span> challenged you to play </span>
+                <span className="emphasizedText">{challengeData?.mapDetails?.name}</span>
+              </div>
+            </div>
+          )}
+
+          <button className="challengeBtn" onClick={() => handleButtonClick()}>
+            {isLoggedIn ? 'Play Game' : 'Create Account'}
+          </button>
+        </div>
       </div>
 
       <div className="challengeSettings">
         <div className="settingsItem">
-          <Icon size={30} fill={HAS_TIME_LIMIT ? 'var(--green-400)' : '#888'}>
-            <ClockIcon />
-          </Icon>
+          <ClockIcon color={!HAS_TIME_LIMIT ? 'var(--green-300)' : '#888'} />
+
           {HAS_TIME_LIMIT ? `${formatTimeLimit(TIME_LIMIT)} per round` : 'No Time Limit'}
         </div>
 
         <div className="settingsItem">
-          <Icon size={30} fill={CAN_MOVE ? 'var(--green-400)' : '#888'}>
-            <ArrowsExpandIcon />
-          </Icon>
+          <ArrowsExpandIcon color={CAN_MOVE ? 'var(--green-300)' : '#888'} />
+
           {CAN_MOVE ? 'Moving Allowed' : 'No Move'}
         </div>
 
         <div className="settingsItem">
-          <Icon size={30} fill={CAN_MOVE ? 'var(--green-400)' : '#888'}>
-            <SwitchHorizontalIcon />
-          </Icon>
+          <SwitchHorizontalIcon color={CAN_PAN ? 'var(--green-300)' : '#888'} />
+
           {CAN_PAN ? 'Panning Allowed' : 'No Pan'}
         </div>
 
         <div className="settingsItem">
-          <Icon size={30} fill={CAN_MOVE ? 'var(--green-400)' : '#888'}>
-            <ZoomInIcon />
-          </Icon>
+          <ZoomInIcon color={CAN_ZOOM ? 'var(--green-300)' : '#888'} />
+
           {CAN_ZOOM ? 'Zooming Allowed' : 'No Zoom'}
         </div>
       </div>

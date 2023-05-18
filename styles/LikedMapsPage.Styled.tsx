@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 
 const StyledLikedMapsPage = styled.div`
+  height: 100%;
+
   .map-wrapper {
     display: grid;
     grid-template-columns: repeat(4, 1fr);

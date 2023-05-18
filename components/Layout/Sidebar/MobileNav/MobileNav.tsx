@@ -1,14 +1,6 @@
-import React, { FC } from 'react'
-
+import { FC } from 'react'
 import { Item } from '@components/Layout/Sidebar/Sidebar/Item'
-import {
-  DesktopComputerIcon,
-  HeartIcon,
-  HomeIcon,
-  MapIcon,
-  UsersIcon
-} from '@heroicons/react/outline'
-
+import { DesktopComputerIcon, HeartIcon, HomeIcon, MapIcon, UsersIcon } from '@heroicons/react/outline'
 import { StyledMobileNav } from './'
 
 const MobileNav: FC = () => {

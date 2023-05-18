@@ -1,17 +1,9 @@
+import { DateTime } from 'luxon'
 import Link from 'next/link'
-import React, { FC } from 'react'
-
-import { Avatar, FlexGroup, Icon } from '@components/System'
-import { ChartBarIcon } from '@heroicons/react/outline'
-import user from '@redux/user'
-import { GameType, MapLeaderboardType } from '@types'
-import { formatMonthDayYearTime } from '@utils/dateHelpers'
-import {
-  formatLargeNumber,
-  formatRoundTime,
-  getFormattedDate
-} from '@utils/helperFunctions'
-
+import { FC } from 'react'
+import { Avatar } from '@components/System'
+import { MapLeaderboardType } from '@types'
+import { formatLargeNumber } from '@utils/helperFunctions'
 import { StyledWinnerItem } from './'
 
 type Props = {
@@ -19,12 +11,15 @@ type Props = {
 }
 
 const WinnerItem: FC<Props> = ({ winner }) => {
+  const challengeDay = winner.createdAt as any
+
   return (
     <StyledWinnerItem>
-      <div className="userSection">
-        <span className="userPlace">{getFormattedDate(winner.createdAt)}</span>
-        <div className="userInfo">
-          <Avatar type="user" src={winner.userAvatar.emoji} backgroundColor={winner.userAvatar.color} />
+      <div className="challenge-day">{challengeDay && DateTime.fromISO(challengeDay).toFormat('LLL dd')}</div>
+
+      <div className="winner-info">
+        <div className="user-info">
+          <Avatar type="user" src={winner.userAvatar.emoji} backgroundColor={winner.userAvatar.color} size={26} />
 
           <Link href={`/user/${winner.userId}`}>
             <a>
@@ -32,23 +27,8 @@ const WinnerItem: FC<Props> = ({ winner }) => {
             </a>
           </Link>
         </div>
-      </div>
 
-      <div className="resultsSection">
-        <span className="totalPoints">{formatLargeNumber(winner.totalPoints)} points</span>
-        <FlexGroup gap={5}>
-          {winner.totalTime && <span className="totalTime">{formatRoundTime(winner.totalTime)}</span>}
-
-          {
-            <Link href={`/results/${winner.gameId}`}>
-              <a>
-                <Icon size={20} fill="#fff">
-                  <ChartBarIcon />
-                </Icon>
-              </a>
-            </Link>
-          }
-        </FlexGroup>
+        <span className="total-points">{formatLargeNumber(winner.totalPoints || 0)} points</span>
       </div>
     </StyledWinnerItem>
   )

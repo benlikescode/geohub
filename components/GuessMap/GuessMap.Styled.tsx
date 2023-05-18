@@ -12,9 +12,6 @@ const StyledGuessMap = styled.div<StyledProps>`
     bottom: 20px;
     right: 20px;
     z-index: 3;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
 
     @media (max-width: 600px) {
       display: none;
@@ -23,6 +20,7 @@ const StyledGuessMap = styled.div<StyledProps>`
         mobileMapOpen &&
         `
           display: flex;
+          flex-direction: column;
           height: 50vh;
           width: 100%;
           bottom: 0;
@@ -39,18 +37,37 @@ const StyledGuessMap = styled.div<StyledProps>`
     opacity: ${({ mapWidth }) => (mapWidth === 300 ? 0.5 : 1)};
     border-radius: 4px;
     transition: opacity 0.1s ease, width 0.1s ease, height 0.1s ease;
+    position: relative;
+    margin-bottom: 10px;
 
     @media (max-width: 600px) {
       height: 100%;
       width: 100%;
       border-radius: 0;
     }
+
+    .selected-country {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background-color: rgba(0, 0, 0, 0.75);
+      border-radius: 4px;
+      padding: 6px 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+    }
   }
 
   .controls {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: fit-content;
+    padding: 6px;
+    border-radius: 4px 4px 0 0;
 
     @media (max-width: 600px) {
       display: none;
@@ -58,15 +75,36 @@ const StyledGuessMap = styled.div<StyledProps>`
   }
 
   .controlBtn {
-    height: 24px;
-    width: 24px;
-    background: var(--background1);
+    height: 20px;
+    width: 20px;
+    /* background: var(--background1); */
+    background-color: #fff;
     border-radius: 50%;
-  }
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  .disabled {
-    opacity: 0.5;
-    cursor: default;
+    &.increase {
+      transform: rotate(-135deg);
+    }
+
+    &.decrease {
+      transform: rotate(45deg);
+    }
+
+    &.disabled {
+      opacity: 0.5;
+      cursor: not-allowed !important;
+    }
+
+    svg {
+      height: 12px;
+      color: var(--background1);
+
+      path {
+        stroke-width: 3;
+      }
+    }
   }
 
   .close-map-button {

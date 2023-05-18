@@ -8,6 +8,7 @@ type Location = {
   pitch?: number
   zoom?: number
   mapId?: ObjectId
+  countryCode?: string
 }
 
 export default Location

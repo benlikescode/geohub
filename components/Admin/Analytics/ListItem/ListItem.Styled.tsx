@@ -41,10 +41,11 @@ const StyledListItem = styled.div`
       .item-details {
         display: flex;
         align-items: center;
-        gap: 1rem;
+        gap: 12px;
 
         .item-name {
           cursor: pointer;
+          font-weight: 400;
 
           &:hover {
             text-decoration: underline;

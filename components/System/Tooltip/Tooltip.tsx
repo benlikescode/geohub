@@ -1,5 +1,4 @@
 import { FC } from 'react'
-
 import { StyledTooltip } from './'
 
 type Props = {

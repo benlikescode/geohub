@@ -1,62 +1,71 @@
-import NextAuth from 'next-auth'
+import bcrypt from 'bcryptjs'
+import NextAuth, { NextAuthOptions } from 'next-auth'
 import CredentialProvider from 'next-auth/providers/credentials'
+import { collections, dbConnect } from '../../../backend/utils/dbConnect'
 
-/*
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialProvider({
-      name: "credentials",
+      type: 'credentials',
+      name: 'credentials',
       credentials: {
-        username: {
-          label: "Email",
-          type: "text",
-          placeholder: "johndoe@test.com",
+        email: {
+          label: 'Email',
+          type: 'text',
+          placeholder: 'johndoe@test.com',
         },
-        password: { label: "Password", type: "password" },
+        password: { label: 'Password', type: 'password' },
       },
-      authorize: (credentials) => {
-        // database look up
-        if (
-          credentials.username === "john" &&
-          credentials.password === "test"
-        ) {
-          return {
-            id: 2,
-            name: "John",
-            email: "johndoe@test.com",
-          };
+      authorize: async (credentials) => {
+        await dbConnect()
+        const user = await collections.users?.findOne({ email: credentials?.email })
+
+        if (!user) {
+          throw new Error('Incorrect email or password')
         }
 
-        // login failed
-        return null;
+        const passwordsMatch = await bcrypt.compare(credentials?.password || '', user.password)
+
+        if (!passwordsMatch) {
+          throw new Error('Incorrect email or password')
+        }
+
+        // return user
+        return {
+          id: user._id,
+          email: user.email,
+          name: user.name,
+          avatar: user.avatar,
+          bio: user.bio,
+          isAdmin: user.isAdmin,
+        }
       },
     }),
   ],
   callbacks: {
-    jwt: ({ token, user }) => {
+    jwt: async ({ token, user }) => {
       // first time jwt callback is run, user object is available
       if (user) {
-        token.id = user.id;
+        token.user = user
       }
 
-      return token;
+      return token
     },
-    session: ({ session, token }) => {
-      if (token) {
-        session.id = token.id;
-      }
+    session: async ({ session, token }) => {
+      session.user = token.user as any
 
-      return session;
+      return session
     },
   },
-  secret: "test",
   jwt: {
-    secret: "test",
-    encryption: true,
+    secret: process.env.NEXTAUTH_SECRET,
+    maxAge: 60 * 60 * 24 * 30, // 30 days
   },
   pages: {
-    signIn: "login",
+    signIn: '/login',
+    newUser: '/register',
+    signOut: '/',
   },
-});
+}
 
-*/
+export default NextAuth(authOptions)

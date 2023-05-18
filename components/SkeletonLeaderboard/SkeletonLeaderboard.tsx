@@ -1,7 +1,5 @@
-import React, { FC } from 'react'
-
+import { FC } from 'react'
 import { Skeleton } from '@components/System/Skeleton'
-
 import { StyledSkeletonLeaderboard } from './'
 
 type Props = {
@@ -13,7 +11,7 @@ const SkeletonLeaderboard: FC<Props> = ({ numRows }) => {
     <StyledSkeletonLeaderboard>
       <div className="leaderboardTop">
         <Skeleton height={25} width={150} noBorder />
-        <Skeleton height={36} width={150} />
+        {/* <Skeleton height={36} width={150} /> */}
       </div>
 
       {Array.from({ length: numRows || 5 }).map((_, idx) => (

@@ -8,21 +8,21 @@ const StyledAvatarPickerModal = styled.div<StyledProps>`
   gap: 3rem;
 
   .color-selection-title {
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--color2);
+    font-size: 14px;
+    font-weight: 400;
+    color: #919191;
   }
 
   .color-options-wrapper {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 14px;
     flex-wrap: wrap;
-    margin-top: 2rem;
+    margin-top: 14px;
 
     .color-option {
-      height: 4rem;
-      width: 4rem;
+      height: 40px;
+      width: 40px;
       border-radius: 50rem;
       cursor: pointer;
       border: 2px solid #fff;
@@ -32,30 +32,33 @@ const StyledAvatarPickerModal = styled.div<StyledProps>`
       user-select: none;
 
       &.selected {
-        border: 2px solid #101010;
-
-        outline: 3px solid white;
+        border: 2px solid var(--background1);
+        outline: 2px solid white;
       }
 
       &:hover {
-        transform: scale(1.05);
+        transform: scale(1.02);
       }
 
       .checkmark-wrapper {
-        height: 1.5rem;
-        width: 1.5rem;
+        height: 22px;
+        width: 22px;
         border-radius: 50rem;
         background-color: rgba(0, 0, 0, 0.5);
         display: flex;
         align-items: center;
         justify-content: center;
+
+        svg {
+          height: 18px;
+        }
       }
     }
   }
 
   .emoji {
-    height: 2rem;
-    width: 2rem;
+    height: 22px;
+    width: 22px;
   }
 `
 

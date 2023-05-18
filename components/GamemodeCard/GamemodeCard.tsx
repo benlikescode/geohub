@@ -1,8 +1,6 @@
 import Link from 'next/link'
 import { FC } from 'react'
-
 import { Button } from '@components/System'
-
 import { StyledGamemodeCard } from './'
 
 type Props = {
@@ -24,7 +22,7 @@ const GamemodeCard: FC<Props> = ({ title, titleColor, description, buttonText, h
       {href && (
         <Link href={href}>
           <a>
-            <Button type="solidPurple" width="180px">
+            <Button variant="solidCustom" backgroundColor="#4f46e5" color="#fff">
               {buttonText}
             </Button>
           </a>
@@ -32,7 +30,7 @@ const GamemodeCard: FC<Props> = ({ title, titleColor, description, buttonText, h
       )}
 
       {!href && (
-        <Button type="solidPurple" width="180px">
+        <Button variant="solidCustom" backgroundColor="#4f46e5" color="#fff">
           {buttonText}
         </Button>
       )}

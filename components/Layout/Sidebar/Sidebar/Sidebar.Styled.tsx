@@ -1,6 +1,10 @@
 import styled from 'styled-components'
 
 const StyledSidebar = styled.div`
+  position: sticky;
+  top: var(--navbarHeight);
+  height: calc(100vh - var(--navbarHeight));
+
   .sidebar {
     width: var(--sidebarWidth);
     //border-right: 1px solid #252525;
@@ -28,8 +32,9 @@ const StyledSidebar = styled.div`
 
   .sidebarItemGrid {
     display: grid;
-    gap: 6px;
+    gap: 4px;
     padding: 1rem 0.5rem;
+    border-bottom: 1px solid #303033;
 
     @media (max-width: 1200px) {
       gap: 1.5rem;
@@ -40,7 +45,7 @@ const StyledSidebar = styled.div`
     padding-top: 8px;
     //margin-bottom: 40px;
     padding-bottom: 16px;
-    border-top: 1px solid #303033;
+    border-bottom: 1px solid #303033;
 
     @media (max-width: 1200px) {
       display: none;
@@ -64,14 +69,40 @@ const StyledSidebar = styled.div`
     }
   }
 
+  .view-more {
+    a {
+      color: #8b8b8b;
+      font-weight: 400;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      padding: 8px;
+      margin: 8px;
+      height: 40px;
+      cursor: pointer;
+      border-radius: 4px;
+      user-select: none;
+    }
+
+    &:hover {
+      background-color: #2a2a2f;
+    }
+
+    svg {
+      height: 20px;
+      width: 20px;
+      margin-left: 6px;
+    }
+  }
+
   .title {
     padding: 0.5rem 1rem;
     padding-bottom: 0.75rem;
-    color: #e0e0e0;
-    font-weight: 500;
-    font-size: 14px;
+    color: #9f9f9f;
+    font-weight: 600;
+    font-size: 15px;
     //margin-bottom: 0.5rem;
-    letter-spacing: 1px;
+    /* letter-spacing: 1px; */
   }
 
   .footer {
@@ -89,15 +120,16 @@ const StyledSidebar = styled.div`
   .recentMapsWrapper {
     padding: 0 8px;
     display: grid;
-    gap: 8px;
+    gap: 4px;
     font-weight: 400;
+    //transition: background-color 0.2s ease 0s, color 0.2s ease 0s;
 
     .recentMap {
       display: flex;
       align-items: center;
       gap: 8px;
       border-radius: 4px;
-      padding: 4px 8px;
+      padding: 8px;
       color: #8b8f93;
 
       &:hover {

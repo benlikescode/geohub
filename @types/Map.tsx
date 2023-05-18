@@ -1,5 +1,4 @@
 import { ObjectId } from 'mongodb'
-
 import { LocationType } from './'
 import User from './User'
 
@@ -9,15 +8,16 @@ type Map = {
   description?: string
   previewImg: string
   creator: 'GeoHub' | ObjectId
-  usersPlayed: number
-  avgScore?: number
   likes?: { numLikes: number; likedByUser: boolean }
   isPublished?: boolean
+  isDeleted?: boolean
   createdAt?: Date
   locations?: LocationType[]
   // backwards compatibility
-  locationCount: number
-  creatorDetails: User
+  locationCount?: number
+  creatorDetails?: User
+  usersPlayed?: number
+  avgScore?: number
 }
 
 export default Map

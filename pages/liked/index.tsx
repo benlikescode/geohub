@@ -1,32 +1,40 @@
 import type { NextPage } from 'next'
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import styled from 'styled-components'
-
+import { useEffect, useState } from 'react'
 import { mailman } from '@backend/utils/mailman'
 import { NoResults } from '@components/ErrorViews/NoResults'
 import { Head } from '@components/Head'
-import { Layout, PageHeader } from '@components/Layout'
+import { PageHeader } from '@components/Layout'
 import { WidthController } from '@components/Layout/WidthController'
-import { MapPreviewCard } from '@components/MapPreviewCard'
 import { SkeletonCards } from '@components/SkeletonCards'
-import { selectUser } from '@redux/user'
+import { useAppSelector } from '@redux/hook'
 import StyledLikedMapsPage from '@styles/LikedMapsPage.Styled'
+import { LikedMapCard } from '../../components/MapCards/LikedMapCard'
+import { showErrorToast } from '../../utils/helpers/showToasts'
 
 const LikedMapsPage: NextPage = () => {
   const [likedMaps, setLikedMaps] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
-  const user = useSelector(selectUser)
+  const user = useAppSelector((state) => state.user)
+
+  const reloadMaps = (mapId: string) => {
+    const filtered = likedMaps.filter((likedMap) => likedMap.mapId !== mapId)
+    setLikedMaps(filtered)
+  }
+
+  const fetchLikedMaps = async () => {
+    const res = await mailman('likes')
+
+    if (res.error) {
+      return showErrorToast(res.error.message)
+    }
+
+    setLikedMaps(res)
+    setLoading(false)
+  }
 
   useEffect(() => {
     if (!user.id) {
       return setLoading(false)
-    }
-
-    const fetchLikedMaps = async () => {
-      const { res } = await mailman(`likes?userId=${user.id}`)
-      setLikedMaps(res)
-      setLoading(false)
     }
 
     fetchLikedMaps()
@@ -41,11 +49,12 @@ const LikedMapsPage: NextPage = () => {
         {loading && <SkeletonCards numCards={8} />}
 
         {/* Finished loading and No Results */}
-        {!loading && (!user.id || likedMaps.length === 0) && <NoResults message="Like a map for it to show here" />}
+        {!loading && (!user.id || likedMaps.length === 0) && <NoResults message="Like a map for it to show here." />}
 
         <div className="map-wrapper">
           {likedMaps.map((map, idx) => (
-            <MapPreviewCard key={idx} map={map.mapDetails[0]} />
+            // <MapPreviewCard key={idx} map={map.mapDetails[0]} />
+            <LikedMapCard key={idx} map={map.mapDetails} reloadMaps={reloadMaps} />
           ))}
         </div>
       </WidthController>

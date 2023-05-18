@@ -1,28 +1,24 @@
 /* eslint-disable @next/next/no-img-element */
 import GoogleMapReact from 'google-map-react'
+import { throttle } from 'lodash'
 import { useRouter } from 'next/router'
-import { FC, useEffect, useRef, useState } from 'react'
-
+import { useEffect, useRef, useState } from 'react'
 import { mailman } from '@backend/utils/mailman'
+import { NotFound } from '@components/ErrorViews/NotFound'
 import { Head } from '@components/Head'
 import { MobileNav, Navbar } from '@components/Layout'
 import { CreateMapModal } from '@components/Modals/CreateMapModal'
+import { DestroyModal } from '@components/Modals/DestroyModal'
 import { Avatar, Button } from '@components/System'
 import { Skeleton } from '@components/System/Skeleton'
 import { ToggleSwitch } from '@components/System/ToggleSwitch'
 import StyledCreateMapPage from '@styles/CreateMapPage.Styled'
 import { LocationType, MapType, PageType } from '@types'
-import {
-  createMarker,
-  getMapTheme,
-  showErrorToast,
-  showSuccessToast
-} from '@utils/helperFunctions'
+import { createMarker, getMapTheme } from '@utils/helperFunctions'
+import { showErrorToast, showSuccessToast } from '@utils/helpers/showToasts'
 
-const SELECTED_MARKER_ICON =
-  'https://www.geoguessr.com/_next/static/images/selected-pin-0bac3f371ed0d5625bcd873ebce4e59e.png'
-const REGULAR_MARKER_ICON =
-  'https://www.geoguessr.com/_next/static/images/unselected-pin-cf969fcac1571b7f58824eaebb5ed4a5.png'
+const SELECTED_MARKER_ICON = '/images/selectedPin.png'
+const REGULAR_MARKER_ICON = '/images/regularPin.png'
 const SELECTED_MARKER_SIZE = 40
 const REGULAR_MARKER_SIZE = 30
 
@@ -45,6 +41,9 @@ const CreateMapPage: PageType = () => {
   const [modifiedHeading, setModifiedHeading] = useState<number | null>(null)
   const [modifiedPitch, setModifiedPitch] = useState<number | null>(null)
   const [modifiedPosition, setModifiedPosition] = useState<{ lat: number; lng: number } | null>(null)
+
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false)
+  const [showErrorPage, setShowErrorPage] = useState(false)
 
   /*
   const [modfiedLocationDetails, setModifiedLocationDetails] = useState<{
@@ -71,21 +70,38 @@ const CreateMapPage: PageType = () => {
     _setSelectedIndex(newIndex)
   }
 
-  const handleMount = async () => {
-    await getMapDetails()
-    setSelectionMap()
-  }
-
   useEffect(() => {
     if (!mapId || !googleMapsLoaded) return
     handleMount()
   }, [mapId, googleMapsLoaded])
 
+  const handleMount = async () => {
+    const shouldContinue = await getMapDetails()
+
+    if (shouldContinue) {
+      setSelectionMap()
+    }
+  }
+
+  // // Needs work
+  // useEffect(() => {
+  //   window.addEventListener('beforeunload', alertUser)
+  //   return () => {
+  //     window.removeEventListener('beforeunload', alertUser)
+  //   }
+  // }, [])
+
+  // const alertUser = (e: any) => {
+  //   e.preventDefault()
+  //   e.returnValue = ''
+  // }
+
   const getMapDetails = async () => {
-    const { res } = await mailman(`/maps/custom/${mapId}`)
+    const res = await mailman(`maps/custom/${mapId}`)
 
     if (res.error) {
-      return showErrorToast(res.error.message)
+      setShowErrorPage(true)
+      return false
     }
 
     const { name, description, previewImg, isPublished, locations } = res as MapType
@@ -99,6 +115,8 @@ const CreateMapPage: PageType = () => {
     setMapDescription(description || '')
     setMapAvatar(previewImg)
     setIsLoading(false)
+
+    return true
   }
 
   const setSelectionMap = () => {
@@ -110,6 +128,7 @@ const CreateMapPage: PageType = () => {
       styles: getMapTheme('Light'),
       clickableIcons: false,
       gestureHandling: 'greedy',
+      draggableCursor: 'crosshair',
     })
 
     // Add markers for locations already stored for this map
@@ -143,6 +162,7 @@ const CreateMapPage: PageType = () => {
 
     window.google.maps.event.addListener(map, 'click', (e: any) => {
       setHaveLocationsChanged(true)
+      setIsShowingPreview(false)
 
       const location = {
         lat: e.latLng.lat(),
@@ -161,10 +181,17 @@ const CreateMapPage: PageType = () => {
         })
       }
 
+      //const valid = setPreviewMap()
+
       const marker = createMarker(location, map, SELECTED_MARKER_ICON, SELECTED_MARKER_SIZE)
       prevMarkersRef.current.push(marker)
       const markerIndex = prevMarkersRef.current.indexOf(marker)
       setSelectedIndex(markerIndex)
+
+      /*
+        //setIsShowingPreview(true)
+        setTest1(true)
+        */
 
       setPreviewMap()
       setIsShowingPreview(true)
@@ -199,6 +226,7 @@ const CreateMapPage: PageType = () => {
 
   const setPreviewMap = (indexOfLoc?: number) => {
     const location = locationsRef.current[indexOfLoc !== undefined ? indexOfLoc : locationsRef.current.length - 1]
+    //let isLocationCovered = true
 
     console.log(`LOCCCC: ${JSON.stringify(location)}`)
 
@@ -215,7 +243,6 @@ const CreateMapPage: PageType = () => {
       position: location,
     })
 
-    // HALP - Throttle / Debounce these listeners
     panorama.addListener('position_changed', () => {
       const newLatLng = panorama.getPosition()
       //console.log(newLatLng?.lat(), newLatLng?.lng())
@@ -224,25 +251,23 @@ const CreateMapPage: PageType = () => {
       setModifiedPosition({ lat: newLatLng.lat(), lng: newLatLng.lng() })
     })
 
-    let debounce: any = null
+    panorama.addListener(
+      'pov_changed',
+      throttle(() => {
+        const { heading, pitch } = panorama.getPov()
+        console.log(panorama.getPov())
 
-    panorama.addListener('pov_changed', () => {
-      return () => {
-        clearTimeout(debounce)
-        debounce = setTimeout(() => {
-          const { heading, pitch } = panorama.getPov()
-          console.log(panorama.getPov())
-
-          setModifiedHeading(heading)
-          setModifiedPitch(pitch)
-        }, 300)
-      }
-    })
+        setModifiedHeading(heading)
+        setModifiedPitch(pitch)
+      }, 300)
+    )
 
     const processSVData = (data: any, status: any) => {
       if (data == null) {
-        console.log('There was an error loading the round :(')
+        //isLocationCovered = false
+        console.log('HEREaghjajghasj')
       } else {
+        //setIsShowingPreview(true)
         const adjustedLat = data.location.latLng.lat()
         const adjustedLng = data.location.latLng.lng()
         const adjustedLocation = { ...location, lat: adjustedLat, lng: adjustedLng }
@@ -265,11 +290,14 @@ const CreateMapPage: PageType = () => {
     streetViewService.getPanorama(
       {
         location: location,
+        radius: 1000,
         //radius: 10000, // 100km radius
         //preference: google.maps.StreetViewPreference.NEAREST,
       },
       processSVData
     )
+
+    //return isLocationCovered
   }
 
   useEffect(() => {
@@ -285,7 +313,7 @@ const CreateMapPage: PageType = () => {
     if (true /*haveLocationsChanged || isPublishedHasChanged*/) {
       setIsSubmitting(true)
 
-      const { res } = await mailman(
+      const res = await mailman(
         `maps/custom/${mapId}`,
         'PUT',
         JSON.stringify({ locations: locationsRef.current, isPublished })
@@ -300,9 +328,9 @@ const CreateMapPage: PageType = () => {
       setHaveLocationsChanged(false)
 
       if (res.error) {
-        showErrorToast(res.error.message)
+        return showErrorToast(res.error.message)
       } else {
-        showSuccessToast('Your changes have been saved')
+        return showSuccessToast('Your changes have been saved')
       }
     } else {
       alert('You have not made any changes')
@@ -349,10 +377,13 @@ const CreateMapPage: PageType = () => {
     }
 
     if (modifiedHeading) {
+      console.log('CHANGED HEADING')
       locationsRef.current[selectedIndexRef.current].heading = modifiedHeading
     }
 
     if (modifiedPitch) {
+      console.log('CHANGED PITCH')
+
       locationsRef.current[selectedIndexRef.current].pitch = modifiedPitch
     }
 
@@ -372,8 +403,12 @@ const CreateMapPage: PageType = () => {
     setMapAvatar(avatar)
   }
 
+  if (showErrorPage) {
+    return <NotFound title="Page Not Found" message="You are not authorized to edit this map." />
+  }
+
   return (
-    <StyledCreateMapPage isShowingPreview={isShowingPreview}>
+    <StyledCreateMapPage isShowingPreview={isShowingPreview /*& test1*/}>
       <Head title="Create A Map" />
       <Navbar />
 
@@ -386,10 +421,10 @@ const CreateMapPage: PageType = () => {
                 <span className="map-name">{mapName}</span>
               </div>
               <div className="map-action-buttons">
-                <Button type="solidGray" callback={() => setEditModalOpen(true)}>
+                <Button variant="solidGray" onClick={() => setEditModalOpen(true)}>
                   Edit Details
                 </Button>
-                <Button type="solidPurple" callback={handleSaveMap} loading={isSubmitting}>
+                <Button onClick={handleSaveMap} isLoading={isSubmitting} disabled={isSubmitting}>
                   Save Map
                 </Button>
               </div>
@@ -431,10 +466,10 @@ const CreateMapPage: PageType = () => {
 
           <div id="previewMap"></div>
           <div className="preview-action-buttons">
-            <Button type="destroy" callback={handleRemoveLocation}>
+            <Button variant="destroy" onClick={handleRemoveLocation}>
               Remove Location
             </Button>
-            <Button type="solidGray" callback={handleSaveLocation}>
+            <Button variant="solidGray" onClick={handleSaveLocation}>
               Save Location
             </Button>
           </div>
@@ -447,7 +482,7 @@ const CreateMapPage: PageType = () => {
                   alt=""
                 />
                 <h2>No locations added</h2>
-                <h3>Click a location on the map to preview it here</h3>
+                <h3>Click a location on the map to preview it here.</h3>
               </div>
             </div>
           )}
@@ -463,16 +498,24 @@ const CreateMapPage: PageType = () => {
       ></GoogleMapReact>
 
       <MobileNav />
-      {editModalOpen && (
-        <CreateMapModal
-          closeModal={() => setEditModalOpen(false)}
-          mapId={mapId}
-          mapName={mapName}
-          mapDescription={mapDescription}
-          mapAvatar={mapAvatar}
-          updateMapDetails={updateMapDetails}
-        />
-      )}
+
+      <CreateMapModal
+        isOpen={editModalOpen}
+        closeModal={() => setEditModalOpen(false)}
+        mapId={mapId}
+        mapName={mapName}
+        mapDescription={mapDescription}
+        mapAvatar={mapAvatar}
+        updateMapDetails={updateMapDetails}
+      />
+
+      <DestroyModal
+        isOpen={confirmModalOpen}
+        onClose={() => setConfirmModalOpen(false)}
+        onAction={() => console.log('cum baack to dis')}
+        title="You Have Unsaved Changes"
+        message="If you leave now, your new locations will not be saved"
+      />
     </StyledCreateMapPage>
   )
 }

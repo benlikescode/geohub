@@ -5,21 +5,28 @@ type StyledProps = {
 }
 
 const StyledCreateMapPage = styled.div<StyledProps>`
-  height: 100vh;
-  overflow: hidden;
+  .app-body {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: auto;
+    //padding-top: var(--navbarHeight);
+  }
 
   .main-content {
     max-width: 2000px;
     width: 100%;
     padding: 1rem;
     margin: 0 auto;
-    height: calc(100% - var(--navbarHeight));
-
+    height: calc(100vh - var(--navbarHeight));
     display: flex;
     flex: 1 1;
     flex-direction: row;
-    gap: 1rem;
+    gap: 8px;
     position: relative;
+
+    @media (max-width: 1060px) and (orientation: portrait) {
+      flex-direction: column;
+    }
 
     @media (max-width: 500px) {
       padding: 3rem 1rem;
@@ -31,7 +38,7 @@ const StyledCreateMapPage = styled.div<StyledProps>`
       //overflow: hidden;
       background-color: #212121;
       border-radius: 6px;
-      padding: 1rem;
+      padding: 16px;
 
       flex: 3 1;
       position: relative;
@@ -49,8 +56,7 @@ const StyledCreateMapPage = styled.div<StyledProps>`
       overflow: hidden;
       background-color: #212121;
       border-radius: 6px;
-      padding: 1rem;
-
+      padding: 16px;
       flex: 2 1;
 
       #previewMap {
@@ -64,7 +70,6 @@ const StyledCreateMapPage = styled.div<StyledProps>`
         display: flex;
         align-items: center;
         justify-content: center;
-        //padding-top: 6rem;
         height: calc(100% - (92px * 2));
 
         .no-locations {
@@ -81,18 +86,18 @@ const StyledCreateMapPage = styled.div<StyledProps>`
           }
 
           h2 {
-            font-size: 1.75rem;
-            margin-top: 1.5rem;
-            color: #fff;
+            font-size: 20px;
+            color: #e7e7e7;
             font-weight: 500;
             line-height: 35px;
             text-align: center;
+            margin-top: 12px;
           }
 
           h3 {
-            margin-top: 1rem;
-            color: #ababab;
-            font-size: 1.25rem;
+            margin-top: 10px;
+            color: #828181;
+            font-size: 16px;
             font-weight: 400;
           }
         }
@@ -121,11 +126,11 @@ const StyledCreateMapPage = styled.div<StyledProps>`
     .map-details {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 12px;
 
       .map-name {
         color: #fff;
-        font-size: 20px;
+        font-size: 18px;
         font-weight: 500;
       }
     }
@@ -133,7 +138,7 @@ const StyledCreateMapPage = styled.div<StyledProps>`
     .map-action-buttons {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 12px;
     }
 
     .locations-count {

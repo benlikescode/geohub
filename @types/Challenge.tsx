@@ -1,6 +1,5 @@
 import { ObjectId } from 'mongodb'
-
-import { GameSettingsType, LocationType } from './'
+import { GameSettingsType, LocationType, MapType } from './'
 
 type Challenge = {
   id: ObjectId | string
@@ -11,6 +10,8 @@ type Challenge = {
   creatorName: string
   creatorAvatar: { emoji: string; color: string }
   isDailyChallenge?: boolean
+  mapDetails?: MapType
+  mode: 'standard' | 'streak'
 }
 
 export default Challenge

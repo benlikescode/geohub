@@ -8,10 +8,17 @@ const StyledStreetViewControls = styled.div`
   display: grid;
   gap: 15px;
 
-  .controlBtn {
-    height: 48px;
-    width: 48px;
-    position: relative;
+  .control-button-wrapper {
+    .control-button {
+      height: 48px;
+      width: 48px;
+      position: relative;
+
+      svg {
+        height: 22px;
+        color: #fff;
+      }
+    }
   }
 `
 

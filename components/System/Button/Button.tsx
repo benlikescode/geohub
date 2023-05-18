@@ -1,55 +1,44 @@
+import { ButtonHTMLAttributes } from 'hoist-non-react-statics/node_modules/@types/react'
 import { FC, ReactNode } from 'react'
-
 import { Spinner } from '@components/System'
-
 import { StyledButton } from './'
 
 type Props = {
-  type: 'solidPurple' | 'solidGray' | 'solidCustom' | 'ghost' | 'ghostLight' | 'icon' | 'iconRounded' | 'destroy'
-  callback?: any
+  variant?: 'primary' | 'solidGray' | 'solidCustom' | 'ghost' | 'ghostLight' | 'iconRounded' | 'destroy'
+  size?: 'sm' | 'md' | 'lg'
   color?: string
   backgroundColor?: string
   hoverColor?: string
-  isDisabled?: boolean
-  className?: string
+  isLoading?: boolean
   children?: ReactNode
   width?: string
   height?: string
-  isRound?: boolean
-  isSmall?: boolean
-  loading?: boolean
-}
+} & ButtonHTMLAttributes<HTMLButtonElement>
 
 const Button: FC<Props> = ({
-  type,
-  callback,
+  variant,
+  size,
   color,
   backgroundColor,
   hoverColor,
-  isDisabled,
-  className,
+  isLoading,
   children,
   width,
   height,
-  isRound,
-  isSmall,
-  loading,
+  ...rest
 }) => {
   return (
     <StyledButton
-      type={type}
+      variant={variant || 'primary'}
+      size={size}
       color={color}
       backgroundColor={backgroundColor}
       hoverColor={hoverColor}
-      isDisabled={isDisabled}
       width={width}
       height={height}
-      isRound={isRound}
-      isSmall={isSmall}
+      {...rest}
     >
-      <button onClick={callback ? (e) => callback(e) : undefined} className={className}>
-        {loading ? <Spinner size={20} /> : children}
-      </button>
+      {isLoading ? <Spinner size={20} /> : children}
     </StyledButton>
   )
 }

@@ -1,24 +1,15 @@
 import GoogleMapReact from 'google-map-react'
-import React, { FC, useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-
+import { FC, useRef, useState } from 'react'
 import { Marker } from '@components/Marker'
-import { Icon } from '@components/System'
 import { Button } from '@components/System/Button'
-import { ChevronDownIcon, ChevronUpIcon, XIcon } from '@heroicons/react/outline'
-import { selectUser, updateGuessMapSize } from '@redux/user'
+import { ArrowRightIcon, XIcon } from '@heroicons/react/outline'
+import { useAppDispatch, useAppSelector } from '@redux/hook'
+import { updateGuessMapSize } from '@redux/slices'
 import { LocationType } from '@types'
-import {
-  createMarker,
-  getGuessMapDimensions,
-  getMapTheme
-} from '@utils/helperFunctions'
-
+import { getGuessMapDimensions, getMapTheme } from '@utils/helperFunctions'
 import { StyledGuessMap } from './'
 
 type Props = {
-  coordinate: LocationType
-  zoom: number
   currGuess: LocationType | null
   setCurrGuess: any
   mobileMapOpen?: boolean
@@ -26,57 +17,19 @@ type Props = {
   handleSubmitGuess: () => void
 }
 
-const GuessMap: FC<Props> = ({
-  coordinate,
-  zoom,
-  currGuess,
-  setCurrGuess,
-  mobileMapOpen,
-  closeMobileMap,
-  handleSubmitGuess,
-}) => {
+const GuessMap: FC<Props> = ({ currGuess, setCurrGuess, mobileMapOpen, closeMobileMap, handleSubmitGuess }) => {
   const [mapHeight, setMapHeight] = useState(15) // height in vh
   const [mapWidth, setMapWidth] = useState(15) // width in vw
   const [hovering, setHovering] = useState(false)
-  const prevMarkersRef = useRef<google.maps.Marker[]>([])
-  const dispatch = useDispatch()
-  const user = useSelector(selectUser)
+  const dispatch = useAppDispatch()
   const hoverDelay = useRef<any>()
   const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
+  const user = useAppSelector((state) => state.user)
 
   const [marker, setMarker] = useState<{ lat: number; lng: number } | null>(null)
 
   const GoogleMapConfig = {
     key: googleKey,
-  }
-
-  const handleApiLoaded = () => {
-    const map = new window.google.maps.Map(document.getElementById('guessMap') as HTMLElement, {
-      zoom: 2,
-      center: { lat: 0, lng: 0 },
-      disableDefaultUI: true,
-      styles: getMapTheme('Light'),
-      clickableIcons: false,
-      gestureHandling: 'greedy',
-    })
-
-    clearMarkers(prevMarkersRef.current)
-
-    window.google.maps.event.addListener(map, 'click', (e: any) => {
-      const location = {
-        lat: e.latLng.lat(),
-        lng: e.latLng.lng(),
-      }
-      setCurrGuess(location)
-
-      const marker = createMarker(location, map, `/images/markers/testMarker2.png`)
-      clearMarkers(prevMarkersRef.current)
-      prevMarkersRef.current.push(marker)
-    })
-  }
-
-  const clearMarkers = (markers: google.maps.Marker[]) => {
-    markers.map((marker) => marker.setMap(null))
   }
 
   const handleMapHover = () => {
@@ -93,7 +46,7 @@ const GuessMap: FC<Props> = ({
       setHovering(false)
       setMapHeight(15)
       setMapWidth(15)
-    }, 500)
+    }, 700)
   }
 
   const changeMapSize = (change: 'increase' | 'decrease') => {
@@ -133,23 +86,19 @@ const GuessMap: FC<Props> = ({
         {hovering && (
           <div className="controls">
             <button
-              className={`controlBtn ${user.guessMapSize === 4 ? 'disabled' : ''}`}
+              className={`controlBtn increase ${user.guessMapSize === 4 ? 'disabled' : ''}`}
               onClick={() => changeMapSize('increase')}
               disabled={user.guessMapSize === 4}
             >
-              <Icon size={16} fill="#fff">
-                <ChevronUpIcon />
-              </Icon>
+              <ArrowRightIcon />
             </button>
 
             <button
-              className={`controlBtn ${user.guessMapSize === 1 ? 'disabled' : ''}`}
+              className={`controlBtn decrease ${user.guessMapSize === 1 ? 'disabled' : ''}`}
               onClick={() => changeMapSize('decrease')}
               disabled={user.guessMapSize === 1}
             >
-              <Icon size={16} fill="#fff">
-                <ChevronDownIcon />
-              </Icon>
+              <ArrowRightIcon />
             </button>
           </div>
         )}
@@ -160,7 +109,6 @@ const GuessMap: FC<Props> = ({
             defaultZoom={1}
             yesIWantToUseGoogleMapApiInternals
             onGoogleApiLoaded={({ map, maps }) => onInit(map, maps)}
-            //onClick={(e) => addMarker(e)}
             options={{
               disableDefaultUI: true,
               styles: getMapTheme('Light'),
@@ -181,7 +129,7 @@ const GuessMap: FC<Props> = ({
         </button>
 
         <div className="submit-button-wrapper">
-          <Button type="solidPurple" width="100%" isDisabled={currGuess === null} callback={handleSubmitGuess}>
+          <Button width="100%" disabled={currGuess === null} onClick={() => handleSubmitGuess()}>
             Submit Guess
           </Button>
         </div>

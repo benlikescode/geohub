@@ -45,10 +45,14 @@ const StyledMapPage = styled.div`
   .description {
     color: var(--color3);
     font-weight: 400;
+
+    @media (max-width: 1000px) {
+      display: none;
+    }
   }
 
   .otherMapsWrapper {
-    margin-top: 3rem;
+    margin-top: 2rem;
 
     @media (max-width: 600px) {
       padding: 1rem;
@@ -56,7 +60,8 @@ const StyledMapPage = styled.div`
   }
 
   .otherMapsTitle {
-    font-size: 20px;
+    font-size: 18px;
+    color: #dcdcdc;
   }
 
   .mapAvatar {
@@ -68,8 +73,8 @@ const StyledMapPage = styled.div`
   .otherMaps {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1.2rem;
-    margin-top: 1rem;
+    gap: 1rem;
+    margin-top: 12px;
 
     @media (max-width: 1350px) {
       grid-template-columns: 1fr 1fr;
@@ -77,7 +82,6 @@ const StyledMapPage = styled.div`
 
     @media (max-width: 850px) {
       grid-template-columns: 1fr;
-      gap: 2.5rem;
     }
   }
 
@@ -85,7 +89,7 @@ const StyledMapPage = styled.div`
     background-color: var(--background2);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 6px;
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
 
     @media (max-width: 1200px) {
       flex-direction: column;
@@ -98,51 +102,8 @@ const StyledMapPage = styled.div`
     }
   }
 
-  .profile-avatar {
-    background-color: #0e0e10;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    position: relative;
-    box-shadow: 0 0 0 3px #0e0e10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    img {
-      position: absolute;
-      object-fit: cover;
-      border-radius: 50%;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-    }
-
-    .profile-avatar-editing-icon {
-      background-color: #363636;
-      border-radius: 50rem;
-      padding: 0.5rem;
-      border: 1px solid rgba(255, 255, 255, 0.55);
-      position: absolute;
-      top: -0.5rem;
-      right: 0;
-    }
-  }
-
   .mapDescriptionWrapper {
     width: 100%;
-
-    @media (max-width: 1550px) {
-      flex-shrink: 1.25;
-      padding: 1rem 1.5rem;
-    }
-
-    @media (max-width: 1200px) {
-      padding: 1.5rem;
-    }
   }
 
   .statsWrapper {

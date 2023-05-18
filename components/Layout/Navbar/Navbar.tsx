@@ -1,16 +1,14 @@
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
-import React, { FC, useState } from 'react'
-import { useSelector } from 'react-redux'
-
+import { FC, useState } from 'react'
 import { Avatar, Button, Icon, Searchbar } from '@components/System'
 import { SearchIcon } from '@heroicons/react/outline'
-import { selectUser } from '@redux/user'
-import { UserType } from '@types'
-
+import { useAppSelector } from '../../../redux-utils'
 import { StyledNavbar } from './'
 
 const Navbar: FC = () => {
-  const user: UserType = useSelector(selectUser)
+  const { data: session } = useSession()
+  const user = useAppSelector((state) => state.user)
   const [searchOpen, setSearchOpen] = useState(false)
 
   return (
@@ -40,26 +38,22 @@ const Navbar: FC = () => {
 
           <div className="rightContainer">
             <div className="rightWrapper">
-              <Button type="icon" className="mobileSearch" callback={() => setSearchOpen(true)}>
-                <Icon size={20} fill="#efeff1">
-                  <SearchIcon />
-                </Icon>
-              </Button>
+              <button className="mobile-search" onClick={() => setSearchOpen(true)}>
+                <SearchIcon />
+              </button>
 
-              {user.id && (
+              {session ? (
                 <Link href={`/user/${user.id}`}>
                   <a className="userInfo">
                     <span className="username">{user.name}</span>
-                    <Avatar type="user" src={user.avatar?.emoji} backgroundColor={user.avatar?.color} />
+                    <Avatar type="user" src={user.avatar.emoji} backgroundColor={user.avatar.color} />
                   </a>
                 </Link>
-              )}
-
-              {!user.id && (
+              ) : (
                 <>
                   <Link href="/login">
                     <a>
-                      <Button type="solidCustom" backgroundColor="#3d3d3d" color="#fff" hoverColor="#444" isSmall>
+                      <Button variant="solidCustom" size="sm" backgroundColor="#3d3d3d" color="#fff" hoverColor="#444">
                         Login
                       </Button>
                     </a>
@@ -67,9 +61,7 @@ const Navbar: FC = () => {
 
                   <Link href="/register">
                     <a>
-                      <Button type="solidPurple" isSmall>
-                        Sign Up
-                      </Button>
+                      <Button size="sm">Sign Up</Button>
                     </a>
                   </Link>
                 </>

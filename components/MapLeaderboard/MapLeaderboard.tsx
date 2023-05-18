@@ -1,28 +1,32 @@
 import { FC, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
-
 import { Spinner } from '@components/System'
 import { MapLeaderboardType } from '@types'
-
 import { StyledMapLeaderboard } from './'
 import { LeaderboardItem } from './LeaderboardItem'
 
 type Props = {
   removeHeader?: boolean
+  title?: string
   leaderboard: MapLeaderboardType[]
+  noResultsMessage?: string
   infiniteScrollCallback?: () => void
   hasMore?: boolean
 }
 
-const MapLeaderboard: FC<Props> = ({ removeHeader, leaderboard, infiniteScrollCallback, hasMore }) => {
-  const [selectState, setSelectState] = useState()
-  const selectOptions = ['Filter by', 'Top', 'Friends']
-
+const MapLeaderboard: FC<Props> = ({
+  removeHeader,
+  title,
+  leaderboard,
+  noResultsMessage,
+  infiniteScrollCallback,
+  hasMore,
+}) => {
   return (
     <StyledMapLeaderboard>
       {!removeHeader && (
         <div className="leaderboardTop">
-          <span className="title">Leaderboard</span>
+          <span className="title">{title ?? 'Leaderboard'}</span>
         </div>
       )}
 
@@ -31,7 +35,6 @@ const MapLeaderboard: FC<Props> = ({ removeHeader, leaderboard, infiniteScrollCa
           dataLength={leaderboard.length}
           next={() => infiniteScrollCallback()}
           hasMore={hasMore || false}
-          scrollableTarget="main"
           loader={
             <div
               style={{
@@ -45,6 +48,7 @@ const MapLeaderboard: FC<Props> = ({ removeHeader, leaderboard, infiniteScrollCa
               <Spinner size={24} />
             </div>
           }
+          scrollableTarget="main"
         >
           {leaderboard.map((row, idx) => (
             <LeaderboardItem key={idx} finishPlace={idx + 1} row={row} />
@@ -57,7 +61,9 @@ const MapLeaderboard: FC<Props> = ({ removeHeader, leaderboard, infiniteScrollCa
         leaderboard.map((row, idx) => <LeaderboardItem key={idx} finishPlace={idx + 1} row={row} />)}
 
       {leaderboard.length <= 0 && (
-        <span className="notPlayedMsg">This map has not been played yet. Be the first one on the leaderboard!</span>
+        <span className="notPlayedMsg">
+          {noResultsMessage ?? 'This map has not been played yet. Be the first one on the leaderboard!'}
+        </span>
       )}
     </StyledMapLeaderboard>
   )

@@ -6,6 +6,8 @@ const StyledNavbar = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: sticky;
+  top: 0;
   padding: 0 1rem;
   //position: sticky;
   //top: 0;
@@ -15,7 +17,7 @@ const StyledNavbar = styled.div`
   flex-shrink: 0 !important;
 
   .appTitle {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
     font-weight: 600;
 
     @media (max-width: 800px) {
@@ -67,17 +69,44 @@ const StyledNavbar = styled.div`
     display: flex;
     align-items: center;
     gap: 15px;
+
+    .mobile-search {
+      display: none;
+
+      @media (max-width: 700px) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.25rem;
+        border-radius: 5px;
+        user-select: none;
+        background-color: transparent;
+
+        :hover {
+          background-color: #444;
+        }
+      }
+
+      svg {
+        height: 20px;
+        color: #efeff1;
+
+        path {
+          stroke-width: 1.5;
+        }
+      }
+    }
   }
 
   .userInfo {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
   }
 
   .username {
     color: #bec3c9;
-    font-size: 18px;
+    font-size: 16px;
 
     @media (max-width: 800px) {
       font-size: 1rem;
@@ -85,20 +114,6 @@ const StyledNavbar = styled.div`
 
     @media (max-width: 500px) {
       display: none;
-    }
-  }
-
-  .mobileSearch {
-    display: none;
-    padding: 0.25rem;
-    position: relative;
-
-    @media (max-width: 700px) {
-      display: block;
-
-      :hover {
-        background-color: #444;
-      }
     }
   }
 

@@ -12,6 +12,7 @@ type Map = {
   avgScore?: number
   likes?: { numLikes: number; likedByUser: boolean }
   isPublished?: boolean
+  isDeleted?: boolean
   createdAt?: Date
   locations?: LocationType[]
   // backwards compatibility

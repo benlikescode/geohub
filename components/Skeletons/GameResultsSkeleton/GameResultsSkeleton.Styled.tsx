@@ -15,9 +15,9 @@ const StyledGameResultsSkeleton = styled.div<StyledProps>`
     justify-content: center;
 
     .leaderboard-card {
-      margin-top: -1.2rem;
+      margin-top: -20px;
       padding: 0 3.5rem;
-      max-width: ${({ theme }) => theme.breakpoint.l};
+      max-width: 1400px;
       width: 100%;
       z-index: 1;
       padding-bottom: 3rem;

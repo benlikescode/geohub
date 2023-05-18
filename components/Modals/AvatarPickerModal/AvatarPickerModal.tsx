@@ -1,22 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { FC, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-
-import { mailman } from '@backend/utils/mailman'
+import { FC, useState } from 'react'
 import { CheckIcon } from '@heroicons/react/outline'
-import { selectUser } from '@redux/user'
+import { useAppSelector } from '@redux/hook'
 import { BACKGROUND_COLORS, EMOJIS } from '@utils/constants/avatarOptions'
-
-import { Modal } from '../Modal'
+import { MainModal } from '../'
 import { StyledAvatarPickerModal } from './'
 
 type Props = {
+  isOpen: boolean
   closeModal: () => void
   setNewUserDetails: (changedValues: any) => void
 }
 
-const AvatarPickerModal: FC<Props> = ({ closeModal, setNewUserDetails }) => {
-  const user = useSelector(selectUser)
+const AvatarPickerModal: FC<Props> = ({ isOpen, closeModal, setNewUserDetails }) => {
+  const user = useAppSelector((state) => state.user)
 
   const [selectedColor, setSelectedColor] = useState(user.avatar?.color || BACKGROUND_COLORS[0])
   const [selectedEmoji, setSelectedEmoji] = useState(user.avatar?.emoji || '')
@@ -28,7 +25,7 @@ const AvatarPickerModal: FC<Props> = ({ closeModal, setNewUserDetails }) => {
   }
 
   return (
-    <Modal closeModal={closeModal} title="Customize Avatar" onActionButton={handleActionButton}>
+    <MainModal title="Customize Avatar" isOpen={isOpen} onClose={closeModal} onAction={handleActionButton}>
       <StyledAvatarPickerModal>
         <div>
           <h2 className="color-selection-title">Choose a background color</h2>
@@ -43,7 +40,7 @@ const AvatarPickerModal: FC<Props> = ({ closeModal, setNewUserDetails }) => {
               >
                 {selectedColor === color && (
                   <div className="checkmark-wrapper">
-                    <CheckIcon height={20} />
+                    <CheckIcon />
                   </div>
                 )}
               </div>
@@ -74,7 +71,7 @@ const AvatarPickerModal: FC<Props> = ({ closeModal, setNewUserDetails }) => {
           </div>
         )}
       </StyledAvatarPickerModal>
-    </Modal>
+    </MainModal>
   )
 }
 

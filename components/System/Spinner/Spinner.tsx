@@ -1,5 +1,4 @@
 import { FC } from 'react'
-
 import { StyledSpinner } from './'
 
 type Props = {

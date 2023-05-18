@@ -1,15 +1,20 @@
 import styled from 'styled-components'
 
 const StyledAuthPage = styled.div`
-  background-image: linear-gradient(180deg, rgba(19, 19, 20, 0) 0%, #131314 100%), url('/images/backgrounds/prettyImage2.jpeg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
   width: 100%;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-image: linear-gradient(250deg, rgba(19, 19, 20, 0) 0%, #151515 50%),
+    url('https://images.pexels.com/photos/2187605/pexels-photo-2187605.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  // https://c0.wallpaperflare.com/preview/50/408/1001/dawn-hd-wallpaper-landscape-nature.jpg
+
+  // https://oir.mobi/uploads/posts/2021-06/1624287508_25-oir_mobi-p-rozovii-okean-priroda-krasivo-foto-25.jpg
 
   @media (max-width: 800px) {
     background-image: none;
@@ -18,31 +23,31 @@ const StyledAuthPage = styled.div`
   }
 
   .authContainer {
-    max-width: 550px;
+    max-width: 400px;
     width: 100%;
-    background-color: var(--background2);
+    background-color: #101112;
     color: var(--color1);
     border-radius: 4px;
-    padding: 5rem 4rem;
+    padding: 30px;
     box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.55);
-    border: var(--border);
+    border: 1px solid #222;
 
     @media (max-width: 800px) {
       box-shadow: none;
       border: none;
       padding: 2rem 1rem;
       background-color: inherit;
-    } 
+    }
   }
 
   .title {
-    font-weight: 400;
-    font-size: 2rem;
-    text-align: center;
-    margin-bottom: 2.5rem;
+    font-weight: 600;
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: var(--color2);
 
     @media (max-width: 800px) {
-      font-size: 1.6rem;
+      font-size: 18px;
       text-align: left;
       margin-bottom: 2rem;
     }
@@ -50,7 +55,9 @@ const StyledAuthPage = styled.div`
 
   .inputGroup {
     display: grid;
-    gap: 2.5rem;
+    gap: 30px;
+    border-top: 1px solid #333;
+    padding-top: 30px;
   }
 
   .errorMessage {
@@ -64,11 +71,26 @@ const StyledAuthPage = styled.div`
     font-weight: 400;
     display: block;
     text-align: center;
-    color: var(--color2);
-    margin-top: 1.2rem;
+    color: #919191;
+    margin-top: 16px;
+    font-size: 13px;
 
     a {
-      color: var(--lightPurple);
+      color: #a78bfa;
+      display: inline-flex;
+      margin-left: 6px;
+      text-decoration: underline;
+
+      &:hover {
+        svg {
+          transform: translateX(1.1px) scale(1.1);
+        }
+      }
+
+      svg {
+        height: 13px;
+        margin-left: 4px;
+      }
     }
   }
 
@@ -99,13 +121,17 @@ const StyledAuthPage = styled.div`
   }
 
   .logoWrapper {
-    display: none;
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4rem;
 
-    @media (max-width: 800px) {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 4rem;
+    .appTitle {
+      font-weight: 500;
+      font-size: 18px;
     }
   }
 
@@ -113,12 +139,13 @@ const StyledAuthPage = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--darkPurple);
+    background-color: var(--mediumPurple);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 2px 6px rgba(255, 255, 255, 0.25), inset 0px -3px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 2px 6px rgba(255, 255, 255, 0.25),
+      inset 0px -3px 4px rgba(0, 0, 0, 0.25);
     border-radius: 4px;
-    height: 38px;
-    width: 38px;
+    height: 30px;
+    width: 30px;
   }
 `
 

@@ -1,10 +1,6 @@
 import type { NextPage } from 'next'
 import GoogleMapReact from 'google-map-react'
-import React from 'react'
-
 import { Head } from '@components/Head'
-import { Layout } from '@components/Layout'
-import { Navbar } from '@components/Layout/Navbar'
 import { WidthController } from '@components/Layout/WidthController'
 import StyledPuzzlesPage from '@styles/PuzzlesPage.Styled'
 

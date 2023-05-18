@@ -1,6 +1,5 @@
 export { Navbar } from './Navbar'
 export { Sidebar, MobileNav } from './Sidebar'
 export { Layout } from './Layout'
-export { Banner } from './Banner'
 export { LoadingPage } from './LoadingPage'
 export { PageHeader } from './PageHeader'

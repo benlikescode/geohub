@@ -1,10 +1,9 @@
 import '@styles/globals.css'
-import 'react-toastify/dist/ReactToastify.css'
 
-import { NextPage } from 'next'
-import { ReactElement, ReactNode } from 'react'
-import { Provider } from 'react-redux'
-import { ToastContainer } from 'react-toastify'
+import { SessionProvider } from 'next-auth/react'
+import { ReactElement } from 'react'
+import { Toaster } from 'react-hot-toast'
+import { Provider as RedudxProvider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { ThemeProvider } from 'styled-components'
 
@@ -25,25 +24,25 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   return (
     <>
       <Head />
-      <Provider store={store}>
-        <PersistGate persistor={persistor}>
-          <ThemeProvider theme={theme}>
-            {getLayout(<Component {...pageProps} />)}
+      <SessionProvider>
+        <RedudxProvider store={store}>
+          <PersistGate persistor={persistor}>
+            <ThemeProvider theme={theme}>
+              {getLayout(<Component {...pageProps} />)}
 
-            <ToastContainer
-              position="bottom-right"
-              autoClose={3000}
-              hideProgressBar={false}
-              newestOnTop={true}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-            />
-          </ThemeProvider>
-        </PersistGate>
-      </Provider>
+              <Toaster
+                position="bottom-right"
+                toastOptions={{
+                  style: {
+                    background: 'var(--background3)',
+                    color: 'var(--color2)',
+                  },
+                }}
+              />
+            </ThemeProvider>
+          </PersistGate>
+        </RedudxProvider>
+      </SessionProvider>
     </>
   )
 }

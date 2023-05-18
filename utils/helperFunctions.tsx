@@ -1,7 +1,5 @@
-import { toast } from 'react-toastify'
-
+import { NextRouter } from 'next/router'
 import { GameSettingsType, GuessType, LocationType } from '@types'
-
 import { BACKGROUND_COLORS, EMOJIS } from './constants/avatarOptions'
 import { randomElement } from './functions/generateLocations'
 
@@ -274,32 +272,11 @@ export const getDistance = (loc1: GuessType, loc2: LocationType, format = false)
 
 // Calculates the points based on distance away
 // HALP - Make dynamic for all maps
-export const getPoints = (distance: number, mapId: string) => {
-  const e = Math.E
-  let mapFactor = 2000
-
-  switch (mapId) {
-    case 'world':
-      mapFactor = 2000
-      break
-    case 'near-you':
-      mapFactor = 30
-      break
-    case 'famous-landmarks':
-      mapFactor = 20
-      break
-    case 'canada':
-      mapFactor = 400
-      break
-    case 'usa':
-      mapFactor = 1000
-      break
-    default:
-      mapFactor = 2000
-  }
+export const getPoints = (distance: number, scoreFactor?: number) => {
+  const mapFactor = scoreFactor || 2000
 
   const power = (distance * -1) / mapFactor
-  const score = 5000 * Math.pow(e, power)
+  const score = 5000 * Math.pow(Math.E, power)
 
   if (score < 0) {
     return 0
@@ -313,12 +290,15 @@ export const getGuessMapDimensions = (size: number) => {
   if (size === 2) {
     return { width: 30, height: 40 }
   }
+
   if (size === 3) {
     return { width: 40, height: 55 }
   }
+
   if (size === 4) {
     return { width: 65, height: 80 }
   }
+
   return { width: 15, height: 15 }
 }
 
@@ -474,9 +454,9 @@ export const formatTimeLimit = (timeLimit: number) => {
 export const formatTimer = (time: number) => {}
 
 // Gets the distance and points for a round guess
-export const getResultData = (guess: GuessType, actual: LocationType, mapId: string) => {
+export const getResultData = (guess: GuessType, actual: LocationType, scoreFactor?: number) => {
   const distance = getDistance(guess, actual)
-  const points = getPoints(distance as number, mapId)
+  const points = getPoints(distance as number, scoreFactor)
 
   return { distance, points }
 }
@@ -503,10 +483,10 @@ export const createMarker = (
 // Creates a google map polyline between a guess marker and actual marker
 export const createPolyline = (guessedLocation: GuessType, actualLocation: LocationType, map: google.maps.Map) => {
   // Get midpoint between guess and actual (this prevents polyline going between two maps)
-  const midPoint = {
-    lat: (guessedLocation.lat + actualLocation.lat) / 2,
-    lng: (guessedLocation.lng + actualLocation.lng) / 2,
-  }
+  // const midPoint = {
+  //   lat: (guessedLocation.lat + actualLocation.lat) / 2,
+  //   lng: (guessedLocation.lng + actualLocation.lng) / 2,
+  // }
 
   const lineSymbol = {
     path: 'M 0,-1 0,1',
@@ -602,58 +582,6 @@ export const getRandomAvatar = () => {
   return { emoji: randomEmoji, color: randomColor }
 }
 
-// Displays an error toast on page
-export const showErrorToast = (message?: string) => {
-  toast.error(message || 'An unexpected error occured', {
-    toastId: 'error',
-    position: 'bottom-right',
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: 0,
-    theme: 'dark',
-    progressStyle: {
-      background: 'var(--red-500)',
-    },
-    bodyStyle: {
-      fontFamily: 'var(--font-family1)',
-      fontWeight: 400,
-      color: 'rgb(195, 195, 195)',
-      lineHeight: '20px',
-    },
-    style: { border: '1px solid #333333', background: '#1b1b1b' },
-    icon: true,
-  })
-}
-
-// Displays a success toast on page
-export const showSuccessToast = (message: string) => {
-  toast.success(message, {
-    toastId: 'success',
-    position: 'bottom-right',
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: 0,
-    theme: 'dark',
-    progressStyle: {
-      background: 'var(--green-500)',
-    },
-    bodyStyle: {
-      fontFamily: 'var(--font-family1)',
-      fontWeight: 400,
-      color: 'rgb(195, 195, 195)',
-      lineHeight: '20px',
-    },
-    style: { border: '1px solid #333333', background: '#1b1b1b' },
-    icon: true,
-  })
-}
-
 // Converts UTC date (from DB) to local date
 export const getFormattedDate = (utcDate?: Date) => {
   console.log(utcDate)
@@ -678,14 +606,16 @@ export const getFormattedDate = (utcDate?: Date) => {
 
 export const getFormattedOngoingScore = (rawScore: number) => {
   if (rawScore === 0) {
-    return '0.0k pts'
+    return '0k pts'
   }
 
-  return `${(rawScore / 1000).toFixed(1)}k pts`
+  return `${Math.floor(rawScore / 1000).toFixed(0)}k pts`
 }
 
 // Formats a large number (mainly used for round points and number of map locations)
 export const formatLargeNumber = (number: number) => {
+  if (typeof number === 'undefined') return
+
   const numberAsString = number.toString()
 
   if (number >= 1000000) {
@@ -705,4 +635,11 @@ export const formatLargeNumber = (number: number) => {
   }
 
   return numberAsString
+}
+
+// Stores current url and redirects to '/register'
+export const redirectToRegister = (router: NextRouter) => {
+  if (!router) return
+
+  router.push(`/register?callback=${router.asPath}`)
 }
