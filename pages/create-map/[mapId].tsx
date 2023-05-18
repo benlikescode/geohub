@@ -17,10 +17,8 @@ import { LocationType, MapType, PageType } from '@types'
 import { createMarker, getMapTheme } from '@utils/helperFunctions'
 import { showErrorToast, showSuccessToast } from '@utils/helpers/showToasts'
 
-const SELECTED_MARKER_ICON =
-  'https://www.geoguessr.com/_next/static/images/selected-pin-0bac3f371ed0d5625bcd873ebce4e59e.png'
-const REGULAR_MARKER_ICON =
-  'https://www.geoguessr.com/_next/static/images/unselected-pin-cf969fcac1571b7f58824eaebb5ed4a5.png'
+const SELECTED_MARKER_ICON = '/images/selectedPin.png'
+const REGULAR_MARKER_ICON = '/images/regularPin.png'
 const SELECTED_MARKER_SIZE = 40
 const REGULAR_MARKER_SIZE = 30
 
