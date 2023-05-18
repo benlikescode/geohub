@@ -19,7 +19,7 @@ const StyledHomePage = styled.div`
       inset: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, #121212 10%, #00000070);
+      background: linear-gradient(90deg, #0a0a0a 10%, #00000070);
       z-index: 1;
     }
 
@@ -66,7 +66,7 @@ const StyledHomePage = styled.div`
       .pills-wrapper {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
       }
     }
   }

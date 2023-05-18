@@ -12,8 +12,8 @@ const StyledNavbar = styled.div`
   //position: sticky;
   //top: 0;
   z-index: 20;
-  background-color: #18181b;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.9), 0 0px 2px rgba(0, 0, 0, 0.9);
+  background-color: ${({ theme }) => theme.color.gray[900]};
+  border-bottom: 1px solid ${({ theme }) => theme.color.gray[800]};
   flex-shrink: 0 !important;
 
   .appTitle {
@@ -32,6 +32,36 @@ const StyledNavbar = styled.div`
     flex-grow: 1;
     width: 100%;
     height: 100%;
+
+    .logo {
+      user-select: none;
+      display: flex;
+      position: relative;
+      width: fit-content;
+      transition: 0.2s;
+
+      .earth {
+        position: absolute;
+        left: 28px;
+        top: -7.5px;
+        pointer-events: none;
+        transition: 0.2s;
+      }
+
+      svg {
+        pointer-events: none;
+        height: 18px;
+      }
+
+      &:hover {
+        cursor: pointer;
+        opacity: 0.7;
+
+        .earth {
+          transform: scale(1.1);
+        }
+      }
+    }
 
     @media (max-width: 500px) {
       flex-shrink: 3;
@@ -68,7 +98,7 @@ const StyledNavbar = styled.div`
   .rightWrapper {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 8px;
 
     .mobile-search {
       display: none;
@@ -122,6 +152,12 @@ const StyledNavbar = styled.div`
     font-size: 14px;
     color: #9ca3af;
     cursor: pointer;
+  }
+
+  button {
+    height: 36px;
+    font-weight: 500;
+    border-radius: 5px;
   }
 `
 

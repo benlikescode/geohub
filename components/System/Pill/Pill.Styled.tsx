@@ -1,8 +1,10 @@
 import styled from 'styled-components'
 
 const StyledPill = styled.div`
-  background: rgba(200, 200, 200, 0.2);
-  color: #fff;
+  background-color: rgb(255, 255, 255, 0.1);
+  color: rgb(255, 255, 255, 0.7);
+  border: 1px solid rgb(255, 255, 255, 0.1);
+  user-select: none;
   padding: 0 16px;
   display: flex;
   align-items: center;

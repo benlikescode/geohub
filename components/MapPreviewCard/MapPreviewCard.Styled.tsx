@@ -9,8 +9,8 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
 
   .large-card-wrapper {
     border-radius: 6px;
-    background-color: var(--background2);
-    border: 1px solid rgba(255, 255, 255, 0.07);
+    background-color: ${({ theme }) => theme.color.gray[900]};
+    border: 1px solid ${({ theme }) => theme.color.gray[800]};
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     display: grid;
     gap: 1rem;
@@ -38,7 +38,7 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
         position: absolute;
         height: 100%;
         width: 100%;
-        background: linear-gradient(180deg, rgba(25, 26, 27, 0) 0%, rgba(25, 26, 27, 0.57) 47.4%, #191a1b 100%);
+        background: linear-gradient(180deg, ${({ theme }) => theme.color.gray[900]}20 0%, ${({ theme }) => theme.color.gray[900]} 90%);
       }
     }
 
@@ -69,7 +69,7 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
     }
 
     .mapDescription {
-      color: var(--color5);
+      color: ${({ theme }) => theme.color.gray[500]};
       font-weight: 400;
       line-height: 25px;
       text-align: center;
