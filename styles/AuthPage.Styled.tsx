@@ -146,6 +146,15 @@ const StyledAuthPage = styled.div`
     border-radius: 4px;
     height: 30px;
     width: 30px;
+
+    svg {
+      height: 20px;
+      color: #fff;
+
+      path {
+        stroke-width: 1.5;
+      }
+    }
   }
 `
 

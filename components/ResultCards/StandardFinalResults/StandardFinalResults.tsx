@@ -41,9 +41,7 @@ const StandardFinalResults: FC<Props> = ({ gameData }) => {
                 : '/'
             }
           >
-            <a>
-              <Button variant="ghostLight">{gameData.mapId ? 'Detailed Results' : 'Return To Home'}</Button>
-            </a>
+            <a className="secondary-button">{gameData.mapId ? 'Detailed Results' : 'Return To Home'}</a>
           </Link>
 
           {gameData.isDailyChallenge ? (

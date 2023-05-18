@@ -4,7 +4,7 @@ import { Spinner } from '@components/System'
 import { StyledButton } from './'
 
 type Props = {
-  variant?: 'primary' | 'solidGray' | 'solidCustom' | 'ghost' | 'ghostLight' | 'iconRounded' | 'destroy'
+  variant?: 'primary' | 'solidGray' | 'solidCustom' | 'destroy'
   size?: 'sm' | 'md' | 'lg'
   color?: string
   backgroundColor?: string

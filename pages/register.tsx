@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { mailman } from '@backend/utils/mailman'
-import { Button, Icon, Input } from '@components/System'
+import { Button, Input } from '@components/System'
 import { LocationMarkerIcon } from '@heroicons/react/outline'
 import { updateUser } from '@redux/slices'
 import StyledAuthPage from '@styles/AuthPage.Styled'
@@ -84,9 +84,7 @@ const RegisterPage: PageType = () => {
           <a>
             <div className="logoWrapper">
               <div className="logo">
-                <Icon size={20} fill="#fff">
-                  <LocationMarkerIcon />
-                </Icon>
+                <LocationMarkerIcon />
               </div>
               <h2 className="appTitle">GeoHub</h2>
             </div>

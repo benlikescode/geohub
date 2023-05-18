@@ -10,9 +10,19 @@ const StyledStreetViewControls = styled.div`
 
   .control-button-wrapper {
     .control-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       height: 48px;
       width: 48px;
-      position: relative;
+      border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      user-select: none;
+
+      :hover {
+        background-color: rgba(0, 0, 0, 0.75);
+      }
 
       svg {
         height: 22px;
