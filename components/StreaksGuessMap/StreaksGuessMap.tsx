@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import GoogleMapReact from 'google-map-react'
-import React, { FC, useRef, useState } from 'react'
+import { FC, useRef, useState } from 'react'
 import { Button } from '@components/System/Button'
 import { ArrowRightIcon, XIcon } from '@heroicons/react/outline'
 import { useAppDispatch, useAppSelector } from '@redux/hook'

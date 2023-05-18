@@ -1,8 +1,6 @@
-import React, { FC } from 'react'
-
+import { FC } from 'react'
 import { Avatar } from '@components/System'
 import { FlagIcon } from '@heroicons/react/solid'
-
 import { StyledMarker } from './'
 
 type Props = {

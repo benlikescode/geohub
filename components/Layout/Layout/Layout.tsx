@@ -1,15 +1,12 @@
-import React, { FC, ReactNode } from 'react'
-
+import { FC, ReactNode } from 'react'
 import { MobileNav, Navbar, Sidebar } from '@components/Layout'
-
 import { StyledLayout } from './'
 
 type Props = {
-  removeWrapper?: boolean
   children: ReactNode
 }
 
-const Layout: FC<Props> = ({ removeWrapper, children }) => {
+const Layout: FC<Props> = ({ children }) => {
   return (
     <StyledLayout>
       <div className="app-layout">

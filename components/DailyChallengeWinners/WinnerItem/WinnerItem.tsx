@@ -1,10 +1,9 @@
 import { DateTime } from 'luxon'
 import Link from 'next/link'
-import React, { FC } from 'react'
-import { Avatar, FlexGroup, Icon } from '@components/System'
-import { ChartBarIcon } from '@heroicons/react/outline'
+import { FC } from 'react'
+import { Avatar } from '@components/System'
 import { MapLeaderboardType } from '@types'
-import { formatLargeNumber, formatRoundTime, getFormattedDate } from '@utils/helperFunctions'
+import { formatLargeNumber } from '@utils/helperFunctions'
 import { StyledWinnerItem } from './'
 
 type Props = {

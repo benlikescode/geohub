@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 import { Spinner } from '@components/System'
 import { Modal } from '@components/System/Modal'
 import { XIcon } from '@heroicons/react/outline'

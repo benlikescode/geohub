@@ -1,16 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import GoogleMapReact from 'google-map-react'
 import { FC, useEffect, useRef, useState } from 'react'
-
 import { Marker } from '@components/Marker'
 import { useAppSelector } from '@redux/hook'
 import { GuessType, LocationType } from '@types'
-import {
-  createPolyline,
-  getMapTheme,
-  getResultMapValuesV2
-} from '@utils/helperFunctions'
-
+import { createPolyline, getMapTheme } from '@utils/helperFunctions'
 import { StyledResultMap } from './'
 
 type Props = {
@@ -33,49 +27,11 @@ const ResultMap: FC<Props> = ({
   const [guessMarkers, setGuessMarkers] = useState<GuessType[]>([])
   const [actualMarkers, setActualMarkers] = useState<LocationType[]>([])
 
-  const [center, setCenter] = useState<any>(null)
-  const [zoom, setZoom] = useState<any>(null)
-
-  const [mapBounds, setMapBounds] = useState<google.maps.LatLngBounds | null>(null)
-
   const guessedLocation = guessedLocations[guessedLocations.length - 1]
   const actualLocation = actualLocations[round - 2]
   const resultMapRef = useRef<google.maps.Map | null>(null)
   const polylinesRef = useRef<google.maps.Polyline[]>([])
   const user = useAppSelector((state) => state.user)
-
-  // Only set map center and zoom on mount
-  useEffect(() => {
-    //setZoom(2)
-    //setCenter({ lat: 0, lng: 0 })
-    /*
-    const bounds = new google.maps.LatLngBounds()
-
-    for (let i = 0; i < 5; i++) {
-      bounds.extend(guessedLocations[i])
-      bounds.extend(actualLocations[i])
-    }
-
-    resultMapRef.current?.setCenter(bounds.getCenter())
-
-    resultMapRef.current?.fitBounds(bounds)
-
-*/
-    /*
-    const { center, zoom } = getResultMapValuesV2(
-      isFinalResults ? guessedLocations : [guessedLocation],
-      isFinalResults ? actualLocations : [actualLocation],
-      !!isFinalResults,
-      !!isLeaderboard
-    )
-
-    setCenter(center)
-    setZoom(zoom)
-
-    console.log(center)
-    console.log(zoom)
-    */
-  }, [])
 
   // If locations change (because we toggle the view on challenge results) -> reload the markers
   useEffect(() => {
@@ -125,11 +81,6 @@ const ResultMap: FC<Props> = ({
     }
   }
 
-  /*
-  if (center === null || zoom === null) {
-    return <div className="map-skeleton"></div>
-  }
-*/
   return (
     <StyledResultMap>
       <div className="map">

@@ -28,7 +28,7 @@ const GamemodeCard: FC<Props> = ({ title, titleColor, description, buttonText, h
           </a>
         </Link>
       )}
-      {/*#1837a3*/}
+
       {!href && (
         <Button variant="solidCustom" backgroundColor="#4f46e5" color="#fff">
           {buttonText}

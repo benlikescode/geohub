@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { Game } from '@backend/models'
 import { Button, FlexGroup, ProgressBar } from '@components/System'
 import { formatLargeNumber } from '@utils/helperFunctions'

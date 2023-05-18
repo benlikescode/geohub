@@ -1,15 +1,13 @@
 import Image from 'next/image'
-/* eslint-disable @next/next/no-img-element */
-import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Avatar, Icon } from '@components/System'
 import {
   ArrowsExpandIcon,
   ClockIcon,
   LocationMarkerIcon,
   SwitchHorizontalIcon,
-  ZoomInIcon
+  ZoomInIcon,
 } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
 import { ChallengeType } from '@types'

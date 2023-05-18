@@ -1,11 +1,9 @@
 import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { FC, useEffect, useState } from 'react'
-
+import { FC, useEffect, useState } from 'react'
 import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
-import { PageHeader } from '@components/Layout'
 import { WidthController } from '@components/Layout/WidthController'
 import { Avatar } from '@components/System'
 import { Skeleton } from '@components/System/Skeleton'

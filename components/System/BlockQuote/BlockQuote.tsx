@@ -1,12 +1,11 @@
-import React, { FC, ReactNode } from 'react'
-
+import { FC, ReactNode } from 'react'
 import { StyledBlockQuote } from './'
 
 type Props = {
-  background?: string;
-  color?: string;
-  highlightColor?: string;
-  children: ReactNode;
+  background?: string
+  color?: string
+  highlightColor?: string
+  children: ReactNode
 }
 
 const BlockQuote: FC<Props> = ({ background, color, highlightColor, children }) => {

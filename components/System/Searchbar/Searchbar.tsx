@@ -1,14 +1,12 @@
 import { useRouter } from 'next/router'
-import React, { FC, useEffect, useRef, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
-
 import { mailman } from '@backend/utils/mailman'
 import { SearchIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
 import { SearchResultType } from '@types'
 import { KEY_CODES } from '@utils/constants/keyCodes'
 import { useClickOutside } from '@utils/hooks'
-
 import { StyledSearchbar } from './'
 import { SearchOverlayCard } from './SearchOverlayCard'
 

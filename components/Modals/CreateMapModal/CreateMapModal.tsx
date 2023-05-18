@@ -1,10 +1,8 @@
-/* eslint-disable @next/next/no-img-element */
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React, { FC, useEffect, useMemo, useState } from 'react'
+import { FC, useEffect, useMemo, useState } from 'react'
 import { mailman } from '@backend/utils/mailman'
 import { Input } from '@components/System'
-import { useAppSelector } from '@redux/hook'
 import { randomInt } from '@utils/functions/generateLocations'
 import { showErrorToast } from '@utils/helpers/showToasts'
 import { MainModal } from '../'

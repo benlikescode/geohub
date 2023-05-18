@@ -1,7 +1,6 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { Button, Spinner } from '@components/System'
 import { Modal } from '@components/System/Modal'
-import { XIcon } from '@heroicons/react/outline'
 import { StyledDestroyModal } from './'
 
 type Props = {
@@ -20,9 +19,6 @@ const DestroyModal: FC<Props> = ({ title, message, isOpen, onClose, onAction, is
         <div className="a">
           <div className="header">
             <p className="title">{title}</p>
-            {/*   <button className="close-button" onClick={onClose}>
-              <XIcon />
-            </button> */}
           </div>
 
           <p className="message">{message}</p>

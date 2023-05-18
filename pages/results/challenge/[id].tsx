@@ -1,5 +1,5 @@
 import router from 'next/router'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Game } from '@backend/models'
 import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'

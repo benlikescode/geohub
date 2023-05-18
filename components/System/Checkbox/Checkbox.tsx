@@ -1,9 +1,6 @@
-import React, { FC, useState } from 'react'
-
+import { FC } from 'react'
 import { CheckIcon } from '@heroicons/react/outline'
-
 import { StyledCheckbox } from './'
-import { HiddenCheckbox } from './Checkbox.Styled'
 
 type Props = {
   isChecked: boolean

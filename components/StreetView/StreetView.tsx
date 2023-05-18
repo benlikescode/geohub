@@ -1,5 +1,5 @@
 import GoogleMapReact from 'google-map-react'
-import React, { FC, useEffect, useRef, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { Game } from '@backend/models'
 import { mailman } from '@backend/utils/mailman'
 import { GameStatus } from '@components/GameStatus'

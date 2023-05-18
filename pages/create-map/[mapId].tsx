@@ -2,7 +2,7 @@
 import GoogleMapReact from 'google-map-react'
 import { throttle } from 'lodash'
 import { useRouter } from 'next/router'
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { mailman } from '@backend/utils/mailman'
 import { NotFound } from '@components/ErrorViews/NotFound'
 import { Head } from '@components/Head'

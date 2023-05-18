@@ -1,16 +1,10 @@
-import React, { FC } from 'react'
-import { StyledOfficialMapCard } from '.'
+import { FC } from 'react'
+import { StyledOfficialMapCard } from './'
 
-type Props = {
-  
-}
+type Props = {}
 
 const OfficialMapCard: FC<Props> = ({}) => {
-  return (
-    <StyledOfficialMapCard>
-      
-    </StyledOfficialMapCard>
-  )
+  return <StyledOfficialMapCard></StyledOfficialMapCard>
 }
 
 export default OfficialMapCard

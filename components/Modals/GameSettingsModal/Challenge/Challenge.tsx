@@ -1,8 +1,6 @@
 import { FC, useEffect, useState } from 'react'
-
 import { Input } from '@components/System'
 import { CheckIcon, ClipboardIcon } from '@heroicons/react/outline'
-
 import { StyledChallenge } from './'
 
 type Props = {

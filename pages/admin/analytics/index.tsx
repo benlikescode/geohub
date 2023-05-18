@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
-import React, { useEffect, useState } from 'react'
-
+import { useEffect, useState } from 'react'
 import { mailman } from '@backend/utils/mailman'
 import { StyledAnalytics } from '@components/Admin/Analytics/Analytics.Styled'
 import { CountItem } from '@components/Admin/Analytics/CountItem'

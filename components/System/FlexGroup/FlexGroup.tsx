@@ -1,5 +1,4 @@
 import { FC, ReactNode } from 'react'
-
 import { StyledFlexGroup } from './'
 
 type Props = {
@@ -11,22 +10,9 @@ type Props = {
   className?: string
 }
 
-const FlexGroup: FC<Props> = ({ 
-  children, 
-  align, 
-  justify, 
-  direction,
-  gap, 
-  className 
-}) => {
+const FlexGroup: FC<Props> = ({ children, align, justify, direction, gap, className }) => {
   return (
-    <StyledFlexGroup 
-      align={align} 
-      justify={justify} 
-      direction={direction}
-      gap={gap} 
-      className={className}
-    >
+    <StyledFlexGroup align={align} justify={justify} direction={direction} gap={gap} className={className}>
       {children}
     </StyledFlexGroup>
   )

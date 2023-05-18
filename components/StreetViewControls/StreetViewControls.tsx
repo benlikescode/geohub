@@ -1,5 +1,5 @@
-import React, { FC, useState } from 'react'
-import { Button, Icon, Tooltip } from '@components/System'
+import { FC, useState } from 'react'
+import { Button, Tooltip } from '@components/System'
 import { FlagIcon } from '@heroicons/react/outline'
 import { StyledStreetViewControls } from './'
 

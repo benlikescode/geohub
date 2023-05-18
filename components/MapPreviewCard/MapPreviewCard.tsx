@@ -1,11 +1,8 @@
 import Image from 'next/image'
-/* eslint-disable @next/next/no-img-element */
 import Link from 'next/link'
-import React, { FC } from 'react'
-
+import { FC } from 'react'
 import { TrashIcon } from '@heroicons/react/outline'
 import { MapType } from '@types'
-
 import { MAP_AVATAR_BASE_PATH } from '../../utils/constants/random'
 import { StyledMapPreviewCard } from './'
 

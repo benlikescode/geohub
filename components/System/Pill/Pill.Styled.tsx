@@ -1,14 +1,8 @@
 import styled from 'styled-components'
 
-type StyledProps = {
-  background?: string
-  color?: string
-  transparent?: boolean
-}
-
-const StyledPill = styled.div<StyledProps>`
+const StyledPill = styled.div`
   background: rgba(200, 200, 200, 0.2);
-  color: ${({ color }) => (color ? color : '#fff')};
+  color: #fff;
   padding: 0 16px;
   display: flex;
   align-items: center;

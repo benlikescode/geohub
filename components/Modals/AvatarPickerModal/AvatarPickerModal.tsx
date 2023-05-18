@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 import { CheckIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
 import { BACKGROUND_COLORS, EMOJIS } from '@utils/constants/avatarOptions'

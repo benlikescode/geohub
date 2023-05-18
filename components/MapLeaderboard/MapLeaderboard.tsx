@@ -1,9 +1,7 @@
 import { FC, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
-
 import { Spinner } from '@components/System'
 import { MapLeaderboardType } from '@types'
-
 import { StyledMapLeaderboard } from './'
 import { LeaderboardItem } from './LeaderboardItem'
 
@@ -24,9 +22,6 @@ const MapLeaderboard: FC<Props> = ({
   infiniteScrollCallback,
   hasMore,
 }) => {
-  const [selectState, setSelectState] = useState()
-  const selectOptions = ['Filter by', 'Top', 'Friends']
-
   return (
     <StyledMapLeaderboard>
       {!removeHeader && (

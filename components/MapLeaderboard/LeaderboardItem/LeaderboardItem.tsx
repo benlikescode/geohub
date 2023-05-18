@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { Avatar, FlexGroup, Icon } from '@components/System'
 import { ChartBarIcon } from '@heroicons/react/outline'
 import { LightningBoltIcon } from '@heroicons/react/solid'

@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 import { Button, ProgressBar } from '@components/System'
 import { useAppDispatch } from '@redux/hook'
 import { updateStartTime } from '@redux/slices'

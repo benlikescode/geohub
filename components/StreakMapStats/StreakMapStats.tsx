@@ -1,14 +1,7 @@
-import React, { FC } from 'react'
-
-import {
-  GlobeIcon,
-  LocationMarkerIcon,
-  ScaleIcon,
-  UserIcon
-} from '@heroicons/react/outline'
+import { FC } from 'react'
+import { GlobeIcon, LocationMarkerIcon, ScaleIcon, UserIcon } from '@heroicons/react/outline'
 import { StreakStatsType } from '@types'
 import { formatLargeNumber } from '@utils/helperFunctions'
-
 import { StyledStreakMapStats } from './'
 
 type Props = {

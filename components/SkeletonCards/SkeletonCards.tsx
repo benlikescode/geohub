@@ -1,7 +1,5 @@
-import React, { FC } from 'react'
-
+import { FC } from 'react'
 import { Skeleton } from '@components/System/Skeleton'
-
 import { StyledSkeletonCards } from './'
 
 type Props = {

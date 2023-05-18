@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { mailman } from '@backend/utils/mailman'
 import { NoResults } from '@components/ErrorViews/NoResults'
 import { Head } from '@components/Head'

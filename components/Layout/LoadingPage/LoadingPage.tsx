@@ -1,7 +1,5 @@
 import { FC } from 'react'
-
 import { Spinner } from '@components/System/Spinner'
-
 import { StyledLoadingPage } from './'
 
 const LoadingPage: FC = () => {

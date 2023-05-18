@@ -1,7 +1,7 @@
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { mailman } from '@backend/utils/mailman'
 import { Button, Icon, Input } from '@components/System'

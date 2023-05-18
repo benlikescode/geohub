@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link'
-import React, { FC, useState } from 'react'
+import { FC } from 'react'
 import Game from '@backend/models/game'
 import { Button } from '@components/System'
 import { useAppDispatch } from '@redux/hook'
@@ -93,20 +93,6 @@ const StreakResults: FC<Props> = ({ gameData, setView }) => {
           </div>
         ) : (
           <div className="actionButtons">
-            {/* <Link
-              href={
-                gameData.mapId
-                  ? IS_CHALLENGE
-                    ? `/results/challenge/${gameData.challengeId}`
-                    : `/results/${gameData.id}`
-                  : '/'
-              }
-            >
-              <a>
-                <Button type="ghostLight">{gameData.mapId ? 'Detailed Results' : 'Return To Home'}</Button>
-              </a>
-            </Link> */}
-
             <Link href={`/streaks`}>
               <a>
                 <Button>Play Again</Button>

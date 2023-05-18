@@ -1,7 +1,5 @@
-import React, { FC } from 'react'
-
+import { FC } from 'react'
 import { Game } from '@backend/models'
-
 import { formatRoundTime } from '../../utils/helperFunctions'
 import { StreakCountryList } from '../StreakCountryList'
 import { Avatar } from '../System'
@@ -12,6 +10,7 @@ type Props = {
   selectedGameIndex?: number
   setSelectedGameIndex?: (newIndex: number) => void
 }
+
 const StreaksLeaderboard: FC<Props> = ({ gameData, selectedGameIndex, setSelectedGameIndex }) => {
   const showPlace = gameData.length > 1
 

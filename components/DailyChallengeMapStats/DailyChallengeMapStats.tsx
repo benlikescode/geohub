@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { GlobeIcon, LocationMarkerIcon, ScaleIcon, UserIcon } from '@heroicons/react/outline'
 import { DailyChallengeStatsType } from '@types'
 import { formatLargeNumber } from '@utils/helperFunctions'

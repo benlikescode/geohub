@@ -1,9 +1,9 @@
 import Image from 'next/image'
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { StyledNoResults } from './'
 
 type Props = {
-  message: string
+  message?: string
 }
 
 const NoResults: FC<Props> = ({ message }) => {

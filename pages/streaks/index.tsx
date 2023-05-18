@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
 import { WidthController } from '@components/Layout/WidthController'

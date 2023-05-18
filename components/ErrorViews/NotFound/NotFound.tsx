@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { StyledNotFound } from './'
 
 type Props = {

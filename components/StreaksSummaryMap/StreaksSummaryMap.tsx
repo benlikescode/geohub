@@ -1,13 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import GoogleMapReact from 'google-map-react'
 import { FC, useRef, useState } from 'react'
-
 import Game from '@backend/models/game'
 import { Marker } from '@components/Marker'
 import { LocationType } from '@types'
 import countryBounds from '@utils/constants/countryBoundsOld.json'
 import { getMapTheme } from '@utils/helperFunctions'
-
 import { StyledStreaksSummaryMap } from './'
 
 type Props = {
@@ -27,30 +25,10 @@ const StreaksSummaryMap: FC<Props> = ({ gameData }) => {
     const countryGeoJsons = countryBounds as any
     const actualLocations = gameData.rounds
 
-    // map.data.setStyle({
-    //   fillColor: '#39a857',
-    //   strokeColor: '#39a857',
-    //   strokeOpacity: 0.5,
-    //   fillOpacity: 0.5,
-    //   cursor: 'crosshair',
-    // })
-
     actualLocations.map((actualLocation) => {
       const geojson = countryGeoJsons.features.find(
         (country: any) => country?.properties?.code?.toLowerCase() === actualLocation.countryCode?.toLowerCase()
       )
-
-      // // If this is the most recent round (the one we got wrong)
-      // if (idx === gameData.rounds.length - 1) {
-      //   console.log('fired')
-      //   map.data.overrideStyle(, {
-      //     fillColor: '#b2677c',
-      //     strokeColor: '#b2677c',
-      //     strokeOpacity: 0.5,
-      //     fillOpacity: 0.5,
-      //     cursor: 'crosshair',
-      //   })
-      // }
 
       map.data.addGeoJson(geojson)
     })

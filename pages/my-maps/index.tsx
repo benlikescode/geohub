@@ -1,7 +1,5 @@
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-
 import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
 import { PageHeader } from '@components/Layout'

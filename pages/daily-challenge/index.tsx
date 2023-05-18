@@ -1,5 +1,5 @@
 import router from 'next/router'
-import React, { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { mailman } from '@backend/utils/mailman'
 import { DailyChallengeMapStats } from '@components/DailyChallengeMapStats'
 import { DailyChallengeWinners } from '@components/DailyChallengeWinners'

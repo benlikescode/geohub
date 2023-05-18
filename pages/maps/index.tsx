@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Head } from '@components/Head'
 import { MapType } from '../../@types'
 import { mailman } from '../../backend/utils/mailman'

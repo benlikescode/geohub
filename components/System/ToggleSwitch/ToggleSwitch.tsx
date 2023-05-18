@@ -1,5 +1,4 @@
 import { ChangeEvent, FC, useState } from 'react'
-
 import { StyledToggleSwitch } from './'
 
 type Props = {

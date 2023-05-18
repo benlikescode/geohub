@@ -1,12 +1,9 @@
 import Link from 'next/link'
-import React, { FC } from 'react'
-
+import { FC } from 'react'
 import { mailman } from '@backend/utils/mailman'
 import { Avatar, FlexGroup } from '@components/System'
 import { SearchIcon } from '@heroicons/react/outline'
-import { useAppSelector } from '@redux/hook'
 import { SearchResultType } from '@types'
-
 import { StyledSearchResult } from './'
 
 type Props = {
@@ -16,7 +13,6 @@ type Props = {
 }
 
 const SearchResult: FC<Props> = ({ searchResult, hasNoResults, setIsFocused }) => {
-  const user = useAppSelector((state) => state.user)
   const type = searchResult.type || (!searchResult.avatar ? 'map' : 'user')
 
   const handleResultClick = async () => {

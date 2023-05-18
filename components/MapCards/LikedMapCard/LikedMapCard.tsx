@@ -1,10 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { FC, useState } from 'react'
-
+import { FC, useState } from 'react'
 import { HeartIcon as HeartIconOutline } from '@heroicons/react/outline'
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/solid'
-
 import { MapType } from '../../../@types'
 import { mailman } from '../../../backend/utils/mailman'
 import { showErrorToast, showSuccessToast } from '../../../utils/helpers/showToasts'
@@ -35,6 +33,7 @@ const LikedMapCard: FC<Props> = ({ map, reloadMaps }) => {
         <Image src={`/images/mapAvatars/${map.previewImg}`} layout="fill" objectFit="cover" alt="" />
         <div className="image-gradient"></div>
       </div>
+
       <div className="contentWrapper">
         <div className="mapName">{map.name}</div>
         <div className="playWrapper">

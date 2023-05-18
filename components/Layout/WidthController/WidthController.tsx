@@ -1,5 +1,4 @@
-import React, { FC, ReactNode } from 'react'
-
+import { FC, ReactNode } from 'react'
 import { StyledWidthController } from './'
 
 type Props = {

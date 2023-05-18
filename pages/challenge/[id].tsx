@@ -1,7 +1,6 @@
 import DefaultErrorPage from 'next/error'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
-
+import { useEffect, useState } from 'react'
 import Game from '@backend/models/game'
 import { mailman } from '@backend/utils/mailman'
 import { ChallengeStart } from '@components/ChallengeStart'
@@ -15,7 +14,6 @@ import { updateStartTime } from '@redux/slices'
 import StyledGamePage from '@styles/GamePage.Styled'
 import { ChallengeType, PageType } from '@types'
 import { showErrorToast } from '@utils/helpers/showToasts'
-
 import { StreakFinalResults } from '../../components/ResultCards/StreakFinalResults'
 import { StreaksResultMap } from '../../components/StreaksResultMap'
 import { StreaksSummaryMap } from '../../components/StreaksSummaryMap'

@@ -1,5 +1,5 @@
 import GoogleMapReact from 'google-map-react'
-import React, { FC, useRef, useState } from 'react'
+import { FC, useRef, useState } from 'react'
 import { Marker } from '@components/Marker'
 import { Button } from '@components/System/Button'
 import { ArrowRightIcon, XIcon } from '@heroicons/react/outline'

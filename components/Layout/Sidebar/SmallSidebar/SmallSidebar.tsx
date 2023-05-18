@@ -1,6 +1,5 @@
 import Link from 'next/link'
-import React, { FC } from 'react'
-
+import { FC } from 'react'
 import { Icon } from '@components/System'
 import {
   DesktopComputerIcon,
@@ -8,9 +7,8 @@ import {
   HomeIcon,
   LocationMarkerIcon,
   MapIcon,
-  UsersIcon
+  UsersIcon,
 } from '@heroicons/react/outline'
-
 import { StyledSmallSidebar } from './'
 import { Item } from './Item'
 

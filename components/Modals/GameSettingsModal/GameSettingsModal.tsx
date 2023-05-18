@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
-import React, { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { mailman } from '@backend/utils/mailman'
-import { Avatar, Checkbox, FlexGroup, Icon, Slider } from '@components/System'
+import { Avatar, Checkbox, FlexGroup, Slider } from '@components/System'
 import { ToggleSwitch } from '@components/System/ToggleSwitch'
 import { UserGroupIcon, UserIcon } from '@heroicons/react/outline'
 import { useAppDispatch, useAppSelector } from '@redux/hook'
@@ -41,27 +41,6 @@ const GameSettingsModal: FC<Props> = ({ isOpen, closeModal, mapDetails, gameMode
   const router = useRouter()
 
   const dispatch = useAppDispatch()
-  const mapId = router.query.id as string // TODO
-
-  // TO DEPRECATE WHEN NEAR YOU MAP IS DELETED
-  useEffect(() => {
-    if (mapId === 'near-you') {
-      // TODO
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function showLocation(position) {
-          const latitude = position.coords.latitude
-          const longitude = position.coords.longitude
-
-          const location: LocationType = {
-            lat: latitude,
-            lng: longitude,
-          }
-
-          dispatch(updateLocation({ location }))
-        })
-      }
-    }
-  }, [])
 
   const handleCancelButton = () => {
     showChallengeView ? setShowChallengeView(false) : closeModal()
@@ -134,8 +113,6 @@ const GameSettingsModal: FC<Props> = ({ isOpen, closeModal, mapDetails, gameMode
       mapName: mapDetails.name,
       gameSettings,
       mode: gameMode,
-      // userId: user.id,
-      // userLocation: user.location,
     }
 
     // store start time
@@ -246,10 +223,7 @@ const GameSettingsModal: FC<Props> = ({ isOpen, closeModal, mapDetails, gameMode
                           <ToggleSwitch isActive={canMove} setIsActive={setCanMove} />
                           <div className="movementOptionLabel">Move</div>
                         </div>
-                        {/* <div className="movementOption">
-                          <ToggleSwitch isActive={canPan} setIsActive={setCanPan} />
-                          <div className="movementOptionLabel">Pan</div>
-                        </div> */}
+
                         <div className="movementOption">
                           <ToggleSwitch isActive={canZoom} setIsActive={setCanZoom} />
                           <div className="movementOptionLabel">Zoom</div>

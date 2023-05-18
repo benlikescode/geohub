@@ -1,11 +1,9 @@
 /* eslint-disable react/display-name */
 
 import { clearAllBodyScrollLocks, disableBodyScroll } from 'body-scroll-lock'
-import React, { createRef, forwardRef, ReactNode, useEffect, useImperativeHandle, useState } from 'react'
+import { createRef, forwardRef, ReactNode, useEffect, useImperativeHandle, useState } from 'react'
 import { createPortal } from 'react-dom'
-
 import { KEY_CODES } from '@utils/constants/keyCodes'
-
 import { StyledModal } from './'
 
 type Props = {
