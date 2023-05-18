@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
-import { Avatar, Icon } from '@components/System'
+import { Avatar } from '@components/System'
 import {
   ArrowsExpandIcon,
   ClockIcon,

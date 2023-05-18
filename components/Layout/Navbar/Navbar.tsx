@@ -1,7 +1,7 @@
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { FC, useState } from 'react'
-import { Avatar, Button, Icon, Searchbar } from '@components/System'
+import { Avatar, Button, Searchbar } from '@components/System'
 import { SearchIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '../../../redux-utils'
 import { StyledNavbar } from './'
