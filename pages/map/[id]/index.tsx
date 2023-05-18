@@ -92,7 +92,7 @@ const MapPage: FC = () => {
                   <div className="map-details">
                     <div className="name-wrapper">
                       <span className="name">{mapDetails.name}</span>
-                      <VerifiedBadge size={20} />
+                      {mapDetails.creator === 'GeoHub' && <VerifiedBadge size={20} />}
                     </div>
                     {mapDetails.description && <span className="description">{mapDetails.description}</span>}
                     {!mapDetails.description && mapDetails.creatorDetails && (
