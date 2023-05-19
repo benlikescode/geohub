@@ -53,7 +53,7 @@ const StreaksSummaryMap: FC<Props> = ({ gameData }) => {
 
     map.data.setStyle((feature: google.maps.Data.Feature) => {
       const code = feature.getProperty('code')
-      const mostRecentRoundCode = gameData.rounds[gameData.rounds.length - 1].countryCode
+      const mostRecentRoundCode = actualLocations[actualLocations.length - 1].countryCode
       const isMostRecentRound = code?.toLowerCase() === mostRecentRoundCode?.toLowerCase()
 
       const color = isMostRecentRound ? '#a63152' : '#39a857'
