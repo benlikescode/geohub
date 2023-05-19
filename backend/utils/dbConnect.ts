@@ -1,6 +1,5 @@
 import { Collection, Db, MongoClient } from 'mongodb'
 import { RecentSearch } from '@types'
-import { IS_PROD, MONGO_URI } from './secrets'
 
 export const collections: {
   users?: Collection
@@ -16,9 +15,12 @@ export const collections: {
   recentSearches?: Collection<RecentSearch>
 } = {}
 
+const IS_PROD = process.env.NODE_ENV === 'production'
+const MONGO_URI = process.env.MONGO_URI as string
+
 let cachedDb: Db | null = null
 
-const client = new MongoClient(MONGO_URI as string)
+const client = new MongoClient(MONGO_URI)
 
 export const dbConnect = async () => {
   if (cachedDb) {
