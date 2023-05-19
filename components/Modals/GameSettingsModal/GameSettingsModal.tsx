@@ -47,8 +47,6 @@ const GameSettingsModal: FC<Props> = ({ isOpen, closeModal, mapDetails, gameMode
   }
 
   const handleActionButton = async () => {
-    setIsSubmitting(true)
-
     // Case 1: Single Player & Start
     if (gameType === 'Single Player' && !showChallengeView) {
       await handleStartGame()
@@ -62,19 +60,21 @@ const GameSettingsModal: FC<Props> = ({ isOpen, closeModal, mapDetails, gameMode
 
     // Case 3: Challenge & Start
     if (gameType === 'Challenge' && showChallengeView) {
+      setIsSubmitting(true)
+
       // store game settings
       dispatch(updateGameSettings({ gameSettings: { canMove, canPan, canZoom, timeLimit: sliderVal } }))
 
       router.push(`/challenge/${challengeId}`)
     }
-
-    setIsSubmitting(false)
   }
 
   const createChallenge = async () => {
     if (!user.id) {
       return router.push('/register')
     }
+
+    setIsSubmitting(true)
 
     const gameSettings: GameSettingsType = {
       timeLimit: sliderVal * 10,
@@ -93,6 +93,7 @@ const GameSettingsModal: FC<Props> = ({ isOpen, closeModal, mapDetails, gameMode
 
     const res = await mailman('challenges', 'POST', JSON.stringify(gameData))
 
+    setIsSubmitting(false)
     setChallengeId(res)
   }
 
@@ -100,6 +101,8 @@ const GameSettingsModal: FC<Props> = ({ isOpen, closeModal, mapDetails, gameMode
     if (!user.id) {
       return router.push('/register')
     }
+
+    setIsSubmitting(true)
 
     const gameSettings: GameSettingsType = {
       timeLimit: sliderVal * 10,
@@ -124,6 +127,7 @@ const GameSettingsModal: FC<Props> = ({ isOpen, closeModal, mapDetails, gameMode
     const res = await mailman('games', 'POST', JSON.stringify(gameData))
 
     if (res.error) {
+      setIsSubmitting(false)
       return showErrorToast(res.error.message)
     }
 
