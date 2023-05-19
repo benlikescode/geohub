@@ -57,6 +57,21 @@ const StyledLeaderboardItem = styled.div<StyledProps>`
     display: flex;
     align-items: center;
     gap: 1rem;
+
+    .results-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      svg {
+        height: 20px;
+        color: #a0a0a0;
+
+        path {
+          stroke-width: 1.5;
+        }
+      }
+    }
   }
 
   .totalTime {

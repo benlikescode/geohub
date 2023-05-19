@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { Game } from '@backend/models'
-import { Avatar, Icon } from '@components/System'
+import { Avatar } from '@components/System'
 import { CogIcon } from '@heroicons/react/outline'
 import { MapType } from '@types'
 import { formatDistance, formatLargeNumber, formatRoundTime, formatSettingsLabel } from '@utils/helperFunctions'
@@ -33,9 +33,7 @@ const LeaderboardCard: FC<Props> = ({ gameData, mapData, selectedGameIndex, setS
 
           <div className="gameInfoItem">
             <div className="settingsAvatar">
-              <Icon size={30} fill="var(--color2)">
-                <CogIcon />
-              </Icon>
+              <CogIcon />
             </div>
 
             <div className="gameInfoContent">

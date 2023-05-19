@@ -11,6 +11,25 @@ const StyledStandardFinalResults = styled.div<StyledProps>`
   flex-direction: column;
   padding: 30px;
 
+  .secondary-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-radius: 5px;
+    height: 40px;
+    padding: 0 25px;
+    user-select: none;
+    background-color: #222;
+    border: 1px solid #252525;
+    color: #fff;
+    font-weight: 400;
+
+    :hover {
+      background-color: #252525;
+    }
+  }
+
   .pointsWrapper {
     font-size: 20px;
     font-weight: 600;

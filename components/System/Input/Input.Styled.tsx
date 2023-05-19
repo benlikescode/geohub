@@ -48,6 +48,18 @@ const StyledInput = styled.div<StyledProps>`
     position: absolute;
     right: 14px;
     background: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      height: 18px;
+      color: var(--gray-500);
+
+      path {
+        stroke-width: 1.5;
+      }
+    }
   }
 
   .inputError {

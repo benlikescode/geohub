@@ -51,6 +51,15 @@ const StyledLeaderboardCard = styled.div`
             height: 40px;
             width: 40px;
           }
+
+          svg {
+            height: 30px;
+            color: var(--color2);
+
+            path {
+              stroke-width: 1.5;
+            }
+          }
         }
 
         .gameInfoContent {
