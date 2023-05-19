@@ -33,36 +33,6 @@ const StyledNavbar = styled.div`
     width: 100%;
     height: 100%;
 
-    .logo {
-      user-select: none;
-      display: flex;
-      position: relative;
-      width: fit-content;
-      transition: 0.2s;
-
-      .earth {
-        position: absolute;
-        left: 28px;
-        top: -7.5px;
-        pointer-events: none;
-        transition: 0.2s;
-      }
-
-      svg {
-        pointer-events: none;
-        height: 18px;
-      }
-
-      &:hover {
-        cursor: pointer;
-        opacity: 0.7;
-
-        .earth {
-          transform: scale(1.1);
-        }
-      }
-    }
-
     @media (max-width: 500px) {
       flex-shrink: 3;
     }
@@ -154,9 +124,8 @@ const StyledNavbar = styled.div`
     cursor: pointer;
   }
 
-  button {
-    height: 36px;
-    font-weight: 500;
+  a button {
+    font-size: 15px;
     border-radius: 5px;
   }
 `

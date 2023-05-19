@@ -31,7 +31,7 @@ const StyledNoResults = styled.div<StyledProps>`
 
     h3 {
       margin-top: 10px;
-      color: #6a6a6a;
+      color: #5c5c5c;
       font-size: 16px;
       font-weight: 400;
     }

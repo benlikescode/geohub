@@ -10,7 +10,7 @@ const StyledMapsPage = styled.div`
       color: #fff;
       position: sticky;
       top: 0;
-      background-color: #121212;
+      background-color: #0e0e0e;
       z-index: 12;
       padding: 24px 0 16px 0;
       font-size: 20px;

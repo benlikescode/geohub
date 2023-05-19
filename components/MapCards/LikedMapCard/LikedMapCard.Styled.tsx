@@ -2,8 +2,8 @@ import styled from 'styled-components'
 
 const StyledLikedMapCard = styled.div`
   border-radius: 6px;
-  background-color: var(--background2);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background-color: ${({ theme }) => theme.color.gray[900]};
+  border: 1px solid ${({ theme }) => theme.color.gray[800]};
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   display: grid;
   gap: 1rem;
