@@ -169,7 +169,7 @@ const Searchbar: FC<Props> = ({ placeholder, autoFocus, isSmall, onClickOutside 
         </button>
       </div>
 
-      {isFocused && !!query.trim() && (
+      {isFocused && (
         <SearchOverlayCard
           results={query ? results : recentSearches}
           query={query}
