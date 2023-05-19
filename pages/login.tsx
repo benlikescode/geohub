@@ -1,4 +1,5 @@
-import { signIn, useSession } from 'next-auth/react'
+import { GetServerSidePropsContext } from 'next'
+import { getSession, signIn, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -9,6 +10,22 @@ import StyledAuthPage from '@styles/AuthPage.Styled'
 import { PageType } from '@types'
 import { AppLogo } from '../components/AppLogo'
 import { showErrorToast } from '../utils/helpers/showToasts'
+
+// Redirect to home page if already logged in
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+  const session = await getSession({ req: context.req })
+
+  if (session) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
+
+  return { props: {} }
+}
 
 const LoginPage: PageType = () => {
   const [email, setEmail] = useState('')
@@ -30,7 +47,7 @@ const LoginPage: PageType = () => {
           isAdmin: session.user.isAdmin,
         })
       )
-      router.replace('/')
+      router.push('/')
     }
   }, [session])
 

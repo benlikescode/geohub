@@ -1,4 +1,5 @@
-import { signIn } from 'next-auth/react'
+import { GetServerSidePropsContext } from 'next'
+import { getSession, signIn } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
@@ -10,6 +11,22 @@ import StyledAuthPage from '@styles/AuthPage.Styled'
 import { PageType } from '@types'
 import { AppLogo } from '../components/AppLogo'
 import { showErrorToast } from '../utils/helpers/showToasts'
+
+// Redirect to home page if already logged in
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+  const session = await getSession({ req: context.req })
+
+  if (session) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
+
+  return { props: {} }
+}
 
 const RegisterPage: PageType = () => {
   const [name, setName] = useState('')
