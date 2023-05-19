@@ -9,7 +9,7 @@ const StyledChallengeStart = styled.div<StyledProps>`
     border-bottom: 1px solid #222;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.9), 0 0px 2px rgba(0, 0, 0, 0.9);
     width: 100%;
-    background-color: #121212;
+    background-color: #0e0e0e;
     position: relative;
     display: flex;
     align-items: center;

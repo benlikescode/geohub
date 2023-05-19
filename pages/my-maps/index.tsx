@@ -84,9 +84,7 @@ const MyMapsPage: NextPage = () => {
     <StyledMyMapsPage>
       <WidthController>
         <Head title="My Maps" />
-        <div className="title-wrapper">
-          <PageHeader removeMargin>My Maps</PageHeader>
-        </div>
+        <PageHeader>My Maps</PageHeader>
 
         {loading ? (
           <SkeletonCards numCards={8} />

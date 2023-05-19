@@ -1,9 +1,11 @@
 import { useSession } from 'next-auth/react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { FC, useState } from 'react'
 import { Avatar, Button, Icon, Searchbar } from '@components/System'
 import { SearchIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '../../../redux-utils'
+import { AppLogo } from '../../AppLogo'
 import { StyledNavbar } from './'
 
 const Navbar: FC = () => {
@@ -25,11 +27,7 @@ const Navbar: FC = () => {
       {!searchOpen && (
         <>
           <div className="leftContainer">
-            <Link href="/">
-              <a>
-                <h2 className="appTitle">GeoHub</h2>
-              </a>
-            </Link>
+            <AppLogo />
           </div>
 
           <div className="middleContainer">
@@ -53,15 +51,15 @@ const Navbar: FC = () => {
                 <>
                   <Link href="/login">
                     <a>
-                      <Button variant="solidCustom" size="sm" backgroundColor="#3d3d3d" color="#fff" hoverColor="#444">
-                        Login
+                      <Button variant="solidCustom" size="md" backgroundColor="#3d3d3d" color="#fff" hoverColor="#444">
+                        Log In
                       </Button>
                     </a>
                   </Link>
 
                   <Link href="/register">
                     <a>
-                      <Button size="sm">Sign Up</Button>
+                      <Button size="md">Sign Up</Button>
                     </a>
                   </Link>
                 </>

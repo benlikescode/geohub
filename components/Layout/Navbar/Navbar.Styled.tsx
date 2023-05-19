@@ -12,8 +12,8 @@ const StyledNavbar = styled.div`
   //position: sticky;
   //top: 0;
   z-index: 20;
-  background-color: #18181b;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.9), 0 0px 2px rgba(0, 0, 0, 0.9);
+  background-color: ${({ theme }) => theme.color.gray[900]};
+  border-bottom: 1px solid ${({ theme }) => theme.color.gray[800]};
   flex-shrink: 0 !important;
 
   .appTitle {
@@ -68,7 +68,7 @@ const StyledNavbar = styled.div`
   .rightWrapper {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 8px;
 
     .mobile-search {
       display: none;
@@ -122,6 +122,11 @@ const StyledNavbar = styled.div`
     font-size: 14px;
     color: #9ca3af;
     cursor: pointer;
+  }
+
+  a button {
+    font-size: 15px;
+    border-radius: 5px;
   }
 `
 

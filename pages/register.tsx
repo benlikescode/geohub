@@ -4,11 +4,11 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { mailman } from '@backend/utils/mailman'
-import { Button, Icon, Input } from '@components/System'
-import { LocationMarkerIcon } from '@heroicons/react/outline'
+import { Button, Input } from '@components/System'
 import { updateUser } from '@redux/slices'
 import StyledAuthPage from '@styles/AuthPage.Styled'
 import { PageType } from '@types'
+import { AppLogo } from '../components/AppLogo'
 import { showErrorToast } from '../utils/helpers/showToasts'
 
 const RegisterPage: PageType = () => {
@@ -80,18 +80,9 @@ const RegisterPage: PageType = () => {
   return (
     <StyledAuthPage>
       <section className="authContainer">
-        <Link href="/">
-          <a>
-            <div className="logoWrapper">
-              <div className="logo">
-                <Icon size={20} fill="#fff">
-                  <LocationMarkerIcon />
-                </Icon>
-              </div>
-              <h2 className="appTitle">GeoHub</h2>
-            </div>
-          </a>
-        </Link>
+        <div className="logoWrapper">
+          <AppLogo />
+        </div>
 
         <h1 className="title">Create your Account</h1>
 

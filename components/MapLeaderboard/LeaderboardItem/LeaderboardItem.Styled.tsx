@@ -63,6 +63,7 @@ const StyledLeaderboardItem = styled.div<StyledProps>`
     color: var(--color3);
     font-size: 14px;
     width: 80px;
+    font-weight: 400;
 
     @media (max-width: 650px) {
       display: none;
