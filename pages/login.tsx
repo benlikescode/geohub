@@ -4,10 +4,10 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Button, Input } from '@components/System'
-import { LocationMarkerIcon } from '@heroicons/react/outline'
 import { updateUser } from '@redux/slices'
 import StyledAuthPage from '@styles/AuthPage.Styled'
 import { PageType } from '@types'
+import { AppLogo } from '../components/AppLogo'
 import { showErrorToast } from '../utils/helpers/showToasts'
 
 const LoginPage: PageType = () => {
@@ -61,16 +61,9 @@ const LoginPage: PageType = () => {
 
   return (
     <StyledAuthPage>
-      <Link href="/">
-        <a>
-          <div className="logoWrapper">
-            <div className="logo">
-              <LocationMarkerIcon />
-            </div>
-            <h2 className="appTitle">GeoHub</h2>
-          </div>
-        </a>
-      </Link>
+      <div className="logoWrapper">
+        <AppLogo />
+      </div>
 
       <section className="authContainer">
         <h1 className="title">Welcome Back!</h1>

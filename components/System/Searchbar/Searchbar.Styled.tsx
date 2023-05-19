@@ -14,13 +14,13 @@ const StyledSearchbar = styled.div<StyledProps>`
     display: flex;
     align-items: center;
     width: 100%;
-    height: ${({ isSmall }) => (isSmall ? 30 : 34)}px;
-    border-radius: 3px;
-    background: #121313;
+    height: ${({ isSmall }) => (isSmall ? 30 : 38)}px;
+    border-radius: 6px;
+    background-color: ${({ theme }) => theme.color.gray[800]};
     color: rgba(206, 206, 206, 0.6);
     transition: background-color 100ms, box-shadow 100ms;
-    box-shadow: ${({ isFocused }) => isFocused && '0 0 0 2px var(--mediumPurple)'};
-    border: 1px solid #353839;
+    box-shadow: ${({ isFocused, theme }) => isFocused && `0 0 0 2px ${theme.color.brand}`};
+    border: 1px solid ${({ theme }) => theme.color.gray[700]};
   }
 
   input {
@@ -31,10 +31,10 @@ const StyledSearchbar = styled.div<StyledProps>`
     background: transparent;
     font-weight: 400;
     margin-left: 10px;
-    border-radius: 3px;
+    border-radius: 6px;
 
     ::placeholder {
-      color: #616161;
+      color: ${({ theme }) => theme.color.gray[600]};
       font-weight: 400;
     }
   }
@@ -45,9 +45,10 @@ const StyledSearchbar = styled.div<StyledProps>`
     justify-content: center;
     height: 100%;
     padding: 0 1rem;
-    background-color: #212424;
-    border-left: 1px solid #353839;
-    border-radius: 0 3px 3px 0;
+    transition: 0.2s;
+    background-color: ${({ theme }) => theme.color.gray[800]};
+    border-left: 1px solid ${({ theme }) => theme.color.gray[700]};
+    border-radius: 0 6px 6px 0;
 
     svg {
       height: 20px;
@@ -57,6 +58,10 @@ const StyledSearchbar = styled.div<StyledProps>`
       path {
         stroke-width: 1.5;
       }
+    }
+
+    &:hover {
+      background-color: ${({ theme }) => theme.color.gray[700]};
     }
   }
 `

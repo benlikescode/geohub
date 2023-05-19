@@ -5,9 +5,9 @@ const StyledSearchOverlayCard = styled.div`
     width: calc(100% + 4px);
     background-color: var(--background2);
     color: var(--color3);
-    border-radius: 5px;
+    border-radius: 6px;
     position: absolute;
-    top: 36px;
+    top: 41px;
     left: -2px;
     z-index: 9999999;
     pointer-events: all;

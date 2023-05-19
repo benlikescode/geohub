@@ -6,7 +6,7 @@ const StyledAuthPage = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: linear-gradient(250deg, rgba(19, 19, 20, 0) 0%, #151515 50%),
+  background-image: linear-gradient(250deg, rgba(19, 19, 20, 0) 0%, #0e0e0e 50%),
     url('https://images.pexels.com/photos/2187605/pexels-photo-2187605.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
   background-position: center;
   background-repeat: no-repeat;
@@ -124,37 +124,6 @@ const StyledAuthPage = styled.div`
     position: absolute;
     top: 16px;
     left: 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 4rem;
-
-    .appTitle {
-      font-weight: 500;
-      font-size: 18px;
-    }
-  }
-
-  .logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--mediumPurple);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 2px 6px rgba(255, 255, 255, 0.25),
-      inset 0px -3px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 4px;
-    height: 30px;
-    width: 30px;
-
-    svg {
-      height: 20px;
-      color: #fff;
-
-      path {
-        stroke-width: 1.5;
-      }
-    }
   }
 `
 

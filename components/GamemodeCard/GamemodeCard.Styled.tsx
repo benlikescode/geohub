@@ -25,7 +25,7 @@ const StyledGamemodeCard = styled.div<StyledProps>`
     }
 
     p {
-      color: var(--color5);
+      color: ${({ theme }) => theme.color.gray[500]};
       font-size: 1rem;
       font-weight: 400;
     }

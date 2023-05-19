@@ -15,7 +15,8 @@ const StyledSidebar = styled.div`
     //background-color: #1f1f23;
     //background-color: #141416;
     //background-color: #1a1a1c;
-    background-color: #1e1e21;
+    background-color: ${({ theme }) => theme.color.gray[900]};
+    border-right: 1px solid ${({ theme }) => theme.color.gray[800]};
     z-index: 1;
     overflow: hidden auto;
     height: 100% !important;
@@ -33,8 +34,8 @@ const StyledSidebar = styled.div`
   .sidebarItemGrid {
     display: grid;
     gap: 4px;
-    padding: 1rem 0.5rem;
-    border-bottom: 1px solid #303033;
+    padding: 6px;
+    border-bottom: 1px solid ${({ theme }) => theme.color.gray[800]};
 
     @media (max-width: 1200px) {
       gap: 1.5rem;
@@ -45,7 +46,7 @@ const StyledSidebar = styled.div`
     padding-top: 8px;
     //margin-bottom: 40px;
     padding-bottom: 16px;
-    border-bottom: 1px solid #303033;
+    border-bottom: 1px solid ${({ theme }) => theme.color.gray[800]};
 
     @media (max-width: 1200px) {
       display: none;
