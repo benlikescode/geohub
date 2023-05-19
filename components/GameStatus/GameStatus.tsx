@@ -23,7 +23,7 @@ const GameStatus: FC<Props> = ({ gameData, handleSubmitGuess, hasCustomRoundLeng
   const game = useAppSelector((state) => state.game)
 
   useEffect(() => {
-    if (gameData.round === 1) {
+    if (gameData.round === 1 && gameData.mode !== 'streak') {
       getMapName()
     }
   }, [])

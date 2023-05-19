@@ -28,12 +28,14 @@ const ResultsPage: PageType = () => {
       return setGameData(null)
     }
 
-    const { game } = res
+    const game = res.game as Game
 
     setIsGameFinished(game.state === 'finished')
     setGameData(game)
 
-    fetchMap(game.mapId)
+    if (game.mode === 'standard') {
+      fetchMap(game.mapId)
+    }
   }
 
   const fetchMap = async (mapId: string) => {
@@ -66,7 +68,7 @@ const ResultsPage: PageType = () => {
         <section>
           <Navbar />
 
-          {!gameData || !mapData ? (
+          {!gameData ? (
             <GameResultsSkeleton />
           ) : (
             <main>

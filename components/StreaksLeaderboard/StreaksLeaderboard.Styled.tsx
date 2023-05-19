@@ -10,9 +10,9 @@ const StyledStreaksLeaderboard = styled.div<StyledProps>`
   z-index: 1;
   padding-bottom: 3rem;
 
-  @media (max-width: 1300px) {
+  @media (max-width: 1160px) {
     max-width: 100%;
-    padding: 0;
+    padding: 8px;
   }
 
   .leaderboard-wrapper {
@@ -24,10 +24,15 @@ const StyledStreaksLeaderboard = styled.div<StyledProps>`
     border-radius: 6px;
     padding: 25px;
 
+    @media (max-width: 960px) {
+      flex-direction: column;
+    }
+
     .leaderboard-header {
-      font-size: 20px;
+      font-size: 18px;
       border-bottom: 1px solid #2f3133;
       padding-bottom: 8px;
+      color: #dcdcdc;
     }
 
     .users-list {

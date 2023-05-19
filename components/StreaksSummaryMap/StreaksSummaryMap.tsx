@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import GoogleMapReact from 'google-map-react'
-import { FC, useRef, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import Game from '@backend/models/game'
 import { Marker } from '@components/Marker'
 import { LocationType } from '@types'
@@ -17,15 +17,33 @@ const StreaksSummaryMap: FC<Props> = ({ gameData }) => {
 
   const resultMapRef = useRef<google.maps.Map | null>(null)
 
+  // If locations change (because we toggle the view on challenge results) -> reload the markers
+  useEffect(() => {
+    if (!resultMapRef.current) return
+
+    loadMapMarkers()
+    resultMapRef.current.data.forEach((x) => resultMapRef.current?.data.remove(x))
+    loadCountryGeojson(resultMapRef.current)
+  }, [gameData])
+
   const loadMapMarkers = () => {
-    setActualMarkers(gameData.rounds)
+    setActualMarkers(gameData.rounds.slice(0, gameData.round - 1))
   }
 
   const loadCountryGeojson = (map: google.maps.Map) => {
     const countryGeoJsons = countryBounds as any
-    const actualLocations = gameData.rounds
+    const actualLocations = gameData.rounds.slice(0, gameData.round - 1)
 
-    actualLocations.map((actualLocation) => {
+    // Remove duplicate countries so we dont add multiple layers of the same country
+    const seen = new Set()
+
+    const uniqueLocations = actualLocations.filter((loc) => {
+      const duplicate = seen.has(loc.countryCode)
+      seen.add(loc.countryCode)
+      return !duplicate
+    })
+
+    uniqueLocations.map((actualLocation) => {
       const geojson = countryGeoJsons.features.find(
         (country: any) => country?.properties?.code?.toLowerCase() === actualLocation.countryCode?.toLowerCase()
       )
@@ -49,7 +67,7 @@ const StreaksSummaryMap: FC<Props> = ({ gameData }) => {
       }
     })
 
-    getMapBounds(map)
+    // getMapBounds(map)
   }
 
   const getMapBounds = (map: google.maps.Map) => {

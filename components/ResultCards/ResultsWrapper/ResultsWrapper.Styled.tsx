@@ -13,6 +13,7 @@ const StyledResultsWrapper = styled.div<StyledProps>`
   border-radius: 6px;
   border: 1px solid #202020;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.55);
+  margin-bottom: 20px;
 
   @media (max-width: 600px) {
     border-radius: 0;

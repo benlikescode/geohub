@@ -30,7 +30,7 @@ const ChallengePage: PageType = () => {
   const fetchChallenge = async () => {
     const res = await mailman(`challenges/${challengeId}`)
 
-    const { challengeBelongsToUser, playersGame, mapDetails } = res
+    const { challengeBelongsToUser, playersGame } = res
 
     // If challenge not found -> show error page
     if (res.error) {
@@ -50,7 +50,7 @@ const ChallengePage: PageType = () => {
     }
 
     // If they have not finished the game, set their game state
-    const formattedGameData = { id: playersGame._id, mapDetails, ...playersGame }
+    const formattedGameData = { id: playersGame._id, ...playersGame }
     setGameData(formattedGameData)
   }
 

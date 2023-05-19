@@ -65,7 +65,7 @@ const ChallengeResultsPage: PageType = () => {
         <section>
           <Navbar />
 
-          {!gamesFromChallenge || !mapData ? (
+          {!gamesFromChallenge ? (
             <GameResultsSkeleton />
           ) : (
             <main>

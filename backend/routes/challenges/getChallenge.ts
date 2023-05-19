@@ -1,5 +1,6 @@
-import { ObjectId } from 'bson'
+import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { COUNTRY_STREAKS_ID, OFFICIAL_WORLD_ID } from '../../../utils/constants/random'
 import { collections } from '../../utils/dbConnect'
 import getUserId from '../../utils/getUserId'
 import { throwError } from '../../utils/helpers'
@@ -33,7 +34,9 @@ const getChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
     })
   }
 
-  const mapDetails = await collections.maps?.findOne({ _id: challenge.mapId })
+  const mapId =
+    challenge.isDailyChallenge || challenge.mapId === COUNTRY_STREAKS_ID ? OFFICIAL_WORLD_ID : challenge.mapId
+  const mapDetails = await collections.maps?.findOne({ _id: new ObjectId(mapId) })
 
   if (!mapDetails) {
     return throwError(res, 404, 'Failed to find challenge')

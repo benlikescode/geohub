@@ -10,7 +10,7 @@ const StyledLeaderboardCard = styled.div`
 
   @media (max-width: 1300px) {
     max-width: 100%;
-    padding: 0;
+    padding: 8px;
   }
 
   .leaderboardWrapper {

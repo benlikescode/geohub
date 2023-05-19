@@ -77,7 +77,9 @@ const ChallengeStart: FC<Props> = ({ challengeData, handleStartChallenge, setVie
               <div className="challengeMessage">
                 <span className="emphasizedText">{challengeData.creatorName}</span>
                 <span> challenged you to play </span>
-                <span className="emphasizedText">{challengeData?.mapDetails?.name}</span>
+                <span className="emphasizedText">
+                  {challengeData.mode === 'streak' ? 'Country Streaks' : challengeData?.mapDetails?.name}
+                </span>
               </div>
             </div>
           )}

@@ -17,9 +17,9 @@ const StyledStreakFinalResults = styled.div<StyledProps>`
   }
 
   .country-list {
-    margin: 40px 0;
+    margin: 30px 0;
     border-bottom: 1px solid #333;
-    padding-bottom: 25px;
+    padding-bottom: 16px;
   }
 
   .actionButtons {
