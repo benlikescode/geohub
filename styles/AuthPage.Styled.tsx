@@ -45,6 +45,11 @@ const StyledAuthPage = styled.div`
     gap: 30px;
     border-top: 1px solid #333;
     padding-top: 30px;
+
+    @media (max-width: 450px) {
+      border-top: none;
+      padding-top: 20px;
+    }
   }
 
   .errorMessage {

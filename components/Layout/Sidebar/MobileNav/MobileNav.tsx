@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { Item } from '@components/Layout/Sidebar/Sidebar/Item'
-import { DesktopComputerIcon, HeartIcon, HomeIcon, MapIcon, UsersIcon } from '@heroicons/react/outline'
+import { HeartIcon, HomeIcon, LightningBoltIcon, LocationMarkerIcon, MapIcon, PlayIcon } from '@heroicons/react/outline'
 import { StyledMobileNav } from './'
 
 const MobileNav: FC = () => {
@@ -10,11 +10,13 @@ const MobileNav: FC = () => {
 
       <Item text="My Maps" icon={<MapIcon />} route="/my-maps" />
 
-      <Item text="Friends" icon={<UsersIcon />} route="/friends" />
-
       <Item text="Liked Maps" icon={<HeartIcon />} route="/liked" />
 
-      <Item text="Ongoing Games" icon={<DesktopComputerIcon />} route="/ongoing" />
+      <Item text="Ongoing Games" icon={<PlayIcon />} route="/ongoing" />
+
+      <Item text="Country Streaks" icon={<LightningBoltIcon />} route="/streaks" />
+
+      <Item text="Daily Challenge" icon={<LocationMarkerIcon />} route="/daily-challenge" />
     </StyledMobileNav>
   )
 }
