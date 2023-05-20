@@ -10,7 +10,7 @@ const NoResults: FC<Props> = ({ message }) => {
   return (
     <StyledNoResults>
       <div className="no-results-container">
-        <Image src="/images/noResults.png" height={250} width={250} alt="computer with no search results" />
+        <Image src="/images/no-results.png" height={250} width={250} alt="computer with no search results" />
 
         <h2>No results found</h2>
         <h3>{message || `We couldn't find what you're looking for.`}</h3>

@@ -12,7 +12,7 @@ const Head: FC<Props> = ({ title, description, ogUrl, ogImage }) => {
   const defaultTitle = 'GeoHub'
   const defaultDescription = 'A fun geography guessing game'
   const defaultOGURL = 'https://geohub.vercel.app/'
-  const defaultOGImage = '/images/ogImage.png'
+  const defaultOGImage = '/images/og-image.png'
 
   return (
     <NextHead>

@@ -17,8 +17,8 @@ import { LocationType, MapType, PageType } from '@types'
 import { createMarker, getMapTheme } from '@utils/helperFunctions'
 import { showErrorToast, showSuccessToast } from '@utils/helpers/showToasts'
 
-const SELECTED_MARKER_ICON = '/images/selectedPin.png'
-const REGULAR_MARKER_ICON = '/images/regularPin.png'
+const SELECTED_MARKER_ICON = '/images/selected-pin.png'
+const REGULAR_MARKER_ICON = '/images/regular-pin.png'
 const SELECTED_MARKER_SIZE = 40
 const REGULAR_MARKER_SIZE = 30
 
