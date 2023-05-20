@@ -52,6 +52,10 @@ const StyledOngoingGamesPage = styled.div`
           @media (max-width: 800px) {
             font-size: 1rem;
           }
+
+          @media (max-width: 600px) {
+            font-size: 14px;
+          }
         }
       }
 
@@ -66,6 +70,10 @@ const StyledOngoingGamesPage = styled.div`
       display: flex;
       align-items: center;
       gap: 30px;
+
+      @media (max-width: 600px) {
+        gap: 10px;
+      }
 
       .game-info-pills {
         display: flex;
@@ -100,7 +108,7 @@ const StyledOngoingGamesPage = styled.div`
             }
           }
 
-          @media (max-width: 600px) {
+          @media (max-width: 650px) {
             &.round {
               display: none;
             }
@@ -117,6 +125,10 @@ const StyledOngoingGamesPage = styled.div`
         display: flex;
         align-items: center;
         gap: 1rem;
+
+        @media (max-width: 600px) {
+          gap: 10px;
+        }
 
         .play-button,
         .delete-button {
