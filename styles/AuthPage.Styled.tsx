@@ -6,20 +6,13 @@ const StyledAuthPage = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: linear-gradient(250deg, rgba(19, 19, 20, 0) 0%, #0e0e0e 50%),
-    url('https://images.pexels.com/photos/2187605/pexels-photo-2187605.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+  background-image: linear-gradient(250deg, rgba(19, 19, 20, 0) 0%, #0e0e0e 50%), url('/images/backgrounds/hero.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 
-  // https://c0.wallpaperflare.com/preview/50/408/1001/dawn-hd-wallpaper-landscape-nature.jpg
-
-  // https://oir.mobi/uploads/posts/2021-06/1624287508_25-oir_mobi-p-rozovii-okean-priroda-krasivo-foto-25.jpg
-
-  @media (max-width: 800px) {
+  @media (max-width: 450px) {
     background-image: none;
-    background-color: var(--background1);
-    align-items: flex-start;
   }
 
   .authContainer {
@@ -32,7 +25,7 @@ const StyledAuthPage = styled.div`
     box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.55);
     border: 1px solid #222;
 
-    @media (max-width: 800px) {
+    @media (max-width: 450px) {
       box-shadow: none;
       border: none;
       padding: 2rem 1rem;
@@ -45,12 +38,6 @@ const StyledAuthPage = styled.div`
     font-size: 20px;
     margin-bottom: 20px;
     color: var(--color2);
-
-    @media (max-width: 800px) {
-      font-size: 18px;
-      text-align: left;
-      margin-bottom: 2rem;
-    }
   }
 
   .inputGroup {
