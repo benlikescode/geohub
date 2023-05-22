@@ -110,7 +110,7 @@ const ProfilePage: NextPage = () => {
     <StyledProfilePage isEditing={isEditing}>
       <Head title={userDetails ? userDetails.name : 'GeoHub'} />
 
-      {loading || !leaderboardData || true ? (
+      {loading || !leaderboardData ? (
         <SkeletonProfile />
       ) : (
         <div>
