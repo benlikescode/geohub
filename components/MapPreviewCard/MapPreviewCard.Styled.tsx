@@ -78,20 +78,20 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
       line-height: 25px;
       text-align: center;
       padding: 0 1.7rem;
-      //height: 50px;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       overflow: hidden;
       -webkit-box-orient: vertical;
       word-break: break-word;
+      height: 50px;
 
-      @media (max-width: 1050px) {
+      /* @media (max-width: 1050px) {
         display: none;
       }
 
       @media (max-width: 700px) {
         display: block;
-      }
+      } */
       /*
       @media (max-width: 1350px) {
         display: block;

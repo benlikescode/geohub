@@ -5,61 +5,64 @@ type StyledProps = {
 }
 
 const StyledProfilePage = styled.div<StyledProps>`
-  /* .banner {
-    width: 100%;
-    height: 250px;
-    border-radius: 10px;
-    background: rgb(255, 255, 255, 0.02) url('/images/backgrounds/profile.jpg') no-repeat center / cover;
-    opacity: 0.55;
-    // MOST RECENT: https://images.pexels.com/photos/462162/pexels-photo-462162.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1
-    //https://images.pexels.com/photos/2658079/pexels-photo-2658079.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1
-    //https://images.pexels.com/photos/4664347/pexels-photo-4664347.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1
-    //https://images.pexels.com/photos/3244513/pexels-photo-3244513.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1
-    //https://images.pexels.com/photos/2662116/pexels-photo-2662116.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1
-    //https://images.pexels.com/photos/3408744/pexels-photo-3408744.jpeg
-    //https://images.pexels.com/photos/210186/pexels-photo-210186.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1
-    //https://images.pexels.com/photos/462162/pexels-photo-462162.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1   GOOD ONE
-    //https://images.pexels.com/photos/206359/pexels-photo-206359.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1
-    //https://images.pexels.com/photos/158063/bellingrath-gardens-alabama-landscape-scenic-158063.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1
-
-    box-shadow: inset 0 0 0 1px rgb(255, 255, 255, 0.1);
-  } */
-
   .banner-image {
     height: 250px;
     width: 100%;
     position: relative;
-    border-radius: 10px;
-    box-shadow: inset 0 0 0 1px rgb(255, 255, 255, 0.1);
 
-    span img {
-      border-radius: 10px;
+    &::after {
+      position: absolute;
+      content: '';
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 200px;
+      background: linear-gradient(transparent, #0e0e0e);
+    }
+
+    @media (max-width: 600px) {
+      height: 125px;
+
+      &::after {
+        height: 60px;
+      }
+    }
+
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
     }
   }
 
   .profile-details {
-    max-width: 600px;
+    max-width: 650px;
     margin: 0 auto;
     width: 100%;
     position: relative;
     z-index: 2;
-    margin-top: -60px;
+    margin-top: -100px;
+    padding: 20px;
 
     .profile-heading {
       padding-bottom: 30px;
-      margin-bottom: 30px;
-      border-bottom: 1px solid rgb(255, 255, 255, 0.1);
+      margin-bottom: 10px;
 
       .profile-avatar {
-        background-color: #0e0e10;
+        background-color: #0e0e0e;
         width: 125px;
         height: 125px;
         border-radius: 50%;
         position: relative;
-        box-shadow: 0 0 0 5px #0e0e10;
+        box-shadow: 0 0 0 5px #0e0e0e;
         display: flex;
         align-items: center;
         justify-content: center;
+
+        @media (max-width: 600px) {
+          height: 75px;
+          width: 75px;
+        }
 
         &:hover {
           ${({ isEditing }) =>
@@ -73,6 +76,11 @@ const StyledProfilePage = styled.div<StyledProps>`
         img {
           height: 70px;
           width: 70px;
+
+          @media (max-width: 600px) {
+            height: 40px;
+            width: 40px;
+          }
         }
 
         .profile-avatar-editing-icon {
@@ -192,6 +200,30 @@ const StyledProfilePage = styled.div<StyledProps>`
 
   .no-games-message {
     color: var(--color3);
+  }
+
+  @media (max-width: 600px) {
+    .profile-details {
+      margin-top: -45px;
+
+      .profile-heading {
+        border: 0;
+        margin-bottom: 0;
+
+        .profile-avatar {
+          .profile-avatar-editing-icon {
+            top: -6px;
+            right: -6px;
+            height: 36px;
+            width: 36px;
+
+            svg {
+              height: 16px;
+            }
+          }
+        }
+      }
+    }
   }
 `
 

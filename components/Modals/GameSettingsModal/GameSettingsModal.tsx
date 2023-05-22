@@ -178,27 +178,27 @@ const GameSettingsModal: FC<Props> = ({ isOpen, closeModal, mapDetails, gameMode
 
               <div className="toggleBar">
                 <div
-                  className={`toggleItem ${gameType === 'Single Player' ? 'active' : ''}`}
+                  className={`toggleItemWrapper ${gameType === 'Single Player' ? 'active' : ''}`}
                   onClick={() => setGameType('Single Player')}
                 >
-                  <FlexGroup gap={12}>
+                  <div className="toggle-item">
                     <div className="toggleIcon">
                       <UserIcon />
                     </div>
                     <span className="toggleText">Single Player</span>
-                  </FlexGroup>
+                  </div>
                 </div>
 
                 <div
-                  className={`toggleItem ${gameType === 'Challenge' ? 'active' : ''}`}
+                  className={`toggleItemWrapper ${gameType === 'Challenge' ? 'active' : ''}`}
                   onClick={() => setGameType('Challenge')}
                 >
-                  <FlexGroup gap={12}>
+                  <div className="toggle-item">
                     <div className="toggleIcon">
                       <UserGroupIcon />
                     </div>
                     <span className="toggleText">Challenge</span>
-                  </FlexGroup>
+                  </div>
                 </div>
               </div>
 

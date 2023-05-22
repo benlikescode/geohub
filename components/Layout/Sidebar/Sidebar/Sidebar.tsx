@@ -5,12 +5,14 @@ import { mailman } from '@backend/utils/mailman'
 import { Avatar } from '@components/System'
 import {
   ArrowRightIcon,
+  ChartPieIcon,
   HeartIcon,
   HomeIcon,
   LightningBoltIcon,
   LocationMarkerIcon,
   MapIcon,
   PlayIcon,
+  ViewGridIcon,
 } from '@heroicons/react/outline'
 import { useAppDispatch, useAppSelector } from '@redux/hook'
 import { updateRecentlyPlayed } from '@redux/slices'
@@ -60,23 +62,27 @@ const Sidebar: FC = () => {
 
           <Item text="Liked Maps" icon={<HeartIcon />} route="/liked" />
 
+          <Item text="Find Maps" icon={<ViewGridIcon />} route="/maps" />
+
           <Item text="Ongoing Games" icon={<PlayIcon />} route="/ongoing" />
 
           <Item text="Country Streaks" icon={<LightningBoltIcon />} route="/streaks" />
 
           <Item text="Daily Challenge" icon={<LocationMarkerIcon />} route="/daily-challenge" />
+
+          {/* <Item text="Analytics" icon={<ChartPieIcon />} route="/admin/analytics" /> */}
         </div>
 
         <div className="quickLinksSection">
-          <div className="title">
-            <span>Recently Played</span>
-          </div>
+          {/* <div className="title">
+            <span>Play Now</span>
+          </div> */}
 
           <div className="recentMapsWrapper">
             {maps?.map((map, idx) => (
               <Link key={idx} href={`/map/${map._id}`}>
                 <a className="recentMap">
-                  <Avatar type="map" src={map.previewImg} size={24} />
+                  <Avatar type="map" src={map.previewImg} size={28} />
                   <span className="recentMapName">{map.name}</span>
                 </a>
               </Link>
@@ -84,16 +90,16 @@ const Sidebar: FC = () => {
           </div>
         </div>
 
-        <div className="view-more">
+        {/* <div className="view-more">
           <Link href="/maps">
             <a>
               <span>View all maps</span>
               <ArrowRightIcon />
             </a>
           </Link>
-        </div>
+        </div> */}
 
-        {session?.user.isAdmin && (
+        {/* {session?.user.isAdmin && (
           <>
             <div className="view-more">
               <Link href="/admin/analytics">
@@ -101,7 +107,7 @@ const Sidebar: FC = () => {
               </Link>
             </div>
           </>
-        )}
+        )} */}
       </div>
     </StyledSidebar>
   )

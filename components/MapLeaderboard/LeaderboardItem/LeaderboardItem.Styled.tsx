@@ -23,6 +23,12 @@ const StyledLeaderboardItem = styled.div<StyledProps>`
     padding: 1rem;
   }
 
+  @media (max-width: 600px) {
+    &:last-child {
+      border-radius: 0;
+    }
+  }
+
   .userPlace {
     width: 1.5rem;
   }
@@ -114,33 +120,6 @@ const StyledLeaderboardItem = styled.div<StyledProps>`
       width: 100px;
       font-size: 14px;
     }
-  }
-
-  .countryFlag {
-    height: 20px;
-    width: 35px;
-    position: relative;
-
-    img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      object-fit: cover;
-      height: 100%;
-      width: 100%;
-    }
-  }
-
-  .allCountries {
-    height: 20px;
-    width: 35px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    color: #808080;
   }
 `
 

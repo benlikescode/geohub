@@ -128,6 +128,11 @@ const StyledNavbar = styled.div`
     font-size: 15px;
     border-radius: 5px;
   }
+
+  @media (max-width: 600px) {
+    position: fixed;
+    background-color: #0e0e0e;
+  }
 `
 
 export default StyledNavbar

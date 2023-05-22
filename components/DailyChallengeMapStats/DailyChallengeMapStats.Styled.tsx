@@ -5,15 +5,12 @@ type StyledProps = {}
 const StyledDailyChallengeMapStats = styled.div<StyledProps>`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  column-gap: 20px;
+  gap: 20px;
   padding: 15px 20px 20px;
 
-  @media (max-width: 1200px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  @media (max-width: 940px) {
+  @media (max-width: 1000px) {
     grid-template-columns: 1fr 1fr;
+    gap: 12px;
   }
 
   .stat-item {
@@ -27,23 +24,6 @@ const StyledDailyChallengeMapStats = styled.div<StyledProps>`
     box-sizing: border-box;
   }
 
-  @media (max-width: 1200px) {
-    padding: 2rem 0 2rem 3rem;
-    border-left: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    border-top-right-radius: 0;
-    border-bottom-left-radius: 12px;
-  }
-
-  @media (max-width: 1050px) {
-    padding: 2rem 0 2rem 1rem;
-  }
-
-  @media (max-width: 600px) {
-    border-radius: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
   .textWrapper {
     display: flex;
     flex-direction: column;
@@ -52,12 +32,20 @@ const StyledDailyChallengeMapStats = styled.div<StyledProps>`
 
   .mainLabel {
     color: var(--color2);
+
+    @media (max-width: 600px) {
+      font-size: 14px;
+    }
   }
 
   .subLabel {
     color: var(--color3);
     font-weight: 400;
     font-size: 14px;
+
+    @media (max-width: 600px) {
+      font-size: 12px;
+    }
   }
 
   .stat-icon {
@@ -69,6 +57,10 @@ const StyledDailyChallengeMapStats = styled.div<StyledProps>`
 
       path {
         stroke-width: 1.5;
+      }
+
+      @media (max-width: 600px) {
+        height: 24px;
       }
     }
   }

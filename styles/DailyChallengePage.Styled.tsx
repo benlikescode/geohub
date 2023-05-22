@@ -71,6 +71,10 @@ const StyledDailyChallengePage = styled.div`
     .name {
       font-size: 22px;
       font-weight: 600;
+
+      @media (max-width: 800px) {
+        font-size: 18px;
+      }
     }
   }
 
@@ -100,39 +104,15 @@ const StyledDailyChallengePage = styled.div`
   .description {
     color: var(--color3);
     font-weight: 400;
-  }
 
-  .otherMapsWrapper {
-    margin-top: 3rem;
-
-    @media (max-width: 600px) {
-      padding: 1rem;
+    @media (max-width: 1000px) {
+      display: none;
     }
-  }
-
-  .otherMapsTitle {
-    font-size: 20px;
   }
 
   .mapAvatar {
     @media (max-width: 600px) {
       display: none;
-    }
-  }
-
-  .otherMaps {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.2rem;
-    margin-top: 1rem;
-
-    @media (max-width: 1350px) {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    @media (max-width: 850px) {
-      grid-template-columns: 1fr;
-      gap: 2.5rem;
     }
   }
 
@@ -155,15 +135,6 @@ const StyledDailyChallengePage = styled.div`
 
   .mapDescriptionWrapper {
     width: 100%;
-
-    @media (max-width: 1550px) {
-      flex-shrink: 1.25;
-      padding: 1rem 1.5rem;
-    }
-
-    @media (max-width: 1200px) {
-      padding: 1.5rem;
-    }
   }
 
   .statsWrapper {

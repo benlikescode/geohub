@@ -19,12 +19,12 @@ const StyledSkeletonProfile = styled.div<StyledProps>`
       border-bottom: 1px solid rgb(255, 255, 255, 0.1);
 
       .profile-avatar {
-        background-color: #0e0e10;
+        background-color: red;
         width: 125px;
         height: 125px;
         border-radius: 50%;
         position: relative;
-        box-shadow: 0 0 0 5px #0e0e10;
+        box-shadow: 0 0 0 5px #0e0e0e;
 
         img {
           position: absolute;

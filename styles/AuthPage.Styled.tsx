@@ -11,7 +11,7 @@ const StyledAuthPage = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
 
-  @media (max-width: 450px) {
+  @media (max-width: 600px) {
     background-image: none;
   }
 
@@ -25,7 +25,7 @@ const StyledAuthPage = styled.div`
     box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.55);
     border: 1px solid #222;
 
-    @media (max-width: 450px) {
+    @media (max-width: 600px) {
       box-shadow: none;
       border: none;
       padding: 2rem 1rem;
@@ -46,7 +46,7 @@ const StyledAuthPage = styled.div`
     border-top: 1px solid #333;
     padding-top: 30px;
 
-    @media (max-width: 450px) {
+    @media (max-width: 600px) {
       border-top: none;
       padding-top: 20px;
     }

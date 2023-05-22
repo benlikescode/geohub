@@ -9,7 +9,7 @@ const SkeletonProfile: FC<Props> = ({}) => {
   return (
     <StyledSkeletonProfile>
       <div>
-        <Skeleton height={250} />
+        <Skeleton height={250} noBorder />
 
         <div className="profile-details">
           <div className="profile-heading">

@@ -1,13 +1,14 @@
 import styled from 'styled-components'
 
 const StyledMobileNav = styled.div`
-  height: 50px;
+  height: 70px;
   width: 100%;
   border-top: 1px solid #252525;
-  position: sticky;
+  position: fixed;
   bottom: 0;
   z-index: 20;
-  background-color: #18181b;
+  background-color: #0e0e0ee3;
+  backdrop-filter: blur(15px) saturate(2);
   display: none;
 
   @media (max-width: 600px) {

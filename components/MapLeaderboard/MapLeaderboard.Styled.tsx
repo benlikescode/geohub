@@ -38,6 +38,10 @@ const StyledMapLeaderboard = styled.div`
     font-weight: 400;
     display: block;
     padding: 0 20px 20px;
+
+    @media (max-width: 1000px) {
+      padding: 0 16px 16px;
+    }
   }
 `
 
