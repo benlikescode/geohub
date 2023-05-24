@@ -47,7 +47,7 @@ const StandardFinalResults: FC<Props> = ({ gameData }) => {
           {gameData.isDailyChallenge ? (
             <Link href={'/daily-challenge'}>
               <a>
-                <Button>Daily Challenge</Button>
+                <Button>Finish Challenge</Button>
               </a>
             </Link>
           ) : (

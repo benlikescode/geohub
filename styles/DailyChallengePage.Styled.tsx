@@ -156,6 +156,20 @@ const StyledDailyChallengePage = styled.div`
   .skeletonCards {
     margin-top: 3rem;
   }
+
+  @media (max-width: 600px) {
+    .previous-winners-container {
+      border-radius: 0;
+      border: none;
+      background-color: transparent;
+      padding: 0 0 16px 0;
+
+      .leaderboardTop {
+        margin: 0;
+        padding: 16px;
+      }
+    }
+  }
 `
 
 export default StyledDailyChallengePage
