@@ -4,9 +4,15 @@ export const StyledAnalytics = styled.div`
   display: grid;
   grid-gap: 40px;
 
-  .analytics-group {
+  .analytics-stats {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-gap: 20px;
+  }
+
+  .analytics-lists {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
     grid-gap: 20px;
   }
 
@@ -37,6 +43,12 @@ export const StyledAnalytics = styled.div`
           gap: 1rem;
         }
       }
+    }
+  }
+
+  @media (max-width: 600px) {
+    .analytics-lists {
+      grid-template-columns: 1fr;
     }
   }
 `
