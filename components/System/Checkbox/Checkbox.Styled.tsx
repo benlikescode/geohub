@@ -24,7 +24,12 @@ const StyledCheckbox = styled.div`
 
   label {
     cursor: pointer;
-    font-size: 13px;
+  }
+
+  @media (max-width: 600px) {
+    label {
+      font-size: 13px;
+    }
   }
 `
 
