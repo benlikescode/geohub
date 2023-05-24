@@ -89,7 +89,7 @@ const SearchResultsPage: NextPage = () => {
       <WidthController customWidth="800px">
         <Head title={`Search Results - ${q}`} />
 
-        <div className="lm">
+        <div className="tabs-wrapper">
           <h1 className="page-title">Search Results</h1>
 
           <Tabs>
