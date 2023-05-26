@@ -4,13 +4,12 @@ import { StyledSkeletonCards } from './'
 
 type Props = {
   numCards?: number
-  numColumns?: number
 }
 
-const SkeletonCards: FC<Props> = ({ numCards, numColumns }) => {
+const SkeletonCards: FC<Props> = ({ numCards }) => {
   return (
-    <StyledSkeletonCards numColumns={numColumns || 4}>
-      {Array.from({ length: numCards || 4 }).map((_, idx) => (
+    <StyledSkeletonCards>
+      {Array.from({ length: numCards || 12 }).map((_, idx) => (
         <div key={idx} className="skeleton-card-item">
           <Skeleton variant="rectangular" height={120} />
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>

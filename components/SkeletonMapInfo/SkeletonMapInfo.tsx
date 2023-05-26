@@ -11,10 +11,10 @@ const SkeletonMapInfo: FC<Props> = ({}) => {
         <div className="mapDescriptionWrapper">
           <div className="descriptionColumnWrapper">
             <div className="descriptionColumn">
-              <Skeleton variant="circular" height={52} width={52} />
+              <Skeleton variant="rectangular" height={52} width={52} />
               <div className="map-details">
-                <Skeleton height={24} width={150} noBorder />
-                <Skeleton height={16} width={450} noBorder />
+                <Skeleton height={24} width={80} noBorder />
+                <Skeleton height={16} width={200} noBorder />
               </div>
             </div>
             <Skeleton height={52} width={148} />

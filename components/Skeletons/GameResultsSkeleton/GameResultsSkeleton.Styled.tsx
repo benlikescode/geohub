@@ -72,13 +72,11 @@ const StyledGameResultsSkeleton = styled.div<StyledProps>`
               gap: 5px;
 
               .label1 {
-                font-size: 14px;
+                width: 80px;
               }
 
               .label2 {
-                font-size: 12px;
-                color: var(--color2);
-                font-weight: 400;
+                width: 100px;
               }
             }
           }

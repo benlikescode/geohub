@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, HTMLAttributes } from 'react'
 import { StyledSkeleton } from './'
 
 type Props = {
@@ -6,10 +6,10 @@ type Props = {
   height?: number
   width?: number
   noBorder?: boolean
-}
+} & HTMLAttributes<HTMLDivElement>
 
-const Skeleton: FC<Props> = ({ variant, height, width, noBorder }) => {
-  return <StyledSkeleton variant={variant} height={height} width={width} noBorder={noBorder}></StyledSkeleton>
+const Skeleton: FC<Props> = ({ variant, height, width, noBorder, ...rest }) => {
+  return <StyledSkeleton variant={variant} height={height} width={width} noBorder={noBorder} {...rest} />
 }
 
 export default Skeleton

@@ -61,7 +61,7 @@ const MapsPage: FC = () => {
             <div className="section-title">Official Maps</div>
 
             {loadingOfficial ? (
-              <SkeletonCards numCards={8} />
+              <SkeletonCards />
             ) : (
               <div className="maps-wrapper">
                 {officialMaps.map((map, idx) => (
@@ -81,7 +81,7 @@ const MapsPage: FC = () => {
             <div className="section-title">Community Maps</div>
 
             {loadingCommunity ? (
-              <SkeletonCards numCards={8} />
+              <SkeletonCards />
             ) : (
               <div className="maps-wrapper">
                 {communityMaps.map((map, idx) => (

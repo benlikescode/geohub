@@ -8,7 +8,7 @@ import { Head } from '@components/Head'
 import { PageHeader } from '@components/Layout'
 import { WidthController } from '@components/Layout/WidthController'
 import { DestroyModal } from '@components/Modals/DestroyModal'
-import { OngoingItemSkeleton } from '@components/Skeletons/OngoingItemSkeleton'
+import { OngoingGamesSkeleton } from '@components/Skeletons/OngoingGamesSkeleton'
 import { Avatar, Pill, Spinner } from '@components/System/'
 import { TrashIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
@@ -97,7 +97,7 @@ const OngoingGamesPage: NextPage = () => {
         ) : (
           <div className="ongoing-table">
             {loading ? (
-              <OngoingItemSkeleton />
+              <OngoingGamesSkeleton />
             ) : (
               <InfiniteScroll
                 dataLength={games.length}

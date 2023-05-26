@@ -104,7 +104,7 @@ const StyledHomePage = styled.div`
       grid-template-columns: 1fr 1fr;
       gap: 1.2rem;
 
-      @media (max-width: 1200px) {
+      @media (max-width: 1300px) {
         grid-template-columns: 1fr;
         gap: 3rem;
       }

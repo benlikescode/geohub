@@ -9,21 +9,21 @@ const SkeletonProfile: FC<Props> = ({}) => {
   return (
     <StyledSkeletonProfile>
       <div>
-        <Skeleton height={250} noBorder />
+        <Skeleton className="skeleton-banner" height={250} noBorder />
 
-        <div className="profile-details">
-          <div className="profile-heading">
-            <div className="profile-avatar">
-              <Skeleton variant="circular" height={125} width={125} />
+        <div className="skeleton-profile-details">
+          <div className="skeleton-profile-heading">
+            <div className="skeleton-avatar-wrapper">
+              <Skeleton className="skeleton-avatar" variant="circular" height={125} width={125} />
             </div>
 
-            <div className="profile-text-wrapper">
+            <div className="skeleton-text-wrapper">
               <Skeleton height={20} width={150} noBorder />
               <Skeleton height={16} width={300} noBorder />
             </div>
           </div>
 
-          <SkeletonLeaderboard numRows={20} />
+          <SkeletonLeaderboard numRows={20} removeHeader />
         </div>
       </div>
     </StyledSkeletonProfile>

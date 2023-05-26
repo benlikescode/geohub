@@ -1,26 +1,26 @@
 import { FC } from 'react'
 import { Skeleton } from '@components/System/Skeleton'
-import { StyledOngoingItemSkeleton } from './'
+import { StyledOngoingGamesSkeleton } from './'
 
 type Props = {}
 
-const OngoingItemSkeleton: FC<Props> = ({}) => {
+const OngoingGamesSkeleton: FC<Props> = ({}) => {
   return (
-    <StyledOngoingItemSkeleton>
+    <StyledOngoingGamesSkeleton>
       {Array.from({ length: 15 }).map((_, idx) => (
         <div key={idx} className={`ongoing-item ${idx % 2 === 0 ? 'variant' : ''}`}>
           <div className="flex-left">
             <div className="map-details">
               <Skeleton variant="circular" height={32} width={32} />
-              <Skeleton height={16} width={175} noBorder />
+              <Skeleton className="map-name" height={16} width={150} noBorder />
             </div>
           </div>
 
           <div className="flex-right">
             <div className="game-info-pills">
-              <Skeleton height={30} width={120} />
-              <Skeleton height={30} width={120} />
-              <Skeleton height={30} width={120} />
+              <Skeleton className="round-pill" height={30} width={80} />
+              <Skeleton className="score-pill" height={30} width={80} />
+              <Skeleton className="created-pill" height={30} width={120} />
             </div>
 
             <div className="ongoing-buttons">
@@ -30,8 +30,8 @@ const OngoingItemSkeleton: FC<Props> = ({}) => {
           </div>
         </div>
       ))}
-    </StyledOngoingItemSkeleton>
+    </StyledOngoingGamesSkeleton>
   )
 }
 
-export default OngoingItemSkeleton
+export default OngoingGamesSkeleton
