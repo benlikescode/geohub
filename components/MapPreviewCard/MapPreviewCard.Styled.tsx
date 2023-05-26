@@ -21,7 +21,6 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
       `
       width: 100%;
     `}
-    //height: 100%;
 
     .map-avatar {
       height: 125px;
@@ -179,12 +178,11 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
         width: 100%;
         opacity: 0.4;
         border-radius: 5px 5px 0 0;
-        //background: linear-gradient(180deg, rgba(25, 26, 27, 0) 0%, rgba(25, 26, 27, 0.57) 47.4%, #222 100%);
       }
     }
 
     .mapName {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 600;
       display: -webkit-box;
       -webkit-line-clamp: 1;
@@ -197,10 +195,6 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
       position: relative;
       z-index: 1;
       margin-bottom: 4px;
-
-      @media (max-width: 1500px) {
-        font-size: 20px;
-      }
     }
 
     .playWrapper {
