@@ -48,20 +48,10 @@ Tired of having the locations picked for you? Create your own map by following t
 
 ### Screenshots
 
-![GeoHubHome](https://user-images.githubusercontent.com/63207900/141661529-69b78544-efb0-4433-9359-9edd477a61a0.PNG)
-
-![GeoHubWorldMap](https://user-images.githubusercontent.com/63207900/141661530-9fcc031d-f3bc-4cc1-909f-ffa144b27c83.PNG)
-
-![GeoHubPlayModal](https://user-images.githubusercontent.com/63207900/141661532-9bc1a632-c916-4e18-9f97-e51aa6a616f3.PNG)
-
-![GeoHubPlaying](https://user-images.githubusercontent.com/63207900/141660918-197a65c0-6cab-4d42-848f-5579113bf161.PNG)
-
-![GeoHubResult](https://user-images.githubusercontent.com/63207900/141660920-cd88a6ff-14c6-40b9-852c-f68c50520aab.PNG)
-
-![GeoHubFinalResults](https://user-images.githubusercontent.com/63207900/141660921-5a50eb6c-04ec-4361-961f-e28b38e268ac.PNG)
-
-![GeoHubDetailedResults](https://user-images.githubusercontent.com/63207900/141661534-d7edde87-307d-4621-95ee-6daae7bc7048.PNG)
-
-![GeoHubLogin](https://user-images.githubusercontent.com/63207900/141660933-09141651-d764-49af-80a8-fc17d45becff.PNG)
-
-![GeoHubRegister](https://user-images.githubusercontent.com/63207900/141661565-57ec6619-79fd-4106-adf4-d1b5801790ce.PNG)
+![geohub-home](https://github.com/benlikescode/geohubProd/assets/63207900/fb5505f5-d31a-4b54-9af5-c6ca19053e0c)
+![geohub-map-page](https://github.com/benlikescode/geohubProd/assets/63207900/7a24d875-b4ac-4180-8768-97f66c4e67e7)
+![geohub-game-view](https://github.com/benlikescode/geohubProd/assets/63207900/fb20531e-ecc4-4e76-9420-e9f82adf7047)
+![geohub-result-view](https://github.com/benlikescode/geohubProd/assets/63207900/e9b8f044-ef37-4392-8b5d-999c810fb2fa)
+![geohub-leaderboard-view](https://github.com/benlikescode/geohubProd/assets/63207900/be238c27-630c-40f2-95a4-b827cb1347d4)
+![geohub-login](https://github.com/benlikescode/geohubProd/assets/63207900/071d6ea7-8e4e-467e-b20a-f52785457f43)
+![geohub-register](https://github.com/benlikescode/geohubProd/assets/63207900/9b4ad2ea-dd82-4979-ab1b-b0cd3cbdf9bc)
