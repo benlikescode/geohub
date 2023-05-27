@@ -2,6 +2,7 @@ import { FC, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { Spinner } from '@components/System'
 import { MapLeaderboardType } from '@types'
+import { useIsMobile } from '../../utils/helpers/useIsMobile'
 import { StyledMapLeaderboard } from './'
 import { LeaderboardItem } from './LeaderboardItem'
 
@@ -22,6 +23,8 @@ const MapLeaderboard: FC<Props> = ({
   infiniteScrollCallback,
   hasMore,
 }) => {
+  const { isMobile } = useIsMobile()
+
   return (
     <StyledMapLeaderboard>
       {!removeHeader && (
@@ -29,7 +32,6 @@ const MapLeaderboard: FC<Props> = ({
           <span className="title">{title ?? 'Leaderboard'}</span>
         </div>
       )}
-
       {infiniteScrollCallback && leaderboard.length > 0 && (
         <InfiniteScroll
           dataLength={leaderboard.length}
@@ -48,7 +50,8 @@ const MapLeaderboard: FC<Props> = ({
               <Spinner size={24} />
             </div>
           }
-          scrollableTarget="main"
+          key={isMobile ? 1 : 0}
+          scrollableTarget={isMobile ? undefined : 'main'}
         >
           {leaderboard.map((row, idx) => (
             <LeaderboardItem key={idx} finishPlace={idx + 1} row={row} />

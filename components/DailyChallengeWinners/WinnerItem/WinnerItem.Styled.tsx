@@ -25,24 +25,29 @@ const StyledWinnerItem = styled.div<StyledProps>`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 16px;
 
     .user-info {
       display: flex;
       align-items: center;
       gap: 8px;
 
-      .username {
-        font-size: 15px;
-        width: 100px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+      .username-wrapper {
+        display: grid;
+
+        .username {
+          font-size: 15px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
       }
     }
 
     .total-points {
       font-size: 15px;
       color: #dcdcdc;
+      flex-shrink: 0;
     }
   }
 `

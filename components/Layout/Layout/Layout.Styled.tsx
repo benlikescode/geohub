@@ -2,21 +2,29 @@ import styled from 'styled-components'
 
 const StyledLayout = styled.div`
   /* overflow: hidden !important; */
-  display: flex !important;
-  flex-flow: column nowrap !important;
+  /* display: flex !important;
+  flex-flow: column nowrap !important; */
   /* position: absolute !important; */
   /* inset: 0px !important; */
 
   .app-layout {
-    display: flex !important;
-    flex-flow: column nowrap !important;
-    height: 100% !important;
+    overflow: hidden;
+    /* display: flex;
+  flex-direction: column; */
+    height: 100vh;
+    position: relative;
   }
 
   .appBody {
-    display: flex !important;
+    display: flex;
+    /* flex-direction: column; */
+    width: 100%;
+    overflow: hidden;
+    /* display: grid;
+    grid-template-columns: var(--sidebarWidth) auto; */
+    /* display: flex !important;
     flex-wrap: nowrap !important;
-    position: relative !important;
+    position: relative !important; */
     /* overflow: hidden !important;
     height: 100% !important; */
     //display: grid;
@@ -59,11 +67,15 @@ const StyledLayout = styled.div`
     //flex-grow: 1 !important;
     //height: 100% !important;
     width: 100% !important;
-    overflow: hidden auto;
-    height: calc(100vh - var(--navbarHeight));
+    /* overflow: hidden auto; */
     //display: flex !important;
     //flex-direction: column !important;
     //z-index: var(--z-index-default) !important;
+
+    height: calc(100vh - var(--navbarHeight));
+    max-height: 100%;
+    position: relative;
+    overflow: hidden auto;
   }
 
   .mainContent {
@@ -73,8 +85,23 @@ const StyledLayout = styled.div`
     margin: 0 auto;
     height: 100%;
 
-    @media (max-width: 500px) {
-      padding: 3rem 1rem;
+    @media (max-width: 600px) {
+      padding: 1rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .app-layout {
+      width: 100%;
+      height: unset;
+      overflow: unset;
+      padding: 50px 0 70px 0;
+      box-sizing: border-box;
+    }
+
+    main {
+      height: auto;
+      overflow: unset;
     }
   }
 `

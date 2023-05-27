@@ -40,7 +40,7 @@ const StyledGameResultsSkeleton = styled.div<StyledProps>`
           gap: 50px;
           padding: 20px 16px;
 
-          @media (max-width: 450px) {
+          @media (max-width: 600px) {
             gap: 10px;
             justify-content: space-between;
             padding: 20px 1rem;
@@ -60,7 +60,7 @@ const StyledGameResultsSkeleton = styled.div<StyledProps>`
               justify-content: center;
               flex-shrink: 0;
 
-              @media (max-width: 450px) {
+              @media (max-width: 600px) {
                 height: 40px;
                 width: 40px;
               }
@@ -72,13 +72,11 @@ const StyledGameResultsSkeleton = styled.div<StyledProps>`
               gap: 5px;
 
               .label1 {
-                font-size: 14px;
+                width: 80px;
               }
 
               .label2 {
-                font-size: 12px;
-                color: var(--color2);
-                font-weight: 400;
+                width: 100px;
               }
             }
           }

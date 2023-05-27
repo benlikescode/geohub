@@ -9,9 +9,10 @@ import { Head } from '@components/Head'
 import { MobileNav, Navbar } from '@components/Layout'
 import { CreateMapModal } from '@components/Modals/CreateMapModal'
 import { DestroyModal } from '@components/Modals/DestroyModal'
-import { Avatar, Button } from '@components/System'
+import { Avatar, Button, Spinner } from '@components/System'
 import { Skeleton } from '@components/System/Skeleton'
 import { ToggleSwitch } from '@components/System/ToggleSwitch'
+import { CloudUploadIcon, PencilIcon } from '@heroicons/react/outline'
 import StyledCreateMapPage from '@styles/CreateMapPage.Styled'
 import { LocationType, MapType, PageType } from '@types'
 import { createMarker, getMapTheme } from '@utils/helperFunctions'
@@ -418,7 +419,9 @@ const CreateMapPage: PageType = () => {
             <div className="map-top-menu">
               <div className="map-details">
                 <Avatar type="map" src={mapAvatar} size={40} outlineColor="rgba(255, 255, 255, 0.5)" />
-                <span className="map-name">{mapName}</span>
+                <div className="map-name-wrapper">
+                  <span className="map-name">{mapName}</span>
+                </div>
               </div>
               <div className="map-action-buttons">
                 <Button variant="solidGray" onClick={() => setEditModalOpen(true)}>
@@ -427,6 +430,14 @@ const CreateMapPage: PageType = () => {
                 <Button onClick={handleSaveMap} isLoading={isSubmitting} disabled={isSubmitting}>
                   Save Map
                 </Button>
+              </div>
+              <div className="map-action-buttons mobile">
+                <button className="edit-button" onClick={() => setEditModalOpen(true)}>
+                  <PencilIcon />
+                </button>
+                <button onClick={handleSaveMap} disabled={isSubmitting}>
+                  {isSubmitting ? <Spinner size={20} /> : <CloudUploadIcon />}
+                </button>
               </div>
             </div>
           ) : (
@@ -464,14 +475,16 @@ const CreateMapPage: PageType = () => {
             </div>
           )}
 
-          <div id="previewMap"></div>
-          <div className="preview-action-buttons">
-            <Button variant="destroy" onClick={handleRemoveLocation}>
-              Remove Location
-            </Button>
-            <Button variant="solidGray" onClick={handleSaveLocation}>
-              Save Location
-            </Button>
+          <div className="preview-map">
+            <div id="previewMap"></div>
+            <div className="preview-action-buttons">
+              <Button variant="destroy" onClick={handleRemoveLocation}>
+                Remove Location
+              </Button>
+              <Button variant="solidGray" onClick={handleSaveLocation}>
+                Save Location
+              </Button>
+            </div>
           </div>
 
           {!isLoading && locationsRef.current.length === 0 && (

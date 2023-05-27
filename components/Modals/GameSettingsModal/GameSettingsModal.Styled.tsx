@@ -45,7 +45,7 @@ const StyledGameSettingsModal = styled.div`
     color: #888888;
   }
 
-  .toggleItem {
+  .toggleItemWrapper {
     width: 100%;
     cursor: pointer;
     height: 100%;
@@ -55,6 +55,12 @@ const StyledGameSettingsModal = styled.div`
     border-radius: 5px;
     color: var(--color2);
     transition: all 0.3s ease-out;
+
+    .toggle-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
   }
 
   .active {
@@ -101,7 +107,6 @@ const StyledGameSettingsModal = styled.div`
     display: flex;
     align-items: center;
     gap: 40px;
-    /* justify-content: space-between; */
     margin-top: 10px;
 
     .time-slider {
@@ -130,6 +135,24 @@ const StyledGameSettingsModal = styled.div`
 
   .settingsWrapper {
     margin-top: 20px;
+  }
+
+  @media (max-width: 600px) {
+    .setting-options {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .roundTimeLabel {
+      font-size: 14px;
+    }
+
+    .toggleItemWrapper {
+      .toggle-item {
+        gap: 8px;
+        font-size: 15px;
+      }
+    }
   }
 `
 

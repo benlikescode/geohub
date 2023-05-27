@@ -1,3 +1,4 @@
+import { HTMLAttributes } from 'react'
 import styled, { keyframes } from 'styled-components'
 
 type StyledProps = {
@@ -5,7 +6,7 @@ type StyledProps = {
   height?: number
   width?: number
   noBorder?: boolean
-}
+} & HTMLAttributes<HTMLDivElement>
 
 const shimmer = keyframes`
   0% {
@@ -19,7 +20,6 @@ const shimmer = keyframes`
 const StyledSkeleton = styled.div<StyledProps>`
   display: inline-block;
   height: ${({ height }) => (height ? `${height}px` : '100%')};
-  // removing this may break something... height: ${({ height }) => height ?? 118}px;
   width: ${({ width }) => (width ? `${width}px` : '100%')};
   position: relative;
   opacity: 0.08;
@@ -34,8 +34,8 @@ const StyledSkeleton = styled.div<StyledProps>`
   ${({ noBorder }) =>
     noBorder &&
     `
-        border-radius: 0;
-    `}
+      border-radius: 0;
+  `}
 `
 
 export default StyledSkeleton

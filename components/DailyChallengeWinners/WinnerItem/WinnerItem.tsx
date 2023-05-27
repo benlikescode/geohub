@@ -22,7 +22,7 @@ const WinnerItem: FC<Props> = ({ winner }) => {
           <Avatar type="user" src={winner.userAvatar.emoji} backgroundColor={winner.userAvatar.color} size={26} />
 
           <Link href={`/user/${winner.userId}`}>
-            <a>
+            <a className="username-wrapper">
               <span className="username">{winner.userName}</span>
             </a>
           </Link>

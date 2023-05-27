@@ -20,17 +20,19 @@ const StyledSearchResult = styled.div`
     height: 32px;
     width: 32px;
     border-radius: 50%;
-    //background-color: #333;
-    //box-shadow: 0 0 0 1px #0e0e10;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  .searchResultLabel {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  .searchResultLabelWrapper {
+    display: grid;
+
+    .searchResultLabel {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 `
 

@@ -61,6 +61,7 @@ const StyledModal = styled.div<StyledProps>`
     /* animation: forwards 0.05s ease-in-out ${({ showCloseAnim }) => (showCloseAnim ? popOutAnim : popInAnim)}; */
     /* animation: forwards 0.1s ease-in-out ${({ showCloseAnim }) => showCloseAnim && popOutAnim}; */
     color: #fff;
+    width: max-content;
 
     ${({ maxWidth }) =>
       maxWidth &&

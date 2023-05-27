@@ -3,17 +3,8 @@ import styled from 'styled-components'
 const StyledMyMapsPage = styled.div`
   .map-wrapper {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 1.2rem;
-
-    @media (max-width: 1350px) {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    @media (max-width: 850px) {
-      grid-template-columns: 1fr;
-      gap: 2.5rem;
-    }
   }
 
   .create-map-card {

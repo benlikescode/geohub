@@ -107,6 +107,10 @@ const StyledNavbar = styled.div`
   .username {
     color: #bec3c9;
     font-size: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 250px;
 
     @media (max-width: 800px) {
       font-size: 1rem;
@@ -127,6 +131,11 @@ const StyledNavbar = styled.div`
   a button {
     font-size: 15px;
     border-radius: 5px;
+  }
+
+  @media (max-width: 600px) {
+    position: fixed;
+    background-color: #0e0e0e;
   }
 `
 

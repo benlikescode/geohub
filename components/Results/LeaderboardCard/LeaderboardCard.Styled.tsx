@@ -26,7 +26,7 @@ const StyledLeaderboardCard = styled.div`
       gap: 50px;
       padding: 20px 16px;
 
-      @media (max-width: 450px) {
+      @media (max-width: 600px) {
         gap: 10px;
         justify-content: space-between;
         padding: 20px 1rem;
@@ -47,7 +47,7 @@ const StyledLeaderboardCard = styled.div`
           justify-content: center;
           flex-shrink: 0;
 
-          @media (max-width: 450px) {
+          @media (max-width: 600px) {
             height: 40px;
             width: 40px;
           }

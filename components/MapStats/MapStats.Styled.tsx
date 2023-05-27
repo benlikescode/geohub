@@ -34,12 +34,20 @@ const StyledMapStats = styled.div<StyledProps>`
 
   .mainLabel {
     color: var(--color2);
+
+    @media (max-width: 600px) {
+      font-size: 14px;
+    }
   }
 
   .subLabel {
     color: var(--color3);
     font-weight: 400;
     font-size: 14px;
+
+    @media (max-width: 600px) {
+      font-size: 12px;
+    }
   }
 
   .stat-icon {
@@ -51,6 +59,10 @@ const StyledMapStats = styled.div<StyledProps>`
 
       path {
         stroke-width: 1.5;
+      }
+
+      @media (max-width: 600px) {
+        height: 24px;
       }
     }
   }

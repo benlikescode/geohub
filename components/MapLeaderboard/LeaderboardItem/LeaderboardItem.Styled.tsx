@@ -8,6 +8,7 @@ const StyledLeaderboardItem = styled.div<StyledProps>`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
   padding: 1rem 20px;
   background-color: ${({ highlight }) => (highlight ? '#202020' : 'transparent')};
 
@@ -23,8 +24,15 @@ const StyledLeaderboardItem = styled.div<StyledProps>`
     padding: 1rem;
   }
 
+  @media (max-width: 600px) {
+    &:last-child {
+      border-radius: 0;
+    }
+  }
+
   .userPlace {
     width: 1.5rem;
+    flex-shrink: 0;
   }
 
   .userSection {
@@ -41,15 +49,19 @@ const StyledLeaderboardItem = styled.div<StyledProps>`
     gap: 8px;
   }
 
-  .username {
-    font-size: 1rem;
-    width: 100px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .username-wrapper {
+    display: grid;
 
-    @media (max-width: 850px) {
-      font-size: 14px;
+    .username {
+      font-size: 1rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+
+      @media (max-width: 850px) {
+        font-size: 14px;
+      }
     }
   }
 
@@ -114,33 +126,6 @@ const StyledLeaderboardItem = styled.div<StyledProps>`
       width: 100px;
       font-size: 14px;
     }
-  }
-
-  .countryFlag {
-    height: 20px;
-    width: 35px;
-    position: relative;
-
-    img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      object-fit: cover;
-      height: 100%;
-      width: 100%;
-    }
-  }
-
-  .allCountries {
-    height: 20px;
-    width: 35px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    color: #808080;
   }
 `
 

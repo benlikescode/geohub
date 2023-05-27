@@ -36,6 +36,18 @@ const StyledNoResults = styled.div<StyledProps>`
       font-weight: 400;
     }
   }
+
+  @media (max-width: 600px) {
+    .no-results-container {
+      img {
+        height: 150px !important;
+      }
+
+      h3 {
+        margin-top: 6px;
+      }
+    }
+  }
 `
 
 export default StyledNoResults

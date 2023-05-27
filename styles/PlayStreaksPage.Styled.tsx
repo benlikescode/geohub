@@ -10,12 +10,24 @@ const StyledPlayStreaksPage = styled.div`
     }
   }
 
-  .name-wrapper {
+  .name-container {
     display: flex;
     align-items: center;
-    .name {
-      font-size: 22px;
-      font-weight: 600;
+
+    .name-wrapper {
+      display: grid;
+
+      .name {
+        font-size: 22px;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        @media (max-width: 800px) {
+          font-size: 18px;
+        }
+      }
     }
   }
 
@@ -45,18 +57,10 @@ const StyledPlayStreaksPage = styled.div`
   .description {
     color: var(--color3);
     font-weight: 400;
-  }
 
-  .otherMapsWrapper {
-    margin-top: 3rem;
-
-    @media (max-width: 600px) {
-      padding: 1rem;
+    @media (max-width: 1000px) {
+      display: none;
     }
-  }
-
-  .otherMapsTitle {
-    font-size: 20px;
   }
 
   .mapAvatar {
@@ -65,27 +69,11 @@ const StyledPlayStreaksPage = styled.div`
     }
   }
 
-  .otherMaps {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.2rem;
-    margin-top: 1rem;
-
-    @media (max-width: 1350px) {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    @media (max-width: 850px) {
-      grid-template-columns: 1fr;
-      gap: 2.5rem;
-    }
-  }
-
   .mapDetailsSection {
     background-color: var(--background2);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 6px;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 
     @media (max-width: 1200px) {
       flex-direction: column;
@@ -100,15 +88,6 @@ const StyledPlayStreaksPage = styled.div`
 
   .mapDescriptionWrapper {
     width: 100%;
-
-    @media (max-width: 1550px) {
-      flex-shrink: 1.25;
-      padding: 1rem 1.5rem;
-    }
-
-    @media (max-width: 1200px) {
-      padding: 1.5rem;
-    }
   }
 
   .statsWrapper {
@@ -120,16 +99,48 @@ const StyledPlayStreaksPage = styled.div`
     justify-content: space-between;
     padding: 20px;
     width: 100%;
+
+    .descriptionColumn {
+      display: flex;
+      align-items: center;
+    }
   }
 
-  .descriptionColumn {
-    display: flex;
-    align-items: center;
+  .mapPlayBtn {
+    &.mobile {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-weight: 500;
+      user-select: none;
+      background-color: var(--mediumPurple);
+      color: rgb(255, 255, 255, 0.7);
+      height: 52px;
+      width: 52px;
+      display: none;
+
+      svg {
+        height: 24px;
+        color: #fff;
+      }
+
+      &:hover {
+        background-color: var(--indigo-600);
+      }
+    }
   }
 
-  .skeletonCards {
-    margin-top: 3rem;
-  }
+  /* @media (max-width: 600px) {
+    .mapPlayBtn {
+      display: none;
+
+      &.mobile {
+        display: block;
+      }
+    }
+  } */
 `
 
 export default StyledPlayStreaksPage

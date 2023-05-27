@@ -41,8 +41,9 @@ const SearchResult: FC<Props> = ({ searchResult, hasNoResults, setIsFocused }) =
           <a className="linkWrapper" onClick={() => handleResultClick()}>
             <FlexGroup gap={12}>
               <Avatar type="user" src={searchResult.avatar?.emoji} backgroundColor={searchResult.avatar?.color} />
-
-              <span className="searchResultLabel">{searchResult.name}</span>
+              <div className="searchResultLabelWrapper">
+                <span className="searchResultLabel">{searchResult.name}</span>
+              </div>
             </FlexGroup>
           </a>
         </Link>
@@ -53,7 +54,9 @@ const SearchResult: FC<Props> = ({ searchResult, hasNoResults, setIsFocused }) =
           <a className="linkWrapper" onClick={() => handleResultClick()}>
             <FlexGroup gap={12}>
               <Avatar type="map" src={searchResult.previewImg} />
-              <span className="searchResultLabel">{searchResult.name}</span>
+              <div className="searchResultLabelWrapper">
+                <span className="searchResultLabel">{searchResult.name}</span>
+              </div>
             </FlexGroup>
           </a>
         </Link>
@@ -66,9 +69,11 @@ const SearchResult: FC<Props> = ({ searchResult, hasNoResults, setIsFocused }) =
               <div className="termAvatar">
                 <SearchIcon height={18} color="#888" />
               </div>
-              <span className="searchResultLabel">
-                {hasNoResults ? `Search for ${searchResult.term}` : searchResult.term}
-              </span>
+              <div className="searchResultLabelWrapper">
+                <span className="searchResultLabel">
+                  {hasNoResults ? `Search for ${searchResult.term}` : searchResult.term}
+                </span>
+              </div>
             </FlexGroup>
           </a>
         </Link>

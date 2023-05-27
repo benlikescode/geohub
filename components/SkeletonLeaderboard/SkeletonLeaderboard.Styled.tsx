@@ -4,16 +4,8 @@ type StyledProps = {}
 
 const StyledSkeletonLeaderboard = styled.div<StyledProps>`
   background-color: var(--background2);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 6px;
-
-  @media (max-width: 600px) {
-    border-radius: 0;
-    border: none;
-    //border-top: 1px solid rgba(255, 255, 255, 0.12);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-    background-color: transparent;
-  }
 
   .leaderboardTop {
     display: flex;
@@ -22,7 +14,7 @@ const StyledSkeletonLeaderboard = styled.div<StyledProps>`
     padding: 20px;
 
     @media (max-width: 1000px) {
-      padding: 1rem;
+      padding: 16px;
     }
   }
 
@@ -32,18 +24,42 @@ const StyledSkeletonLeaderboard = styled.div<StyledProps>`
     justify-content: space-between;
     padding: 1rem;
 
-    border-top: var(--border);
+    &:not(:first-child) {
+      border-top: var(--border);
+    }
 
     .skeleton-user-details {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 8px;
     }
 
     .skeleton-user-created-date {
       display: flex;
       align-items: center;
-      gap: 2rem;
+      gap: 20px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    border-radius: 0;
+    border: none;
+    background-color: transparent;
+
+    .skeleton-user-name {
+      width: 70px;
+    }
+  }
+
+  @media (max-width: 650px) {
+    .skeleton-total-time {
+      display: none;
+    }
+  }
+
+  @media (max-width: 850px) {
+    .skeleton-total-points {
+      width: 100px;
     }
   }
 `

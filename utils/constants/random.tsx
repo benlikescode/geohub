@@ -6,7 +6,7 @@ export const DAILY_CHALLENGE_ID = '63349eb5090804522c2180b7'
 export const COUNTRY_STREAK_DETAILS = {
   _id: COUNTRY_STREAKS_ID,
   name: 'Country Streaks',
-  description: 'How many countries can you guess correctly in a row?',
+  description: 'How many countries can you guess in a row?',
   previewImg: 'official22.jpg',
   creator: 'GeoHub',
 }
@@ -14,7 +14,7 @@ export const COUNTRY_STREAK_DETAILS = {
 export const DAILY_CHALLENGE_DETAILS = {
   _id: DAILY_CHALLENGE_ID,
   name: 'The Daily Challenge',
-  description: 'A new challenge everyday. See how you compare to the rest!',
+  description: 'A brand new challenge everyday. See how you compare!',
   previewImg: 'official8.jpg',
 }
 
