@@ -37,21 +37,17 @@ const StyledLikedMapCard = styled.div`
     margin-top: -48px;
   }
 
-  .mapName {
-    font-size: 20px;
-    font-weight: 600;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    overflow: hidden;
-    -webkit-box-orient: vertical;
-    word-break: break-word;
-    white-space: pre-wrap;
-    -moz-white-space: pre-wrap;
-    padding: 0 1rem;
-    z-index: 1;
+  .mapNameWrapper {
+    display: grid;
 
-    @media (max-width: 1500px) {
+    .mapName {
       font-size: 20px;
+      font-weight: 600;
+      padding: 0 1rem;
+      z-index: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 

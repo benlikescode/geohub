@@ -19,13 +19,14 @@ const MapPreviewCard: FC<Props> = ({ map, showDescription, type = 'large', openD
     <StyledMapPreviewCard isForDisplayOnly={isForDisplayOnly}>
       {type === 'large' && (
         <div className="large-card-wrapper">
-          {/* <div className="mapImage"></div> */}
           <div className="map-avatar">
             <Image src={`/images/mapAvatars/${map.previewImg}`} layout="fill" objectFit="cover" alt="" />
             <div className="image-gradient"></div>
           </div>
           <div className="contentWrapper">
-            <div className="mapName">{map.name}</div>
+            <div className="mapNameWrapper">
+              <div className="mapName">{map.name}</div>
+            </div>
             {showDescription && <div className="mapDescription">{map.description}</div>}
             <div className="playWrapper">
               {!isForDisplayOnly ? (
@@ -44,7 +45,9 @@ const MapPreviewCard: FC<Props> = ({ map, showDescription, type = 'large', openD
         <div className="small-card-wrapper">
           <div className="preview-image">
             <Image src={MAP_AVATAR_BASE_PATH + map.previewImg} alt="" layout="fill" objectFit="cover" />
-            <div className="mapName">{map.name}</div>
+            <div className="mapNameWrapper">
+              <div className="mapName">{map.name}</div>
+            </div>
           </div>
 
           <div className="playWrapper">

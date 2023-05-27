@@ -64,16 +64,23 @@ const StyledDailyChallengePage = styled.div`
     }
   }
 
-  .name-wrapper {
+  .name-container {
     display: flex;
     align-items: center;
 
-    .name {
-      font-size: 22px;
-      font-weight: 600;
+    .name-wrapper {
+      display: grid;
 
-      @media (max-width: 800px) {
-        font-size: 18px;
+      .name {
+        font-size: 22px;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        @media (max-width: 800px) {
+          font-size: 18px;
+        }
       }
     }
   }
@@ -110,12 +117,6 @@ const StyledDailyChallengePage = styled.div`
     }
   }
 
-  .mapAvatar {
-    @media (max-width: 600px) {
-      display: none;
-    }
-  }
-
   .mapDetailsSection {
     background-color: var(--background2);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -146,15 +147,11 @@ const StyledDailyChallengePage = styled.div`
     justify-content: space-between;
     padding: 20px;
     width: 100%;
-  }
 
-  .descriptionColumn {
-    display: flex;
-    align-items: center;
-  }
-
-  .skeletonCards {
-    margin-top: 3rem;
+    .descriptionColumn {
+      display: flex;
+      align-items: center;
+    }
   }
 
   @media (max-width: 600px) {

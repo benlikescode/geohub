@@ -158,7 +158,9 @@ const ProfilePage: NextPage = () => {
                   />
                 ) : (
                   <div className="name-container">
-                    {userDetails.name}
+                    <div className="name-wrapper">
+                      <span className="name">{userDetails.name}</span>
+                    </div>
                     {userDetails.isAdmin && <VerifiedBadge />}
                   </div>
                 )}

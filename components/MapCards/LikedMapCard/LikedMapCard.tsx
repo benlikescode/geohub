@@ -35,7 +35,9 @@ const LikedMapCard: FC<Props> = ({ map, reloadMaps }) => {
       </div>
 
       <div className="contentWrapper">
-        <div className="mapName">{map.name}</div>
+        <div className="mapNameWrapper">
+          <div className="mapName">{map.name}</div>
+        </div>
         <div className="playWrapper">
           <Link href={`/map/${map._id}`}>
             <a className="mapPlayBtn">Play</a>

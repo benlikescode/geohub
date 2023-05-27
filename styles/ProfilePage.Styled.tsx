@@ -124,6 +124,16 @@ const StyledProfilePage = styled.div<StyledProps>`
         .name-container {
           display: flex;
           align-items: center;
+
+          .name-wrapper {
+            display: grid;
+
+            .name {
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+          }
         }
       }
 

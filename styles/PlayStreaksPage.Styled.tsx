@@ -10,16 +10,23 @@ const StyledPlayStreaksPage = styled.div`
     }
   }
 
-  .name-wrapper {
+  .name-container {
     display: flex;
     align-items: center;
 
-    .name {
-      font-size: 22px;
-      font-weight: 600;
+    .name-wrapper {
+      display: grid;
 
-      @media (max-width: 800px) {
-        font-size: 18px;
+      .name {
+        font-size: 22px;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        @media (max-width: 800px) {
+          font-size: 18px;
+        }
       }
     }
   }
@@ -53,14 +60,6 @@ const StyledPlayStreaksPage = styled.div`
 
     @media (max-width: 1000px) {
       display: none;
-    }
-  }
-
-  .otherMapsWrapper {
-    margin-top: 2rem;
-
-    @media (max-width: 600px) {
-      padding: 1rem;
     }
   }
 
@@ -100,16 +99,48 @@ const StyledPlayStreaksPage = styled.div`
     justify-content: space-between;
     padding: 20px;
     width: 100%;
+
+    .descriptionColumn {
+      display: flex;
+      align-items: center;
+    }
   }
 
-  .descriptionColumn {
-    display: flex;
-    align-items: center;
+  .mapPlayBtn {
+    &.mobile {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-weight: 500;
+      user-select: none;
+      background-color: var(--mediumPurple);
+      color: rgb(255, 255, 255, 0.7);
+      height: 52px;
+      width: 52px;
+      display: none;
+
+      svg {
+        height: 24px;
+        color: #fff;
+      }
+
+      &:hover {
+        background-color: var(--indigo-600);
+      }
+    }
   }
 
-  .skeletonCards {
-    margin-top: 3rem;
-  }
+  /* @media (max-width: 600px) {
+    .mapPlayBtn {
+      display: none;
+
+      &.mobile {
+        display: block;
+      }
+    }
+  } */
 `
 
 export default StyledPlayStreaksPage

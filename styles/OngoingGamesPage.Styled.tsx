@@ -13,6 +13,7 @@ const StyledOngoingGamesPage = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 16px;
     padding: 1rem;
 
     &.variant {
@@ -42,19 +43,22 @@ const StyledOngoingGamesPage = styled.div`
         align-items: center;
         gap: 12px;
 
-        .mapName {
-          font-size: 1.125rem;
-          width: 175px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
+        .mapNameWrapper {
+          display: grid;
 
-          @media (max-width: 800px) {
-            font-size: 1rem;
-          }
+          .mapName {
+            font-size: 1.125rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
 
-          @media (max-width: 600px) {
-            font-size: 14px;
+            @media (max-width: 800px) {
+              font-size: 1rem;
+            }
+
+            @media (max-width: 600px) {
+              font-size: 14px;
+            }
           }
         }
       }
@@ -70,6 +74,7 @@ const StyledOngoingGamesPage = styled.div`
       display: flex;
       align-items: center;
       gap: 30px;
+      flex-shrink: 0;
 
       @media (max-width: 600px) {
         gap: 10px;

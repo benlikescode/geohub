@@ -133,13 +133,15 @@ const OngoingGamesPage: NextPage = () => {
                           }
                           size={32}
                         />
-                        <span className="mapName">
-                          {game.mode === 'streak'
-                            ? COUNTRY_STREAK_DETAILS.name
-                            : game.isDailyChallenge
-                            ? DAILY_CHALLENGE_DETAILS.name
-                            : game.mapDetails?.[0]?.name}
-                        </span>
+                        <div className="mapNameWrapper">
+                          <span className="mapName">
+                            {game.mode === 'streak'
+                              ? COUNTRY_STREAK_DETAILS.name
+                              : game.isDailyChallenge
+                              ? DAILY_CHALLENGE_DETAILS.name
+                              : game.mapDetails?.[0]?.name}
+                          </span>
+                        </div>
                       </div>
                     </div>
 
@@ -154,7 +156,7 @@ const OngoingGamesPage: NextPage = () => {
 
                       {game.mode === 'streak' && (
                         <div className="game-info-pills">
-                          <Pill label={`Current Streak ${game.streak}`} className="game-info-pill round" />
+                          <Pill label={`${game.streak} Streak`} className="game-info-pill round" />
                           <Pill label={formatMonthDayYear(game.createdAt)} className="game-info-pill created" />
                         </div>
                       )}
