@@ -1,19 +1,50 @@
 # GeoHub
 
-A web application with several geography games. The main game mode is based on the popular game Geoguessr. For those who have not played Geoguessr, it uses google streetview to place you in a random location in the world and you can move around using context clues to guess where you are in the world. The closer you are to the correct location, the higher your score. Unfortunately, Google recently increased their maps API costs which resulted in Geoguessr making the game paid. This along with my love for geography, inspired me to make my own version where I could play for free. 
+## What is GeoHub?
 
-I do hope that I can host the site in the future using the free Google Maps plan, but for now if you want to play you can clone this repo, plug in your google maps API and play locally. 
+GeoHub is my own version of the popular geography guessing game: Geoguessr.
 
-### Future Features
+For those unfamilar with Geoguessr, it uses Google Streetview to place you in a random location and you have to guess where you think you are in the world. You can move around and use clues around you such as Language, Architecture, Road Signs, etc... to make your guess. The objective is clear, the closer you are to the correct location, the more points you get.
 
-* Challenges
-* Profile Page
-* Friends
-* User Created Maps
-* Battle Royale
-* Learn Section
-* Liked Maps
-* Resume your ongoing games
+## How do I play?
+
+Go to the website: [GeoHub](https://geohub.vercel.app) and create an account, it is free and takes 15 seconds. If you don't want to create your own account, you can login to the guest account using the credentials below:
+
+Email: `guest@geohub.com`
+Password: `geohub`
+
+Once you have an account, you are ready to play! You can click play on any of the offical maps on the home page such as:
+
+- [World](https://geohub.vercel.app/map/6185df7a7b54baf63473a53e)
+- [Famous Landmarks](https://geohub.vercel.app/map/6185dfd47b54baf63473a540)
+- [Canada](https://geohub.vercel.app/map/6185dff27b54baf63473a541)
+- [United States](https://geohub.vercel.app/map/6185e0077b54baf63473a542)
+
+Or you can click on the `Find Maps` link on the sidebar to navigate between all the different supported country maps and community favorites!
+
+If you get bored of playing the standard gamemodes, you can try out the other gamemodes available:
+
+- [Country Streaks](https://geohub.vercel.app/streaks) Tired of trying to pinpoin the exact location? Try this gamemode where you only have to guess the correct country!
+- [The Daily Challenge](https://geohub.vercel.app/daily-challenge) Want to compete against others? Try out the daily challenge which has new rounds every single day!
+
+Want to play with friends? Create a challenge link by following the steps below:
+
+1. Choose a map you want to play 🌎
+2. Click `Play Now` to open up the settings view ⚙
+3. Instead of `Single Player` select `Challenge` ✅
+4. Choose the game play settings you want to enforce for the challenge ⏱
+5. Click start and copy the challenge link 🔗
+6. Share this link with friends and see how you compare 😀
+
+Tired of having the locations picked for you? Create your own map by following the steps below:
+
+1. Click on the `My Maps` link on the sidebar 🔗
+2. Click the `Create New Map` button ➕
+3. Choose a name for your map, and optionally a description and map avatar 📛
+4. Click `Next` to setup your custom map ⏯
+5. Once on the map editor page, you can start adding locations to your map 📌
+6. Click anywhere on the map to preview the streetview location (Note: If the preview window shows a black screen, you chose a location not supported by Google Streetview. Make sure you zoom in enough to click on a highlighted area of the map which indicates the location is supported by Google Maps.) 💻
+7. Once you have added all the locations you want, click on the `Save Map` button which will save and publish your map (Note: If you do not want your map to be immediately accessible to the public, make sure to toggle off `Publish Map`) 📲
 
 ### Screenshots
 
