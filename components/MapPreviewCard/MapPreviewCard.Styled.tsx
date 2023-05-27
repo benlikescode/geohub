@@ -21,7 +21,6 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
       `
       width: 100%;
     `}
-    //height: 100%;
 
     .map-avatar {
       height: 125px;
@@ -55,20 +54,17 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
       margin-top: -48px;
     }
 
-    .mapName {
-      font-size: 20px;
-      font-weight: 600;
-      display: -webkit-box;
-      -webkit-line-clamp: 1;
-      overflow: hidden;
-      -webkit-box-orient: vertical;
-      word-break: break-word;
-      white-space: pre-wrap;
-      -moz-white-space: pre-wrap;
-      padding: 0 1rem;
-      z-index: 1;
-      @media (max-width: 1500px) {
+    .mapNameWrapper {
+      display: grid;
+
+      .mapName {
         font-size: 20px;
+        font-weight: 600;
+        padding: 0 1rem;
+        z-index: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
 
@@ -78,39 +74,12 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
       line-height: 25px;
       text-align: center;
       padding: 0 1.7rem;
-      //height: 50px;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       overflow: hidden;
       -webkit-box-orient: vertical;
       word-break: break-word;
-
-      @media (max-width: 1050px) {
-        display: none;
-      }
-
-      @media (max-width: 700px) {
-        display: block;
-      }
-      /*
-      @media (max-width: 1350px) {
-        display: block;
-        padding: 0 3.5rem;
-      }
-
-      @media (max-width: 1200px) {
-        display: block;
-        padding: 0 2.5rem;
-      }
-
-      @media (max-width: 1000px) {
-        display: none;
-      }
-      
-      @media (max-width: 850px) {
-        display: block;
-      }
-      */
+      height: 50px;
     }
 
     .playWrapper {
@@ -135,7 +104,6 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
       width: clamp(120px, 70%, 300px);
       background-color: rgb(255, 255, 255, 0.1);
       color: rgb(255, 255, 255, 0.7);
-      //border: 1px solid rgba(255, 255, 255, 0.19);
 
       &:hover {
         background-color: rgb(255, 255, 255, 0.15);
@@ -206,27 +174,22 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
         width: 100%;
         opacity: 0.4;
         border-radius: 5px 5px 0 0;
-        //background: linear-gradient(180deg, rgba(25, 26, 27, 0) 0%, rgba(25, 26, 27, 0.57) 47.4%, #222 100%);
       }
     }
 
-    .mapName {
-      font-size: 22px;
-      font-weight: 600;
-      display: -webkit-box;
-      -webkit-line-clamp: 1;
-      overflow: hidden;
-      -webkit-box-orient: vertical;
-      word-break: break-word;
-      white-space: pre-wrap;
-      -moz-white-space: pre-wrap;
-      padding: 0 1rem;
-      position: relative;
-      z-index: 1;
-      margin-bottom: 4px;
+    .mapNameWrapper {
+      display: grid;
 
-      @media (max-width: 1500px) {
+      .mapName {
         font-size: 20px;
+        font-weight: 600;
+        padding: 0 1rem;
+        position: relative;
+        z-index: 1;
+        margin-bottom: 4px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
 

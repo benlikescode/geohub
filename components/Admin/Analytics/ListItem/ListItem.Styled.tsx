@@ -59,6 +59,22 @@ const StyledListItem = styled.div`
       }
     }
   }
+
+  @media (max-width: 600px) {
+    .analytics-group-item {
+      .analytics-data {
+        .item-wrapper {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .item-created-date {
+          padding-left: 45px;
+          font-size: 14px;
+        }
+      }
+    }
+  }
 `
 
 export default StyledListItem

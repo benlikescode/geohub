@@ -13,6 +13,7 @@ const StyledMapPage = styled.div`
   .name-wrapper {
     display: flex;
     align-items: center;
+
     .name {
       font-size: 22px;
       font-weight: 600;
@@ -72,17 +73,9 @@ const StyledMapPage = styled.div`
 
   .otherMaps {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.2rem;
     margin-top: 12px;
-
-    @media (max-width: 1350px) {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    @media (max-width: 850px) {
-      grid-template-columns: 1fr;
-    }
   }
 
   .mapDetailsSection {

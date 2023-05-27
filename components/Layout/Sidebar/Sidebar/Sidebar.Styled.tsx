@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
 const StyledSidebar = styled.div`
-  position: sticky;
-  top: var(--navbarHeight);
+  /* position: sticky;
+  top: var(--navbarHeight); */
   height: calc(100vh - var(--navbarHeight));
 
   .sidebar {
@@ -34,23 +34,23 @@ const StyledSidebar = styled.div`
   .sidebarItemGrid {
     display: grid;
     gap: 4px;
-    padding: 6px;
+    padding: 4px;
     border-bottom: 1px solid ${({ theme }) => theme.color.gray[800]};
 
     @media (max-width: 1200px) {
-      gap: 1.5rem;
+      gap: 10px;
     }
   }
 
   .quickLinksSection {
     padding-top: 8px;
     //margin-bottom: 40px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid ${({ theme }) => theme.color.gray[800]};
+    padding-bottom: 4px;
+    /* border-bottom: 1px solid ${({ theme }) => theme.color.gray[800]}; */
 
-    @media (max-width: 1200px) {
+    /* @media (max-width: 1200px) {
       display: none;
-    }
+    } */
   }
 
   .quickLinkItemWrapper {
@@ -104,6 +104,17 @@ const StyledSidebar = styled.div`
     font-size: 15px;
     //margin-bottom: 0.5rem;
     /* letter-spacing: 1px; */
+
+    padding: 0.5rem 1rem;
+    /* padding-bottom: 0.75rem; */
+    color: #828080;
+    font-weight: 600;
+    font-size: 13px;
+    padding-bottom: 8px;
+
+    @media (max-width: 1200px) {
+      display: none;
+    }
   }
 
   .footer {
@@ -119,7 +130,7 @@ const StyledSidebar = styled.div`
   }
 
   .recentMapsWrapper {
-    padding: 0 8px;
+    padding: 0 4px;
     display: grid;
     gap: 4px;
     font-weight: 400;
@@ -130,8 +141,12 @@ const StyledSidebar = styled.div`
       align-items: center;
       gap: 8px;
       border-radius: 4px;
-      padding: 8px;
+      padding: 6px;
       color: #8b8f93;
+
+      @media (max-width: 1200px) {
+        justify-content: center;
+      }
 
       &:hover {
         background-color: #2a2a2f;
@@ -146,6 +161,10 @@ const StyledSidebar = styled.div`
         text-overflow: ellipsis;
         white-space: nowrap;
         width: 150px;
+
+        @media (max-width: 1200px) {
+          display: none;
+        }
       }
     }
 

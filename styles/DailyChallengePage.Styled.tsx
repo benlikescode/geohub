@@ -64,13 +64,24 @@ const StyledDailyChallengePage = styled.div`
     }
   }
 
-  .name-wrapper {
+  .name-container {
     display: flex;
     align-items: center;
 
-    .name {
-      font-size: 22px;
-      font-weight: 600;
+    .name-wrapper {
+      display: grid;
+
+      .name {
+        font-size: 22px;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        @media (max-width: 800px) {
+          font-size: 18px;
+        }
+      }
     }
   }
 
@@ -100,39 +111,9 @@ const StyledDailyChallengePage = styled.div`
   .description {
     color: var(--color3);
     font-weight: 400;
-  }
 
-  .otherMapsWrapper {
-    margin-top: 3rem;
-
-    @media (max-width: 600px) {
-      padding: 1rem;
-    }
-  }
-
-  .otherMapsTitle {
-    font-size: 20px;
-  }
-
-  .mapAvatar {
-    @media (max-width: 600px) {
+    @media (max-width: 1000px) {
       display: none;
-    }
-  }
-
-  .otherMaps {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.2rem;
-    margin-top: 1rem;
-
-    @media (max-width: 1350px) {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    @media (max-width: 850px) {
-      grid-template-columns: 1fr;
-      gap: 2.5rem;
     }
   }
 
@@ -155,15 +136,6 @@ const StyledDailyChallengePage = styled.div`
 
   .mapDescriptionWrapper {
     width: 100%;
-
-    @media (max-width: 1550px) {
-      flex-shrink: 1.25;
-      padding: 1rem 1.5rem;
-    }
-
-    @media (max-width: 1200px) {
-      padding: 1.5rem;
-    }
   }
 
   .statsWrapper {
@@ -175,15 +147,25 @@ const StyledDailyChallengePage = styled.div`
     justify-content: space-between;
     padding: 20px;
     width: 100%;
+
+    .descriptionColumn {
+      display: flex;
+      align-items: center;
+    }
   }
 
-  .descriptionColumn {
-    display: flex;
-    align-items: center;
-  }
+  @media (max-width: 600px) {
+    .previous-winners-container {
+      border-radius: 0;
+      border: none;
+      background-color: transparent;
+      padding: 0 0 16px 0;
 
-  .skeletonCards {
-    margin-top: 3rem;
+      .leaderboardTop {
+        margin: 0;
+        padding: 16px;
+      }
+    }
   }
 `
 

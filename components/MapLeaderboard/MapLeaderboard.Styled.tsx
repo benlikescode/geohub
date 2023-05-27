@@ -8,8 +8,6 @@ const StyledMapLeaderboard = styled.div`
   @media (max-width: 600px) {
     border-radius: 0;
     border: none;
-    //border-top: 1px solid rgba(255, 255, 255, 0.12);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
     background-color: transparent;
   }
 
@@ -38,6 +36,10 @@ const StyledMapLeaderboard = styled.div`
     font-weight: 400;
     display: block;
     padding: 0 20px 20px;
+
+    @media (max-width: 1000px) {
+      padding: 0 16px 16px;
+    }
   }
 `
 

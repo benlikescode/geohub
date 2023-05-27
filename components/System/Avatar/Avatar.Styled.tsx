@@ -47,7 +47,7 @@ const StyledAvatar = styled.div<StyledProps>`
       inset: 0;
       border-radius: 30%;
       box-shadow: ${({ outlineSize, outlineColor }) =>
-        `0 0 0 ${outlineSize !== undefined ? outlineSize : 2}px inset ${outlineColor || 'rgba(0, 0, 0, 0.25)'}`};
+        `0 0 0 ${outlineSize !== undefined ? outlineSize : 1}px inset ${outlineColor || 'rgba(255, 255, 255, 0.12)'}`};
     }
 
     @media (max-width: 600px) {

@@ -12,7 +12,7 @@ const MobileNav: FC = () => {
 
       <Item text="Liked Maps" icon={<HeartIcon />} route="/liked" />
 
-      <Item text="Ongoing Games" icon={<PlayIcon />} route="/ongoing" />
+      {/* <Item text="Ongoing Games" icon={<PlayIcon />} route="/ongoing" /> */}
 
       <Item text="Country Streaks" icon={<LightningBoltIcon />} route="/streaks" />
 

@@ -19,9 +19,6 @@ const StreaksPage = () => {
   const [settingsModalOpen, setSettingsModalOpen] = useState(false)
   const [leaderboardData, setLeaderboardData] = useState<MapLeaderboardType[] | null>()
 
-  // https://fy.vnmod.net/wp-content/uploads/2022/11/191120221668845754.png
-  // https://media.istockphoto.com/id/184616827/vector/heart-puzzle-with-flags.jpg?s=612x612&w=0&k=20&c=RxXpiGT2uqkatjAtEA40H7o8-QwAuiixtjXCzLLmR7E=
-
   useEffect(() => {
     getStreakStats()
     fetchMapScores()
@@ -59,16 +56,27 @@ const StreaksPage = () => {
                 <div className="descriptionColumn">
                   <Avatar type="map" src={COUNTRY_STREAK_DETAILS.previewImg} size={50} />
                   <div className="map-details">
-                    <div className="name-wrapper">
-                      <span className="name">{COUNTRY_STREAK_DETAILS.name}</span>
+                    <div className="name-container">
+                      <div className="name-wrapper">
+                        <span className="name">{COUNTRY_STREAK_DETAILS.name}</span>
+                      </div>
                       <VerifiedBadge size={20} />
                     </div>
                     <span className="description">{COUNTRY_STREAK_DETAILS.description}</span>
                   </div>
                 </div>
-                <Button width="148px" height="52px" onClick={() => setSettingsModalOpen(true)}>
+                <Button className="mapPlayBtn" width="148px" height="52px" onClick={() => setSettingsModalOpen(true)}>
                   Play Now
                 </Button>
+                <button className="mapPlayBtn mobile" onClick={() => setSettingsModalOpen(true)}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                    <path
+                      fillRule="evenodd"
+                      d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
               </div>
             </div>
 

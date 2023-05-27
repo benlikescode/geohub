@@ -26,26 +26,6 @@ const StyledTab = styled.div<StyledProps>`
     white-space: nowrap;
     user-select: none;
   }
-
-  /*
-  ${({ isActive }) =>
-    isActive &&
-    `
-    &::after {
-      content: "";
-      border-radius: 2px;
-      bottom: 0px;
-      margin: 0px;
-      position: absolute;
-      width: inherit;
-      left: 0;
-      right: 0;
-      border-bottom: 2px solid var(--lightPurple);
-      height: 0px;
-    }
-  `}
-
-  */
 `
 
 export default StyledTab

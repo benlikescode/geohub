@@ -134,7 +134,7 @@ const MapPage: FC = () => {
           </div>
         ) : (
           <div className="skeletonCards">
-            <SkeletonCards numCards={6} numColumns={3} />
+            <SkeletonCards numCards={6} />
           </div>
         )}
       </WidthController>

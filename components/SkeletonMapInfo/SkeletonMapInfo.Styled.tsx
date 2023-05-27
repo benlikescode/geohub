@@ -7,14 +7,14 @@ const StyledSkeletonMapInfo = styled.div<StyledProps>`
     margin-left: 16px;
     margin-top: 2px;
     display: grid;
-    grid-gap: 8px;
+    gap: 8px;
   }
 
   .mapDetailsSection {
     background-color: var(--background2);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 6px;
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
 
     @media (max-width: 1200px) {
       flex-direction: column;
@@ -29,15 +29,6 @@ const StyledSkeletonMapInfo = styled.div<StyledProps>`
 
   .mapDescriptionWrapper {
     width: 100%;
-
-    @media (max-width: 1550px) {
-      flex-shrink: 1.25;
-      padding: 1rem 1.5rem;
-    }
-
-    @media (max-width: 1200px) {
-      padding: 1.5rem;
-    }
   }
 
   .descriptionColumnWrapper {
@@ -55,15 +46,12 @@ const StyledSkeletonMapInfo = styled.div<StyledProps>`
   .statsGrid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    column-gap: 20px;
+    gap: 20px;
     padding: 15px 20px 20px;
 
-    @media (max-width: 1200px) {
-      grid-template-columns: repeat(4, 1fr);
-    }
-
-    @media (max-width: 940px) {
+    @media (max-width: 1000px) {
       grid-template-columns: 1fr 1fr;
+      gap: 12px;
     }
 
     .stat-item {

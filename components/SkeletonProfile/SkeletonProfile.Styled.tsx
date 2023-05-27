@@ -5,38 +5,26 @@ type StyledProps = {}
 const StyledSkeletonProfile = styled.div<StyledProps>`
   width: 100%;
 
-  .profile-details {
-    max-width: 600px;
+  .skeleton-profile-details {
+    max-width: 650px;
     margin: 0 auto;
     width: 100%;
     position: relative;
     z-index: 2;
-    margin-top: -60px;
+    margin-top: -100px;
+    padding: 20px;
 
-    .profile-heading {
+    .skeleton-profile-heading {
       padding-bottom: 30px;
       margin-bottom: 30px;
-      border-bottom: 1px solid rgb(255, 255, 255, 0.1);
 
-      .profile-avatar {
-        background-color: #0e0e10;
+      .skeleton-avatar-wrapper {
+        background-color: #0e0e0e;
         width: 125px;
         height: 125px;
         border-radius: 50%;
         position: relative;
-        box-shadow: 0 0 0 5px #0e0e10;
-
-        img {
-          position: absolute;
-          object-fit: cover;
-          border-radius: 50%;
-          width: 100%;
-          height: 100%;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-        }
+        box-shadow: 0 0 0 5px #0e0e0e;
 
         &::after {
           content: '';
@@ -53,11 +41,36 @@ const StyledSkeletonProfile = styled.div<StyledProps>`
         }
       }
 
-      .profile-text-wrapper {
+      .skeleton-text-wrapper {
         display: flex;
         flex-direction: column;
         gap: 0.75rem;
         margin-top: 1rem;
+      }
+    }
+  }
+
+  @media (max-width: 600px) {
+    .skeleton-banner {
+      height: 125px;
+    }
+
+    .skeleton-profile-details {
+      margin-top: -45px;
+
+      .skeleton-profile-heading {
+        border: 0;
+        margin-bottom: 0;
+
+        .skeleton-avatar-wrapper {
+          height: 75px;
+          width: 75px;
+
+          .skeleton-avatar {
+            height: 75px;
+            width: 75px;
+          }
+        }
       }
     }
   }

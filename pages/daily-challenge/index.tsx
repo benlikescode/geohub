@@ -96,10 +96,13 @@ const DailyChallengePage: FC = () => {
                     <div className="descriptionColumn">
                       <Avatar type="map" src={DAILY_CHALLENGE_DETAILS.previewImg} size={50} />
                       <div className="map-details">
-                        <div className="name-wrapper">
-                          <span className="name">{DAILY_CHALLENGE_DETAILS.name}</span>
+                        <div className="name-container">
+                          <div className="name-wrapper">
+                            <span className="name">{DAILY_CHALLENGE_DETAILS.name}</span>
+                          </div>
                           <VerifiedBadge size={20} />
                         </div>
+
                         <span className="description">{DAILY_CHALLENGE_DETAILS.description}</span>
                       </div>
                     </div>

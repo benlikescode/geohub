@@ -20,8 +20,8 @@ const GameResultsSkeleton: FC<Props> = ({ isChallenge }) => {
                   <Skeleton variant="circular" height={50} width={50} />
 
                   <div className="gameInfoContent">
-                    <Skeleton variant="rectangular" height={20} width={100} noBorder />
-                    <Skeleton variant="rectangular" height={16} width={120} noBorder />
+                    <Skeleton className="label1" variant="rectangular" height={18} width={100} noBorder />
+                    <Skeleton className="label2" variant="rectangular" height={16} width={120} noBorder />
                   </div>
                 </div>
               ))}

@@ -1,23 +1,9 @@
 import styled from 'styled-components'
 
-type StyledProps = {
-  numColumns: number
-}
-
-const StyledSkeletonCard = styled.div<StyledProps>`
+const StyledSkeletonCards = styled.div`
   display: grid;
-  grid-template-columns: repeat(${({ numColumns }) => numColumns}, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.2rem;
-  z-index: 1;
-
-  @media (max-width: 1350px) {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  @media (max-width: 850px) {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-  }
 
   .skeleton-card-item {
     border-radius: 6px;
@@ -32,4 +18,4 @@ const StyledSkeletonCard = styled.div<StyledProps>`
   }
 `
 
-export default StyledSkeletonCard
+export default StyledSkeletonCards

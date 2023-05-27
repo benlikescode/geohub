@@ -8,7 +8,7 @@ import { Head } from '@components/Head'
 import { PageHeader } from '@components/Layout'
 import { WidthController } from '@components/Layout/WidthController'
 import { DestroyModal } from '@components/Modals/DestroyModal'
-import { OngoingItemSkeleton } from '@components/Skeletons/OngoingItemSkeleton'
+import { OngoingGamesSkeleton } from '@components/Skeletons/OngoingGamesSkeleton'
 import { Avatar, Pill, Spinner } from '@components/System/'
 import { TrashIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
@@ -97,7 +97,7 @@ const OngoingGamesPage: NextPage = () => {
         ) : (
           <div className="ongoing-table">
             {loading ? (
-              <OngoingItemSkeleton />
+              <OngoingGamesSkeleton />
             ) : (
               <InfiniteScroll
                 dataLength={games.length}
@@ -133,13 +133,15 @@ const OngoingGamesPage: NextPage = () => {
                           }
                           size={32}
                         />
-                        <span className="mapName">
-                          {game.mode === 'streak'
-                            ? COUNTRY_STREAK_DETAILS.name
-                            : game.isDailyChallenge
-                            ? DAILY_CHALLENGE_DETAILS.name
-                            : game.mapDetails?.[0]?.name}
-                        </span>
+                        <div className="mapNameWrapper">
+                          <span className="mapName">
+                            {game.mode === 'streak'
+                              ? COUNTRY_STREAK_DETAILS.name
+                              : game.isDailyChallenge
+                              ? DAILY_CHALLENGE_DETAILS.name
+                              : game.mapDetails?.[0]?.name}
+                          </span>
+                        </div>
                       </div>
                     </div>
 
@@ -154,7 +156,7 @@ const OngoingGamesPage: NextPage = () => {
 
                       {game.mode === 'streak' && (
                         <div className="game-info-pills">
-                          <Pill label={`Current Streak ${game.streak}`} className="game-info-pill round" />
+                          <Pill label={`${game.streak} Streak`} className="game-info-pill round" />
                           <Pill label={formatMonthDayYear(game.createdAt)} className="game-info-pill created" />
                         </div>
                       )}

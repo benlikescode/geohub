@@ -1,11 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import { signOut, useSession } from 'next-auth/react'
-import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
-import { WidthController } from '@components/Layout/WidthController'
 import { MapLeaderboard } from '@components/MapLeaderboard'
 import { AvatarPickerModal } from '@components/Modals'
 import { SkeletonProfile } from '@components/SkeletonProfile'
@@ -18,7 +16,6 @@ import StyledProfilePage from '@styles/ProfilePage.Styled'
 import { MapLeaderboardType } from '@types'
 
 import type { NextPage } from 'next'
-
 type NewProfileValuesType = {
   name: string
   bio?: string
@@ -26,7 +23,7 @@ type NewProfileValuesType = {
 }
 
 const ProfilePage: NextPage = () => {
-  const [leaderboardData, setLeaderboardData] = useState<MapLeaderboardType[]>([])
+  const [leaderboardData, setLeaderboardData] = useState<MapLeaderboardType[] | null>(null)
   const [newProfileValues, setNewProfileValues] = useState<NewProfileValuesType>()
   const [isEditing, setIsEditing] = useState(false)
   const [userDetails, setUserDetails] = useState<any>()
@@ -56,15 +53,7 @@ const ProfilePage: NextPage = () => {
     if (res.error || !res.data) return
 
     setLeaderboardHasMore(res.hasMore)
-
-    setLeaderboardData((prev) => [...prev, ...res.data])
-
-    // if (!leaderboardData) {
-    //   setLeaderboardData(res.data)
-    // } else {
-    //   setLeaderboardData((prev) => prev?.concat(res.data))
-    // }
-
+    setLeaderboardData((prev) => [...(prev || []), ...res.data])
     setLeaderboardPage((prev) => prev + 1)
   }
 
@@ -119,126 +108,123 @@ const ProfilePage: NextPage = () => {
 
   return (
     <StyledProfilePage isEditing={isEditing}>
-      <WidthController>
-        <Head title={userDetails ? userDetails.name : 'GeoHub'} />
+      <Head title={userDetails ? userDetails.name : 'GeoHub'} />
 
-        {loading || !leaderboardData ? (
-          <SkeletonProfile />
-        ) : (
-          <div>
-            <div className="banner-image">
-              <Image
-                src={`/images/backgrounds/profile.jpg`}
-                alt=""
-                layout="fill"
-                objectFit="cover"
-                style={{ opacity: 0.55 }}
-              />
-            </div>
+      {loading || !leaderboardData ? (
+        <SkeletonProfile />
+      ) : (
+        <div>
+          <div className="banner-image">
+            <img src="/images/backgrounds/profile-banner.png" alt="" />
+          </div>
 
-            <div className="profile-details">
-              <div className="profile-heading">
+          <div className="profile-details">
+            <div className="profile-heading">
+              {isEditing ? (
+                <button
+                  className="profile-avatar"
+                  style={{ backgroundColor: newProfileValues?.avatar?.color }}
+                  onClick={() => setAvatarModalOpen(true)}
+                >
+                  <img
+                    src={`https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/${newProfileValues?.avatar?.emoji}.svg`}
+                    alt={`${userDetails.name}'s avatar`}
+                  />
+                  <div className="profile-avatar-editing-icon">
+                    <CameraIcon />
+                  </div>
+                </button>
+              ) : (
+                <div className="profile-avatar" style={{ backgroundColor: userDetails.avatar?.color }}>
+                  <img
+                    src={`https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/${userDetails.avatar?.emoji}.svg`}
+                    alt={`${userDetails.name}'s avatar`}
+                  />
+                </div>
+              )}
+
+              <h1 className="profile-name">
                 {isEditing ? (
-                  <button
-                    className="profile-avatar"
-                    style={{ backgroundColor: newProfileValues?.avatar?.color }}
-                    onClick={() => setAvatarModalOpen(true)}
-                  >
-                    <img
-                      src={`https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/${newProfileValues?.avatar?.emoji}.svg`}
-                      alt={`${userDetails.name}'s avatar`}
-                    />
-                    <div className="profile-avatar-editing-icon">
-                      <CameraIcon />
-                    </div>
-                  </button>
+                  <input
+                    type="text"
+                    value={newProfileValues?.name}
+                    onChange={(e) =>
+                      setNewProfileValues({
+                        name: e.target.value,
+                        bio: newProfileValues?.bio,
+                        avatar: newProfileValues?.avatar,
+                      })
+                    }
+                  />
                 ) : (
-                  <div className="profile-avatar" style={{ backgroundColor: userDetails.avatar?.color }}>
-                    <img
-                      src={`https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/${userDetails.avatar?.emoji}.svg`}
-                      alt={`${userDetails.name}'s avatar`}
-                    />
+                  <div className="name-container">
+                    <div className="name-wrapper">
+                      <span className="name">{userDetails.name}</span>
+                    </div>
+                    {userDetails.isAdmin && <VerifiedBadge />}
                   </div>
                 )}
+              </h1>
 
-                <h1 className="profile-name">
+              {(userDetails.bio || isEditing) && (
+                <span className="profile-bio">
                   {isEditing ? (
-                    <input
-                      type="text"
-                      value={newProfileValues?.name}
+                    <textarea
+                      value={newProfileValues?.bio}
                       onChange={(e) =>
                         setNewProfileValues({
-                          name: e.target.value,
-                          bio: newProfileValues?.bio,
+                          name: newProfileValues?.name || '',
+                          bio: e.target.value,
                           avatar: newProfileValues?.avatar,
                         })
                       }
-                    />
+                    ></textarea>
                   ) : (
-                    <div className="name-container">
-                      {userDetails.name}
-                      {userDetails.isAdmin && <VerifiedBadge />}
-                    </div>
+                    userDetails.bio
                   )}
-                </h1>
-                {(userDetails.bio || isEditing) && (
-                  <span className="profile-bio">
-                    {isEditing ? (
-                      <textarea
-                        value={newProfileValues?.bio}
-                        onChange={(e) =>
-                          setNewProfileValues({
-                            name: newProfileValues?.name || '',
-                            bio: e.target.value,
-                            avatar: newProfileValues?.avatar,
-                          })
-                        }
-                      ></textarea>
-                    ) : (
-                      userDetails.bio
-                    )}
-                  </span>
-                )}
-                {isThisUsersProfile() && !isEditing && (
-                  <div className="profile-actions">
-                    <button onClick={() => setIsEditing(true)}>
-                      <PencilAltIcon /> Edit Profile
-                    </button>
-                    <button className="logout-btn" onClick={() => handleLogout()}>
-                      Logout
-                    </button>
-                  </div>
-                )}
-                {isEditing && (
-                  <div className="profile-actions">
-                    <button onClick={() => updateUserInfo()}>Save Changes</button>
-                    <button className="logout-btn" onClick={() => cancelEditing()}>
-                      Cancel
-                    </button>
-                  </div>
-                )}
-              </div>
+                </span>
+              )}
 
-              {leaderboardData.length > 0 ? (
-                <MapLeaderboard
-                  removeHeader
-                  leaderboard={leaderboardData}
-                  infiniteScrollCallback={fetchLeaderboard}
-                  hasMore={leaderboardHasMore}
-                />
-              ) : (
-                <span className="no-games-message">This user has not finished any games yet</span>
+              {isThisUsersProfile() && !isEditing && (
+                <div className="profile-actions">
+                  <button onClick={() => setIsEditing(true)}>
+                    <PencilAltIcon /> Edit Profile
+                  </button>
+                  <button className="logout-btn" onClick={() => handleLogout()}>
+                    Logout
+                  </button>
+                </div>
+              )}
+
+              {isEditing && (
+                <div className="profile-actions">
+                  <button onClick={() => updateUserInfo()}>Save Changes</button>
+                  <button className="logout-btn" onClick={() => cancelEditing()}>
+                    Cancel
+                  </button>
+                </div>
               )}
             </div>
-          </div>
-        )}
 
-        <AvatarPickerModal
-          isOpen={avatarModalOpen}
-          closeModal={() => setAvatarModalOpen(false)}
-          setNewUserDetails={setNewUserDetails}
-        />
-      </WidthController>
+            {leaderboardData.length ? (
+              <MapLeaderboard
+                removeHeader
+                leaderboard={leaderboardData}
+                infiniteScrollCallback={fetchLeaderboard}
+                hasMore={leaderboardHasMore}
+              />
+            ) : (
+              <span className="no-games-message">This user has not finished any games yet</span>
+            )}
+          </div>
+        </div>
+      )}
+
+      <AvatarPickerModal
+        isOpen={avatarModalOpen}
+        closeModal={() => setAvatarModalOpen(false)}
+        setNewUserDetails={setNewUserDetails}
+      />
     </StyledProfilePage>
   )
 }
