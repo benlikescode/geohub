@@ -119,11 +119,11 @@ const StreaksGuessMap: FC<Props> = ({
 
   return (
     <StyledStreaksGuessMap mapHeight={mapHeight} mapWidth={mapWidth} mobileMapOpen={mobileMapOpen}>
-      <div className="guessMapWrapper" onMouseOver={handleMapHover} onMouseLeave={handleMapLeave}>
+      <div className="guess-map-wrapper" onMouseOver={handleMapHover} onMouseLeave={handleMapLeave}>
         {hovering && (
           <div className="controls">
             <button
-              className={`controlBtn increase ${user.guessMapSize === 4 ? 'disabled' : ''}`}
+              className={`control-btn increase ${user.guessMapSize === 4 ? 'disabled' : ''}`}
               onClick={() => changeMapSize('increase')}
               disabled={user.guessMapSize === 4}
             >
@@ -131,7 +131,7 @@ const StreaksGuessMap: FC<Props> = ({
             </button>
 
             <button
-              className={`controlBtn decrease ${user.guessMapSize === 1 ? 'disabled' : ''}`}
+              className={`control-btn decrease ${user.guessMapSize === 1 ? 'disabled' : ''}`}
               onClick={() => changeMapSize('decrease')}
               disabled={user.guessMapSize === 1}
             >
@@ -139,6 +139,7 @@ const StreaksGuessMap: FC<Props> = ({
             </button>
           </div>
         )}
+
         <div className="map">
           <GoogleMapReact
             bootstrapURLKeys={GoogleMapConfig}

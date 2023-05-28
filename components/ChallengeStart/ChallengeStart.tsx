@@ -48,7 +48,7 @@ const ChallengeStart: FC<Props> = ({ challengeData, handleStartChallenge, setVie
 
   return (
     <StyledChallengeStart>
-      <div className="challengeStartWrapper">
+      <div className="challenge-start-wrapper">
         <Image
           src={`/images/mapAvatars/${challengeData?.mapDetails?.previewImg}`}
           alt=""
@@ -62,54 +62,54 @@ const ChallengeStart: FC<Props> = ({ challengeData, handleStartChallenge, setVie
           <span>{challengeData.mapDetails?.name}</span>
         </div>
 
-        <div className="challengeStartContent">
-          <h1 className="challengeTitle">
+        <div className="challenge-start-content">
+          <h1 className="challenge-title">
             {challengeData.isDailyChallenge ? 'The Daily Challenge' : 'You have been challenged!'}
           </h1>
           {!challengeData.isDailyChallenge && (
-            <div className="challengeCreator">
+            <div className="challenge-creator">
               <Avatar
                 type="user"
                 src={challengeData.creatorAvatar.emoji}
                 backgroundColor={challengeData.creatorAvatar.color}
                 size={32}
               />
-              <div className="challengeMessage">
-                <span className="emphasizedText">{challengeData.creatorName}</span>
+              <div className="challenge-message">
+                <span className="emphasized-text">{challengeData.creatorName}</span>
                 <span> challenged you to play </span>
-                <span className="emphasizedText">
+                <span className="emphasized-text">
                   {challengeData.mode === 'streak' ? 'Country Streaks' : challengeData?.mapDetails?.name}
                 </span>
               </div>
             </div>
           )}
 
-          <button className="challengeBtn" onClick={() => handleButtonClick()}>
+          <button className="challenge-btn" onClick={() => handleButtonClick()}>
             {isLoggedIn ? 'Play Game' : 'Create Account'}
           </button>
         </div>
       </div>
 
-      <div className="challengeSettings">
-        <div className="settingsItem">
+      <div className="challenge-settings">
+        <div className="settings-item">
           <ClockIcon color={!HAS_TIME_LIMIT ? 'var(--green-300)' : '#888'} />
 
           {HAS_TIME_LIMIT ? `${formatTimeLimit(TIME_LIMIT)} per round` : 'No Time Limit'}
         </div>
 
-        <div className="settingsItem">
+        <div className="settings-item">
           <ArrowsExpandIcon color={CAN_MOVE ? 'var(--green-300)' : '#888'} />
 
           {CAN_MOVE ? 'Moving Allowed' : 'No Move'}
         </div>
 
-        <div className="settingsItem">
+        <div className="settings-item">
           <SwitchHorizontalIcon color={CAN_PAN ? 'var(--green-300)' : '#888'} />
 
           {CAN_PAN ? 'Panning Allowed' : 'No Pan'}
         </div>
 
-        <div className="settingsItem">
+        <div className="settings-item">
           <ZoomInIcon color={CAN_ZOOM ? 'var(--green-300)' : '#888'} />
 
           {CAN_ZOOM ? 'Zooming Allowed' : 'No Zoom'}

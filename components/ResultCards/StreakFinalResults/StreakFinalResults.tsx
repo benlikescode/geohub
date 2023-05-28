@@ -24,7 +24,7 @@ const StreakFinalResults: FC<Props> = ({ gameData, setView }) => {
             <StreakCountryList gameData={gameData} />
           </div>
 
-          <div className="actionButtons">
+          <div className="action-buttons">
             <Link href="/streaks">
               <a>
                 <Button>Play Again</Button>

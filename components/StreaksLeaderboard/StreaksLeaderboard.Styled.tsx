@@ -1,19 +1,12 @@
 import styled from 'styled-components'
 
-type StyledProps = {}
-
-const StyledStreaksLeaderboard = styled.div<StyledProps>`
+const StyledStreaksLeaderboard = styled.div`
   margin-top: -20px;
   padding: 0 3.5rem;
   max-width: 1400px;
   width: 100%;
   z-index: 1;
   padding-bottom: 3rem;
-
-  @media (max-width: 1160px) {
-    max-width: 100%;
-    padding: 8px;
-  }
 
   .leaderboard-wrapper {
     display: flex;
@@ -26,13 +19,6 @@ const StyledStreaksLeaderboard = styled.div<StyledProps>`
 
     @media (max-width: 960px) {
       flex-direction: column;
-    }
-
-    .leaderboard-header {
-      font-size: 18px;
-      border-bottom: 1px solid #2f3133;
-      padding-bottom: 8px;
-      color: #dcdcdc;
     }
 
     .users-list {
@@ -98,6 +84,18 @@ const StyledStreaksLeaderboard = styled.div<StyledProps>`
     .countries-list {
       width: 100%;
     }
+
+    .leaderboard-header {
+      font-size: 18px;
+      border-bottom: 1px solid #2f3133;
+      padding-bottom: 8px;
+      color: #dcdcdc;
+    }
+  }
+
+  @media (max-width: 1160px) {
+    max-width: 100%;
+    padding: 8px;
   }
 `
 

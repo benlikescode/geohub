@@ -30,45 +30,87 @@ const StyledLeaderboardItem = styled.div<StyledProps>`
     }
   }
 
-  .userPlace {
-    width: 1.5rem;
-    flex-shrink: 0;
-  }
-
-  .userSection {
+  .user-section {
     display: flex;
     align-items: center;
     gap: 15px;
     user-select: none;
     font-weight: 400;
-  }
 
-  .userInfo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+    .user-place {
+      width: 1.5rem;
+      flex-shrink: 0;
+    }
 
-  .username-wrapper {
-    display: grid;
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
 
-    .username {
-      font-size: 1rem;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: block;
+      .username-wrapper {
+        display: grid;
 
-      @media (max-width: 850px) {
-        font-size: 14px;
+        .username {
+          font-size: 1rem;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: block;
+
+          @media (max-width: 850px) {
+            font-size: 14px;
+          }
+        }
       }
     }
   }
 
-  .resultsSection {
+  .results-section {
     display: flex;
     align-items: center;
     gap: 1rem;
+
+    .total-points {
+      width: 120px;
+      font-size: 16px;
+
+      @media (max-width: 850px) {
+        width: 100px;
+        font-size: 14px;
+      }
+    }
+
+    .best-streak-wrapper {
+      display: flex;
+      align-items: center;
+
+      .best-streak {
+        width: 70px;
+        font-size: 16px;
+
+        @media (max-width: 850px) {
+          width: 100px;
+          font-size: 14px;
+        }
+      }
+
+      svg {
+        height: 20px;
+        margin-right: 6px;
+        color: #fbbf24;
+      }
+    }
+
+    .total-time {
+      color: var(--color3);
+      font-size: 14px;
+      width: 80px;
+      font-weight: 400;
+
+      @media (max-width: 650px) {
+        display: none;
+      }
+    }
 
     .results-link {
       display: flex;
@@ -83,48 +125,6 @@ const StyledLeaderboardItem = styled.div<StyledProps>`
           stroke-width: 1.5;
         }
       }
-    }
-  }
-
-  .totalTime {
-    color: var(--color3);
-    font-size: 14px;
-    width: 80px;
-    font-weight: 400;
-
-    @media (max-width: 650px) {
-      display: none;
-    }
-  }
-
-  .bestStreakWrapper {
-    display: flex;
-    align-items: center;
-
-    .bestStreak {
-      width: 70px;
-      font-size: 16px;
-
-      @media (max-width: 850px) {
-        width: 100px;
-        font-size: 14px;
-      }
-    }
-
-    svg {
-      height: 20px;
-      margin-right: 6px;
-      color: #fbbf24;
-    }
-  }
-
-  .totalPoints {
-    width: 120px;
-    font-size: 16px;
-
-    @media (max-width: 850px) {
-      width: 100px;
-      font-size: 14px;
     }
   }
 `

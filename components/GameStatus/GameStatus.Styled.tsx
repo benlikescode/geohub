@@ -13,10 +13,10 @@ const StyledGameStatus = styled.div`
   font-size: 1rem;
   border: 1px solid #0e0e0e;
 
-  .infoSection {
+  .info-section {
     padding: 10px 25px;
 
-    &.mapName {
+    &.map-name {
       @media (max-width: 600px) {
         display: none;
       }

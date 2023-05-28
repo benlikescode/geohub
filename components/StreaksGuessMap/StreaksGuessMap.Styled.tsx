@@ -7,7 +7,7 @@ type StyledProps = {
 }
 
 const StyledStreaksGuessMap = styled.div<StyledProps>`
-  .guessMapWrapper {
+  .guess-map-wrapper {
     position: absolute;
     bottom: 20px;
     right: 20px;
@@ -27,6 +27,53 @@ const StyledStreaksGuessMap = styled.div<StyledProps>`
           background-color: var(--background1);
           gap: 0;
       `}
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background-color: rgba(0, 0, 0, 0.5);
+      width: fit-content;
+      padding: 6px;
+      border-radius: 4px 4px 0 0;
+
+      @media (max-width: 600px) {
+        display: none;
+      }
+
+      .control-btn {
+        height: 20px;
+        width: 20px;
+        /* background: var(--background1); */
+        background-color: #fff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &.increase {
+          transform: rotate(-135deg);
+        }
+
+        &.decrease {
+          transform: rotate(45deg);
+        }
+
+        &.disabled {
+          opacity: 0.5;
+          cursor: not-allowed !important;
+        }
+
+        svg {
+          height: 12px;
+          color: var(--background1);
+
+          path {
+            stroke-width: 3;
+          }
+        }
+      }
     }
   }
 
@@ -63,53 +110,6 @@ const StyledStreaksGuessMap = styled.div<StyledProps>`
 
       span {
         margin-top: 3px;
-      }
-    }
-  }
-
-  .controls {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background-color: rgba(0, 0, 0, 0.5);
-    width: fit-content;
-    padding: 6px;
-    border-radius: 4px 4px 0 0;
-
-    @media (max-width: 600px) {
-      display: none;
-    }
-  }
-
-  .controlBtn {
-    height: 20px;
-    width: 20px;
-    /* background: var(--background1); */
-    background-color: #fff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &.increase {
-      transform: rotate(-135deg);
-    }
-
-    &.decrease {
-      transform: rotate(45deg);
-    }
-
-    &.disabled {
-      opacity: 0.5;
-      cursor: not-allowed !important;
-    }
-
-    svg {
-      height: 12px;
-      color: var(--background1);
-
-      path {
-        stroke-width: 3;
       }
     }
   }

@@ -45,9 +45,9 @@ const MapStats: FC<Props> = ({ map, setMap }) => {
           <ScaleIcon />
         </div>
 
-        <div className="textWrapper">
-          <span className="mainLabel">Average Score</span>
-          <span className="subLabel">{formatLargeNumber(map.avgScore || 0)}</span>
+        <div className="text-wrapper">
+          <span className="main-label">Average Score</span>
+          <span className="sub-label">{formatLargeNumber(map.avgScore || 0)}</span>
         </div>
       </div>
 
@@ -56,9 +56,9 @@ const MapStats: FC<Props> = ({ map, setMap }) => {
           <UserIcon />
         </div>
 
-        <div className="textWrapper">
-          <span className="mainLabel">Explorers</span>
-          <span className="subLabel">{map.usersPlayed}</span>
+        <div className="text-wrapper">
+          <span className="main-label">Explorers</span>
+          <span className="sub-label">{map.usersPlayed}</span>
         </div>
       </div>
 
@@ -67,9 +67,9 @@ const MapStats: FC<Props> = ({ map, setMap }) => {
           <LocationMarkerIcon />
         </div>
 
-        <div className="textWrapper">
-          <span className="mainLabel">Locations</span>
-          <span className="subLabel">
+        <div className="text-wrapper">
+          <span className="main-label">Locations</span>
+          <span className="sub-label">
             {formatLargeNumber(
               (typeof map.locationCount !== 'undefined' ? map.locationCount : map.locations?.length) || 0
             )}
@@ -79,7 +79,7 @@ const MapStats: FC<Props> = ({ map, setMap }) => {
 
       <div className="stat-item">
         <button
-          className="likeBtn"
+          className="like-btn"
           onClick={() => handleLike()}
           onMouseEnter={() => setIsHoveringLike(true)}
           onMouseLeave={() => setIsHoveringLike(false)}
@@ -89,9 +89,9 @@ const MapStats: FC<Props> = ({ map, setMap }) => {
           </div>
         </button>
 
-        <div className="textWrapper">
-          <span className="mainLabel">Likes</span>
-          <span className="subLabel">{map.likes?.numLikes}</span>
+        <div className="text-wrapper">
+          <span className="main-label">Likes</span>
+          <span className="sub-label">{map.likes?.numLikes}</span>
         </div>
       </div>
 

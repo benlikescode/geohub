@@ -163,7 +163,7 @@ const GameSettingsModal: FC<Props> = ({ isOpen, closeModal, mapDetails, gameMode
       isSubmitting={isSubmitting}
     >
       <StyledGameSettingsModal>
-        <div className="mainContent">
+        <div className="main-content">
           {showChallengeView ? (
             <Challenge challengeId={challengeId} />
           ) : (
@@ -176,34 +176,34 @@ const GameSettingsModal: FC<Props> = ({ isOpen, closeModal, mapDetails, gameMode
                 </div>
               </div>
 
-              <div className="toggleBar">
+              <div className="toggle-bar">
                 <div
-                  className={`toggleItemWrapper ${gameType === 'Single Player' ? 'active' : ''}`}
+                  className={`toggle-item-wrapper ${gameType === 'Single Player' ? 'active' : ''}`}
                   onClick={() => setGameType('Single Player')}
                 >
                   <div className="toggle-item">
-                    <div className="toggleIcon">
+                    <div className="toggle-icon">
                       <UserIcon />
                     </div>
-                    <span className="toggleText">Single Player</span>
+                    <span className="toggle-text">Single Player</span>
                   </div>
                 </div>
 
                 <div
-                  className={`toggleItemWrapper ${gameType === 'Challenge' ? 'active' : ''}`}
+                  className={`toggle-item-wrapper ${gameType === 'Challenge' ? 'active' : ''}`}
                   onClick={() => setGameType('Challenge')}
                 >
                   <div className="toggle-item">
-                    <div className="toggleIcon">
+                    <div className="toggle-icon">
                       <UserGroupIcon />
                     </div>
-                    <span className="toggleText">Challenge</span>
+                    <span className="toggle-text">Challenge</span>
                   </div>
                 </div>
               </div>
 
-              <div className="settingsWrapper">
-                <div className="checkboxWrapper">
+              <div className="settings-wrapper">
+                <div className="checkbox-wrapper">
                   <Checkbox
                     isChecked={!!showDetailedChecked}
                     setChecked={() => handleCheck()}
@@ -212,9 +212,9 @@ const GameSettingsModal: FC<Props> = ({ isOpen, closeModal, mapDetails, gameMode
                 </div>
 
                 {!showDetailedChecked && (
-                  <div className="detailedSettings">
-                    <span className="roundTimeLabel">
-                      Round Time: <span className="timeLimit">{formatTimeLimit(sliderVal * 10)}</span>
+                  <div className="detailed-settings">
+                    <span className="round-time-label">
+                      Round Time: <span className="time-limit">{formatTimeLimit(sliderVal * 10)}</span>
                     </span>
 
                     <div className="setting-options">
@@ -222,15 +222,15 @@ const GameSettingsModal: FC<Props> = ({ isOpen, closeModal, mapDetails, gameMode
                         <Slider onChange={setSliderVal} defaultValue={sliderVal} />
                       </div>
 
-                      <div className="movementOptions">
-                        <div className="movementOption">
+                      <div className="movement-options">
+                        <div className="movement-option">
                           <ToggleSwitch isActive={canMove} setIsActive={setCanMove} />
-                          <div className="movementOptionLabel">Move</div>
+                          <div className="movement-option-label">Move</div>
                         </div>
 
-                        <div className="movementOption">
+                        <div className="movement-option">
                           <ToggleSwitch isActive={canZoom} setIsActive={setCanZoom} />
-                          <div className="movementOptionLabel">Zoom</div>
+                          <div className="movement-option-label">Zoom</div>
                         </div>
                       </div>
                     </div>

@@ -52,17 +52,16 @@ const GameStatus: FC<Props> = ({ gameData, handleSubmitGuess, hasCustomRoundLeng
     <StyledGameStatus>
       {gameData.mode === 'standard' && (
         <>
-          <div className="infoSection mapName">
+          <div className="info-section map-name">
             <div className="label">
               <span>Map</span>
             </div>
             <div className="value">
-              {/* <span>{gameData.mapDetails?.name || gameData?.mapName}</span> */}
               <span>{game.mapName}</span>
             </div>
           </div>
 
-          <div className="infoSection">
+          <div className="info-section">
             <div className="label">
               <span>Round</span>
             </div>
@@ -71,7 +70,7 @@ const GameStatus: FC<Props> = ({ gameData, handleSubmitGuess, hasCustomRoundLeng
             </div>
           </div>
 
-          <div className="infoSection">
+          <div className="info-section">
             <div className="label">
               <span>Points</span>
             </div>
@@ -81,7 +80,7 @@ const GameStatus: FC<Props> = ({ gameData, handleSubmitGuess, hasCustomRoundLeng
           </div>
 
           {hasTimeLimit && (
-            <div className="infoSection">
+            <div className="info-section">
               <div className="label">
                 <span>Time</span>
               </div>
@@ -101,7 +100,7 @@ const GameStatus: FC<Props> = ({ gameData, handleSubmitGuess, hasCustomRoundLeng
           </div>
 
           {hasTimeLimit && (
-            <div className="infoSection">
+            <div className="info-section">
               <div className="label">
                 <span>Time</span>
               </div>

@@ -8,19 +8,14 @@ const StyledLeaderboardCard = styled.div`
   z-index: 1;
   padding-bottom: 3rem;
 
-  @media (max-width: 1300px) {
-    max-width: 100%;
-    padding: 8px;
-  }
-
-  .leaderboardWrapper {
+  .leaderboard-wrapper {
     display: grid;
     gap: 25px;
     background-color: var(--background2);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 6px;
 
-    .gameInfoWrapper {
+    .game-info-wrapper {
       display: flex;
       align-items: center;
       gap: 50px;
@@ -32,12 +27,28 @@ const StyledLeaderboardCard = styled.div`
         padding: 20px 1rem;
       }
 
-      .gameInfoItem {
+      .game-info-item {
         display: flex;
         align-items: center;
         gap: 10px;
 
-        .settingsAvatar {
+        .game-info-content {
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+
+          .label1 {
+            font-size: 14px;
+          }
+
+          .label2 {
+            font-size: 12px;
+            color: var(--color2);
+            font-weight: 400;
+          }
+        }
+
+        .settings-avatar {
           background-color: #262626;
           border-radius: 50%;
           height: 50px;
@@ -61,47 +72,31 @@ const StyledLeaderboardCard = styled.div`
             }
           }
         }
-
-        .gameInfoContent {
-          display: flex;
-          flex-direction: column;
-          gap: 5px;
-
-          .label1 {
-            font-size: 14px;
-          }
-
-          .label2 {
-            font-size: 12px;
-            color: var(--color2);
-            font-weight: 400;
-          }
-        }
       }
     }
   }
 
-  .leaderboardSection {
-    .titleSection {
-      font-size: 14px;
-      color: var(--color3);
-      padding-bottom: 8px;
-
-      &:first-child {
-        padding-left: 16px;
-      }
-    }
-
-    .leaderboardHeaderRow {
+  .leaderboard-section {
+    .leaderboard-header-row {
       display: grid;
       grid-template-columns: 250px repeat(6, 1fr);
 
       @media (max-width: 800px) {
         grid-template-columns: 1fr 90px;
       }
+
+      .title-section {
+        font-size: 14px;
+        color: var(--color3);
+        padding-bottom: 8px;
+
+        &:first-child {
+          padding-left: 16px;
+        }
+      }
     }
 
-    .leaderboardRow {
+    .leaderboard-row {
       display: grid;
       grid-template-columns: 250px repeat(6, 1fr);
       border-top: 1px solid #2f3133;
@@ -121,21 +116,21 @@ const StyledLeaderboardCard = styled.div`
       }
     }
 
-    .userSection {
+    .user-section {
       display: flex;
       align-items: center;
       gap: 15px;
       padding: 1rem;
       user-select: none;
 
-      .userPlace {
+      .user-place {
         max-width: 25px;
         width: 100%;
         font-style: italic;
         font-weight: bold;
       }
 
-      .userInfo {
+      .user-info {
         display: flex;
         align-items: center;
         gap: 8px;
@@ -148,53 +143,58 @@ const StyledLeaderboardCard = styled.div`
         }
       }
     }
-  }
 
-  .userResultSection {
-    display: flex;
-    flex-direction: column;
-    user-select: none;
-
-    @media (max-width: 1100px) {
+    .user-result-section {
       display: flex;
-      align-items: flex-start;
-      justify-content: center;
-    }
-
-    .pointsWrapper {
-      font-weight: 400;
-      font-size: 15px;
-      margin-top: auto;
+      flex-direction: column;
+      user-select: none;
 
       @media (max-width: 1100px) {
-        margin-top: 0;
-      }
-    }
-
-    .distanceTimeWrapper {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      color: var(--color3);
-      font-size: 14px;
-      font-weight: 400;
-      margin-top: 5px;
-      margin-bottom: auto;
-
-      @media (max-width: 1100px) {
-        display: none;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
       }
 
-      .divider {
-        color: #606060;
+      .points-wrapper {
+        font-weight: 400;
+        font-size: 15px;
+        margin-top: auto;
+
+        @media (max-width: 1100px) {
+          margin-top: 0;
+        }
+      }
+
+      .distance-time-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        color: var(--color3);
+        font-size: 14px;
+        font-weight: 400;
+        margin-top: 5px;
+        margin-bottom: auto;
+
+        @media (max-width: 1100px) {
+          display: none;
+        }
+
+        .divider {
+          color: #606060;
+        }
       }
     }
   }
 
-  .hideOnSmall {
+  .hide-on-small {
     @media (max-width: 800px) {
       display: none;
     }
+  }
+
+  @media (max-width: 1300px) {
+    max-width: 100%;
+    padding: 8px;
   }
 `
 

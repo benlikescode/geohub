@@ -13,13 +13,13 @@ const GameResultsSkeleton: FC<Props> = ({ isChallenge }) => {
 
       <div className="leaderboard-card-wrapper">
         <div className="leaderboard-card">
-          <div className="leaderboardWrapper">
-            <div className="gameInfoWrapper">
+          <div className="leaderboard-wrapper">
+            <div className="game-info-wrapper">
               {Array.from({ length: 2 }).map((_, idx) => (
-                <div key={idx} className="gameInfoItem">
+                <div key={idx} className="game-info-item">
                   <Skeleton variant="circular" height={50} width={50} />
 
-                  <div className="gameInfoContent">
+                  <div className="game-info-content">
                     <Skeleton className="label1" variant="rectangular" height={18} width={100} noBorder />
                     <Skeleton className="label2" variant="rectangular" height={16} width={120} noBorder />
                   </div>
@@ -27,49 +27,49 @@ const GameResultsSkeleton: FC<Props> = ({ isChallenge }) => {
               ))}
             </div>
 
-            <div className="leaderboardSection">
-              <div className="leaderboardHeaderRow">
-                <div className="titleSection">
+            <div className="leaderboard-section">
+              <div className="leaderboard-header-row">
+                <div className="title-section">
                   <Skeleton variant="rectangular" height={14} width={120} noBorder />
                 </div>
 
                 {Array.from({ length: 5 }).map((_, idx) => (
-                  <div key={idx} className="titleSection hideOnSmall">
+                  <div key={idx} className="title-section hide-on-small">
                     <Skeleton variant="rectangular" height={14} width={80} noBorder />
                   </div>
                 ))}
 
-                <div className="titleSection">
+                <div className="title-section">
                   <Skeleton variant="rectangular" height={14} width={80} noBorder />
                 </div>
               </div>
 
               {Array.from({ length: 3 }).map((_, idx) => (
-                <div key={idx} className="leaderboardRow">
-                  <div className="userSection">
+                <div key={idx} className="leaderboard-row">
+                  <div className="user-section">
                     {isChallenge && <Skeleton variant="rectangular" height={14} width={30} noBorder />}
-                    <div className="userInfo">
+                    <div className="user-info">
                       <Skeleton variant="circular" height={32} width={32} />
                       <Skeleton variant="rectangular" height={16} width={100} noBorder />
                     </div>
                   </div>
 
                   {Array.from({ length: 5 }).map((_, idx) => (
-                    <div key={idx} className="userResultSection hideOnSmall">
-                      <div className="pointsWrapper">
+                    <div key={idx} className="user-result-section hide-on-small">
+                      <div className="points-wrapper">
                         <Skeleton variant="rectangular" height={16} width={50} noBorder />
                       </div>
-                      <div className="distanceTimeWrapper">
+                      <div className="distance-time-wrapper">
                         <Skeleton variant="rectangular" height={14} width={100} noBorder />
                       </div>
                     </div>
                   ))}
 
-                  <div key={idx} className="userResultSection">
-                    <div className="pointsWrapper">
+                  <div key={idx} className="user-result-section">
+                    <div className="points-wrapper">
                       <Skeleton variant="rectangular" height={16} width={50} noBorder />
                     </div>
-                    <div className="distanceTimeWrapper">
+                    <div className="distance-time-wrapper">
                       <Skeleton variant="rectangular" height={14} width={100} noBorder />
                     </div>
                   </div>

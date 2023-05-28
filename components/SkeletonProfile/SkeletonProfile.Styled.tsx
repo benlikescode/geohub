@@ -1,8 +1,6 @@
 import styled from 'styled-components'
 
-type StyledProps = {}
-
-const StyledSkeletonProfile = styled.div<StyledProps>`
+const StyledSkeletonProfile = styled.div`
   width: 100%;
 
   .skeleton-profile-details {

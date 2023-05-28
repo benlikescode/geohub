@@ -11,6 +11,13 @@ const StyledCreateMapModal = styled.div`
     padding: 24px;
 
     .avatar-selection {
+      .section-title {
+        font-size: 14px;
+        font-weight: 400;
+        color: #919191;
+        margin-bottom: 12px;
+      }
+
       .avatars {
         display: flex;
         align-items: center;
@@ -42,13 +49,6 @@ const StyledCreateMapModal = styled.div`
           }
         }
       }
-    }
-
-    .section-title {
-      font-size: 14px;
-      font-weight: 400;
-      color: #919191;
-      margin-bottom: 12px;
     }
   }
 

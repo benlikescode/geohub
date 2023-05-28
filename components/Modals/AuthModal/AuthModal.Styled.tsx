@@ -32,24 +32,24 @@ const StyledAuthModal = styled.div`
     }
   }
 
-  .mainContent {
+  .main-content {
     padding: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: #131314;
-  }
 
-  .buttonsWrapper {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 16px;
-
-    a {
+    .buttons-wrapper {
       width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 16px;
+
+      a {
+        width: 100%;
+      }
     }
   }
 `

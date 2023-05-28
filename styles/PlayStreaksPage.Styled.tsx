@@ -1,15 +1,6 @@
 import styled from 'styled-components'
 
 const StyledPlayStreaksPage = styled.div`
-  // Override Horizontal Padding and Max Width In Layout.Styled
-  .mainContent {
-    max-width: 1100px;
-
-    @media (max-width: 600px) {
-      padding: 0;
-    }
-  }
-
   .name-container {
     display: flex;
     align-items: center;
@@ -69,7 +60,7 @@ const StyledPlayStreaksPage = styled.div`
     }
   }
 
-  .mapDetailsSection {
+  .map-details-section {
     background-color: var(--background2);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 6px;
@@ -86,7 +77,7 @@ const StyledPlayStreaksPage = styled.div`
     }
   }
 
-  .mapDescriptionWrapper {
+  .map-description-wrapper {
     width: 100%;
   }
 
@@ -94,19 +85,19 @@ const StyledPlayStreaksPage = styled.div`
     display: contents;
   }
 
-  .descriptionColumnWrapper {
+  .description-column-wrapper {
     display: flex;
     justify-content: space-between;
     padding: 20px;
     width: 100%;
 
-    .descriptionColumn {
+    .description-column {
       display: flex;
       align-items: center;
     }
   }
 
-  .mapPlayBtn {
+  .map-play-btn {
     &.mobile {
       display: flex;
       align-items: center;
@@ -133,7 +124,7 @@ const StyledPlayStreaksPage = styled.div`
   }
 
   /* @media (max-width: 600px) {
-    .mapPlayBtn {
+    .map-play-btn {
       display: none;
 
       &.mobile {

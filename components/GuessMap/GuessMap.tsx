@@ -82,11 +82,11 @@ const GuessMap: FC<Props> = ({ currGuess, setCurrGuess, mobileMapOpen, closeMobi
 
   return (
     <StyledGuessMap mapHeight={mapHeight} mapWidth={mapWidth} mobileMapOpen={mobileMapOpen}>
-      <div className="guessMapWrapper" onMouseOver={handleMapHover} onMouseLeave={handleMapLeave}>
+      <div className="guess-map-wrapper" onMouseOver={handleMapHover} onMouseLeave={handleMapLeave}>
         {hovering && (
           <div className="controls">
             <button
-              className={`controlBtn increase ${user.guessMapSize === 4 ? 'disabled' : ''}`}
+              className={`control-btn increase ${user.guessMapSize === 4 ? 'disabled' : ''}`}
               onClick={() => changeMapSize('increase')}
               disabled={user.guessMapSize === 4}
             >
@@ -94,7 +94,7 @@ const GuessMap: FC<Props> = ({ currGuess, setCurrGuess, mobileMapOpen, closeMobi
             </button>
 
             <button
-              className={`controlBtn decrease ${user.guessMapSize === 1 ? 'disabled' : ''}`}
+              className={`control-btn decrease ${user.guessMapSize === 1 ? 'disabled' : ''}`}
               onClick={() => changeMapSize('decrease')}
               disabled={user.guessMapSize === 1}
             >
@@ -102,6 +102,7 @@ const GuessMap: FC<Props> = ({ currGuess, setCurrGuess, mobileMapOpen, closeMobi
             </button>
           </div>
         )}
+
         <div className="map">
           <GoogleMapReact
             bootstrapURLKeys={GoogleMapConfig}

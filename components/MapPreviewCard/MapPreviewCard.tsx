@@ -23,18 +23,18 @@ const MapPreviewCard: FC<Props> = ({ map, showDescription, type = 'large', openD
             <Image src={`/images/mapAvatars/${map.previewImg}`} layout="fill" objectFit="cover" alt="" />
             <div className="image-gradient"></div>
           </div>
-          <div className="contentWrapper">
-            <div className="mapNameWrapper">
-              <div className="mapName">{map.name}</div>
+          <div className="content-wrapper">
+            <div className="map-name-wrapper">
+              <div className="map-name">{map.name}</div>
             </div>
-            {showDescription && <div className="mapDescription">{map.description}</div>}
-            <div className="playWrapper">
+            {showDescription && <div className="map-description">{map.description}</div>}
+            <div className="play-wrapper">
               {!isForDisplayOnly ? (
                 <Link href={`/map/${map._id}`}>
-                  <a className="mapPlayBtn">Play</a>
+                  <a className="map-play-btn">Play</a>
                 </Link>
               ) : (
-                <div className="mapPlayBtn">Play</div>
+                <div className="map-play-btn">Play</div>
               )}
             </div>
           </div>
@@ -45,17 +45,17 @@ const MapPreviewCard: FC<Props> = ({ map, showDescription, type = 'large', openD
         <div className="small-card-wrapper">
           <div className="preview-image">
             <Image src={MAP_AVATAR_BASE_PATH + map.previewImg} alt="" layout="fill" objectFit="cover" />
-            <div className="mapNameWrapper">
-              <div className="mapName">{map.name}</div>
+            <div className="map-name-wrapper">
+              <div className="map-name">{map.name}</div>
             </div>
           </div>
 
-          <div className="playWrapper">
+          <div className="play-wrapper">
             <Link href={`/create-map/${map._id}`}>
-              <a className="mapPlayBtn">Customize</a>
+              <a className="map-play-btn">Customize</a>
             </Link>
             <Link href={`/map/${map._id}`}>
-              <a className="mapEditBtn">
+              <a className="map-edit-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
                   <path
                     fillRule="evenodd"
@@ -65,7 +65,7 @@ const MapPreviewCard: FC<Props> = ({ map, showDescription, type = 'large', openD
                 </svg>
               </a>
             </Link>
-            <button className="mapDeleteBtn" onClick={openDeleteModal}>
+            <button className="map-delete-btn" onClick={openDeleteModal}>
               <TrashIcon />
             </button>
           </div>

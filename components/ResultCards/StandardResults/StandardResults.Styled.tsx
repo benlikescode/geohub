@@ -11,7 +11,7 @@ const StyledStandardResults = styled.div<StyledProps>`
   flex-direction: column;
   padding: 30px;
 
-  .pointsWrapper {
+  .points-wrapper {
     font-size: 20px;
     font-weight: 600;
     font-style: italic;
@@ -29,9 +29,9 @@ const StyledStandardResults = styled.div<StyledProps>`
     ${({ showPoints }) =>
       showPoints &&
       `
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        `}
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      `}
   }
 
   .progress-bar {
@@ -41,12 +41,12 @@ const StyledStandardResults = styled.div<StyledProps>`
     width: 100%;
   }
 
-  .noGuessMessage {
+  .no-guess-message {
     font-size: 16px;
     color: #6b6b6b;
   }
 
-  .distanceMessage {
+  .distance-message {
     font-size: 16px;
     color: #808080;
 
@@ -55,13 +55,13 @@ const StyledStandardResults = styled.div<StyledProps>`
       text-align: center;
     }
 
-    .emphasisText {
+    .emphasis-text {
       font-weight: bold;
       color: #909090;
     }
   }
 
-  .actionButton {
+  .action-button {
     margin-top: 30px;
   }
 `

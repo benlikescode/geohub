@@ -44,12 +44,7 @@ const StyledResultsCard = styled.div`
     }
   }
 
-  .noGuessMessage {
-    font-size: 16px;
-    color: #6b6b6b;
-  }
-
-  .actionButtons {
+  .action-buttons {
     display: flex;
     align-items: center;
     gap: 20px;

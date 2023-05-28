@@ -19,6 +19,7 @@ const StreaksLeaderboard: FC<Props> = ({ gameData, selectedGameIndex, setSelecte
       <div className="leaderboard-wrapper">
         <div className="users-list">
           <div className="leaderboard-header">Players</div>
+
           {gameData.map((game, idx) => (
             <div
               key={idx}
@@ -26,7 +27,7 @@ const StreaksLeaderboard: FC<Props> = ({ gameData, selectedGameIndex, setSelecte
               onClick={() => setSelectedGameIndex && setSelectedGameIndex(idx)}
             >
               <div className="user-details">
-                {showPlace && <span className="userlace">#{idx + 1}</span>}
+                {showPlace && <span className="user-place">#{idx + 1}</span>}
                 <div className="user-info">
                   <Avatar
                     type="user"

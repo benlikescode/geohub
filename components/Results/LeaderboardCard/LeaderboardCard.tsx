@@ -18,12 +18,12 @@ const LeaderboardCard: FC<Props> = ({ gameData, mapData, selectedGameIndex, setS
 
   return (
     <StyledLeaderboardCard>
-      <div className="leaderboardWrapper">
-        <div className="gameInfoWrapper">
-          <div className="gameInfoItem">
+      <div className="leaderboard-wrapper">
+        <div className="game-info-wrapper">
+          <div className="game-info-item">
             <Avatar type="map" src={mapData.previewImg} size={50} />
 
-            <div className="gameInfoContent">
+            <div className="game-info-content">
               <span className="label1">{mapData.name}</span>
               <span className="label2">
                 Created by {mapData.creator === 'GeoHub' ? 'GeoHub' : mapData.creatorDetails?.name}
@@ -31,39 +31,39 @@ const LeaderboardCard: FC<Props> = ({ gameData, mapData, selectedGameIndex, setS
             </div>
           </div>
 
-          <div className="gameInfoItem">
-            <div className="settingsAvatar">
+          <div className="game-info-item">
+            <div className="settings-avatar">
               <CogIcon />
             </div>
 
-            <div className="gameInfoContent">
+            <div className="game-info-content">
               <span className="label1">Game Settings</span>
               <span className="label2">{formatSettingsLabel(gameData[0].gameSettings)}</span>
             </div>
           </div>
         </div>
 
-        <div className="leaderboardSection">
-          <div className="leaderboardHeaderRow">
-            <div className="titleSection">
+        <div className="leaderboard-section">
+          <div className="leaderboard-header-row">
+            <div className="title-section">
               <span>LEADERBOARD</span>
             </div>
-            <div className="titleSection hideOnSmall">
+            <div className="title-section hide-on-small">
               <span>Round 1</span>
             </div>
-            <div className="titleSection hideOnSmall">
+            <div className="title-section hide-on-small">
               <span>Round 2</span>
             </div>
-            <div className="titleSection hideOnSmall">
+            <div className="title-section hide-on-small">
               <span>Round 3</span>
             </div>
-            <div className="titleSection hideOnSmall">
+            <div className="title-section hide-on-small">
               <span>Round 4</span>
             </div>
-            <div className="titleSection hideOnSmall">
+            <div className="title-section hide-on-small">
               <span>Round 5</span>
             </div>
-            <div className="titleSection">
+            <div className="title-section">
               <span>Total</span>
             </div>
           </div>
@@ -71,12 +71,12 @@ const LeaderboardCard: FC<Props> = ({ gameData, mapData, selectedGameIndex, setS
           {gameData.map((game, gameIdx) => (
             <div
               key={gameIdx}
-              className={`leaderboardRow ${selectedGameIndex === gameIdx ? 'selected' : ''}`}
+              className={`leaderboard-row ${selectedGameIndex === gameIdx ? 'selected' : ''}`}
               onClick={() => setSelectedGameIndex && setSelectedGameIndex(gameIdx)}
             >
-              <div className="userSection">
-                {showPlace && <span className="userPlace">#{gameIdx + 1}</span>}
-                <div className="userInfo">
+              <div className="user-section">
+                {showPlace && <span className="user-place">#{gameIdx + 1}</span>}
+                <div className="user-info">
                   <Avatar
                     type="user"
                     src={game.userDetails ? game.userDetails?.avatar?.emoji : game.userAvatar?.emoji}
@@ -88,11 +88,11 @@ const LeaderboardCard: FC<Props> = ({ gameData, mapData, selectedGameIndex, setS
               </div>
 
               {game.guesses.map((guess, guessIdx) => (
-                <div key={guessIdx} className="userResultSection hideOnSmall">
-                  <div className="pointsWrapper">
+                <div key={guessIdx} className="user-result-section hide-on-small">
+                  <div className="points-wrapper">
                     <span>{formatLargeNumber(guess.points)} pts</span>
                   </div>
-                  <div className="distanceTimeWrapper">
+                  <div className="distance-time-wrapper">
                     <span className="distance">
                       {guess.timedOut && !guess.timedOutWithGuess ? 'Timed out' : formatDistance(guess.distance)}
                     </span>
@@ -102,11 +102,11 @@ const LeaderboardCard: FC<Props> = ({ gameData, mapData, selectedGameIndex, setS
                 </div>
               ))}
 
-              <div className="userResultSection">
-                <div className="pointsWrapper">
+              <div className="user-result-section">
+                <div className="points-wrapper">
                   <span>{formatLargeNumber(game.totalPoints)} pts</span>
                 </div>
-                <div className="distanceTimeWrapper">
+                <div className="distance-time-wrapper">
                   <span className="distance">{formatDistance(game.totalDistance)}</span>
                   <div className="divider">-</div>
                   <span className="time">{formatRoundTime(game.totalTime)}</span>

@@ -11,7 +11,7 @@ const SkeletonLeaderboard: FC<Props> = ({ numRows, removeHeader }) => {
   return (
     <StyledSkeletonLeaderboard>
       {!removeHeader && (
-        <div className="leaderboardTop">
+        <div className="leaderboard-top">
           <Skeleton height={20} width={150} noBorder />
         </div>
       )}

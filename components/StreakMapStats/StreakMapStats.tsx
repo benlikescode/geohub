@@ -16,9 +16,9 @@ const StreakMapStats: FC<Props> = ({ streakStats }) => {
           <ScaleIcon />
         </div>
 
-        <div className="textWrapper">
-          <span className="mainLabel">Average Streak</span>
-          <span className="subLabel">{formatLargeNumber(streakStats.avgStreak || 0)}</span>
+        <div className="text-wrapper">
+          <span className="main-label">Average Streak</span>
+          <span className="sub-label">{formatLargeNumber(streakStats.avgStreak || 0)}</span>
         </div>
       </div>
 
@@ -27,9 +27,9 @@ const StreakMapStats: FC<Props> = ({ streakStats }) => {
           <UserIcon />
         </div>
 
-        <div className="textWrapper">
-          <span className="mainLabel">Explorers</span>
-          <span className="subLabel">{streakStats.usersPlayed}</span>
+        <div className="text-wrapper">
+          <span className="main-label">Explorers</span>
+          <span className="sub-label">{streakStats.usersPlayed}</span>
         </div>
       </div>
 
@@ -38,9 +38,9 @@ const StreakMapStats: FC<Props> = ({ streakStats }) => {
           <LocationMarkerIcon />
         </div>
 
-        <div className="textWrapper">
-          <span className="mainLabel">Locations</span>
-          <span className="subLabel">{formatLargeNumber(streakStats.locationCount)}</span>
+        <div className="text-wrapper">
+          <span className="main-label">Locations</span>
+          <span className="sub-label">{formatLargeNumber(streakStats.locationCount)}</span>
         </div>
       </div>
 
@@ -49,9 +49,9 @@ const StreakMapStats: FC<Props> = ({ streakStats }) => {
           <GlobeIcon />
         </div>
 
-        <div className="textWrapper">
-          <span className="mainLabel">Countries</span>
-          <span className="subLabel">{formatLargeNumber(streakStats.countryCount)}</span>
+        <div className="text-wrapper">
+          <span className="main-label">Countries</span>
+          <span className="sub-label">{formatLargeNumber(streakStats.countryCount)}</span>
         </div>
       </div>
     </StyledStreakMapStats>

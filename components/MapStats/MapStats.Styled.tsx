@@ -10,11 +10,6 @@ const StyledMapStats = styled.div<StyledProps>`
   gap: 20px;
   padding: 15px 20px 20px;
 
-  @media (max-width: 1000px) {
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
   .stat-item {
     display: flex;
     align-items: center;
@@ -24,29 +19,29 @@ const StyledMapStats = styled.div<StyledProps>`
     border-radius: 6px;
     flex-shrink: 0;
     box-sizing: border-box;
-  }
 
-  .textWrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
+    .text-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
 
-  .mainLabel {
-    color: var(--color2);
+      .main-label {
+        color: var(--color2);
 
-    @media (max-width: 600px) {
-      font-size: 14px;
-    }
-  }
+        @media (max-width: 600px) {
+          font-size: 14px;
+        }
+      }
 
-  .subLabel {
-    color: var(--color3);
-    font-weight: 400;
-    font-size: 14px;
+      .sub-label {
+        color: var(--color3);
+        font-weight: 400;
+        font-size: 14px;
 
-    @media (max-width: 600px) {
-      font-size: 12px;
+        @media (max-width: 600px) {
+          font-size: 12px;
+        }
+      }
     }
   }
 
@@ -67,7 +62,7 @@ const StyledMapStats = styled.div<StyledProps>`
     }
   }
 
-  .likeBtn {
+  .like-btn {
     background-color: transparent;
     height: fit-content;
     width: fit-content;
@@ -80,6 +75,11 @@ const StyledMapStats = styled.div<StyledProps>`
         color: var(--red-500);
       }
     }
+  }
+
+  @media (max-width: 1000px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
   }
 `
 

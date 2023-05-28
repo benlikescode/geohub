@@ -28,7 +28,7 @@ const StyledLikedMapCard = styled.div`
     }
   }
 
-  .contentWrapper {
+  .content-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -37,10 +37,10 @@ const StyledLikedMapCard = styled.div`
     margin-top: -48px;
   }
 
-  .mapNameWrapper {
+  .map-name-wrapper {
     display: grid;
 
-    .mapName {
+    .map-name {
       font-size: 20px;
       font-weight: 600;
       padding: 0 1rem;
@@ -51,7 +51,7 @@ const StyledLikedMapCard = styled.div`
     }
   }
 
-  .playWrapper {
+  .play-wrapper {
     width: 100%;
     display: flex;
     align-items: center;
@@ -60,7 +60,7 @@ const StyledLikedMapCard = styled.div`
     padding: 1rem 1rem 2rem 1rem;
   }
 
-  .mapEditBtn {
+  .map-edit-btn {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -79,7 +79,7 @@ const StyledLikedMapCard = styled.div`
     }
   }
 
-  .mapPlayBtn {
+  .map-play-btn {
     display: flex;
     align-items: center;
     justify-content: center;

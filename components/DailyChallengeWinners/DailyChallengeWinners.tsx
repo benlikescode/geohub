@@ -12,7 +12,7 @@ const DailyChallengeWinners: FC<Props> = ({ removeHeader, prevWinners }) => {
   return (
     <StyledDailyChallengeWinners>
       {!removeHeader && (
-        <div className="leaderboardTop">
+        <div className="leaderboard-top">
           <span className="title">Previous Winners</span>
         </div>
       )}
@@ -20,7 +20,7 @@ const DailyChallengeWinners: FC<Props> = ({ removeHeader, prevWinners }) => {
       {prevWinners.length > 0 ? (
         prevWinners.map((winner, idx) => <WinnerItem key={idx} winner={winner} />)
       ) : (
-        <span className="notPlayedMsg">No daily challenge winners found...</span>
+        <span className="not-played-msg">No daily challenge winners found...</span>
       )}
     </StyledDailyChallengeWinners>
   )

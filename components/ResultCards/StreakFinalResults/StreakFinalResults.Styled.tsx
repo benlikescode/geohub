@@ -1,8 +1,6 @@
 import styled from 'styled-components'
 
-type StyledProps = {}
-
-const StyledStreakFinalResults = styled.div<StyledProps>`
+const StyledStreakFinalResults = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -22,7 +20,7 @@ const StyledStreakFinalResults = styled.div<StyledProps>`
     padding-bottom: 16px;
   }
 
-  .actionButtons {
+  .action-buttons {
     display: flex;
     align-items: center;
     justify-content: center;

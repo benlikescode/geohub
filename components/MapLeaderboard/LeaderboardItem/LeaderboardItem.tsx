@@ -27,9 +27,9 @@ const LeaderboardItem: FC<Props> = ({ finishPlace, row }) => {
 
   return (
     <StyledLeaderboardItem highlight={!!row.highlight}>
-      <div className="userSection">
-        <span className="userPlace">{finishPlace === LAST_PLACE && row.highlight ? '' : `#${finishPlace}`}</span>
-        <div className="userInfo">
+      <div className="user-section">
+        <span className="user-place">{finishPlace === LAST_PLACE && row.highlight ? '' : `#${finishPlace}`}</span>
+        <div className="user-info">
           {isProfilePage && isThisUsersProfile ? (
             <Avatar type="user" src={user.avatar.emoji} backgroundColor={user.avatar.color} />
           ) : (
@@ -43,20 +43,20 @@ const LeaderboardItem: FC<Props> = ({ finishPlace, row }) => {
         </div>
       </div>
 
-      <div className="resultsSection">
+      <div className="results-section">
         {typeof row.totalPoints !== 'undefined' && (
-          <span className="totalPoints">{formatLargeNumber(row.totalPoints)} points</span>
+          <span className="total-points">{formatLargeNumber(row.totalPoints)} points</span>
         )}
 
         {row.streak && (
-          <div className="bestStreakWrapper">
+          <div className="best-streak-wrapper">
             <LightningBoltIcon />
-            <span className="bestStreak">{row.streak}</span>
+            <span className="best-streak">{row.streak}</span>
           </div>
         )}
 
         <FlexGroup gap={5}>
-          {row.totalTime && <span className="totalTime">{formatRoundTime(row.totalTime)}</span>}
+          {row.totalTime && <span className="total-time">{formatRoundTime(row.totalTime)}</span>}
 
           <Link href={`/results/${row._id}`}>
             <a className="results-link">

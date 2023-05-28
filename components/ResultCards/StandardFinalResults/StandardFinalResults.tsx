@@ -23,13 +23,13 @@ const StandardFinalResults: FC<Props> = ({ gameData }) => {
   return (
     <ResultsWrapper>
       <StyledStandardFinalResults>
-        <div className="pointsWrapper">{`${formatLargeNumber(gameData.totalPoints)} total points`}</div>
+        <div className="points-wrapper">{`${formatLargeNumber(gameData.totalPoints)} total points`}</div>
 
         <div className="progress-bar">
           <ProgressBar progress={calculateProgress()} />
         </div>
 
-        <div className="finishedMessage">The game is finished, well done!</div>
+        <div className="finished-message">The game is finished, well done!</div>
 
         <FlexGroup gap={20}>
           <Link

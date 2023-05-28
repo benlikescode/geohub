@@ -1,8 +1,6 @@
 import styled from 'styled-components'
 
-type StyledProps = {}
-
-const StyledNotFound = styled.div<StyledProps>`
+const StyledNotFound = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;

@@ -35,12 +35,12 @@ const Challenge: FC<Props> = ({ challengeId }) => {
 
   return (
     <StyledChallenge>
-      <label className="inputLabel">Invite people with this URL</label>
-      <div className="inputWrapper">
+      <label className="input-label">Invite people with this URL</label>
+      <div className="input-wrapper">
         <Input id="invite" type="text" value={inviteLink} readOnly fontSize="15px" />
 
-        <div className="copyBtnWrapper">
-          <button className="copyBtn" onClick={() => handleCopy()}>
+        <div className="copy-btn-wrapper">
+          <button className="copy-btn" onClick={() => handleCopy()}>
             {isCopied ? <CheckIcon className="check" /> : <ClipboardIcon />}
           </button>
         </div>

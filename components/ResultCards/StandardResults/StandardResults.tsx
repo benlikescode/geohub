@@ -37,7 +37,7 @@ const StandardResults: FC<Props> = ({ round, distance, points, noGuess, setView 
   return (
     <ResultsWrapper>
       <StyledStandardResults showPoints={progressFinished}>
-        <div className="pointsWrapper">{`${formatLargeNumber(points)} points`}</div>
+        <div className="points-wrapper">{`${formatLargeNumber(points)} points`}</div>
 
         <div className="progress-bar">
           <ProgressBar progress={calculateProgress()} setProgressFinished={setProgressFinished} />
@@ -45,17 +45,17 @@ const StandardResults: FC<Props> = ({ round, distance, points, noGuess, setView 
 
         <div>
           {noGuess ? (
-            <span className="noGuessMessage">You did not make a guess this round 😢</span>
+            <span className="no-guess-message">You did not make a guess this round 😢</span>
           ) : (
-            <span className="distanceMessage">
+            <span className="distance-message">
               Your guess was
-              <span className="emphasisText"> {formatDistance(distance)} </span>
+              <span className="emphasis-text"> {formatDistance(distance)} </span>
               from the correct location
             </span>
           )}
         </div>
 
-        <div className="actionButton">
+        <div className="action-button">
           <Button onClick={handleNextRound} width="200px">
             {round > 5 ? 'View Results' : 'Play Next Round'}
           </Button>

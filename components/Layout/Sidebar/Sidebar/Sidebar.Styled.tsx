@@ -1,20 +1,11 @@
 import styled from 'styled-components'
 
 const StyledSidebar = styled.div`
-  /* position: sticky;
-  top: var(--navbarHeight); */
   height: calc(100vh - var(--navbarHeight));
 
   .sidebar {
     width: var(--sidebarWidth);
-    //border-right: 1px solid #252525;
-    //border-right: 1px solid #181818;
     height: 100%;
-    //position: fixed;
-    //background-color: var(--background2);
-    //background-color: #1f1f23;
-    //background-color: #141416;
-    //background-color: #1a1a1c;
     background-color: ${({ theme }) => theme.color.gray[900]};
     border-right: 1px solid ${({ theme }) => theme.color.gray[800]};
     z-index: 1;
@@ -31,7 +22,7 @@ const StyledSidebar = styled.div`
     }
   }
 
-  .sidebarItemGrid {
+  .sidebar-item-grid {
     display: grid;
     gap: 4px;
     padding: 4px;
@@ -42,32 +33,9 @@ const StyledSidebar = styled.div`
     }
   }
 
-  .quickLinksSection {
+  .quick-links-section {
     padding-top: 8px;
-    //margin-bottom: 40px;
     padding-bottom: 4px;
-    /* border-bottom: 1px solid ${({ theme }) => theme.color.gray[800]}; */
-
-    /* @media (max-width: 1200px) {
-      display: none;
-    } */
-  }
-
-  .quickLinkItemWrapper {
-    padding: 4px 1rem;
-    display: grid;
-    gap: 15px;
-    font-weight: 400;
-  }
-
-  .linkItem {
-    cursor: pointer;
-    color: #878d93;
-    font-size: 15px;
-
-    :hover {
-      color: var(--color2);
-    }
   }
 
   .view-more {
@@ -96,47 +64,13 @@ const StyledSidebar = styled.div`
     }
   }
 
-  .title {
-    padding: 0.5rem 1rem;
-    padding-bottom: 0.75rem;
-    color: #9f9f9f;
-    font-weight: 600;
-    font-size: 15px;
-    //margin-bottom: 0.5rem;
-    /* letter-spacing: 1px; */
-
-    padding: 0.5rem 1rem;
-    /* padding-bottom: 0.75rem; */
-    color: #828080;
-    font-weight: 600;
-    font-size: 13px;
-    padding-bottom: 8px;
-
-    @media (max-width: 1200px) {
-      display: none;
-    }
-  }
-
-  .footer {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 15px 25px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    border-top: var(--border);
-  }
-
-  .recentMapsWrapper {
+  .recent-maps-wrapper {
     padding: 0 4px;
     display: grid;
     gap: 4px;
     font-weight: 400;
-    //transition: background-color 0.2s ease 0s, color 0.2s ease 0s;
 
-    .recentMap {
+    .recent-map {
       display: flex;
       align-items: center;
       gap: 8px;
@@ -153,7 +87,7 @@ const StyledSidebar = styled.div`
         color: var(--color2);
       }
 
-      .recentMapName {
+      .recent-map-name {
         font-size: 14px;
         position: relative;
         top: 1px;
@@ -166,13 +100,6 @@ const StyledSidebar = styled.div`
           display: none;
         }
       }
-    }
-
-    .recent-map-skeleton {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 4px 8px;
     }
   }
 `

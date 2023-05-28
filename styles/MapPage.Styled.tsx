@@ -1,15 +1,6 @@
 import styled from 'styled-components'
 
 const StyledMapPage = styled.div`
-  // Override Horizontal Padding and Max Width In Layout.Styled
-  .mainContent {
-    max-width: 1100px;
-
-    @media (max-width: 600px) {
-      padding: 0;
-    }
-  }
-
   .name-wrapper {
     display: flex;
     align-items: center;
@@ -78,7 +69,7 @@ const StyledMapPage = styled.div`
     margin-top: 12px;
   }
 
-  .mapDetailsSection {
+  .map-details-section {
     background-color: var(--background2);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 6px;
@@ -95,7 +86,7 @@ const StyledMapPage = styled.div`
     }
   }
 
-  .mapDescriptionWrapper {
+  .map-description-wrapper {
     width: 100%;
   }
 
@@ -103,14 +94,14 @@ const StyledMapPage = styled.div`
     display: contents;
   }
 
-  .descriptionColumnWrapper {
+  .description-column-wrapper {
     display: flex;
     justify-content: space-between;
     padding: 20px;
     width: 100%;
   }
 
-  .descriptionColumn {
+  .description-column {
     display: flex;
     align-items: center;
   }

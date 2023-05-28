@@ -88,11 +88,11 @@ const StreakResults: FC<Props> = ({ gameData, setView }) => {
         )}
 
         {hasStreak ? (
-          <div className="actionButtons">
+          <div className="action-buttons">
             <Button onClick={handleNextRound}>Play Next Round</Button>
           </div>
         ) : (
-          <div className="actionButtons">
+          <div className="action-buttons">
             <Link href={`/streaks`}>
               <a>
                 <Button>Play Again</Button>

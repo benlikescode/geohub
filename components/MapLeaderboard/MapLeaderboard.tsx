@@ -28,10 +28,11 @@ const MapLeaderboard: FC<Props> = ({
   return (
     <StyledMapLeaderboard>
       {!removeHeader && (
-        <div className="leaderboardTop">
+        <div className="leaderboard-top">
           <span className="title">{title ?? 'Leaderboard'}</span>
         </div>
       )}
+
       {infiniteScrollCallback && leaderboard.length > 0 && (
         <InfiniteScroll
           dataLength={leaderboard.length}
@@ -64,7 +65,7 @@ const MapLeaderboard: FC<Props> = ({
         leaderboard.map((row, idx) => <LeaderboardItem key={idx} finishPlace={idx + 1} row={row} />)}
 
       {leaderboard.length <= 0 && (
-        <span className="notPlayedMsg">
+        <span className="not-played-msg">
           {noResultsMessage ?? 'This map has not been played yet. Be the first one on the leaderboard!'}
         </span>
       )}

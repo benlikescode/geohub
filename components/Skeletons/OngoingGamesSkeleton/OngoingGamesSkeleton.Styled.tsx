@@ -1,8 +1,6 @@
 import styled from 'styled-components'
 
-type StyledProps = {}
-
-const StyledOngoingGamesSkeleton = styled.div<StyledProps>`
+const StyledOngoingGamesSkeleton = styled.div`
   .ongoing-item {
     display: flex;
     align-items: center;

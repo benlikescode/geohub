@@ -38,6 +38,7 @@ const MainModal: FC<Props> = ({
             <XIcon />
           </button>
         </div>
+
         <div className="modal-body">{children}</div>
 
         <div className="modal-footer">

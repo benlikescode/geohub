@@ -117,7 +117,7 @@ const StyledDailyChallengePage = styled.div`
     }
   }
 
-  .mapDetailsSection {
+  .map-details-section {
     background-color: var(--background2);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 6px;
@@ -134,7 +134,7 @@ const StyledDailyChallengePage = styled.div`
     }
   }
 
-  .mapDescriptionWrapper {
+  .map-description-wrapper {
     width: 100%;
   }
 
@@ -142,13 +142,13 @@ const StyledDailyChallengePage = styled.div`
     display: contents;
   }
 
-  .descriptionColumnWrapper {
+  .description-column-wrapper {
     display: flex;
     justify-content: space-between;
     padding: 20px;
     width: 100%;
 
-    .descriptionColumn {
+    .description-column {
       display: flex;
       align-items: center;
     }
@@ -161,7 +161,7 @@ const StyledDailyChallengePage = styled.div`
       background-color: transparent;
       padding: 0 0 16px 0;
 
-      .leaderboardTop {
+      .leaderboard-top {
         margin: 0;
         padding: 16px;
       }

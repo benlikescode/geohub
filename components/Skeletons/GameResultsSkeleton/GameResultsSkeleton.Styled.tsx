@@ -1,8 +1,6 @@
 import styled from 'styled-components'
 
-type StyledProps = {}
-
-const StyledGameResultsSkeleton = styled.div<StyledProps>`
+const StyledGameResultsSkeleton = styled.div`
   .map-skeleton {
     height: calc(100vh - 300px);
     background-color: #999999;
@@ -27,14 +25,14 @@ const StyledGameResultsSkeleton = styled.div<StyledProps>`
         padding: 0;
       }
 
-      .leaderboardWrapper {
+      .leaderboard-wrapper {
         display: grid;
         gap: 25px;
         background-color: var(--background2);
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 6px;
 
-        .gameInfoWrapper {
+        .game-info-wrapper {
           display: flex;
           align-items: center;
           gap: 50px;
@@ -46,27 +44,12 @@ const StyledGameResultsSkeleton = styled.div<StyledProps>`
             padding: 20px 1rem;
           }
 
-          .gameInfoItem {
+          .game-info-item {
             display: flex;
             align-items: center;
             gap: 10px;
 
-            .settingsAvatar {
-              border-radius: 50%;
-              height: 50px;
-              width: 50px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              flex-shrink: 0;
-
-              @media (max-width: 600px) {
-                height: 40px;
-                width: 40px;
-              }
-            }
-
-            .gameInfoContent {
+            .game-info-content {
               display: flex;
               flex-direction: column;
               gap: 5px;
@@ -81,119 +64,105 @@ const StyledGameResultsSkeleton = styled.div<StyledProps>`
             }
           }
         }
-      }
 
-      .leaderboardSection {
-        .titleSection {
-          font-size: 14px;
-          color: var(--color3);
-          padding-bottom: 8px;
+        .leaderboard-section {
+          .leaderboard-header-row {
+            display: grid;
+            grid-template-columns: 250px repeat(6, 1fr);
 
-          &:first-child {
-            padding-left: 16px;
-          }
-        }
+            @media (max-width: 800px) {
+              grid-template-columns: 1fr 90px;
+            }
 
-        .leaderboardHeaderRow {
-          display: grid;
-          grid-template-columns: 250px repeat(6, 1fr);
+            .title-section {
+              font-size: 14px;
+              color: var(--color3);
+              padding-bottom: 8px;
 
-          @media (max-width: 800px) {
-            grid-template-columns: 1fr 90px;
-          }
-        }
-
-        .leaderboardRow {
-          display: grid;
-          grid-template-columns: 250px repeat(6, 1fr);
-          border-top: 1px solid #2f3133;
-          cursor: pointer;
-          padding: 6px 0;
-
-          @media (max-width: 800px) {
-            grid-template-columns: 1fr 90px;
+              &:first-child {
+                padding-left: 16px;
+              }
+            }
           }
 
-          &.selected {
-            background-color: #222;
-          }
+          .leaderboard-row {
+            display: grid;
+            grid-template-columns: 250px repeat(6, 1fr);
+            border-top: 1px solid #2f3133;
+            cursor: pointer;
+            padding: 6px 0;
 
-          &:last-child {
-            border-radius: 0 0 6px 6px;
-          }
-        }
+            @media (max-width: 800px) {
+              grid-template-columns: 1fr 90px;
+            }
 
-        .userSection {
-          display: flex;
-          align-items: center;
-          gap: 15px;
-          padding: 1rem;
-          user-select: none;
+            &.selected {
+              background-color: #222;
+            }
 
-          .userPlace {
-            max-width: 25px;
-            width: 100%;
-            font-style: italic;
-            font-weight: bold;
-          }
+            &:last-child {
+              border-radius: 0 0 6px 6px;
+            }
 
-          .userInfo {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            .user-section {
+              display: flex;
+              align-items: center;
+              gap: 15px;
+              padding: 1rem;
+              user-select: none;
 
-            .username {
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              max-width: 150px;
+              .user-info {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+              }
+            }
+
+            .user-result-section {
+              display: flex;
+              flex-direction: column;
+              user-select: none;
+
+              @media (max-width: 1100px) {
+                display: flex;
+                align-items: flex-start;
+                justify-content: center;
+              }
+
+              .points-wrapper {
+                font-weight: 400;
+                font-size: 15px;
+                margin-top: auto;
+
+                @media (max-width: 1100px) {
+                  margin-top: 0;
+                }
+              }
+
+              .distance-time-wrapper {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                color: var(--color3);
+                font-size: 14px;
+                font-weight: 400;
+                margin-top: 5px;
+                margin-bottom: auto;
+
+                @media (max-width: 1100px) {
+                  display: none;
+                }
+
+                .divider {
+                  color: #606060;
+                }
+              }
             }
           }
         }
       }
 
-      .userResultSection {
-        display: flex;
-        flex-direction: column;
-        user-select: none;
-
-        @media (max-width: 1100px) {
-          display: flex;
-          align-items: flex-start;
-          justify-content: center;
-        }
-
-        .pointsWrapper {
-          font-weight: 400;
-          font-size: 15px;
-          margin-top: auto;
-
-          @media (max-width: 1100px) {
-            margin-top: 0;
-          }
-        }
-
-        .distanceTimeWrapper {
-          display: flex;
-          align-items: center;
-          gap: 5px;
-          color: var(--color3);
-          font-size: 14px;
-          font-weight: 400;
-          margin-top: 5px;
-          margin-bottom: auto;
-
-          @media (max-width: 1100px) {
-            display: none;
-          }
-
-          .divider {
-            color: #606060;
-          }
-        }
-      }
-
-      .hideOnSmall {
+      .hide-on-small {
         @media (max-width: 800px) {
           display: none;
         }

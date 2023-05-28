@@ -43,7 +43,7 @@ const StyledOngoingGamesPage = styled.div`
         align-items: center;
         gap: 12px;
 
-        .mapNameWrapper {
+        .map-name-wrapper {
           display: grid;
 
           .mapName {

@@ -19,7 +19,7 @@ const Layout: FC<Props> = ({ children }) => {
       <div className="app-layout">
         <Navbar />
 
-        <div className="appBody">
+        <div className="app-body">
           <Sidebar />
 
           <main id="main">{children}</main>

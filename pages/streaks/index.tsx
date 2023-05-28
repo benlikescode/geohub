@@ -50,10 +50,10 @@ const StreaksPage = () => {
         <Head title="Country Streaks" />
 
         {streakStats ? (
-          <div className="mapDetailsSection">
-            <div className="mapDescriptionWrapper">
-              <div className="descriptionColumnWrapper">
-                <div className="descriptionColumn">
+          <div className="map-details-section">
+            <div className="map-description-wrapper">
+              <div className="description-column-wrapper">
+                <div className="description-column">
                   <Avatar type="map" src={COUNTRY_STREAK_DETAILS.previewImg} size={50} />
                   <div className="map-details">
                     <div className="name-container">
@@ -65,10 +65,10 @@ const StreaksPage = () => {
                     <span className="description">{COUNTRY_STREAK_DETAILS.description}</span>
                   </div>
                 </div>
-                <Button className="mapPlayBtn" width="148px" height="52px" onClick={() => setSettingsModalOpen(true)}>
+                <Button className="map-play-btn" width="148px" height="52px" onClick={() => setSettingsModalOpen(true)}>
                   Play Now
                 </Button>
-                <button className="mapPlayBtn mobile" onClick={() => setSettingsModalOpen(true)}>
+                <button className="map-play-btn mobile" onClick={() => setSettingsModalOpen(true)}>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
                     <path
                       fillRule="evenodd"

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 type StyledProps = {}
 
 const StyledDestroyModal = styled.div<StyledProps>`
-  .a {
+  .body {
     display: grid;
     gap: 16px;
     padding: 20px;
@@ -36,11 +36,11 @@ const StyledDestroyModal = styled.div<StyledProps>`
         }
       }
     }
-  }
 
-  .message {
-    color: #808080;
-    font-weight: 400;
+    .message {
+      color: #808080;
+      font-weight: 400;
+    }
   }
 
   .footer {

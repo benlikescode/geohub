@@ -1,18 +1,12 @@
 import styled from 'styled-components'
 
-type StyledProps = {}
-
-const StyledWinnerItem = styled.div<StyledProps>`
+const StyledWinnerItem = styled.div`
   display: grid;
   gap: 12px;
   padding: 16px 0;
 
   &:not(:first-child) {
     border-top: var(--border);
-  }
-
-  @media (max-width: 1000px) {
-    padding: 1rem;
   }
 
   .challenge-day {
@@ -49,6 +43,10 @@ const StyledWinnerItem = styled.div<StyledProps>`
       color: #dcdcdc;
       flex-shrink: 0;
     }
+  }
+
+  @media (max-width: 1000px) {
+    padding: 1rem;
   }
 `
 

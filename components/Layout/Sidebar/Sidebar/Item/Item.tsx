@@ -18,7 +18,7 @@ const Item: FC<Props> = ({ text, icon, route }) => {
       <Link href={route}>
         <a className="item">
           {icon}
-          <span className="itemText">{text}</span>
+          <span className="item-text">{text}</span>
         </a>
       </Link>
     </StyledItem>

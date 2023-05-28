@@ -20,8 +20,8 @@ const AuthModal: FC<Props> = ({ isOpen, closeModal }) => {
           </button>
         </div>
 
-        <div className="mainContent">
-          <div className="buttonsWrapper">
+        <div className="main-content">
+          <div className="buttons-wrapper">
             <Link href="/login">
               <a>
                 <Button variant="solidCustom" backgroundColor="#3d3d3d" color="#fff" hoverColor="#444" width="100%">

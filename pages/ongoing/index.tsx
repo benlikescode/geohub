@@ -133,8 +133,8 @@ const OngoingGamesPage: NextPage = () => {
                           }
                           size={32}
                         />
-                        <div className="mapNameWrapper">
-                          <span className="mapName">
+                        <div className="map-name-wrapper">
+                          <span className="map-name">
                             {game.mode === 'streak'
                               ? COUNTRY_STREAK_DETAILS.name
                               : game.isDailyChallenge

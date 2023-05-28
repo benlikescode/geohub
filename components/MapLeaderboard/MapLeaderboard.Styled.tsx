@@ -5,13 +5,7 @@ const StyledMapLeaderboard = styled.div`
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 6px;
 
-  @media (max-width: 600px) {
-    border-radius: 0;
-    border: none;
-    background-color: transparent;
-  }
-
-  .leaderboardTop {
+  .leaderboard-top {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -20,18 +14,18 @@ const StyledMapLeaderboard = styled.div`
     @media (max-width: 1000px) {
       padding: 16px;
     }
-  }
 
-  .title {
-    font-size: 1.125rem;
-    margin-top: 2px;
+    .title {
+      font-size: 1.125rem;
+      margin-top: 2px;
 
-    @media (max-width: 1000px) {
-      font-size: 1rem;
+      @media (max-width: 1000px) {
+        font-size: 1rem;
+      }
     }
   }
 
-  .notPlayedMsg {
+  .not-played-msg {
     color: var(--color4);
     font-weight: 400;
     display: block;
@@ -40,6 +34,12 @@ const StyledMapLeaderboard = styled.div`
     @media (max-width: 1000px) {
       padding: 0 16px 16px;
     }
+  }
+
+  @media (max-width: 600px) {
+    border-radius: 0;
+    border: none;
+    background-color: transparent;
   }
 `
 

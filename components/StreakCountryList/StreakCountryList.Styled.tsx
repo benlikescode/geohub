@@ -1,14 +1,9 @@
 import styled from 'styled-components'
 
-type StyledProps = {}
-
-const StyledStreakCountryList = styled.ol<StyledProps>`
+const StyledStreakCountryList = styled.ol`
   display: grid;
   gap: 25px;
   padding: 0;
-  /* margin: 40px 0; */
-  /* border-bottom: 1px solid #333; */
-  /* padding-bottom: 25px; */
 
   .streak-result-item {
     display: flex;
@@ -42,6 +37,7 @@ const StyledStreakCountryList = styled.ol<StyledProps>`
 
     .result-name {
       font-weight: 400;
+
       .result-guessed-name {
         font-size: 14px;
         color: #bababa;

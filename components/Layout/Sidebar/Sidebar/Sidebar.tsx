@@ -55,7 +55,7 @@ const Sidebar: FC = () => {
   return (
     <StyledSidebar>
       <div className="sidebar">
-        <div className="sidebarItemGrid">
+        <div className="sidebar-item-grid">
           <Item text="Home" icon={<HomeIcon />} route="/" />
 
           <Item text="My Maps" icon={<MapIcon />} route="/my-maps" />
@@ -70,44 +70,21 @@ const Sidebar: FC = () => {
 
           <Item text="Daily Challenge" icon={<LocationMarkerIcon />} route="/daily-challenge" />
 
-          {/* <Item text="Analytics" icon={<ChartPieIcon />} route="/admin/analytics" /> */}
+          {session?.user.isAdmin && <Item text="Analytics" icon={<ChartPieIcon />} route="/admin/analytics" />}
         </div>
 
-        <div className="quickLinksSection">
-          {/* <div className="title">
-            <span>Play Now</span>
-          </div> */}
-
-          <div className="recentMapsWrapper">
+        <div className="quick-links-section">
+          <div className="recent-maps-wrapper">
             {maps?.map((map, idx) => (
               <Link key={idx} href={`/map/${map._id}`}>
-                <a className="recentMap">
+                <a className="recent-map">
                   <Avatar type="map" src={map.previewImg} size={28} />
-                  <span className="recentMapName">{map.name}</span>
+                  <span className="recent-map-name">{map.name}</span>
                 </a>
               </Link>
             ))}
           </div>
         </div>
-
-        {/* <div className="view-more">
-          <Link href="/maps">
-            <a>
-              <span>View all maps</span>
-              <ArrowRightIcon />
-            </a>
-          </Link>
-        </div> */}
-
-        {/* {session?.user.isAdmin && (
-          <>
-            <div className="view-more">
-              <Link href="/admin/analytics">
-                <a>Analytics</a>
-              </Link>
-            </div>
-          </>
-        )} */}
       </div>
     </StyledSidebar>
   )

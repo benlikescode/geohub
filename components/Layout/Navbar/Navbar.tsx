@@ -1,5 +1,4 @@
 import { useSession } from 'next-auth/react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { FC, useState } from 'react'
 import { Avatar, Button, Searchbar } from '@components/System'
@@ -18,7 +17,7 @@ const Navbar: FC = () => {
       {searchOpen && (
         <>
           <Searchbar autoFocus onClickOutside={() => setSearchOpen(false)} />
-          <span className="cancelSearch" onClick={() => setSearchOpen(false)}>
+          <span className="cancel-search" onClick={() => setSearchOpen(false)}>
             Cancel
           </span>
         </>
@@ -26,23 +25,23 @@ const Navbar: FC = () => {
 
       {!searchOpen && (
         <>
-          <div className="leftContainer">
+          <div className="left-container">
             <AppLogo />
           </div>
 
-          <div className="middleContainer">
+          <div className="middle-container">
             <Searchbar />
           </div>
 
-          <div className="rightContainer">
-            <div className="rightWrapper">
+          <div className="right-container">
+            <div className="right-wrapper">
               <button className="mobile-search" onClick={() => setSearchOpen(true)}>
                 <SearchIcon />
               </button>
 
               {session ? (
                 <Link href={`/user/${user.id}`}>
-                  <a className="userInfo">
+                  <a className="user-info">
                     <span className="username">{user.name}</span>
                     <Avatar type="user" src={user.avatar.emoji} backgroundColor={user.avatar.color} />
                   </a>

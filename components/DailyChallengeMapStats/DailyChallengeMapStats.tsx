@@ -16,9 +16,9 @@ const DailyChallengeMapStats: FC<Props> = ({ dailyChallengeStats }) => {
           <ScaleIcon />
         </div>
 
-        <div className="textWrapper">
-          <span className="mainLabel">Average Score</span>
-          <span className="subLabel">{formatLargeNumber(dailyChallengeStats.avgScore || 0)}</span>
+        <div className="text-wrapper">
+          <span className="main-label">Average Score</span>
+          <span className="sub-label">{formatLargeNumber(dailyChallengeStats.avgScore || 0)}</span>
         </div>
       </div>
 
@@ -27,9 +27,9 @@ const DailyChallengeMapStats: FC<Props> = ({ dailyChallengeStats }) => {
           <UserIcon />
         </div>
 
-        <div className="textWrapper">
-          <span className="mainLabel">Explorers</span>
-          <span className="subLabel">{dailyChallengeStats.usersPlayed}</span>
+        <div className="text-wrapper">
+          <span className="main-label">Explorers</span>
+          <span className="sub-label">{dailyChallengeStats.usersPlayed}</span>
         </div>
       </div>
 
@@ -38,9 +38,9 @@ const DailyChallengeMapStats: FC<Props> = ({ dailyChallengeStats }) => {
           <LocationMarkerIcon />
         </div>
 
-        <div className="textWrapper">
-          <span className="mainLabel">Locations</span>
-          <span className="subLabel">{formatLargeNumber(dailyChallengeStats.locationCount)}</span>
+        <div className="text-wrapper">
+          <span className="main-label">Locations</span>
+          <span className="sub-label">{formatLargeNumber(dailyChallengeStats.locationCount)}</span>
         </div>
       </div>
 
@@ -49,9 +49,9 @@ const DailyChallengeMapStats: FC<Props> = ({ dailyChallengeStats }) => {
           <GlobeIcon />
         </div>
 
-        <div className="textWrapper">
-          <span className="mainLabel">Countries</span>
-          <span className="subLabel">{dailyChallengeStats.countryCount}</span>
+        <div className="text-wrapper">
+          <span className="main-label">Countries</span>
+          <span className="sub-label">{dailyChallengeStats.countryCount}</span>
         </div>
       </div>
     </StyledDailyChallengeMapStats>

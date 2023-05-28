@@ -1,8 +1,6 @@
 import styled from 'styled-components'
 
-type StyledProps = {}
-
-const StyledMainModal = styled.div<StyledProps>`
+const StyledMainModal = styled.div`
   .modal-header {
     padding: 1rem 1.5rem;
     display: flex;

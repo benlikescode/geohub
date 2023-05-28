@@ -53,12 +53,12 @@ const StyledAvatarPickerModal = styled.div<StyledProps>`
           height: 18px;
         }
       }
-    }
-  }
 
-  .emoji {
-    height: 22px;
-    width: 22px;
+      .emoji {
+        height: 22px;
+        width: 22px;
+      }
+    }
   }
 `
 

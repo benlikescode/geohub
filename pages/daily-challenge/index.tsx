@@ -90,10 +90,10 @@ const DailyChallengePage: FC = () => {
         <div className="daily-challenge-wrapper">
           <div>
             {mapStats ? (
-              <div className="mapDetailsSection">
-                <div className="mapDescriptionWrapper">
-                  <div className="descriptionColumnWrapper">
-                    <div className="descriptionColumn">
+              <div className="map-details-section">
+                <div className="map-description-wrapper">
+                  <div className="description-column-wrapper">
+                    <div className="description-column">
                       <Avatar type="map" src={DAILY_CHALLENGE_DETAILS.previewImg} size={50} />
                       <div className="map-details">
                         <div className="name-container">

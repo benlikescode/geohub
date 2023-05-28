@@ -3,9 +3,7 @@ import { SkeletonLeaderboard } from '@components/SkeletonLeaderboard'
 import { Skeleton } from '@components/System/Skeleton'
 import { StyledSkeletonProfile } from './'
 
-type Props = {}
-
-const SkeletonProfile: FC<Props> = ({}) => {
+const SkeletonProfile: FC = () => {
   return (
     <StyledSkeletonProfile>
       <div>

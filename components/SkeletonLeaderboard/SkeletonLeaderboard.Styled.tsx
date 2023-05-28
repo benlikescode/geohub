@@ -1,13 +1,11 @@
 import styled from 'styled-components'
 
-type StyledProps = {}
-
-const StyledSkeletonLeaderboard = styled.div<StyledProps>`
+const StyledSkeletonLeaderboard = styled.div`
   background-color: var(--background2);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 6px;
 
-  .leaderboardTop {
+  .leaderboard-top {
     display: flex;
     align-items: center;
     justify-content: space-between;

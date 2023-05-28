@@ -16,7 +16,7 @@ const DestroyModal: FC<Props> = ({ title, message, isOpen, onClose, onAction, is
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <StyledDestroyModal>
-        <div className="a">
+        <div className="body">
           <div className="header">
             <p className="title">{title}</p>
           </div>

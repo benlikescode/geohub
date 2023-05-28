@@ -7,7 +7,7 @@ const check = keyframes`
 `
 
 const StyledChallenge = styled.div`
-  .inputLabel {
+  .input-label {
     font-weight: 500;
     font-size: 15px;
     margin-bottom: 10px;
@@ -15,15 +15,15 @@ const StyledChallenge = styled.div`
     color: var(--color2);
   }
 
-  .inputWrapper {
+  .input-wrapper {
     position: relative;
 
-    .copyBtnWrapper {
+    .copy-btn-wrapper {
       position: absolute;
       right: 0;
       top: 0;
 
-      .copyBtn {
+      .copy-btn {
         width: 60px;
         height: 38px;
         background-color: #303030;

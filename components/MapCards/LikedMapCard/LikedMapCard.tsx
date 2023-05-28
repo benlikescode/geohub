@@ -34,13 +34,13 @@ const LikedMapCard: FC<Props> = ({ map, reloadMaps }) => {
         <div className="image-gradient"></div>
       </div>
 
-      <div className="contentWrapper">
-        <div className="mapNameWrapper">
-          <div className="mapName">{map.name}</div>
+      <div className="content-wrapper">
+        <div className="map-name-wrapper">
+          <div className="map-name">{map.name}</div>
         </div>
-        <div className="playWrapper">
+        <div className="play-wrapper">
           <Link href={`/map/${map._id}`}>
-            <a className="mapPlayBtn">Play</a>
+            <a className="map-play-btn">Play</a>
           </Link>
           <button
             className="unlike-button"
