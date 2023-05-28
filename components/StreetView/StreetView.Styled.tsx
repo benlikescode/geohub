@@ -6,7 +6,7 @@ type StyledProps = {
 
 const StyledStreetView = styled.div<StyledProps>`
   #map {
-    height: 100vh;
+    height: 100dvh;
     width: 100%;
     position: relative;
     display: none;
