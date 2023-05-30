@@ -170,8 +170,6 @@ const CreateMapPage: PageType = () => {
         lng: e.latLng.lng(),
       }
 
-      console.log(`INITIAL COORDS: ${JSON.stringify(location)}`)
-
       setLocations([...locationsRef.current, location])
 
       // If previously selected marker -> reset its icon to regular
@@ -229,8 +227,6 @@ const CreateMapPage: PageType = () => {
     const location = locationsRef.current[indexOfLoc !== undefined ? indexOfLoc : locationsRef.current.length - 1]
     //let isLocationCovered = true
 
-    console.log(`LOCCCC: ${JSON.stringify(location)}`)
-
     const streetViewService = new window.google.maps.StreetViewService()
     const panorama = new window.google.maps.StreetViewPanorama(document.getElementById('previewMap') as HTMLElement, {
       addressControl: false,
@@ -246,7 +242,6 @@ const CreateMapPage: PageType = () => {
 
     panorama.addListener('position_changed', () => {
       const newLatLng = panorama.getPosition()
-      //console.log(newLatLng?.lat(), newLatLng?.lng())
       if (!newLatLng) return
 
       setModifiedPosition({ lat: newLatLng.lat(), lng: newLatLng.lng() })
@@ -256,7 +251,6 @@ const CreateMapPage: PageType = () => {
       'pov_changed',
       throttle(() => {
         const { heading, pitch } = panorama.getPov()
-        console.log(panorama.getPov())
 
         setModifiedHeading(heading)
         setModifiedPitch(pitch)
@@ -266,13 +260,11 @@ const CreateMapPage: PageType = () => {
     const processSVData = (data: any, status: any) => {
       if (data == null) {
         //isLocationCovered = false
-        console.log('HEREaghjajghasj')
       } else {
         //setIsShowingPreview(true)
         const adjustedLat = data.location.latLng.lat()
         const adjustedLng = data.location.latLng.lng()
         const adjustedLocation = { ...location, lat: adjustedLat, lng: adjustedLng }
-        console.log(`ADJUSTED COORDS: ${JSON.stringify(adjustedLocation)}`)
 
         const locationsCopy = [...locationsRef.current]
         locationsCopy[indexOfLoc !== undefined ? indexOfLoc : locationsCopy.length - 1] = adjustedLocation
@@ -378,13 +370,10 @@ const CreateMapPage: PageType = () => {
     }
 
     if (modifiedHeading) {
-      console.log('CHANGED HEADING')
       locationsRef.current[selectedIndexRef.current].heading = modifiedHeading
     }
 
     if (modifiedPitch) {
-      console.log('CHANGED PITCH')
-
       locationsRef.current[selectedIndexRef.current].pitch = modifiedPitch
     }
 

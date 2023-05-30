@@ -12,6 +12,7 @@ import { useAppSelector } from '@redux/hook'
 import { LocationType } from '@types'
 import { KEY_CODES } from '@utils/constants/keyCodes'
 import { showErrorToast } from '@utils/helpers/showToasts'
+import { URBAN_WORLD_ID } from '../../utils/constants/random'
 import { StyledStreetView } from './'
 
 type Props = {
@@ -115,7 +116,6 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
         const adjustedLat = data.location.latLng.lat()
         const adjustedLng = data.location.latLng.lng()
         const adjustedLocation = { ...location, lat: adjustedLat, lng: adjustedLng }
-        console.log(`ADJUSTED COORDS: ${JSON.stringify(adjustedLocation)}`)
 
         setAdjustedLocation(adjustedLocation)
 
@@ -138,9 +138,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
 
   const getPanoSettings = (location: LocationType, mapId: string) => {
     // Need a larger radius for Urban World
-    if (mapId === '631d1a5be3615f68c5ffc4eb') {
-      console.log('me fire')
-
+    if (mapId === URBAN_WORLD_ID) {
       return {
         location,
         radius: 1000,

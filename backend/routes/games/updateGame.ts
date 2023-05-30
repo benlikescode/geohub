@@ -89,8 +89,6 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
     if (!game.challengeId) {
       const newLocation = await getLocations(game.mapId)
 
-      console.log(newLocation)
-
       if (!newLocation) {
         return throwError(res, 400, 'Failed to get new location')
       }
