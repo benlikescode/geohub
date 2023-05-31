@@ -70,6 +70,14 @@ yarn dev
 
 Now, you should be able to see the site running locally at [http://localhost:3000](http://localhost:3000)
 
+## Technologies Used
+
+- NextJS
+- TypeScript
+- MongoDB
+- Google Maps API
+- NextAuth
+
 ## Screenshots
 ![geohub-home](https://github.com/benlikescode/geohub/assets/63207900/f055667d-10e3-4b22-8a01-9aeb3fa86716)
 ![geohub-map-page](https://github.com/benlikescode/geohub/assets/63207900/51c88624-f82b-4b03-a9eb-326966460f4c)
