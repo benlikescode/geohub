@@ -10,8 +10,8 @@ For those unfamilar with Geoguessr, it uses Google Streetview to place you in a 
 
 Go to the website: [GeoHub](https://geohub.vercel.app) and create an account, it is free and takes 15 seconds. If you don't want to create your own account, you can login to the guest account using the credentials below:
 
-Email: `guest@geohub.com`
-Password: `geohub`
+- Email: `guest@geohub.com`
+- Password: `geohub`
 
 Once you have an account, you are ready to play! You can click play on any of the offical maps on the home page such as:
 
