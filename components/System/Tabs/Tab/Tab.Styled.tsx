@@ -13,9 +13,9 @@ const StyledTab = styled.div<StyledProps>`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: ${({ isActive }) => (isActive ? '#cacaca' : '#737373')};
-  border-bottom: ${({ isActive }) => (isActive ? '2px solid #cacaca' : '2px solid transparent')};
-  margin-bottom: -2px;
+  color: ${({ isActive }) => (isActive ? '#fff' : '#737373')};
+  border-bottom: ${({ isActive }) => (isActive ? '2px solid #fff' : '2px solid transparent')};
+  margin-bottom: -1px;
 
   span {
     box-sizing: border-box;

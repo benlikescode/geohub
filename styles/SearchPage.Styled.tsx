@@ -9,7 +9,7 @@ const StyledSearchPage = styled.div`
     margin-bottom: 16px;
 
     .page-title {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 600;
       color: #d6d6d6;
       border-right: 1px solid #2e2e2e;
@@ -33,13 +33,13 @@ const StyledSearchPage = styled.div`
       }
 
       .result-count-bubble {
-        background-color: #262626;
+        background-color: #1e1e1e;
         border-radius: 4px;
         display: flex;
         align-items: center;
         justify-content: center;
         margin-left: 8px;
-        color: #7e7e7e;
+        color: #757575;
         font-size: 12px;
         height: 18px;
         width: 24px;
