@@ -1,3 +1,5 @@
+import Image from 'next/image'
+import Link from 'next/link'
 import router from 'next/router'
 import { useEffect, useState } from 'react'
 import { Game } from '@backend/models'
@@ -7,7 +9,7 @@ import { Navbar } from '@components/Layout/Navbar'
 import { ResultMap } from '@components/ResultMap'
 import { LeaderboardCard } from '@components/Results'
 import { GameResultsSkeleton } from '@components/Skeletons/GameResultsSkeleton'
-import { FlexGroup } from '@components/System'
+import { Button, FlexGroup } from '@components/System'
 import { useAppSelector } from '@redux/hook'
 import StyledResultPage from '@styles/ResultPage.Styled'
 import { MapType, PageType } from '@types'
@@ -19,14 +21,18 @@ const ChallengeResultsPage: PageType = () => {
   const [gamesFromChallenge, setGamesFromChallenge] = useState<Game[] | null>()
   const [mapData, setMapData] = useState<MapType>()
   const [selectedGameIndex, setSelectedGameIndex] = useState(0)
+  const [notAuthorized, setNotAuthorized] = useState(false)
   const challengeId = router.query.id as string
   const user = useAppSelector((state) => state.user)
 
   const fetchGames = async () => {
     const res = await mailman(`scores/challenges/${challengeId}`)
 
-    // If game not found -> show error page
     if (res.error) {
+      if (res.error.code === 401) {
+        return setNotAuthorized(true)
+      }
+
       return setGamesFromChallenge(null)
     }
 
@@ -53,6 +59,24 @@ const ChallengeResultsPage: PageType = () => {
   useEffect(() => {
     getDefaultGameToShow()
   }, [gamesFromChallenge])
+
+  if (notAuthorized) {
+    return (
+      <StyledResultPage>
+        <div className="not-played-wrapper">
+          <div className="not-played">
+            <h1>You have not played this challenge</h1>
+            <p>Finish the challenge to view the results.</p>
+            <Link href={`/challenge/${challengeId}`}>
+              <a>
+                <Button>Play Challenge</Button>
+              </a>
+            </Link>
+          </div>
+        </div>
+      </StyledResultPage>
+    )
+  }
 
   if (gamesFromChallenge === null) {
     return <NotFound message="This challenge does not exist or has not been played yet." />

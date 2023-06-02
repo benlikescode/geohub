@@ -2,9 +2,11 @@ import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { COUNTRY_STREAK_DETAILS, COUNTRY_STREAKS_ID } from '../../../utils/constants/random'
 import { collections } from '../../utils/dbConnect'
+import getUserId from '../../utils/getUserId'
 import { throwError } from '../../utils/helpers'
 
 const getChallengeScores = async (req: NextApiRequest, res: NextApiResponse) => {
+  const userId = await getUserId(req, res)
   const challengeId = req.query.id as string
 
   const query = { challengeId: new ObjectId(challengeId), state: 'finished' }
@@ -30,6 +32,11 @@ const getChallengeScores = async (req: NextApiRequest, res: NextApiResponse) => 
 
   if (!gamesData || gamesData.length < 1) {
     return throwError(res, 404, `Failed to get scores for challenged with id: ${challengeId}`)
+  }
+
+  // If user has not yet played challenge -> they cant see results
+  if (!gamesData.find((x) => x?._id?.toString() === userId)) {
+    return throwError(res, 401, `You haven't finished this challenge yet`)
   }
 
   // Get Map
