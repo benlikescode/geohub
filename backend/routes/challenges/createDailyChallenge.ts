@@ -3,19 +3,8 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { OFFICIAL_WORLD_ID } from '../../../utils/constants/random'
 import { collections } from '../../utils/dbConnect'
 import { getLocations, throwError } from '../../utils/helpers'
-import { todayEnd, todayStart } from '../../utils/queryDates'
 
-const startDailyChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
-  const currentChallenge = await collections.challenges?.findOne({
-    isDailyChallenge: true,
-    createdAt: { $gte: todayStart, $lt: todayEnd },
-  })
-
-  // If there is already a daily challenge, check if this user has played it
-  if (currentChallenge) {
-    return res.status(200).send({ challengeId: currentChallenge._id })
-  }
-
+const createDailyChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
   const locations = await getLocations(OFFICIAL_WORLD_ID, 5)
 
   const newDailyChallenge = {
@@ -32,15 +21,15 @@ const startDailyChallenge = async (req: NextApiRequest, res: NextApiResponse) =>
     locations,
   }
 
-  const result = await collections.challenges?.insertOne(newDailyChallenge)
+  const createResult = await collections.challenges?.insertOne(newDailyChallenge)
 
-  if (!result) {
+  if (!createResult) {
     return throwError(res, 400, 'Could not create new daily challenge')
   }
 
   res.status(201).send({
-    challengeId: result?.insertedId,
+    challengeId: createResult?.insertedId,
   })
 }
 
-export default startDailyChallenge
+export default createDailyChallenge

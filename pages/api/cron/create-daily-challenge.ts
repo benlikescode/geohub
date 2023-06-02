@@ -1,18 +1,13 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { NextApiRequest, NextApiResponse } from 'next'
 import { dbConnect } from '@backend/utils/dbConnect'
-import getDailyChallenge from '../../../backend/routes/challenges/getDailyChallenge'
+import createDailyChallenge from '../../../backend/routes/challenges/createDailyChallenge'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await dbConnect()
 
-    switch (req.method) {
-      case 'GET':
-        return getDailyChallenge(req, res)
-      default:
-        res.status(405).end(`Method ${req.method} Not Allowed`)
-    }
+    createDailyChallenge(req, res)
   } catch (err) {
     console.error(err)
     res.status(500).json({ success: false })

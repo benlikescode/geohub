@@ -9,6 +9,15 @@ const createChallengeGame = async (req: NextApiRequest, res: NextApiResponse) =>
   const challengeId = req.query.id as string
   const { mapId, mode, gameSettings, locations, isDailyChallenge } = req.body
 
+  // Ensure user has not already played this challenge
+  const hasAlreadyPlayed = await collections.games
+    ?.find({ challengeId: new ObjectId(challengeId), userId: new ObjectId(userId) })
+    .count()
+
+  if (hasAlreadyPlayed) {
+    return throwError(res, 400, 'You have already played this challenge')
+  }
+
   const newGame = {
     mapId: mode === 'standard' ? new ObjectId(mapId) : mapId,
     userId: new ObjectId(userId),

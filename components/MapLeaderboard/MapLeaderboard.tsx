@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { Spinner } from '@components/System'
 import { MapLeaderboardType } from '@types'
@@ -8,6 +8,7 @@ import { LeaderboardItem } from './LeaderboardItem'
 
 type Props = {
   removeHeader?: boolean
+  removeResults?: boolean
   title?: string
   leaderboard: MapLeaderboardType[]
   noResultsMessage?: string
@@ -17,6 +18,7 @@ type Props = {
 
 const MapLeaderboard: FC<Props> = ({
   removeHeader,
+  removeResults,
   title,
   leaderboard,
   noResultsMessage,
@@ -61,7 +63,9 @@ const MapLeaderboard: FC<Props> = ({
 
       {!infiniteScrollCallback &&
         leaderboard.length > 0 &&
-        leaderboard.map((row, idx) => <LeaderboardItem key={idx} finishPlace={idx + 1} row={row} />)}
+        leaderboard.map((row, idx) => (
+          <LeaderboardItem key={idx} finishPlace={idx + 1} row={row} removeResults={removeResults} />
+        ))}
 
       {leaderboard.length <= 0 && (
         <span className="notPlayedMsg">

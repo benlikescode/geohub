@@ -23,16 +23,17 @@ const DailyChallengePage: FC = () => {
   const [todayScores, setTodayScores] = useState<MapLeaderboardType[] | null>()
   const [usersGameState, setUsersGameState] = useState<'started' | 'finished' | 'notStarted'>('notStarted')
   const [previousWinners, setPreviousWinners] = useState([])
+  const [challengeId, setChallengeId] = useState()
 
   const user = useAppSelector((state) => state.user)
 
   useEffect(() => {
-    fetchMapDetails()
+    fetchDailyChallenge()
     fetchMapScores()
     fetchPreviousWinners()
   }, [])
 
-  const fetchMapDetails = async () => {
+  const fetchDailyChallenge = async () => {
     const res = await mailman(`challenges/daily`)
 
     if (res.error) {
@@ -41,6 +42,7 @@ const DailyChallengePage: FC = () => {
 
     setMapStats(res.stats)
     setUsersGameState(res.usersGameState)
+    setChallengeId(res.challengeId)
   }
 
   const fetchMapScores = async () => {
@@ -69,17 +71,7 @@ const DailyChallengePage: FC = () => {
       return router.push('/register')
     }
 
-    if (usersGameState === 'finished') {
-      return showErrorToast(`You already played today's challenge`, { id: 'dc1' })
-    }
-
-    const res = await mailman('challenges/daily', 'POST')
-
-    if (res.error) {
-      return showErrorToast(res.error.message)
-    }
-
-    router.push(`/challenge/${res.challengeId}`)
+    router.push(usersGameState === 'finished' ? `/results/challenge/${challengeId}` : `/challenge/${challengeId}`)
   }
 
   return (
@@ -89,7 +81,7 @@ const DailyChallengePage: FC = () => {
 
         <div className="daily-challenge-wrapper">
           <div>
-            {mapStats ? (
+            {mapStats && challengeId ? (
               <div className="mapDetailsSection">
                 <div className="mapDescriptionWrapper">
                   <div className="descriptionColumnWrapper">
@@ -107,15 +99,15 @@ const DailyChallengePage: FC = () => {
                       </div>
                     </div>
 
-                    <Button width="148px" height="52px" onClick={() => startDailyChallenge()}>
+                    <Button width="148px" height="52px" style={{ padding: 0 }} onClick={() => startDailyChallenge()}>
                       {usersGameState === 'started' && 'Continue'}
                       {usersGameState === 'notStarted' && 'Play Now'}
                       {usersGameState === 'finished' && (
                         <div className="completed-wrapper">
-                          <div className="completed-text">Completed</div>
                           <div className="completed-check">
                             <CheckIcon />
                           </div>
+                          <div className="completed-text">View Results</div>
                         </div>
                       )}
                     </Button>
@@ -132,12 +124,17 @@ const DailyChallengePage: FC = () => {
 
             {allTimeScores && todayScores ? (
               <div className="leaderboards-wrapper">
-                <MapLeaderboard leaderboard={allTimeScores} title="All Time Leaderboard" />
-
                 <MapLeaderboard
                   leaderboard={todayScores}
                   title="Today's Leaderboard"
                   noResultsMessage="Play now to be the first on the leaderboard!"
+                  removeResults={usersGameState !== 'finished'}
+                />
+
+                <MapLeaderboard
+                  leaderboard={allTimeScores}
+                  title="All Time Leaderboard"
+                  removeResults={usersGameState !== 'finished'}
                 />
               </div>
             ) : (

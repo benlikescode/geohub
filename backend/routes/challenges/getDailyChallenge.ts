@@ -3,7 +3,6 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { collections } from '../../utils/dbConnect'
 import getUserId from '../../utils/getUserId'
 import { throwError } from '../../utils/helpers'
-import { todayEnd, todayStart } from '../../utils/queryDates'
 
 const getDailyChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
   const userId = await getUserId(req, res)
@@ -43,11 +42,22 @@ const getDailyChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
     return throwError(res, 400, 'Failed to get the number of explorers')
   }
 
-  // Determine if this user has played today's challenge
-  const usersDailyChallenge = await collections.games?.findOne({
+  const todaysChallengeQuery = await collections.challenges
+    ?.find({ isDailyChallenge: true })
+    .sort({ createdAt: -1 })
+    .limit(1)
+    .toArray()
+
+  if (!todaysChallengeQuery || !todaysChallengeQuery.length) {
+    return throwError(res, 500, `Could not find today's challenge`)
+  }
+
+  const todaysChallenge = todaysChallengeQuery[0]
+
+  // Check if user has already played today's challenge
+  const hasAlreadyPlayed = await collections.games?.findOne({
+    challengeId: todaysChallenge._id,
     userId: new ObjectId(userId),
-    isDailyChallenge: true,
-    createdAt: { $gte: todayStart, $lt: todayEnd },
   })
 
   const result = {
@@ -57,7 +67,9 @@ const getDailyChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
       locationCount: 250000,
       countryCount: 98,
     },
-    usersGameState: usersDailyChallenge ? usersDailyChallenge.state : 'notStarted',
+    usersGameState: hasAlreadyPlayed ? hasAlreadyPlayed.state : 'notStarted',
+    challengeId: todaysChallenge._id,
+    date: todaysChallenge.createdAt,
   }
 
   res.status(200).send(result)

@@ -32,7 +32,6 @@ const StyledDailyChallengePage = styled.div`
   .completed-wrapper {
     display: flex;
     align-items: center;
-    flex-direction: row-reverse;
     gap: 6px;
 
     .completed-text {

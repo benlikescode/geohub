@@ -12,9 +12,10 @@ import { StyledLeaderboardItem } from './'
 type Props = {
   finishPlace: number
   row: MapLeaderboardType
+  removeResults?: boolean
 }
 
-const LeaderboardItem: FC<Props> = ({ finishPlace, row }) => {
+const LeaderboardItem: FC<Props> = ({ finishPlace, row, removeResults }) => {
   const router = useRouter()
   const user = useAppSelector((state) => state.user)
 
@@ -26,7 +27,7 @@ const LeaderboardItem: FC<Props> = ({ finishPlace, row }) => {
   const isThisUsersProfile = router.query?.id === user.id
 
   return (
-    <StyledLeaderboardItem highlight={!!row.highlight}>
+    <StyledLeaderboardItem highlight={!!row.highlight} removeResults={removeResults}>
       <div className="userSection">
         <span className="userPlace">{finishPlace === LAST_PLACE && row.highlight ? '' : `#${finishPlace}`}</span>
         <div className="userInfo">
@@ -54,15 +55,16 @@ const LeaderboardItem: FC<Props> = ({ finishPlace, row }) => {
             <span className="bestStreak">{row.streak}</span>
           </div>
         )}
-
         <FlexGroup gap={5}>
           {row.totalTime && <span className="totalTime">{formatRoundTime(row.totalTime)}</span>}
 
-          <Link href={`/results/${row._id}`}>
-            <a className="results-link">
-              <ChartBarIcon />
-            </a>
-          </Link>
+          {!removeResults && (
+            <Link href={`/results/${row._id}`}>
+              <a className="results-link">
+                <ChartBarIcon />
+              </a>
+            </Link>
+          )}
         </FlexGroup>
       </div>
     </StyledLeaderboardItem>

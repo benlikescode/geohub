@@ -49,6 +49,16 @@ const getAnalytics = async (req: NextApiRequest, res: NextApiResponse) => {
     return recentGames
   }
 
+  const getRoundsSinceLaunch = async () => {
+    const gamesSinceLaunch = await collections.games?.find({ createdAt: { $gte: new Date('2023-05-27') } }).toArray()
+
+    let roundsCount = 0
+
+    gamesSinceLaunch?.map((game) => (roundsCount += game.round - 1))
+
+    return roundsCount
+  }
+
   const userId = await getUserId(req, res)
 
   // Ensure this user is an admin
@@ -62,6 +72,7 @@ const getAnalytics = async (req: NextApiRequest, res: NextApiResponse) => {
   const counts = await getCounts()
   const recentUsers = await getRecentUsers()
   const recentGames = await getRecentGames()
+  const roundsSinceLaunch = await getRoundsSinceLaunch()
 
   res.status(200).json({
     success: true,
@@ -69,6 +80,7 @@ const getAnalytics = async (req: NextApiRequest, res: NextApiResponse) => {
       counts,
       recentUsers,
       recentGames,
+      roundsSinceLaunch,
     },
   })
 }

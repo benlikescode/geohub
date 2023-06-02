@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 type StyledProps = {
   highlight: boolean
+  removeResults?: boolean
 }
 
 const StyledLeaderboardItem = styled.div<StyledProps>`
@@ -69,6 +70,8 @@ const StyledLeaderboardItem = styled.div<StyledProps>`
     display: flex;
     align-items: center;
     gap: 1rem;
+
+    ${({ removeResults }) => removeResults && 'margin-right: -16px'};
 
     .results-link {
       display: flex;

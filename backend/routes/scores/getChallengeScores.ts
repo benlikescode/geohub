@@ -27,7 +27,7 @@ const getChallengeScores = async (req: NextApiRequest, res: NextApiResponse) => 
         $unwind: '$userDetails',
       },
     ])
-    .limit(10)
+    .limit(100)
     .toArray()
 
   if (!gamesData || gamesData.length < 1) {
@@ -35,7 +35,7 @@ const getChallengeScores = async (req: NextApiRequest, res: NextApiResponse) => 
   }
 
   // If user has not yet played challenge -> they cant see results
-  if (!gamesData.find((x) => x?._id?.toString() === userId)) {
+  if (!gamesData.find((x) => x?.userId?.toString() === userId)) {
     return throwError(res, 401, `You haven't finished this challenge yet`)
   }
 
