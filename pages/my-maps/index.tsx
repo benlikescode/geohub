@@ -87,7 +87,7 @@ const MyMapsPage: NextPage = () => {
         <PageHeader>My Maps</PageHeader>
 
         {loading ? (
-          <SkeletonCards />
+          <SkeletonCards numCards={8} />
         ) : (
           <div className="map-wrapper">
             <div className="create-map-card" onClick={() => handleCreateMapClick()} role="button">

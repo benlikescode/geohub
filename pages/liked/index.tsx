@@ -46,7 +46,7 @@ const LikedMapsPage: NextPage = () => {
         <Head title="Liked Maps" />
         <PageHeader>Liked Maps</PageHeader>
 
-        {loading && <SkeletonCards />}
+        {loading && <SkeletonCards numCards={8} />}
 
         {/* Finished loading and No Results */}
         {!loading && (!user.id || likedMaps.length === 0) && <NoResults message="Like a map for it to show here." />}
