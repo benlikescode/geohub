@@ -6,10 +6,7 @@ export const collections: {
   games?: Collection
   challenges?: Collection
   maps?: Collection
-  bingoGames?: Collection
-  bingoSuggestions?: Collection
   mapLikes?: Collection
-  friends?: Collection
   locations?: Collection
   userLocations?: Collection
   recentSearches?: Collection<RecentSearch>
@@ -40,10 +37,7 @@ export const dbConnect = async () => {
     collections.games = db.collection('games')
     collections.challenges = db.collection('challenges')
     collections.maps = db.collection('maps')
-    collections.bingoGames = db.collection('bingoGames')
-    collections.bingoSuggestions = db.collection('bingoSuggestions')
     collections.mapLikes = db.collection('mapLikes')
-    collections.friends = db.collection('friends')
     collections.locations = db.collection('locations')
     collections.userLocations = db.collection('userLocations')
     collections.recentSearches = db.collection('recentSearches')
