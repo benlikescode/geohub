@@ -120,6 +120,27 @@ const CreateMapPage: PageType = () => {
     return true
   }
 
+  const handleMarkerClick = (marker: google.maps.Marker) => {
+    // If a marker was selected before click -> reset its icon to regular
+    if (selectedIndexRef.current !== -1) {
+      prevMarkersRef.current[selectedIndexRef.current].setIcon({
+        url: REGULAR_MARKER_ICON,
+        scaledSize: new google.maps.Size(REGULAR_MARKER_SIZE, REGULAR_MARKER_SIZE),
+      })
+    }
+
+    marker.setIcon({
+      url: SELECTED_MARKER_ICON,
+      scaledSize: new google.maps.Size(SELECTED_MARKER_SIZE, SELECTED_MARKER_SIZE),
+    })
+
+    const markerIndex = prevMarkersRef.current.indexOf(marker)
+
+    setSelectedIndex(markerIndex)
+    setPreviewMap(markerIndex)
+    setIsShowingPreview(true)
+  }
+
   const setSelectionMap = () => {
     const map = new window.google.maps.Map(document.getElementById('selectionMap') as HTMLElement, {
       zoom: 2,
@@ -130,6 +151,7 @@ const CreateMapPage: PageType = () => {
       clickableIcons: false,
       gestureHandling: 'greedy',
       draggableCursor: 'crosshair',
+      disableDoubleClickZoom: true,
     })
 
     // Add markers for locations already stored for this map
@@ -137,37 +159,31 @@ const CreateMapPage: PageType = () => {
       const marker = createMarker(location, map, REGULAR_MARKER_ICON, REGULAR_MARKER_SIZE)
       prevMarkersRef.current.push(marker)
 
-      marker.addListener('click', () => {
-        // If previously selected marker -> reset its icon to regular
-        if (selectedIndexRef.current !== -1) {
-          prevMarkersRef.current[selectedIndexRef.current].setIcon({
-            url: REGULAR_MARKER_ICON,
-            scaledSize: new google.maps.Size(REGULAR_MARKER_SIZE, REGULAR_MARKER_SIZE),
-          })
-        }
-
-        marker.setIcon({
-          url: SELECTED_MARKER_ICON,
-          scaledSize: new google.maps.Size(SELECTED_MARKER_SIZE, SELECTED_MARKER_SIZE),
-        })
-
-        const markerPosition = marker.getPosition()
-        const markerIndex = prevMarkersRef.current.indexOf(marker)
-
-        setSelectedIndex(markerIndex)
-
-        setPreviewMap(markerIndex)
-        setIsShowingPreview(true)
-      })
+      marker.addListener('click', () => handleMarkerClick(marker))
     })
 
-    window.google.maps.event.addListener(map, 'click', (e: any) => {
+    // Click event listener for the selection map
+    map.addListener('click', async (e: any) => {
       setHaveLocationsChanged(true)
       setIsShowingPreview(false)
 
       const location = {
         lat: e.latLng.lat(),
         lng: e.latLng.lng(),
+      }
+
+      // Return early if clicked location has no coverage
+      let isLocationCovered = true
+      const streetViewService = new google.maps.StreetViewService()
+
+      await streetViewService.getPanorama({ location: e.latLng, radius: 1000 }, (data: any, status: any) => {
+        if (status !== 'OK') {
+          isLocationCovered = false
+        }
+      })
+
+      if (!isLocationCovered) {
+        return
       }
 
       setLocations([...locationsRef.current, location])
@@ -180,43 +196,16 @@ const CreateMapPage: PageType = () => {
         })
       }
 
-      //const valid = setPreviewMap()
-
       const marker = createMarker(location, map, SELECTED_MARKER_ICON, SELECTED_MARKER_SIZE)
       prevMarkersRef.current.push(marker)
+
       const markerIndex = prevMarkersRef.current.indexOf(marker)
       setSelectedIndex(markerIndex)
-
-      /*
-        //setIsShowingPreview(true)
-        setTest1(true)
-        */
 
       setPreviewMap()
       setIsShowingPreview(true)
 
-      marker.addListener('click', () => {
-        // If previously selected marker -> reset its icon to regular
-        if (selectedIndexRef.current !== -1) {
-          prevMarkersRef.current[selectedIndexRef.current].setIcon({
-            url: REGULAR_MARKER_ICON,
-            scaledSize: new google.maps.Size(REGULAR_MARKER_SIZE, REGULAR_MARKER_SIZE),
-          })
-        }
-
-        marker.setIcon({
-          url: SELECTED_MARKER_ICON,
-          scaledSize: new google.maps.Size(SELECTED_MARKER_SIZE, SELECTED_MARKER_SIZE),
-        })
-
-        const markerPosition = marker.getPosition()
-        const markerIndex = prevMarkersRef.current.indexOf(marker)
-
-        setSelectedIndex(markerIndex)
-
-        setPreviewMap(markerIndex)
-        setIsShowingPreview(true)
-      })
+      marker.addListener('click', () => handleMarkerClick(marker))
     })
 
     const svLayer = new window.google.maps.StreetViewCoverageLayer()
@@ -225,7 +214,6 @@ const CreateMapPage: PageType = () => {
 
   const setPreviewMap = (indexOfLoc?: number) => {
     const location = locationsRef.current[indexOfLoc !== undefined ? indexOfLoc : locationsRef.current.length - 1]
-    //let isLocationCovered = true
 
     const streetViewService = new window.google.maps.StreetViewService()
     const panorama = new window.google.maps.StreetViewPanorama(document.getElementById('previewMap') as HTMLElement, {
@@ -258,39 +246,31 @@ const CreateMapPage: PageType = () => {
     )
 
     const processSVData = (data: any, status: any) => {
-      if (data == null) {
-        //isLocationCovered = false
-      } else {
-        //setIsShowingPreview(true)
-        const adjustedLat = data.location.latLng.lat()
-        const adjustedLng = data.location.latLng.lng()
-        const adjustedLocation = { ...location, lat: adjustedLat, lng: adjustedLng }
+      //setIsShowingPreview(true)
+      const adjustedLat = data.location.latLng.lat()
+      const adjustedLng = data.location.latLng.lng()
+      const adjustedLocation = { ...location, lat: adjustedLat, lng: adjustedLng }
 
-        const locationsCopy = [...locationsRef.current]
-        locationsCopy[indexOfLoc !== undefined ? indexOfLoc : locationsCopy.length - 1] = adjustedLocation
-        setLocations(locationsCopy)
+      const locationsCopy = [...locationsRef.current]
+      locationsCopy[indexOfLoc !== undefined ? indexOfLoc : locationsCopy.length - 1] = adjustedLocation
+      setLocations(locationsCopy)
 
-        panorama.setPano(data.location.pano)
-        panorama.setPov({
-          heading: location.heading || 0,
-          pitch: location.pitch || 0,
-        })
-        panorama.setZoom(location.zoom || 0)
-        panorama.setVisible(true)
-      }
+      panorama.setPano(data.location.pano)
+      panorama.setPov({
+        heading: location.heading || 0,
+        pitch: location.pitch || 0,
+      })
+      panorama.setZoom(location.zoom || 0)
+      panorama.setVisible(true)
     }
 
     streetViewService.getPanorama(
       {
         location: location,
         radius: 1000,
-        //radius: 10000, // 100km radius
-        //preference: google.maps.StreetViewPreference.NEAREST,
       },
       processSVData
     )
-
-    //return isLocationCovered
   }
 
   useEffect(() => {
