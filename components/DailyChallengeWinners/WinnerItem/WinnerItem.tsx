@@ -15,7 +15,7 @@ const WinnerItem: FC<Props> = ({ winner }) => {
 
   return (
     <StyledWinnerItem>
-      <div className="challenge-day">{challengeDay && DateTime.fromISO(challengeDay).toFormat('LLL dd')}</div>
+      <div className="challenge-day">{challengeDay && DateTime.fromISO(challengeDay).toUTC().toFormat('LLL dd')}</div>
 
       <div className="winner-info">
         <div className="user-info">
