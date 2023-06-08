@@ -117,13 +117,16 @@ const ProfilePage: NextPage = () => {
         <div>
           <div className="banner-image">
             <img src="/images/backgrounds/profile-banner.png" alt="" />
-            <Link href={`/user/settings`}>
-              <a>
-                <button>
-                  <CogIcon />
-                </button>
-              </a>
-            </Link>
+
+            {isThisUsersProfile() && (
+              <Link href={`/user/settings`}>
+                <a>
+                  <button>
+                    <CogIcon />
+                  </button>
+                </a>
+              </Link>
+            )}
           </div>
 
           <div className="profile-details">
