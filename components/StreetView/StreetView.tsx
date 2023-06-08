@@ -13,6 +13,7 @@ import { LocationType } from '@types'
 import { KEY_CODES } from '@utils/constants/keyCodes'
 import { showErrorToast } from '@utils/helpers/showToasts'
 import { URBAN_WORLD_ID } from '../../utils/constants/random'
+import getMapsKey from '../../utils/helpers/getMapsKey'
 import { StyledStreetView } from './'
 
 type Props = {
@@ -27,15 +28,11 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
   const [countryStreakGuess, setCountryStreakGuess] = useState('')
   const [adjustedLocation, setAdjustedLocation] = useState<LocationType | null>(null)
   const [mobileMapOpen, setMobileMapOpen] = useState(false)
+
   const location = gameData.rounds[gameData.round - 1]
-  const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
   const game = useAppSelector((state) => state.game)
   const user = useAppSelector((state) => state.user)
   const panoramaRef = useRef<google.maps.StreetViewPanorama | null>(null)
-
-  const GoogleMapConfig = {
-    key: googleKey,
-  }
 
   const handleSubmitGuess = async (timedOut?: boolean) => {
     if (currGuess || countryStreakGuess || timedOut) {
@@ -185,7 +182,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
       </div>
 
       <GoogleMapReact
-        bootstrapURLKeys={GoogleMapConfig}
+        bootstrapURLKeys={getMapsKey(user.mapsAPIKey)}
         center={location}
         zoom={11}
         yesIWantToUseGoogleMapApiInternals

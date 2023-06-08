@@ -6,7 +6,8 @@ import { ArrowRightIcon, XIcon } from '@heroicons/react/outline'
 import { useAppDispatch, useAppSelector } from '@redux/hook'
 import { updateGuessMapSize } from '@redux/slices'
 import { LocationType } from '@types'
-import { getGuessMapDimensions, getMapTheme } from '@utils/helperFunctions'
+import { getGuessMapSize } from '@utils/helpers'
+import getMapsKey from '../../utils/helpers/getMapsKey'
 import { StyledGuessMap } from './'
 
 type Props = {
@@ -21,22 +22,17 @@ const GuessMap: FC<Props> = ({ currGuess, setCurrGuess, mobileMapOpen, closeMobi
   const [mapHeight, setMapHeight] = useState(15) // height in vh
   const [mapWidth, setMapWidth] = useState(15) // width in vw
   const [hovering, setHovering] = useState(false)
-  const dispatch = useAppDispatch()
-  const hoverDelay = useRef<any>()
-  const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
-  const user = useAppSelector((state) => state.user)
-
   const [marker, setMarker] = useState<{ lat: number; lng: number } | null>(null)
 
-  const GoogleMapConfig = {
-    key: googleKey,
-  }
+  const dispatch = useAppDispatch()
+  const hoverDelay = useRef<any>()
+  const user = useAppSelector((state) => state.user)
 
   const handleMapHover = () => {
     clearInterval(hoverDelay.current)
     setHovering(true)
 
-    const { width, height } = getGuessMapDimensions(user.guessMapSize as number)
+    const { width, height } = getGuessMapSize(user.guessMapSize as number)
     setMapHeight(height)
     setMapWidth(width)
   }
@@ -58,7 +54,7 @@ const GuessMap: FC<Props> = ({ currGuess, setCurrGuess, mobileMapOpen, closeMobi
       newMapSize = (user.guessMapSize as number) - 1
     }
 
-    const { width, height } = getGuessMapDimensions(newMapSize)
+    const { width, height } = getGuessMapSize(newMapSize)
     setMapHeight(height)
     setMapWidth(width)
 
@@ -104,14 +100,13 @@ const GuessMap: FC<Props> = ({ currGuess, setCurrGuess, mobileMapOpen, closeMobi
         )}
         <div className="map">
           <GoogleMapReact
-            bootstrapURLKeys={GoogleMapConfig}
+            bootstrapURLKeys={getMapsKey(user.mapsAPIKey)}
             defaultCenter={{ lat: 0, lng: 0 }}
             defaultZoom={1}
             yesIWantToUseGoogleMapApiInternals
             onGoogleApiLoaded={({ map, maps }) => onInit(map, maps)}
             options={{
               disableDefaultUI: true,
-              styles: getMapTheme('Light'),
               clickableIcons: false,
               gestureHandling: 'greedy',
               minZoom: 1,

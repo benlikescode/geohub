@@ -75,6 +75,8 @@ const RegisterPage: PageType = () => {
           email: res.email,
           avatar: res.avatar,
           isAdmin: res.isAdmin,
+          distanceUnit: res.distanceUnit,
+          mapsAPIKey: res.mapsAPIKey,
         })
       )
 
@@ -104,9 +106,24 @@ const RegisterPage: PageType = () => {
         <h1 className="title">Create your Account</h1>
 
         <form className="inputGroup" onSubmit={(e) => handleRegister(e)}>
-          <Input id="name" type="text" label="Display Name" callback={setName} autoComplete="username" autoFocus />
-          <Input id="email" type="text" label="Email Address" callback={setEmail} autoComplete="email" />
-          <Input id="password" type="password" label="Password" callback={setPassword} autoComplete="new-password" />
+          <Input
+            id="name"
+            type="text"
+            label="Display Name"
+            value={name}
+            callback={setName}
+            autoComplete="username"
+            autoFocus
+          />
+          <Input id="email" type="text" label="Email Address" value={email} callback={setEmail} autoComplete="email" />
+          <Input
+            id="password"
+            type="password"
+            label="Password"
+            value={password}
+            callback={setPassword}
+            autoComplete="new-password"
+          />
 
           <Button width="100%" isLoading={showBtnSpinner}>
             Register

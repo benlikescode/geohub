@@ -1,7 +1,8 @@
 import { ObjectId } from 'bson'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { ChallengeType, GuessType } from '../../../@types'
-import { getResultData } from '../../../utils/helperFunctions'
+import { ChallengeType, DistanceType, GuessType } from '../../../@types'
+import calculateDistance from '../../../utils/helpers/calculateDistance'
+import calculateRoundScore from '../../../utils/helpers/calculateRoundScore'
 import { Game } from '../../models'
 import { collections } from '../../utils/dbConnect'
 import getUserId from '../../utils/getUserId'
@@ -102,15 +103,25 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
     }
   }
 
-  // Adding new guess
+  // Calculate distance and points for this guess
   const map = await collections.maps?.findOne({ _id: game.mapId })
-  const { points, distance } = getResultData(guess, game.rounds[game.round - 1], map?.scoreFactor)
 
+  const metricDistance = calculateDistance(guess, game.rounds[game.round - 1], 'metric')
+  const imperialDistance = calculateDistance(guess, game.rounds[game.round - 1], 'imperial')
+
+  const distance: DistanceType = {
+    metric: metricDistance,
+    imperial: imperialDistance,
+  }
+
+  const points = calculateRoundScore(metricDistance, map?.scoreFactor)
+
+  // Add this guess to guesses array
   const newGuess: GuessType = {
     lat: guess.lat,
     lng: guess.lng,
     points: timedOut && !timedOutWithGuess ? 0 : points,
-    distance: distance as number,
+    distance,
     time: Math.floor(guessTime),
     timedOut,
     timedOutWithGuess,
@@ -118,9 +129,11 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
   }
   game.guesses = game.guesses.concat(newGuess)
 
+  // Update game
   game.round++
   game.totalPoints += timedOut && !timedOutWithGuess ? 0 : points
-  game.totalDistance += distance as number
+  game.totalDistance.metric += distance.metric
+  game.totalDistance.imperial += distance.imperial
   game.totalTime += Math.floor(guessTime)
 
   const updatedGame = await collections.games?.findOneAndUpdate(getGameQuery, { $set: game })

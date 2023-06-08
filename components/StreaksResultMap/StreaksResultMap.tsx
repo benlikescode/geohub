@@ -5,7 +5,8 @@ import Game from '@backend/models/game'
 import { Marker } from '@components/Marker'
 import { LocationType } from '@types'
 import countryBounds from '@utils/constants/countryBounds.json'
-import { getMapTheme } from '@utils/helperFunctions'
+import { useAppSelector } from '../../redux-utils'
+import getMapsKey from '../../utils/helpers/getMapsKey'
 import { StyledStreaksResultMap } from './'
 
 type Props = {
@@ -19,6 +20,7 @@ const ResultMap: FC<Props> = ({ gameData }) => {
   const actualCountry = gameData.rounds[gameData.round - 2]
 
   const resultMapRef = useRef<google.maps.Map | null>(null)
+  const user = useAppSelector((state) => state.user)
 
   // If locations change (because we toggle the view on challenge results) -> reload the markers
   useEffect(() => {
@@ -83,7 +85,7 @@ const ResultMap: FC<Props> = ({ gameData }) => {
     <StyledStreaksResultMap>
       <div className="map">
         <GoogleMapReact
-          bootstrapURLKeys={{ key: process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string }}
+          bootstrapURLKeys={getMapsKey(user.mapsAPIKey)}
           center={{ lat: actualCountry.lat, lng: actualCountry.lng }}
           zoom={4}
           yesIWantToUseGoogleMapApiInternals
@@ -93,7 +95,6 @@ const ResultMap: FC<Props> = ({ gameData }) => {
             resultMapRef.current = map
           }}
           options={{
-            styles: getMapTheme('Light'),
             clickableIcons: false,
             minZoom: 2,
             disableDefaultUI: true,

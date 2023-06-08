@@ -6,7 +6,7 @@ import { ChartBarIcon } from '@heroicons/react/outline'
 import { LightningBoltIcon } from '@heroicons/react/solid'
 import { useAppSelector } from '@redux/hook'
 import { MapLeaderboardType } from '@types'
-import { formatLargeNumber, formatRoundTime } from '@utils/helperFunctions'
+import { formatLargeNumber, formatRoundTime } from '@utils/helpers'
 import { StyledLeaderboardItem } from './'
 
 type Props = {

@@ -1,4 +1,4 @@
-import { formatLargeNumber, formatRoundTime } from '@utils/helperFunctions'
+import { formatLargeNumber, formatRoundTime } from '@utils/helpers'
 
 // formatRoundTime
 test('Round time less than 60 should return the time in seconds', () => {

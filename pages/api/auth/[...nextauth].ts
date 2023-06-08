@@ -1,7 +1,10 @@
 import bcrypt from 'bcryptjs'
+import Cryptr from 'cryptr'
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import CredentialProvider from 'next-auth/providers/credentials'
 import { collections, dbConnect } from '../../../backend/utils/dbConnect'
+
+const cryptr = new Cryptr(process.env.CRYPTR_SECRET as string)
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -30,6 +33,8 @@ export const authOptions: NextAuthOptions = {
           throw new Error('Incorrect email or password')
         }
 
+        const decrypedMapsAPIKey = user.mapsAPIKey ? cryptr.decrypt(user.mapsAPIKey) : ''
+
         // return user
         return {
           id: user._id,
@@ -38,6 +43,8 @@ export const authOptions: NextAuthOptions = {
           avatar: user.avatar,
           bio: user.bio,
           isAdmin: user.isAdmin,
+          distanceUnit: user.distanceUnit,
+          mapsAPIKey: decrypedMapsAPIKey,
         }
       },
     }),

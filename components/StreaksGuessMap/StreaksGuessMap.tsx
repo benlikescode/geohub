@@ -8,7 +8,8 @@ import { updateGuessMapSize } from '@redux/slices'
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon'
 import { multiPolygon, point } from '@turf/turf'
 import countryBounds from '@utils/constants/countryBounds.json'
-import { getGuessMapDimensions, getMapTheme } from '@utils/helperFunctions'
+import { getGuessMapSize } from '@utils/helpers'
+import getMapsKey from '../../utils/helpers/getMapsKey'
 import { StyledStreaksGuessMap } from './'
 
 type Props = {
@@ -30,21 +31,17 @@ const StreaksGuessMap: FC<Props> = ({
   const [mapWidth, setMapWidth] = useState(15) // width in vw
   const [hovering, setHovering] = useState(false)
   const [selectedCountryName, setSelectedCountryName] = useState('')
-  const prevCountriesRef = useRef<any>(null)
+
   const dispatch = useAppDispatch()
   const user = useAppSelector((state) => state.user)
+  const prevCountriesRef = useRef<any>(null)
   const hoverDelay = useRef<any>()
-  const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
-
-  const GoogleMapConfig = {
-    key: googleKey,
-  }
 
   const handleMapHover = () => {
     clearInterval(hoverDelay.current)
     setHovering(true)
 
-    const { width, height } = getGuessMapDimensions(user.guessMapSize as number)
+    const { width, height } = getGuessMapSize(user.guessMapSize as number)
     setMapHeight(height)
     setMapWidth(width)
   }
@@ -66,7 +63,7 @@ const StreaksGuessMap: FC<Props> = ({
       newMapSize = (user.guessMapSize as number) - 1
     }
 
-    const { width, height } = getGuessMapDimensions(newMapSize)
+    const { width, height } = getGuessMapSize(newMapSize)
     setMapHeight(height)
     setMapWidth(width)
 
@@ -141,14 +138,13 @@ const StreaksGuessMap: FC<Props> = ({
         )}
         <div className="map">
           <GoogleMapReact
-            bootstrapURLKeys={GoogleMapConfig}
+            bootstrapURLKeys={getMapsKey(user.mapsAPIKey)}
             defaultCenter={{ lat: 0, lng: 0 }}
             defaultZoom={1}
             yesIWantToUseGoogleMapApiInternals
             onGoogleApiLoaded={({ map, maps }) => onInit(map, maps)}
             options={{
               disableDefaultUI: true,
-              styles: getMapTheme('Light'),
               clickableIcons: false,
               gestureHandling: 'greedy',
               minZoom: 1,

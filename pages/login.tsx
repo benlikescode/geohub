@@ -45,6 +45,8 @@ const LoginPage: PageType = () => {
           avatar: session.user.avatar,
           bio: session.user.bio,
           isAdmin: session.user.isAdmin,
+          distanceUnit: session.user.distanceUnit,
+          mapsAPIKey: session.user.mapsAPIKey,
         })
       )
       router.push('/')
@@ -86,11 +88,20 @@ const LoginPage: PageType = () => {
         <h1 className="title">Welcome Back!</h1>
 
         <form className="inputGroup" onSubmit={(e) => handleLogin(e)}>
-          <Input id="email" type="text" label="Email Address" callback={setEmail} autoComplete="email" autoFocus />
+          <Input
+            id="email"
+            type="text"
+            label="Email Address"
+            value={email}
+            callback={setEmail}
+            autoComplete="email"
+            autoFocus
+          />
           <Input
             id="password"
             type="password"
             label="Password"
+            value={password}
             callback={setPassword}
             autoComplete="current-password"
           />

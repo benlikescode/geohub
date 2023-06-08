@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { Game } from '@backend/models'
-import { formatRoundTime } from '../../utils/helperFunctions'
+import { formatRoundTime } from '../../utils/helpers'
 import { StreakCountryList } from '../StreakCountryList'
 import { Avatar } from '../System'
 import { StyledStreaksLeaderboard } from './'

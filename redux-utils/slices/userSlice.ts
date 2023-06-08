@@ -28,6 +28,8 @@ export const userSlice = createSlice({
       state.email = action.payload.email || ''
       ;(state.avatar = action.payload.avatar || ''),
         (state.gameSettings = action.payload.gameSettings || initialState.gameSettings)
+      state.distanceUnit = action.payload.distanceUnit
+      state.mapsAPIKey = action.payload.mapsAPIKey
     },
     updateAvatar: (state, action) => {
       state.avatar = action.payload
@@ -53,6 +55,12 @@ export const userSlice = createSlice({
     updateRecentlyPlayed: (state, action) => {
       state.recentlyPlayed = action.payload.recentlyPlayed
     },
+    updateDistanceUnit: (state, action) => {
+      state.distanceUnit = action.payload
+    },
+    updateMapsAPIKey: (state, action) => {
+      state.mapsAPIKey = action.payload
+    },
     logOutUser: (state) => {
       state.id = ''
     },
@@ -72,6 +80,8 @@ export const {
   updateGameSettings,
   updateLocation,
   updateRecentlyPlayed,
+  updateDistanceUnit,
+  updateMapsAPIKey,
   logOutUser,
   resetGameSettings,
 } = userSlice.actions

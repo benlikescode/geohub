@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 import { Game } from '@backend/models'
 import { LightningBoltIcon } from '@heroicons/react/solid'
-import { formatLargeNumber, formatTimeLeft } from '@utils/helperFunctions'
+import { formatLargeNumber, formatStatusTimer } from '@utils/helpers'
 import { MapType } from '../../@types'
 import { mailman } from '../../backend/utils/mailman'
 import { setMapName, useAppDispatch, useAppSelector } from '../../redux-utils'
@@ -86,7 +86,7 @@ const GameStatus: FC<Props> = ({ gameData, handleSubmitGuess, hasCustomRoundLeng
                 <span>Time</span>
               </div>
               <div className="value time">
-                <span>{formatTimeLeft(timeLeft as number)}</span>
+                <span>{formatStatusTimer(timeLeft as number)}</span>
               </div>
             </div>
           )}
@@ -106,7 +106,7 @@ const GameStatus: FC<Props> = ({ gameData, handleSubmitGuess, hasCustomRoundLeng
                 <span>Time</span>
               </div>
               <div className="value time">
-                <span>{formatTimeLeft(timeLeft as number)}</span>
+                <span>{formatStatusTimer(timeLeft as number)}</span>
               </div>
             </div>
           )}

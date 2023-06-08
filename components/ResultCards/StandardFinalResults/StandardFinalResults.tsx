@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { FC } from 'react'
 import { Game } from '@backend/models'
 import { Button, FlexGroup, ProgressBar } from '@components/System'
-import { formatLargeNumber } from '@utils/helperFunctions'
+import { formatLargeNumber } from '@utils/helpers'
 import { ResultsWrapper } from '../ResultsWrapper'
 import { StyledStandardFinalResults } from './'
 

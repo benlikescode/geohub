@@ -3,7 +3,8 @@ import { Game } from '@backend/models'
 import { Avatar } from '@components/System'
 import { CogIcon } from '@heroicons/react/outline'
 import { MapType } from '@types'
-import { formatDistance, formatLargeNumber, formatRoundTime, formatSettingsLabel } from '@utils/helperFunctions'
+import { formatDistance, formatLargeNumber, formatRoundTime, formatSettingsLabel } from '@utils/helpers'
+import { useAppSelector } from '../../../redux-utils'
 import { StyledLeaderboardCard } from './'
 
 type Props = {
@@ -14,6 +15,7 @@ type Props = {
 }
 
 const LeaderboardCard: FC<Props> = ({ gameData, mapData, selectedGameIndex, setSelectedGameIndex }) => {
+  const user = useAppSelector((state) => state.user)
   const showPlace = gameData.length > 1
 
   return (
@@ -94,7 +96,9 @@ const LeaderboardCard: FC<Props> = ({ gameData, mapData, selectedGameIndex, setS
                   </div>
                   <div className="distanceTimeWrapper">
                     <span className="distance">
-                      {guess.timedOut && !guess.timedOutWithGuess ? 'Timed out' : formatDistance(guess.distance)}
+                      {guess.timedOut && !guess.timedOutWithGuess
+                        ? 'Timed out'
+                        : formatDistance(guess.distance, user.distanceUnit)}
                     </span>
                     <div className="divider">-</div>
                     <span className="time">{formatRoundTime(guess.time)}</span>
@@ -107,7 +111,7 @@ const LeaderboardCard: FC<Props> = ({ gameData, mapData, selectedGameIndex, setS
                   <span>{formatLargeNumber(game.totalPoints)} pts</span>
                 </div>
                 <div className="distanceTimeWrapper">
-                  <span className="distance">{formatDistance(game.totalDistance)}</span>
+                  <span className="distance">{formatDistance(game.totalDistance, user.distanceUnit)}</span>
                   <div className="divider">-</div>
                   <span className="time">{formatRoundTime(game.totalTime)}</span>
                 </div>

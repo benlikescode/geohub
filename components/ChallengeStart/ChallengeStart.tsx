@@ -11,7 +11,7 @@ import {
 } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
 import { ChallengeType } from '@types'
-import { formatTimeLimit, redirectToRegister } from '@utils/helperFunctions'
+import { formatTimeLimit, redirectToRegister } from '@utils/helpers'
 import { StyledChallengeStart } from './'
 
 type Props = {

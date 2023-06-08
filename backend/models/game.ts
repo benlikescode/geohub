@@ -1,7 +1,5 @@
 import { ObjectId } from 'mongodb'
-
-import { GameSettingsType, GuessType, LocationType, MapType } from '@types'
-
+import { DistanceType, GameSettingsType, GuessType, LocationType, MapType } from '@types'
 import User from './user'
 
 type Game = {
@@ -17,7 +15,7 @@ type Game = {
   guesses: GuessType[]
   round: number
   totalPoints: number
-  totalDistance: number
+  totalDistance: DistanceType
   totalTime: number
   difficulty?: 'Normal' | 'Easy' | 'Challenging'
   countryCode?: string

@@ -5,7 +5,7 @@ import { HeartIcon as HeartIconOutline, LocationMarkerIcon, ScaleIcon, UserIcon 
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/solid'
 import { useAppSelector } from '@redux/hook'
 import { MapType } from '@types'
-import { formatLargeNumber } from '@utils/helperFunctions'
+import { formatLargeNumber } from '@utils/helpers'
 import { StyledMapStats } from './'
 
 type Props = {

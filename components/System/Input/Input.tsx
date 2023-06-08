@@ -4,14 +4,11 @@ import { StyledInput } from './'
 
 type Props = {
   id: string
-  label?: string
   type: string
+  value: string
+  callback?: (value: string) => void
+  label?: string
   placeholder?: string
-  value?: string
-  callback?: any
-  isDisabled?: boolean
-  errorMessage?: string
-  handleErrors?: () => void
   readOnly?: boolean
   autoComplete?: string
   maxLength?: number
@@ -27,9 +24,6 @@ const Input: FC<Props> = ({
   placeholder,
   value,
   callback,
-  isDisabled,
-  errorMessage,
-  handleErrors,
   readOnly,
   autoComplete,
   maxLength,
@@ -37,24 +31,11 @@ const Input: FC<Props> = ({
   isTextarea,
   autoFocus,
 }) => {
-  const [currValue, setCurrValue] = useState<string | number>(value || '')
-  const [showErrorMsg, setShowErrorMsg] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
-  const handleBlur = () => {
-    setShowErrorMsg(true)
-
-    if (handleErrors) {
-      handleErrors()
-    }
-  }
-
-  const onInputChange = (input: string | number) => {
-    setCurrValue(input)
-    setShowErrorMsg(false)
-
+  const onInputChange = (value: string) => {
     if (callback) {
-      callback(input)
+      callback(value)
     }
   }
 
@@ -68,17 +49,16 @@ const Input: FC<Props> = ({
             id={id}
             placeholder={placeholder}
             onChange={(e) => onInputChange(e.currentTarget.value)}
-            value={currValue}
+            value={value}
             lang="en"
             readOnly={readOnly}
-            onBlur={() => handleBlur()}
             autoComplete={autoComplete}
             maxLength={maxLength || 2000}
             autoFocus={autoFocus}
           />
 
-          {maxLength && typeof currValue === 'string' && (
-            <span className="char-count">{`${currValue.length} / ${maxLength}`}</span>
+          {maxLength && typeof value === 'string' && (
+            <span className="char-count">{`${value.length} / ${maxLength}`}</span>
           )}
         </div>
       ) : (
@@ -87,33 +67,20 @@ const Input: FC<Props> = ({
             id={id}
             placeholder={placeholder}
             onChange={(e) => onInputChange(e.currentTarget.value)}
-            value={currValue}
+            value={value}
             type={showPassword ? 'text' : type}
             lang="en"
             readOnly={readOnly}
-            onBlur={() => handleBlur()}
             autoComplete={autoComplete}
             maxLength={maxLength || 2000}
             autoFocus={autoFocus}
           />
 
-          {type === 'password' && currValue !== '' && (
+          {type === 'password' && value && (
             <button className="input-icon" type="button" onClick={() => setShowPassword(!showPassword)}>
               {showPassword ? <EyeOffIcon /> : <EyeIcon />}
             </button>
           )}
-        </div>
-      )}
-
-      {errorMessage && showErrorMsg && (
-        <div className="inputError">
-          <svg aria-hidden="true" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M10.115 1.308l5.635 11.269A2.365 2.365 0 0 1 13.634 16H2.365A2.365 2.365 0 0 1 .25 12.577L5.884 1.308a2.365 2.365 0 0 1 4.231 0zM8 10.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM8 9c.552 0 1-.32 1-.714V4.714C9 4.32 8.552 4 8 4s-1 .32-1 .714v3.572C7 8.68 7.448 9 8 9z"
-              fillRule="evenodd"
-            ></path>
-          </svg>
-          <span className="inputErrorText">{errorMessage}</span>
         </div>
       )}
     </StyledInput>
