@@ -52,7 +52,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return throwError(res, 400, 'This distance unit is not allowed.')
       }
 
-      const encrypedMapsAPIKey = cryptr.encrypt(mapsAPIKey)
+      const encrypedMapsAPIKey = mapsAPIKey ? cryptr.encrypt(mapsAPIKey) : ''
 
       const updateSettings = await collections.users?.updateOne(
         { _id: new ObjectId(userId) },
