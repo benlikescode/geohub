@@ -12,6 +12,8 @@ type User = {
   isAdmin?: boolean
   guessMapSize?: number
   gameSettings?: GameSettingsType
+  distanceUnit?: 'metric' | 'imperial'
+  mapsAPIKey?: string
 }
 
 export default User

@@ -163,7 +163,7 @@ const StyledLeaderboardCard = styled.div`
 
     .pointsWrapper {
       font-weight: 400;
-      font-size: 15px;
+      font-size: 14px;
       margin-top: auto;
 
       @media (max-width: 1100px) {
@@ -176,7 +176,7 @@ const StyledLeaderboardCard = styled.div`
       align-items: center;
       gap: 5px;
       color: var(--color3);
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 400;
       margin-top: 5px;
       margin-bottom: auto;

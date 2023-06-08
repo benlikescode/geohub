@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { collections, dbConnect } from '@backend/utils/dbConnect'
 import { throwError } from '@backend/utils/helpers'
-import { getRandomAvatar } from '@utils/helperFunctions'
+import { getRandomAvatar } from '@utils/helpers'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {

@@ -1,7 +1,7 @@
 import { throttle } from 'lodash'
 import { useEffect, useState } from 'react'
 
-export const useIsMobile = () => {
+const useIsMobile = () => {
   const [isMobile, setIsMobile] = useState(false)
 
   const checkIsMobile = throttle(() => {
@@ -22,3 +22,5 @@ export const useIsMobile = () => {
     isMobile,
   }
 }
+
+export default useIsMobile

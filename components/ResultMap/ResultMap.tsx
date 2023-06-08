@@ -4,7 +4,8 @@ import { FC, useEffect, useRef, useState } from 'react'
 import { Marker } from '@components/Marker'
 import { useAppSelector } from '@redux/hook'
 import { GuessType, LocationType } from '@types'
-import { createPolyline, getMapTheme } from '@utils/helperFunctions'
+import { createMapPolyline } from '@utils/helpers'
+import getMapsKey from '../../utils/helpers/getMapsKey'
 import { StyledResultMap } from './'
 
 type Props = {
@@ -69,14 +70,14 @@ const ResultMap: FC<Props> = ({
       setActualMarkers(actualLocations)
 
       for (let i = 0; i < actualLocations.length; i++) {
-        const polyline = createPolyline(guessedLocations[i], actualLocations[i], map)
+        const polyline = createMapPolyline(guessedLocations[i], actualLocations[i], map)
         polylinesRef.current.push(polyline)
       }
     } else {
       setGuessMarkers([guessedLocation])
       setActualMarkers([actualLocation])
 
-      const polyline = createPolyline(guessedLocation, actualLocation, map)
+      const polyline = createMapPolyline(guessedLocation, actualLocation, map)
       polylinesRef.current.push(polyline)
     }
   }
@@ -85,7 +86,7 @@ const ResultMap: FC<Props> = ({
     <StyledResultMap>
       <div className="map">
         <GoogleMapReact
-          bootstrapURLKeys={{ key: process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string }}
+          bootstrapURLKeys={getMapsKey(user.mapsAPIKey)}
           center={{ lat: 0, lng: 0 }}
           zoom={2}
           yesIWantToUseGoogleMapApiInternals
@@ -95,7 +96,6 @@ const ResultMap: FC<Props> = ({
             resultMapRef.current = map
           }}
           options={{
-            styles: getMapTheme('Light'),
             clickableIcons: false,
             minZoom: 2,
             disableDefaultUI: true,

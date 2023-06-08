@@ -2,7 +2,7 @@ import { FC } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { Spinner } from '@components/System'
 import { MapLeaderboardType } from '@types'
-import { useIsMobile } from '../../utils/helpers/useIsMobile'
+import { useIsMobile } from '../../utils/hooks/'
 import { StyledMapLeaderboard } from './'
 import { LeaderboardItem } from './LeaderboardItem'
 

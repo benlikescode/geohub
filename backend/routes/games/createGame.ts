@@ -23,7 +23,7 @@ const createGame = async (req: NextApiRequest, res: NextApiResponse) => {
     rounds: [roundLocation],
     round: 1,
     totalPoints: 0,
-    totalDistance: 0,
+    totalDistance: { metric: 0, imperial: 0 },
     totalTime: 0,
     streak: 0,
     state: 'started',

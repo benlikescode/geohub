@@ -15,8 +15,10 @@ import { ToggleSwitch } from '@components/System/ToggleSwitch'
 import { CloudUploadIcon, PencilIcon } from '@heroicons/react/outline'
 import StyledCreateMapPage from '@styles/CreateMapPage.Styled'
 import { LocationType, MapType, PageType } from '@types'
-import { createMarker, getMapTheme } from '@utils/helperFunctions'
+import { createMapMarker } from '@utils/helpers'
 import { showErrorToast, showSuccessToast } from '@utils/helpers/showToasts'
+import { useAppSelector } from '../../redux-utils'
+import getMapsKey from '../../utils/helpers/getMapsKey'
 
 const SELECTED_MARKER_ICON = '/images/selected-pin.png'
 const REGULAR_MARKER_ICON = '/images/regular-pin.png'
@@ -24,7 +26,6 @@ const SELECTED_MARKER_SIZE = 40
 const REGULAR_MARKER_SIZE = 30
 
 const CreateMapPage: PageType = () => {
-  const googleKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
   const [locations, _setLocations] = useState<LocationType[]>([])
   const [haveLocationsChanged, setHaveLocationsChanged] = useState(false)
   const [isShowingPreview, setIsShowingPreview] = useState(false)
@@ -55,6 +56,7 @@ const CreateMapPage: PageType = () => {
 */
   const router = useRouter()
   const mapId = router.query.mapId as string
+  const user = useAppSelector((state) => state.user)
 
   // Refs used to access recent state in event listeners
   const prevMarkersRef = useRef<google.maps.Marker[]>([])
@@ -147,7 +149,6 @@ const CreateMapPage: PageType = () => {
       minZoom: 2,
       center: { lat: 0, lng: 0 },
       disableDefaultUI: true,
-      styles: getMapTheme('Light'),
       clickableIcons: false,
       gestureHandling: 'greedy',
       draggableCursor: 'crosshair',
@@ -156,7 +157,7 @@ const CreateMapPage: PageType = () => {
 
     // Add markers for locations already stored for this map
     locationsRef.current.map((location) => {
-      const marker = createMarker(location, map, REGULAR_MARKER_ICON, REGULAR_MARKER_SIZE)
+      const marker = createMapMarker(location, map, REGULAR_MARKER_ICON, REGULAR_MARKER_SIZE)
       prevMarkersRef.current.push(marker)
 
       marker.addListener('click', () => handleMarkerClick(marker))
@@ -196,7 +197,7 @@ const CreateMapPage: PageType = () => {
         })
       }
 
-      const marker = createMarker(location, map, SELECTED_MARKER_ICON, SELECTED_MARKER_SIZE)
+      const marker = createMapMarker(location, map, SELECTED_MARKER_ICON, SELECTED_MARKER_SIZE)
       prevMarkersRef.current.push(marker)
 
       const markerIndex = prevMarkersRef.current.indexOf(marker)
@@ -472,8 +473,8 @@ const CreateMapPage: PageType = () => {
       </div>
 
       <GoogleMapReact
-        bootstrapURLKeys={{ key: googleKey }}
-        center={{ lat: 40, lng: -63 }}
+        bootstrapURLKeys={getMapsKey(user.mapsAPIKey)}
+        center={{ lat: 0, lng: 0 }}
         zoom={11}
         yesIWantToUseGoogleMapApiInternals
         onGoogleApiLoaded={() => setGoogleMapsLoaded(true)}

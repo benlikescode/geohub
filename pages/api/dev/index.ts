@@ -8,7 +8,7 @@ import { bbox, featureCollection, point } from '@turf/turf'
 import { BACKGROUND_COLORS, EMOJIS } from '@utils/constants/avatarOptions'
 import countryBounds from '@utils/constants/countryBounds.json'
 import { randomElement, randomInt } from '@utils/functions/generateLocations'
-import { getDistance, getRandomAvatar } from '@utils/helperFunctions'
+import { calculateDistance, getRandomAvatar } from '@utils/helpers'
 import { GuessType, LocationType } from '../../../@types'
 
 // This endpoint is used soley for testing during development
@@ -33,77 +33,130 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     // }
 
     if (req.method === 'POST') {
-      const maps = await collections.maps?.find({}).toArray()
-
-      if (!maps) return throwError(res, 400, 'couldnt get maps')
-
-      for (const map of maps) {
-        const locationCollection = map.creator === 'GeoHub' ? 'locations' : 'userLocations'
-
-        // Get random locations from DB
-        const locations = await collections[locationCollection]
-          ?.aggregate([{ $match: { mapId: new ObjectId(map._id) } }])
-          .toArray()
-
-        if (!locations) return throwError(res, 400, 'couldnt get locations')
-
-        const c = locations.map((x) => [x.lng, x.lat])
-
-        console.log(c.length)
-
-        // // Remove outliers
-        // let lats = c.map((coord) => coord[1])
-        // let lngs = c.map((coord) => coord[0])
-
-        // // Calculate IQR for latitudes and longitudes
-        // let q1Lat = lats[Math.floor(lats.length / 4)]
-        // let q3Lat = lats[Math.floor((lats.length * 3) / 4)]
-        // let iqrLat = q3Lat - q1Lat
-
-        // let q1Lng = lngs[Math.floor(lngs.length / 4)]
-        // let q3Lng = lngs[Math.floor((lngs.length * 3) / 4)]
-        // let iqrLng = q3Lng - q1Lng
-
-        // // Define lower and upper bounds for latitudes and longitudes
-        // let lowerBoundLat = Math.min(q1Lat - 1.5 * iqrLat, q3Lat + 1.5 * iqrLat)
-        // let upperBoundLat = Math.max(q1Lat - 1.5 * iqrLat, q3Lat + 1.5 * iqrLat)
-
-        // let lowerBoundLng = Math.min(q1Lng - 1.5 * iqrLng, q3Lng + 1.5 * iqrLng)
-        // let upperBoundLng = Math.max(q1Lng - 1.5 * iqrLng, q3Lng + 1.5 * iqrLng)
-
-        // console.log(lowerBoundLat, upperBoundLat, lowerBoundLng, upperBoundLng)
-
-        // // Filter out the outliers
-        // let filteredCoordinates = c.filter(
-        //   (coord) =>
-        //     coord[0] >= lowerBoundLng &&
-        //     coord[0] <= upperBoundLng &&
-        //     coord[1] >= lowerBoundLat &&
-        //     coord[1] <= upperBoundLat
-        // )
-
-        // console.log(filteredCoordinates.length)
-
-        // Convert the filtered coordinates to turf.js points
-        let points = c.map((coord) => point(coord))
-
-        // Create a feature collection and calculate bounding box
-        let fc = featureCollection(points)
-        let box = bbox(fc)
-
-        console.log(box[0])
-        const c1 = { lat: box[1], lng: box[0] } as GuessType
-        const c2 = { lat: box[3], lng: box[2] } as LocationType
-        const distance = getDistance(c1, c2)
-        console.log(distance)
-
-        const scoreFactor = (2000 * Number(distance)) / 18150
-
-        const updateMap = await collections.maps?.updateOne({ _id: map._id }, { $set: { scoreFactor: scoreFactor } })
-
-        if (!updateMap) return throwError(res, 400, 'issue updating')
+      const kmToMiles = (km: number) => {
+        const miles = km * 0.62137119
+        return miles
       }
-      return res.status(200).send('SUCCESS')
+
+      const games = await collections.games?.find({ totalDistance: { $not: { $type: 3 } } }).toArray()
+
+      if (!games) return throwError(res, 400, 'problem getting all games')
+
+      // First update totalDistances
+      for (const game of games) {
+        const miles = kmToMiles(game.totalDistance)
+
+        const newTotalDistance = {
+          metric: game.totalDistance,
+          imperial: miles,
+        }
+
+        game.totalDistance = newTotalDistance
+
+        // Update guess distances now
+        const guesses = game.guesses
+
+        const newGuesses = []
+
+        for (const guess of guesses) {
+          if (typeof guess.distance === 'number') {
+            const miles = kmToMiles(guess.distance)
+
+            const newDistance = {
+              metric: guess.distance,
+              imperial: miles,
+            }
+
+            guess.distance = newDistance
+          }
+
+          newGuesses.push(guess)
+        }
+
+        game.guesses = newGuesses
+
+        // UPDATE GAME IN DB
+
+        const updatedGame = await collections.games?.findOneAndUpdate({ _id: game._id }, { $set: game })
+
+        if (!updatedGame) {
+          return throwError(res, 500, `Failed to update game with id: ${game._id}`)
+        }
+      }
+
+      return res.status(200).send('ALL GOOD!')
+
+      // const maps = await collections.maps?.find({}).toArray()
+
+      // if (!maps) return throwError(res, 400, 'couldnt get maps')
+
+      // for (const map of maps) {
+      //   const locationCollection = map.creator === 'GeoHub' ? 'locations' : 'userLocations'
+
+      //   // Get random locations from DB
+      //   const locations = await collections[locationCollection]
+      //     ?.aggregate([{ $match: { mapId: new ObjectId(map._id) } }])
+      //     .toArray()
+
+      //   if (!locations) return throwError(res, 400, 'couldnt get locations')
+
+      //   const c = locations.map((x) => [x.lng, x.lat])
+
+      //   console.log(c.length)
+
+      //   // // Remove outliers
+      //   // let lats = c.map((coord) => coord[1])
+      //   // let lngs = c.map((coord) => coord[0])
+
+      //   // // Calculate IQR for latitudes and longitudes
+      //   // let q1Lat = lats[Math.floor(lats.length / 4)]
+      //   // let q3Lat = lats[Math.floor((lats.length * 3) / 4)]
+      //   // let iqrLat = q3Lat - q1Lat
+
+      //   // let q1Lng = lngs[Math.floor(lngs.length / 4)]
+      //   // let q3Lng = lngs[Math.floor((lngs.length * 3) / 4)]
+      //   // let iqrLng = q3Lng - q1Lng
+
+      //   // // Define lower and upper bounds for latitudes and longitudes
+      //   // let lowerBoundLat = Math.min(q1Lat - 1.5 * iqrLat, q3Lat + 1.5 * iqrLat)
+      //   // let upperBoundLat = Math.max(q1Lat - 1.5 * iqrLat, q3Lat + 1.5 * iqrLat)
+
+      //   // let lowerBoundLng = Math.min(q1Lng - 1.5 * iqrLng, q3Lng + 1.5 * iqrLng)
+      //   // let upperBoundLng = Math.max(q1Lng - 1.5 * iqrLng, q3Lng + 1.5 * iqrLng)
+
+      //   // console.log(lowerBoundLat, upperBoundLat, lowerBoundLng, upperBoundLng)
+
+      //   // // Filter out the outliers
+      //   // let filteredCoordinates = c.filter(
+      //   //   (coord) =>
+      //   //     coord[0] >= lowerBoundLng &&
+      //   //     coord[0] <= upperBoundLng &&
+      //   //     coord[1] >= lowerBoundLat &&
+      //   //     coord[1] <= upperBoundLat
+      //   // )
+
+      //   // console.log(filteredCoordinates.length)
+
+      //   // Convert the filtered coordinates to turf.js points
+      //   let points = c.map((coord) => point(coord))
+
+      //   // Create a feature collection and calculate bounding box
+      //   let fc = featureCollection(points)
+      //   let box = bbox(fc)
+
+      //   console.log(box[0])
+      //   const c1 = { lat: box[1], lng: box[0] } as GuessType
+      //   const c2 = { lat: box[3], lng: box[2] } as LocationType
+      //   const distance = calculateDistance(c1, c2, 'metric')
+      //   console.log(distance)
+
+      //   const scoreFactor = (2000 * Number(distance)) / 18150
+
+      //   const updateMap = await collections.maps?.updateOne({ _id: map._id }, { $set: { scoreFactor: scoreFactor } })
+
+      //   if (!updateMap) return throwError(res, 400, 'issue updating')
+      // }
+      // return res.status(200).send('SUCCESS')
 
       // const removeOutliers = (values: any) => {
       //   values.sort((a: any, b: any) => a - b)

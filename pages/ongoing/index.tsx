@@ -16,7 +16,7 @@ import StyledOngoingGamesPage from '@styles/OngoingGamesPage.Styled'
 import { GameType, MapType } from '@types'
 import { COUNTRY_STREAK_DETAILS, DAILY_CHALLENGE_DETAILS } from '@utils/constants/random'
 import { formatMonthDayYear } from '@utils/dateHelpers'
-import { getFormattedOngoingScore } from '@utils/helperFunctions'
+import { formatOngoingScore } from '@utils/helpers'
 import { showErrorToast } from '@utils/helpers/showToasts'
 
 type OngoingGame = GameType & {
@@ -149,7 +149,7 @@ const OngoingGamesPage: NextPage = () => {
                       {game.mode === 'standard' && (
                         <div className="game-info-pills">
                           <Pill label={`Round ${game.round}`} className="game-info-pill round" />
-                          <Pill label={getFormattedOngoingScore(game.totalPoints)} className="game-info-pill score" />
+                          <Pill label={formatOngoingScore(game.totalPoints)} className="game-info-pill score" />
                           <Pill label={formatMonthDayYear(game.createdAt)} className="game-info-pill created" />
                         </div>
                       )}

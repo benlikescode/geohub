@@ -1,14 +1,16 @@
 import { FC, useState } from 'react'
 import { Button, ProgressBar } from '@components/System'
-import { useAppDispatch } from '@redux/hook'
+import { useAppDispatch, useAppSelector } from '@redux/hook'
 import { updateStartTime } from '@redux/slices'
-import { formatDistance, formatLargeNumber } from '@utils/helperFunctions'
+import { formatLargeNumber } from '@utils/helpers'
+import formatDistance from '@utils/helpers/formatDistance'
+import { DistanceType } from '../../../@types'
 import { ResultsWrapper } from '../ResultsWrapper'
 import { StyledStandardResults } from './'
 
 type Props = {
   round: number
-  distance: number
+  distance: DistanceType
   points: number
   noGuess?: boolean
   setView: (view: 'Game' | 'Result' | 'FinalResults') => void
@@ -17,6 +19,7 @@ type Props = {
 const StandardResults: FC<Props> = ({ round, distance, points, noGuess, setView }) => {
   const [progressFinished, setProgressFinished] = useState(false)
   const dispatch = useAppDispatch()
+  const user = useAppSelector((state) => state.user)
 
   const calculateProgress = () => {
     const progress = (points / 5000) * 100
@@ -49,7 +52,7 @@ const StandardResults: FC<Props> = ({ round, distance, points, noGuess, setView 
           ) : (
             <span className="distanceMessage">
               Your guess was
-              <span className="emphasisText"> {formatDistance(distance)} </span>
+              <span className="emphasisText"> {formatDistance(distance, user.distanceUnit)} </span>
               from the correct location
             </span>
           )}

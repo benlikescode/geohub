@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { signOut, useSession } from 'next-auth/react'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { mailman } from '@backend/utils/mailman'
@@ -9,7 +10,7 @@ import { AvatarPickerModal } from '@components/Modals'
 import { SkeletonProfile } from '@components/SkeletonProfile'
 import { VerifiedBadge } from '@components/VerifiedBadge'
 import { CameraIcon } from '@heroicons/react/outline'
-import { PencilAltIcon } from '@heroicons/react/solid'
+import { CogIcon, PencilAltIcon } from '@heroicons/react/solid'
 import { useAppDispatch, useAppSelector } from '@redux/hook'
 import { logOutUser, updateAvatar, updateBio, updateUsername } from '@redux/slices'
 import StyledProfilePage from '@styles/ProfilePage.Styled'
@@ -116,6 +117,13 @@ const ProfilePage: NextPage = () => {
         <div>
           <div className="banner-image">
             <img src="/images/backgrounds/profile-banner.png" alt="" />
+            <Link href={`/user/settings`}>
+              <a>
+                <button>
+                  <CogIcon />
+                </button>
+              </a>
+            </Link>
           </div>
 
           <div className="profile-details">

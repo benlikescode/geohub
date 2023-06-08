@@ -1,6 +1,5 @@
 import { ObjectId } from 'mongodb'
-
-import { GameSettingsType, GuessType, LocationType, MapType } from './'
+import { DistanceType, GameSettingsType, GuessType, LocationType, MapType } from './'
 
 type Game = {
   id: ObjectId | string
@@ -10,7 +9,7 @@ type Game = {
   userId: string
   round: number
   totalPoints: number
-  totalDistance: number
+  totalDistance: DistanceType
   currView: 'Game' | 'Result' | 'FinalResults'
   guesses: GuessType[]
   rounds: LocationType[]
