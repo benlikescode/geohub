@@ -1,9 +1,7 @@
-import { ObjectId } from 'bson'
+import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { Game } from '../../models'
-import { collections } from '../../utils/dbConnect'
-import getUserId from '../../utils/getUserId'
-import { throwError } from '../../utils/helpers'
+import { Game } from '@backend/models'
+import { collections, getUserId, throwError } from '@backend/utils'
 
 const getGame = async (req: NextApiRequest, res: NextApiResponse) => {
   const gameId = req.query.id as string

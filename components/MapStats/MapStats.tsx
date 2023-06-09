@@ -1,11 +1,10 @@
 import { FC, useState } from 'react'
-import { mailman } from '@backend/utils/mailman'
 import { AuthModal } from '@components/modals'
 import { HeartIcon as HeartIconOutline, LocationMarkerIcon, ScaleIcon, UserIcon } from '@heroicons/react/outline'
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/solid'
 import { useAppSelector } from '@redux/hook'
 import { MapType } from '@types'
-import { formatLargeNumber } from '@utils/helpers'
+import { formatLargeNumber, mailman } from '@utils/helpers'
 import { StyledMapStats } from './'
 
 type Props = {

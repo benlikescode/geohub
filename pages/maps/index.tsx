@@ -1,12 +1,11 @@
 import { FC, useEffect, useState } from 'react'
-import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
 import { WidthController } from '@components/layout'
 import { MapPreviewCard } from '@components/MapPreviewCard'
 import { SkeletonCards } from '@components/skeletons'
 import StyledMapsPage from '@styles/MapsPage.Styled'
 import { MapType } from '@types'
-import { showErrorToast } from '@utils/helpers'
+import { mailman, showErrorToast } from '@utils/helpers'
 
 const MapsPage: FC = () => {
   const [officialMaps, setOfficialMaps] = useState<MapType[]>([])

@@ -1,7 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections } from '@backend/utils/dbConnect'
-import { isUserAnAdmin, throwError } from '@backend/utils/helpers'
-import getUserId from '../utils/getUserId'
+import { collections, getUserId, isUserAnAdmin, throwError } from '@backend/utils'
 
 const getAnalytics = async (req: NextApiRequest, res: NextApiResponse) => {
   const getCounts = async () => {

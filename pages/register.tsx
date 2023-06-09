@@ -4,13 +4,12 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { mailman } from '@backend/utils/mailman'
 import { AppLogo } from '@components/AppLogo'
 import { Button, Input } from '@components/system'
 import { updateUser } from '@redux/slices'
 import StyledAuthPage from '@styles/AuthPage.Styled'
 import { PageType } from '@types'
-import { showErrorToast } from '@utils/helpers'
+import { mailman, showErrorToast } from '@utils/helpers'
 
 // Redirect to home page if already logged in
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {

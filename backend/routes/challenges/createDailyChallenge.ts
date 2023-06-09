@@ -1,8 +1,7 @@
-import { ObjectId } from 'bson'
+import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { OFFICIAL_WORLD_ID } from '../../../utils/constants/random'
-import { collections } from '../../utils/dbConnect'
-import { getLocations, throwError } from '../../utils/helpers'
+import { collections, getLocations, throwError } from '@backend/utils'
+import { OFFICIAL_WORLD_ID } from '@utils/constants/random'
 
 const createDailyChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
   const locations = await getLocations(OFFICIAL_WORLD_ID, 5)

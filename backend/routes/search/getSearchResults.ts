@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections } from '../../utils/dbConnect'
+import { collections } from '@backend/utils'
 
 // Reference: https://docs.atlas.mongodb.com/reference/atlas-search/text/
 

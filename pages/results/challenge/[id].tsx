@@ -2,7 +2,6 @@ import Link from 'next/link'
 import router from 'next/router'
 import { useEffect, useState } from 'react'
 import { Game } from '@backend/models'
-import { mailman } from '@backend/utils/mailman'
 import { NotFound } from '@components/errorViews'
 import { Head } from '@components/Head'
 import { Navbar } from '@components/layout'
@@ -15,6 +14,7 @@ import { Button, FlexGroup } from '@components/system'
 import { useAppSelector } from '@redux/hook'
 import StyledResultPage from '@styles/ResultPage.Styled'
 import { MapType, PageType } from '@types'
+import { mailman } from '@utils/helpers'
 
 const ChallengeResultsPage: PageType = () => {
   const [gamesFromChallenge, setGamesFromChallenge] = useState<Game[] | null>()

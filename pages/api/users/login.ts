@@ -1,8 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import bcrypt from 'bcryptjs'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections, dbConnect } from '@backend/utils/dbConnect'
-import { throwError } from '@backend/utils/helpers'
+import { collections, dbConnect, throwError } from '@backend/utils'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {

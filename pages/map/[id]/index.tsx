@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import router from 'next/router'
 import { FC, useEffect, useState } from 'react'
-import { mailman } from '@backend/utils/mailman'
 import { NotFound } from '@components/errorViews'
 import { Head } from '@components/Head'
 import { WidthController } from '@components/layout'
@@ -14,7 +13,7 @@ import { Avatar, Button } from '@components/system'
 import { VerifiedBadge } from '@components/VerifiedBadge'
 import StyledMapPage from '@styles/MapPage.Styled'
 import { MapLeaderboardType, MapType } from '@types'
-import { showErrorToast } from '@utils/helpers'
+import { mailman, showErrorToast } from '@utils/helpers'
 
 const MapPage: FC = () => {
   const [settingsModalOpen, setSettingsModalOpen] = useState(false)

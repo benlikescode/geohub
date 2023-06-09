@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Game from '@backend/models/game'
-import { mailman } from '@backend/utils/mailman'
 import { ChallengeStart } from '@components/ChallengeStart'
 import { NotFound } from '@components/errorViews'
 import { Head } from '@components/Head'
@@ -15,7 +14,7 @@ import { useAppDispatch } from '@redux/hook'
 import { updateStartTime } from '@redux/slices'
 import StyledGamePage from '@styles/GamePage.Styled'
 import { ChallengeType, PageType } from '@types'
-import { showErrorToast } from '@utils/helpers'
+import { mailman, showErrorToast } from '@utils/helpers'
 
 const ChallengePage: PageType = () => {
   const [view, setView] = useState<'Start' | 'Game' | 'Result' | 'FinalResults'>('Game')

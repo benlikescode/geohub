@@ -1,7 +1,6 @@
 import router from 'next/router'
 import { useEffect, useState } from 'react'
 import { Game } from '@backend/models'
-import { mailman } from '@backend/utils/mailman'
 import { NotFound } from '@components/errorViews'
 import { Head } from '@components/Head'
 import { Navbar } from '@components/layout'
@@ -13,6 +12,7 @@ import { StreaksSummaryMap } from '@components/StreaksSummaryMap'
 import { FlexGroup } from '@components/system'
 import StyledResultPage from '@styles/ResultPage.Styled'
 import { MapType, PageType } from '@types'
+import { mailman } from '@utils/helpers'
 
 const ResultsPage: PageType = () => {
   const [gameData, setGameData] = useState<Game | null>()

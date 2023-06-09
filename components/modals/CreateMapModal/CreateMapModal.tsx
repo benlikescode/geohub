@@ -1,13 +1,12 @@
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { FC, useEffect, useMemo, useState } from 'react'
-import { mailman } from '@backend/utils/mailman'
+import { MapPreviewCard } from '@components/MapPreviewCard'
 import { Input } from '@components/system'
+import { MAP_AVATAR_BASE_PATH } from '@utils/constants/random'
 import { randomInt } from '@utils/functions/generateLocations'
-import { showErrorToast } from '@utils/helpers/showToasts'
+import { mailman, showErrorToast } from '@utils/helpers'
 import { MainModal } from '../'
-import { MAP_AVATAR_BASE_PATH } from '../../../utils/constants/random'
-import { MapPreviewCard } from '../../MapPreviewCard'
 import { StyledCreateMapModal } from './'
 
 type Props = {

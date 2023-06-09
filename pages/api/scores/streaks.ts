@@ -1,7 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { NextApiRequest, NextApiResponse } from 'next'
-import { dbConnect } from '@backend/utils/dbConnect'
-import getStreakScores from '../../../backend/routes/scores/getStreakScores'
+import getStreakScores from '@backend/routes/scores/getStreakScores'
+import { dbConnect } from '@backend/utils'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {

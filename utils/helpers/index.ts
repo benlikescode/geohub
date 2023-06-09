@@ -12,6 +12,7 @@ export { default as formatTimeLimit } from './formatTimeLimit'
 export { default as getGuessMapSize } from './getGuessMapSize'
 export { default as getMapsKey } from './getMapsKey'
 export { default as getRandomAvatar } from './getRandomAvatar'
+export { default as mailman } from './mailman'
 export { default as redirectToRegister } from './redirectToRegister'
 
 export { showErrorToast, showSuccessToast } from './showToasts'

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
 import { WidthController } from '@components/layout'
 import { MapLeaderboard } from '@components/MapLeaderboard'
@@ -11,7 +10,7 @@ import { VerifiedBadge } from '@components/VerifiedBadge'
 import StyledPlayStreaksPage from '@styles/PlayStreaksPage.Styled'
 import { MapLeaderboardType, StreakStatsType } from '@types'
 import { COUNTRY_STREAK_DETAILS } from '@utils/constants/random'
-import { showErrorToast } from '@utils/helpers'
+import { mailman, showErrorToast } from '@utils/helpers'
 
 const StreaksPage = () => {
   const [streakStats, setStreakStats] = useState<StreakStatsType>()

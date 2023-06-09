@@ -1,7 +1,6 @@
 import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
-import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
 import { WidthController } from '@components/layout'
 import { Button, Input, Select, Spinner } from '@components/system'
@@ -9,7 +8,7 @@ import { ArrowRightIcon } from '@heroicons/react/outline'
 import { useAppDispatch } from '@redux/hook'
 import { updateDistanceUnit, updateMapsAPIKey } from '@redux/slices'
 import StyledSettingsPage from '@styles/SettingsPage.Styled'
-import { showErrorToast, showSuccessToast } from '@utils/helpers'
+import { mailman, showErrorToast, showSuccessToast } from '@utils/helpers'
 
 const DISTANCE_UNIT_OPTIONS = [
   { value: 'metric', label: 'Metric (km)' },

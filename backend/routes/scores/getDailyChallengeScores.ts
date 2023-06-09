@@ -1,9 +1,7 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import queryTopScores from '../../queries/topScores'
-import getUserId from '../../utils/getUserId'
-import { throwError } from '../../utils/helpers'
-import { todayEnd, todayStart } from '../../utils/queryDates'
+import queryTopScores from '@backend/queries/topScores'
+import { getUserId, throwError, todayEnd, todayStart } from '@backend/utils'
 
 const getScoresHelper = async (userId: string | undefined, query: any, res: NextApiResponse) => {
   const data = await queryTopScores(query, 5)

@@ -2,7 +2,6 @@ import type { NextPage } from 'next'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { mailman } from '@backend/utils/mailman'
 import { NoResults } from '@components/errorViews'
 import { Head } from '@components/Head'
 import { PageHeader, WidthController } from '@components/layout'
@@ -15,7 +14,7 @@ import StyledOngoingGamesPage from '@styles/OngoingGamesPage.Styled'
 import { GameType, MapType } from '@types'
 import { COUNTRY_STREAK_DETAILS, DAILY_CHALLENGE_DETAILS } from '@utils/constants/random'
 import { formatMonthDayYear } from '@utils/dateHelpers'
-import { formatOngoingScore, showErrorToast } from '@utils/helpers'
+import { formatOngoingScore, mailman, showErrorToast } from '@utils/helpers'
 
 type OngoingGame = GameType & {
   mapDetails: MapType[]

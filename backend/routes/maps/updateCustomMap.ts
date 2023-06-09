@@ -1,10 +1,7 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { LocationType } from '../../../@types'
-import calculateMapScoreFactor from '../../utils/calculateMapScoreFactor'
-import { collections } from '../../utils/dbConnect'
-import getUserId from '../../utils/getUserId'
-import { throwError } from '../../utils/helpers'
+import { calculateMapScoreFactor, collections, getUserId, throwError } from '@backend/utils'
+import { LocationType } from '@types'
 
 type ReqBody = {
   name?: string

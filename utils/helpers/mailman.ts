@@ -1,4 +1,4 @@
-export const mailman = async (endpoint: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET', body?: BodyInit) => {
+const mailman = async (endpoint: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET', body?: BodyInit) => {
   const fetchConfig = {
     method,
     headers: {
@@ -30,3 +30,5 @@ export const mailman = async (endpoint: string, method: 'GET' | 'POST' | 'PUT' |
     return null
   }
 }
+
+export default mailman

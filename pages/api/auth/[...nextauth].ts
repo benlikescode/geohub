@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs'
 import Cryptr from 'cryptr'
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import CredentialProvider from 'next-auth/providers/credentials'
-import { collections, dbConnect } from '../../../backend/utils/dbConnect'
+import { collections, dbConnect } from '@backend/utils'
 
 const cryptr = new Cryptr(process.env.CRYPTR_SECRET as string)
 

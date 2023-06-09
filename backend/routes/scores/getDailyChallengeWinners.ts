@@ -1,7 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections } from '../../utils/dbConnect'
-import { throwError } from '../../utils/helpers'
-import { dayAgo } from '../../utils/queryDates'
+import { collections, dayAgo, throwError } from '@backend/utils'
 
 const getDailyChallengeWinners = async (req: NextApiRequest, res: NextApiResponse) => {
   const games = []

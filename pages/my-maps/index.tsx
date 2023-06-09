@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
 import { PageHeader, WidthController } from '@components/layout'
 import { MapPreviewCard } from '@components/MapPreviewCard'
@@ -10,6 +9,7 @@ import { PlusIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
 import StyledMyMapsPage from '@styles/MyMapsPage.Styled'
 import { MapType } from '@types'
+import { mailman } from '@utils/helpers'
 
 import type { NextPage } from 'next'
 const MyMapsPage: NextPage = () => {

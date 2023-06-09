@@ -1,9 +1,7 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Map } from '@backend/models'
-import { collections } from '../../utils/dbConnect'
-import getUserId from '../../utils/getUserId'
-import { throwError } from '../../utils/helpers'
+import { collections, getUserId, throwError } from '@backend/utils'
 
 const createCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
   const creatorId = await getUserId(req, res)

@@ -1,4 +1,4 @@
-import { collections } from '@backend/utils/dbConnect'
+import { collections } from '@backend/utils'
 
 const queryTopStreaks = async (query: any, limit: number) => {
   const data = await collections.games

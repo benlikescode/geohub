@@ -1,9 +1,7 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { COUNTRY_STREAK_DETAILS, COUNTRY_STREAKS_ID } from '../../../utils/constants/random'
-import { collections } from '../../utils/dbConnect'
-import getUserId from '../../utils/getUserId'
-import { throwError } from '../../utils/helpers'
+import { collections, getUserId, throwError } from '@backend/utils'
+import { COUNTRY_STREAK_DETAILS, COUNTRY_STREAKS_ID } from '@utils/constants/random'
 
 const getChallengeScores = async (req: NextApiRequest, res: NextApiResponse) => {
   const userId = await getUserId(req, res)

@@ -1,6 +1,5 @@
 import router from 'next/router'
 import { FC, useEffect, useState } from 'react'
-import { mailman } from '@backend/utils/mailman'
 import { DailyChallengeMapStats } from '@components/DailyChallengeMapStats'
 import { DailyChallengeWinners } from '@components/DailyChallengeWinners'
 import { Head } from '@components/Head'
@@ -14,7 +13,7 @@ import { useAppSelector } from '@redux/hook'
 import StyledDailyChallengePage from '@styles/DailyChallengePage.Styled'
 import { DailyChallengeStatsType, MapLeaderboardType } from '@types'
 import { DAILY_CHALLENGE_DETAILS } from '@utils/constants/random'
-import { showErrorToast } from '@utils/helpers'
+import { mailman, showErrorToast } from '@utils/helpers'
 
 const DailyChallengePage: FC = () => {
   const [mapStats, setMapStats] = useState<DailyChallengeStatsType | null>()

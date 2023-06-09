@@ -1,8 +1,8 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { NextApiRequest, NextApiResponse } from 'next'
-import { dbConnect } from '@backend/utils/dbConnect'
-import createCustomMap from '../../../../backend/routes/maps/createCustomMap'
-import getCustomMaps from '../../../../backend/routes/maps/getCustomMaps'
+import createCustomMap from '@backend/routes/maps/createCustomMap'
+import getCustomMaps from '@backend/routes/maps/getCustomMaps'
+import { dbConnect } from '@backend/utils'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {

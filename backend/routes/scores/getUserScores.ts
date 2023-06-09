@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections } from '../../utils/dbConnect'
+import { collections } from '@backend/utils'
 
 const getUserScores = async (req: NextApiRequest, res: NextApiResponse) => {
   const userId = req.query.id as string

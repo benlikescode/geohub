@@ -1,10 +1,8 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections, dbConnect } from '@backend/utils/dbConnect'
-import getUserId from '../../../backend/utils/getUserId'
-import { throwError } from '../../../backend/utils/helpers'
-import { BACKGROUND_COLORS, EMOJIS } from '../../../utils/constants/avatarOptions'
+import { collections, dbConnect, getUserId, throwError } from '@backend/utils'
+import { BACKGROUND_COLORS, EMOJIS } from '@utils/constants/avatarOptions'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {

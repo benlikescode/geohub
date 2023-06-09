@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
 import { useEffect, useState } from 'react'
-import { mailman } from '@backend/utils/mailman'
 import { StyledAnalytics } from '@components/Admin/Analytics/Analytics.Styled'
 import { CountItem } from '@components/Admin/Analytics/CountItem'
 import { ListItem } from '@components/Admin/Analytics/ListItem'
@@ -8,7 +7,7 @@ import { Head } from '@components/Head'
 import { PageHeader, WidthController } from '@components/layout'
 import { Skeleton } from '@components/system'
 import { GameType, UserType } from '@types'
-import { showErrorToast } from '@utils/helpers'
+import { mailman, showErrorToast } from '@utils/helpers'
 
 type AnalyticsType = {
   counts: [{ title: string; count: number }]

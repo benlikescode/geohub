@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import { FC } from 'react'
-import { mailman } from '@backend/utils/mailman'
 import { Avatar, FlexGroup } from '@components/system'
 import { SearchIcon } from '@heroicons/react/outline'
 import { SearchResultType } from '@types'
+import { mailman } from '@utils/helpers'
 import { StyledSearchResult } from './'
 
 type Props = {

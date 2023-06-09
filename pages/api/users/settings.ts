@@ -2,9 +2,7 @@ import Cryptr from 'cryptr'
 /* eslint-disable import/no-anonymous-default-export */
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections, dbConnect } from '@backend/utils/dbConnect'
-import getUserId from '../../../backend/utils/getUserId'
-import { throwError } from '../../../backend/utils/helpers'
+import { collections, dbConnect, getUserId, throwError } from '@backend/utils'
 
 const ALLOWED_DISTANCE_UNITS = ['metric', 'imperial']
 const GOOGLE_MAPS_KEY_LENGTH = 39

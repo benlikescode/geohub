@@ -1,7 +1,6 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections } from '../../utils/dbConnect'
-import getUserId from '../../utils/getUserId'
+import { collections, getUserId } from '@backend/utils'
 
 // Returns 10 maps by default
 const getUsersLikedMaps = async (req: NextApiRequest, res: NextApiResponse) => {

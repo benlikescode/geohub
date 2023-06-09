@@ -1,9 +1,9 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { NextApiRequest, NextApiResponse } from 'next'
-import { dbConnect } from '@backend/utils/dbConnect'
-import deleteCustomMap from '../../../../backend/routes/maps/deleteCustomMap'
-import getCustomMap from '../../../../backend/routes/maps/getCustomMap'
-import updateCustomMap from '../../../../backend/routes/maps/updateCustomMap'
+import deleteCustomMap from '@backend/routes/maps/deleteCustomMap'
+import getCustomMap from '@backend/routes/maps/getCustomMap'
+import updateCustomMap from '@backend/routes/maps/updateCustomMap'
+import { dbConnect } from '@backend/utils'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {

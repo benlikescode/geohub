@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections } from '../utils/dbConnect'
-import { throwError } from '../utils/helpers'
+import { collections, throwError } from '@backend/utils'
 
 const getStreakStats = async (req: NextApiRequest, res: NextApiResponse) => {
   const LOCATION_COUNT = 250000

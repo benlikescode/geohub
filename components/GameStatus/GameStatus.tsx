@@ -1,9 +1,8 @@
 import { FC, useEffect, useState } from 'react'
 import { Game } from '@backend/models'
 import { LightningBoltIcon } from '@heroicons/react/solid'
-import { formatLargeNumber, formatStatusTimer } from '@utils/helpers'
-import { MapType } from '../../@types'
-import { mailman } from '../../backend/utils/mailman'
+import { MapType } from '@types'
+import { formatLargeNumber, formatStatusTimer, mailman } from '@utils/helpers'
 import { setMapName, useAppDispatch, useAppSelector } from '../../redux-utils'
 import { StyledGameStatus } from './'
 

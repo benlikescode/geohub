@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Game from '@backend/models/game'
-import { mailman } from '@backend/utils/mailman'
 import { NotFound } from '@components/errorViews'
 import { Head } from '@components/Head'
 import { LoadingPage } from '@components/layout'
@@ -14,6 +13,7 @@ import { useAppDispatch } from '@redux/hook'
 import { updateRecentlyPlayed } from '@redux/slices'
 import StyledGamePage from '@styles/GamePage.Styled'
 import { PageType } from '@types'
+import { mailman } from '@utils/helpers'
 
 const GamePage: PageType = () => {
   const [view, setView] = useState<'Game' | 'Result' | 'FinalResults'>('Game')

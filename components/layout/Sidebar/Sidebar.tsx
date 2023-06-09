@@ -1,7 +1,6 @@
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { FC, useEffect, useState } from 'react'
-import { mailman } from '@backend/utils/mailman'
 import { Avatar } from '@components/system'
 import {
   ArrowRightIcon,
@@ -17,6 +16,7 @@ import {
 import { useAppDispatch, useAppSelector } from '@redux/hook'
 import { updateRecentlyPlayed } from '@redux/slices'
 import { MapType } from '@types'
+import { mailman } from '@utils/helpers'
 import { StyledSidebar } from './'
 import { Item } from './Item'
 

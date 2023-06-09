@@ -2,12 +2,12 @@ import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
-import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
 import { WidthController } from '@components/layout'
 import { Avatar, Skeleton, Tab, Tabs } from '@components/system'
 import StyledSearchPage from '@styles/SearchPage.Styled'
 import { MapType, UserType } from '@types'
+import { mailman } from '@utils/helpers'
 
 type SearchResults = {
   users: UserType[]

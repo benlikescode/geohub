@@ -1,8 +1,7 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import queryTopScores from '../../queries/topScores'
-import getUserId from '../../utils/getUserId'
-import { throwError } from '../../utils/helpers'
+import queryTopScores from '@backend/queries/topScores'
+import { getUserId, throwError } from '@backend/utils'
 
 const getGameScores = async (req: NextApiRequest, res: NextApiResponse) => {
   const userId = await getUserId(req, res)

@@ -1,9 +1,7 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import Game from '@backend/models/game'
-import { collections } from '../../utils/dbConnect'
-import getUserId from '../../utils/getUserId'
-import { getLocations, throwError } from '../../utils/helpers'
+import { collections, getLocations, getUserId, throwError } from '@backend/utils'
 
 const createGame = async (req: NextApiRequest, res: NextApiResponse) => {
   const userId = await getUserId(req, res)

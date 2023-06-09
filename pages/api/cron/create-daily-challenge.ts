@@ -1,7 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { NextApiRequest, NextApiResponse } from 'next'
-import { dbConnect } from '@backend/utils/dbConnect'
-import createDailyChallenge from '../../../backend/routes/challenges/createDailyChallenge'
+import createDailyChallenge from '@backend/routes/challenges/createDailyChallenge'
+import { dbConnect } from '@backend/utils'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {

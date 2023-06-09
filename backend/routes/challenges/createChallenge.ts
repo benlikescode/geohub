@@ -1,8 +1,6 @@
-import { ObjectId } from 'bson'
+import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections } from '../../utils/dbConnect'
-import getUserId from '../../utils/getUserId'
-import { getLocations } from '../../utils/helpers'
+import { collections, getLocations, getUserId } from '@backend/utils'
 
 const createChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
   const userId = await getUserId(req, res)

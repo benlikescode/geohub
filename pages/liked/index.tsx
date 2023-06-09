@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
 import { useEffect, useState } from 'react'
-import { mailman } from '@backend/utils/mailman'
 import { NoResults } from '@components/errorViews'
 import { Head } from '@components/Head'
 import { PageHeader, WidthController } from '@components/layout'
@@ -8,7 +7,7 @@ import { LikedMapCard } from '@components/MapCards/LikedMapCard'
 import { SkeletonCards } from '@components/skeletons'
 import { useAppSelector } from '@redux/hook'
 import StyledLikedMapsPage from '@styles/LikedMapsPage.Styled'
-import { showErrorToast } from '@utils/helpers'
+import { mailman, showErrorToast } from '@utils/helpers'
 
 const LikedMapsPage: NextPage = () => {
   const [likedMaps, setLikedMaps] = useState<any[]>([])

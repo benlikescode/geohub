@@ -3,9 +3,8 @@ import Link from 'next/link'
 import { FC, useState } from 'react'
 import { HeartIcon as HeartIconOutline } from '@heroicons/react/outline'
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/solid'
-import { MapType } from '../../../@types'
-import { mailman } from '../../../backend/utils/mailman'
-import { showErrorToast, showSuccessToast } from '../../../utils/helpers/showToasts'
+import { MapType } from '@types'
+import { mailman, showErrorToast, showSuccessToast } from '@utils/helpers'
 import { StyledLikedMapCard } from './'
 
 type Props = {
