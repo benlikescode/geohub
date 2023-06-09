@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Spinner } from '@components/System/Spinner'
+import { Spinner } from '@components/system'
 import { StyledLoadingPage } from './'
 
 const LoadingPage: FC = () => {

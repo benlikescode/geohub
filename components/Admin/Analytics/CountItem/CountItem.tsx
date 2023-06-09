@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Skeleton } from '@components/System/Skeleton'
+import { Skeleton } from '@components/system'
 import { StyledCountItem } from './'
 
 type Props = {

@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { Spinner } from '@components/System'
+import { Spinner } from '@components/system'
 import { MapLeaderboardType } from '@types'
 import { useIsMobile } from '../../utils/hooks/'
 import { StyledMapLeaderboard } from './'

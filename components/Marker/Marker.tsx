@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Avatar } from '@components/System'
+import { Avatar } from '@components/system'
 import { FlagIcon } from '@heroicons/react/solid'
 import { StyledMarker } from './'
 

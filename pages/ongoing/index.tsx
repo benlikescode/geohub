@@ -3,21 +3,19 @@ import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { mailman } from '@backend/utils/mailman'
-import { NoResults } from '@components/errorViews/NoResults'
+import { NoResults } from '@components/errorViews'
 import { Head } from '@components/Head'
-import { PageHeader } from '@components/layout'
-import { WidthController } from '@components/layout/WidthController'
-import { DestroyModal } from '@components/modals/DestroyModal'
-import { OngoingGamesSkeleton } from '@components/Skeletons/OngoingGamesSkeleton'
-import { Avatar, Pill, Spinner } from '@components/System/'
+import { PageHeader, WidthController } from '@components/layout'
+import { DestroyModal } from '@components/modals'
+import { SkeletonOngoingGames } from '@components/skeletons'
+import { Avatar, Pill, Spinner } from '@components/system'
 import { TrashIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
 import StyledOngoingGamesPage from '@styles/OngoingGamesPage.Styled'
 import { GameType, MapType } from '@types'
 import { COUNTRY_STREAK_DETAILS, DAILY_CHALLENGE_DETAILS } from '@utils/constants/random'
 import { formatMonthDayYear } from '@utils/dateHelpers'
-import { formatOngoingScore } from '@utils/helpers'
-import { showErrorToast } from '@utils/helpers/showToasts'
+import { formatOngoingScore, showErrorToast } from '@utils/helpers'
 
 type OngoingGame = GameType & {
   mapDetails: MapType[]
@@ -97,7 +95,7 @@ const OngoingGamesPage: NextPage = () => {
         ) : (
           <div className="ongoing-table">
             {loading ? (
-              <OngoingGamesSkeleton />
+              <SkeletonOngoingGames />
             ) : (
               <InfiniteScroll
                 dataLength={games.length}

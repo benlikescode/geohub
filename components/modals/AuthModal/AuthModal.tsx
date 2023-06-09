@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { FC } from 'react'
-import { Button, Modal } from '@components/System'
+import { Button, Modal } from '@components/system'
 import { XIcon } from '@heroicons/react/outline'
 import { StyledAuthModal } from './'
 

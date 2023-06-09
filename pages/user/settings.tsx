@@ -1,14 +1,15 @@
 import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
+import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
+import { WidthController } from '@components/layout'
+import { Button, Input, Select, Spinner } from '@components/system'
 import { ArrowRightIcon } from '@heroicons/react/outline'
-import { mailman } from '../../backend/utils/mailman'
-import { WidthController } from '../../components/layout/WidthController'
-import { Button, Input, Select, Spinner } from '../../components/System'
-import { updateDistanceUnit, updateMapsAPIKey, useAppDispatch } from '../../redux-utils'
-import StyledSettingsPage from '../../styles/SettingsPage.Styled'
-import { showErrorToast, showSuccessToast } from '../../utils/helpers/showToasts'
+import { useAppDispatch } from '@redux/hook'
+import { updateDistanceUnit, updateMapsAPIKey } from '@redux/slices'
+import StyledSettingsPage from '@styles/SettingsPage.Styled'
+import { showErrorToast, showSuccessToast } from '@utils/helpers'
 
 const DISTANCE_UNIT_OPTIONS = [
   { value: 'metric', label: 'Metric (km)' },

@@ -1,6 +1,5 @@
 import { FC, ReactNode } from 'react'
-import { Spinner } from '@components/System'
-import { Modal } from '@components/System/Modal'
+import { Modal, Spinner } from '@components/system'
 import { XIcon } from '@heroicons/react/outline'
 import { StyledMainModal } from './'
 

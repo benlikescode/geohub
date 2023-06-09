@@ -1,18 +1,17 @@
 import { useEffect, useState } from 'react'
 import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
-import { WidthController } from '@components/layout/WidthController'
+import { WidthController } from '@components/layout'
 import { MapLeaderboard } from '@components/MapLeaderboard'
 import { GameSettingsModal } from '@components/modals'
-import { SkeletonLeaderboard } from '@components/SkeletonLeaderboard'
-import { SkeletonMapInfo } from '@components/SkeletonMapInfo'
+import { SkeletonLeaderboard, SkeletonMapInfo } from '@components/skeletons'
 import { StreakMapStats } from '@components/StreakMapStats'
-import { Avatar, Button } from '@components/System'
+import { Avatar, Button } from '@components/system'
 import { VerifiedBadge } from '@components/VerifiedBadge'
 import StyledPlayStreaksPage from '@styles/PlayStreaksPage.Styled'
 import { MapLeaderboardType, StreakStatsType } from '@types'
 import { COUNTRY_STREAK_DETAILS } from '@utils/constants/random'
-import { showErrorToast } from '@utils/helpers/showToasts'
+import { showErrorToast } from '@utils/helpers'
 
 const StreaksPage = () => {
   const [streakStats, setStreakStats] = useState<StreakStatsType>()

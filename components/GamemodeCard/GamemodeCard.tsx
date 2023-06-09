@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { FC } from 'react'
-import { Button } from '@components/System'
+import { Button } from '@components/system'
 import { StyledGamemodeCard } from './'
 
 type Props = {

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FC } from 'react'
-import { Avatar, FlexGroup } from '@components/System'
+import { Avatar, FlexGroup } from '@components/system'
 import { ChartBarIcon } from '@heroicons/react/outline'
 import { LightningBoltIcon } from '@heroicons/react/solid'
 import { useAppSelector } from '@redux/hook'

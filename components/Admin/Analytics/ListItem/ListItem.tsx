@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { FC } from 'react'
-import { Avatar } from '@components/System'
+import { Avatar } from '@components/system'
 import { GameType, UserType } from '@types'
 import { COUNTRY_STREAK_DETAILS, DAILY_CHALLENGE_DETAILS } from '@utils/constants/random'
 import { formatMonthDayYearTime } from '@utils/dateHelpers'

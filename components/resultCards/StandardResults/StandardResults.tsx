@@ -1,5 +1,5 @@
 import { FC, useState } from 'react'
-import { Button, ProgressBar } from '@components/System'
+import { Button, ProgressBar } from '@components/system'
 import { useAppDispatch, useAppSelector } from '@redux/hook'
 import { updateStartTime } from '@redux/slices'
 import { formatLargeNumber } from '@utils/helpers'

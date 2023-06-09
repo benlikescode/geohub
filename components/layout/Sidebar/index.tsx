@@ -1,2 +1,4 @@
-export { Sidebar } from './Sidebar'
-export { MobileNav } from './MobileNav'
+export { default as Sidebar } from './Sidebar'
+export { default as StyledSidebar } from './Sidebar.Styled'
+
+export { Item } from './Item'

@@ -72,6 +72,7 @@ export const getLocations = async (mapId: string, count: number = 1) => {
   return locations
 }
 
+// TO DELETE
 // Appends array of data to an existing JSON array of data
 export const writeToFile = (fileName: string, newData: any[]) => {
   const currData = fs.readFileSync(fileName)
