@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import { useEffect, useState } from 'react'
 import { mailman } from '@backend/utils/mailman'
-import { NoResults } from '@components/ErrorViews/NoResults'
+import { NoResults } from '@components/errorViews/NoResults'
 import { Head } from '@components/Head'
 import { PageHeader } from '@components/Layout'
 import { WidthController } from '@components/Layout/WidthController'

@@ -12,7 +12,7 @@ import { useAppDispatch } from '@redux/hook'
 import { updateRecentlyPlayed } from '@redux/slices'
 import StyledGamePage from '@styles/GamePage.Styled'
 import { PageType } from '@types'
-import { NotFound } from '../../components/ErrorViews/NotFound'
+import { NotFound } from '../../components/errorViews/NotFound'
 import { StreakFinalResults } from '../../components/ResultCards/StreakFinalResults'
 import { StreaksSummaryMap } from '../../components/StreaksSummaryMap'
 

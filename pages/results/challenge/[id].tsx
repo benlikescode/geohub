@@ -13,7 +13,7 @@ import { Button, FlexGroup } from '@components/System'
 import { useAppSelector } from '@redux/hook'
 import StyledResultPage from '@styles/ResultPage.Styled'
 import { MapType, PageType } from '@types'
-import { NotFound } from '../../../components/ErrorViews/NotFound'
+import { NotFound } from '../../../components/errorViews/NotFound'
 import { StreaksLeaderboard } from '../../../components/StreaksLeaderboard'
 import { StreaksSummaryMap } from '../../../components/StreaksSummaryMap'
 
