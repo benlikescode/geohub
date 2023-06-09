@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import { FC } from 'react'
 import Game from '@backend/models/game'
-import { StreakCountryList } from '../../StreakCountryList'
-import { Button } from '../../System'
-import { ResultsWrapper } from '../ResultsWrapper'
+import { StreakCountryList } from '@components/StreakCountryList'
+import { Button } from '@components/system'
+import { ResultsWrapper } from '../'
 import { StyledStreakFinalResults } from './'
 
 type Props = {

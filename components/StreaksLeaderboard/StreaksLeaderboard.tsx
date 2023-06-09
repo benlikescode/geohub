@@ -1,8 +1,8 @@
 import { FC } from 'react'
 import { Game } from '@backend/models'
-import { formatRoundTime } from '../../utils/helpers'
-import { StreakCountryList } from '../StreakCountryList'
-import { Avatar } from '../System'
+import { StreakCountryList } from '@components/StreakCountryList'
+import { Avatar } from '@components/system'
+import { formatRoundTime } from '@utils/helpers'
 import { StyledStreaksLeaderboard } from './'
 
 type Props = {
