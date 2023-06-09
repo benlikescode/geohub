@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { FC } from 'react'
 import Game from '@backend/models/game'
-import { Button } from '@components/System'
+import { Button } from '@components/system'
 import { useAppDispatch } from '@redux/hook'
 import { updateStartTime } from '@redux/slices'
 import countries from '@utils/constants/countries'

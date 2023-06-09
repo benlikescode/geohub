@@ -2,17 +2,17 @@ import router from 'next/router'
 import { useEffect, useState } from 'react'
 import { Game } from '@backend/models'
 import { mailman } from '@backend/utils/mailman'
+import { NotFound } from '@components/errorViews'
 import { Head } from '@components/Head'
-import { Navbar } from '@components/layout/Navbar'
+import { Navbar } from '@components/layout'
 import { ResultMap } from '@components/ResultMap'
 import { LeaderboardCard } from '@components/Results'
-import { GameResultsSkeleton } from '@components/Skeletons/GameResultsSkeleton'
-import { FlexGroup } from '@components/System'
+import { SkeletonGameResults } from '@components/skeletons'
+import { StreaksLeaderboard } from '@components/StreaksLeaderboard'
+import { StreaksSummaryMap } from '@components/StreaksSummaryMap'
+import { FlexGroup } from '@components/system'
 import StyledResultPage from '@styles/ResultPage.Styled'
 import { MapType, PageType } from '@types'
-import { NotFound } from '../../components/errorViews/NotFound'
-import { StreaksLeaderboard } from '../../components/StreaksLeaderboard'
-import { StreaksSummaryMap } from '../../components/StreaksSummaryMap'
 
 const ResultsPage: PageType = () => {
   const [gameData, setGameData] = useState<Game | null>()
@@ -69,7 +69,7 @@ const ResultsPage: PageType = () => {
           <Navbar />
 
           {!gameData ? (
-            <GameResultsSkeleton />
+            <SkeletonGameResults />
           ) : (
             <main>
               <StreaksSummaryMap gameData={gameData} />
@@ -89,7 +89,7 @@ const ResultsPage: PageType = () => {
       <Head title="Game Results" />
 
       {!gameData || !mapData ? (
-        <GameResultsSkeleton />
+        <SkeletonGameResults />
       ) : (
         <section>
           <Navbar />

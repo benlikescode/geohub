@@ -1,4 +1,4 @@
-import { NotFound } from '@components/errorViews/NotFound'
+import { NotFound } from '@components/errorViews'
 import { Head } from '@components/Head'
 import { PageType } from '@types'
 

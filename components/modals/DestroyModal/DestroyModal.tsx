@@ -1,6 +1,5 @@
 import { FC } from 'react'
-import { Button, Spinner } from '@components/System'
-import { Modal } from '@components/System/Modal'
+import { Button, Modal, Spinner } from '@components/system'
 import { StyledDestroyModal } from './'
 
 type Props = {

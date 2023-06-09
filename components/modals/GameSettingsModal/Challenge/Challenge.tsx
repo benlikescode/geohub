@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react'
-import { Input } from '@components/System'
+import { Input } from '@components/system'
 import { CheckIcon, ClipboardIcon } from '@heroicons/react/outline'
 import { StyledChallenge } from './'
 

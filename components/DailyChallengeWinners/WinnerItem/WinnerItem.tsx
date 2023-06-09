@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 import Link from 'next/link'
 import { FC } from 'react'
-import { Avatar } from '@components/System'
+import { Avatar } from '@components/system'
 import { MapLeaderboardType } from '@types'
 import { formatLargeNumber } from '@utils/helpers'
 import { StyledWinnerItem } from './'

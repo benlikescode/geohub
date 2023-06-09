@@ -1,7 +1,7 @@
 import GoogleMapReact from 'google-map-react'
 import { FC, useRef, useState } from 'react'
 import { Marker } from '@components/Marker'
-import { Button } from '@components/System/Button'
+import { Button } from '@components/system'
 import { ArrowRightIcon, XIcon } from '@heroicons/react/outline'
 import { useAppDispatch, useAppSelector } from '@redux/hook'
 import { updateGuessMapSize } from '@redux/slices'

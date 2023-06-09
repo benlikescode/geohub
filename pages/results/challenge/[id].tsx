@@ -1,21 +1,20 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import router from 'next/router'
 import { useEffect, useState } from 'react'
 import { Game } from '@backend/models'
 import { mailman } from '@backend/utils/mailman'
+import { NotFound } from '@components/errorViews'
 import { Head } from '@components/Head'
-import { Navbar } from '@components/layout/Navbar'
+import { Navbar } from '@components/layout'
 import { ResultMap } from '@components/ResultMap'
 import { LeaderboardCard } from '@components/Results'
-import { GameResultsSkeleton } from '@components/Skeletons/GameResultsSkeleton'
-import { Button, FlexGroup } from '@components/System'
+import { SkeletonGameResults } from '@components/skeletons'
+import { StreaksLeaderboard } from '@components/StreaksLeaderboard'
+import { StreaksSummaryMap } from '@components/StreaksSummaryMap'
+import { Button, FlexGroup } from '@components/system'
 import { useAppSelector } from '@redux/hook'
 import StyledResultPage from '@styles/ResultPage.Styled'
 import { MapType, PageType } from '@types'
-import { NotFound } from '../../../components/errorViews/NotFound'
-import { StreaksLeaderboard } from '../../../components/StreaksLeaderboard'
-import { StreaksSummaryMap } from '../../../components/StreaksSummaryMap'
 
 const ChallengeResultsPage: PageType = () => {
   const [gamesFromChallenge, setGamesFromChallenge] = useState<Game[] | null>()
@@ -90,7 +89,7 @@ const ChallengeResultsPage: PageType = () => {
           <Navbar />
 
           {!gamesFromChallenge ? (
-            <GameResultsSkeleton />
+            <SkeletonGameResults />
           ) : (
             <main>
               <StreaksSummaryMap gameData={gamesFromChallenge[selectedGameIndex]} />
@@ -116,7 +115,7 @@ const ChallengeResultsPage: PageType = () => {
         <Navbar />
 
         {!gamesFromChallenge || !mapData ? (
-          <GameResultsSkeleton />
+          <SkeletonGameResults />
         ) : (
           <main>
             <ResultMap

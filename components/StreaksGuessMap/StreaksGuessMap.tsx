@@ -1,15 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 import GoogleMapReact from 'google-map-react'
 import { FC, useRef, useState } from 'react'
-import { Button } from '@components/System/Button'
+import { Button } from '@components/system'
 import { ArrowRightIcon, XIcon } from '@heroicons/react/outline'
 import { useAppDispatch, useAppSelector } from '@redux/hook'
 import { updateGuessMapSize } from '@redux/slices'
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon'
 import { multiPolygon, point } from '@turf/turf'
 import countryBounds from '@utils/constants/countryBounds.json'
-import { getGuessMapSize } from '@utils/helpers'
-import getMapsKey from '../../utils/helpers/getMapsKey'
+import { getGuessMapSize, getMapsKey } from '@utils/helpers'
 import { StyledStreaksGuessMap } from './'
 
 type Props = {

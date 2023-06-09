@@ -4,12 +4,12 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Button, Input } from '@components/System'
+import { AppLogo } from '@components/AppLogo'
+import { Button, Input } from '@components/system'
 import { updateUser } from '@redux/slices'
 import StyledAuthPage from '@styles/AuthPage.Styled'
 import { PageType } from '@types'
-import { AppLogo } from '../components/AppLogo'
-import { showErrorToast } from '../utils/helpers/showToasts'
+import { showErrorToast } from '@utils/helpers'
 
 // Redirect to home page if already logged in
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {

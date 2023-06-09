@@ -5,11 +5,10 @@ import { StyledAnalytics } from '@components/Admin/Analytics/Analytics.Styled'
 import { CountItem } from '@components/Admin/Analytics/CountItem'
 import { ListItem } from '@components/Admin/Analytics/ListItem'
 import { Head } from '@components/Head'
-import { PageHeader } from '@components/layout'
-import { WidthController } from '@components/layout/WidthController'
-import { Skeleton } from '@components/System/Skeleton'
+import { PageHeader, WidthController } from '@components/layout'
+import { Skeleton } from '@components/system'
 import { GameType, UserType } from '@types'
-import { showErrorToast } from '@utils/helpers/showToasts'
+import { showErrorToast } from '@utils/helpers'
 
 type AnalyticsType = {
   counts: [{ title: string; count: number }]
