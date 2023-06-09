@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { FC, ReactNode, useEffect } from 'react'
-import { MobileNav, Navbar, Sidebar } from '@components/Layout'
+import { MobileNav, Navbar, Sidebar } from '@components/layout'
 import { StyledLayout } from './'
 
 type Props = {

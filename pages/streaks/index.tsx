@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { mailman } from '@backend/utils/mailman'
 import { Head } from '@components/Head'
-import { WidthController } from '@components/Layout/WidthController'
+import { WidthController } from '@components/layout/WidthController'
 import { MapLeaderboard } from '@components/MapLeaderboard'
 import { GameSettingsModal } from '@components/Modals'
 import { SkeletonLeaderboard } from '@components/SkeletonLeaderboard'

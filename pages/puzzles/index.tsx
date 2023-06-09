@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import GoogleMapReact from 'google-map-react'
 import { Head } from '@components/Head'
-import { WidthController } from '@components/Layout/WidthController'
+import { WidthController } from '@components/layout/WidthController'
 import StyledPuzzlesPage from '@styles/PuzzlesPage.Styled'
 
 const PuzzlesPage: NextPage = () => {

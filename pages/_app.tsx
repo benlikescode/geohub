@@ -1,14 +1,12 @@
 import '@styles/globals.css'
-
 import { SessionProvider } from 'next-auth/react'
 import { ReactElement } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { Provider as RedudxProvider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { ThemeProvider } from 'styled-components'
-
 import { Head } from '@components/Head'
-import { Layout } from '@components/Layout'
+import { Layout } from '@components/layout'
 import { persistor, store } from '@redux/store'
 import { PageType } from '@types'
 import { theme } from '@utils/theme'

@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Item } from '@components/Layout/Sidebar/Sidebar/Item'
+import { Item } from '@components/layout/Sidebar/Sidebar/Item'
 import { HeartIcon, HomeIcon, LightningBoltIcon, LocationMarkerIcon, MapIcon, PlayIcon } from '@heroicons/react/outline'
 import { StyledMobileNav } from './'
 
