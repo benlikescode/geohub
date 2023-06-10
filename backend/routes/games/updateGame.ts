@@ -1,9 +1,15 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Game } from '@backend/models'
-import { collections, getLocations, getUserId, throwError } from '@backend/utils'
+import {
+  calculateDistance,
+  calculateRoundScore,
+  collections,
+  getLocations,
+  getUserId,
+  throwError,
+} from '@backend/utils'
 import { ChallengeType, DistanceType, GuessType } from '@types'
-import { calculateDistance, calculateRoundScore } from '@utils/helpers'
 
 const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
   const gameId = req.query.id as string

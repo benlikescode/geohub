@@ -1,8 +1,7 @@
 import { ObjectId } from 'mongodb'
-import { collections } from '@backend/utils'
+import { collections, getLocationsInRadius } from '@backend/utils'
 import { LocationType } from '@types'
 import { COUNTRY_STREAKS_ID, OFFICIAL_WORLD_ID, URBAN_WORLD_ID } from '@utils/constants/random'
-import { getRandomLocationsInRadius } from '@utils/functions/generateLocations'
 
 // Returns Location | Location[]
 const getLocations = async (mapId: string, count: number = 1) => {
@@ -47,7 +46,7 @@ const getLocations = async (mapId: string, count: number = 1) => {
 
   // If map is urban world, we further randomize it
   if (mapId === URBAN_WORLD_ID) {
-    return getRandomLocationsInRadius(locations as LocationType[])
+    return getLocationsInRadius(locations as LocationType[])
   }
 
   if (locations.length === 1) {

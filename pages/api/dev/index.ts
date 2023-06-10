@@ -3,12 +3,6 @@ import fs from 'fs'
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { collections, dbConnect, throwError } from '@backend/utils'
-import { bbox, featureCollection, point } from '@turf/turf'
-import { BACKGROUND_COLORS, EMOJIS } from '@utils/constants/avatarOptions'
-import countryBounds from '@utils/constants/countryBounds.json'
-import { randomElement, randomInt } from '@utils/functions/generateLocations'
-import { calculateDistance, getRandomAvatar } from '@utils/helpers'
-import { GuessType, LocationType } from '../../../@types'
 
 // This endpoint is used soley for testing during development
 export default async (req: NextApiRequest, res: NextApiResponse) => {

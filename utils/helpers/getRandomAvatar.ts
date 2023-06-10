@@ -1,5 +1,5 @@
 import { BACKGROUND_COLORS, EMOJIS } from '../constants/avatarOptions'
-import { randomElement } from '../functions/generateLocations'
+import { randomElement } from './'
 
 const getRandomAvatar = () => {
   const randomEmoji = randomElement(EMOJIS)
