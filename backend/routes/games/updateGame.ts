@@ -81,28 +81,12 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
         game.rounds = game.rounds.concat(newLocations)
       }
 
-      // Updates the previously generated round to the coordinates returned by the Google SV Pano
-      if (adjustedLocation) {
-        game.rounds[localRound - 1] = adjustedLocation
-      }
-
       game.rounds = challenge.locations
     }
 
-    // Single Player
-    if (!game.challengeId) {
-      const newLocation = await getLocations(game.mapId)
-
-      if (!newLocation) {
-        return throwError(res, 400, 'Failed to get new location')
-      }
-
-      // Updates the previously generated round to the coordinates returned by the Google SV Pano
-      if (adjustedLocation) {
-        game.rounds[localRound - 1] = adjustedLocation
-      }
-
-      game.rounds = game.rounds.concat(newLocation)
+    // Updates the previously generated round to the coordinates returned by the Google SV Pano
+    if (adjustedLocation) {
+      game.rounds[localRound - 1] = adjustedLocation
     }
   }
 

@@ -4,7 +4,7 @@ import { collections, getLocations, throwError } from '@backend/utils'
 import { OFFICIAL_WORLD_ID } from '@utils/constants/random'
 
 const createDailyChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
-  const locations = await getLocations(OFFICIAL_WORLD_ID, 5)
+  const locations = await getLocations(OFFICIAL_WORLD_ID)
 
   const newDailyChallenge = {
     mapId: new ObjectId(OFFICIAL_WORLD_ID),
