@@ -6,9 +6,13 @@ type StyledProps = {
 
 const StyledStreetView = styled.div<StyledProps>`
   #map {
-    height: 100vh;
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
     width: 100%;
-    position: relative;
     display: none;
 
     ${({ showMap }) =>
@@ -25,20 +29,24 @@ const StyledStreetView = styled.div<StyledProps>`
       display: block;
       background-color: var(--mediumPurple);
       border: 2px solid var(--color2);
-      height: 60px;
-      width: 60px;
+      height: 80px;
+      width: 80px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       position: absolute;
-      bottom: 92px;
-      right: 20px;
+      bottom: 36px;
+      right: 12px;
       z-index: 2;
 
       svg {
-        height: 30px;
+        height: 40px;
         color: var(--color2);
+
+        path {
+          stroke-width: 1.5px;
+        }
       }
     }
   }
