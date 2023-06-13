@@ -105,11 +105,10 @@ const StyledLeaderboardItem = styled.div<StyledProps>`
     align-items: center;
 
     .bestStreak {
-      width: 70px;
+      width: 55px;
       font-size: 16px;
 
       @media (max-width: 850px) {
-        width: 100px;
         font-size: 14px;
       }
     }
