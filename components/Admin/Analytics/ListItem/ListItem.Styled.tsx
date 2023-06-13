@@ -43,12 +43,23 @@ const StyledListItem = styled.div`
         align-items: center;
         gap: 12px;
 
-        .item-name {
-          cursor: pointer;
-          font-weight: 400;
+        .item-text-wrapper {
+          .item-text-1 {
+            display: block;
+            cursor: pointer;
+            font-weight: 400;
 
-          &:hover {
-            text-decoration: underline;
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+
+          .item-text-2 {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            color: #999;
+            margin-top: 4px;
           }
         }
       }
@@ -70,7 +81,8 @@ const StyledListItem = styled.div`
 
         .item-created-date {
           padding-left: 45px;
-          font-size: 14px;
+          font-size: 12px;
+          margin-top: 12px;
         }
       }
     }

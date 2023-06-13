@@ -1,3 +1,4 @@
+export type { default as AnalyticsType } from './Analytics'
 export type { default as LocationType } from './Location'
 export type { default as ResultType } from './Result'
 export type { default as UserType } from './User'

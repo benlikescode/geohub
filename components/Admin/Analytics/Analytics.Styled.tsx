@@ -1,12 +1,14 @@
 import styled from 'styled-components'
 
 export const StyledAnalytics = styled.div`
-  display: grid;
-  grid-gap: 40px;
+  .analytics-grid {
+    display: grid;
+    grid-gap: 40px;
+  }
 
   .analytics-stats {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(235px, 1fr));
     grid-gap: 20px;
   }
 
@@ -49,6 +51,10 @@ export const StyledAnalytics = styled.div`
   @media (max-width: 600px) {
     .analytics-lists {
       grid-template-columns: 1fr;
+    }
+
+    .skeleton-user-created-date {
+      display: none;
     }
   }
 `

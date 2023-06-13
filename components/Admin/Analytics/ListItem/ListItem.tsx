@@ -1,20 +1,20 @@
 import Link from 'next/link'
 import { FC } from 'react'
 import { Avatar } from '@components/system'
-import { GameType, UserType } from '@types'
+import { AnalyticsType } from '@types'
 import { COUNTRY_STREAK_DETAILS, DAILY_CHALLENGE_DETAILS } from '@utils/constants/random'
 import { formatMonthDayYearTime } from '@utils/dateHelpers'
 import { StyledListItem } from './'
 
 type Props = {
   title: string
-  data: UserType[] | GameType[]
+  data: AnalyticsType
 }
 
 const ListItem: FC<Props> = ({ title, data }) => {
   const dataToShow = () => {
     if (title === 'New Users') {
-      const userData = data as UserType[]
+      const userData = data.recentUsers
 
       return userData.map((user, idx) => (
         <div className="item-wrapper" key={idx}>
@@ -23,8 +23,11 @@ const ListItem: FC<Props> = ({ title, data }) => {
               <div className="item-avatar">
                 <Avatar type="user" src={user.avatar.emoji} backgroundColor={user.avatar.color} />
               </div>
-              <div className="item-name">
-                <span>{user.name}</span>
+              <div className="item-text-wrapper">
+                <span className="item-text-1">{user.name}</span>
+                <span className="item-text-2">
+                  {user.gamesPlayed} Game{user.gamesPlayed !== 1 && 's'}
+                </span>
               </div>
             </a>
           </Link>
@@ -37,7 +40,7 @@ const ListItem: FC<Props> = ({ title, data }) => {
     }
 
     if (title === 'Recent Games') {
-      const gameData = data as GameType[]
+      const gameData = data.recentGames
 
       return gameData.map((game, idx) => (
         <div className="item-wrapper" key={idx}>
@@ -58,14 +61,15 @@ const ListItem: FC<Props> = ({ title, data }) => {
                   />
                 )}
               </div>
-              <div className="item-name">
-                <span>
+              <div className="item-text-wrapper">
+                <span className="item-text-1">
                   {game.mode === 'streak'
                     ? COUNTRY_STREAK_DETAILS.name
                     : game.isDailyChallenge
                     ? DAILY_CHALLENGE_DETAILS.name
                     : game.mapDetails?.[0]?.name}
                 </span>
+                <span className="item-text-2">{game.userDetails.name}</span>
               </div>
             </a>
           </Link>

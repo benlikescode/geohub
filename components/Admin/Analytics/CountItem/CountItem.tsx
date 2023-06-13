@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import { Skeleton } from '@components/system'
+import { formatLargeNumber } from '../../../../utils/helpers'
 import { StyledCountItem } from './'
 
 type Props = {
@@ -18,7 +19,7 @@ const CountItem: FC<Props> = ({ title, count, loading }) => {
           <span className="analytics-heading-title">{title}</span>
         </div>
         <div className="analytics-data">
-          <span className="analytics-amount">{count}</span>
+          <span className="analytics-amount">{formatLargeNumber(count)}</span>
         </div>
       </div>
     </StyledCountItem>
