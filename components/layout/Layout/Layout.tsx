@@ -16,6 +16,14 @@ const Layout: FC<Props> = ({ children }) => {
 
   return (
     <StyledLayout>
+      <div className="banner">
+        Due to{' '}
+        <a href="https://health.aws.amazon.com/health/status" target="_blank" rel="noopener noreferrer">
+          AWS outages
+        </a>{' '}
+        you may experience some downtime
+      </div>
+
       <div className="app-layout">
         <Navbar />
 
