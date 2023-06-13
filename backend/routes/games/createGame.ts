@@ -7,10 +7,10 @@ const createGame = async (req: NextApiRequest, res: NextApiResponse) => {
   const userId = await getUserId(req, res)
   const { mode, mapId } = req.body
 
-  const roundLocation = await getLocations(mapId)
+  const locations = await getLocations(mapId)
 
-  if (!roundLocation) {
-    return throwError(res, 400, 'Failed to get location')
+  if (!locations) {
+    return throwError(res, 400, 'Failed to get locations')
   }
 
   const newGame = {
@@ -18,7 +18,7 @@ const createGame = async (req: NextApiRequest, res: NextApiResponse) => {
     mapId: mode === 'standard' ? new ObjectId(mapId) : mapId,
     userId: new ObjectId(userId),
     guesses: [],
-    rounds: [roundLocation],
+    rounds: locations,
     round: 1,
     totalPoints: 0,
     totalDistance: { metric: 0, imperial: 0 },

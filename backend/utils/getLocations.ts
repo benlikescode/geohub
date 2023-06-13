@@ -3,8 +3,7 @@ import { collections, getLocationsInRadius } from '@backend/utils'
 import { LocationType } from '@types'
 import { COUNTRY_STREAKS_ID, OFFICIAL_WORLD_ID, URBAN_WORLD_ID } from '@utils/constants/random'
 
-// Returns Location | Location[]
-const getLocations = async (mapId: string, count: number = 1) => {
+const getLocations = async (mapId: string, count: number = 5) => {
   if (!mapId) return null
 
   if (mapId === COUNTRY_STREAKS_ID) {
@@ -17,10 +16,6 @@ const getLocations = async (mapId: string, count: number = 1) => {
 
     if (!locations || locations.length === 0) {
       return null
-    }
-
-    if (locations.length === 1) {
-      return locations[0]
     }
 
     return locations
@@ -37,7 +32,12 @@ const getLocations = async (mapId: string, count: number = 1) => {
 
   // Get random locations from DB
   const locations = (await collections[locationCollection]
-    ?.aggregate([{ $match: { mapId: new ObjectId(mapId) } }, { $sample: { size: count } }])
+    ?.aggregate([
+      { $match: { mapId: new ObjectId(mapId) } },
+      { $sample: { size: count } },
+      { $group: { _id: '$_id', doc: { $first: '$$ROOT' } } },
+      { $replaceRoot: { newRoot: '$doc' } },
+    ])
     .toArray()) as LocationType[]
 
   if (!locations || locations.length === 0) {
@@ -47,10 +47,6 @@ const getLocations = async (mapId: string, count: number = 1) => {
   // If map is urban world, we further randomize it
   if (mapId === URBAN_WORLD_ID) {
     return getLocationsInRadius(locations as LocationType[])
-  }
-
-  if (locations.length === 1) {
-    return locations[0]
   }
 
   return locations

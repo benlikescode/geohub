@@ -17,7 +17,7 @@ const createCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
     previewImg: avatar || 'https://wallpaperaccess.com/full/2707446.jpg',
     creator: new ObjectId(creatorId),
     createdAt: new Date(),
-    isPublished: true,
+    isPublished: false,
   } as Map
 
   const result = await collections.maps?.insertOne(newMap)

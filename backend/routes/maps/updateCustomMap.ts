@@ -48,6 +48,10 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
     updatedMap['previewImg'] = previewImg
   }
 
+  if (locations && locations.length < 5) {
+    return throwError(res, 400, 'Maps must have a minimum of 5 locations')
+  }
+
   if (isPublished !== undefined) {
     updatedMap['isPublished'] = isPublished
   }

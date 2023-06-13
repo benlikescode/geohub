@@ -6,13 +6,14 @@ import { useEffect, useRef, useState } from 'react'
 import { NotFound } from '@components/errorViews'
 import { Head } from '@components/Head'
 import { MobileNav, Navbar } from '@components/layout'
-import { CreateMapModal, DestroyModal } from '@components/modals'
+import { CreateMapModal } from '@components/modals'
 import { Avatar, Button, Skeleton, Spinner, ToggleSwitch } from '@components/system'
 import { CloudUploadIcon, PencilIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
 import StyledCreateMapPage from '@styles/CreateMapPage.Styled'
 import { LocationType, MapType, PageType } from '@types'
 import { createMapMarker, getMapsKey, mailman, showErrorToast, showSuccessToast } from '@utils/helpers'
+import { useConfirmLeave } from '../../utils/hooks'
 
 const SELECTED_MARKER_ICON = '/images/selected-pin.png'
 const REGULAR_MARKER_ICON = '/images/regular-pin.png'
@@ -38,16 +39,8 @@ const CreateMapPage: PageType = () => {
   const [modifiedPitch, setModifiedPitch] = useState<number | null>(null)
   const [modifiedPosition, setModifiedPosition] = useState<{ lat: number; lng: number } | null>(null)
 
-  const [confirmModalOpen, setConfirmModalOpen] = useState(false)
   const [showErrorPage, setShowErrorPage] = useState(false)
 
-  /*
-  const [modfiedLocationDetails, setModifiedLocationDetails] = useState<{
-    heading: number
-    pitch: number
-    location: { lat: number; lng: number }
-  } | null>(null)
-*/
   const router = useRouter()
   const mapId = router.query.mapId as string
   const user = useAppSelector((state) => state.user)
@@ -56,6 +49,8 @@ const CreateMapPage: PageType = () => {
   const prevMarkersRef = useRef<google.maps.Marker[]>([])
   const locationsRef = useRef<LocationType[]>([])
   const selectedIndexRef = useRef(-1)
+
+  useConfirmLeave(haveLocationsChanged)
 
   const setLocations = (newLocations: LocationType[]) => {
     locationsRef.current = newLocations
@@ -72,6 +67,12 @@ const CreateMapPage: PageType = () => {
     handleMount()
   }, [mapId, googleMapsLoaded])
 
+  useEffect(() => {
+    if (!isLoading) {
+      setPreviewMap()
+    }
+  }, [isLoading])
+
   const handleMount = async () => {
     const shouldContinue = await getMapDetails()
 
@@ -79,19 +80,6 @@ const CreateMapPage: PageType = () => {
       setSelectionMap()
     }
   }
-
-  // // Needs work
-  // useEffect(() => {
-  //   window.addEventListener('beforeunload', alertUser)
-  //   return () => {
-  //     window.removeEventListener('beforeunload', alertUser)
-  //   }
-  // }, [])
-
-  // const alertUser = (e: any) => {
-  //   e.preventDefault()
-  //   e.returnValue = ''
-  // }
 
   const getMapDetails = async () => {
     const res = await mailman(`maps/custom/${mapId}`)
@@ -268,41 +256,32 @@ const CreateMapPage: PageType = () => {
     )
   }
 
-  useEffect(() => {
-    if (!isLoading) {
-      setPreviewMap()
-    }
-  }, [isLoading])
-
   // Updates locations and isPublished if they have changed in this session
   const handleSaveMap = async () => {
     const isPublishedHasChanged = initiallyPublished !== isPublished
 
-    if (true /*haveLocationsChanged || isPublishedHasChanged*/) {
-      setIsSubmitting(true)
-
-      const res = await mailman(
-        `maps/custom/${mapId}`,
-        'PUT',
-        JSON.stringify({ locations: locationsRef.current, isPublished })
-      )
-
-      setIsSubmitting(false)
-
-      // Update initially published state
-      setInitiallyPubished(isPublished)
-
-      // Reset have locations changed
-      setHaveLocationsChanged(false)
-
-      if (res.error) {
-        return showErrorToast(res.error.message)
-      } else {
-        return showSuccessToast('Your changes have been saved')
-      }
-    } else {
-      alert('You have not made any changes')
+    if (!isPublishedHasChanged && !haveLocationsChanged) {
+      return showErrorToast('You have not made any changes.')
     }
+
+    setIsSubmitting(true)
+
+    const res = await mailman(
+      `maps/custom/${mapId}`,
+      'PUT',
+      JSON.stringify({ locations: locationsRef.current, isPublished })
+    )
+
+    setIsSubmitting(false)
+
+    if (res.error) {
+      return showErrorToast(res.error.message)
+    }
+
+    setInitiallyPubished(isPublished)
+    setHaveLocationsChanged(false)
+
+    return showSuccessToast('Your changes have been saved')
   }
 
   // Removes a location from locations array, unlinks marker from map, removes marker from marker array
@@ -484,14 +463,6 @@ const CreateMapPage: PageType = () => {
         mapDescription={mapDescription}
         mapAvatar={mapAvatar}
         updateMapDetails={updateMapDetails}
-      />
-
-      <DestroyModal
-        isOpen={confirmModalOpen}
-        onClose={() => setConfirmModalOpen(false)}
-        onAction={() => console.log('cum baack to dis')}
-        title="You Have Unsaved Changes"
-        message="If you leave now, your new locations will not be saved"
       />
     </StyledCreateMapPage>
   )
