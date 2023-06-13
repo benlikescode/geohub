@@ -28,7 +28,8 @@ const SettingsPage: NextPage = () => {
   const dispatch = useAppDispatch()
 
   const hasEdited = useMemo(
-    () => distanceUnit !== initialSettings?.distanceUnit || mapsAPIKey !== initialSettings?.mapsAPIKey,
+    () =>
+      initialSettings && (distanceUnit !== initialSettings?.distanceUnit || mapsAPIKey !== initialSettings?.mapsAPIKey),
     [distanceUnit, mapsAPIKey, initialSettings]
   )
 
