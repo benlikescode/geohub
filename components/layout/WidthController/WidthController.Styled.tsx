@@ -10,6 +10,7 @@ const StyledWidthController = styled.div<StyledProps>`
   width: 100%;
   padding: 3.5rem;
   margin: 0 auto;
+  height: 100%;
 
   @media (max-width: 600px) {
     padding: ${({ mobilePadding }) => mobilePadding ?? '1rem'};
