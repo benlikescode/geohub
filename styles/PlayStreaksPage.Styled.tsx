@@ -100,47 +100,26 @@ const StyledPlayStreaksPage = styled.div`
     padding: 20px;
     width: 100%;
 
+    @media (max-width: 600px) {
+      flex-direction: column;
+    }
+
+    .play-button {
+      width: 148px;
+      height: 52px;
+      padding: 0;
+
+      @media (max-width: 600px) {
+        width: 100%;
+        margin-top: 35px;
+      }
+    }
+
     .descriptionColumn {
       display: flex;
       align-items: center;
     }
   }
-
-  .mapPlayBtn {
-    &.mobile {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 5px;
-      font-size: 1rem;
-      font-weight: 500;
-      user-select: none;
-      background-color: var(--mediumPurple);
-      color: rgb(255, 255, 255, 0.7);
-      height: 52px;
-      width: 52px;
-      display: none;
-
-      svg {
-        height: 24px;
-        color: #fff;
-      }
-
-      &:hover {
-        background-color: var(--indigo-600);
-      }
-    }
-  }
-
-  /* @media (max-width: 600px) {
-    .mapPlayBtn {
-      display: none;
-
-      &.mobile {
-        display: block;
-      }
-    }
-  } */
 `
 
 export default StyledPlayStreaksPage

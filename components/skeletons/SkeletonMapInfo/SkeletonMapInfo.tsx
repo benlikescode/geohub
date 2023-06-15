@@ -17,7 +17,7 @@ const SkeletonMapInfo: FC<Props> = ({}) => {
                 <Skeleton height={16} width={200} noBorder />
               </div>
             </div>
-            <Skeleton height={52} width={148} />
+            <Skeleton height={52} width={148} className="play-button" />
           </div>
         </div>
 

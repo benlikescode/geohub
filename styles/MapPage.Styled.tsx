@@ -108,11 +108,26 @@ const StyledMapPage = styled.div`
     justify-content: space-between;
     padding: 20px;
     width: 100%;
-  }
 
-  .descriptionColumn {
-    display: flex;
-    align-items: center;
+    @media (max-width: 600px) {
+      flex-direction: column;
+    }
+
+    .play-button {
+      width: 148px;
+      height: 52px;
+      padding: 0;
+
+      @media (max-width: 600px) {
+        width: 100%;
+        margin-top: 35px;
+      }
+    }
+
+    .descriptionColumn {
+      display: flex;
+      align-items: center;
+    }
   }
 
   .skeletonCards {

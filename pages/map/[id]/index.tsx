@@ -104,7 +104,7 @@ const MapPage: FC = () => {
                     )}
                   </div>
                 </div>
-                <Button width="148px" height="52px" onClick={() => setSettingsModalOpen(true)}>
+                <Button className="play-button" onClick={() => setSettingsModalOpen(true)}>
                   Play Now
                 </Button>
               </div>

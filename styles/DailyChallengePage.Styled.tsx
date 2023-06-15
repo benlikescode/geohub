@@ -13,7 +13,7 @@ const StyledDailyChallengePage = styled.div`
     gap: 1rem;
 
     @media (max-width: 1450px) {
-      grid-template-columns: 1fr;
+      display: block;
     }
   }
 
@@ -22,6 +22,10 @@ const StyledDailyChallengePage = styled.div`
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 6px;
     padding: 1rem;
+
+    @media (max-width: 1450px) {
+      margin-top: 16px;
+    }
   }
 
   .leaderboards-wrapper {
@@ -37,6 +41,10 @@ const StyledDailyChallengePage = styled.div`
     .completed-text {
       font-weight: 400;
       font-size: 14px;
+
+      @media (max-width: 600px) {
+        font-size: 16px;
+      }
     }
 
     .completed-check {
@@ -146,6 +154,21 @@ const StyledDailyChallengePage = styled.div`
     justify-content: space-between;
     padding: 20px;
     width: 100%;
+
+    @media (max-width: 600px) {
+      flex-direction: column;
+    }
+
+    .play-button {
+      width: 148px;
+      height: 52px;
+      padding: 0;
+
+      @media (max-width: 600px) {
+        width: 100%;
+        margin-top: 35px;
+      }
+    }
 
     .descriptionColumn {
       display: flex;
