@@ -7,20 +7,6 @@ const StyledLayout = styled.div`
   /* position: absolute !important; */
   /* inset: 0px !important; */
 
-  .banner {
-    background-color: ${({ theme }) => theme.color.brand};
-    padding: 12px;
-    color: #fff;
-    position: sticky;
-    top: 0;
-    font-size: 14px;
-    text-align: center;
-
-    a {
-      text-decoration: underline;
-    }
-  }
-
   .app-layout {
     overflow: hidden;
     /* display: flex;
