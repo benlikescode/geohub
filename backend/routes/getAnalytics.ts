@@ -10,8 +10,6 @@ const getAnalytics = async (req: NextApiRequest, res: NextApiResponse) => {
     const streakGamesCount = await collections.games?.find({ mode: 'streak' }).count()
     const customMapsCount = await collections.maps?.find({ creator: { $ne: 'GeoHub' } }).count()
     const customKeysCount = await collections.users?.find({ mapsAPIKey: { $exists: true, $ne: '' } }).count()
-    // const likedMapsCount = await collections.mapLikes?.find({}).count()
-    // const searchesCount = await collections.recentSearches?.find({}).count()
     const unfinishedGamesCount = await collections.games?.find({ state: { $ne: 'finished' } }).count()
     const mapsCost = await getMapsCostSinceDay()
 
@@ -22,8 +20,6 @@ const getAnalytics = async (req: NextApiRequest, res: NextApiResponse) => {
       { title: 'Streak Games', count: streakGamesCount },
       { title: 'Custom Maps', count: customMapsCount },
       { title: 'Custom Keys', count: customKeysCount },
-      // { title: 'Liked Maps', count: likedMapsCount },
-      // { title: 'Searches', count: searchesCount },
       { title: 'Unfinished Games', count: unfinishedGamesCount },
       { title: 'Google Maps Costs', count: mapsCost },
     ]
@@ -64,7 +60,7 @@ const getAnalytics = async (req: NextApiRequest, res: NextApiResponse) => {
           },
         },
       ])
-      .limit(200)
+      .limit(50)
       .toArray()
 
     return users
@@ -93,15 +89,13 @@ const getAnalytics = async (req: NextApiRequest, res: NextApiResponse) => {
         },
         { $unwind: '$userDetails' },
       ])
-      .limit(200)
+      .limit(50)
       .toArray()
 
     return recentGames
   }
 
   const userId = await getUserId(req, res)
-
-  // Ensure this user is an admin
   const isAdmin = await isUserAnAdmin(userId)
 
   if (!isAdmin) {
