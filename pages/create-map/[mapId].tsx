@@ -310,6 +310,7 @@ const CreateMapPage: PageType = () => {
   }
 
   const handleSaveLocation = () => {
+    setHaveLocationsChanged(true)
     setIsShowingPreview(false)
 
     // If location has been modified in the preview window -> update the respective fields
