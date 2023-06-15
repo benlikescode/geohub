@@ -1,4 +1,4 @@
-import router from 'next/router'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Game } from '@backend/models'
 import { NotFound } from '@components/errorViews'
@@ -18,6 +18,7 @@ const ResultsPage: PageType = () => {
   const [gameData, setGameData] = useState<Game | null>()
   const [mapData, setMapData] = useState<MapType>()
   const [isGameFinished, setIsGameFinished] = useState<boolean>()
+  const router = useRouter()
   const gameId = router.query.id as string
 
   const fetchGame = async () => {

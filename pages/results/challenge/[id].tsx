@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import router from 'next/router'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Game } from '@backend/models'
 import { NotFound } from '@components/errorViews'
@@ -21,6 +21,7 @@ const ChallengeResultsPage: PageType = () => {
   const [mapData, setMapData] = useState<MapType>()
   const [selectedGameIndex, setSelectedGameIndex] = useState(0)
   const [notAuthorized, setNotAuthorized] = useState(false)
+  const router = useRouter()
   const challengeId = router.query.id as string
   const user = useAppSelector((state) => state.user)
 

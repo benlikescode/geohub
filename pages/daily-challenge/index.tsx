@@ -1,4 +1,4 @@
-import router from 'next/router'
+import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
 import { DailyChallengeMapStats } from '@components/DailyChallengeMapStats'
 import { DailyChallengeWinners } from '@components/DailyChallengeWinners'
@@ -24,6 +24,7 @@ const DailyChallengePage: FC = () => {
   const [challengeId, setChallengeId] = useState()
 
   const user = useAppSelector((state) => state.user)
+  const router = useRouter()
 
   useEffect(() => {
     fetchDailyChallenge()
