@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Head } from '@components/Head'
 import { WidthController } from '@components/layout'
@@ -7,6 +8,7 @@ import { SkeletonLeaderboard, SkeletonMapInfo } from '@components/skeletons'
 import { StreakMapStats } from '@components/StreakMapStats'
 import { Avatar, Button } from '@components/system'
 import { VerifiedBadge } from '@components/VerifiedBadge'
+import { useAppSelector } from '@redux/hook'
 import StyledPlayStreaksPage from '@styles/PlayStreaksPage.Styled'
 import { MapLeaderboardType, StreakStatsType } from '@types'
 import { COUNTRY_STREAK_DETAILS } from '@utils/constants/random'
@@ -16,6 +18,8 @@ const StreaksPage = () => {
   const [streakStats, setStreakStats] = useState<StreakStatsType>()
   const [settingsModalOpen, setSettingsModalOpen] = useState(false)
   const [leaderboardData, setLeaderboardData] = useState<MapLeaderboardType[] | null>()
+  const user = useAppSelector((state) => state.user)
+  const router = useRouter()
 
   useEffect(() => {
     getStreakStats()
@@ -42,6 +46,14 @@ const StreaksPage = () => {
     setLeaderboardData(res)
   }
 
+  const handleClickPlay = () => {
+    if (!user.id) {
+      return router.push('/register')
+    }
+
+    setSettingsModalOpen(true)
+  }
+
   return (
     <StyledPlayStreaksPage>
       <WidthController customWidth="1100px" mobilePadding="0px">
@@ -63,7 +75,7 @@ const StreaksPage = () => {
                     <span className="description">{COUNTRY_STREAK_DETAILS.description}</span>
                   </div>
                 </div>
-                <Button className="play-button" onClick={() => setSettingsModalOpen(true)}>
+                <Button className="play-button" onClick={() => handleClickPlay()}>
                   Play Now
                 </Button>
               </div>

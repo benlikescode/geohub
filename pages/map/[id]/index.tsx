@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import router from 'next/router'
+import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
 import { NotFound } from '@components/errorViews'
 import { Head } from '@components/Head'
@@ -11,6 +11,7 @@ import { GameSettingsModal } from '@components/modals'
 import { SkeletonCards, SkeletonLeaderboard, SkeletonMapInfo } from '@components/skeletons'
 import { Avatar, Button } from '@components/system'
 import { VerifiedBadge } from '@components/VerifiedBadge'
+import { useAppSelector } from '@redux/hook'
 import StyledMapPage from '@styles/MapPage.Styled'
 import { MapLeaderboardType, MapType } from '@types'
 import { mailman, showErrorToast } from '@utils/helpers'
@@ -21,9 +22,9 @@ const MapPage: FC = () => {
   const [leaderboardData, setLeaderboardData] = useState<MapLeaderboardType[] | null>()
   const [otherMaps, setOtherMaps] = useState<MapType[] | null>()
 
-  const mapId = router.query.id as string
-
-  // settingsModalOpen ? disableBodyScroll(document as any) : enableBodyScroll(document as any)
+  const router = useRouter()
+  const mapId = router.query.id
+  const user = useAppSelector((state) => state.user)
 
   useEffect(() => {
     if (!mapId) {
@@ -65,6 +66,14 @@ const MapPage: FC = () => {
     setOtherMaps(res)
   }
 
+  const handleClickPlay = () => {
+    if (!user.id) {
+      return router.push('/register')
+    }
+
+    setSettingsModalOpen(true)
+  }
+
   if (mapDetails === null) {
     // router.replace('/404')
     return (
@@ -104,7 +113,7 @@ const MapPage: FC = () => {
                     )}
                   </div>
                 </div>
-                <Button className="play-button" onClick={() => setSettingsModalOpen(true)}>
+                <Button className="play-button" onClick={() => handleClickPlay()}>
                   Play Now
                 </Button>
               </div>
