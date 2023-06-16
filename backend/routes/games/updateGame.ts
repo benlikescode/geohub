@@ -53,22 +53,22 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
 
   game.state = isGameFinished ? 'finished' : 'started'
 
-  // Add new location if game type is not a challenge and game is not finished
   if (!isGameFinished) {
-    // Country Streak Challenge
-    if (game.mode === 'streak' && game.challengeId) {
+    const isStreakGame = game.mode === 'streak'
+    const NEW_LOCATIONS_COUNT = 10
+
+    // Standard 5 round games get created with 5 locations -> Streak games may require more locations
+    if (isStreakGame && game.challengeId) {
       const query = { _id: new ObjectId(game.challengeId) }
       const challenge = (await collections.challenges?.findOne(query)) as ChallengeType
 
-      // Need to generate more rounds
-      if (localRound + 1 > challenge.locations.length) {
-        const newLocations = await getLocations(game.mapId, 10)
+      if (localRound >= challenge.locations.length) {
+        const newLocations = await getLocations(game.mapId, NEW_LOCATIONS_COUNT)
 
         if (!newLocations) {
           return throwError(res, 400, 'Failed to get new location')
         }
 
-        // Add new locations to the challenge document
         challenge.locations = challenge.locations.concat(newLocations)
 
         const updatedChallenge = await collections.challenges?.findOneAndUpdate(query, { $set: challenge })
@@ -77,11 +77,23 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
           return throwError(res, 500, 'Failed to get next round')
         }
 
-        // Add new locations to this user's game document
         game.rounds = game.rounds.concat(newLocations)
       }
 
+      // Every round, sync the user's game rounds with the challenge locations
       game.rounds = challenge.locations
+    }
+
+    if (isStreakGame && !game.challengeId) {
+      if (localRound >= game.rounds.length) {
+        const newLocations = await getLocations(game.mapId, NEW_LOCATIONS_COUNT)
+
+        if (!newLocations) {
+          return throwError(res, 400, 'Failed to get new location')
+        }
+
+        game.rounds = game.rounds.concat(newLocations)
+      }
     }
 
     // Updates the previously generated round to the coordinates returned by the Google SV Pano
