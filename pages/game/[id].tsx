@@ -92,9 +92,9 @@ const GamePage: PageType = () => {
             />
           )}
 
-          {gameData.mode === 'streak' && view === 'Result' && <StreaksResultMap gameData={gameData} />}
+          {/* {gameData.mode === 'streak' && view === 'Result' && <StreaksResultMap gameData={gameData} />} */}
 
-          {gameData.mode === 'streak' && view === 'FinalResults' && <StreaksSummaryMap gameData={gameData} />}
+          {/* {gameData.mode === 'streak' && view === 'FinalResults' && <StreaksSummaryMap gameData={gameData} />} */}
 
           {/* Result Cards */}
           <div className="resultsWrapper">

@@ -164,7 +164,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
           />
         )}
 
-        {gameData.mode === 'streak' && (
+        {/* {gameData.mode === 'streak' && (
           <StreaksGuessMap
             countryStreakGuess={countryStreakGuess}
             setCountryStreakGuess={setCountryStreakGuess}
@@ -172,7 +172,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
             mobileMapOpen={mobileMapOpen}
             closeMobileMap={() => setMobileMapOpen(false)}
           />
-        )}
+        )} */}
 
         <button className="toggle-map-button" onClick={() => setMobileMapOpen(true)}>
           <MapIcon />

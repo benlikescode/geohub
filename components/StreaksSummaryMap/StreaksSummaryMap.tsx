@@ -4,7 +4,7 @@ import { FC, useEffect, useRef, useState } from 'react'
 import Game from '@backend/models/game'
 import { Marker } from '@components/Marker'
 import { LocationType } from '@types'
-import countryBounds from '@utils/constants/countryBounds.json'
+// import countryBounds from '@utils/constants/countryBounds.json'
 import { getMapsKey } from '@utils/helpers'
 import { useAppSelector } from '../../redux-utils'
 import { StyledStreaksSummaryMap } from './'
@@ -25,52 +25,52 @@ const StreaksSummaryMap: FC<Props> = ({ gameData }) => {
 
     loadMapMarkers()
     resultMapRef.current.data.forEach((x) => resultMapRef.current?.data.remove(x))
-    loadCountryGeojson(resultMapRef.current)
+    // loadCountryGeojson(resultMapRef.current)
   }, [gameData])
 
   const loadMapMarkers = () => {
     setActualMarkers(gameData.rounds.slice(0, gameData.round - 1))
   }
 
-  const loadCountryGeojson = (map: google.maps.Map) => {
-    const countryGeoJsons = countryBounds as any
-    const actualLocations = gameData.rounds.slice(0, gameData.round - 1)
+  // const loadCountryGeojson = (map: google.maps.Map) => {
+  //   const countryGeoJsons = countryBounds as any
+  //   const actualLocations = gameData.rounds.slice(0, gameData.round - 1)
 
-    // Remove duplicate countries so we dont add multiple layers of the same country
-    const seen = new Set()
+  //   // Remove duplicate countries so we dont add multiple layers of the same country
+  //   const seen = new Set()
 
-    const uniqueLocations = actualLocations.filter((loc) => {
-      const duplicate = seen.has(loc.countryCode)
-      seen.add(loc.countryCode)
-      return !duplicate
-    })
+  //   const uniqueLocations = actualLocations.filter((loc) => {
+  //     const duplicate = seen.has(loc.countryCode)
+  //     seen.add(loc.countryCode)
+  //     return !duplicate
+  //   })
 
-    uniqueLocations.map((actualLocation) => {
-      const geojson = countryGeoJsons.features.find(
-        (country: any) => country?.properties?.code?.toLowerCase() === actualLocation.countryCode?.toLowerCase()
-      )
+  //   uniqueLocations.map((actualLocation) => {
+  //     const geojson = countryGeoJsons.features.find(
+  //       (country: any) => country?.properties?.code?.toLowerCase() === actualLocation.countryCode?.toLowerCase()
+  //     )
 
-      map.data.addGeoJson(geojson)
-    })
+  //     map.data.addGeoJson(geojson)
+  //   })
 
-    map.data.setStyle((feature: google.maps.Data.Feature) => {
-      const code = feature.getProperty('code')
-      const mostRecentRoundCode = actualLocations[actualLocations.length - 1].countryCode
-      const isMostRecentRound = code?.toLowerCase() === mostRecentRoundCode?.toLowerCase()
+  //   map.data.setStyle((feature: google.maps.Data.Feature) => {
+  //     const code = feature.getProperty('code')
+  //     const mostRecentRoundCode = actualLocations[actualLocations.length - 1].countryCode
+  //     const isMostRecentRound = code?.toLowerCase() === mostRecentRoundCode?.toLowerCase()
 
-      const color = isMostRecentRound ? '#a63152' : '#39a857'
+  //     const color = isMostRecentRound ? '#a63152' : '#39a857'
 
-      return {
-        fillColor: color,
-        strokeColor: color,
-        strokeOpacity: 0.5,
-        fillOpacity: 0.5,
-        cursor: 'crosshair',
-      }
-    })
+  //     return {
+  //       fillColor: color,
+  //       strokeColor: color,
+  //       strokeOpacity: 0.5,
+  //       fillOpacity: 0.5,
+  //       cursor: 'crosshair',
+  //     }
+  //   })
 
-    // getMapBounds(map)
-  }
+  //   // getMapBounds(map)
+  // }
 
   const getMapBounds = (map: google.maps.Map) => {
     const bounds = new google.maps.LatLngBounds()
@@ -99,7 +99,7 @@ const StreaksSummaryMap: FC<Props> = ({ gameData }) => {
           yesIWantToUseGoogleMapApiInternals
           onGoogleApiLoaded={({ map }) => {
             loadMapMarkers()
-            loadCountryGeojson(map)
+            // loadCountryGeojson(map)
             resultMapRef.current = map
           }}
           options={{

@@ -4,7 +4,7 @@ import { FC, useEffect, useRef, useState } from 'react'
 import Game from '@backend/models/game'
 import { Marker } from '@components/Marker'
 import { LocationType } from '@types'
-import countryBounds from '@utils/constants/countryBounds.json'
+// import countryBounds from '@utils/constants/countryBounds.json'
 import { useAppSelector } from '../../redux-utils'
 import getMapsKey from '../../utils/helpers/getMapsKey'
 import { StyledStreaksResultMap } from './'
@@ -50,36 +50,36 @@ const ResultMap: FC<Props> = ({ gameData }) => {
     setActualMarker(actualCountry)
   }
 
-  const loadCountryGeojson = (map: google.maps.Map) => {
-    const countryGeoJsons = countryBounds as any
-    const actualCountryGeoJson = countryGeoJsons.features.find(
-      (x: any) => x?.properties?.code?.toLowerCase() === actualCountry.countryCode?.toLowerCase()
-    )
+  // const loadCountryGeojson = (map: google.maps.Map) => {
+  //   const countryGeoJsons = countryBounds as any
+  //   const actualCountryGeoJson = countryGeoJsons.features.find(
+  //     (x: any) => x?.properties?.code?.toLowerCase() === actualCountry.countryCode?.toLowerCase()
+  //   )
 
-    map.data.addGeoJson(actualCountryGeoJson)
+  //   map.data.addGeoJson(actualCountryGeoJson)
 
-    const isCorrect = gameData.state !== 'finished'
+  //   const isCorrect = gameData.state !== 'finished'
 
-    if (isCorrect) {
-      map.data.setStyle({
-        fillColor: '#39a857',
-        strokeColor: '#39a857',
-        strokeOpacity: 0.5,
-        fillOpacity: 0.5,
-        cursor: 'crosshair',
-      })
-    } else {
-      map.data.setStyle({
-        fillColor: '#a63152',
-        strokeColor: '#a63152',
-        strokeOpacity: 0.5,
-        fillOpacity: 0.5,
-        cursor: 'crosshair',
-      })
-    }
+  //   if (isCorrect) {
+  //     map.data.setStyle({
+  //       fillColor: '#39a857',
+  //       strokeColor: '#39a857',
+  //       strokeOpacity: 0.5,
+  //       fillOpacity: 0.5,
+  //       cursor: 'crosshair',
+  //     })
+  //   } else {
+  //     map.data.setStyle({
+  //       fillColor: '#a63152',
+  //       strokeColor: '#a63152',
+  //       strokeOpacity: 0.5,
+  //       fillOpacity: 0.5,
+  //       cursor: 'crosshair',
+  //     })
+  //   }
 
-    getMapBounds(map)
-  }
+  //   getMapBounds(map)
+  // }
 
   return (
     <StyledStreaksResultMap>
@@ -91,7 +91,7 @@ const ResultMap: FC<Props> = ({ gameData }) => {
           yesIWantToUseGoogleMapApiInternals
           onGoogleApiLoaded={({ map }) => {
             loadMapMarkers()
-            loadCountryGeojson(map)
+            // loadCountryGeojson(map)
             resultMapRef.current = map
           }}
           options={{

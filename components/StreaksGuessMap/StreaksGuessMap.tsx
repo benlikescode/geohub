@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '@redux/hook'
 import { updateGuessMapSize } from '@redux/slices'
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon'
 import { multiPolygon, point } from '@turf/turf'
-import countryBounds from '@utils/constants/countryBounds.json'
+// import countryBounds from '@utils/constants/countryBounds.json'
 import { getGuessMapSize, getMapsKey } from '@utils/helpers'
 import { StyledStreaksGuessMap } from './'
 
@@ -70,47 +70,38 @@ const StreaksGuessMap: FC<Props> = ({
   }
 
   const onInit = (map: any, maps: any) => {
-    maps.event.addListener(map, 'click', (e: any) => {
-      const clickedCoords = [e.latLng.lng(), e.latLng.lat()]
-      const turfPoint = point(clickedCoords)
-
-      const countryPolygons = countryBounds as any
-
-      countryPolygons.features.map((country: any) => {
-        let turfPolygon = null
-
-        if (country.geometry.coordinates?.[0]?.[0]?.[0]?.[0]) {
-          turfPolygon = multiPolygon(country.geometry.coordinates)
-        } else {
-          turfPolygon = multiPolygon([country.geometry.coordinates])
-        }
-
-        const isPointInThisCountry = booleanPointInPolygon(turfPoint, turfPolygon)
-
-        if (isPointInThisCountry) {
-          if (prevCountriesRef.current) {
-            prevCountriesRef.current.map((feature: any) => {
-              map.data.remove(feature)
-            })
-          }
-
-          const newCountry = map.data.addGeoJson(country)
-
-          map.data.setStyle({
-            fillColor: '#b2677c',
-            strokeColor: '#b2677c',
-            strokeOpacity: 0.5,
-            fillOpacity: 0.5,
-            cursor: 'crosshair',
-          })
-
-          prevCountriesRef.current = newCountry
-
-          setSelectedCountryName(country?.properties?.name)
-          setCountryStreakGuess(country?.properties?.code)
-        }
-      })
-    })
+    // maps.event.addListener(map, 'click', (e: any) => {
+    //   const clickedCoords = [e.latLng.lng(), e.latLng.lat()]
+    //   const turfPoint = point(clickedCoords)
+    //   const countryPolygons = countryBounds as any
+    //   countryPolygons.features.map((country: any) => {
+    //     let turfPolygon = null
+    //     if (country.geometry.coordinates?.[0]?.[0]?.[0]?.[0]) {
+    //       turfPolygon = multiPolygon(country.geometry.coordinates)
+    //     } else {
+    //       turfPolygon = multiPolygon([country.geometry.coordinates])
+    //     }
+    //     const isPointInThisCountry = booleanPointInPolygon(turfPoint, turfPolygon)
+    //     if (isPointInThisCountry) {
+    //       if (prevCountriesRef.current) {
+    //         prevCountriesRef.current.map((feature: any) => {
+    //           map.data.remove(feature)
+    //         })
+    //       }
+    //       const newCountry = map.data.addGeoJson(country)
+    //       map.data.setStyle({
+    //         fillColor: '#b2677c',
+    //         strokeColor: '#b2677c',
+    //         strokeOpacity: 0.5,
+    //         fillOpacity: 0.5,
+    //         cursor: 'crosshair',
+    //       })
+    //       prevCountriesRef.current = newCountry
+    //       setSelectedCountryName(country?.properties?.name)
+    //       setCountryStreakGuess(country?.properties?.code)
+    //     }
+    //   })
+    // })
   }
 
   return (
