@@ -28,8 +28,16 @@ const StyledMapPreviewCard = styled.div<StyledProps>`
       border-radius: 5px 5px 0 0;
       position: relative;
 
-      span img {
+      img {
+        position: absolute;
+        object-fit: cover;
         border-radius: 5px 5px 0 0;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
       }
 
       .image-gradient {

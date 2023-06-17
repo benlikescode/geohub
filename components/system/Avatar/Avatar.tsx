@@ -1,4 +1,3 @@
-import Image from 'next/image'
 /* eslint-disable @next/next/no-img-element */
 import { FC, useEffect, useState } from 'react'
 import { StyledAvatar } from './'
@@ -71,12 +70,7 @@ const Avatar: FC<Props> = ({
       outlineColor={outlineColor}
     >
       <div className="map-avatar">
-        <Image
-          src={`/images/mapAvatars/${currSrc}` || FALLBACK_AVATAR}
-          alt={altText || 'Map Avatar'}
-          onError={() => setCurrSrc(FALLBACK_AVATAR)}
-          layout="fill"
-        />
+        <img src={`/images/mapAvatars/${currSrc}` || FALLBACK_AVATAR} alt={altText || 'Map Avatar'} />
       </div>
     </StyledAvatar>
   )

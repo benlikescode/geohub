@@ -10,10 +10,13 @@ const StyledAppLogo = styled.div<StyledProps>`
     width: fit-content;
     transition: 0.2s;
 
-    .earth {
+    img {
       position: absolute;
-      left: 28px;
+      object-fit: cover;
+      width: 34px;
+      height: 34px;
       top: -7.5px;
+      left: 28px;
       pointer-events: none;
       transition: 0.2s;
     }
