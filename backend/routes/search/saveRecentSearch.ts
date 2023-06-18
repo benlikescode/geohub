@@ -10,8 +10,8 @@ const saveRecentSearch = async (req: NextApiRequest, res: NextApiResponse) => {
   const newSearchItem: RecentSearchItem = {
     type,
     term,
-    userId: searchedUserId ? new ObjectId(searchedUserId) : undefined,
-    mapId: searchedMapId ? new ObjectId(searchedMapId) : undefined,
+    userId: searchedUserId ? searchedUserId : undefined,
+    mapId: searchedMapId ? searchedMapId : undefined,
     createdAt: new Date(),
   }
 
@@ -19,7 +19,7 @@ const saveRecentSearch = async (req: NextApiRequest, res: NextApiResponse) => {
   const result = await collections.recentSearches?.findOneAndUpdate(
     { userId: new ObjectId(userId) },
     {
-      $setOnInsert: { userId: new ObjectId(userId) },
+      $setOnInsert: { userId: userId },
       $push: {
         searches: {
           $each: [newSearchItem],

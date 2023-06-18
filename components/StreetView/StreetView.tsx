@@ -1,6 +1,5 @@
 import GoogleMapReact from 'google-map-react'
 import { FC, useEffect, useRef, useState } from 'react'
-import { Game } from '@backend/models'
 import { GameStatus } from '@components/GameStatus'
 import { GuessMap } from '@components/GuessMap'
 import { LoadingPage } from '@components/layout'
@@ -8,14 +7,14 @@ import { StreaksGuessMap } from '@components/StreaksGuessMap'
 import { StreetViewControls } from '@components/StreetViewControls'
 import { MapIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
-import { LocationType } from '@types'
+import { GameType, LocationType } from '@types'
 import { KEY_CODES } from '@utils/constants/keyCodes'
 import { URBAN_WORLD_ID } from '@utils/constants/random'
 import { getMapsKey, mailman, showErrorToast } from '@utils/helpers'
 import { StyledStreetView } from './'
 
 type Props = {
-  gameData: Game
+  gameData: GameType
   setView: (view: 'Game' | 'Result' | 'FinalResults') => void
   setGameData: any
 }
@@ -49,7 +48,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
         streakLocationCode: countryStreakGuess.toLowerCase(),
       }
 
-      const res = await mailman(`games/${gameData.id}`, 'PUT', JSON.stringify(body))
+      const res = await mailman(`games/${gameData._id}`, 'PUT', JSON.stringify(body))
 
       if (res.error) {
         return showErrorToast(res.error.message, { id: 'streetView-submit' })

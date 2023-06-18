@@ -1,12 +1,11 @@
-import { ObjectId } from 'mongodb'
 import { GameSettingsType, LocationType, MapType } from './'
 
 type Challenge = {
-  id: ObjectId | string
+  id: string
   mapId: string
   gameSettings: GameSettingsType
   locations: LocationType[]
-  creatorId: ObjectId | string
+  creatorId: string
   creatorName: string
   creatorAvatar: { emoji: string; color: string }
   isDailyChallenge?: boolean

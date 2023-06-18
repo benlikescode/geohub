@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import Game from '@backend/models/game'
 import { ChallengeStart } from '@components/ChallengeStart'
 import { NotFound } from '@components/errorViews'
 import { Head } from '@components/Head'
@@ -13,13 +12,13 @@ import { StreetView } from '@components/StreetView'
 import { useAppDispatch } from '@redux/hook'
 import { updateStartTime } from '@redux/slices'
 import StyledGamePage from '@styles/GamePage.Styled'
-import { ChallengeType, PageType } from '@types'
+import { ChallengeType, GameType, PageType } from '@types'
 import { mailman, showErrorToast } from '@utils/helpers'
 
 const ChallengePage: PageType = () => {
   const [view, setView] = useState<'Start' | 'Game' | 'Result' | 'FinalResults'>('Game')
   const [challengeData, setChallengeData] = useState<ChallengeType | null>()
-  const [gameData, setGameData] = useState<Game | null>()
+  const [gameData, setGameData] = useState<GameType | null>()
 
   const router = useRouter()
   const challengeId = router.query.id as string

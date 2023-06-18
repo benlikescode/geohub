@@ -1,19 +1,22 @@
-import { ObjectId } from 'mongodb'
-import { DistanceType, GameSettingsType, GuessType, LocationType, MapType } from './'
+import { DistanceType, GameSettingsType, GuessType, LocationType, MapType, UserType } from './'
 
 type Game = {
-  id: ObjectId | string
-  _id?: string // replace id with _id throughout app
+  _id?: string
   mapId: string
   mapName?: string
   userId: string
+  userName?: string
+  userAvatar?: { emoji: string; color: string }
+  gameSettings: GameSettingsType
+  rounds: LocationType[]
+  guesses: GuessType[]
   round: number
   totalPoints: number
   totalDistance: DistanceType
-  currView: 'Game' | 'Result' | 'FinalResults'
-  guesses: GuessType[]
-  rounds: LocationType[]
-  gameSettings: GameSettingsType
+  totalTime: number
+  countryCode?: string
+  challengeId?: string | null
+  userDetails?: UserType
   createdAt?: Date
   mapDetails?: MapType[]
   state: 'started' | 'finished'

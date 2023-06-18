@@ -73,7 +73,7 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
 
     // Attach mapId to each location
     locations.map((location) => {
-      location.mapId = new ObjectId(mapId)
+      location.mapId = mapId
     })
 
     // Finally insert the new locations (if not empty)

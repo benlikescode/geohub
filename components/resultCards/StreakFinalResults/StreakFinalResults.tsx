@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import { FC } from 'react'
-import Game from '@backend/models/game'
 import { StreakCountryList } from '@components/StreakCountryList'
 import { Button } from '@components/system'
+import { GameType } from '@types'
 import { ResultsWrapper } from '../'
 import { StyledStreakFinalResults } from './'
 
 type Props = {
-  gameData: Game
+  gameData: GameType
   setView: (view: 'Game' | 'Result' | 'FinalResults') => void
 }
 

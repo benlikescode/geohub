@@ -1,16 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import GoogleMapReact from 'google-map-react'
 import { FC, useEffect, useRef, useState } from 'react'
-import Game from '@backend/models/game'
 import { Marker } from '@components/Marker'
-import { LocationType } from '@types'
+import { GameType, LocationType } from '@types'
 // import countryBounds from '@utils/constants/countryBounds.json'
 import { getMapsKey } from '@utils/helpers'
 import { useAppSelector } from '../../redux-utils'
 import { StyledStreaksSummaryMap } from './'
 
 type Props = {
-  gameData: Game
+  gameData: GameType
 }
 
 const StreaksSummaryMap: FC<Props> = ({ gameData }) => {

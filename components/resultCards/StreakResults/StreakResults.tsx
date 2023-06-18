@@ -1,16 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link'
 import { FC } from 'react'
-import Game from '@backend/models/game'
 import { Button } from '@components/system'
 import { useAppDispatch } from '@redux/hook'
 import { updateStartTime } from '@redux/slices'
+import { GameType } from '@types'
 import countries from '@utils/constants/countries'
 import { ResultsWrapper } from '../ResultsWrapper'
 import { StyledStreakResults } from './'
 
 type Props = {
-  gameData: Game
+  gameData: GameType
   setView: (view: 'Game' | 'Result' | 'FinalResults') => void
 }
 

@@ -1,13 +1,12 @@
 import { FC, useEffect, useState } from 'react'
-import { Game } from '@backend/models'
 import { LightningBoltIcon } from '@heroicons/react/solid'
-import { MapType } from '@types'
+import { GameType, MapType } from '@types'
 import { formatLargeNumber, formatStatusTimer, mailman } from '@utils/helpers'
 import { setMapName, useAppDispatch, useAppSelector } from '../../redux-utils'
 import { StyledGameStatus } from './'
 
 type Props = {
-  gameData: Game
+  gameData: GameType
   handleSubmitGuess: (timedOut?: boolean) => void
   hasCustomRoundLength?: boolean
 }

@@ -2,7 +2,7 @@ import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FC, useState } from 'react'
-import { Avatar, Button, Searchbar } from '@components/system'
+import { Avatar, Button } from '@components/system'
 import { SearchIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '../../../redux-utils'
 import { AppLogo } from '../../AppLogo'
@@ -17,7 +17,7 @@ const Navbar: FC = () => {
     <StyledNavbar>
       {searchOpen && (
         <>
-          <Searchbar autoFocus onClickOutside={() => setSearchOpen(false)} />
+          {/* <Searchbar autoFocus onClickOutside={() => setSearchOpen(false)} /> */}
           <span className="cancelSearch" onClick={() => setSearchOpen(false)}>
             Cancel
           </span>
@@ -30,9 +30,9 @@ const Navbar: FC = () => {
             <AppLogo />
           </div>
 
-          <div className="middleContainer">
+          {/* <div className="middleContainer">
             <Searchbar />
-          </div>
+          </div> */}
 
           <div className="rightContainer">
             <div className="rightWrapper">

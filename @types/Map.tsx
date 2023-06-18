@@ -1,13 +1,12 @@
-import { ObjectId } from 'mongodb'
 import { LocationType } from './'
 import User from './User'
 
 type Map = {
-  _id?: ObjectId | string
+  _id?: string
   name: string
   description?: string
   previewImg: string
-  creator: 'GeoHub' | ObjectId
+  creator: 'GeoHub' | string
   likes?: { numLikes: number; likedByUser: boolean }
   isPublished?: boolean
   isDeleted?: boolean

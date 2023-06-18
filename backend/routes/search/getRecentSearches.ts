@@ -64,7 +64,7 @@ const getRecentSearches = async (req: NextApiRequest, res: NextApiResponse) => {
     if (type === 'user') {
       // Add user to result if unique
       if (!result.some((x) => x._id?.toString() === search.userId?.toString())) {
-        const userDetails = await getUserDetailsHelper(search.userId as ObjectId)
+        const userDetails = await getUserDetailsHelper(search.userId as any)
         result.push({ type, ...userDetails })
       }
     }
@@ -72,7 +72,7 @@ const getRecentSearches = async (req: NextApiRequest, res: NextApiResponse) => {
     if (type === 'map') {
       // Add map to result if unique
       if (!result.some((x) => x._id?.toString() === search.mapId?.toString())) {
-        const mapDetails = await getMapDetailsHelper(search.mapId as ObjectId)
+        const mapDetails = await getMapDetailsHelper(search.mapId as any)
         result.push({ type, ...mapDetails })
       }
     }

@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import { FC } from 'react'
-import { Game } from '@backend/models'
 import { Button, FlexGroup, ProgressBar } from '@components/system'
+import { GameType } from '@types'
 import { formatLargeNumber } from '@utils/helpers'
 import { ResultsWrapper } from '../ResultsWrapper'
 import { StyledStandardFinalResults } from './'
 
 type Props = {
-  gameData: Game
+  gameData: GameType
 }
 
 const StandardFinalResults: FC<Props> = ({ gameData }) => {
@@ -37,7 +37,7 @@ const StandardFinalResults: FC<Props> = ({ gameData }) => {
               gameData.mapId
                 ? IS_CHALLENGE
                   ? `/results/challenge/${gameData.challengeId}`
-                  : `/results/${gameData.id}`
+                  : `/results/${gameData._id}`
                 : '/'
             }
           >

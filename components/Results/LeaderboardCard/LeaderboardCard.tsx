@@ -1,14 +1,13 @@
 import { FC } from 'react'
-import { Game } from '@backend/models'
 import { Avatar } from '@components/system'
 import { CogIcon } from '@heroicons/react/outline'
-import { MapType } from '@types'
+import { GameType, MapType } from '@types'
 import { formatDistance, formatLargeNumber, formatRoundTime, formatSettingsLabel } from '@utils/helpers'
 import { useAppSelector } from '../../../redux-utils'
 import { StyledLeaderboardCard } from './'
 
 type Props = {
-  gameData: Game[]
+  gameData: GameType[]
   mapData: MapType
   selectedGameIndex?: number
   setSelectedGameIndex?: (newIndex: number) => void

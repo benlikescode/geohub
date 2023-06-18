@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { Game } from '@backend/models'
 import { NotFound } from '@components/errorViews'
 import { Head } from '@components/Head'
 import { Navbar } from '@components/layout'
@@ -13,11 +12,11 @@ import { StreaksSummaryMap } from '@components/StreaksSummaryMap'
 import { Button, FlexGroup } from '@components/system'
 import { useAppSelector } from '@redux/hook'
 import StyledResultPage from '@styles/ResultPage.Styled'
-import { MapType, PageType } from '@types'
+import { GameType, MapType, PageType } from '@types'
 import { mailman } from '@utils/helpers'
 
 const ChallengeResultsPage: PageType = () => {
-  const [gamesFromChallenge, setGamesFromChallenge] = useState<Game[] | null>()
+  const [gamesFromChallenge, setGamesFromChallenge] = useState<GameType[] | null>()
   const [mapData, setMapData] = useState<MapType>()
   const [selectedGameIndex, setSelectedGameIndex] = useState(0)
   const [notAuthorized, setNotAuthorized] = useState(false)

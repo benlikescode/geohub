@@ -1,16 +1,14 @@
-import { ObjectId } from 'mongodb'
-
 export type RecentSearchItem = {
   type: 'term' | 'user' | 'map'
   term?: string
-  userId?: ObjectId
-  mapId?: ObjectId
+  userId?: string
+  mapId?: string
   createdAt: Date
 }
 
 type RecentSearch = {
-  _id: ObjectId
-  userId: ObjectId
+  _id: string
+  userId: string
   searches: RecentSearchItem[]
 }
 

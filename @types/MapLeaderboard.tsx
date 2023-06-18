@@ -1,11 +1,9 @@
-import { ObjectId } from 'mongodb'
-
 type MapLeaderboard = {
-  _id: ObjectId
-  userId: ObjectId
+  _id: string
+  userId: string
   userName: string
   userAvatar: { emoji: string; color: string }
-  gameId: ObjectId
+  gameId: string
   totalPoints?: number
   totalTime?: number
   streak?: number

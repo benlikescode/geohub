@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import Game from '@backend/models/game'
 import { NotFound } from '@components/errorViews'
 import { Head } from '@components/Head'
 import { LoadingPage } from '@components/layout'
@@ -12,12 +11,12 @@ import { StreetView } from '@components/StreetView'
 import { useAppDispatch } from '@redux/hook'
 import { updateRecentlyPlayed } from '@redux/slices'
 import StyledGamePage from '@styles/GamePage.Styled'
-import { PageType } from '@types'
+import { GameType, PageType } from '@types'
 import { mailman } from '@utils/helpers'
 
 const GamePage: PageType = () => {
   const [view, setView] = useState<'Game' | 'Result' | 'FinalResults'>('Game')
-  const [gameData, setGameData] = useState<Game | null>()
+  const [gameData, setGameData] = useState<GameType | null>()
   const router = useRouter()
   const gameId = router.query.id as string
   const dispatch = useAppDispatch()
@@ -42,12 +41,6 @@ const GamePage: PageType = () => {
     }
 
     dispatch(updateRecentlyPlayed({ recentlyPlayed: [] }))
-
-    // HALP -> update this to not need to use "id" -> should be using "_id"
-    const gameData = {
-      id: gameId,
-      ...game,
-    }
 
     setGameData(gameData)
   }
