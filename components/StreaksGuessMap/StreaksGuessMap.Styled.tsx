@@ -20,6 +20,7 @@ const StyledStreaksGuessMap = styled.div<StyledProps>`
         mobileMapOpen &&
         `
           display: flex;
+          flex-direction: column;
           height: 50vh;
           width: 100%;
           bottom: 0;
@@ -84,7 +85,6 @@ const StyledStreaksGuessMap = styled.div<StyledProps>`
   .controlBtn {
     height: 20px;
     width: 20px;
-    /* background: var(--background1); */
     background-color: #fff;
     border-radius: 50%;
     display: flex;

@@ -16,25 +16,10 @@ const StyledResultsCard = styled.div`
       font-size: 18px;
       font-weight: 600;
       color: #ababab;
-      display: flex;
-      gap: 6px;
-
-      @media (max-width: 600px) {
-        font-size: 18px;
-      }
 
       img {
-        height: 16px;
-      }
-
-      .answer-label {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-
-        img {
-          height: 16px;
-        }
+        height: 14px;
+        margin: 0 6px;
       }
     }
 

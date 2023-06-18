@@ -45,19 +45,6 @@ const StyledGuessMap = styled.div<StyledProps>`
       width: 100%;
       border-radius: 0;
     }
-
-    .selected-country {
-      position: absolute;
-      bottom: 10px;
-      left: 10px;
-      background-color: rgba(0, 0, 0, 0.75);
-      border-radius: 4px;
-      padding: 6px 10px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 14px;
-    }
   }
 
   .controls {
@@ -77,7 +64,6 @@ const StyledGuessMap = styled.div<StyledProps>`
   .controlBtn {
     height: 20px;
     width: 20px;
-    /* background: var(--background1); */
     background-color: #fff;
     border-radius: 50%;
     display: flex;

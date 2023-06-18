@@ -51,33 +51,24 @@ const StreakResults: FC<Props> = ({ gameData, setView }) => {
           <div className="result-wrapper">
             {guessedCountryCode ? (
               <div className="correct-country">
-                {`You guessed `}
-                <div className="answer-label">
-                  <span> {guessedCountry}</span>
-                  <img
-                    src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${guessedCountryCode?.toUpperCase()}.svg`}
-                    alt={guessedCountry}
-                  />
-                </div>
-                {` but the correct country was `}
-                <div className="answer-label">
-                  <span>{correctCountry}</span>
-                  <img
-                    src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${correctCountryCode?.toUpperCase()}.svg`}
-                    alt={correctCountry}
-                  />
-                </div>
+                You guessed <span>{guessedCountry}</span>
+                <img
+                  src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${guessedCountryCode?.toUpperCase()}.svg`}
+                  alt={guessedCountry}
+                />
+                but the correct country was <span>{correctCountry}</span>
+                <img
+                  src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${correctCountryCode?.toUpperCase()}.svg`}
+                  alt={correctCountry}
+                />
               </div>
             ) : (
               <div className="correct-country">
-                The correct country was
-                <div className="answer-label">
-                  <span>{correctCountry}</span>
-                  <img
-                    src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${correctCountryCode?.toUpperCase()}.svg`}
-                    alt={correctCountry}
-                  />
-                </div>
+                The correct country was <span>{correctCountry}</span>
+                <img
+                  src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${correctCountryCode?.toUpperCase()}.svg`}
+                  alt={correctCountry}
+                />
               </div>
             )}
 
