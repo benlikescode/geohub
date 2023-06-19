@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import GoogleMapReact from 'google-map-react'
-import { throttle } from 'lodash'
+import throttle from 'lodash/throttle'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 import { NotFound } from '@components/errorViews'
