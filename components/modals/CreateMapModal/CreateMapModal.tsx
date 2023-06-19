@@ -136,6 +136,7 @@ const CreateMapModal: FC<Props> = ({
                     alt={`Map Avatar Option ${idx + 1}`}
                     layout="fill"
                     objectFit="cover"
+                    sizes="200px"
                   />
                 </div>
               ))}

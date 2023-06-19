@@ -76,6 +76,8 @@ const Avatar: FC<Props> = ({
           alt={altText || 'Map Avatar'}
           onError={() => setCurrSrc(FALLBACK_AVATAR)}
           layout="fill"
+          objectFit="cover"
+          sizes="200px"
         />
       </div>
     </StyledAvatar>
