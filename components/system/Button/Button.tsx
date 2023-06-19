@@ -1,5 +1,4 @@
-import { ButtonHTMLAttributes } from 'hoist-non-react-statics/node_modules/@types/react'
-import { FC, ReactNode } from 'react'
+import { ButtonHTMLAttributes, FC, ReactNode } from 'react'
 import { Spinner } from '@components/system'
 import { StyledButton } from './'
 
