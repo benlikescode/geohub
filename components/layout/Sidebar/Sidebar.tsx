@@ -3,8 +3,6 @@ import Link from 'next/link'
 import { FC, useEffect, useState } from 'react'
 import { Avatar } from '@components/system'
 import {
-  ArrowRightIcon,
-  ChartPieIcon,
   HeartIcon,
   HomeIcon,
   LightningBoltIcon,
