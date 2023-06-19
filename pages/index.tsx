@@ -21,7 +21,13 @@ const Home: NextPage = () => {
   return (
     <StyledHomePage>
       <div className="hero-section">
-        <Image src="/images/backgrounds/hero.jpg" alt="Homes on a street in Japan" layout="fill" objectFit="cover" />
+        <Image
+          src="/images/backgrounds/hero.jpg"
+          alt="Homes on a street in Japan"
+          layout="fill"
+          objectFit="cover"
+          priority
+        />
         <div className="hero-content">
           <h2 className="banner-title">Today&apos;s Tip</h2>
           <div className="tip-wrapper">

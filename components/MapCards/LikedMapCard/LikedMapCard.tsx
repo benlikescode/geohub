@@ -29,7 +29,7 @@ const LikedMapCard: FC<Props> = ({ map, reloadMaps }) => {
   return (
     <StyledLikedMapCard>
       <div className="map-avatar">
-        <Image src={`/images/mapAvatars/${map.previewImg}`} layout="fill" objectFit="cover" alt="" />
+        <Image src={`/images/mapAvatars/${map.previewImg}`} alt="" layout="fill" objectFit="cover" sizes="720px" />
         <div className="image-gradient"></div>
       </div>
 
