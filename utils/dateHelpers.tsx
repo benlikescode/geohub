@@ -25,3 +25,14 @@ export const formatMonthDayYear = (dateRaw: Date | undefined) => {
 
   return `${month} ${day}, ${year}`
 }
+
+export const formatMonthDay = (dateRaw: Date | undefined) => {
+  if (!dateRaw) return ''
+
+  const utcDate = new Date(dateRaw).toUTCString()
+  const date = new Date(utcDate)
+  const month = date.toLocaleString('en-US', { month: 'short' })
+  const day = date.getUTCDate()
+
+  return `${month} ${day}`
+}

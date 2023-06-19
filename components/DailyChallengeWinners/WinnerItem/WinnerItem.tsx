@@ -1,8 +1,8 @@
-import { DateTime } from 'luxon'
 import Link from 'next/link'
 import { FC } from 'react'
 import { Avatar } from '@components/system'
 import { MapLeaderboardType } from '@types'
+import { formatMonthDay } from '@utils/dateHelpers'
 import { formatLargeNumber } from '@utils/helpers'
 import { StyledWinnerItem } from './'
 
@@ -15,7 +15,7 @@ const WinnerItem: FC<Props> = ({ winner }) => {
 
   return (
     <StyledWinnerItem>
-      <div className="challenge-day">{challengeDay && DateTime.fromISO(challengeDay).toUTC().toFormat('LLL dd')}</div>
+      <div className="challenge-day">{formatMonthDay(challengeDay)}</div>
 
       <div className="winner-info">
         <div className="user-info">
