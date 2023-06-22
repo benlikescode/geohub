@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { FC, useEffect, useMemo, useState } from 'react'
 import { MapPreviewCard } from '@components/MapPreviewCard'
 import { Input } from '@components/system'
-import { MAP_AVATAR_BASE_PATH } from '@utils/constants/random'
+import { MAP_AVATAR_PATH } from '@utils/constants/random'
 import { mailman, randomInt, showErrorToast } from '@utils/helpers'
 import { MainModal } from '../'
 import { StyledCreateMapModal } from './'
@@ -132,7 +132,7 @@ const CreateMapModal: FC<Props> = ({
                   onClick={() => setAvatar(mapAvatar)}
                 >
                   <Image
-                    src={MAP_AVATAR_BASE_PATH + mapAvatar}
+                    src={`${MAP_AVATAR_PATH}/${mapAvatar}`}
                     alt={`Map Avatar Option ${idx + 1}`}
                     layout="fill"
                     objectFit="cover"

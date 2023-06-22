@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import GoogleMapReact from 'google-map-react'
 import throttle from 'lodash/throttle'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 import { NotFound } from '@components/errorViews'
@@ -362,7 +363,7 @@ const CreateMapPage: PageType = () => {
           {!isLoading ? (
             <div className="map-top-menu">
               <div className="map-details">
-                <Avatar type="map" src={mapAvatar} size={40} outlineColor="rgba(255, 255, 255, 0.5)" />
+                <Avatar type="map" src={mapAvatar} size={40} />
                 <div className="map-name-wrapper">
                   <span className="map-name">{mapName}</span>
                 </div>
@@ -434,10 +435,7 @@ const CreateMapPage: PageType = () => {
           {!isLoading && locationsRef.current.length === 0 && (
             <div className="no-locations-wrapper">
               <div className="no-locations">
-                <img
-                  src="https://ouch-cdn2.icons8.com/wheN45aua7reMiicprxTGUEcr9SLNm7f2PyQGGlf5Os/rs:fit:256:256/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvMTE4/LzcyOGU3NTM1LWE2/ZmYtNDYwZi05MTlh/LTE1YzIyYjk3NDQ0/OC5wbmc.png"
-                  alt=""
-                />
+                <Image src="/images/no-locations.png" alt="" height={100} width={100} />
                 <h2>No locations added</h2>
                 <h3>Click a location on the map to preview it here.</h3>
               </div>

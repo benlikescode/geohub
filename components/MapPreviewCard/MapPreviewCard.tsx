@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { FC } from 'react'
 import { TrashIcon } from '@heroicons/react/outline'
 import { MapType } from '@types'
-import { MAP_AVATAR_BASE_PATH } from '../../utils/constants/random'
+import { MAP_AVATAR_PATH } from '../../utils/constants/random'
 import { StyledMapPreviewCard } from './'
 
 type Props = {
@@ -20,7 +20,7 @@ const MapPreviewCard: FC<Props> = ({ map, showDescription, type = 'large', openD
       {type === 'large' && (
         <div className="large-card-wrapper">
           <div className="map-avatar">
-            <Image src={`/images/mapAvatars/${map.previewImg}`} alt="" layout="fill" objectFit="cover" sizes="720px" />
+            <Image src={`${MAP_AVATAR_PATH}/${map.previewImg}`} alt="" layout="fill" objectFit="cover" sizes="720px" />
             <div className="image-gradient"></div>
           </div>
           <div className="contentWrapper">
@@ -44,7 +44,7 @@ const MapPreviewCard: FC<Props> = ({ map, showDescription, type = 'large', openD
       {type === 'small' && (
         <div className="small-card-wrapper">
           <div className="preview-image">
-            <Image src={MAP_AVATAR_BASE_PATH + map.previewImg} alt="" layout="fill" objectFit="cover" sizes="720px" />
+            <Image src={`${MAP_AVATAR_PATH}/${map.previewImg}`} alt="" layout="fill" objectFit="cover" sizes="720px" />
             <div className="mapNameWrapper">
               <div className="mapName">{map.name}</div>
             </div>

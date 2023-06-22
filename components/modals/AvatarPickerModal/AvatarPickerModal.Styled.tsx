@@ -25,7 +25,7 @@ const StyledAvatarPickerModal = styled.div<StyledProps>`
       width: 40px;
       border-radius: 50rem;
       cursor: pointer;
-      border: 2px solid #fff;
+      border: 1px solid #fff;
       display: flex;
       align-items: center;
       justify-content: center;

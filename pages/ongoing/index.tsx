@@ -131,7 +131,6 @@ const OngoingGamesPage: NextPage = () => {
                               ? DAILY_CHALLENGE_DETAILS.previewImg
                               : game.mapDetails?.[0]?.previewImg
                           }
-                          size={32}
                         />
                         <div className="mapNameWrapper">
                           <span className="mapName">

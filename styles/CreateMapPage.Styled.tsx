@@ -82,7 +82,6 @@ const StyledCreateMapPage = styled.div<StyledProps>`
 
           img {
             filter: grayscale(1);
-            height: 100px;
           }
 
           h2 {

@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { signOut, useSession } from 'next-auth/react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -14,6 +15,7 @@ import { useAppDispatch, useAppSelector } from '@redux/hook'
 import { logOutUser, updateAvatar, updateBio, updateUsername } from '@redux/slices'
 import StyledProfilePage from '@styles/ProfilePage.Styled'
 import { MapLeaderboardType } from '@types'
+import { USER_AVATAR_PATH } from '@utils/constants/random'
 import { mailman } from '@utils/helpers'
 
 import type { NextPage } from 'next'
@@ -116,8 +118,7 @@ const ProfilePage: NextPage = () => {
       ) : (
         <div>
           <div className="banner-image">
-            <img src="/images/backgrounds/profile-banner.png" alt="" />
-
+            <Image src="/images/backgrounds/profile-banner.png" alt="" layout="fill" quality={100} />
             {isThisUsersProfile() && (
               <Link href={`/user/settings`}>
                 <a>
@@ -137,9 +138,11 @@ const ProfilePage: NextPage = () => {
                   style={{ backgroundColor: newProfileValues?.avatar?.color }}
                   onClick={() => setAvatarModalOpen(true)}
                 >
-                  <img
-                    src={`https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/${newProfileValues?.avatar?.emoji}.svg`}
-                    alt={`${userDetails.name}'s avatar`}
+                  <Image
+                    src={`${USER_AVATAR_PATH}/${newProfileValues?.avatar?.emoji}.svg`}
+                    alt=""
+                    layout="fill"
+                    className="emoji"
                   />
                   <div className="profile-avatar-editing-icon">
                     <CameraIcon />
@@ -147,9 +150,11 @@ const ProfilePage: NextPage = () => {
                 </button>
               ) : (
                 <div className="profile-avatar" style={{ backgroundColor: userDetails.avatar?.color }}>
-                  <img
-                    src={`https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/${userDetails.avatar?.emoji}.svg`}
-                    alt={`${userDetails.name}'s avatar`}
+                  <Image
+                    src={`${USER_AVATAR_PATH}/${userDetails.avatar?.emoji}.svg`}
+                    alt=""
+                    layout="fill"
+                    className="emoji"
                   />
                 </div>
               )}

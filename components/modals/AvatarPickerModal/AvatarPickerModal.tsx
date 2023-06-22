@@ -1,8 +1,10 @@
+import Image from 'next/image'
 /* eslint-disable @next/next/no-img-element */
 import { FC, useState } from 'react'
 import { CheckIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
 import { BACKGROUND_COLORS, EMOJIS } from '@utils/constants/avatarOptions'
+import { USER_AVATAR_PATH } from '@utils/constants/random'
 import { MainModal } from '../'
 import { StyledAvatarPickerModal } from './'
 
@@ -60,11 +62,7 @@ const AvatarPickerModal: FC<Props> = ({ isOpen, closeModal, setNewUserDetails })
                   className={`color-option ${selectedEmoji === emoji ? 'selected' : ''}`}
                   onClick={() => setSelectedEmoji(emoji)}
                 >
-                  <img
-                    src={`https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/${emoji}.svg`}
-                    alt={emoji}
-                    className="emoji"
-                  />
+                  <Image src={`${USER_AVATAR_PATH}/${emoji}.svg`} alt="" height={22} width={22} />
                 </div>
               ))}
             </div>

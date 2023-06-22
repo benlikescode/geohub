@@ -11,6 +11,7 @@ import {
 } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
 import { ChallengeType } from '@types'
+import { MAP_AVATAR_PATH } from '@utils/constants/random'
 import { formatTimeLimit, redirectToRegister } from '@utils/helpers'
 import { StyledChallengeStart } from './'
 
@@ -50,7 +51,7 @@ const ChallengeStart: FC<Props> = ({ challengeData, handleStartChallenge, setVie
     <StyledChallengeStart>
       <div className="challengeStartWrapper">
         <Image
-          src={`/images/mapAvatars/${challengeData?.mapDetails?.previewImg}`}
+          src={`${MAP_AVATAR_PATH}/${challengeData?.mapDetails?.previewImg}`}
           alt=""
           layout="fill"
           objectFit="cover"
@@ -72,7 +73,6 @@ const ChallengeStart: FC<Props> = ({ challengeData, handleStartChallenge, setVie
                 type="user"
                 src={challengeData.creatorAvatar.emoji}
                 backgroundColor={challengeData.creatorAvatar.color}
-                size={32}
               />
               <div className="challengeMessage">
                 <span className="emphasizedText">{challengeData.creatorName}</span>

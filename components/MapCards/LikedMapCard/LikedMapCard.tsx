@@ -4,6 +4,7 @@ import { FC, useState } from 'react'
 import { HeartIcon as HeartIconOutline } from '@heroicons/react/outline'
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/solid'
 import { MapType } from '@types'
+import { MAP_AVATAR_PATH } from '@utils/constants/random'
 import { mailman, showErrorToast, showSuccessToast } from '@utils/helpers'
 import { StyledLikedMapCard } from './'
 
@@ -29,7 +30,7 @@ const LikedMapCard: FC<Props> = ({ map, reloadMaps }) => {
   return (
     <StyledLikedMapCard>
       <div className="map-avatar">
-        <Image src={`/images/mapAvatars/${map.previewImg}`} alt="" layout="fill" objectFit="cover" sizes="720px" />
+        <Image src={`${MAP_AVATAR_PATH}/${map.previewImg}`} alt="" layout="fill" objectFit="cover" sizes="720px" />
         <div className="image-gradient"></div>
       </div>
 
