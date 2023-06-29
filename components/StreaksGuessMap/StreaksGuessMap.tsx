@@ -89,7 +89,7 @@ const StreaksGuessMap: FC<Props> = ({
 
           const newCountry = map.data.addGeoJson(formatPolygon(bounds, { code }))
 
-          map.data.setStyle(POLYGON_STYLES['purple'])
+          map.data.setStyle(POLYGON_STYLES['guess'])
 
           prevCountriesRef.current = newCountry
 

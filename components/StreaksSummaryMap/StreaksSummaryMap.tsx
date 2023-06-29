@@ -62,7 +62,7 @@ const StreaksSummaryMap: FC<Props> = ({ gameData }) => {
       const mostRecentRoundCode = actualLocations[actualLocations.length - 1].countryCode
       const isMostRecentRound = code?.toLowerCase() === mostRecentRoundCode?.toLowerCase()
 
-      return POLYGON_STYLES[isMostRecentRound ? 'red' : 'green']
+      return POLYGON_STYLES[isMostRecentRound ? 'incorrect' : 'correct']
     })
   }
 

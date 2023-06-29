@@ -48,7 +48,7 @@ const ResultMap: FC<Props> = ({ gameData }) => {
     const isCorrect = gameData.state !== 'finished'
 
     map.data.addGeoJson(polygon)
-    map.data.setStyle(POLYGON_STYLES[isCorrect ? 'green' : 'red'])
+    map.data.setStyle(POLYGON_STYLES[isCorrect ? 'correct' : 'incorrect'])
 
     getMapBounds(map)
   }

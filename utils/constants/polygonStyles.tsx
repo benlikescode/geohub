@@ -6,24 +6,19 @@ const DEFAULT_STYLES = {
 }
 
 export const POLYGON_STYLES = {
-  pink: {
-    fillColor: '#D47CBF',
-    strokeColor: '#A15D91',
+  guess: {
+    fillColor: '#8670c7',
+    strokeColor: '#6e55ae',
     ...DEFAULT_STYLES,
   },
-  purple: {
-    fillColor: '#7e3dc9',
-    strokeColor: '#640d9b',
+  correct: {
+    fillColor: '#15a864',
+    strokeColor: '#187e4e',
     ...DEFAULT_STYLES,
   },
-  red: {
-    fillColor: '#E00C0C',
-    strokeColor: '#880F0F',
-    ...DEFAULT_STYLES,
-  },
-  green: {
-    fillColor: '#15A864',
-    strokeColor: '#187E4E',
+  incorrect: {
+    fillColor: '#e00c0c',
+    strokeColor: '#880f0f',
     ...DEFAULT_STYLES,
   },
 }
