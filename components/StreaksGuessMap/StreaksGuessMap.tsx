@@ -7,11 +7,10 @@ import { useAppDispatch, useAppSelector } from '@redux/hook'
 import { updateGuessMapSize } from '@redux/slices'
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon'
 import { multiPolygon, polygon } from '@turf/helpers'
-// import countryBounds from '@utils/constants/euaaEuropa.json'
-// import countryBounds from '@utils/constants/cbNewTrimmed.json'
 import countries from '@utils/constants/countries'
 import countryBounds from '@utils/constants/countryBounds.json'
-import { getGuessMapSize, getMapsKey } from '@utils/helpers'
+import { POLYGON_STYLES } from '@utils/constants/polygonStyles'
+import { formatPolygon, getGuessMapSize, getMapsKey } from '@utils/helpers'
 import { StyledStreaksGuessMap } from './'
 
 type Props = {
@@ -33,24 +32,11 @@ const StreaksGuessMap: FC<Props> = ({
   const [mapWidth, setMapWidth] = useState(15) // width in vw
   const [hovering, setHovering] = useState(false)
   const [selectedCountryName, setSelectedCountryName] = useState('')
-  // const [countryBounds, setCountryBounds] = useState()
 
   const dispatch = useAppDispatch()
   const user = useAppSelector((state) => state.user)
   const prevCountriesRef = useRef<any>(null)
   const hoverDelay = useRef<any>()
-
-  // const getCountryBounds = async () => {
-  //   const cb = await mailman('streaks/countryBounds')
-
-  //   if (!cb) console.log('Failed to get country bounds')
-
-  //   setCountryBounds(cb)
-  // }
-
-  // useEffect(() => {
-  //   getCountryBounds()
-  // }, [])
 
   const handleMapHover = () => {
     clearInterval(hoverDelay.current)
@@ -88,122 +74,11 @@ const StreaksGuessMap: FC<Props> = ({
   const onInit = (map: any, maps: any) => {
     maps.event.addListener(map, 'click', (e: any) => {
       const clickedCoords = [e.latLng.lng(), e.latLng.lat()]
-      const clickedPoint = {
-        type: 'Feature',
-        properties: {},
-        geometry: {
-          type: 'Point',
-          coordinates: clickedCoords,
-        },
-      }
-
-      // ONE WITH TRIMMED GOOD EUROPA
-      // countryBounds.map((feature: any) => {
-      //   const coords = feature.geometry.coordinates
-      //   const poly = multiPolygon(coords?.[0]?.[0]?.[0]?.[0] ? coords : [coords])
-
-      //   const isPointInThisCountry = booleanPointInPolygon(clickedPoint as any, poly)
-
-      //   if (isPointInThisCountry) {
-      //     prevCountriesRef.current &&
-      //       prevCountriesRef.current.map((feature: any) => {
-      //         map.data.remove(feature)
-      //       })
-
-      //     const newCountry = map.data.addGeoJson({
-      //       type: 'Feature',
-      //       properties: { code: feature.code },
-      //       geometry: feature.geometry,
-      //     })
-
-      //     map.data.setStyle({
-      //       fillColor: '#b2677c',
-      //       strokeColor: '#b2677c',
-      //       strokeOpacity: 0.5,
-      //       fillOpacity: 0.5,
-      //       cursor: 'crosshair',
-      //     })
-
-      //     prevCountriesRef.current = newCountry
-
-      //     setSelectedCountryName(countries.find((x) => x.code === feature.code)?.name || '')
-      //     setCountryStreakGuess(feature.code)
-      //   }
-      // })
-
-      // THIS IS THE ONE IM USING WITH EUROPA DATA
-
-      // countryBounds.features.map((feature: any) => {
-      //   const coords = feature.geometry.coordinates
-      //   const poly = multiPolygon(coords?.[0]?.[0]?.[0]?.[0] ? coords : [coords])
-
-      //   const isPointInThisCountry = booleanPointInPolygon(clickedPoint as any, poly)
-
-      //   if (isPointInThisCountry) {
-      //     prevCountriesRef.current &&
-      //       prevCountriesRef.current.map((feature: any) => {
-      //         map.data.remove(feature)
-      //       })
-
-      //     const newCountry = map.data.addGeoJson({
-      //       type: 'Feature',
-      //       properties: { code: feature.id },
-      //       geometry: feature.geometry,
-      //     })
-
-      //     map.data.setStyle({
-      //       fillColor: '#b2677c',
-      //       strokeColor: '#b2677c',
-      //       strokeOpacity: 0.5,
-      //       fillOpacity: 0.5,
-      //       cursor: 'crosshair',
-      //     })
-
-      //     prevCountriesRef.current = newCountry
-
-      //     setSelectedCountryName(feature.properties.NAME_ENGL)
-      //     setCountryStreakGuess(feature.id)
-      //   }
-      // })
-
-      // const clickedCoords = [e.latLng.lng(), e.latLng.lat()]
-      // const clickedPoint = point(clickedCoords)
-
-      // countryBounds.features.map((feature: any) => {
-      //   const coords = feature.geometry.coordinates
-      //   const poly = multiPolygon(coords?.[0]?.[0]?.[0]?.[0] ? coords : [coords])
-
-      //   const isPointInThisCountry = booleanPointInPolygon(clickedPoint, poly)
-
-      //   if (isPointInThisCountry) {
-      //     prevCountriesRef.current &&
-      //       prevCountriesRef.current.map((feature: any) => {
-      //         map.data.remove(feature)
-      //       })
-
-      //     const newCountry = map.data.addGeoJson(feature)
-
-      //     map.data.setStyle({
-      //       fillColor: '#b2677c',
-      //       strokeColor: '#b2677c',
-      //       strokeOpacity: 0.5,
-      //       fillOpacity: 0.5,
-      //       cursor: 'crosshair',
-      //     })
-
-      //     prevCountriesRef.current = newCountry
-
-      //     setSelectedCountryName(feature.properties.NAME_ENGL)
-      //     setCountryStreakGuess(feature.id)
-      //   }
-      // })
+      const clickedPoint = formatPolygon(clickedCoords, {}, 'Point')
 
       Object.entries(countryBounds).map(([code, bounds]) => {
         const poly = bounds.length > 1 ? multiPolygon(bounds.map((x) => [x])) : polygon(bounds)
-        // const poly = {
-        //   type: bounds.length > 1 ? 'MultiPolygon' : 'Polygon',
-        //   coordinates: bounds.length > 1 ? [bounds] : bounds,
-        // }
+
         const isPointInThisCountry = booleanPointInPolygon(clickedPoint as any, poly as any)
 
         if (isPointInThisCountry) {
@@ -212,22 +87,9 @@ const StreaksGuessMap: FC<Props> = ({
               map.data.remove(feature)
             })
 
-          const newCountry = map.data.addGeoJson({
-            type: 'Feature',
-            properties: { code },
-            geometry: {
-              type: 'Polygon',
-              coordinates: bounds,
-            },
-          })
+          const newCountry = map.data.addGeoJson(formatPolygon(bounds, { code }))
 
-          map.data.setStyle({
-            fillColor: '#b2677c',
-            strokeColor: '#b2677c',
-            strokeOpacity: 0.5,
-            fillOpacity: 0.5,
-            cursor: 'crosshair',
-          })
+          map.data.setStyle(POLYGON_STYLES['purple'])
 
           prevCountriesRef.current = newCountry
 
@@ -235,51 +97,6 @@ const StreaksGuessMap: FC<Props> = ({
           setCountryStreakGuess(code)
         }
       })
-
-      // FUTTY
-      // Object.entries(countryBounds).map(([code, coords]) => {
-      //   console.log(code, coords)
-      //   const coordinates = coords as any
-      //   // const poly = multiPolygon(coords?.[0]?.[0]?.[0]?.[0] ? coords : [coords])
-      //   const poly = { type: coordinates?.[0]?.[0]?.[0]?.[0] ? 'MultiPolygon' : 'Polygon', coordinates }
-
-      //   const isPointInThisCountry = booleanPointInPolygon(clickedPoint as any, poly as any)
-      //   // const poly = bounds.length > 1 ? multiPolygon([bounds]) : polygon(bounds)
-      //   // const poly = {
-      //   //   type: bounds.length > 1 ? 'MultiPolygon' : 'Polygon',
-      //   //   coordinates: bounds.length > 1 ? [bounds] : bounds,
-      //   // }
-      //   // const isPointInThisCountry = booleanPointInPolygon(clickedPoint as any, poly as any)
-
-      //   if (isPointInThisCountry) {
-      //     prevCountriesRef.current &&
-      //       prevCountriesRef.current.map((feature: any) => {
-      //         map.data.remove(feature)
-      //       })
-
-      //     const newCountry = map.data.addGeoJson({
-      //       type: 'Feature',
-      //       properties: { code },
-      //       geometry: {
-      //         type: coordinates?.[0]?.[0]?.[0]?.[0] ? 'MultiPolygon' : 'Polygon',
-      //         coordinates: coordinates,
-      //       },
-      //     })
-
-      //     map.data.setStyle({
-      //       fillColor: '#b2677c',
-      //       strokeColor: '#b2677c',
-      //       strokeOpacity: 0.5,
-      //       fillOpacity: 0.5,
-      //       cursor: 'crosshair',
-      //     })
-
-      //     prevCountriesRef.current = newCountry
-
-      //     setSelectedCountryName(countries.find((x) => x.code === code)?.name || '')
-      //     setCountryStreakGuess(code)
-      //   }
-      // })
     })
   }
 
