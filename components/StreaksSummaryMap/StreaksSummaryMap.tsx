@@ -4,7 +4,6 @@ import { FC, useEffect, useRef, useState } from 'react'
 import Game from '@backend/models/game'
 import { Marker } from '@components/Marker'
 import { LocationType } from '@types'
-import countryBounds from '@utils/constants/countryBounds.json'
 import { POLYGON_STYLES } from '@utils/constants/polygonStyles'
 import { formatPolygon, getMapsKey } from '@utils/helpers'
 import { useAppSelector } from '../../redux-utils'
@@ -33,7 +32,9 @@ const StreaksSummaryMap: FC<Props> = ({ gameData }) => {
     setActualMarkers(gameData.rounds.slice(0, gameData.round - 1))
   }
 
-  const loadCountryGeojson = (map: google.maps.Map) => {
+  const loadCountryGeojson = async (map: google.maps.Map) => {
+    const { default: countryBounds } = await import('@utils/constants/countryBounds.json')
+
     const bounds = countryBounds as any
     const actualLocations = gameData.rounds.slice(0, gameData.round - 1)
 
