@@ -6,9 +6,11 @@ import { ArrowRightIcon, XIcon } from '@heroicons/react/outline'
 import { useAppDispatch, useAppSelector } from '@redux/hook'
 import { updateGuessMapSize } from '@redux/slices'
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon'
-import { multiPolygon, point } from '@turf/turf'
+import { multiPolygon, polygon } from '@turf/helpers'
+import countries from '@utils/constants/countries'
 import countryBounds from '@utils/constants/countryBounds.json'
-import { getGuessMapSize, getMapsKey } from '@utils/helpers'
+import { POLYGON_STYLES } from '@utils/constants/polygonStyles'
+import { formatPolygon, getGuessMapSize, getMapsKey } from '@utils/helpers'
 import { StyledStreaksGuessMap } from './'
 
 type Props = {
@@ -72,42 +74,27 @@ const StreaksGuessMap: FC<Props> = ({
   const onInit = (map: any, maps: any) => {
     maps.event.addListener(map, 'click', (e: any) => {
       const clickedCoords = [e.latLng.lng(), e.latLng.lat()]
-      const turfPoint = point(clickedCoords)
+      const clickedPoint = formatPolygon(clickedCoords, {}, 'Point')
 
-      const countryPolygons = countryBounds as any
+      Object.entries(countryBounds).map(([code, bounds]) => {
+        const poly = bounds.length > 1 ? multiPolygon(bounds.map((x) => [x])) : polygon(bounds)
 
-      countryPolygons.features.map((country: any) => {
-        let turfPolygon = null
-
-        if (country.geometry.coordinates?.[0]?.[0]?.[0]?.[0]) {
-          turfPolygon = multiPolygon(country.geometry.coordinates)
-        } else {
-          turfPolygon = multiPolygon([country.geometry.coordinates])
-        }
-
-        const isPointInThisCountry = booleanPointInPolygon(turfPoint, turfPolygon)
+        const isPointInThisCountry = booleanPointInPolygon(clickedPoint as any, poly as any)
 
         if (isPointInThisCountry) {
-          if (prevCountriesRef.current) {
+          prevCountriesRef.current &&
             prevCountriesRef.current.map((feature: any) => {
               map.data.remove(feature)
             })
-          }
 
-          const newCountry = map.data.addGeoJson(country)
+          const newCountry = map.data.addGeoJson(formatPolygon(bounds, { code }))
 
-          map.data.setStyle({
-            fillColor: '#b2677c',
-            strokeColor: '#b2677c',
-            strokeOpacity: 0.5,
-            fillOpacity: 0.5,
-            cursor: 'crosshair',
-          })
+          map.data.setStyle(POLYGON_STYLES['guess'])
 
           prevCountriesRef.current = newCountry
 
-          setSelectedCountryName(country?.properties?.name)
-          setCountryStreakGuess(country?.properties?.code)
+          setSelectedCountryName(countries.find((x) => x.code === code)?.name || '')
+          setCountryStreakGuess(code)
         }
       })
     })
@@ -135,6 +122,7 @@ const StreaksGuessMap: FC<Props> = ({
             </button>
           </div>
         )}
+
         <div className="map">
           <GoogleMapReact
             bootstrapURLKeys={getMapsKey(user.mapsAPIKey)}

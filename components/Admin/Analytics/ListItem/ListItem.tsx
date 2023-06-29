@@ -57,7 +57,6 @@ const ListItem: FC<Props> = ({ title, data }) => {
                         ? DAILY_CHALLENGE_DETAILS.previewImg
                         : game.mapDetails?.[0]?.previewImg
                     }
-                    outlineSize={1}
                   />
                 )}
               </div>

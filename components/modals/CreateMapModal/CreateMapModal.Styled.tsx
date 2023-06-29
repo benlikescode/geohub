@@ -22,23 +22,30 @@ const StyledCreateMapModal = styled.div`
           width: 36px;
           position: relative;
           border-radius: 30%;
-          outline: 1px solid rgba(255, 255, 255, 0.25);
           display: flex;
           align-items: center;
           justify-content: center;
           user-select: none;
           cursor: pointer;
-          background-color: #888888;
+
+          &::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 30%;
+            box-shadow: 0 0 0 1px inset rgba(255, 255, 255, 0.12);
+          }
 
           &:hover {
             outline: 2px solid #ffffff;
           }
+
           &.selected {
             outline: 3px solid #ffffff;
           }
 
           img {
-            border-radius: 50%;
+            border-radius: 30%;
           }
         }
       }

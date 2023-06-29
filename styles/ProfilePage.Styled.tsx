@@ -102,14 +102,8 @@ const StyledProfilePage = styled.div<StyledProps>`
           `}
         }
 
-        img {
-          height: 70px;
-          width: 70px;
-
-          @media (max-width: 600px) {
-            height: 40px;
-            width: 40px;
-          }
+        .emoji {
+          padding: 20% !important;
         }
 
         .profile-avatar-editing-icon {

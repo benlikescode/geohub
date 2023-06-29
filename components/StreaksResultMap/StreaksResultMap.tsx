@@ -5,6 +5,8 @@ import Game from '@backend/models/game'
 import { Marker } from '@components/Marker'
 import { LocationType } from '@types'
 import countryBounds from '@utils/constants/countryBounds.json'
+import { POLYGON_STYLES } from '@utils/constants/polygonStyles'
+import { formatPolygon } from '@utils/helpers'
 import { useAppSelector } from '../../redux-utils'
 import getMapsKey from '../../utils/helpers/getMapsKey'
 import { StyledStreaksResultMap } from './'
@@ -29,6 +31,28 @@ const ResultMap: FC<Props> = ({ gameData }) => {
     loadMapMarkers()
   }, [guessedCountry, actualCountry])
 
+  const loadMapMarkers = () => {
+    setActualMarker(actualCountry)
+  }
+
+  const loadCountryGeojson = (map: google.maps.Map) => {
+    const bounds = countryBounds as any
+
+    const { countryCode } = actualCountry
+
+    if (!countryCode) return
+
+    const countryCodeLowerCase = countryCode.toLowerCase()
+    const polygon = formatPolygon(bounds[countryCodeLowerCase], { code: countryCodeLowerCase })
+
+    const isCorrect = gameData.state !== 'finished'
+
+    map.data.addGeoJson(polygon)
+    map.data.setStyle(POLYGON_STYLES[isCorrect ? 'correct' : 'incorrect'])
+
+    getMapBounds(map)
+  }
+
   const getMapBounds = (map: google.maps.Map) => {
     const bounds = new google.maps.LatLngBounds()
 
@@ -44,41 +68,6 @@ const ResultMap: FC<Props> = ({ gameData }) => {
 
     map.fitBounds(bounds)
     map.setCenter(bounds.getCenter())
-  }
-
-  const loadMapMarkers = () => {
-    setActualMarker(actualCountry)
-  }
-
-  const loadCountryGeojson = (map: google.maps.Map) => {
-    const countryGeoJsons = countryBounds as any
-    const actualCountryGeoJson = countryGeoJsons.features.find(
-      (x: any) => x?.properties?.code?.toLowerCase() === actualCountry.countryCode?.toLowerCase()
-    )
-
-    map.data.addGeoJson(actualCountryGeoJson)
-
-    const isCorrect = gameData.state !== 'finished'
-
-    if (isCorrect) {
-      map.data.setStyle({
-        fillColor: '#39a857',
-        strokeColor: '#39a857',
-        strokeOpacity: 0.5,
-        fillOpacity: 0.5,
-        cursor: 'crosshair',
-      })
-    } else {
-      map.data.setStyle({
-        fillColor: '#a63152',
-        strokeColor: '#a63152',
-        strokeOpacity: 0.5,
-        fillOpacity: 0.5,
-        cursor: 'crosshair',
-      })
-    }
-
-    getMapBounds(map)
   }
 
   return (

@@ -16,4 +16,5 @@ export const DAILY_CHALLENGE_DETAILS = {
   previewImg: 'official8.jpg',
 }
 
-export const MAP_AVATAR_BASE_PATH = '/images/mapAvatars/'
+export const MAP_AVATAR_PATH = '/images/mapAvatars'
+export const USER_AVATAR_PATH = '/images/userAvatars'
