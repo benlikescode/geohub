@@ -19,32 +19,22 @@ export const EMOJIS = [
   '1f308',
   '2660',
   '1f4d5',
-  // '1f4cc',
   '1f4a3',
-  // '1f5ff',
-  // '262e',
-  // '2716',
-  // '231a',
   '2602',
   '1f3f4',
   '1f680',
   '1f5a4',
   '2693',
-
   '1f363',
   '26f0',
   '1f341',
   '1f98b',
   '1f687',
-
-  // '1f60e',
-  // '1f36c',
   '1f31a',
   '1f6a6',
 ]
 
 export const BACKGROUND_COLORS = ['#fecaca', '#fed7aa', '#bbf7d0', '#bfdbfe', '#e9d5ff', '#fbcfe8']
-// export const BACKGROUND_COLORS = ['#fca5a5', '#fdba74', '#fde047', '#86efac', '#93c5fd', '#d8b4fe', '#f9a8d4']
 
 export const MAP_AVATARS = [
   'Custom1.jpg',
