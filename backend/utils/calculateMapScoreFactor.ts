@@ -1,5 +1,6 @@
 import { calculateDistance } from '@backend/utils'
-import { bbox, featureCollection, point } from '@turf/turf'
+import bbox from '@turf/bbox'
+import { featureCollection, point } from '@turf/helpers'
 import { GuessType, LocationType } from '@types'
 
 const WORLD_MAP_SCORE_FACTOR = 2000

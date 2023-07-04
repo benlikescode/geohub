@@ -8,7 +8,6 @@ import { updateGuessMapSize } from '@redux/slices'
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon'
 import { multiPolygon, polygon } from '@turf/helpers'
 import countries from '@utils/constants/countries'
-import countryBounds from '@utils/constants/countryBounds.json'
 import { POLYGON_STYLES } from '@utils/constants/polygonStyles'
 import { formatPolygon, getGuessMapSize, getMapsKey } from '@utils/helpers'
 import { StyledStreaksGuessMap } from './'
@@ -71,7 +70,9 @@ const StreaksGuessMap: FC<Props> = ({
     dispatch(updateGuessMapSize({ guessMapSize: newMapSize }))
   }
 
-  const onInit = (map: any, maps: any) => {
+  const onInit = async (map: any, maps: any) => {
+    const { default: countryBounds } = await import('@utils/constants/countryBounds.json')
+
     maps.event.addListener(map, 'click', (e: any) => {
       const clickedCoords = [e.latLng.lng(), e.latLng.lat()]
       const clickedPoint = formatPolygon(clickedCoords, {}, 'Point')

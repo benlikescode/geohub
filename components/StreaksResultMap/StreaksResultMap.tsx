@@ -4,7 +4,6 @@ import { FC, useEffect, useRef, useState } from 'react'
 import Game from '@backend/models/game'
 import { Marker } from '@components/Marker'
 import { LocationType } from '@types'
-import countryBounds from '@utils/constants/countryBounds.json'
 import { POLYGON_STYLES } from '@utils/constants/polygonStyles'
 import { formatPolygon } from '@utils/helpers'
 import { useAppSelector } from '../../redux-utils'
@@ -35,7 +34,9 @@ const ResultMap: FC<Props> = ({ gameData }) => {
     setActualMarker(actualCountry)
   }
 
-  const loadCountryGeojson = (map: google.maps.Map) => {
+  const loadCountryGeojson = async (map: google.maps.Map) => {
+    const { default: countryBounds } = await import('@utils/constants/countryBounds.json')
+
     const bounds = countryBounds as any
 
     const { countryCode } = actualCountry
