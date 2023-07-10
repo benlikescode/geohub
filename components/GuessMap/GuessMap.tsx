@@ -6,6 +6,7 @@ import { ArrowRightIcon, XIcon } from '@heroicons/react/outline'
 import { useAppDispatch, useAppSelector } from '@redux/hook'
 import { updateGuessMapSize } from '@redux/slices'
 import { LocationType } from '@types'
+import { GUESS_MAP_OPTIONS } from '@utils/constants/googleMapOptions'
 import { getGuessMapSize } from '@utils/helpers'
 import getMapsKey from '../../utils/helpers/getMapsKey'
 import { StyledGuessMap } from './'
@@ -105,13 +106,7 @@ const GuessMap: FC<Props> = ({ currGuess, setCurrGuess, mobileMapOpen, closeMobi
             defaultZoom={1}
             yesIWantToUseGoogleMapApiInternals
             onGoogleApiLoaded={({ map, maps }) => onInit(map, maps)}
-            options={{
-              disableDefaultUI: true,
-              clickableIcons: false,
-              gestureHandling: 'greedy',
-              minZoom: 1,
-              draggableCursor: 'crosshair',
-            }}
+            options={GUESS_MAP_OPTIONS}
           >
             {marker && (
               <Marker lat={marker.lat} lng={marker.lng} type="guess" userAvatar={user.avatar} isFinalResults={false} />

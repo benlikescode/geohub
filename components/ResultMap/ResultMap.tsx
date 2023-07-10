@@ -4,6 +4,7 @@ import { FC, useEffect, useRef, useState } from 'react'
 import { Marker } from '@components/Marker'
 import { useAppSelector } from '@redux/hook'
 import { GuessType, LocationType } from '@types'
+import { RESULT_MAP_OPTIONS } from '@utils/constants/googleMapOptions'
 import { createMapPolyline } from '@utils/helpers'
 import getMapsKey from '../../utils/helpers/getMapsKey'
 import { StyledResultMap } from './'
@@ -95,12 +96,7 @@ const ResultMap: FC<Props> = ({
             getMapBounds(map)
             resultMapRef.current = map
           }}
-          options={{
-            clickableIcons: false,
-            minZoom: 2,
-            disableDefaultUI: true,
-            gestureHandling: 'greedy',
-          }}
+          options={RESULT_MAP_OPTIONS}
         >
           {guessMarkers.map((marker, idx) => (
             <Marker

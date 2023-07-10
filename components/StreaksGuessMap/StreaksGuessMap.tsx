@@ -8,6 +8,7 @@ import { updateGuessMapSize } from '@redux/slices'
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon'
 import { multiPolygon, polygon } from '@turf/helpers'
 import countries from '@utils/constants/countries'
+import { GUESS_MAP_OPTIONS } from '@utils/constants/googleMapOptions'
 import { POLYGON_STYLES } from '@utils/constants/polygonStyles'
 import { formatPolygon, getGuessMapSize, getMapsKey } from '@utils/helpers'
 import { StyledStreaksGuessMap } from './'
@@ -131,13 +132,7 @@ const StreaksGuessMap: FC<Props> = ({
             defaultZoom={1}
             yesIWantToUseGoogleMapApiInternals
             onGoogleApiLoaded={({ map, maps }) => onInit(map, maps)}
-            options={{
-              disableDefaultUI: true,
-              clickableIcons: false,
-              gestureHandling: 'greedy',
-              minZoom: 1,
-              draggableCursor: 'crosshair',
-            }}
+            options={GUESS_MAP_OPTIONS}
           ></GoogleMapReact>
 
           {countryStreakGuess && selectedCountryName && (
