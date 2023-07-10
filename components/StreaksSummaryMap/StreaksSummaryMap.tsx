@@ -4,6 +4,7 @@ import { FC, useEffect, useRef, useState } from 'react'
 import Game from '@backend/models/game'
 import { Marker } from '@components/Marker'
 import { LocationType } from '@types'
+import { RESULT_MAP_OPTIONS } from '@utils/constants/googleMapOptions'
 import { POLYGON_STYLES } from '@utils/constants/polygonStyles'
 import { formatPolygon, getMapsKey } from '@utils/helpers'
 import { useAppSelector } from '../../redux-utils'
@@ -80,12 +81,7 @@ const StreaksSummaryMap: FC<Props> = ({ gameData }) => {
             loadCountryGeojson(map)
             resultMapRef.current = map
           }}
-          options={{
-            clickableIcons: false,
-            minZoom: 2,
-            disableDefaultUI: true,
-            gestureHandling: 'greedy',
-          }}
+          options={RESULT_MAP_OPTIONS}
         >
           {actualMarkers.map((marker, idx) => (
             <Marker
