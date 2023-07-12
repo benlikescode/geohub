@@ -71,19 +71,44 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
     }
   }
 
-  const handleKeyDown = async (e: KeyboardEvent) => {
-    if (e.key === KEY_CODES.SPACE || e.key === KEY_CODES.SPACE_IE11 || e.key === KEY_CODES.ENTER) {
+  const handleSubmitGuessKeys = async (e: KeyboardEvent) => {
+    const submitGuessKeys = [KEY_CODES.SPACE, KEY_CODES.SPACE_IE11, KEY_CODES.ENTER]
+
+    if (submitGuessKeys.includes(e.key)) {
       await handleSubmitGuess()
     }
   }
 
   useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown)
+    document.addEventListener('keydown', handleSubmitGuessKeys)
 
     return () => {
-      document.removeEventListener('keydown', handleKeyDown)
+      document.removeEventListener('keydown', handleSubmitGuessKeys)
     }
   }, [currGuess, countryStreakGuess])
+
+  const handleMovingArrowKeys = (e: KeyboardEvent) => {
+    const movingArrowKeys = [
+      KEY_CODES.ARROW_DOWN,
+      KEY_CODES.ARROW_DOWN_IE11,
+      KEY_CODES.ARROW_UP,
+      KEY_CODES.ARROW_UP_IE11,
+      'w',
+      's',
+    ]
+
+    if (!gameData.gameSettings.canMove && movingArrowKeys.includes(e.key)) {
+      e.stopPropagation()
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleMovingArrowKeys, { capture: true })
+
+    return () => {
+      document.removeEventListener('keydown', handleMovingArrowKeys, { capture: true })
+    }
+  }, [])
 
   const loadLocation = () => {
     var sv = new window.google.maps.StreetViewService()
