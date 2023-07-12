@@ -6,26 +6,6 @@ GeoHub is my own version of the popular geography guessing game: Geoguessr.
 
 For those unfamilar with Geoguessr, it uses Google Streetview to place you in a random location and you have to guess where you think you are in the world. You can move around and use clues around you such as Language, Architecture, Road Signs, etc... to make your guess. The objective is clear, the closer you are to the correct location, the more points you get.
 
-## FAQ
-
-1. Why are the colors inverted on google maps?
-
-- This means the daily quota for the google maps API has been reached since the game is currently running on the Google Maps free tier. The daily quota resets at midnight Pacific Time (PT). If you want to play unlimited games without hitting the daily quota, see below for how to add/create your own Google Maps API key.
-
-2. How do I add my own Google Maps API key?
-
-- Go to your profile page and click on the settings button on the far right (alternatively you can go to this URL: [Settings](https://geohub.vercel.app/user/settings)).
-- You then simply paste your key into the `Custom API Key` field and click `Save Changes`. Now all you have to do is refresh the page and enojoy playing as much as you want!
-
-3. How do I create my own Google Maps API key?
-
-- Follow the steps outlined in this [PDF](https://geohub.vercel.app/custom-key-instructions.pdf)
-
-4. Will it cost me money to create my own Google Maps API key?
-
-- Short answer: No, it is nearly impossible to exceed the $200 USD credit per month on your own. To put it into perspective, you would have to play atleast 100 games every day of the month to even come close to exceeding the free tier.
-- If you are still concerned about getting billed, you can monitor your current billing period usage at any time by going to the Billing page on your Google Cloud account.
-
 ## How do I play?
 
 Go to the website: [GeoHub](https://geohub.vercel.app) and create an account, it is free and takes 15 seconds. If you don't want to create your own account, you can login to the guest account using the credentials below:
@@ -65,6 +45,26 @@ Tired of having the locations picked for you? Create your own map by following t
 5. Once on the map editor page, you can start adding locations to your map
 6. Click anywhere on the map to preview the streetview location
 7. Once you have added all the locations you want, click on the `Save Map` button which will save and publish your map
+
+## FAQ
+
+1. Why are the colors inverted on google maps?
+
+   - This means the daily quota for the google maps API has been reached since the game is currently running on the Google Maps free tier. The daily quota resets at midnight Pacific Time (PT). If you want to play unlimited games without hitting the daily quota, see below for how to add/create your own Google Maps API key.
+
+2. How do I add my own Google Maps API key?
+
+   - Go to your profile page and click on the settings button on the far right (alternatively you can go to this URL: [Settings](https://geohub.vercel.app/user/settings)).
+   - You then simply paste your key into the `Custom API Key` field and click `Save Changes`. Now all you have to do is refresh the page and enojoy playing as much as you want!
+
+3. How do I create my own Google Maps API key?
+
+   - Follow the steps outlined in this [PDF](https://geohub.vercel.app/custom-key-instructions.pdf)
+
+4. Will it cost me money to create my own Google Maps API key?
+
+   - Short answer: No, it is nearly impossible to exceed the $200 USD credit per month on your own. To put it into perspective, you would have to play atleast 100 games every day of the month to even come close to exceeding the free tier.
+   - If you are still concerned about getting billed, you can monitor your current billing period usage at any time by going to the Billing page on your Google Cloud account.
 
 ## Steps to run locally
 
