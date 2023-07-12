@@ -6,6 +6,8 @@ import { MapType } from '@types'
 import { formatDistance, formatLargeNumber, formatRoundTime, formatSettingsLabel } from '@utils/helpers'
 import { useAppSelector } from '../../../redux-utils'
 import { StyledLeaderboardCard } from './'
+import Link from 'next/link'
+import { Button } from '@components/system'
 
 type Props = {
   gameData: Game[]
@@ -43,6 +45,18 @@ const LeaderboardCard: FC<Props> = ({ gameData, mapData, selectedGameIndex, setS
               <span className="label2">{formatSettingsLabel(gameData[0].gameSettings)}</span>
             </div>
           </div>
+
+          <Link href={`/map/${gameData[0].mapId}`}>
+            <a>
+              <Button>Play Again</Button>
+            </a>
+          </Link>
+
+          <Link href={`/`}>
+            <a>
+              <Button>Return to Home</Button>
+            </a>
+          </Link>
         </div>
 
         <div className="leaderboardSection">
