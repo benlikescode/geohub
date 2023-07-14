@@ -13,7 +13,7 @@ export const collections: {
 } = {}
 
 const IS_PROD = process.env.NODE_ENV === 'production'
-const MONGO_URI = process.env.MONGO_URI as string
+const MONGO_URI = IS_PROD ? (process.env.MONGO_URI as string) : (process.env.LOCAL_MONGO as string)
 
 let cachedDb: Db | null = null
 

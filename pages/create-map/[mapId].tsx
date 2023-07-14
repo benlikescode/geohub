@@ -8,24 +8,12 @@ import { NotFound } from '@components/errorViews'
 import { Head } from '@components/Head'
 import { MobileNav, Navbar } from '@components/layout'
 import { CreateMapModal } from '@components/modals'
-import {
-  Avatar,
-  Button,
-  Skeleton,
-  Spinner,
-  ToggleSwitch
-} from '@components/system'
+import { Avatar, Button, Skeleton, Spinner, ToggleSwitch } from '@components/system'
 import { CloudUploadIcon, PencilIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
 import StyledCreateMapPage from '@styles/CreateMapPage.Styled'
 import { LocationType, MapType, PageType } from '@types'
-import {
-  createMapMarker,
-  getMapsKey,
-  mailman,
-  showErrorToast,
-  showSuccessToast
-} from '@utils/helpers'
+import { createMapMarker, getMapsKey, mailman, showErrorToast, showSuccessToast } from '@utils/helpers'
 import { useConfirmLeave } from '../../utils/hooks'
 
 const SELECTED_MARKER_ICON = '/images/selected-pin.png'

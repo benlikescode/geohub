@@ -20,8 +20,7 @@ type Props = {
 }
 
 const GuessMap: FC<Props> = ({ currGuess, setCurrGuess, mobileMapOpen, closeMobileMap, handleSubmitGuess }) => {
-  const [mapHeight, setMapHeight] = useState(15) // height in vh
-  const [mapWidth, setMapWidth] = useState(15) // width in vw
+  const [mapSize, setMapSize] = useState(getGuessMapSize(1))
   const [hovering, setHovering] = useState(false)
   const [marker, setMarker] = useState<{ lat: number; lng: number } | null>(null)
 
@@ -32,17 +31,13 @@ const GuessMap: FC<Props> = ({ currGuess, setCurrGuess, mobileMapOpen, closeMobi
   const handleMapHover = () => {
     clearInterval(hoverDelay.current)
     setHovering(true)
-
-    const { width, height } = getGuessMapSize(user.guessMapSize as number)
-    setMapHeight(height)
-    setMapWidth(width)
+    setMapSize(getGuessMapSize(user.guessMapSize as number))
   }
 
   const handleMapLeave = () => {
     hoverDelay.current = setTimeout(() => {
       setHovering(false)
-      setMapHeight(15)
-      setMapWidth(15)
+      setMapSize(getGuessMapSize(1))
     }, 700)
   }
 
@@ -55,9 +50,7 @@ const GuessMap: FC<Props> = ({ currGuess, setCurrGuess, mobileMapOpen, closeMobi
       newMapSize = (user.guessMapSize as number) - 1
     }
 
-    const { width, height } = getGuessMapSize(newMapSize)
-    setMapHeight(height)
-    setMapWidth(width)
+    setMapSize(getGuessMapSize(newMapSize))
 
     dispatch(updateGuessMapSize({ guessMapSize: newMapSize }))
   }
@@ -78,7 +71,7 @@ const GuessMap: FC<Props> = ({ currGuess, setCurrGuess, mobileMapOpen, closeMobi
   }
 
   return (
-    <StyledGuessMap mapHeight={mapHeight} mapWidth={mapWidth} mobileMapOpen={mobileMapOpen}>
+    <StyledGuessMap mapSize={mapSize} mobileMapOpen={mobileMapOpen}>
       <div className="guessMapWrapper" onMouseOver={handleMapHover} onMouseLeave={handleMapLeave}>
         {hovering && (
           <div className="controls">

@@ -5,21 +5,13 @@ type StyledProps = {
 }
 
 const StyledStreetView = styled.div<StyledProps>`
-  #map {
-    position: fixed !important;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 100%;
-    width: 100%;
-    display: none;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
 
-    ${({ showMap }) =>
-      showMap &&
-      `
-      display: block
-    `}
+  iframe {
+    /* pointer-events: none; */
+    user-select: none;
   }
 
   .toggle-map-button {

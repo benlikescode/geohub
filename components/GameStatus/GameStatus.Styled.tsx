@@ -1,26 +1,21 @@
 import styled from 'styled-components'
 
 const StyledGameStatus = styled.div`
-  background-color: rgba(0, 0, 0, 0.8);
-  border-radius: 4px;
+  background-color: #222;
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 10px;
+  left: 0px;
   z-index: 2;
   display: flex;
   align-items: center;
   font-weight: 400;
   font-size: 1rem;
-  border: 1px solid #0e0e0e;
+  border: 1px solid #282828;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
 
   .infoSection {
     padding: 10px 25px;
-
-    &.mapName {
-      @media (max-width: 600px) {
-        display: none;
-      }
-    }
   }
 
   .streak-section {

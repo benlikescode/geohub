@@ -5,6 +5,11 @@ const StyledLoadingPage = styled.main`
   align-items: center;
   justify-content: center;
   height: 100vh;
+  width: 100%;
+  z-index: 999999999999;
+  position: fixed;
+  inset: 0;
+  background-color: #0e0e0e;
 `
 
 export default StyledLoadingPage

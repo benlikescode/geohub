@@ -1,8 +1,7 @@
 import styled from 'styled-components'
 
 type StyledProps = {
-  mapHeight: number
-  mapWidth: number
+  mapSize: { height: number; width: number }
   mobileMapOpen?: boolean
 }
 
@@ -10,7 +9,7 @@ const StyledGuessMap = styled.div<StyledProps>`
   .guessMapWrapper {
     position: absolute;
     bottom: 20px;
-    right: 20px;
+    right: 70px;
     z-index: 3;
 
     @media (max-width: 600px) {
@@ -32,9 +31,8 @@ const StyledGuessMap = styled.div<StyledProps>`
   }
 
   .map {
-    height: ${({ mapHeight }) => mapHeight}vh;
-    width: ${({ mapWidth }) => mapWidth}vw;
-    opacity: ${({ mapWidth }) => (mapWidth === 300 ? 0.5 : 1)};
+    height: ${({ mapSize }) => mapSize.height}vh;
+    width: ${({ mapSize }) => mapSize.width}vw;
     border-radius: 4px;
     transition: opacity 0.1s ease, width 0.1s ease, height 0.1s ease;
     position: relative;

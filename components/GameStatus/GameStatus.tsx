@@ -56,7 +56,6 @@ const GameStatus: FC<Props> = ({ gameData, handleSubmitGuess, hasCustomRoundLeng
               <span>Map</span>
             </div>
             <div className="value">
-              {/* <span>{gameData.mapDetails?.name || gameData?.mapName}</span> */}
               <span>{game.mapName}</span>
             </div>
           </div>

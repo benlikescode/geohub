@@ -1,4 +1,3 @@
-import GoogleMapReact from 'google-map-react'
 import { FC, useEffect, useRef, useState } from 'react'
 import { Game } from '@backend/models'
 import { GameStatus } from '@components/GameStatus'
@@ -6,12 +5,12 @@ import { GuessMap } from '@components/GuessMap'
 import { LoadingPage } from '@components/layout'
 import { StreaksGuessMap } from '@components/StreaksGuessMap'
 import { StreetViewControls } from '@components/StreetViewControls'
+import { StreetViewEmbed } from '@components/StreetViewEmbed'
 import { MapIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
 import { LocationType } from '@types'
 import { KEY_CODES } from '@utils/constants/keyCodes'
-import { URBAN_WORLD_ID } from '@utils/constants/random'
-import { getMapsKey, mailman, showErrorToast } from '@utils/helpers'
+import { mailman, showErrorToast } from '@utils/helpers'
 import { StyledStreetView } from './'
 
 type Props = {
@@ -27,7 +26,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
   const [adjustedLocation, setAdjustedLocation] = useState<LocationType | null>(null)
   const [mobileMapOpen, setMobileMapOpen] = useState(false)
 
-  const location = gameData.rounds[gameData.round - 1]
+  const location = useRef<LocationType>(gameData.rounds[gameData.round - 1])
   const game = useAppSelector((state) => state.game)
   const user = useAppSelector((state) => state.user)
   const panoramaRef = useRef<google.maps.StreetViewPanorama | null>(null)
@@ -82,8 +81,15 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
   useEffect(() => {
     document.addEventListener('keydown', handleSubmitGuessKeys)
 
+    const delay = 1000
+
+    const timer = setTimeout(() => {
+      setLoading(false)
+    }, delay)
+
     return () => {
       document.removeEventListener('keydown', handleSubmitGuessKeys)
+      clearTimeout(timer)
     }
   }, [currGuess, countryStreakGuess])
 
@@ -110,107 +116,36 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
     }
   }, [])
 
-  const loadLocation = () => {
-    var sv = new window.google.maps.StreetViewService()
-    var panorama = new window.google.maps.StreetViewPanorama(document.getElementById('map') as HTMLElement, {
-      addressControl: false, // hide address
-      linksControl: gameData.gameSettings.canMove, // arrows to move
-      panControl: true, // compass
-      panControlOptions: {
-        position: google.maps.ControlPosition.LEFT_BOTTOM,
-      },
-      motionTracking: false, // mobile tracking
-      motionTrackingControl: false,
-      enableCloseButton: false, // hide default UI elements
-      zoomControl: false,
-      fullscreenControl: false,
-      showRoadLabels: false, // hide road labels
-      clickToGo: gameData.gameSettings.canMove,
-      scrollwheel: gameData.gameSettings.canZoom,
-    })
-
-    const processSVData = (data: any, status: any) => {
-      if (data == null) {
-        console.log('There was an error loading the round :(')
-      } else {
-        const adjustedLat = data.location.latLng.lat()
-        const adjustedLng = data.location.latLng.lng()
-        const adjustedLocation = { ...location, lat: adjustedLat, lng: adjustedLng }
-
-        setAdjustedLocation(adjustedLocation)
-
-        panorama.setPano(data.location.pano)
-        panorama.setPov({
-          heading: location.heading || 0,
-          pitch: location.pitch || 0,
-        })
-        panorama.setZoom(location.zoom || 0)
-        panorama.setVisible(true)
-      }
-    }
-
-    sv.getPanorama(getPanoSettings(location, gameData.mapId.toString()), processSVData)
-
-    panoramaRef.current = panorama
-
-    setLoading(false)
-  }
-
-  const getPanoSettings = (location: LocationType, mapId: string) => {
-    // Need a larger radius for Urban World
-    if (mapId === URBAN_WORLD_ID) {
-      return {
-        location,
-        radius: 1000,
-        source: google.maps.StreetViewSource.OUTDOOR,
-      }
-    }
-
-    return {
-      location,
-      radius: 50,
-    }
-  }
-
   return (
     <StyledStreetView showMap={!loading}>
       {loading && <LoadingPage />}
 
-      <div id="map">
-        <StreetViewControls handleBackToStart={handleBackToStart} />
-        <GameStatus gameData={gameData} handleSubmitGuess={handleSubmitGuess} />
-        {gameData.mode === 'standard' && (
-          <GuessMap
-            currGuess={currGuess}
-            setCurrGuess={setCurrGuess}
-            handleSubmitGuess={handleSubmitGuess}
-            mobileMapOpen={mobileMapOpen}
-            closeMobileMap={() => setMobileMapOpen(false)}
-          />
-        )}
+      <StreetViewEmbed location={location.current} />
+      <StreetViewControls handleBackToStart={handleBackToStart} />
+      <GameStatus gameData={gameData} handleSubmitGuess={handleSubmitGuess} />
+      {gameData.mode === 'standard' && (
+        <GuessMap
+          currGuess={currGuess}
+          setCurrGuess={setCurrGuess}
+          handleSubmitGuess={handleSubmitGuess}
+          mobileMapOpen={mobileMapOpen}
+          closeMobileMap={() => setMobileMapOpen(false)}
+        />
+      )}
 
-        {gameData.mode === 'streak' && (
-          <StreaksGuessMap
-            countryStreakGuess={countryStreakGuess}
-            setCountryStreakGuess={setCountryStreakGuess}
-            handleSubmitGuess={handleSubmitGuess}
-            mobileMapOpen={mobileMapOpen}
-            closeMobileMap={() => setMobileMapOpen(false)}
-          />
-        )}
+      {gameData.mode === 'streak' && (
+        <StreaksGuessMap
+          countryStreakGuess={countryStreakGuess}
+          setCountryStreakGuess={setCountryStreakGuess}
+          handleSubmitGuess={handleSubmitGuess}
+          mobileMapOpen={mobileMapOpen}
+          closeMobileMap={() => setMobileMapOpen(false)}
+        />
+      )}
 
-        <button className="toggle-map-button" onClick={() => setMobileMapOpen(true)}>
-          <MapIcon />
-        </button>
-      </div>
-
-      <GoogleMapReact
-        bootstrapURLKeys={getMapsKey(user.mapsAPIKey)}
-        center={location}
-        zoom={11}
-        yesIWantToUseGoogleMapApiInternals
-        onGoogleApiLoaded={({ map, maps }) => loadLocation()}
-      ></GoogleMapReact>
+      <button className="toggle-map-button" onClick={() => setMobileMapOpen(true)}>
+        <MapIcon />
+      </button>
     </StyledStreetView>
   )
 }
