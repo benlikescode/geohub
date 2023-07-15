@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@googlemaps/js-api-loader": "^1.16.2",
     "@heroicons/react": "^1.0.4",
     "@reduxjs/toolkit": "^1.8.2",
     "@turf/boolean-point-in-polygon": "^6.5.0",

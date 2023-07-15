@@ -18,6 +18,8 @@ export const GUESS_MAP_OPTIONS = {
   minZoom: 1,
   draggableCursor: 'crosshair',
   styles: showPOIs,
+  zoom: 1,
+  center: { lat: 0, lng: 0 },
 }
 
 export const RESULT_MAP_OPTIONS = {

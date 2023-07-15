@@ -1,26 +1,28 @@
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Game from '@backend/models/game'
-import { NotFound } from '@components/errorViews'
 import { Head } from '@components/Head'
-import { LoadingPage } from '@components/layout'
-import { StandardFinalResults, StandardResults, StreakFinalResults, StreakResults } from '@components/resultCards'
-import { ResultMap } from '@components/ResultMap'
-import { StreaksResultMap } from '@components/StreaksResultMap'
-import { StreaksSummaryMap } from '@components/StreaksSummaryMap'
-import { StreetView } from '@components/StreetView'
+import { TestComp } from '@components/TestComp'
+import { Loader } from '@googlemaps/js-api-loader'
 import { useAppDispatch } from '@redux/hook'
 import { updateRecentlyPlayed } from '@redux/slices'
 import StyledGamePage from '@styles/GamePage.Styled'
 import { PageType } from '@types'
+import { GUESS_MAP_OPTIONS } from '@utils/constants/googleMapOptions'
 import { mailman } from '@utils/helpers'
+
+const GEOHUB_MAPS_KEY = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string
 
 const GamePage: PageType = () => {
   const [view, setView] = useState<'Game' | 'Result' | 'FinalResults'>('Game')
   const [gameData, setGameData] = useState<Game | null>()
+  const [googleMap, setGoogleMap] = useState<any>()
+  const [showSecond, setShowSecond] = useState(false)
   const router = useRouter()
   const gameId = router.query.id as string
   const dispatch = useAppDispatch()
+
+  const mapRef = useRef<any>(null)
 
   const fetchGame = async () => {
     const res = await mailman(`games/${gameId}`)
@@ -62,66 +64,38 @@ const GamePage: PageType = () => {
     }
   }, [gameId, view])
 
-  if (gameData === null) {
-    return <NotFound title="Game Not Found" message="This game likely does not exist or does not belong to you." />
-  }
+  useEffect(() => {
+    // if (!mapRef || !mapRef.current) return
 
-  if (!gameData) {
-    return <LoadingPage />
-  }
+    const loader = new Loader({
+      apiKey: GEOHUB_MAPS_KEY, // Replace with your own Google Maps API key
+      version: 'weekly',
+    })
+
+    loader.load().then((google) => {
+      console.log(mapRef.current)
+      const map = new google.maps.Map(document.getElementById('herro') as HTMLElement, GUESS_MAP_OPTIONS)
+      setGoogleMap(map)
+
+      map.addListener('click', () => setShowSecond(true))
+    })
+  }, [])
+
+  // if (gameData === null) {
+  //   return <NotFound title="Game Not Found" message="This game likely does not exist or does not belong to you." />
+  // }
+
+  // if (!gameData) {
+  //   return <LoadingPage />
+  // }
 
   return (
     <StyledGamePage>
       <Head title={`Game - GeoHub`} />
 
-      {view === 'Game' && <StreetView gameData={gameData} setGameData={setGameData} setView={setView} />}
+      {!showSecond && <div id="herro" style={{ height: '100%', width: '100%' }}></div>}
 
-      {view !== 'Game' && (
-        <>
-          {/* Result Maps */}
-          {gameData.mode === 'standard' && view === 'Result' && (
-            <ResultMap guessedLocations={gameData.guesses} actualLocations={gameData.rounds} round={gameData.round} />
-          )}
-
-          {gameData.mode === 'standard' && view === 'FinalResults' && (
-            <ResultMap
-              guessedLocations={gameData.guesses}
-              actualLocations={gameData.rounds}
-              round={gameData.round}
-              isFinalResults
-            />
-          )}
-
-          {gameData.mode === 'streak' && view === 'Result' && <StreaksResultMap gameData={gameData} />}
-
-          {gameData.mode === 'streak' && view === 'FinalResults' && <StreaksSummaryMap gameData={gameData} />}
-
-          {/* Result Cards */}
-          <div className="resultsWrapper">
-            {gameData.mode === 'standard' && view === 'Result' && (
-              <StandardResults
-                round={gameData.round}
-                distance={gameData.guesses[gameData.guesses.length - 1].distance}
-                points={gameData.guesses[gameData.guesses.length - 1].points}
-                noGuess={
-                  gameData.guesses[gameData.guesses.length - 1].timedOut &&
-                  !gameData.guesses[gameData.guesses.length - 1].timedOutWithGuess
-                }
-                setView={setView}
-              />
-            )}
-
-            {gameData.mode === 'standard' && view === 'FinalResults' && <StandardFinalResults gameData={gameData} />}
-
-            {gameData.mode === 'streak' && view === 'Result' && <StreakResults gameData={gameData} setView={setView} />}
-
-            {gameData.mode === 'streak' && view === 'FinalResults' && (
-              <StreakFinalResults gameData={gameData} setView={setView} />
-            )}
-          </div>
-        </>
-      )}
-      <></>
+      {showSecond && <TestComp googleMap={googleMap} />}
     </StyledGamePage>
   )
 }
