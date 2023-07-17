@@ -217,7 +217,7 @@ const StyledSidebar = styled.div`
   }
 
   @media (max-width: 1200px) {
-    .footer {
+    .sidebar-footer {
       flex-direction: column;
     }
 
