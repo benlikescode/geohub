@@ -9,7 +9,6 @@ import { StandardFinalResults, StandardResults, StreakFinalResults, StreakResult
 import { ResultMap } from '@components/ResultMap'
 import { StreaksResultMap } from '@components/StreaksResultMap'
 import { StreaksSummaryMap } from '@components/StreaksSummaryMap'
-import { StreetView } from '@components/StreetView'
 import { useAppDispatch } from '@redux/hook'
 import { updateStartTime } from '@redux/slices'
 import StyledGamePage from '@styles/GamePage.Styled'
@@ -99,7 +98,7 @@ const ChallengePage: PageType = () => {
     <StyledGamePage>
       <Head title={`Challenge - GeoHub`} />
 
-      {view === 'Game' && <StreetView gameData={gameData} setGameData={setGameData} setView={setView} />}
+      {/* {view === 'Game' && <StreetView gameData={gameData} setGameData={setGameData} setView={setView} />} */}
 
       {view !== 'Game' && (
         <>

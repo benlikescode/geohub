@@ -72,7 +72,7 @@ const StreaksSummaryMap: FC<Props> = ({ gameData }) => {
     <StyledStreaksSummaryMap>
       <div className="map">
         <GoogleMapReact
-          bootstrapURLKeys={getMapsKey(user.mapsAPIKey)}
+          bootstrapURLKeys={{ key: getMapsKey(user.mapsAPIKey) }}
           center={{ lat: 0, lng: 0 }}
           zoom={2}
           yesIWantToUseGoogleMapApiInternals
