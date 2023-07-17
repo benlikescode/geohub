@@ -1,26 +1,18 @@
 import styled from 'styled-components'
 
 const StyledSidebar = styled.div`
-  /* position: sticky;
-  top: var(--navbarHeight); */
   height: calc(100vh - var(--navbarHeight));
 
   .sidebar {
     width: var(--sidebarWidth);
-    //border-right: 1px solid #252525;
-    //border-right: 1px solid #181818;
     height: 100%;
-    //position: fixed;
-    //background-color: var(--background2);
-    //background-color: #1f1f23;
-    //background-color: #141416;
-    //background-color: #1a1a1c;
     background-color: ${({ theme }) => theme.color.gray[900]};
     border-right: 1px solid ${({ theme }) => theme.color.gray[800]};
     z-index: 1;
-    overflow: hidden auto;
     height: 100% !important;
     flex-shrink: 0 !important;
+    display: grid;
+    grid-template-rows: 1fr auto;
 
     @media (max-width: 1200px) {
       width: 60px;
@@ -29,6 +21,10 @@ const StyledSidebar = styled.div`
     @media (max-width: 600px) {
       display: none;
     }
+  }
+
+  .sidebar-scrollable {
+    overflow: hidden auto;
   }
 
   .sidebarItemGrid {
@@ -117,18 +113,6 @@ const StyledSidebar = styled.div`
     }
   }
 
-  .footer {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 15px 25px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    border-top: var(--border);
-  }
-
   .recentMapsWrapper {
     padding: 0 4px;
     display: grid;
@@ -173,6 +157,92 @@ const StyledSidebar = styled.div`
       align-items: center;
       gap: 8px;
       padding: 4px 8px;
+    }
+  }
+
+  .support-link {
+    background-color: #333;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: #fff;
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 5px;
+    height: 40px;
+    padding: 0 10px;
+    font-size: 1rem;
+    font-weight: 400;
+    user-select: none;
+
+    &:hover {
+      background-color: #404040;
+    }
+
+    svg {
+      height: 20px;
+      position: relative;
+      top: -1px;
+    }
+  }
+
+  .sidebar-footer {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 8px;
+    border-top: 1px solid #262626;
+  }
+
+  .social-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    .social-link {
+      height: 20px;
+
+      &:hover {
+        svg {
+          fill: #777;
+        }
+      }
+
+      svg {
+        height: 100%;
+        fill: #555;
+      }
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .footer {
+      flex-direction: column;
+    }
+
+    .support-link {
+      background-color: transparent;
+      border: none;
+      color: #555;
+      height: 20px;
+
+      &:hover {
+        background-color: transparent;
+        color: #777;
+      }
+
+      svg {
+        height: 24px;
+      }
+
+      span {
+        display: none;
+      }
+    }
+
+    .social-links {
+      flex-direction: column;
     }
   }
 `
