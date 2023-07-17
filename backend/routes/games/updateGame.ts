@@ -16,7 +16,7 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
   const userId = await getUserId(req, res)
 
   const getGameQuery = { _id: new ObjectId(gameId) }
-  const { guess, guessTime, localRound, timedOut, timedOutWithGuess, adjustedLocation, streakLocationCode } = req.body
+  const { guess, guessTime, localRound, timedOut, timedOutWithGuess, streakLocationCode } = req.body
 
   const game = (await collections.games?.findOne(getGameQuery)) as Game
 
@@ -94,11 +94,6 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
 
         game.rounds = game.rounds.concat(newLocations)
       }
-    }
-
-    // Updates the previously generated round to the coordinates returned by the Google SV Pano
-    if (adjustedLocation) {
-      game.rounds[localRound - 1] = adjustedLocation
     }
   }
 
