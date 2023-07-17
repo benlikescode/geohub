@@ -16,6 +16,7 @@ type Props = {
   isFinalResults?: boolean
   isLeaderboard?: boolean
   userAvatar?: { emoji: string; color: string }
+  resetMap?: boolean
 }
 
 const ResultMap: FC<Props> = ({
@@ -25,6 +26,7 @@ const ResultMap: FC<Props> = ({
   isFinalResults,
   isLeaderboard,
   userAvatar,
+  resetMap,
 }) => {
   const [guessMarkers, setGuessMarkers] = useState<GuessType[]>([])
   const [actualMarkers, setActualMarkers] = useState<LocationType[]>([])
@@ -41,6 +43,13 @@ const ResultMap: FC<Props> = ({
 
     loadMapMarkers(resultMapRef.current)
   }, [guessedLocations, actualLocations])
+
+  useEffect(() => {
+    if (resetMap && resultMapRef.current) {
+      loadMapMarkers(resultMapRef.current)
+      getMapBounds(resultMapRef.current)
+    }
+  }, [resetMap])
 
   const getMapBounds = (map: google.maps.Map) => {
     const bounds = new google.maps.LatLngBounds()
@@ -87,7 +96,7 @@ const ResultMap: FC<Props> = ({
     <StyledResultMap>
       <div className="map">
         <GoogleMapReact
-          bootstrapURLKeys={getMapsKey(user.mapsAPIKey)}
+          bootstrapURLKeys={{ key: getMapsKey(user.mapsAPIKey) }}
           center={{ lat: 0, lng: 0 }}
           zoom={2}
           yesIWantToUseGoogleMapApiInternals

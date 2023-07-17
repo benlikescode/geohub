@@ -1,13 +1,12 @@
 import GoogleMapReact from 'google-map-react'
-import { FC, useRef, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { Marker } from '@components/Marker'
 import { Button } from '@components/system'
 import { ArrowRightIcon, XIcon } from '@heroicons/react/outline'
-import { useAppDispatch, useAppSelector } from '@redux/hook'
-import { updateGuessMapSize } from '@redux/slices'
+import { useAppSelector } from '@redux/hook'
 import { LocationType } from '@types'
 import { GUESS_MAP_OPTIONS } from '@utils/constants/googleMapOptions'
-import { getGuessMapSize } from '@utils/helpers'
+import useGuessMap from '@utils/hooks/useGuessMap'
 import getMapsKey from '../../utils/helpers/getMapsKey'
 import { StyledGuessMap } from './'
 
@@ -17,50 +16,26 @@ type Props = {
   mobileMapOpen?: boolean
   closeMobileMap: () => void
   handleSubmitGuess: () => void
+  setMapsApiLoaded: (mapsApiLoaded: boolean) => void
+  resetMap?: boolean
 }
 
-const GuessMap: FC<Props> = ({ currGuess, setCurrGuess, mobileMapOpen, closeMobileMap, handleSubmitGuess }) => {
-  const [mapHeight, setMapHeight] = useState(15) // height in vh
-  const [mapWidth, setMapWidth] = useState(15) // width in vw
-  const [hovering, setHovering] = useState(false)
+const GuessMap: FC<Props> = ({
+  currGuess,
+  setCurrGuess,
+  mobileMapOpen,
+  closeMobileMap,
+  handleSubmitGuess,
+  setMapsApiLoaded,
+  resetMap,
+}) => {
   const [marker, setMarker] = useState<{ lat: number; lng: number } | null>(null)
 
-  const dispatch = useAppDispatch()
-  const hoverDelay = useRef<any>()
+  const { mapHeight, mapWidth, hovering, handleMapHover, handleMapLeave, changeMapSize } = useGuessMap()
+
   const user = useAppSelector((state) => state.user)
 
-  const handleMapHover = () => {
-    clearInterval(hoverDelay.current)
-    setHovering(true)
-
-    const { width, height } = getGuessMapSize(user.guessMapSize as number)
-    setMapHeight(height)
-    setMapWidth(width)
-  }
-
-  const handleMapLeave = () => {
-    hoverDelay.current = setTimeout(() => {
-      setHovering(false)
-      setMapHeight(15)
-      setMapWidth(15)
-    }, 700)
-  }
-
-  const changeMapSize = (change: 'increase' | 'decrease') => {
-    let newMapSize = 1
-
-    if (change === 'increase' && (user.guessMapSize as number) < 4) {
-      newMapSize = (user.guessMapSize as number) + 1
-    } else if (change === 'decrease' && (user.guessMapSize as number) > 1) {
-      newMapSize = (user.guessMapSize as number) - 1
-    }
-
-    const { width, height } = getGuessMapSize(newMapSize)
-    setMapHeight(height)
-    setMapWidth(width)
-
-    dispatch(updateGuessMapSize({ guessMapSize: newMapSize }))
-  }
+  const mapRef = useRef<google.maps.Map | null>(null)
 
   const addMarker = (e: any) => {
     const location = {
@@ -72,10 +47,23 @@ const GuessMap: FC<Props> = ({ currGuess, setCurrGuess, mobileMapOpen, closeMobi
   }
 
   const onInit = (map: any, maps: any) => {
+    setMapsApiLoaded(true)
+    console.log('gkahgkahkg')
     maps.event.addListener(map, 'click', (e: any) => {
       addMarker(e.latLng)
     })
+
+    mapRef.current = map
   }
+
+  useEffect(() => {
+    if (resetMap && mapRef.current) {
+      mapRef.current.setCenter({ lat: 0, lng: 0 })
+      mapRef.current.setZoom(1)
+      setCurrGuess(null)
+      setMarker(null)
+    }
+  }, [resetMap])
 
   return (
     <StyledGuessMap mapHeight={mapHeight} mapWidth={mapWidth} mobileMapOpen={mobileMapOpen}>
@@ -101,7 +89,7 @@ const GuessMap: FC<Props> = ({ currGuess, setCurrGuess, mobileMapOpen, closeMobi
         )}
         <div className="map">
           <GoogleMapReact
-            bootstrapURLKeys={getMapsKey(user.mapsAPIKey)}
+            bootstrapURLKeys={{ key: getMapsKey(user.mapsAPIKey) }}
             defaultCenter={{ lat: 0, lng: 0 }}
             defaultZoom={1}
             yesIWantToUseGoogleMapApiInternals

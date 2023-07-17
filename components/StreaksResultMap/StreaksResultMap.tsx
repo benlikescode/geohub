@@ -76,7 +76,7 @@ const ResultMap: FC<Props> = ({ gameData }) => {
     <StyledStreaksResultMap>
       <div className="map">
         <GoogleMapReact
-          bootstrapURLKeys={getMapsKey(user.mapsAPIKey)}
+          bootstrapURLKeys={{ key: getMapsKey(user.mapsAPIKey) }}
           center={{ lat: actualCountry.lat, lng: actualCountry.lng }}
           zoom={4}
           yesIWantToUseGoogleMapApiInternals

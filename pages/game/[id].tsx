@@ -2,6 +2,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Game from '@backend/models/game'
 import { NotFound } from '@components/errorViews'
+import { StandardGameView } from '@components/game/StandardGameView'
 import { Head } from '@components/Head'
 import { LoadingPage } from '@components/layout'
 import { StandardFinalResults, StandardResults, StreakFinalResults, StreakResults } from '@components/resultCards'
@@ -74,54 +75,7 @@ const GamePage: PageType = () => {
     <StyledGamePage>
       <Head title={`Game - GeoHub`} />
 
-      {view === 'Game' && <StreetView gameData={gameData} setGameData={setGameData} setView={setView} />}
-
-      {view !== 'Game' && (
-        <>
-          {/* Result Maps */}
-          {gameData.mode === 'standard' && view === 'Result' && (
-            <ResultMap guessedLocations={gameData.guesses} actualLocations={gameData.rounds} round={gameData.round} />
-          )}
-
-          {gameData.mode === 'standard' && view === 'FinalResults' && (
-            <ResultMap
-              guessedLocations={gameData.guesses}
-              actualLocations={gameData.rounds}
-              round={gameData.round}
-              isFinalResults
-            />
-          )}
-
-          {gameData.mode === 'streak' && view === 'Result' && <StreaksResultMap gameData={gameData} />}
-
-          {gameData.mode === 'streak' && view === 'FinalResults' && <StreaksSummaryMap gameData={gameData} />}
-
-          {/* Result Cards */}
-          <div className="resultsWrapper">
-            {gameData.mode === 'standard' && view === 'Result' && (
-              <StandardResults
-                round={gameData.round}
-                distance={gameData.guesses[gameData.guesses.length - 1].distance}
-                points={gameData.guesses[gameData.guesses.length - 1].points}
-                noGuess={
-                  gameData.guesses[gameData.guesses.length - 1].timedOut &&
-                  !gameData.guesses[gameData.guesses.length - 1].timedOutWithGuess
-                }
-                setView={setView}
-              />
-            )}
-
-            {gameData.mode === 'standard' && view === 'FinalResults' && <StandardFinalResults gameData={gameData} />}
-
-            {gameData.mode === 'streak' && view === 'Result' && <StreakResults gameData={gameData} setView={setView} />}
-
-            {gameData.mode === 'streak' && view === 'FinalResults' && (
-              <StreakFinalResults gameData={gameData} setView={setView} />
-            )}
-          </div>
-        </>
-      )}
-      <></>
+      <StandardGameView gameData={gameData} setGameData={setGameData} view={view} setView={setView} />
     </StyledGamePage>
   )
 }

@@ -3,14 +3,14 @@ import GoogleMapReact from 'google-map-react'
 import { FC, useRef, useState } from 'react'
 import { Button } from '@components/system'
 import { ArrowRightIcon, XIcon } from '@heroicons/react/outline'
-import { useAppDispatch, useAppSelector } from '@redux/hook'
-import { updateGuessMapSize } from '@redux/slices'
+import { useAppSelector } from '@redux/hook'
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon'
 import { multiPolygon, polygon } from '@turf/helpers'
 import countries from '@utils/constants/countries'
 import { GUESS_MAP_OPTIONS } from '@utils/constants/googleMapOptions'
 import { POLYGON_STYLES } from '@utils/constants/polygonStyles'
 import { formatPolygon, getGuessMapSize, getMapsKey } from '@utils/helpers'
+import useGuessMap from '@utils/hooks/useGuessMap'
 import { StyledStreaksGuessMap } from './'
 
 type Props = {
@@ -28,48 +28,11 @@ const StreaksGuessMap: FC<Props> = ({
   closeMobileMap,
   handleSubmitGuess,
 }) => {
-  const [mapHeight, setMapHeight] = useState(15) // height in vh
-  const [mapWidth, setMapWidth] = useState(15) // width in vw
-  const [hovering, setHovering] = useState(false)
   const [selectedCountryName, setSelectedCountryName] = useState('')
+  const { mapHeight, mapWidth, hovering, handleMapHover, handleMapLeave, changeMapSize } = useGuessMap()
 
-  const dispatch = useAppDispatch()
   const user = useAppSelector((state) => state.user)
   const prevCountriesRef = useRef<any>(null)
-  const hoverDelay = useRef<any>()
-
-  const handleMapHover = () => {
-    clearInterval(hoverDelay.current)
-    setHovering(true)
-
-    const { width, height } = getGuessMapSize(user.guessMapSize as number)
-    setMapHeight(height)
-    setMapWidth(width)
-  }
-
-  const handleMapLeave = () => {
-    hoverDelay.current = setTimeout(() => {
-      setHovering(false)
-      setMapHeight(15)
-      setMapWidth(15)
-    }, 700)
-  }
-
-  const changeMapSize = (change: 'increase' | 'decrease') => {
-    let newMapSize = 1
-
-    if (change === 'increase' && (user.guessMapSize as number) < 4) {
-      newMapSize = (user.guessMapSize as number) + 1
-    } else if (change === 'decrease' && (user.guessMapSize as number) > 1) {
-      newMapSize = (user.guessMapSize as number) - 1
-    }
-
-    const { width, height } = getGuessMapSize(newMapSize)
-    setMapHeight(height)
-    setMapWidth(width)
-
-    dispatch(updateGuessMapSize({ guessMapSize: newMapSize }))
-  }
 
   const onInit = async (map: any, maps: any) => {
     const { default: countryBounds } = await import('@utils/constants/countryBounds.json')
@@ -127,7 +90,7 @@ const StreaksGuessMap: FC<Props> = ({
 
         <div className="map">
           <GoogleMapReact
-            bootstrapURLKeys={getMapsKey(user.mapsAPIKey)}
+            bootstrapURLKeys={{ key: getMapsKey(user.mapsAPIKey) }}
             defaultCenter={{ lat: 0, lng: 0 }}
             defaultZoom={1}
             yesIWantToUseGoogleMapApiInternals
