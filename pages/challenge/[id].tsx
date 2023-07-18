@@ -135,7 +135,9 @@ const ChallengePage: PageType = () => {
               />
             )}
 
-            {gameData.mode === 'standard' && view === 'FinalResults' && <StandardFinalResults gameData={gameData} />}
+            {gameData.mode === 'standard' && view === 'FinalResults' && (
+              <StandardFinalResults gameData={gameData} setGameData={setGameData} setView={setView} />
+            )}
 
             {gameData.mode === 'streak' && view === 'Result' && <StreakResults gameData={gameData} setView={setView} />}
 
