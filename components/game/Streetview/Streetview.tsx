@@ -52,7 +52,11 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
   useEffect(() => {
     if (view !== 'Game') return
     loadNewPano()
-  }, [view, serviceRef])
+
+    const delay = setTimeout(() => setLoading(false), 250)
+
+    return () => clearTimeout(delay)
+  }, [view])
 
   const loadNewPano = () => {
     setLoading(true)
@@ -75,8 +79,6 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
       svPanorama.setZoom(location.zoom || 0)
       svPanorama.setVisible(true)
     })
-
-    setLoading(false)
   }
 
   const handleSubmitGuess = async (timedOut?: boolean) => {

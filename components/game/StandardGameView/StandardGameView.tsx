@@ -18,17 +18,16 @@ const StandardGameView: FC<Props> = ({ gameData, setGameData, view, setView }) =
       <div className="play-wrapper" style={{ display: view === 'Game' ? 'block' : 'none' }}>
         <Streetview gameData={gameData} setGameData={setGameData} view={view} setView={setView} />
       </div>
-      {gameData.guesses.length > 0 && (
+      {view === 'Result' && (
         <div
           className="results-wrapper"
-          style={{ display: view === 'Result' || view === 'FinalResults' ? 'block' : 'none' }}
+          // style={{ display: view === 'Result' || view === 'FinalResults' ? 'block' : 'none' }}
         >
           <ResultMap
             guessedLocations={gameData.guesses}
             actualLocations={gameData.rounds}
             round={gameData.round}
-            resetMap={view === 'Result' || view === 'FinalResults'}
-            isFinalResults={view === 'FinalResults'}
+            resetMap={false}
           />
           <div className="results-card-wrapper">
             <StandardResults
@@ -41,6 +40,24 @@ const StandardGameView: FC<Props> = ({ gameData, setGameData, view, setView }) =
               }
               setView={setView}
             />
+          </div>
+        </div>
+      )}
+
+      {view === 'FinalResults' && (
+        <div
+          className="results-wrapper"
+          // style={{ display: view === 'Result' || view === 'FinalResults' ? 'block' : 'none' }}
+        >
+          <ResultMap
+            guessedLocations={gameData.guesses}
+            actualLocations={gameData.rounds}
+            round={gameData.round}
+            resetMap={false}
+            isFinalResults
+          />
+          <div className="results-card-wrapper">
+            <StandardFinalResults gameData={gameData} setView={setView} setGameData={setGameData} />
           </div>
         </div>
       )}

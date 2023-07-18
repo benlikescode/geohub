@@ -14,6 +14,7 @@ import { mailman } from '@utils/helpers'
 const GamePage: PageType = () => {
   const [view, setView] = useState<'Game' | 'Result' | 'FinalResults'>('Game')
   const [gameData, setGameData] = useState<Game | null>()
+  const [prevGameId, setPrevGameId] = useState('')
   const router = useRouter()
   const gameId = router.query.id as string
   const dispatch = useAppDispatch()
@@ -46,6 +47,7 @@ const GamePage: PageType = () => {
     }
 
     setGameData(gameData)
+    setPrevGameId(gameId)
   }
 
   useEffect(() => {
@@ -57,6 +59,13 @@ const GamePage: PageType = () => {
       fetchGame()
     }
   }, [gameId, view])
+
+  useEffect(() => {
+    if (gameId !== prevGameId) {
+      setGameData(undefined)
+      setView('Game')
+    }
+  }, [gameId])
 
   if (gameData === null) {
     return <NotFound title="Game Not Found" message="This game likely does not exist or does not belong to you." />

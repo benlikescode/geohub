@@ -7,6 +7,7 @@ type StyledProps = {
 const StyledStreetview = styled.div<StyledProps>`
   height: 100%;
   width: 100%;
+
   #streetview {
     /* position: fixed !important;
     top: 0;

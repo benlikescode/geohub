@@ -38,33 +38,31 @@ const StandardResults: FC<Props> = ({ round, distance, points, noGuess, setView 
   }
 
   return (
-    <ResultsWrapper>
-      <StyledStandardResults showPoints={progressFinished}>
-        <div className="pointsWrapper">{`${formatLargeNumber(points)} points`}</div>
+    <StyledStandardResults showPoints={progressFinished}>
+      <div className="pointsWrapper">{`${formatLargeNumber(points)} Points`}</div>
 
-        <div className="progress-bar">
-          <ProgressBar progress={calculateProgress()} setProgressFinished={setProgressFinished} />
-        </div>
+      <div className="progress-bar">
+        <ProgressBar progress={calculateProgress()} setProgressFinished={setProgressFinished} />
+      </div>
 
-        <div>
-          {noGuess ? (
-            <span className="noGuessMessage">You did not make a guess this round 😢</span>
-          ) : (
-            <span className="distanceMessage">
-              Your guess was
-              <span className="emphasisText"> {formatDistance(distance, user.distanceUnit)} </span>
-              from the correct location
-            </span>
-          )}
-        </div>
+      <div>
+        {noGuess ? (
+          <span className="noGuessMessage">You did not make a guess this round 😢</span>
+        ) : (
+          <span className="distanceMessage">
+            Your guess was
+            <span className="emphasisText"> {formatDistance(distance, user.distanceUnit)} </span>
+            from the correct location
+          </span>
+        )}
+      </div>
 
-        <div className="actionButton">
-          <Button onClick={handleNextRound} width="200px">
-            {round > 5 ? 'View Results' : 'Play Next Round'}
-          </Button>
-        </div>
-      </StyledStandardResults>
-    </ResultsWrapper>
+      <div className="actionButton">
+        <button className="next-round-btn" onClick={() => handleNextRound()}>
+          {round > 5 ? 'View Results' : 'Next Round'}
+        </button>
+      </div>
+    </StyledStandardResults>
   )
 }
 

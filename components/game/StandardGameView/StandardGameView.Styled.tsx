@@ -5,6 +5,7 @@ type StyledProps = {}
 const StyledStandardGameView = styled.div<StyledProps>`
   height: 100%;
   width: 100%;
+
   .play-wrapper {
     height: 100%;
     width: 100%;
@@ -15,7 +16,7 @@ const StyledStandardGameView = styled.div<StyledProps>`
     width: 100%;
     /* position: fixed;
     inset: 0; */
-    background-color: #0e0e0e;
+    background-color: #121212;
 
     .results-card-wrapper {
       display: flex;
