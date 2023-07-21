@@ -4,7 +4,7 @@ import { collections, getLocations, throwError } from '@backend/utils'
 import { OFFICIAL_WORLD_ID } from '@utils/constants/random'
 
 const createDailyChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log(req)
+  console.log(req.headers)
 
   const locations = await getLocations(OFFICIAL_WORLD_ID)
 
