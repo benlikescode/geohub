@@ -1,10 +1,16 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { NextApiRequest, NextApiResponse } from 'next'
 import createDailyChallenge from '@backend/routes/challenges/createDailyChallenge'
-import { dbConnect } from '@backend/utils'
+import { dbConnect, throwError } from '@backend/utils'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
+    const authHeader = req.headers['Authorization'] as string
+
+    if (!authHeader || authHeader !== process.env.CRON_SECRET) {
+      return throwError(res, 401, 'Unauthorized')
+    }
+
     await dbConnect()
 
     createDailyChallenge(req, res)
