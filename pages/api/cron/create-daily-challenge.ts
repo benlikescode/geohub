@@ -5,7 +5,7 @@ import { dbConnect, throwError } from '@backend/utils'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const authHeader = req.headers['Authorization'] as string
+    const authHeader = req.headers.authorization
 
     if (!authHeader || authHeader !== process.env.CRON_SECRET) {
       return throwError(res, 401, 'Unauthorized')
