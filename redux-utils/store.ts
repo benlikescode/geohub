@@ -1,18 +1,17 @@
 import { persistReducer, persistStore } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
-
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
-
-import { gameReducer, userReducer } from './slices'
+import { gameReducer, mapMakerReducer, userReducer } from './slices'
 
 const reducers = combineReducers({
   user: userReducer,
   game: gameReducer,
+  mapMaker: mapMakerReducer,
 })
 
 const persistConfig = {
   key: 'root',
-  whitelist: ['user', 'game'],
+  whitelist: ['user', 'game', 'mapMaker'],
   storage,
 }
 

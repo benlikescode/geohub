@@ -183,6 +183,9 @@
   --bronze: #6a3805;
   --silver: #d7d7d7;
   --gold: #c9b037;
+
+  --focus-border: var(--indigo-700) !important;
+  --separator-border: #0e0e10 !important;
 }
 
 body {

@@ -36,3 +36,14 @@ export const formatMonthDay = (dateRaw: Date | undefined) => {
 
   return `${month} ${day}`
 }
+
+export const formatMonthYear = (dateRaw: Date | undefined) => {
+  if (!dateRaw) return ''
+
+  const utcDate = new Date(dateRaw).toUTCString()
+  const date = new Date(utcDate)
+  const month = date.toLocaleString('en-US', { month: 'long' })
+  const year = date.getFullYear()
+
+  return `${month} ${year}`
+}

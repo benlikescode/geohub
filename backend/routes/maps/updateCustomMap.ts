@@ -11,7 +11,13 @@ type ReqBody = {
   locations?: LocationType[]
 }
 
-type UpdatedMap = { name?: string; description?: string; previewImg?: string; isPublished?: boolean }
+type UpdatedMap = {
+  name?: string
+  description?: string
+  previewImg?: string
+  isPublished?: boolean
+  lastUpdatedAt?: Date
+}
 
 const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
   const userId = await getUserId(req, res)
@@ -55,6 +61,8 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
   if (isPublished !== undefined) {
     updatedMap['isPublished'] = isPublished
   }
+
+  updatedMap.lastUpdatedAt = new Date()
 
   const result = await collections.maps?.findOneAndUpdate({ _id: new ObjectId(mapId) }, { $set: updatedMap })
 

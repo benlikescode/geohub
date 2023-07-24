@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, FC, ReactNode } from 'react'
+import { ButtonHTMLAttributes, FC, ReactNode, useEffect, useState } from 'react'
 import { Spinner } from '@components/system'
 import { StyledButton } from './'
 
@@ -26,6 +26,25 @@ const Button: FC<Props> = ({
   height,
   ...rest
 }) => {
+  const [showSpinner, setshowSpinner] = useState(false)
+
+  useEffect(() => {
+    if (isLoading) {
+      setshowSpinner(true)
+    }
+
+    // Show spinner a bit longer to avoid flash
+    if (!isLoading && showSpinner) {
+      const timeout = setTimeout(() => {
+        setshowSpinner(false)
+      }, 300)
+
+      return () => {
+        clearTimeout(timeout)
+      }
+    }
+  }, [isLoading, showSpinner])
+
   return (
     <StyledButton
       variant={variant || 'primary'}
@@ -35,9 +54,16 @@ const Button: FC<Props> = ({
       hoverColor={hoverColor}
       width={width}
       height={height}
+      showSpinner={showSpinner}
       {...rest}
     >
-      {isLoading ? <Spinner size={20} /> : children}
+      {children}
+
+      {showSpinner && (
+        <div className="spinner">
+          <Spinner size={20} />
+        </div>
+      )}
     </StyledButton>
   )
 }

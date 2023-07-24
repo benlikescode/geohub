@@ -9,21 +9,31 @@ type StyledProps = {
   hoverColor?: string
   width?: string
   height?: string
+  showSpinner?: boolean
 } & ButtonHTMLAttributes<HTMLButtonElement>
 
 const StyledButton = styled.button<StyledProps>`
   display: flex;
-  position: relative;
   align-items: center;
   justify-content: center;
   gap: 8px;
   border-radius: 5px;
   height: ${({ height }) => height ?? '40px'};
   width: ${({ width }) => width ?? 'fit-content'};
-  padding: 0 25px;
+  padding: 0 20px;
   font-size: 1rem;
   font-weight: 400;
   user-select: none;
+  position: relative;
+  color: ${({ showSpinner }) => showSpinner && 'transparent !important'};
+  flex-shrink: 0;
+
+  .spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 
   ${({ size }) =>
     size === 'sm' &&
@@ -45,11 +55,11 @@ const StyledButton = styled.button<StyledProps>`
 
     ${({ variant, disabled }) =>
     variant === 'primary' &&
-    !disabled &&
     `
         background-color: var(--mediumPurple);
         color: #fff;
         min-width: 60px;
+        font-size: 15px;
 
         :hover {
           background-color: var(--indigo-600);
@@ -61,7 +71,11 @@ const StyledButton = styled.button<StyledProps>`
     !disabled &&
     `
         background-color: rgb(255, 255, 255, 0.1);
-        color: #fee2e2;
+        background-color: #353535;
+        background-color: #171717;
+        background-color: #000;
+
+        color: #dcdcdc;
         border-radius: 4px;
         font-size: 1rem;
         font-weight: 400;
@@ -69,6 +83,10 @@ const StyledButton = styled.button<StyledProps>`
 
         &:hover {
           background-color: rgb(255, 255, 255, 0.15);
+          background-color: #424242;
+          background-color: #202020;
+          background-color: #0e0e0e;
+
         }
     `}
 
@@ -76,12 +94,16 @@ const StyledButton = styled.button<StyledProps>`
     variant === 'destroy' &&
     !disabled &&
     `     
-        color: #fee2e2;
+        color: #fff;
         background-color: #7f1d1d;
+        background-color: #181818;
+
      
 
         &:hover {
           background-color: #991b1b;
+          background-color: #242424;
+
         }
     `}
 
@@ -106,10 +128,9 @@ const StyledButton = styled.button<StyledProps>`
     ${({ disabled }) =>
     disabled &&
     `
-        background-color: var(--background3);
-        color: var(--color2);
+        
         cursor: not-allowed !important;
-        opacity: 0.5;
+       
     `}
 `
 

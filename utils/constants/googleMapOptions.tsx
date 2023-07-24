@@ -27,3 +27,26 @@ export const RESULT_MAP_OPTIONS = {
   minZoom: 2,
   styles: showPOIs,
 }
+
+export const SELECTION_MAP_OPTIONS = {
+  zoom: 2,
+  minZoom: 2,
+  center: { lat: 0, lng: 0 },
+  disableDefaultUI: true,
+  clickableIcons: false,
+  gestureHandling: 'greedy',
+  draggableCursor: 'crosshair',
+  disableDoubleClickZoom: true,
+  styles: showPOIs,
+}
+
+export const PREVIEW_MAP_OPTIONS = {
+  addressControl: false,
+  panControl: true,
+  panControlOptions: {
+    position: 9,
+  },
+  enableCloseButton: false,
+  zoomControl: false,
+  showRoadLabels: false,
+}

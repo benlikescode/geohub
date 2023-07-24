@@ -216,7 +216,7 @@ const GameSettingsModal: FC<Props> = ({ isOpen, closeModal, mapDetails, gameMode
 
                     <div className="setting-options">
                       <div className="time-slider">
-                        <Slider onChange={setSliderVal} defaultValue={sliderVal} />
+                        <Slider onChange={setSliderVal} value={sliderVal} />
                       </div>
 
                       <div className="movementOptions">

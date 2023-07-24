@@ -12,6 +12,7 @@ type Map = {
   isPublished?: boolean
   isDeleted?: boolean
   createdAt?: Date
+  lastUpdatedAt?: Date
   locations?: LocationType[]
   // backwards compatibility
   locationCount?: number

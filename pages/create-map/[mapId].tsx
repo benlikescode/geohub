@@ -1,31 +1,20 @@
+import { saveAs } from 'file-saver'
 /* eslint-disable @next/next/no-img-element */
 import GoogleMapReact from 'google-map-react'
 import throttle from 'lodash/throttle'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useEffect, useRef, useState } from 'react'
+import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { NotFound } from '@components/errorViews'
 import { Head } from '@components/Head'
 import { MobileNav, Navbar } from '@components/layout'
 import { CreateMapModal } from '@components/modals'
-import {
-  Avatar,
-  Button,
-  Skeleton,
-  Spinner,
-  ToggleSwitch
-} from '@components/system'
+import { Avatar, Button, Skeleton, Spinner, ToggleSwitch } from '@components/system'
 import { CloudUploadIcon, PencilIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
 import StyledCreateMapPage from '@styles/CreateMapPage.Styled'
 import { LocationType, MapType, PageType } from '@types'
-import {
-  createMapMarker,
-  getMapsKey,
-  mailman,
-  showErrorToast,
-  showSuccessToast
-} from '@utils/helpers'
+import { createMapMarker, getMapsKey, mailman, showErrorToast, showSuccessToast } from '@utils/helpers'
 import { useConfirmLeave } from '../../utils/hooks'
 
 const SELECTED_MARKER_ICON = '/images/selected-pin.png'
@@ -53,6 +42,7 @@ const CreateMapPage: PageType = () => {
   const [modifiedPosition, setModifiedPosition] = useState<{ lat: number; lng: number } | null>(null)
 
   const [showErrorPage, setShowErrorPage] = useState(false)
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null)
 
   const router = useRouter()
   const mapId = router.query.mapId as string
@@ -62,6 +52,8 @@ const CreateMapPage: PageType = () => {
   const prevMarkersRef = useRef<google.maps.Marker[]>([])
   const locationsRef = useRef<LocationType[]>([])
   const selectedIndexRef = useRef(-1)
+
+  const selectionMapRef = useRef<google.maps.Map | null>(null)
 
   useConfirmLeave(haveLocationsChanged)
 
@@ -149,6 +141,8 @@ const CreateMapPage: PageType = () => {
       draggableCursor: 'crosshair',
       disableDoubleClickZoom: true,
     })
+
+    selectionMapRef.current = map
 
     // Add markers for locations already stored for this map
     locationsRef.current.map((location) => {
@@ -361,6 +355,76 @@ const CreateMapPage: PageType = () => {
     setMapAvatar(avatar)
   }
 
+  const parseJSONFile = async (file: File) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader()
+      fileReader.onload = (event: any) => resolve(JSON.parse(event.target.result))
+      fileReader.onerror = (error) => reject(error)
+      fileReader.readAsText(file)
+    })
+  }
+
+  const formatLocationForImportExport = (location: LocationType) => {
+    return {
+      lat: location.lat,
+      lng: location.lng,
+      panoId: location.panoId,
+      heading: location.heading,
+      pitch: location.pitch,
+      zoom: location.zoom,
+      countryCode: location.countryCode,
+    }
+  }
+
+  const validateUploadedJSON = (jsonData: any) => {
+    if (!Array.isArray(jsonData)) {
+      return false
+    }
+
+    if (jsonData.some((x) => !x.lat || !x.lng)) {
+      return false
+    }
+
+    const newLocations = jsonData.map((x) => {
+      const location = formatLocationForImportExport(x)
+
+      if (selectionMapRef.current) {
+        const marker = createMapMarker(location, selectionMapRef.current, REGULAR_MARKER_ICON, REGULAR_MARKER_SIZE)
+        prevMarkersRef.current.push(marker)
+
+        marker.addListener('click', () => handleMarkerClick(marker))
+      }
+
+      return location
+    })
+
+    setLocations([...locations, ...newLocations])
+    setHaveLocationsChanged(true)
+
+    return true
+  }
+
+  const handleFileUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files?.length) {
+      const file = e.target.files[0]
+
+      const jsonData = await parseJSONFile(file)
+
+      if (!validateUploadedJSON(jsonData)) {
+        return showErrorToast('Invalid JSON format')
+      }
+
+      console.log('ALL GOOD MAN!!!!')
+    }
+  }
+
+  const handleFileDownload = () => {
+    const formattedLocations = locations.map((x) => formatLocationForImportExport(x))
+    const jsonData = JSON.stringify(formattedLocations)
+    const blob = new Blob([jsonData], { type: 'application/json' })
+    saveAs(blob, 'locations.json')
+  }
+
   if (showErrorPage) {
     return <NotFound title="Page Not Found" message="You are not authorized to edit this map." />
   }
@@ -375,7 +439,7 @@ const CreateMapPage: PageType = () => {
           {!isLoading ? (
             <div className="map-top-menu">
               <div className="map-details">
-                <Avatar type="map" src={mapAvatar} size={40} />
+                <Avatar type="map" src={mapAvatar} size={36} />
                 <div className="map-name-wrapper">
                   <span className="map-name">{mapName}</span>
                 </div>
@@ -419,6 +483,14 @@ const CreateMapPage: PageType = () => {
               <span className="locations-count">{`${locations.length} location${
                 locations.length !== 1 ? 's' : ''
               }`}</span>
+
+              {/* <div className="import-export">
+                <input type="file" accept=".json" onChange={(e) => handleFileUpload(e)} />
+                <button className="import-button">Import JSON</button>
+                <button className="export-button" onClick={() => handleFileDownload()}>
+                  Export JSON
+                </button>
+              </div> */}
 
               <div className="visibility-selection">
                 <h2 className="visibility-warning">Publish Map</h2>

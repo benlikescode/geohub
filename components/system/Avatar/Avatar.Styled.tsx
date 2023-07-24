@@ -17,6 +17,7 @@ const StyledAvatar = styled.div<StyledProps>`
     border-radius: 50%;
     box-shadow: 0 0 0 2px inset rgba(0, 0, 0, 0.25);
     background-color: ${({ backgroundColor }) => backgroundColor};
+    user-select: none;
 
     .emoji {
       padding: 20% !important;
@@ -28,6 +29,7 @@ const StyledAvatar = styled.div<StyledProps>`
     width: ${({ size }) => size}px;
     border-radius: 30%;
     position: relative;
+    user-select: none;
 
     &::after {
       content: '';
