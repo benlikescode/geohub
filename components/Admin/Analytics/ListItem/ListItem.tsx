@@ -79,6 +79,38 @@ const ListItem: FC<Props> = ({ title, data }) => {
         </div>
       ))
     }
+
+    if (title === 'New Users By Day') {
+      const usersByDay = data.newUsersByDay
+
+      return usersByDay.map((item, idx) => (
+        <div key={idx} className="item-wrapper">
+          <div className="item-details">
+            <span>{item.count}</span>
+          </div>
+
+          <div className="item-created-date">
+            <span>{item.date}</span>
+          </div>
+        </div>
+      ))
+    }
+
+    if (title === 'Games Played By Day') {
+      const gamesByDay = data.gamesPlayedByDay
+
+      return gamesByDay.map((item, idx) => (
+        <div key={idx} className="item-wrapper">
+          <div className="item-details">
+            <span>{item.count}</span>
+          </div>
+
+          <div className="item-created-date">
+            <span>{item.date}</span>
+          </div>
+        </div>
+      ))
+    }
   }
 
   return (
