@@ -8,7 +8,7 @@ type Props = {
   onChange: (value: number) => void
 } & Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'>
 
-const Slider: FC<Props> = ({ value, min = 0, max = 60, onChange, ...rest }) => {
+const Slider: FC<Props> = ({ value, min, max, onChange, ...rest }) => {
   return (
     <StyledSlider>
       <input
