@@ -13,7 +13,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     await dbConnect()
 
-    createDailyChallenge(req, res)
+    return createDailyChallenge(req, res)
   } catch (err) {
     console.error(err)
     res.status(500).json({ success: false })
