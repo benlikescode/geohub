@@ -538,7 +538,7 @@ const CreateMapPage: PageType = () => {
 
       <MobileNav />
 
-      <CreateMapModal
+      {/* <CreateMapModal
         isOpen={editModalOpen}
         closeModal={() => setEditModalOpen(false)}
         mapId={mapId}
@@ -546,7 +546,7 @@ const CreateMapPage: PageType = () => {
         mapDescription={mapDescription}
         mapAvatar={mapAvatar}
         updateMapDetails={updateMapDetails}
-      />
+      /> */}
     </StyledCreateMapPage>
   )
 }
