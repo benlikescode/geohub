@@ -1,17 +1,22 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections, getUserId, isUserAnAdmin, throwError } from '@backend/utils'
-import { Game } from '../models'
+import { collections, getUserId, isUserAnAdmin, monthAgo, throwError, todayEnd, weekAgo } from '@backend/utils'
 
 const getAnalytics = async (req: NextApiRequest, res: NextApiResponse) => {
+  const newUsersByDayStart = req.body.newUsersByDayStart
+  const newUsersByDayEnd = req.body.newUsersByDayEnd
+
+  const gamesPlayedByDayStart = req.body.gamesPlayedByDayStart
+  const gamesPlayedByDayEnd = req.body.gamesPlayedByDayEnd
+
   const getCounts = async () => {
     const userCount = await collections.users?.estimatedDocumentCount()
     const singlePlayerGamesCount = await collections.games?.find({ challengeId: { $eq: null } }).count()
     const challengesCount = await collections.games?.find({ challengeId: { $ne: null } }).count()
     const streakGamesCount = await collections.games?.find({ mode: 'streak' }).count()
     const customMapsCount = await collections.maps?.find({ creator: { $ne: 'GeoHub' } }).count()
+    const customLocationsCount = await collections.userLocations?.estimatedDocumentCount()
     const customKeysCount = await collections.users?.find({ mapsAPIKey: { $exists: true, $ne: '' } }).count()
     const unfinishedGamesCount = await collections.games?.find({ state: { $ne: 'finished' } }).count()
-    const mapsCost = await getMapsCostSinceDay()
 
     return [
       { title: 'Users', count: userCount },
@@ -19,23 +24,10 @@ const getAnalytics = async (req: NextApiRequest, res: NextApiResponse) => {
       { title: 'Challenges', count: challengesCount },
       { title: 'Streak Games', count: streakGamesCount },
       { title: 'Custom Maps', count: customMapsCount },
+      { title: 'Custom Map Locations', count: customLocationsCount },
       { title: 'Custom Keys', count: customKeysCount },
       { title: 'Unfinished Games', count: unfinishedGamesCount },
-      { title: 'Google Maps Costs', count: mapsCost },
     ]
-  }
-
-  const getMapsCostSinceDay = async (day: string = '2023-06-01') => {
-    const STREETVIEW_COST = 0.014
-    const MAP_COST = 0.007
-    const ROUND_COST = STREETVIEW_COST + 2 * MAP_COST // Streetview + Guess Map + Result Map
-
-    const games = (await collections.games?.find({ createdAt: { $gte: new Date(day) } }).toArray()) as Game[]
-    const numRounds = games.reduce((acc, currValue) => acc + currValue.round - 1, 0)
-
-    const price = ROUND_COST * numRounds + MAP_COST * games.length
-
-    return Math.round(price)
   }
 
   const getRecentUsers = async () => {
@@ -69,8 +61,7 @@ const getAnalytics = async (req: NextApiRequest, res: NextApiResponse) => {
   const getRecentGames = async () => {
     const recentGames = await collections.games
       ?.aggregate([
-        // { $match: { createdAt: { $gt: weekAgo } } },
-        { $sort: { createdAt: -1 } },
+        { $sort: { _id: -1 } },
         {
           $lookup: {
             from: 'maps',
@@ -95,6 +86,66 @@ const getAnalytics = async (req: NextApiRequest, res: NextApiResponse) => {
     return recentGames
   }
 
+  const getNewUsersByDay = async () => {
+    const newUsersByDay = await collections.users
+      ?.aggregate([
+        {
+          $match: {
+            createdAt: { $gte: newUsersByDayStart || monthAgo, $lte: newUsersByDayEnd || todayEnd },
+          },
+        },
+        {
+          $group: {
+            _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
+            count: { $sum: 1 },
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            date: '$_id',
+            count: 1,
+          },
+        },
+        {
+          $sort: { date: -1 },
+        },
+      ])
+      .toArray()
+
+    return newUsersByDay
+  }
+
+  const getGamesPlayedByDay = async () => {
+    const gamesPlayedByDay = await collections.games
+      ?.aggregate([
+        {
+          $match: {
+            createdAt: { $gte: gamesPlayedByDayStart || monthAgo, $lte: gamesPlayedByDayEnd || todayEnd },
+          },
+        },
+        {
+          $group: {
+            _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
+            count: { $sum: 1 },
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            date: '$_id',
+            count: 1,
+          },
+        },
+        {
+          $sort: { date: -1 },
+        },
+      ])
+      .toArray()
+
+    return gamesPlayedByDay
+  }
+
   const userId = await getUserId(req, res)
   const isAdmin = await isUserAnAdmin(userId)
 
@@ -102,10 +153,11 @@ const getAnalytics = async (req: NextApiRequest, res: NextApiResponse) => {
     return throwError(res, 401, 'You are not authorized to view this page')
   }
 
-  // Get analytics data
   const counts = await getCounts()
   const recentUsers = await getRecentUsers()
   const recentGames = await getRecentGames()
+  const newUsersByDay = await getNewUsersByDay()
+  const gamesPlayedByDay = await getGamesPlayedByDay()
 
   res.status(200).json({
     success: true,
@@ -113,6 +165,8 @@ const getAnalytics = async (req: NextApiRequest, res: NextApiResponse) => {
       counts,
       recentUsers,
       recentGames,
+      newUsersByDay,
+      gamesPlayedByDay,
     },
   })
 }

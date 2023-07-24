@@ -67,6 +67,8 @@ const AnalyticsPage: NextPage = () => {
               <>
                 <ListItem title="New Users" data={analytics} />
                 <ListItem title="Recent Games" data={analytics} />
+                <ListItem title="New Users By Day" data={analytics} />
+                <ListItem title="Games Played By Day" data={analytics} />
               </>
             )}
           </div>
