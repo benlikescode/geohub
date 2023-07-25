@@ -4,6 +4,8 @@ import { collections, getLocations, throwError, todayEnd, todayStart } from '@ba
 import { OFFICIAL_WORLD_ID } from '@utils/constants/random'
 
 const createDailyChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
+  console.log(todayStart, todayEnd, new Date())
+
   const dailyChallengesCreatedToday = await collections.challenges
     ?.find({
       isDailyChallenge: true,
