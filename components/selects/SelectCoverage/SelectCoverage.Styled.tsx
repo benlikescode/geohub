@@ -39,8 +39,6 @@ const StyledSelectCoverage = styled.div<StyledProps>`
 
     svg {
       height: 20px;
-      position: relative;
-      top: 1px;
     }
   }
 

@@ -1,27 +1,25 @@
 import 'allotment/dist/style.css'
 import { Allotment } from 'allotment'
-import { saveAs } from 'file-saver'
 import GoogleMapReact from 'google-map-react'
 import throttle from 'lodash/throttle'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
-import { createGlobalStyle } from 'styled-components'
+import { AppLogo } from '@components/AppLogo'
 import { CreateMapDropdown } from '@components/dropdowns/CreateMapDropdown'
 import { NotFound } from '@components/errorViews'
 import { GoogleMapsSearch } from '@components/GoogleMapsSearch'
 import { Head } from '@components/Head'
-import { Navbar } from '@components/layout'
 import { CreateMapModal } from '@components/modals'
 import { SelectCoverage } from '@components/selects/SelectCoverage'
 import { SelectMapLayers } from '@components/selects/SelectMapLayers'
-import { Avatar, Button, Searchbar, Select, Skeleton, Spinner, ToggleSwitch } from '@components/system'
+import { Avatar, Button, Skeleton } from '@components/system'
 import { CloudUploadIcon, PencilIcon, SwitchHorizontalIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
 import StyledNewCreateMapPage from '@styles/NewCreateMapPage.Styled'
 import { LocationType, MapType, PageType, StreetViewCoverageType } from '@types'
 import { PREVIEW_MAP_OPTIONS, SELECTION_MAP_OPTIONS } from '@utils/constants/googleMapOptions'
-import { formatMonthDayYear, formatMonthDayYearTime, formatMonthYear } from '@utils/dateHelpers'
+import { formatMonthYear, formatTimeAgo } from '@utils/dateHelpers'
 import { createMapMarker, getMapsKey, mailman, showErrorToast, showSuccessToast } from '@utils/helpers'
 import { useConfirmLeave, useIsMobile } from '@utils/hooks'
 
@@ -153,11 +151,44 @@ const CreateMapPage: PageType = () => {
     loadNewPano(markerIndex)
   }
 
-  const handleSelectionMapClick = async (e: google.maps.MapMouseEvent) => {
-    if (!e.latLng || !googleMapsConfig) return
+  const addNewLocations = (locations: LocationType[], markerType: 'selected' | 'regular' = 'selected') => {
+    if (!googleMapsConfig) return
 
+    // If previously selected marker -> reset its icon to regular
+    if (selectedMarkerIndexRef.current !== -1) {
+      markersRef.current[selectedMarkerIndexRef.current].setIcon({
+        url: REGULAR_MARKER_ICON,
+        scaledSize: new google.maps.Size(REGULAR_MARKER_SIZE, REGULAR_MARKER_SIZE),
+      })
+    }
+
+    locations.map((location) => {
+      const marker = createMapMarker(
+        location,
+        googleMapsConfig.selectionMap,
+        markerType === 'selected' ? SELECTED_MARKER_ICON : REGULAR_MARKER_ICON,
+        markerType === 'selected' ? SELECTED_MARKER_SIZE : REGULAR_MARKER_SIZE
+      )
+
+      markersRef.current.push(marker)
+
+      marker.addListener('click', () => handleMarkerClick(marker))
+
+      const markerIndex = markersRef.current.indexOf(marker)
+      setSelectedIndex(markerIndex)
+    })
+
+    const newLocations = [...locationsRef.current, ...locations]
+    setLocations(newLocations)
     setHaveLocationsChanged(true)
-    // setShowPreviewMap(false)
+
+    if (markerType === 'selected') {
+      loadNewPano()
+    }
+  }
+
+  const handleSelectionMapClick = async (e: google.maps.MapMouseEvent) => {
+    if (!e.latLng) return
 
     const location = { lat: e.latLng.lat(), lng: e.latLng.lng() }
 
@@ -171,27 +202,11 @@ const CreateMapPage: PageType = () => {
       }
     })
 
-    if (!isLocationCovered) return
-
-    setLocations([...locationsRef.current, location])
-
-    // If previously selected marker -> reset its icon to regular
-    if (selectedMarkerIndexRef.current !== -1) {
-      markersRef.current[selectedMarkerIndexRef.current].setIcon({
-        url: REGULAR_MARKER_ICON,
-        scaledSize: new google.maps.Size(REGULAR_MARKER_SIZE, REGULAR_MARKER_SIZE),
-      })
+    if (!isLocationCovered) {
+      return showErrorToast('No coverage found here')
     }
 
-    const marker = createMapMarker(location, googleMapsConfig.selectionMap, SELECTED_MARKER_ICON, SELECTED_MARKER_SIZE)
-    markersRef.current.push(marker)
-
-    const markerIndex = markersRef.current.indexOf(marker)
-    setSelectedIndex(markerIndex)
-
-    loadNewPano(markerIndex)
-
-    marker.addListener('click', () => handleMarkerClick(marker))
+    addNewLocations([location])
   }
 
   const handleLoadPreviewMap = () => {
@@ -249,7 +264,10 @@ const CreateMapPage: PageType = () => {
     if (!svService || !svPanorama) return
 
     svService.getPanorama({ location, radius: 1000 }, (data) => {
+      console.log(data)
       if (!data || !data.location || !data.location.latLng) return
+
+      console.log('checkly')
 
       // Idk why google doesn't have a type def for time but it does exist...
       const pastCoverage: StreetViewCoverageType[] = (data as any)?.time?.map((x: any) => {
@@ -303,6 +321,7 @@ const CreateMapPage: PageType = () => {
       svPanorama.setVisible(true)
     })
 
+    setShowPreviewMap(true)
     setModifiedPanoId(panoId)
   }
 
@@ -373,7 +392,10 @@ const CreateMapPage: PageType = () => {
     // const isPublishedHasChanged = initiallyPublished !== isPublished
 
     if (!haveLocationsChanged) {
-      return showErrorToast('No changes since last save')
+      return showErrorToast('No changes since last save', {
+        position: 'bottom-center',
+        style: { backgroundColor: '#282828' },
+      })
     }
 
     setIsSavingMap(true)
@@ -391,7 +413,10 @@ const CreateMapPage: PageType = () => {
     // setInitiallyPubished(isPublished)
     setHaveLocationsChanged(false)
 
-    return showSuccessToast('Your changes have been saved')
+    return showSuccessToast('Your changes have been saved', {
+      position: 'bottom-center',
+      style: { backgroundColor: '#282828' },
+    })
   }
 
   if (showErrorPage) {
@@ -400,84 +425,59 @@ const CreateMapPage: PageType = () => {
 
   return (
     <>
-      {/* <OverlayOpacityStyle /> */}
       <StyledNewCreateMapPage showPreviewMap={showPreviewMap}>
         <Head title="Create A Map" />
 
+        <div className="header">
+          {/* <AppLogo /> */}
+
+          {!isLoading && mapDetails ? (
+            <div className="map-details">
+              <Avatar type="map" src={mapDetails.previewImg} size={34} />
+              <div className="map-name-wrapper">
+                <span className="map-name">{mapDetails.name}</span>
+              </div>
+              <button className="edit-button" onClick={() => setEditModalOpen(true)}>
+                <PencilIcon />
+              </button>
+            </div>
+          ) : (
+            <div className="map-top-menu">
+              <div className="map-details">
+                <Skeleton variant="circular" height={40} width={40} />
+                <Skeleton height={20} width={200} noBorder />
+              </div>
+            </div>
+          )}
+
+          <div className="header-group">
+            <div className="save-map-wrapper">
+              {lastSave && <div className="last-save-date">{`Saved ${formatTimeAgo(lastSave)}`}</div>}
+              <Button onClick={() => handleSaveMap()} isLoading={isSavingMap} disabled={isSavingMap}>
+                Save Map
+              </Button>
+            </div>
+
+            <CreateMapDropdown locations={locations} addNewLocations={addNewLocations} />
+          </div>
+        </div>
+
         <div className="main-content">
           <Allotment vertical={isMobile} key={isMobile ? 1 : 0} className="allotment-wrapper">
-            <Allotment.Pane preferredSize="55%">
+            <Allotment.Pane>
               <div className="selection-map-wrapper">
                 {/* <div className="allotment-indicator">
-                <SwitchHorizontalIcon />
-              </div> */}
-                {!isLoading && mapDetails ? (
-                  <div className="map-top-menu">
-                    <div className="map-details">
-                      <Avatar type="map" src={mapDetails.previewImg} size={36} />
-                      <div className="map-name-wrapper">
-                        <span className="map-name">{mapDetails.name}</span>
-                      </div>
-                      <button className="edit-button" onClick={() => setEditModalOpen(true)}>
-                        <PencilIcon />
-                      </button>
-                    </div>
-                    {/* <div className="map-action-buttons">
-                  <Button variant="solidGray" onClick={() => console.log('yo')}>
-                    Edit Details
-                  </Button>
-                  <Button onClick={() => console.log('yo')} isLoading={false} disabled={false}>
-                    Save Map
-                  </Button>
+                  <SwitchHorizontalIcon />
                 </div> */}
 
-                    {/* <Searchbar /> */}
+                <div className="map-top-menu">
+                  <GoogleMapsSearch
+                    googleMapsConfig={googleMapsConfig as GoogleMapsConfigType}
+                    addNewLocations={addNewLocations}
+                  />
 
-                    {/* <div className="visibility-selection">
-                        <h2 className="visibility-warning">Publish</h2>
-                        <ToggleSwitch isActive={true} setIsActive={() => console.log('yo')} />
-                      </div> */}
-
-                    {/* <Searchbar /> */}
-
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                      <GoogleMapsSearch googleMapsConfig={googleMapsConfig as GoogleMapsConfigType} />
-
-                      {googleMapsConfig && <SelectMapLayers selectionMap={googleMapsConfig.selectionMap} />}
-
-                      <Button onClick={() => handleSaveMap()} isLoading={isSavingMap} disabled={isSavingMap}>
-                        Save Map
-                      </Button>
-
-                      {/* <div className="save-map-wrapper">
-                        <div className="last-save-date">{formatMonthDayYearTime(lastSave)}</div>
-                        <Button onClick={() => handleSaveMap()} isLoading={isSavingMap} disabled={isSavingMap}>
-                          Save Map
-                        </Button>
-                      </div> */}
-                    </div>
-
-                    {/* <div className="map-action-buttons mobile">
-                      <button className="edit-button" onClick={() => console.log('yo')}>
-                        <PencilIcon />
-                      </button>
-                      <button onClick={() => console.log('yo')} disabled={false}>
-                        {false ? <Spinner size={20} /> : <CloudUploadIcon />}
-                      </button>
-                    </div> */}
-                  </div>
-                ) : (
-                  <div className="map-top-menu">
-                    <div className="map-details">
-                      <Skeleton variant="circular" height={40} width={40} />
-                      <Skeleton height={20} width={200} noBorder />
-                    </div>
-                    <div className="map-action-buttons">
-                      <Skeleton height={36} width={120} />
-                      <Skeleton height={36} width={120} />
-                    </div>
-                  </div>
-                )}
+                  {googleMapsConfig && <SelectMapLayers selectionMap={googleMapsConfig.selectionMap} />}
+                </div>
 
                 <div className="selection-map">
                   <GoogleMapReact
@@ -502,36 +502,11 @@ const CreateMapPage: PageType = () => {
                       locations.length !== 1 ? 's' : ''
                     }`}</span>
 
-                    {/* <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                      <div className="import-export">
-                        <div className="import-button">
-                          <input type="file" id="import-input" accept=".json" onChange={(e) => handleFileUpload(e)} />
-                          <label htmlFor="import-input">Import</label>
-                        </div>
-
-                        <button className="export-button" onClick={() => handleFileDownload()}>
-                          Export
-                        </button>
-                      </div>
-                    </div> */}
-
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                      {pastCoverage && <SelectCoverage coverageOptions={pastCoverage} onChange={loadNewPanoById} />}
-
-                      <CreateMapDropdown
-                        googleMapsConfig={googleMapsConfig}
-                        handleMarkerClick={handleMarkerClick}
-                        locations={locations}
-                        markersRef={markersRef}
-                        setHaveLocationsChanged={setHaveLocationsChanged}
-                        setLocations={setLocations}
-                      />
-                    </div>
+                    {pastCoverage && <SelectCoverage coverageOptions={pastCoverage} onChange={loadNewPanoById} />}
                   </div>
                 ) : (
                   <div className="map-top-menu">
                     <Skeleton height={20} width={100} />
-                    <Skeleton height={20} width={200} />
                   </div>
                 )}
 

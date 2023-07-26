@@ -66,7 +66,7 @@ const SelectMapLayers: FC<Props> = ({ selectionMap }) => {
 
   return (
     <StyledSelectMapLayers>
-      <Select.Root onValueChange={handleChange}>
+      <Select.Root onValueChange={handleChange} defaultValue={OVERLAY_OPTIONS[0]}>
         <Select.Trigger className="SelectTrigger" aria-label="Selection Map Layer Customization">
           <Select.Value placeholder={OVERLAY_OPTIONS[0]} />
           <Select.Icon className="SelectIcon">

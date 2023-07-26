@@ -1,6 +1,6 @@
 import { FC, useEffect, useRef, useState } from 'react'
 import { SearchIcon } from '@heroicons/react/outline'
-import { KEY_CODES } from '@utils/constants/keyCodes'
+import { LocationType } from '@types'
 import { useClickOutside } from '@utils/hooks'
 import { StyledGoogleMapsSearch } from './'
 
@@ -22,12 +22,13 @@ type Props = {
   placeholder?: string
   autoFocus?: boolean
   googleMapsConfig: GoogleMapsConfigType
+  addNewLocations: (locations: LocationType[]) => void
 }
 
 const MAPBOX_API_KEY = process.env.NEXT_PUBLIC_MAPBOX_API_KEY
 const MAPBOX_GEOCODING_BASE = 'https://api.mapbox.com/geocoding/v5/mapbox.places'
 
-const GoogleMapsSearch: FC<Props> = ({ placeholder, autoFocus, googleMapsConfig }) => {
+const GoogleMapsSearch: FC<Props> = ({ placeholder, autoFocus, googleMapsConfig, addNewLocations }) => {
   const [query, _setQuery] = useState('')
   const [results, setResults] = useState<ResultItem[]>([])
   const [isFocused, _setIsFocused] = useState(autoFocus || false)
@@ -68,6 +69,44 @@ const GoogleMapsSearch: FC<Props> = ({ placeholder, autoFocus, googleMapsConfig 
   }, [query])
 
   const handleSearch = async () => {
+    const streetViewLinkRegex = /^https:\/\/www\.google\.com\/maps\/@(-?\d+\.\d+),(-?\d+\.\d+),/
+
+    if (streetViewLinkRegex.test(query)) {
+      return handleGoogleLinkPaste()
+    }
+
+    handleSearchPlaces()
+  }
+
+  const handleGoogleLinkPaste = () => {
+    const str1 = query.split('@')[1]
+    if (!str1) return
+
+    const str2 = str1.split('/')[0]
+    if (!str2) return
+
+    const [lat, lng, _, __, heading, pitch] = str2.split(',')
+
+    if (!lat || !lng) return
+
+    const parsedLat = parseFloat(lat)
+    const parsedLng = parseFloat(lng)
+    const parsedHeading = parseFloat(heading)
+    const parsedPitch = parseFloat(pitch)
+
+    if (!parsedLat || !parsedLng) return
+
+    const location: LocationType = {
+      lat: parsedLat,
+      lng: parsedLng,
+      heading: parsedHeading || 0,
+      pitch: parsedPitch - 90 || 0,
+    }
+
+    addNewLocations([location])
+  }
+
+  const handleSearchPlaces = async () => {
     const res = await fetch(
       `${MAPBOX_GEOCODING_BASE}/${query}.json?autocomplete=1&access_token=${MAPBOX_API_KEY}&language=en`
     )
@@ -135,7 +174,7 @@ const GoogleMapsSearch: FC<Props> = ({ placeholder, autoFocus, googleMapsConfig 
       <div className="searchbar-wrapper">
         <input
           type="text"
-          placeholder={placeholder ? placeholder : 'Search'}
+          placeholder={placeholder ? placeholder : 'Search or paste link'}
           onChange={(e) => setQuery(e.currentTarget.value)}
           autoFocus={autoFocus}
           ref={inputElementRef}

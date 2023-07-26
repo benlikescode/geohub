@@ -9,7 +9,7 @@ type StyledProps = {
   hoverColor?: string
   width?: string
   height?: string
-  showSpinner?: boolean
+  isLoading?: boolean
 } & ButtonHTMLAttributes<HTMLButtonElement>
 
 const StyledButton = styled.button<StyledProps>`
@@ -18,14 +18,14 @@ const StyledButton = styled.button<StyledProps>`
   justify-content: center;
   gap: 8px;
   border-radius: 5px;
-  height: ${({ height }) => height ?? '40px'};
+  height: ${({ height }) => height ?? '35px'};
   width: ${({ width }) => width ?? 'fit-content'};
-  padding: 0 20px;
+  padding: 0 16px;
   font-size: 1rem;
   font-weight: 400;
   user-select: none;
   position: relative;
-  color: ${({ showSpinner }) => showSpinner && 'transparent !important'};
+  color: ${({ isLoading }) => isLoading && 'transparent !important'};
   flex-shrink: 0;
 
   .spinner {

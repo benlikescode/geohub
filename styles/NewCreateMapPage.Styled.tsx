@@ -5,6 +5,75 @@ type StyledProps = {
 }
 
 const StyledNewCreateMapPage = styled.div<StyledProps>`
+  .header {
+    height: var(--navbarHeight);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    padding: 0 1rem;
+    z-index: 20;
+    background-color: ${({ theme }) => theme.color.gray[900]};
+    border-bottom: 1px solid ${({ theme }) => theme.color.gray[800]};
+    flex-shrink: 0 !important;
+
+    .header-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .map-details {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      .map-name-wrapper {
+        display: grid;
+
+        .map-name {
+          color: #fff;
+          font-weight: 500;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+
+      .edit-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: transparent;
+        padding: 6px;
+        border-radius: 4px;
+        color: #999;
+
+        &:hover {
+          background-color: #444;
+          color: #ccc;
+        }
+
+        svg {
+          height: 20px;
+        }
+      }
+    }
+
+    .save-map-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      .last-save-date {
+        font-size: 12px;
+        color: #858585;
+      }
+    }
+  }
+
   .main-content {
     margin: 0 auto;
     height: calc(100vh - var(--navbarHeight));
@@ -15,7 +84,6 @@ const StyledNewCreateMapPage = styled.div<StyledProps>`
     max-height: 100%;
     position: relative;
     overflow: hidden auto;
-    height: 100vh;
     padding: 16px;
     border-radius: 6px;
 
@@ -71,8 +139,8 @@ const StyledNewCreateMapPage = styled.div<StyledProps>`
           height: 100%;
           width: 100%;
         }
-
-        /* #previewMap > div.gm-style > div:nth-child(2) > div:nth-child(1) > div:nth-child(9) > div:nth-child(2) > div {
+        /* 
+        #previewMap > div.gm-style > div:nth-child(2) > div:nth-child(1) > div:nth-child(9) > div:nth-child(2) > div {
           filter: invert(1) !important;
         }
 
@@ -142,55 +210,6 @@ const StyledNewCreateMapPage = styled.div<StyledProps>`
     justify-content: space-between;
     gap: 16px;
     border-bottom: 4px solid #0e0e0e;
-
-    .map-details {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-
-      .map-name-wrapper {
-        display: grid;
-
-        .map-name {
-          color: #fff;
-          font-size: 18px;
-          font-weight: 500;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-      }
-
-      .edit-button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: transparent;
-        padding: 6px;
-        border-radius: 4px;
-        color: #999;
-
-        &:hover {
-          background-color: #444;
-          color: #ccc;
-        }
-
-        svg {
-          height: 20px;
-        }
-      }
-    }
-
-    .save-map-wrapper {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-
-      .last-save-date {
-        font-size: 12px;
-        color: #999;
-      }
-    }
 
     .map-action-buttons {
       display: flex;

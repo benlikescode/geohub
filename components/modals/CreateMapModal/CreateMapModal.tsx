@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { FC, useEffect, useMemo, useRef, useState } from 'react'
+import React, { FC, useEffect, useMemo, useRef, useState } from 'react'
 import { MapPreviewCard } from '@components/MapPreviewCard'
-import { Input } from '@components/system'
+import { Input, ToggleSwitch } from '@components/system'
 import { MapType } from '@types'
 import { MAP_AVATAR_PATH } from '@utils/constants/random'
 import { mailman, randomInt, showErrorToast } from '@utils/helpers'
@@ -128,6 +128,13 @@ const CreateMapModal: FC<Props> = ({ isOpen, closeModal, mapDetails, setMapDetai
                 </div>
               ))}
             </div>
+          </div>
+          <div className="visibility-selection">
+            <div className="cool">
+              <div className="happy">Publish Map</div>
+              <p>Make your map visible to others</p>
+            </div>
+            <ToggleSwitch isActive={true} setIsActive={() => console.log('yo')} />
           </div>
         </div>
 

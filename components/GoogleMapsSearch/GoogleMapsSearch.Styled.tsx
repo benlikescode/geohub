@@ -3,7 +3,7 @@ import styled from 'styled-components'
 type StyledProps = {}
 
 const StyledGoogleMapsSearch = styled.div<StyledProps>`
-  max-width: 250px;
+  max-width: 300px;
   width: 100%;
   position: relative;
 

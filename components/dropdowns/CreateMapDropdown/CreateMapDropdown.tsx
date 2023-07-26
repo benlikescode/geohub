@@ -1,33 +1,18 @@
 import saveAs from 'file-saver'
-import { ChangeEvent, FC, MutableRefObject } from 'react'
+import { ChangeEvent, FC } from 'react'
 import { MenuIcon } from '@heroicons/react/outline'
 import { Content, Item, Portal, Root, Separator, Trigger } from '@radix-ui/react-dropdown-menu'
 import { LocationType } from '@types'
-import { createMapMarker, showErrorToast, showSuccessToast } from '@utils/helpers'
+import { showErrorToast, showSuccessToast } from '@utils/helpers'
 import { StyledCreateMapDropdown } from './'
 
-const REGULAR_MARKER_ICON = '/images/regular-pin.png'
-const REGULAR_MARKER_SIZE = 30
-
 type Props = {
-  googleMapsConfig: any
-  markersRef: MutableRefObject<google.maps.Marker[]>
-  setLocations: any
-  setHaveLocationsChanged: any
-  locations: any
-  handleMarkerClick: any
+  locations: LocationType[]
+  addNewLocations: (locations: LocationType[], markerType: 'selected' | 'regular') => void
 }
 
-const CreateMapDropdown: FC<Props> = ({
-  googleMapsConfig,
-  markersRef,
-  setLocations,
-  setHaveLocationsChanged,
-  locations,
-  handleMarkerClick,
-}) => {
+const CreateMapDropdown: FC<Props> = ({ locations, addNewLocations }) => {
   const handleImportJSON = async (e: ChangeEvent<HTMLInputElement>) => {
-    console.log('fireee')
     if (!e.target.files?.length) return
 
     const file = e.target.files[0]
@@ -35,23 +20,15 @@ const CreateMapDropdown: FC<Props> = ({
     const jsonData = await parseJSONFile(file)
     const isDataValid = isArray(jsonData) && hasValidCoordinates(jsonData)
 
-    if (!isDataValid || !googleMapsConfig) return
+    if (!isDataValid) return
 
-    const { selectionMap } = googleMapsConfig
-
-    const newLocations = (jsonData as LocationType[]).map((x) => {
-      const location = formatLocationForImportExport(x)
-
-      const marker = createMapMarker(location, selectionMap, REGULAR_MARKER_ICON, REGULAR_MARKER_SIZE)
-      markersRef.current.push(marker)
-
-      marker.addListener('click', () => handleMarkerClick(marker))
-
-      return location
+    const newLocations = (jsonData as LocationType[]).map((location) => {
+      return formatLocationForImportExport(location)
     })
 
-    setLocations([...locations, ...newLocations])
-    setHaveLocationsChanged(true)
+    addNewLocations(newLocations, 'regular')
+
+    closeDropdown()
 
     showSuccessToast('Successfully uploaded locations')
   }
@@ -91,7 +68,10 @@ const CreateMapDropdown: FC<Props> = ({
 
   const isArray = (input: any) => {
     if (!Array.isArray(input)) {
-      showErrorToast('Uploaded data is not an array')
+      showErrorToast('Uploaded data is not an array', {
+        position: 'bottom-center',
+        style: { backgroundColor: '#282828' },
+      })
       return false
     }
 
@@ -104,12 +84,18 @@ const CreateMapDropdown: FC<Props> = ({
     input.some((location: any) => {
       if (!location.lat || !location.lng) {
         isValid = false
-        return showErrorToast('One or more locations is missing a lat or lng value')
+        return showErrorToast('One or more locations is missing a lat or lng value', {
+          position: 'bottom-center',
+          style: { backgroundColor: '#282828' },
+        })
       }
 
       if (!isLocationValid(location)) {
         isValid = false
-        return showErrorToast('Location coordinate is invalid')
+        return showErrorToast('Location coordinate is invalid', {
+          position: 'bottom-center',
+          style: { backgroundColor: '#282828' },
+        })
       }
     })
 
@@ -121,6 +107,10 @@ const CreateMapDropdown: FC<Props> = ({
     const jsonData = JSON.stringify(formattedLocations)
     const blob = new Blob([jsonData], { type: 'application/json' })
     saveAs(blob, 'locations.json')
+  }
+
+  const closeDropdown = () => {
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
   }
 
   return (
@@ -135,32 +125,24 @@ const CreateMapDropdown: FC<Props> = ({
         <Portal>
           <StyledCreateMapDropdown>
             <Content className="DropdownMenuContent" sideOffset={5} align="end">
-              <Item className="DropdownMenuItem">
-                <label htmlFor="import-input" className="item-button">
-                  <input
-                    type="file"
-                    id="import-input"
-                    accept=".json"
-                    onChange={(e) => {
-                      handleImportJSON(e)
-                      e.stopPropagation()
-                    }}
-                  />
+              <div>
+                <input type="file" id="import-input" accept=".json" onChange={(e) => handleImportJSON(e)} />
+                <label className="new-item-wrapper" htmlFor="import-input">
                   Import JSON
                 </label>
-              </Item>
+              </div>
 
-              <Item className="DropdownMenuItem" onClick={handleExportJSON}>
+              <Item className="new-item-wrapper" onClick={handleExportJSON}>
                 <div className="item-button">Export JSON</div>
               </Item>
 
               <Separator className="DropdownMenuSeparator" />
 
-              <Item className="DropdownMenuItem">
+              <Item className="new-item-wrapper">
                 <div className="item-button">Unpublish Map</div>
               </Item>
 
-              <Item className="DropdownMenuItem">
+              <Item className="new-item-wrapper">
                 <div className="item-button destructive">Delete Map</div>
               </Item>
             </Content>

@@ -56,7 +56,7 @@ const StyledCreateMapDropdown = styled.div`
     color: #999;
 
     &:hover {
-      background-color: #444;
+      background-color: #383838;
       color: #ccc;
     }
 
@@ -66,15 +66,15 @@ const StyledCreateMapDropdown = styled.div`
   }
 
   .DropdownMenuContent {
-    min-width: 220px;
+    min-width: 185px;
     background-color: #333;
     border-radius: 6px;
     padding: 5px;
-    /* box-shadow: 0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2); */
     animation-duration: 400ms;
     animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
     will-change: transform, opacity;
     z-index: 99;
+    box-shadow: 0 0 0 1px #434343;
 
     &[data-side='top'] {
       animation-name: ${slideDownAndFade};
@@ -93,7 +93,7 @@ const StyledCreateMapDropdown = styled.div`
     }
   }
 
-  .DropdownMenuItem {
+  /* .DropdownMenuItem {
     font-size: 13px;
     line-height: 1;
     color: #dcdcdc;
@@ -103,21 +103,22 @@ const StyledCreateMapDropdown = styled.div`
     position: relative;
     user-select: none;
     outline: none;
+    padding: 0 20px;
 
-    /* &[data-disabled] {
-      color: var(--mauve-8);
-      pointer-events: none;
-    } */
+    &:hover {
+      background-color: #434343;
+      color: #fff;
 
-    /* &[data-highlighted] {
-      background-color: #555;
-      color: var(--violet-1);
-    } */
+      &.destructive {
+        background-color: #b02828;
+        color: #fff;
+      }
+    }
 
     &:not(:last-child) {
       margin-bottom: 6px;
     }
-  }
+  } */
 
   .DropdownMenuSeparator {
     height: 1px;
@@ -125,33 +126,77 @@ const StyledCreateMapDropdown = styled.div`
     margin: 5px;
   }
 
-  input {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    opacity: 0;
-  }
-
-  .item-button {
+  /* .item-button {
     cursor: pointer;
     display: flex;
     align-items: center;
     height: 36px;
-    padding: 0 20px;
     border-radius: 3px;
     font-weight: 400;
     width: 100%;
     position: relative;
+    user-select: none;
+    outline: none;
+    font-size: 13px;
+  }
 
-    &:hover {
-      background-color: #282828;
+  .item-input-button {
+    input {
+      display: none;
+    }
 
-      &.destructive {
-        background-color: #7f1d1d;
+    label {
+      cursor: pointer;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      height: 36px;
+      font-size: 13px;
+      user-select: none;
+      outline: none;
+      position: relative;
+      border-radius: 3px;
+      font-weight: 400;
+      color: #dcdcdc;
+
+      &:hover {
+        background-color: #434343;
+        color: #fff;
       }
     }
+  } */
+
+  .new-item-wrapper {
+    cursor: pointer;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    height: 36px;
+    font-size: 13px;
+    user-select: none;
+    outline: none;
+    position: relative;
+    border-radius: 3px;
+    font-weight: 400;
+    color: #dcdcdc;
+
+    &:hover {
+      background-color: #434343;
+      color: #fff;
+
+      &.destructive {
+        background-color: #b02828;
+        color: #fff;
+      }
+    }
+  }
+
+  input[type='file'] {
+    display: none;
   }
 `
 
