@@ -12,7 +12,6 @@ const initialState: UserState = {
   avatar: { emoji: '1f3b1', color: '#fecaca' },
   guessMapSize: 1,
   gameSettings: { canMove: true, canPan: true, canZoom: true, timeLimit: 0 },
-  location: '',
   recentlyPlayed: [],
 }
 
@@ -49,9 +48,6 @@ export const userSlice = createSlice({
     updateGameSettings: (state, action) => {
       state.gameSettings = action.payload.gameSettings
     },
-    updateLocation: (state, action) => {
-      state.location = action.payload.location
-    },
     updateRecentlyPlayed: (state, action) => {
       state.recentlyPlayed = action.payload.recentlyPlayed
     },
@@ -78,7 +74,6 @@ export const {
   updateEmail,
   updateGuessMapSize,
   updateGameSettings,
-  updateLocation,
   updateRecentlyPlayed,
   updateDistanceUnit,
   updateMapsAPIKey,

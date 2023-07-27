@@ -42,7 +42,6 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
         guess: currGuess || { lat: 0, lng: 0 },
         guessTime: (new Date().getTime() - game.startTime) / 1000,
         localRound: gameData.round,
-        userLocation: user.location,
         timedOut,
         timedOutWithGuess: currGuess !== null,
         adjustedLocation,
