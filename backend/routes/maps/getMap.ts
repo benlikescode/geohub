@@ -1,6 +1,7 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { collections, getUserId, throwError } from '@backend/utils'
+import { userProject } from '@backend/utils/dbProjects'
 
 const getMap = async (req: NextApiRequest, res: NextApiResponse) => {
   const userId = await getUserId(req, res)
@@ -27,13 +28,16 @@ const getMap = async (req: NextApiRequest, res: NextApiResponse) => {
 
   // If map is user created -> get the user details
   if (!isOfficialMap) {
-    const creatorDetails = await collections.users?.findOne({ _id: new ObjectId(mapDetails.creator) })
+    const creatorDetails = await collections.users?.findOne(
+      { _id: new ObjectId(mapDetails.creator) },
+      { projection: userProject }
+    )
 
     if (!creatorDetails) {
       return throwError(res, 404, `Failed to get creator details for map with id: ${mapId}`)
     }
 
-    mapDetails = { ...mapDetails, creatorDetails: { ...creatorDetails, password: null } }
+    mapDetails = { ...mapDetails, creatorDetails }
   }
 
   // If query does not want stats, return early

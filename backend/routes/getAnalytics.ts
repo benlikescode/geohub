@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections, getUserId, isUserAnAdmin, monthAgo, throwError, todayEnd, weekAgo } from '@backend/utils'
+import { collections, getUserId, isUserAnAdmin, monthAgo, throwError, todayEnd } from '@backend/utils'
+import { userProject } from '@backend/utils/dbProjects'
 
 const getAnalytics = async (req: NextApiRequest, res: NextApiResponse) => {
   const newUsersByDayStart = req.body.newUsersByDayStart
@@ -79,6 +80,7 @@ const getAnalytics = async (req: NextApiRequest, res: NextApiResponse) => {
           },
         },
         { $unwind: '$userDetails' },
+        { $project: { userDetails: userProject } },
       ])
       .limit(50)
       .toArray()
@@ -100,6 +102,7 @@ const getAnalytics = async (req: NextApiRequest, res: NextApiResponse) => {
             count: { $sum: 1 },
           },
         },
+        { $project: userProject },
         {
           $project: {
             _id: 0,

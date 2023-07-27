@@ -8,7 +8,6 @@ type User = {
   email: string
   avatar: { emoji: string; color: string }
   createdAt?: Date
-  location?: string
   isAdmin?: boolean
   guessMapSize?: number
   gameSettings?: GameSettingsType
