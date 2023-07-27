@@ -6,17 +6,6 @@ import { OFFICIAL_WORLD_ID } from '@utils/constants/random'
 const createDailyChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
   console.log(todayStart, todayEnd, new Date())
 
-  const dailyChallengesCreatedToday = await collections.challenges
-    ?.find({
-      isDailyChallenge: true,
-      createdAt: { $gte: todayStart, $lte: todayEnd },
-    })
-    .toArray()
-
-  if (dailyChallengesCreatedToday?.length) {
-    return throwError(res, 400, 'There is already a daily challenge today')
-  }
-
   const locations = await getLocations(OFFICIAL_WORLD_ID)
 
   const newDailyChallenge = {
