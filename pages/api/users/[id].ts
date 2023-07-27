@@ -2,6 +2,7 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { collections, dbConnect } from '@backend/utils'
+import { userProject } from '@backend/utils/dbProjects'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -12,7 +13,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       const user = await collections.users
         ?.find({ _id: new ObjectId(userId) })
-        .project({ password: 0, location: 0 })
+        .project(userProject)
         .toArray()
 
       if (!user || user.length !== 1) {

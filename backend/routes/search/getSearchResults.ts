@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { collections } from '@backend/utils'
+import { userProject } from '@backend/utils/dbProjects'
 
 // Reference: https://docs.atlas.mongodb.com/reference/atlas-search/text/
 
@@ -19,15 +20,8 @@ const getSearchResults = async (req: NextApiRequest, res: NextApiResponse) => {
           },
         },
       },
-      {
-        $project: {
-          password: 0,
-          location: 0,
-        },
-      },
-      {
-        $limit: count || 3,
-      },
+      { $project: userProject },
+      { $limit: count || 3 },
     ])
     .toArray()
 
@@ -43,9 +37,7 @@ const getSearchResults = async (req: NextApiRequest, res: NextApiResponse) => {
         },
       },
       { $match: { isPublished: true, isDeleted: { $exists: false } } },
-      {
-        $limit: count || 3,
-      },
+      { $limit: count || 3 },
     ])
     .toArray()
 

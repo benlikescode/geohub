@@ -1,6 +1,7 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { collections, getUserId, throwError } from '@backend/utils'
+import { userProject } from '@backend/utils/dbProjects'
 import { COUNTRY_STREAK_DETAILS, COUNTRY_STREAKS_ID } from '@utils/constants/random'
 
 const getChallengeScores = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -21,9 +22,8 @@ const getChallengeScores = async (req: NextApiRequest, res: NextApiResponse) => 
           as: 'userDetails',
         },
       },
-      {
-        $unwind: '$userDetails',
-      },
+      { $unwind: '$userDetails' },
+      { $project: { userDetails: userProject } },
     ])
     .limit(100)
     .toArray()

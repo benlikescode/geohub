@@ -2,6 +2,7 @@ import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Game } from '@backend/models'
 import { collections, getUserId, throwError } from '@backend/utils'
+import { userProject } from '@backend/utils/dbProjects'
 
 const getGame = async (req: NextApiRequest, res: NextApiResponse) => {
   const gameId = req.query.id as string
@@ -22,16 +23,8 @@ const getGame = async (req: NextApiRequest, res: NextApiResponse) => {
           as: 'userDetails',
         },
       },
-      {
-        $unwind: '$userDetails',
-      },
-      {
-        $project: {
-          userDetails: {
-            password: 0,
-          },
-        },
-      },
+      { $unwind: '$userDetails' },
+      { $project: { userDetails: userProject } },
     ])
     .toArray()
 
