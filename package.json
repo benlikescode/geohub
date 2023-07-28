@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@deck.gl/google-maps": "^8.9.22",
     "@heroicons/react": "^1.0.4",
     "@radix-ui/react-dropdown-menu": "^2.0.5",
     "@radix-ui/react-select": "^1.2.2",
@@ -21,6 +22,7 @@
     "bcryptjs": "^2.4.3",
     "body-scroll-lock": "^4.0.0-beta.0",
     "cryptr": "^6.2.0",
+    "deck.gl": "^8.9.22",
     "dotenv": "^10.0.0",
     "file-saver": "^2.0.5",
     "google-map-react": "^2.1.10",

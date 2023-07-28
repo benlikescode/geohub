@@ -129,13 +129,6 @@ const CreateMapModal: FC<Props> = ({ isOpen, closeModal, mapDetails, setMapDetai
               ))}
             </div>
           </div>
-          <div className="visibility-selection">
-            <div className="cool">
-              <div className="happy">Publish Map</div>
-              <p>Make your map visible to others</p>
-            </div>
-            <ToggleSwitch isActive={true} setIsActive={() => console.log('yo')} />
-          </div>
         </div>
 
         <div className="map-preview-section">

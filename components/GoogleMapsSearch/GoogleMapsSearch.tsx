@@ -1,14 +1,8 @@
 import { FC, useEffect, useRef, useState } from 'react'
 import { SearchIcon } from '@heroicons/react/outline'
-import { LocationType } from '@types'
+import { GoogleMapsConfigType, LocationType } from '@types'
 import { useClickOutside } from '@utils/hooks'
 import { StyledGoogleMapsSearch } from './'
-
-type GoogleMapsConfigType = {
-  isLoaded: boolean
-  selectionMap: google.maps.Map
-  mapsApi: typeof google.maps
-}
 
 type ResultItem = {
   id: string
@@ -142,7 +136,7 @@ const GoogleMapsSearch: FC<Props> = ({ placeholder, autoFocus, googleMapsConfig,
   const handlePanToLocation = (resultItem: ResultItem) => {
     if (!googleMapsConfig) return
 
-    const { selectionMap } = googleMapsConfig
+    const { map } = googleMapsConfig
 
     if (resultItem.bbox) {
       const [minLng, minLat, maxLng, maxLat] = resultItem.bbox
@@ -152,8 +146,8 @@ const GoogleMapsSearch: FC<Props> = ({ placeholder, autoFocus, googleMapsConfig,
 
       const bounds = new google.maps.LatLngBounds(swLatLng, neLatLng)
 
-      selectionMap.fitBounds(bounds)
-      selectionMap.setCenter(bounds.getCenter())
+      map.fitBounds(bounds)
+      map.setCenter(bounds.getCenter())
     }
 
     if (resultItem.center) {
@@ -161,8 +155,8 @@ const GoogleMapsSearch: FC<Props> = ({ placeholder, autoFocus, googleMapsConfig,
 
       const centerLatLng = new google.maps.LatLng(lat, lng)
 
-      selectionMap.setCenter(centerLatLng)
-      selectionMap.setZoom(16)
+      map.setCenter(centerLatLng)
+      map.setZoom(16)
     }
 
     setQuery(resultItem.place)

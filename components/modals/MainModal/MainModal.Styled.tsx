@@ -4,14 +4,13 @@ type StyledProps = {}
 
 const StyledMainModal = styled.div<StyledProps>`
   .modal-header {
-    padding: 1rem 1.5rem;
+    padding: 16px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #282828;
 
     .modal-title {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 400;
     }
 
@@ -29,23 +28,22 @@ const StyledMainModal = styled.div<StyledProps>`
       }
 
       svg {
-        height: 24px;
+        height: 20px;
       }
     }
   }
 
   .modal-body {
-    background-color: var(--background1);
+    background-color: #141414;
     max-height: calc(100vh * 0.7);
     overflow: hidden auto;
   }
 
   .modal-footer {
-    border-top: 1px solid #282828;
-    padding: 1rem 1.5rem;
+    padding: 14px 20px;
     display: flex;
     justify-content: flex-end;
-    gap: 1rem;
+    gap: 12px;
 
     .cancel-button {
       background-color: rgb(255, 255, 255, 0.1);

@@ -11,7 +11,7 @@ const reducers = combineReducers({
 
 const persistConfig = {
   key: 'root',
-  whitelist: ['user', 'game', 'mapMaker'],
+  whitelist: ['user', 'game'],
   storage,
 }
 

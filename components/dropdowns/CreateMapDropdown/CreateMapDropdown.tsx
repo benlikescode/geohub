@@ -9,24 +9,25 @@ import { StyledCreateMapDropdown } from './'
 type Props = {
   locations: LocationType[]
   addNewLocations: (locations: LocationType[], markerType: 'selected' | 'regular') => void
+  setDeleteModalOpen: (deleteModalOpen: boolean) => void
 }
 
-const CreateMapDropdown: FC<Props> = ({ locations, addNewLocations }) => {
+const CreateMapDropdown: FC<Props> = ({ locations, addNewLocations, setDeleteModalOpen }) => {
   const handleImportJSON = async (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.length) return
 
     const file = e.target.files[0]
 
     const jsonData = await parseJSONFile(file)
-    const isDataValid = isArray(jsonData) && hasValidCoordinates(jsonData)
+    // const isDataValid = isArray(jsonData) && hasValidCoordinates(jsonData)
 
-    if (!isDataValid) return
+    // if (!isDataValid) return
 
-    const newLocations = (jsonData as LocationType[]).map((location) => {
-      return formatLocationForImportExport(location)
-    })
+    // const newLocations = (jsonData as LocationType[]).map((location) => {
+    //   return formatLocationForImportExport(location)
+    // })
 
-    addNewLocations(newLocations, 'regular')
+    addNewLocations(jsonData as any, 'regular')
 
     closeDropdown()
 
@@ -133,17 +134,13 @@ const CreateMapDropdown: FC<Props> = ({ locations, addNewLocations }) => {
               </div>
 
               <Item className="new-item-wrapper" onClick={handleExportJSON}>
-                <div className="item-button">Export JSON</div>
+                Export JSON
               </Item>
 
               <Separator className="DropdownMenuSeparator" />
 
-              <Item className="new-item-wrapper">
-                <div className="item-button">Unpublish Map</div>
-              </Item>
-
-              <Item className="new-item-wrapper">
-                <div className="item-button destructive">Delete Map</div>
+              <Item className="new-item-wrapper destructive" onClick={() => setDeleteModalOpen(true)}>
+                Delete Map
               </Item>
             </Content>
           </StyledCreateMapDropdown>
