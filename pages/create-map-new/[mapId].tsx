@@ -497,7 +497,7 @@ const CreateMapPage: PageType = () => {
                       locations.length !== 1 ? 's' : ''
                     }`}</span>
 
-                    {pastCoverage && <SelectCoverage coverageOptions={pastCoverage} onChange={loadNewPanoById} />}
+                    {/* {pastCoverage && <SelectCoverage coverageOptions={pastCoverage} onChange={loadNewPanoById} />} */}
                   </div>
                 ) : (
                   <div className="map-top-menu">
