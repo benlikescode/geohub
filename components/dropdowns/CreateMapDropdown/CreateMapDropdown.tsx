@@ -1,9 +1,11 @@
 import saveAs from 'file-saver'
-import { ChangeEvent, FC } from 'react'
+import { useRouter } from 'next/router'
+import { ChangeEvent, FC, useState } from 'react'
+import { DestroyModal } from '@components/modals'
 import { MenuIcon } from '@heroicons/react/outline'
 import { Content, Item, Portal, Root, Separator, Trigger } from '@radix-ui/react-dropdown-menu'
 import { LocationType } from '@types'
-import { showErrorToast, showSuccessToast } from '@utils/helpers'
+import { mailman, showErrorToast, showSuccessToast } from '@utils/helpers'
 import { StyledCreateMapDropdown } from './'
 
 type Props = {
@@ -12,6 +14,12 @@ type Props = {
 }
 
 const CreateMapDropdown: FC<Props> = ({ locations, addNewLocations }) => {
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
+
+  const router = useRouter()
+  const mapId = router.query.mapId as string
+
   const handleImportJSON = async (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.length) return
 
@@ -113,43 +121,73 @@ const CreateMapDropdown: FC<Props> = ({ locations, addNewLocations }) => {
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
   }
 
+  const handleDeleteMap = async () => {
+    setIsDeleting(true)
+
+    const res = await mailman(`maps/custom/${mapId}`, 'DELETE')
+
+    if (res.error) {
+      return showErrorToast(res.error.message)
+    }
+
+    if (res.message) {
+      setDeleteModalOpen(false)
+      router.push('/my-maps')
+    }
+
+    setIsDeleting(false)
+  }
+
   return (
-    <StyledCreateMapDropdown>
-      <Root>
-        <Trigger asChild>
-          <button className="trigger-button" aria-label="More options">
-            <MenuIcon />
-          </button>
-        </Trigger>
+    <>
+      <StyledCreateMapDropdown>
+        <Root>
+          <Trigger asChild>
+            <button className="trigger-button" aria-label="More options">
+              <MenuIcon />
+            </button>
+          </Trigger>
 
-        <Portal>
-          <StyledCreateMapDropdown>
-            <Content className="DropdownMenuContent" sideOffset={5} align="end">
-              <div>
-                <input type="file" id="import-input" accept=".json" onChange={(e) => handleImportJSON(e)} />
-                <label className="new-item-wrapper" htmlFor="import-input">
-                  Import JSON
-                </label>
-              </div>
+          <Portal>
+            <StyledCreateMapDropdown>
+              <Content className="DropdownMenuContent" sideOffset={5} align="end">
+                <div>
+                  <input type="file" id="import-input" accept=".json" onChange={(e) => handleImportJSON(e)} />
+                  <label className="new-item-wrapper" htmlFor="import-input">
+                    Import JSON
+                  </label>
+                </div>
 
-              <Item className="new-item-wrapper" onClick={handleExportJSON}>
-                <div className="item-button">Export JSON</div>
-              </Item>
+                <Item className="new-item-wrapper" onClick={handleExportJSON}>
+                  Export JSON
+                </Item>
 
-              <Separator className="DropdownMenuSeparator" />
+                <Separator className="DropdownMenuSeparator" />
 
-              <Item className="new-item-wrapper">
+                {/* <Item className="new-item-wrapper">
                 <div className="item-button">Unpublish Map</div>
-              </Item>
+              </Item> */}
 
-              <Item className="new-item-wrapper">
-                <div className="item-button destructive">Delete Map</div>
-              </Item>
-            </Content>
-          </StyledCreateMapDropdown>
-        </Portal>
-      </Root>
-    </StyledCreateMapDropdown>
+                {mapId && (
+                  <Item className="new-item-wrapper destructive" onClick={() => setDeleteModalOpen(true)}>
+                    Delete Map
+                  </Item>
+                )}
+              </Content>
+            </StyledCreateMapDropdown>
+          </Portal>
+        </Root>
+      </StyledCreateMapDropdown>
+
+      <DestroyModal
+        isOpen={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        onAction={() => handleDeleteMap()}
+        title="Confirm Delete"
+        message="This map and all it's locations will be permanently deleted."
+        isSubmitting={isDeleting}
+      />
+    </>
   )
 }
 
