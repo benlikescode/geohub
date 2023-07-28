@@ -17,7 +17,7 @@ import { Avatar, Button, Skeleton } from '@components/system'
 import { CloudUploadIcon, PencilIcon, SwitchHorizontalIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
 import StyledNewCreateMapPage from '@styles/NewCreateMapPage.Styled'
-import { LocationType, MapType, PageType, StreetViewCoverageType } from '@types'
+import { GoogleMapsConfigType, LocationType, MapType, PageType, StreetViewCoverageType } from '@types'
 import { PREVIEW_MAP_OPTIONS, SELECTION_MAP_OPTIONS } from '@utils/constants/googleMapOptions'
 import { formatMonthYear, formatTimeAgo } from '@utils/dateHelpers'
 import { createMapMarker, getMapsKey, mailman, showErrorToast, showSuccessToast } from '@utils/helpers'
@@ -27,12 +27,6 @@ const SELECTED_MARKER_ICON = '/images/selected-pin.png'
 const REGULAR_MARKER_ICON = '/images/regular-pin.png'
 const SELECTED_MARKER_SIZE = 40
 const REGULAR_MARKER_SIZE = 30
-
-type GoogleMapsConfigType = {
-  isLoaded: boolean
-  selectionMap: google.maps.Map
-  mapsApi: typeof google.maps
-}
 
 const CreateMapPage: PageType = () => {
   const router = useRouter()
@@ -101,6 +95,7 @@ const CreateMapPage: PageType = () => {
 
     if (res.error) {
       setShowErrorPage(true)
+      return false
     }
 
     setMapDetails(res)
@@ -115,20 +110,20 @@ const CreateMapPage: PageType = () => {
   const handleSetupSelectionMap = () => {
     if (!googleMapsConfig) return
 
-    const { selectionMap } = googleMapsConfig
+    const { map } = googleMapsConfig
 
     locationsRef.current.map((location) => {
-      const marker = createMapMarker(location, selectionMap, REGULAR_MARKER_ICON, REGULAR_MARKER_SIZE)
+      const marker = createMapMarker(location, map, REGULAR_MARKER_ICON, REGULAR_MARKER_SIZE)
       markersRef.current.push(marker)
 
       marker.addListener('click', () => handleMarkerClick(marker))
     })
 
-    selectionMap.addListener('click', (e: google.maps.MapMouseEvent) => handleSelectionMapClick(e))
+    map.addListener('click', (e: google.maps.MapMouseEvent) => handleSelectionMapClick(e))
 
     const svLayer = new window.google.maps.StreetViewCoverageLayer()
 
-    svLayer.setMap(selectionMap)
+    svLayer.setMap(map)
   }
 
   const handleMarkerClick = (marker: google.maps.Marker) => {
@@ -154,6 +149,8 @@ const CreateMapPage: PageType = () => {
   const addNewLocations = (locations: LocationType[], markerType: 'selected' | 'regular' = 'selected') => {
     if (!googleMapsConfig) return
 
+    const { map } = googleMapsConfig
+
     // If previously selected marker -> reset its icon to regular
     if (selectedMarkerIndexRef.current !== -1) {
       markersRef.current[selectedMarkerIndexRef.current].setIcon({
@@ -165,7 +162,7 @@ const CreateMapPage: PageType = () => {
     locations.map((location) => {
       const marker = createMapMarker(
         location,
-        googleMapsConfig.selectionMap,
+        map,
         markerType === 'selected' ? SELECTED_MARKER_ICON : REGULAR_MARKER_ICON,
         markerType === 'selected' ? SELECTED_MARKER_SIZE : REGULAR_MARKER_SIZE
       )
@@ -476,7 +473,7 @@ const CreateMapPage: PageType = () => {
                     addNewLocations={addNewLocations}
                   />
 
-                  {googleMapsConfig && <SelectMapLayers selectionMap={googleMapsConfig.selectionMap} />}
+                  {googleMapsConfig && <SelectMapLayers selectionMap={googleMapsConfig.map} />}
                 </div>
 
                 <div className="selection-map">
@@ -485,9 +482,7 @@ const CreateMapPage: PageType = () => {
                     center={{ lat: 0, lng: 0 }}
                     zoom={2}
                     yesIWantToUseGoogleMapApiInternals
-                    onGoogleApiLoaded={({ map, maps }) =>
-                      setGoogleMapsConfig({ isLoaded: true, selectionMap: map, mapsApi: maps })
-                    }
+                    onGoogleApiLoaded={({ map, maps }) => setGoogleMapsConfig({ isLoaded: true, map, mapsApi: maps })}
                     options={SELECTION_MAP_OPTIONS}
                   ></GoogleMapReact>
                 </div>
