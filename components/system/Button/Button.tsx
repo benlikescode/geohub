@@ -12,6 +12,8 @@ type Props = {
   children?: ReactNode
   width?: string
   height?: string
+  padding?: string
+  disabledBackground?: boolean
 } & ButtonHTMLAttributes<HTMLButtonElement>
 
 const Button: FC<Props> = ({
@@ -24,6 +26,8 @@ const Button: FC<Props> = ({
   children,
   width,
   height,
+  padding,
+  disabledBackground,
   ...rest
 }) => {
   return (
@@ -36,6 +40,7 @@ const Button: FC<Props> = ({
       width={width}
       height={height}
       isLoading={isLoading}
+      padding={padding}
       {...rest}
     >
       {children}

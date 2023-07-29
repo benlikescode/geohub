@@ -10,18 +10,18 @@ import { CreateMapDropdown } from '@components/dropdowns/CreateMapDropdown'
 import { NotFound } from '@components/errorViews'
 import { GoogleMapsSearch } from '@components/GoogleMapsSearch'
 import { Head } from '@components/Head'
-import { CreateMapModal } from '@components/modals'
+import { CreateMapModal, SaveMapModal } from '@components/modals'
 import { SelectCoverage } from '@components/selects/SelectCoverage'
 import { SelectMapLayers } from '@components/selects/SelectMapLayers'
 import { Avatar, Button, Skeleton } from '@components/system'
 import { CloudUploadIcon, PencilIcon, SwitchHorizontalIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
 import StyledNewCreateMapPage from '@styles/NewCreateMapPage.Styled'
-import { GoogleMapsConfigType, LocationType, MapType, PageType, StreetViewCoverageType } from '@types'
+import { ChangesType, GoogleMapsConfigType, LocationType, MapType, PageType, StreetViewCoverageType } from '@types'
 import { PREVIEW_MAP_OPTIONS, SELECTION_MAP_OPTIONS } from '@utils/constants/googleMapOptions'
 import { formatMonthYear, formatTimeAgo } from '@utils/dateHelpers'
 import { createMapMarker, getMapsKey, mailman, showErrorToast, showSuccessToast } from '@utils/helpers'
-import { useConfirmLeave, useIsMobile } from '@utils/hooks'
+import { useBreakpoint, useConfirmLeave } from '@utils/hooks'
 
 const SELECTED_MARKER_ICON = '/images/selected-pin.png'
 const REGULAR_MARKER_ICON = '/images/regular-pin.png'
@@ -36,7 +36,6 @@ const CreateMapPage: PageType = () => {
 
   const [locations, _setLocations] = useState<LocationType[]>([])
   const [selectedMarkerIndex, _setSelectedMarkerIndex] = useState(-1)
-  const [haveLocationsChanged, setHaveLocationsChanged] = useState(false)
   const [mapDetails, setMapDetails] = useState<MapType | null>(null)
   const [showErrorPage, setShowErrorPage] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
@@ -44,6 +43,7 @@ const CreateMapPage: PageType = () => {
   const [showPreviewMap, setShowPreviewMap] = useState(false)
   const [googleMapsConfig, setGoogleMapsConfig] = useState<GoogleMapsConfigType>()
   const [editModalOpen, setEditModalOpen] = useState(false)
+  const [saveModalOpen, setSaveModalOpen] = useState(false)
   const [isSavingMap, setIsSavingMap] = useState(false)
   const [lastSave, setLastSave] = useState<Date>()
 
@@ -54,8 +54,11 @@ const CreateMapPage: PageType = () => {
   const [modifiedPanoId, setModifiedPanoId] = useState<string | null>(null)
 
   const [pastCoverage, setPastCoverage] = useState<StreetViewCoverageType[]>()
+  const [panoMetaData, setPanoMetaData] = useState<google.maps.StreetViewPanoramaData | null>(null)
 
-  const { isMobile } = useIsMobile()
+  const [changes, setChanges] = useState<ChangesType>({ added: 0, updated: 0, deleted: 0 })
+
+  const { isBreakpoint } = useBreakpoint('960px')
 
   const svServiceRef = useRef<google.maps.StreetViewService | null>(null)
   const svPanoramaRef = useRef<google.maps.StreetViewPanorama | null>(null)
@@ -73,7 +76,11 @@ const CreateMapPage: PageType = () => {
     _setSelectedMarkerIndex(newIndex)
   }
 
-  useConfirmLeave(haveLocationsChanged)
+  const incrementChanges = (type: keyof ChangesType) => {
+    setChanges((prev) => ({ ...prev, [type]: prev[type] + 1 }))
+  }
+
+  useConfirmLeave(Object.values(changes).some((count) => count > 0))
 
   useEffect(() => {
     if (!mapId || !googleMapsConfig) return
@@ -177,7 +184,7 @@ const CreateMapPage: PageType = () => {
 
     const newLocations = [...locationsRef.current, ...locations]
     setLocations(newLocations)
-    setHaveLocationsChanged(true)
+    incrementChanges('added')
 
     if (markerType === 'selected') {
       loadNewPano()
@@ -270,12 +277,13 @@ const CreateMapPage: PageType = () => {
       const pastCoverage: StreetViewCoverageType[] = (data as any)?.time?.map((x: any) => {
         return {
           pano: x.pano,
-          date: formatMonthYear(x.yp),
+          date: formatMonthYear(x.zp),
           isCurrent: data.location?.pano === x.pano,
         }
       })
 
       setPastCoverage(pastCoverage)
+      setPanoMetaData(data)
 
       const adjustedLat = data.location.latLng.lat()
       const adjustedLng = data.location.latLng.lng()
@@ -323,7 +331,7 @@ const CreateMapPage: PageType = () => {
   }
 
   const handleUpdateLocation = () => {
-    setHaveLocationsChanged(true)
+    incrementChanges('updated')
     setShowPreviewMap(false)
 
     const selectedMarkerIdx = selectedMarkerIndexRef.current
@@ -363,7 +371,7 @@ const CreateMapPage: PageType = () => {
   }
 
   const handleRemoveLocation = () => {
-    setHaveLocationsChanged(true)
+    incrementChanges('deleted')
     setShowPreviewMap(false)
 
     // If we have not selected a location, we remove the most recently added
@@ -383,37 +391,6 @@ const CreateMapPage: PageType = () => {
     markersRef.current.splice(selectedMarkerIndex, 1)
 
     setSelectedIndex(-1)
-  }
-
-  const handleSaveMap = async () => {
-    // const isPublishedHasChanged = initiallyPublished !== isPublished
-
-    if (!haveLocationsChanged) {
-      return showErrorToast('No changes since last save', {
-        position: 'bottom-center',
-        style: { backgroundColor: '#282828' },
-      })
-    }
-
-    setIsSavingMap(true)
-
-    const res = await mailman(`maps/custom/${mapId}`, 'PUT', JSON.stringify({ locations: locationsRef.current }))
-
-    setIsSavingMap(false)
-
-    if (res.error) {
-      return showErrorToast(res.error.message)
-    }
-
-    setLastSave(new Date())
-
-    // setInitiallyPubished(isPublished)
-    setHaveLocationsChanged(false)
-
-    return showSuccessToast('Your changes have been saved', {
-      position: 'bottom-center',
-      style: { backgroundColor: '#282828' },
-    })
   }
 
   if (showErrorPage) {
@@ -450,7 +427,7 @@ const CreateMapPage: PageType = () => {
           <div className="header-group">
             <div className="save-map-wrapper">
               {lastSave && <div className="last-save-date">{`Saved ${formatTimeAgo(lastSave)}`}</div>}
-              <Button onClick={() => handleSaveMap()} isLoading={isSavingMap} disabled={isSavingMap}>
+              <Button onClick={() => setSaveModalOpen(true)} size="md" isLoading={isSavingMap} disabled={isSavingMap}>
                 Save Map
               </Button>
             </div>
@@ -460,7 +437,7 @@ const CreateMapPage: PageType = () => {
         </div>
 
         <div className="main-content">
-          <Allotment vertical={isMobile} key={isMobile ? 1 : 0} className="allotment-wrapper">
+          <Allotment vertical={isBreakpoint} className="allotment-wrapper">
             <Allotment.Pane>
               <div className="selection-map-wrapper">
                 {/* <div className="allotment-indicator">
@@ -507,13 +484,23 @@ const CreateMapPage: PageType = () => {
 
                 <div className="preview-map">
                   <div id="previewMap"></div>
-                  <div className="preview-action-buttons">
-                    <Button variant="solidGray" onClick={() => handleUpdateLocation()}>
-                      Update Location
-                    </Button>
-                    <Button variant="destroy" onClick={() => handleRemoveLocation()}>
-                      Remove
-                    </Button>
+                  <div className="bottom-bar">
+                    {/* {pastCoverage && <SelectCoverage coverageOptions={pastCoverage} onChange={loadNewPanoById} />} */}
+                    {panoMetaData && <span className="pano-description">{panoMetaData.location?.description}</span>}
+                    <div className="preview-action-buttons">
+                      <Button
+                        variant="solidGray"
+                        size="md"
+                        // backgroundColor="#000"
+                        // color="#fff"
+                        onClick={() => handleUpdateLocation()}
+                      >
+                        Update Location
+                      </Button>
+                      <Button variant="destroy" size="md" onClick={() => handleRemoveLocation()}>
+                        Remove
+                      </Button>
+                    </div>
                   </div>
                 </div>
 
@@ -540,6 +527,14 @@ const CreateMapPage: PageType = () => {
           setMapDetails={setMapDetails}
         />
       )}
+
+      <SaveMapModal
+        isOpen={saveModalOpen}
+        closeModal={() => setSaveModalOpen(false)}
+        changes={changes}
+        locationsRef={locationsRef}
+        setLastSave={setLastSave}
+      />
     </>
   )
 }

@@ -27,8 +27,8 @@ const DestroyModal: FC<Props> = ({ title, message, isOpen, onClose, onAction, is
           <Button variant="solidGray" size="md" onClick={onClose}>
             Cancel
           </Button>
-          <Button variant="destroy" size="md" onClick={onAction} disabled={isSubmitting}>
-            {isSubmitting ? <Spinner size={20} /> : 'Delete'}
+          <Button variant="destroy" size="md" onClick={onAction} isLoading={isSubmitting} disabled={isSubmitting}>
+            Delete
           </Button>
         </div>
       </StyledDestroyModal>

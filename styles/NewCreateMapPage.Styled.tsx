@@ -131,7 +131,7 @@ const StyledNewCreateMapPage = styled.div<StyledProps>`
       flex: 2 1;
 
       .preview-map {
-        height: calc(100% - 60px);
+        height: calc(100% - 120px);
         position: relative;
         display: ${({ showPreviewMap }) => (showPreviewMap ? 'block' : 'none')};
 
@@ -139,27 +139,51 @@ const StyledNewCreateMapPage = styled.div<StyledProps>`
           height: 100%;
           width: 100%;
         }
-        /* 
+
         #previewMap > div.gm-style > div:nth-child(2) > div:nth-child(1) > div:nth-child(9) > div:nth-child(2) > div {
           filter: invert(1) !important;
         }
 
         #previewMap > div.gm-style > div:nth-child(2) > div:nth-child(1) > div:nth-child(9) > div:nth-child(1) {
           display: none;
-        } */
+        }
 
-        .preview-action-buttons {
+        .bottom-bar {
           display: flex;
           align-items: center;
-          gap: 12px;
-          /* margin-top: 10px; */
-          /* padding: 10px; */
-          position: absolute;
-          /* bottom: 30px;
+          justify-content: space-between;
+          gap: 16px;
+          padding: 0 10px;
+          height: 60px;
+
+          .pano-description {
+            font-size: 15px;
+            font-weight: 400;
+            color: #dcdcdc;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            @media (max-width: 600px) {
+              display: none;
+            }
+          }
+
+          .preview-action-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            /* flex-direction: row-reverse; */
+            gap: 16px;
+            /* margin-top: 10px; */
+
+            /* position: absolute; */
+            /* bottom: 30px;
           right: 12px; */
-          z-index: 9;
+            /* z-index: 9;
           bottom: 8px;
-          left: 8px;
+          left: 8px; */
+          }
         }
       }
 
@@ -274,7 +298,7 @@ const StyledNewCreateMapPage = styled.div<StyledProps>`
 
   @media (max-width: 1060px) {
     .main-content {
-      flex-direction: column;
+      /* flex-direction: column; */
 
       .selection-map-wrapper {
         .map-top-menu {
@@ -306,42 +330,6 @@ const StyledNewCreateMapPage = styled.div<StyledProps>`
           }
         }
       }
-    }
-  }
-
-  .import-export {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-
-    .import-button {
-      input {
-        display: none;
-      }
-
-      label {
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #333;
-        height: 40px;
-        padding: 0 20px;
-        border-radius: 5px;
-        font-weight: 400;
-      }
-    }
-
-    .export-button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: #333;
-      height: 40px;
-      padding: 0 20px;
-      border-radius: 5px;
-      font-weight: 400;
-      color: #fff;
     }
   }
 `

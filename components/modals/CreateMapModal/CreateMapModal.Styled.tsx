@@ -68,36 +68,6 @@ const StyledCreateMapModal = styled.div`
     justify-content: center;
   }
 
-  .visibility-selection {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-
-    .cool {
-      display: grid;
-
-      .happy {
-        font-size: 14px;
-        font-weight: 400;
-        color: #aaa;
-        margin-bottom: 6px;
-      }
-
-      p {
-        color: #919191;
-        font-weight: 400;
-        font-size: 13px;
-      }
-    }
-
-    .visibility-warning {
-      color: var(--color2);
-      font-size: 1rem;
-      font-weight: 500;
-    }
-  }
-
   @media (max-width: 750px) {
     grid-template-columns: 1fr;
 

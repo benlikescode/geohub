@@ -10,6 +10,8 @@ type StyledProps = {
   width?: string
   height?: string
   isLoading?: boolean
+  padding?: string
+  disabledBackground?: boolean
 } & ButtonHTMLAttributes<HTMLButtonElement>
 
 const StyledButton = styled.button<StyledProps>`
@@ -18,15 +20,23 @@ const StyledButton = styled.button<StyledProps>`
   justify-content: center;
   gap: 8px;
   border-radius: 5px;
-  height: ${({ height }) => height ?? '35px'};
+  height: ${({ height }) => height ?? '40px'};
   width: ${({ width }) => width ?? 'fit-content'};
-  padding: 0 16px;
+  padding: ${({ padding }) => padding ?? '0 25px'};
   font-size: 1rem;
   font-weight: 400;
   user-select: none;
   position: relative;
   color: ${({ isLoading }) => isLoading && 'transparent !important'};
   flex-shrink: 0;
+
+  ${({ size }) =>
+    size === 'md' &&
+    `
+    padding: 0 16px;
+    font-size: 15px;
+    height: 39px;
+  `}
 
   .spinner {
     position: absolute;
@@ -35,82 +45,42 @@ const StyledButton = styled.button<StyledProps>`
     transform: translate(-50%, -50%);
   }
 
-  ${({ size }) =>
-    size === 'sm' &&
-    `
-        height: 30px;
-        font-size: 14px;
-        border-radius: 3px;
-        padding: 0 16px;
-    `}
-
-  ${({ size }) =>
-    size === 'md' &&
-    `
-        height: 36px;
-        font-size: 16px;
-        border-radius: 3px;
-        padding: 0 12px;
-    `}
-
-    ${({ variant, disabled }) =>
+  ${({ variant, disabled }) =>
     variant === 'primary' &&
     `
         background-color: var(--mediumPurple);
         color: #fff;
-        min-width: 60px;
-        font-size: 15px;
 
         :hover {
           background-color: var(--indigo-600);
         }
     `}
 
-    ${({ variant, disabled }) =>
+  ${({ variant, disabled }) =>
     variant === 'solidGray' &&
-    !disabled &&
     `
         background-color: rgb(255, 255, 255, 0.1);
-        background-color: #353535;
-        background-color: #171717;
-        background-color: #000;
-
-        color: #dcdcdc;
-        border-radius: 4px;
-        font-size: 1rem;
-        font-weight: 400;
-        user-select: none;
+        color: #fee2e2;
 
         &:hover {
           background-color: rgb(255, 255, 255, 0.15);
-          background-color: #424242;
-          background-color: #202020;
-          background-color: #0e0e0e;
-
         }
     `}
 
     ${({ variant, disabled }) =>
     variant === 'destroy' &&
-    !disabled &&
     `     
-        color: #fff;
+        color: #fee2e2;
         background-color: #7f1d1d;
-        background-color: #181818;
-
      
-
         &:hover {
           background-color: #991b1b;
-          background-color: #242424;
-
         }
     `}
 
     ${({ color, backgroundColor, disabled }) =>
     color &&
     backgroundColor &&
-    !disabled &&
     `
         background-color: ${backgroundColor};
         color: ${color};
@@ -128,9 +98,19 @@ const StyledButton = styled.button<StyledProps>`
     ${({ disabled }) =>
     disabled &&
     `
-        
-        cursor: not-allowed !important;
-       
+        cursor: not-allowed !important;   
+    `}
+
+    ${({ disabledBackground }) =>
+    disabledBackground &&
+    `
+        background-color: var(--background3);
+        color: var(--color2);
+        opacity: 0.5;
+
+        &:hover {
+          background-color: inherit;
+        }
     `}
 `
 

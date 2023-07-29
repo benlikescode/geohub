@@ -53,7 +53,7 @@ const StyledModal = styled.div<StyledProps>`
     outline: none;
     overflow: ${({ noOverflow }) => (noOverflow ? 'hidden' : 'unset')};
     transform: translate(-50%, -50%);
-    background-color: var(--background2);
+    background-color: #151515;
     margin: 0;
     padding: 0;
     border: 0;
@@ -91,7 +91,7 @@ const StyledModal = styled.div<StyledProps>`
     height: 100%;
     transition: 0.1s;
     opacity: ${({ showCloseAnim }) => (showCloseAnim ? 0 : 1)};
-    background-color: rgba(0, 0, 0, 0.95);
+    background-color: rgba(0, 0, 0, 0.85);
   }
 
   @media (pointer: none), (pointer: coarse) {
