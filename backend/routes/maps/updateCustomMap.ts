@@ -79,10 +79,14 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
       return throwError(res, 400, 'Something went wrong updating locations')
     }
 
+    console.log('herro')
+
     // Attach mapId to each location
     locations.map((location) => {
       location.mapId = new ObjectId(mapId)
     })
+
+    console.log('yoooo')
 
     // Finally insert the new locations (if not empty)
     if (locations.length > 0) {
@@ -93,16 +97,16 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       // Update map's score factor (since locations have changed)
-      const scoreFactor = calculateMapScoreFactor(locations)
+      // const scoreFactor = calculateMapScoreFactor(locations)
 
-      const updateMap = await collections.maps?.updateOne(
-        { _id: new ObjectId(mapId) },
-        { $set: { scoreFactor: scoreFactor } }
-      )
+      // const updateMap = await collections.maps?.updateOne(
+      //   { _id: new ObjectId(mapId) },
+      //   { $set: { scoreFactor: scoreFactor } }
+      // )
 
-      if (!updateMap) {
-        return throwError(res, 400, 'Failed to save new map score factor')
-      }
+      // if (!updateMap) {
+      //   return throwError(res, 400, 'Failed to save new map score factor')
+      // }
     }
   }
 

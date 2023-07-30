@@ -1,7 +1,7 @@
 import 'allotment/dist/style.css'
 import { Allotment } from 'allotment'
-import GoogleMapReact from 'google-map-react'
 import throttle from 'lodash/throttle'
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
@@ -19,14 +19,19 @@ import { useAppSelector } from '@redux/hook'
 import StyledNewCreateMapPage from '@styles/NewCreateMapPage.Styled'
 import { ChangesType, GoogleMapsConfigType, LocationType, MapType, PageType, StreetViewCoverageType } from '@types'
 import { PREVIEW_MAP_OPTIONS, SELECTION_MAP_OPTIONS } from '@utils/constants/googleMapOptions'
+import {
+  REGULAR_MARKER_ICON,
+  REGULAR_MARKER_SIZE,
+  SELECTED_MARKER_ICON,
+  SELECTED_MARKER_SIZE,
+} from '@utils/constants/random'
 import { formatMonthYear, formatTimeAgo } from '@utils/dateHelpers'
 import { createMapMarker, getMapsKey, mailman, showErrorToast, showSuccessToast } from '@utils/helpers'
 import { useBreakpoint, useConfirmLeave } from '@utils/hooks'
 
-const SELECTED_MARKER_ICON = '/images/selected-pin.png'
-const REGULAR_MARKER_ICON = '/images/regular-pin.png'
-const SELECTED_MARKER_SIZE = 40
-const REGULAR_MARKER_SIZE = 30
+const SelectionMap = dynamic(() => import('@components/SelectionMap/SelectionMap'), {
+  ssr: false,
+})
 
 const CreateMapPage: PageType = () => {
   const router = useRouter()
@@ -34,7 +39,7 @@ const CreateMapPage: PageType = () => {
   const user = useAppSelector((state) => state.user)
   const mapMakerState = useAppSelector((state) => state.mapMaker)
 
-  const [locations, _setLocations] = useState<LocationType[]>([])
+  const [locations, setLocations] = useState<LocationType[]>([])
   const [selectedMarkerIndex, _setSelectedMarkerIndex] = useState(-1)
   const [mapDetails, setMapDetails] = useState<MapType | null>(null)
   const [showErrorPage, setShowErrorPage] = useState(false)
@@ -58,18 +63,20 @@ const CreateMapPage: PageType = () => {
 
   const [changes, setChanges] = useState<ChangesType>({ added: 0, updated: 0, deleted: 0 })
 
+  const [selectedLocation, setSelectedLocation] = useState<LocationType | null>(null)
+
   const { isBreakpoint } = useBreakpoint('960px')
 
   const svServiceRef = useRef<google.maps.StreetViewService | null>(null)
   const svPanoramaRef = useRef<google.maps.StreetViewPanorama | null>(null)
-  const locationsRef = useRef<LocationType[]>([])
+  // const locationsRef = useRef<LocationType[]>([])
   const markersRef = useRef<google.maps.Marker[]>([])
   const selectedMarkerIndexRef = useRef(-1)
 
-  const setLocations = (newLocations: LocationType[]) => {
-    locationsRef.current = newLocations
-    _setLocations(newLocations)
-  }
+  // const setLocations = (newLocations: LocationType[]) => {
+  //   locationsRef.current = newLocations
+  //   _setLocations(newLocations)
+  // }
 
   const setSelectedIndex = (newIndex: number) => {
     selectedMarkerIndexRef.current = newIndex
@@ -83,26 +90,22 @@ const CreateMapPage: PageType = () => {
   useConfirmLeave(Object.values(changes).some((count) => count > 0))
 
   useEffect(() => {
-    if (!mapId || !googleMapsConfig) return
+    if (!mapId) return
 
-    handleMount()
-  }, [mapId, googleMapsConfig])
+    getMapDetails()
+  }, [mapId])
 
-  const handleMount = async () => {
-    const success = await getMapDetails()
+  useEffect(() => {
+    if (!googleMapsConfig) return
 
-    if (!success) return
-
-    handleSetupSelectionMap()
     handleLoadPreviewMap()
-  }
+  }, [googleMapsConfig])
 
   const getMapDetails = async () => {
     const res = await mailman(`maps/custom/${mapId}`)
 
     if (res.error) {
-      setShowErrorPage(true)
-      return false
+      return setShowErrorPage(true)
     }
 
     setMapDetails(res)
@@ -110,27 +113,6 @@ const CreateMapPage: PageType = () => {
     setInitiallyPubished(res.isPublished || false)
     setLastSave(res.lastUpdatedAt)
     setIsLoading(false)
-
-    return true
-  }
-
-  const handleSetupSelectionMap = () => {
-    if (!googleMapsConfig) return
-
-    const { map } = googleMapsConfig
-
-    locationsRef.current.map((location) => {
-      const marker = createMapMarker(location, map, REGULAR_MARKER_ICON, REGULAR_MARKER_SIZE)
-      markersRef.current.push(marker)
-
-      marker.addListener('click', () => handleMarkerClick(marker))
-    })
-
-    map.addListener('click', (e: google.maps.MapMouseEvent) => handleSelectionMapClick(e))
-
-    const svLayer = new window.google.maps.StreetViewCoverageLayer()
-
-    svLayer.setMap(map)
   }
 
   const handleMarkerClick = (marker: google.maps.Marker) => {
@@ -153,65 +135,45 @@ const CreateMapPage: PageType = () => {
     loadNewPano(markerIndex)
   }
 
-  const addNewLocations = (locations: LocationType[], markerType: 'selected' | 'regular' = 'selected') => {
+  const addNewLocations = (newLocations: LocationType[], markerType: 'selected' | 'regular' = 'selected') => {
     if (!googleMapsConfig) return
 
     const { map } = googleMapsConfig
 
     // If previously selected marker -> reset its icon to regular
-    if (selectedMarkerIndexRef.current !== -1) {
-      markersRef.current[selectedMarkerIndexRef.current].setIcon({
-        url: REGULAR_MARKER_ICON,
-        scaledSize: new google.maps.Size(REGULAR_MARKER_SIZE, REGULAR_MARKER_SIZE),
-      })
-    }
+    // if (selectedMarkerIndexRef.current !== -1) {
+    //   markersRef.current[selectedMarkerIndexRef.current].setIcon({
+    //     url: REGULAR_MARKER_ICON,
+    //     scaledSize: new google.maps.Size(REGULAR_MARKER_SIZE, REGULAR_MARKER_SIZE),
+    //   })
+    // }
 
-    locations.map((location) => {
-      const marker = createMapMarker(
-        location,
-        map,
-        markerType === 'selected' ? SELECTED_MARKER_ICON : REGULAR_MARKER_ICON,
-        markerType === 'selected' ? SELECTED_MARKER_SIZE : REGULAR_MARKER_SIZE
-      )
+    // locations.map((location) => {
+    //   const marker = createMapMarker(
+    //     location,
+    //     map,
+    //     markerType === 'selected' ? SELECTED_MARKER_ICON : REGULAR_MARKER_ICON,
+    //     markerType === 'selected' ? SELECTED_MARKER_SIZE : REGULAR_MARKER_SIZE
+    //   )
 
-      markersRef.current.push(marker)
+    //   markersRef.current.push(marker)
 
-      marker.addListener('click', () => handleMarkerClick(marker))
+    //   marker.addListener('click', () => handleMarkerClick(marker))
+    // })
+    console.log('why TF')
+    setLocations((prev) => [...prev, ...newLocations])
 
-      const markerIndex = markersRef.current.indexOf(marker)
-      setSelectedIndex(markerIndex)
-    })
+    // TEMPORARILY just set to first index of newLocations
+    setSelectedLocation(newLocations[0])
 
-    const newLocations = [...locationsRef.current, ...locations]
-    setLocations(newLocations)
-    incrementChanges('added')
-
-    if (markerType === 'selected') {
-      loadNewPano()
-    }
+    // const newLocations = [...locationsRef.current, ...locations]
+    // setLocations(newLocations)
+    // incrementChanges('added')
   }
 
-  const handleSelectionMapClick = async (e: google.maps.MapMouseEvent) => {
-    if (!e.latLng) return
-
-    const location = { lat: e.latLng.lat(), lng: e.latLng.lng() }
-
-    // Return early if clicked location has no coverage
-    let isLocationCovered = true
-    const streetViewService = new google.maps.StreetViewService()
-
-    await streetViewService.getPanorama({ location: e.latLng, radius: 1000 }, (data) => {
-      if (!data || !data.location) {
-        isLocationCovered = false
-      }
-    })
-
-    if (!isLocationCovered) {
-      return showErrorToast('No coverage found here')
-    }
-
-    addNewLocations([location])
-  }
+  useEffect(() => {
+    loadNewPano()
+  }, [selectedLocation])
 
   const handleLoadPreviewMap = () => {
     const svService = new google.maps.StreetViewService()
@@ -224,10 +186,6 @@ const CreateMapPage: PageType = () => {
     svPanorama.addListener('position_changed', () => {
       const newLatLng = svPanorama.getPosition()
 
-      console.log('updated pano: ', svPanorama.getPano())
-      console.log('links', svPanorama.getLinks())
-      console.log('location', svPanorama.getLocation())
-      console.log('misc', svPanorama.getPhotographerPov(), svPanorama.getStatus())
       if (!newLatLng) return
 
       setModifiedPosition({ lat: newLatLng.lat(), lng: newLatLng.lng() })
@@ -258,16 +216,17 @@ const CreateMapPage: PageType = () => {
   }
 
   const loadNewPano = (indexOfLoc?: number) => {
-    console.log('aappapa', locationsRef.current)
-    console.log('indexOfLoc', indexOfLoc)
-    const location = locationsRef.current[indexOfLoc !== undefined ? indexOfLoc : locationsRef.current.length - 1]
-    console.log('loccc', location)
+    console.log('LOAD NEW PANO', indexOfLoc)
+    // const location = locations[indexOfLoc !== undefined ? indexOfLoc : locations.length - 1]
+
+    // console.log('LOAD NEW PANO LOC: ', location)
+
     const svService = svServiceRef.current
     const svPanorama = svPanoramaRef.current
 
-    if (!svService || !svPanorama) return
+    if (!svService || !svPanorama || !selectedLocation) return
 
-    svService.getPanorama({ location, radius: 1000 }, (data) => {
+    svService.getPanorama({ location: selectedLocation, radius: 1000 }, (data) => {
       console.log(data)
       if (!data || !data.location || !data.location.latLng) return
 
@@ -285,20 +244,20 @@ const CreateMapPage: PageType = () => {
       setPastCoverage(pastCoverage)
       setPanoMetaData(data)
 
-      const adjustedLat = data.location.latLng.lat()
-      const adjustedLng = data.location.latLng.lng()
-      const adjustedLocation = { ...location, lat: adjustedLat, lng: adjustedLng }
+      // const adjustedLat = data.location.latLng.lat()
+      // const adjustedLng = data.location.latLng.lng()
+      // const adjustedLocation = { ...location, lat: adjustedLat, lng: adjustedLng }
 
-      const locationsCopy = [...locationsRef.current]
-      locationsCopy[indexOfLoc !== undefined ? indexOfLoc : locationsCopy.length - 1] = adjustedLocation
-      setLocations(locationsCopy)
+      // const locationsCopy = [...locations]
+      // locationsCopy[indexOfLoc !== undefined ? indexOfLoc : locationsCopy.length - 1] = adjustedLocation
+      // setLocations(locationsCopy)
 
       svPanorama.setPano(data.location.pano)
       svPanorama.setPov({
-        heading: location.heading || 0,
-        pitch: location.pitch || 0,
+        heading: selectedLocation.heading || 0,
+        pitch: selectedLocation.pitch || 0,
       })
-      svPanorama.setZoom(location.zoom || 0)
+      svPanorama.setZoom(selectedLocation.zoom || 0)
       svPanorama.setVisible(true)
     })
 
@@ -335,31 +294,33 @@ const CreateMapPage: PageType = () => {
     setShowPreviewMap(false)
 
     const selectedMarkerIdx = selectedMarkerIndexRef.current
-    const locations = locationsRef.current
+    const updatedLocations = [...locations]
     const markers = markersRef.current
 
     if (modifiedPosition) {
-      locations[selectedMarkerIdx].lat = modifiedPosition.lat
-      locations[selectedMarkerIdx].lng = modifiedPosition.lng
+      updatedLocations[selectedMarkerIdx].lat = modifiedPosition.lat
+      updatedLocations[selectedMarkerIdx].lng = modifiedPosition.lng
 
       markers[selectedMarkerIdx].setPosition(modifiedPosition)
     }
 
     if (modifiedHeading) {
-      locations[selectedMarkerIdx].heading = modifiedHeading
+      updatedLocations[selectedMarkerIdx].heading = modifiedHeading
     }
 
     if (modifiedPitch) {
-      locations[selectedMarkerIdx].pitch = modifiedPitch
+      updatedLocations[selectedMarkerIdx].pitch = modifiedPitch
     }
 
     if (modifiedZoom) {
-      locations[selectedMarkerIdx].zoom = modifiedZoom
+      updatedLocations[selectedMarkerIdx].zoom = modifiedZoom
     }
 
     if (modifiedPanoId) {
-      locations[selectedMarkerIdx].panoId = modifiedPanoId
+      updatedLocations[selectedMarkerIdx].panoId = modifiedPanoId
     }
+
+    setLocations(updatedLocations)
 
     // Reset the marker to unselected icon
     markers[selectedMarkerIdx].setIcon({
@@ -376,8 +337,7 @@ const CreateMapPage: PageType = () => {
 
     // If we have not selected a location, we remove the most recently added
     if (selectedMarkerIndex === -1) {
-      const newLocations = locationsRef.current.slice(0, -1)
-      setLocations(newLocations)
+      setLocations(locations.slice(0, -1))
 
       markersRef.current[markersRef.current.length - 1].setMap(null)
       markersRef.current = markersRef.current.slice(0, -1)
@@ -385,7 +345,7 @@ const CreateMapPage: PageType = () => {
       return
     }
 
-    locationsRef.current.splice(selectedMarkerIndex, 1)
+    locations.splice(selectedMarkerIndex, 1)
 
     markersRef.current[selectedMarkerIndex].setMap(null)
     markersRef.current.splice(selectedMarkerIndex, 1)
@@ -439,31 +399,17 @@ const CreateMapPage: PageType = () => {
         <div className="main-content">
           <Allotment vertical={isBreakpoint} className="allotment-wrapper">
             <Allotment.Pane>
-              <div className="selection-map-wrapper">
-                {/* <div className="allotment-indicator">
-                  <SwitchHorizontalIcon />
-                </div> */}
-
-                <div className="map-top-menu">
-                  <GoogleMapsSearch
-                    googleMapsConfig={googleMapsConfig as GoogleMapsConfigType}
-                    addNewLocations={addNewLocations}
-                  />
-
-                  {googleMapsConfig && <SelectMapLayers selectionMap={googleMapsConfig.map} />}
-                </div>
-
-                <div className="selection-map">
-                  <GoogleMapReact
-                    bootstrapURLKeys={getMapsKey(user.mapsAPIKey)}
-                    center={{ lat: 0, lng: 0 }}
-                    zoom={2}
-                    yesIWantToUseGoogleMapApiInternals
-                    onGoogleApiLoaded={({ map, maps }) => setGoogleMapsConfig({ isLoaded: true, map, mapsApi: maps })}
-                    options={SELECTION_MAP_OPTIONS}
-                  ></GoogleMapReact>
-                </div>
-              </div>
+              {mapDetails && (
+                <SelectionMap
+                  googleMapsConfig={googleMapsConfig}
+                  setGoogleMapsConfig={setGoogleMapsConfig}
+                  addNewLocations={addNewLocations}
+                  locations={locations}
+                  markersRef={markersRef}
+                  loadNewPano={loadNewPano}
+                  setSelectedLocation={setSelectedLocation}
+                />
+              )}
             </Allotment.Pane>
 
             <Allotment.Pane>
@@ -504,7 +450,7 @@ const CreateMapPage: PageType = () => {
                   </div>
                 </div>
 
-                {!isLoading && locationsRef.current.length === 0 && (
+                {!isLoading && locations.length === 0 && (
                   <div className="no-locations-wrapper">
                     <div className="no-locations">
                       <Image src="/images/no-locations.png" alt="" height={100} width={100} />
@@ -532,7 +478,7 @@ const CreateMapPage: PageType = () => {
         isOpen={saveModalOpen}
         closeModal={() => setSaveModalOpen(false)}
         changes={changes}
-        locationsRef={locationsRef}
+        locations={locations}
         setLastSave={setLastSave}
       />
     </>

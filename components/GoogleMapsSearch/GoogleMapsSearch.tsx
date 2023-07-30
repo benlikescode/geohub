@@ -16,7 +16,7 @@ type Props = {
   placeholder?: string
   autoFocus?: boolean
   googleMapsConfig: GoogleMapsConfigType
-  addNewLocations: (locations: LocationType[]) => void
+  addNewLocations: (locations: LocationType[], markerType?: 'selected' | 'regular') => void
 }
 
 const MAPBOX_API_KEY = process.env.NEXT_PUBLIC_MAPBOX_API_KEY

@@ -111,19 +111,6 @@ const StyledNewCreateMapPage = styled.div<StyledProps>`
       }
     }
 
-    .selection-map-wrapper {
-      height: 100%;
-      background-color: #222;
-      flex: 3 1;
-      position: relative;
-      border-right: 2px solid #0e0e0e;
-
-      .selection-map {
-        height: calc(100% - 60px);
-        width: 100%;
-      }
-    }
-
     .preview-map-wrapper {
       height: 100%;
       overflow: hidden;

@@ -11,11 +11,11 @@ type Props = {
   isOpen: boolean
   closeModal: () => void
   changes: ChangesType
-  locationsRef: React.MutableRefObject<LocationType[]>
+  locations: LocationType[]
   setLastSave: (lastSave: Date) => void
 }
 
-const SaveMapModal: FC<Props> = ({ isOpen, closeModal, changes, locationsRef, setLastSave }) => {
+const SaveMapModal: FC<Props> = ({ isOpen, closeModal, changes, locations, setLastSave }) => {
   const [isSaving, setIsSaving] = useState(false)
 
   const router = useRouter()
@@ -31,7 +31,7 @@ const SaveMapModal: FC<Props> = ({ isOpen, closeModal, changes, locationsRef, se
 
     setIsSaving(true)
 
-    const res = await mailman(`maps/custom/${mapId}`, 'PUT', JSON.stringify({ locations: locationsRef.current }))
+    const res = await mailman(`maps/custom/${mapId}`, 'PUT', JSON.stringify({ locations }))
 
     setIsSaving(false)
 
@@ -53,7 +53,7 @@ const SaveMapModal: FC<Props> = ({ isOpen, closeModal, changes, locationsRef, se
       isOpen={isOpen}
       onClose={closeModal}
       title="Save Map"
-      onAction={handleSaveMap}
+      onAction={() => handleSaveMap()}
       actionButtonText="Save"
       isSubmitting={isSaving}
       maxWidth="500px"
