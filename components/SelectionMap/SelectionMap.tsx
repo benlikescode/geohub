@@ -4,32 +4,31 @@ import { GoogleMapsSearch } from '@components/GoogleMapsSearch'
 import { SelectMapLayers } from '@components/selects/SelectMapLayers'
 import { PickingInfo } from '@deck.gl/core/typed'
 import { GoogleMapsOverlay } from '@deck.gl/google-maps/typed'
-import { GeoJsonLayer, IconLayer } from '@deck.gl/layers/typed'
-import DeckGL from '@deck.gl/react/typed'
+import { IconLayer } from '@deck.gl/layers/typed'
 import { useAppSelector } from '@redux/hook'
 import { GoogleMapsConfigType, LocationType } from '@types'
 import { SELECTION_MAP_OPTIONS } from '@utils/constants/googleMapOptions'
 import { REGULAR_MARKER_ICON, REGULAR_MARKER_SIZE, SELECTED_MARKER_ICON } from '@utils/constants/random'
-import { createMapMarker, getMapsKey, showErrorToast } from '@utils/helpers'
+import { getMapsKey, showErrorToast } from '@utils/helpers'
 import { StyledSelectionMap } from './'
 
 type Props = {
   googleMapsConfig: GoogleMapsConfigType | undefined
   setGoogleMapsConfig: (config: GoogleMapsConfigType) => void
-  addNewLocations: (locations: LocationType[], markerType?: 'selected' | 'regular') => void
   locations: LocationType[]
-  markersRef: React.MutableRefObject<google.maps.Marker[]>
-  loadNewPano: (indexOfLoc?: number) => void
-  setSelectedLocation: (selectedLocation: LocationType) => void
+  addNewLocations: (locations: LocationType[] | LocationType) => void
+  // selectedIndex: number
+  // setSelectedIndex: (selectedIndex: number) => void
+  selectedLocation: LocationType | null
+  setSelectedLocation: any
 }
 
 const SelectionMap: FC<Props> = ({
   googleMapsConfig,
   setGoogleMapsConfig,
-  addNewLocations,
   locations,
-  markersRef,
-  loadNewPano,
+  addNewLocations,
+  selectedLocation,
   setSelectedLocation,
 }) => {
   const user = useAppSelector((state) => state.user)
@@ -44,31 +43,12 @@ const SelectionMap: FC<Props> = ({
 
   useEffect(() => {
     handleLocationChange()
-  }, [deckRef.current, locations])
-
-  // useEffect(() => {
-  //   console.log('this erfefef')
-  //   if (!wrapperRef.current || !hoveringIconRef.current) return
-
-  //   if (hoveringIconRef.current === true) {
-  //     console.log('heerrrbnmm')
-  //     wrapperRef.current.classList.add('cursor-pointer')
-  //   } else {
-  //     wrapperRef.current.classList.remove('cursor-pointer')
-  //   }
-  // }, [hoveringIconRef, wrapperRef.current])
+  }, [deckRef.current, locations, selectedLocation])
 
   const handleSetupSelectionMap = () => {
     if (!googleMapsConfig) return
 
     const { map } = googleMapsConfig
-
-    // locationsRef.current.map((location) => {
-    //   const marker = createMapMarker(location, map, REGULAR_MARKER_ICON, REGULAR_MARKER_SIZE)
-    //   markersRef.current.push(marker)
-
-    //   marker.addListener('click', () => handleMarkerClick(marker))
-    // })
 
     map.addListener('click', (e: google.maps.MapMouseEvent) => handleSelectionMapClick(e))
 
@@ -80,42 +60,13 @@ const SelectionMap: FC<Props> = ({
     deckRef.current = overlay
   }
 
-  // const initializeDeckGL = () => {
-  //   console.log('deck fired')
-  //   if (!googleMapsConfig) return
-
-  //   const { map } = googleMapsConfig
-
-  //   // const data = locations.map((location) => {
-  //   //   return {
-  //   //     position: [location.lng, location.lat],
-  //   //     icon: REGULAR_MARKER_ICON,
-  //   //   }
-  //   // })
-
-  //   // console.log(data)
-
-  //   // const ICON_MAPPING = {
-  //   //   marker: { x: 0, y: 0, width: 128, height: 128 },
-  //   // }
-
-  //   const overlay = new GoogleMapsOverlay({
-  //     layers: [layer],
-  //   })
-
-  //   overlay.setMap(map)
-
-  //   deckRef.current = overlay
-  //   deckLayerRef.current = layer
-  // }
-
   const handleLocationChange = () => {
     if (!deckRef.current) return
 
     const data = locations.map((location) => {
       return {
         position: [location.lng, location.lat],
-        icon: REGULAR_MARKER_ICON,
+        icon: location === selectedLocation ? SELECTED_MARKER_ICON : REGULAR_MARKER_ICON,
       }
     })
 
@@ -148,7 +99,10 @@ const SelectionMap: FC<Props> = ({
 
   const handleMarkerClick = (d: PickingInfo) => {
     console.log(d)
+    console.log(locations[d.index])
     setSelectedLocation(locations[d.index])
+
+    // setSelectedIndex(d.index)
   }
 
   const handleSelectionMapClick = async (e: google.maps.MapMouseEvent) => {
@@ -170,7 +124,8 @@ const SelectionMap: FC<Props> = ({
       return showErrorToast('No coverage found here')
     }
 
-    addNewLocations([location])
+    setSelectedLocation(null)
+    addNewLocations(location)
   }
 
   return (

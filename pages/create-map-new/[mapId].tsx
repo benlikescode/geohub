@@ -36,20 +36,20 @@ const SelectionMap = dynamic(() => import('@components/SelectionMap/SelectionMap
 const CreateMapPage: PageType = () => {
   const router = useRouter()
   const mapId = router.query.mapId as string
-  const user = useAppSelector((state) => state.user)
-  const mapMakerState = useAppSelector((state) => state.mapMaker)
 
   const [locations, setLocations] = useState<LocationType[]>([])
-  const [selectedMarkerIndex, _setSelectedMarkerIndex] = useState(-1)
+  const [selectedLocation, setSelectedLocation] = useState<LocationType | null>(null)
+  // const [selectedIndex, setSelectedIndex] = useState(-1)
+  const [hasMadeChanges, setHasMadeChanges] = useState(false)
+  const [shouldReloadLayer, setShouldReloadLayer] = useState(false)
+  // const [selectedMarkerIndex, _setSelectedMarkerIndex] = useState(-1)
   const [mapDetails, setMapDetails] = useState<MapType | null>(null)
   const [showErrorPage, setShowErrorPage] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
-  const [initiallyPublished, setInitiallyPubished] = useState(false)
   const [showPreviewMap, setShowPreviewMap] = useState(false)
   const [googleMapsConfig, setGoogleMapsConfig] = useState<GoogleMapsConfigType>()
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [saveModalOpen, setSaveModalOpen] = useState(false)
-  const [isSavingMap, setIsSavingMap] = useState(false)
   const [lastSave, setLastSave] = useState<Date>()
 
   const [modifiedHeading, setModifiedHeading] = useState<number | null>(null)
@@ -61,33 +61,29 @@ const CreateMapPage: PageType = () => {
   const [pastCoverage, setPastCoverage] = useState<StreetViewCoverageType[]>()
   const [panoMetaData, setPanoMetaData] = useState<google.maps.StreetViewPanoramaData | null>(null)
 
-  const [changes, setChanges] = useState<ChangesType>({ added: 0, updated: 0, deleted: 0 })
-
-  const [selectedLocation, setSelectedLocation] = useState<LocationType | null>(null)
-
   const { isBreakpoint } = useBreakpoint('960px')
 
   const svServiceRef = useRef<google.maps.StreetViewService | null>(null)
   const svPanoramaRef = useRef<google.maps.StreetViewPanorama | null>(null)
   // const locationsRef = useRef<LocationType[]>([])
-  const markersRef = useRef<google.maps.Marker[]>([])
-  const selectedMarkerIndexRef = useRef(-1)
+  // const markersRef = useRef<google.maps.Marker[]>([])
+  // const selectedMarkerIndexRef = useRef(-1)
 
   // const setLocations = (newLocations: LocationType[]) => {
   //   locationsRef.current = newLocations
   //   _setLocations(newLocations)
   // }
 
-  const setSelectedIndex = (newIndex: number) => {
-    selectedMarkerIndexRef.current = newIndex
-    _setSelectedMarkerIndex(newIndex)
-  }
+  // const setSelectedIndex = (newIndex: number) => {
+  //   selectedMarkerIndexRef.current = newIndex
+  //   _setSelectedMarkerIndex(newIndex)
+  // }
 
-  const incrementChanges = (type: keyof ChangesType) => {
-    setChanges((prev) => ({ ...prev, [type]: prev[type] + 1 }))
-  }
+  // const incrementChanges = (type: keyof ChangesType) => {
+  //   setChanges((prev) => ({ ...prev, [type]: prev[type] + 1 }))
+  // }
 
-  useConfirmLeave(Object.values(changes).some((count) => count > 0))
+  useConfirmLeave(hasMadeChanges)
 
   useEffect(() => {
     if (!mapId) return
@@ -101,6 +97,12 @@ const CreateMapPage: PageType = () => {
     handleLoadPreviewMap()
   }, [googleMapsConfig])
 
+  useEffect(() => {
+    console.log('fireee')
+
+    loadNewPano()
+  }, [selectedLocation])
+
   const getMapDetails = async () => {
     const res = await mailman(`maps/custom/${mapId}`)
 
@@ -110,35 +112,35 @@ const CreateMapPage: PageType = () => {
 
     setMapDetails(res)
     setLocations(res.locations)
-    setInitiallyPubished(res.isPublished || false)
     setLastSave(res.lastUpdatedAt)
+
     setIsLoading(false)
   }
 
-  const handleMarkerClick = (marker: google.maps.Marker) => {
-    // If previously selected marker -> reset its icon to regular
-    if (selectedMarkerIndexRef.current !== -1) {
-      markersRef.current[selectedMarkerIndexRef.current].setIcon({
-        url: REGULAR_MARKER_ICON,
-        scaledSize: new google.maps.Size(REGULAR_MARKER_SIZE, REGULAR_MARKER_SIZE),
-      })
-    }
+  // const handleMarkerClick = (marker: google.maps.Marker) => {
+  //   // If previously selected marker -> reset its icon to regular
+  //   if (selectedMarkerIndexRef.current !== -1) {
+  //     markersRef.current[selectedMarkerIndexRef.current].setIcon({
+  //       url: REGULAR_MARKER_ICON,
+  //       scaledSize: new google.maps.Size(REGULAR_MARKER_SIZE, REGULAR_MARKER_SIZE),
+  //     })
+  //   }
 
-    marker.setIcon({
-      url: SELECTED_MARKER_ICON,
-      scaledSize: new google.maps.Size(SELECTED_MARKER_SIZE, SELECTED_MARKER_SIZE),
-    })
+  //   marker.setIcon({
+  //     url: SELECTED_MARKER_ICON,
+  //     scaledSize: new google.maps.Size(SELECTED_MARKER_SIZE, SELECTED_MARKER_SIZE),
+  //   })
 
-    const markerIndex = markersRef.current.indexOf(marker)
+  //   const markerIndex = markersRef.current.indexOf(marker)
 
-    setSelectedIndex(markerIndex)
-    loadNewPano(markerIndex)
-  }
+  //   setSelectedIndex(markerIndex)
+  //   loadNewPano(markerIndex)
+  // }
 
-  const addNewLocations = (newLocations: LocationType[], markerType: 'selected' | 'regular' = 'selected') => {
-    if (!googleMapsConfig) return
+  const addNewLocations = (newLocations: LocationType[] | LocationType) => {
+    // if (!googleMapsConfig) return
 
-    const { map } = googleMapsConfig
+    // const { map } = googleMapsConfig
 
     // If previously selected marker -> reset its icon to regular
     // if (selectedMarkerIndexRef.current !== -1) {
@@ -160,20 +162,21 @@ const CreateMapPage: PageType = () => {
 
     //   marker.addListener('click', () => handleMarkerClick(marker))
     // })
-    console.log('why TF')
-    setLocations((prev) => [...prev, ...newLocations])
+
+    if (Array.isArray(newLocations)) {
+      return setLocations((prev) => [...prev, ...newLocations])
+    }
+
+    setLocations((prev) => [...prev, newLocations])
+    setSelectedLocation(newLocations)
 
     // TEMPORARILY just set to first index of newLocations
-    setSelectedLocation(newLocations[0])
+    // setSelectedLocation(newLocations[0])
 
     // const newLocations = [...locationsRef.current, ...locations]
     // setLocations(newLocations)
     // incrementChanges('added')
   }
-
-  useEffect(() => {
-    loadNewPano()
-  }, [selectedLocation])
 
   const handleLoadPreviewMap = () => {
     const svService = new google.maps.StreetViewService()
@@ -262,95 +265,80 @@ const CreateMapPage: PageType = () => {
     })
 
     setShowPreviewMap(true)
+    // selectedIndex !== -1 && setSelectedIndex(-1)
   }
 
-  const loadNewPanoById = (panoId: string) => {
-    if (panoId === 'auto-update') {
-      return loadNewPano(selectedMarkerIndexRef.current)
-    }
+  // const loadNewPanoById = (panoId: string) => {
+  //   if (panoId === 'auto-update') {
+  //     return loadNewPano(selectedMarkerIndexRef.current)
+  //   }
 
-    const svService = svServiceRef.current
-    const svPanorama = svPanoramaRef.current
+  //   const svService = svServiceRef.current
+  //   const svPanorama = svPanoramaRef.current
 
-    if (!svService || !svPanorama) return
-    console.log('PANOIDOIDOAIDOAIDA', panoId)
+  //   if (!svService || !svPanorama) return
+  //   console.log('PANOIDOIDOAIDOAIDA', panoId)
 
-    svService.getPanorama({ pano: panoId }, () => {
-      svPanorama.setPano(panoId)
-      svPanorama.setPov({
-        heading: 0,
-        pitch: 0,
-      })
-      svPanorama.setZoom(0)
-      svPanorama.setVisible(true)
-    })
+  //   svService.getPanorama({ pano: panoId }, () => {
+  //     svPanorama.setPano(panoId)
+  //     svPanorama.setPov({
+  //       heading: 0,
+  //       pitch: 0,
+  //     })
+  //     svPanorama.setZoom(0)
+  //     svPanorama.setVisible(true)
+  //   })
 
-    setShowPreviewMap(true)
-    setModifiedPanoId(panoId)
-  }
+  //   setShowPreviewMap(true)
+  //   setModifiedPanoId(panoId)
+  // }
 
   const handleUpdateLocation = () => {
-    incrementChanges('updated')
+    if (!selectedLocation) return
+
+    // incrementChanges('updated')
     setShowPreviewMap(false)
 
-    const selectedMarkerIdx = selectedMarkerIndexRef.current
     const updatedLocations = [...locations]
-    const markers = markersRef.current
+    const indexOfSelected = updatedLocations.indexOf(selectedLocation)
 
     if (modifiedPosition) {
-      updatedLocations[selectedMarkerIdx].lat = modifiedPosition.lat
-      updatedLocations[selectedMarkerIdx].lng = modifiedPosition.lng
-
-      markers[selectedMarkerIdx].setPosition(modifiedPosition)
+      updatedLocations[indexOfSelected].lat = modifiedPosition.lat
+      updatedLocations[indexOfSelected].lng = modifiedPosition.lng
     }
 
     if (modifiedHeading) {
-      updatedLocations[selectedMarkerIdx].heading = modifiedHeading
+      updatedLocations[indexOfSelected].heading = modifiedHeading
     }
 
     if (modifiedPitch) {
-      updatedLocations[selectedMarkerIdx].pitch = modifiedPitch
+      updatedLocations[indexOfSelected].pitch = modifiedPitch
     }
 
     if (modifiedZoom) {
-      updatedLocations[selectedMarkerIdx].zoom = modifiedZoom
+      updatedLocations[indexOfSelected].zoom = modifiedZoom
     }
 
     if (modifiedPanoId) {
-      updatedLocations[selectedMarkerIdx].panoId = modifiedPanoId
+      updatedLocations[indexOfSelected].panoId = modifiedPanoId
     }
 
     setLocations(updatedLocations)
-
-    // Reset the marker to unselected icon
-    markers[selectedMarkerIdx].setIcon({
-      url: REGULAR_MARKER_ICON,
-      scaledSize: new google.maps.Size(REGULAR_MARKER_SIZE, REGULAR_MARKER_SIZE),
-    })
-
-    setSelectedIndex(-1)
+    setSelectedLocation(null)
   }
 
   const handleRemoveLocation = () => {
-    incrementChanges('deleted')
+    // incrementChanges('deleted')
     setShowPreviewMap(false)
 
     // If we have not selected a location, we remove the most recently added
-    if (selectedMarkerIndex === -1) {
-      setLocations(locations.slice(0, -1))
-
-      markersRef.current[markersRef.current.length - 1].setMap(null)
-      markersRef.current = markersRef.current.slice(0, -1)
-
-      return
+    if (!selectedLocation) {
+      return setLocations((prev) => prev.slice(0, -1))
     }
 
-    locations.splice(selectedMarkerIndex, 1)
-
-    markersRef.current[selectedMarkerIndex].setMap(null)
-    markersRef.current.splice(selectedMarkerIndex, 1)
-
-    setSelectedIndex(-1)
+    setLocations((prev) => prev.filter((x) => x !== selectedLocation))
+    // setLocations((prev) => prev.slice(0, selectedIndex).concat(prev.slice(selectedIndex + 1)))
+    setSelectedLocation(null)
   }
 
   if (showErrorPage) {
@@ -387,7 +375,7 @@ const CreateMapPage: PageType = () => {
           <div className="header-group">
             <div className="save-map-wrapper">
               {lastSave && <div className="last-save-date">{`Saved ${formatTimeAgo(lastSave)}`}</div>}
-              <Button onClick={() => setSaveModalOpen(true)} size="md" isLoading={isSavingMap} disabled={isSavingMap}>
+              <Button onClick={() => setSaveModalOpen(true)} size="md">
                 Save Map
               </Button>
             </div>
@@ -403,10 +391,11 @@ const CreateMapPage: PageType = () => {
                 <SelectionMap
                   googleMapsConfig={googleMapsConfig}
                   setGoogleMapsConfig={setGoogleMapsConfig}
-                  addNewLocations={addNewLocations}
                   locations={locations}
-                  markersRef={markersRef}
-                  loadNewPano={loadNewPano}
+                  addNewLocations={addNewLocations}
+                  // selectedIndex={selectedIndex}
+                  // setSelectedIndex={setSelectedIndex}
+                  selectedLocation={selectedLocation}
                   setSelectedLocation={setSelectedLocation}
                 />
               )}
@@ -477,7 +466,6 @@ const CreateMapPage: PageType = () => {
       <SaveMapModal
         isOpen={saveModalOpen}
         closeModal={() => setSaveModalOpen(false)}
-        changes={changes}
         locations={locations}
         setLastSave={setLastSave}
       />

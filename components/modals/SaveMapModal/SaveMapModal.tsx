@@ -10,12 +10,11 @@ import { StyledSaveMapModal } from './'
 type Props = {
   isOpen: boolean
   closeModal: () => void
-  changes: ChangesType
   locations: LocationType[]
   setLastSave: (lastSave: Date) => void
 }
 
-const SaveMapModal: FC<Props> = ({ isOpen, closeModal, changes, locations, setLastSave }) => {
+const SaveMapModal: FC<Props> = ({ isOpen, closeModal, locations, setLastSave }) => {
   const [isSaving, setIsSaving] = useState(false)
 
   const router = useRouter()

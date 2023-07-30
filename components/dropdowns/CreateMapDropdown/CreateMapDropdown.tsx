@@ -10,7 +10,7 @@ import { StyledCreateMapDropdown } from './'
 
 type Props = {
   locations: LocationType[]
-  addNewLocations: (locations: LocationType[], markerType: 'selected' | 'regular') => void
+  addNewLocations: (locations: LocationType[]) => void
 }
 
 const CreateMapDropdown: FC<Props> = ({ locations, addNewLocations }) => {
@@ -34,7 +34,7 @@ const CreateMapDropdown: FC<Props> = ({ locations, addNewLocations }) => {
       return formatLocationForImportExport(location)
     })
 
-    addNewLocations(newLocations, 'regular')
+    addNewLocations(newLocations)
 
     closeDropdown()
 
