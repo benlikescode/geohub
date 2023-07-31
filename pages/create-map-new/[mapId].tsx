@@ -28,7 +28,8 @@ const CreateMapPage: PageType = () => {
 
   const [locations, setLocations] = useState<LocationType[]>([])
   const [selectedLocation, setSelectedLocation] = useState<LocationType | null>(null)
-  const [hasMadeChanges, setHasMadeChanges] = useState(false)
+  const [haveLocationsChanged, setHaveLocationsChanged] = useState(false)
+  const [initiallyPublished, setInitiallyPublished] = useState<boolean | null>(null)
   const [mapDetails, setMapDetails] = useState<MapType | null>(null)
   const [showErrorPage, setShowErrorPage] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
@@ -52,7 +53,7 @@ const CreateMapPage: PageType = () => {
   const svServiceRef = useRef<google.maps.StreetViewService | null>(null)
   const svPanoramaRef = useRef<google.maps.StreetViewPanorama | null>(null)
 
-  useConfirmLeave(hasMadeChanges)
+  useConfirmLeave(haveLocationsChanged)
 
   useEffect(() => {
     if (!mapId) return
@@ -79,12 +80,15 @@ const CreateMapPage: PageType = () => {
 
     setMapDetails(res)
     setLocations(res.locations)
+    setInitiallyPublished(res.isPublished)
     setLastSave(res.lastUpdatedAt)
 
     setIsLoading(false)
   }
 
   const addNewLocations = (newLocations: LocationType[] | LocationType) => {
+    setHaveLocationsChanged(true)
+
     if (Array.isArray(newLocations)) {
       return setLocations((prev) => [...prev, ...newLocations])
     }
@@ -193,6 +197,7 @@ const CreateMapPage: PageType = () => {
   const handleUpdateLocation = () => {
     if (!selectedLocation) return
 
+    setHaveLocationsChanged(true)
     setShowPreviewMap(false)
 
     const updatedLocations = [...locations]
@@ -224,6 +229,7 @@ const CreateMapPage: PageType = () => {
   }
 
   const handleRemoveLocation = () => {
+    setHaveLocationsChanged(true)
     setShowPreviewMap(false)
 
     // If we have not selected a location, we remove the most recently added
@@ -242,7 +248,7 @@ const CreateMapPage: PageType = () => {
   return (
     <>
       <StyledNewCreateMapPage showPreviewMap={showPreviewMap}>
-        <Head title="Create A Map" />
+        <Head title="Map Editor" />
 
         <div className="header">
           {/* <AppLogo /> */}
@@ -349,12 +355,18 @@ const CreateMapPage: PageType = () => {
         />
       )}
 
-      <SaveMapModal
-        isOpen={saveModalOpen}
-        closeModal={() => setSaveModalOpen(false)}
-        locations={locations}
-        setLastSave={setLastSave}
-      />
+      {initiallyPublished !== null && (
+        <SaveMapModal
+          isOpen={saveModalOpen}
+          closeModal={() => setSaveModalOpen(false)}
+          locations={locations}
+          setLastSave={setLastSave}
+          initiallyPublished={initiallyPublished}
+          setInitiallyPublished={setInitiallyPublished}
+          haveLocationsChanged={haveLocationsChanged}
+          setHaveLocationsChanged={setHaveLocationsChanged}
+        />
+      )}
     </>
   )
 }

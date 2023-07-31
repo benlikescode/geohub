@@ -1,9 +1,8 @@
 import { useRouter } from 'next/router'
 import { FC, useState } from 'react'
 import { MainModal } from '@components/modals'
-import { Pill, ToggleSwitch } from '@components/system'
-import { ArrowDownIcon, ArrowUpIcon, PlusIcon, RefreshIcon, TrashIcon } from '@heroicons/react/outline'
-import { ChangesType, LocationType } from '@types'
+import { ToggleSwitch } from '@components/system'
+import { LocationType } from '@types'
 import { mailman, showErrorToast, showSuccessToast } from '@utils/helpers'
 import { StyledSaveMapModal } from './'
 
@@ -12,25 +11,41 @@ type Props = {
   closeModal: () => void
   locations: LocationType[]
   setLastSave: (lastSave: Date) => void
+  initiallyPublished: boolean
+  setInitiallyPublished: (initiallyPublished: boolean) => void
+  haveLocationsChanged: boolean
+  setHaveLocationsChanged: (haveLocationsChanged: boolean) => void
 }
 
-const SaveMapModal: FC<Props> = ({ isOpen, closeModal, locations, setLastSave }) => {
+const SaveMapModal: FC<Props> = ({
+  isOpen,
+  closeModal,
+  locations,
+  setLastSave,
+  initiallyPublished,
+  setInitiallyPublished,
+  haveLocationsChanged,
+  setHaveLocationsChanged,
+}) => {
   const [isSaving, setIsSaving] = useState(false)
+  const [isPublished, setIsPublished] = useState(initiallyPublished)
 
   const router = useRouter()
   const mapId = router.query.mapId as string
 
   const handleSaveMap = async () => {
-    // if () {
-    //   return showErrorToast('No changes since last save', {
-    //     position: 'bottom-center',
-    //     style: { backgroundColor: '#282828' },
-    //   })
-    // }
+    const publishedHasChanged = initiallyPublished !== isPublished
+
+    if (!haveLocationsChanged && !publishedHasChanged) {
+      return showErrorToast('No changes since last save', {
+        position: 'bottom-center',
+        style: { backgroundColor: '#282828' },
+      })
+    }
 
     setIsSaving(true)
 
-    const res = await mailman(`maps/custom/${mapId}`, 'PUT', JSON.stringify({ locations }))
+    const res = await mailman(`maps/custom/${mapId}`, 'PUT', JSON.stringify({ locations, isPublished }))
 
     setIsSaving(false)
 
@@ -39,6 +54,9 @@ const SaveMapModal: FC<Props> = ({ isOpen, closeModal, locations, setLastSave })
     }
 
     setLastSave(new Date())
+    setInitiallyPublished(isPublished)
+    setHaveLocationsChanged(false)
+
     closeModal()
 
     return showSuccessToast('Your changes have been saved', {
@@ -63,7 +81,7 @@ const SaveMapModal: FC<Props> = ({ isOpen, closeModal, locations, setLastSave })
             <div className="happy">Publish Map</div>
             <p>Make your map visible to others</p>
           </div>
-          <ToggleSwitch isActive={true} setIsActive={() => console.log('yo')} />
+          <ToggleSwitch isActive={isPublished} setIsActive={setIsPublished} />
         </div>
       </StyledSaveMapModal>
     </MainModal>
