@@ -124,7 +124,6 @@ const SelectionMap: FC<Props> = ({
       return showErrorToast('No coverage found here')
     }
 
-    setSelectedLocation(null)
     addNewLocations(location)
   }
 

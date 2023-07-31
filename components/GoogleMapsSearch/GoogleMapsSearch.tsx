@@ -16,7 +16,7 @@ type Props = {
   placeholder?: string
   autoFocus?: boolean
   googleMapsConfig: GoogleMapsConfigType
-  addNewLocations: (locations: LocationType[], markerType?: 'selected' | 'regular') => void
+  addNewLocations: (locations: LocationType[] | LocationType) => void
 }
 
 const MAPBOX_API_KEY = process.env.NEXT_PUBLIC_MAPBOX_API_KEY
@@ -97,7 +97,7 @@ const GoogleMapsSearch: FC<Props> = ({ placeholder, autoFocus, googleMapsConfig,
       pitch: parsedPitch - 90 || 0,
     }
 
-    addNewLocations([location])
+    addNewLocations(location)
   }
 
   const handleSearchPlaces = async () => {
