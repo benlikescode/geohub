@@ -33,13 +33,12 @@ const deleteCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
     return throwError(res, 400, 'An unexpected error occured while trying to delete')
   }
 
-  // Choosing not to remove locations, atleast for now -> since ongoing games may still need locations
-  // // Remove it's locations
-  // const deleteLocations = await collections.userLocations?.deleteMany({ mapId: new ObjectId(mapId) })
+  // Remove it's locations
+  const deleteLocations = await collections.userLocations?.deleteMany({ mapId: new ObjectId(mapId) })
 
-  // if (!deleteLocations) {
-  //   return throwError(res, 400, `There was a problem removing the locations from map with id: ${mapId}`)
-  // }
+  if (!deleteLocations) {
+    return throwError(res, 400, `There was a problem removing the locations from map with id: ${mapId}`)
+  }
 
   res.status(200).send({ message: 'Map was successfully deleted' })
 }
