@@ -3,7 +3,8 @@ import { FC, useState } from 'react'
 import { MainModal } from '@components/modals'
 import { ToggleSwitch } from '@components/system'
 import { LocationType } from '@types'
-import { mailman, showErrorToast, showSuccessToast } from '@utils/helpers'
+import { MAX_ALLOWED_CUSTOM_LOCATIONS } from '@utils/constants/random'
+import { formatLargeNumber, mailman, showErrorToast, showSuccessToast } from '@utils/helpers'
 import { StyledSaveMapModal } from './'
 
 type Props = {
@@ -38,6 +39,13 @@ const SaveMapModal: FC<Props> = ({
 
     if (!haveLocationsChanged && !publishedHasChanged) {
       return showErrorToast('No changes since last save', {
+        position: 'bottom-center',
+        style: { backgroundColor: '#282828' },
+      })
+    }
+
+    if (locations.length > MAX_ALLOWED_CUSTOM_LOCATIONS) {
+      return showErrorToast(`The max locations allowed is ${formatLargeNumber(MAX_ALLOWED_CUSTOM_LOCATIONS)}`, {
         position: 'bottom-center',
         style: { backgroundColor: '#282828' },
       })

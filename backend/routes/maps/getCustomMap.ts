@@ -22,7 +22,10 @@ const getCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   // Get corresponding locations
-  const locations = await collections.userLocations?.find({ mapId: new ObjectId(mapId) }).toArray()
+  const locations = await collections.userLocations
+    ?.find({ mapId: new ObjectId(mapId) })
+    .project({ _id: 0, mapId: 0 })
+    .toArray()
 
   if (!locations) {
     return throwError(res, 400, 'Failed to get locations for map')
