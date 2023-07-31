@@ -4,6 +4,9 @@ import { GoogleMapsConfigType, LocationType } from '@types'
 import { useClickOutside } from '@utils/hooks'
 import { StyledGoogleMapsSearch } from './'
 
+const MAPBOX_API_KEY = process.env.NEXT_PUBLIC_MAPBOX_API_KEY
+const MAPBOX_GEOCODING_BASE = 'https://api.mapbox.com/geocoding/v5/mapbox.places'
+
 type ResultItem = {
   id: string
   bbox: number[]
@@ -18,9 +21,6 @@ type Props = {
   googleMapsConfig: GoogleMapsConfigType
   addNewLocations: (locations: LocationType[] | LocationType) => void
 }
-
-const MAPBOX_API_KEY = process.env.NEXT_PUBLIC_MAPBOX_API_KEY
-const MAPBOX_GEOCODING_BASE = 'https://api.mapbox.com/geocoding/v5/mapbox.places'
 
 const GoogleMapsSearch: FC<Props> = ({ placeholder, autoFocus, googleMapsConfig, addNewLocations }) => {
   const [query, _setQuery] = useState('')

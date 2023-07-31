@@ -164,10 +164,6 @@ const CreateMapDropdown: FC<Props> = ({ locations, addNewLocations }) => {
 
                 <Separator className="DropdownMenuSeparator" />
 
-                {/* <Item className="new-item-wrapper">
-                <div className="item-button">Unpublish Map</div>
-              </Item> */}
-
                 {mapId && (
                   <Item className="new-item-wrapper destructive" onClick={() => setDeleteModalOpen(true)}>
                     Delete Map

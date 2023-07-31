@@ -18,8 +18,3 @@ export const DAILY_CHALLENGE_DETAILS = {
 
 export const MAP_AVATAR_PATH = '/images/mapAvatars'
 export const USER_AVATAR_PATH = '/images/userAvatars'
-
-export const SELECTED_MARKER_ICON = '/images/selected-pin.png'
-export const REGULAR_MARKER_ICON = '/images/regular-pin.png'
-export const SELECTED_MARKER_SIZE = 40
-export const REGULAR_MARKER_SIZE = 30

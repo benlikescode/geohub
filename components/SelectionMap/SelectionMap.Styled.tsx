@@ -13,10 +13,6 @@ const StyledSelectionMap = styled.div<StyledProps>`
     height: calc(100% - 60px);
     width: 100%;
   }
-
-  .cursor-pointer {
-    cursor: pointer !important;
-  }
 `
 
 export default StyledSelectionMap
