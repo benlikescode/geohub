@@ -5,7 +5,7 @@ import { DestroyModal } from '@components/modals'
 import { MenuIcon } from '@heroicons/react/outline'
 import { Content, Item, Portal, Root, Separator, Trigger } from '@radix-ui/react-dropdown-menu'
 import { LocationType } from '@types'
-import { mailman, showErrorToast, showSuccessToast } from '@utils/helpers'
+import { mailman, parseJsonFile, showErrorToast, showSuccessToast } from '@utils/helpers'
 import { StyledCreateMapDropdown } from './'
 
 type Props = {
@@ -25,12 +25,27 @@ const CreateMapDropdown: FC<Props> = ({ locations, addNewLocations }) => {
 
     const file = e.target.files[0]
 
-    const jsonData = await parseJSONFile(file)
-    const isDataValid = isArray(jsonData) && hasValidCoordinates(jsonData)
+    const jsonData = await parseJsonFile(file)
 
-    if (!isDataValid) return
+    const jsonArray = containsArrayCheck(jsonData)
 
-    const newLocations = (jsonData as LocationType[]).map((location) => {
+    if (!jsonArray) {
+      return showErrorToast('File must contain an array', {
+        position: 'bottom-center',
+        style: { backgroundColor: '#282828' },
+      })
+    }
+
+    const validateCoords = hasValidCoordinates(jsonArray)
+
+    if (!validateCoords.valid) {
+      return showErrorToast(validateCoords.error, {
+        position: 'bottom-center',
+        style: { backgroundColor: '#282828' },
+      })
+    }
+
+    const newLocations = jsonArray.map((location) => {
       return formatLocationForImportExport(location)
     })
 
@@ -41,25 +56,31 @@ const CreateMapDropdown: FC<Props> = ({ locations, addNewLocations }) => {
     showSuccessToast('Successfully uploaded locations')
   }
 
-  const parseJSONFile = async (file: File) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader()
-      fileReader.onload = (event: any) => resolve(JSON.parse(event.target.result))
-      fileReader.onerror = (error) => reject(error)
-      fileReader.readAsText(file)
-    })
+  const containsArrayCheck = (jsonData: any): any[] | undefined => {
+    if (Array.isArray(jsonData)) return jsonData
+
+    // Check if data is an object that contains an array
+    if (typeof jsonData === 'object' && jsonData !== null) {
+      const valuesArray = Object.values(jsonData) as any[]
+
+      return valuesArray.find((value) => Array.isArray(value))
+    }
   }
 
-  const formatLocationForImportExport = (location: LocationType) => {
-    return {
-      lat: location.lat,
-      lng: location.lng,
-      panoId: location.panoId,
-      heading: location.heading,
-      pitch: location.pitch,
-      zoom: location.zoom,
-      countryCode: location.countryCode,
-    }
+  const hasValidCoordinates = (jsonArray: any[]) => {
+    let result = { valid: true, error: '' }
+
+    jsonArray.some((location: any) => {
+      if (!location.lat || !location.lng) {
+        result = { valid: false, error: 'Every location must have a lat & lng' }
+      }
+
+      if (!isLocationValid(location)) {
+        result = { valid: false, error: 'Location coordinate is invalid' }
+      }
+    })
+
+    return result
   }
 
   const isLocationValid = (location: LocationType) => {
@@ -74,40 +95,16 @@ const CreateMapDropdown: FC<Props> = ({ locations, addNewLocations }) => {
     return true
   }
 
-  const isArray = (input: any) => {
-    if (!Array.isArray(input)) {
-      showErrorToast('Uploaded data is not an array', {
-        position: 'bottom-center',
-        style: { backgroundColor: '#282828' },
-      })
-      return false
+  const formatLocationForImportExport = (location: LocationType) => {
+    return {
+      lat: location.lat,
+      lng: location.lng,
+      panoId: location.panoId,
+      heading: location.heading,
+      pitch: location.pitch,
+      zoom: location.zoom,
+      countryCode: location.countryCode,
     }
-
-    return true
-  }
-
-  const hasValidCoordinates = (input: any) => {
-    let isValid = true
-
-    input.some((location: any) => {
-      if (!location.lat || !location.lng) {
-        isValid = false
-        return showErrorToast('One or more locations is missing a lat or lng value', {
-          position: 'bottom-center',
-          style: { backgroundColor: '#282828' },
-        })
-      }
-
-      if (!isLocationValid(location)) {
-        isValid = false
-        return showErrorToast('Location coordinate is invalid', {
-          position: 'bottom-center',
-          style: { backgroundColor: '#282828' },
-        })
-      }
-    })
-
-    return isValid
   }
 
   const handleExportJSON = () => {
