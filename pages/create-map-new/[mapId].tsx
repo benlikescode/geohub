@@ -48,7 +48,7 @@ const CreateMapPage: PageType = () => {
   const [pastCoverage, setPastCoverage] = useState<StreetViewCoverageType[]>()
   const [panoMetaData, setPanoMetaData] = useState<google.maps.StreetViewPanoramaData | null>(null)
 
-  const { isBreakpoint } = useBreakpoint('960px')
+  const { isBreakpoint } = useBreakpoint(960)
 
   const svServiceRef = useRef<google.maps.StreetViewService | null>(null)
   const svPanoramaRef = useRef<google.maps.StreetViewPanorama | null>(null)

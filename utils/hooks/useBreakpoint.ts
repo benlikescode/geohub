@@ -1,20 +1,22 @@
 import throttle from 'lodash/throttle'
 import { useEffect, useState } from 'react'
 
-const useBreakpoint = (breakpoint?: string) => {
-  const [isBreakpoint, setIsBreakpoint] = useState(false)
+const useBreakpoint = (breakpoint?: number) => {
+  const checkIsBreakpoint = () => {
+    return document.body.clientWidth <= (breakpoint || 600)
+  }
 
-  const checkBreakpoint = throttle(() => {
-    setIsBreakpoint(!!window.matchMedia(`(max-width: ${breakpoint || '600px'})`)?.matches)
+  const [isBreakpoint, setIsBreakpoint] = useState(checkIsBreakpoint())
+
+  const handleResize = throttle(() => {
+    setIsBreakpoint(checkIsBreakpoint)
   }, 100)
 
   useEffect(() => {
-    checkBreakpoint()
-
-    window.addEventListener('resize', checkBreakpoint)
+    window.addEventListener('resize', handleResize)
 
     return () => {
-      window.removeEventListener('resize', checkBreakpoint)
+      window.removeEventListener('resize', handleResize)
     }
   }, [])
 
