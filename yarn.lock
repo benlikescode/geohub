@@ -503,13 +503,6 @@
     "@math.gl/web-mercator" "^3.6.2"
     earcut "^2.2.4"
 
-"@deck.gl/react@^8.9.22":
-  version "8.9.22"
-  resolved "https://registry.yarnpkg.com/@deck.gl/react/-/react-8.9.22.tgz#899a623f4ea8594a3a7755622de963f02790c4fb"
-  integrity sha512-NZcWBlOWYPs+DQqYSZQFLxfguFe0GP2AE1ojlrstnckV1N3bsMf1dT6AI5AvX5h9DbiBc216ZrV9iwVhlfkLng==
-  dependencies:
-    "@babel/runtime" "^7.0.0"
-
 "@emotion/is-prop-valid@^0.8.8":
   version "0.8.8"
   resolved "https://registry.yarnpkg.com/@emotion/is-prop-valid/-/is-prop-valid-0.8.8.tgz#db28b1c4368a259b60a97311d6a952d4fd01ac1a"
