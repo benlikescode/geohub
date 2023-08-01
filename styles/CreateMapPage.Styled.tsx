@@ -1,14 +1,80 @@
 import styled from 'styled-components'
 
 type StyledProps = {
-  isShowingPreview?: boolean
+  showPreviewMap?: boolean
 }
 
-const StyledCreateMapPage = styled.div<StyledProps>`
-  .main-content {
-    max-width: 2000px;
+const StyledNewCreateMapPage = styled.div<StyledProps>`
+  .header {
+    height: var(--navbarHeight);
     width: 100%;
-    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    padding: 0 1rem;
+    z-index: 20;
+    background-color: ${({ theme }) => theme.color.gray[900]};
+    border-bottom: 1px solid ${({ theme }) => theme.color.gray[800]};
+    flex-shrink: 0 !important;
+
+    .header-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .map-details {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      .map-name-wrapper {
+        display: grid;
+
+        .map-name {
+          color: #fff;
+          font-weight: 500;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+
+      .edit-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: transparent;
+        padding: 6px;
+        border-radius: 4px;
+        color: #999;
+
+        &:hover {
+          background-color: #444;
+          color: #ccc;
+        }
+
+        svg {
+          height: 20px;
+        }
+      }
+    }
+
+    .save-map-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      .last-save-date {
+        font-size: 12px;
+        color: #858585;
+      }
+    }
+  }
+
+  .main-content {
     margin: 0 auto;
     height: calc(100vh - var(--navbarHeight));
     display: flex;
@@ -18,49 +84,93 @@ const StyledCreateMapPage = styled.div<StyledProps>`
     max-height: 100%;
     position: relative;
     overflow: hidden auto;
+    padding: 16px;
+    border-radius: 6px;
 
-    .selection-map-wrapper {
-      height: 100%;
-      background-color: #232323;
+    .allotment-wrapper {
       border-radius: 6px;
-      flex: 3 1;
-      position: relative;
+    }
 
-      #selectionMap {
-        height: calc(100% - 60px);
-        width: 100%;
-        /* border-radius: 8px; */
-        border-bottom-left-radius: 8px;
-        border-bottom-right-radius: 8px;
+    .allotment-indicator {
+      height: 30px;
+      width: 30px;
+      border-radius: 50%;
+      background-color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      color: #555;
+      position: absolute;
+      top: 50%;
+      right: -15px;
+      z-index: 99999999999999999999999;
+
+      svg {
+        height: 18px;
       }
     }
 
     .preview-map-wrapper {
       height: 100%;
       overflow: hidden;
-      background-color: #232323;
-      border-radius: 6px;
-      /* padding: 16px; */
+      background-color: #222;
       flex: 2 1;
 
       .preview-map {
-        height: calc(92% - 60px);
-        /* border-radius: 8px; */
-
-        display: ${({ isShowingPreview }) => (isShowingPreview ? 'block' : 'none')};
+        height: calc(100% - 120px);
+        position: relative;
+        display: ${({ showPreviewMap }) => (showPreviewMap ? 'block' : 'none')};
 
         #previewMap {
           height: 100%;
           width: 100%;
-          /* border-radius: 8px; */
         }
 
-        .preview-action-buttons {
-          display: ${({ isShowingPreview }) => (isShowingPreview ? 'flex' : 'none')};
+        #previewMap > div.gm-style > div:nth-child(2) > div:nth-child(1) > div:nth-child(9) > div:nth-child(2) > div {
+          filter: invert(1) !important;
+        }
+
+        #previewMap > div.gm-style > div:nth-child(2) > div:nth-child(1) > div:nth-child(9) > div:nth-child(1) {
+          display: none;
+        }
+
+        .bottom-bar {
+          display: flex;
           align-items: center;
-          justify-content: flex-end;
-          gap: 12px;
-          margin-top: 20px;
+          justify-content: space-between;
+          gap: 16px;
+          padding: 0 10px;
+          height: 60px;
+
+          .pano-description {
+            font-size: 15px;
+            font-weight: 400;
+            color: #dcdcdc;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            @media (max-width: 600px) {
+              display: none;
+            }
+          }
+
+          .preview-action-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            /* flex-direction: row-reverse; */
+            gap: 16px;
+            /* margin-top: 10px; */
+
+            /* position: absolute; */
+            /* bottom: 30px;
+          right: 12px; */
+            /* z-index: 9;
+          bottom: 8px;
+          left: 8px; */
+          }
         }
       }
 
@@ -110,27 +220,7 @@ const StyledCreateMapPage = styled.div<StyledProps>`
     align-items: center;
     justify-content: space-between;
     gap: 16px;
-    /* margin-bottom: 1rem; */
-    border-bottom: 2px solid #0e0e0e;
-
-    .map-details {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-
-      .map-name-wrapper {
-        display: grid;
-
-        .map-name {
-          color: #fff;
-          font-size: 18px;
-          font-weight: 500;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-      }
-    }
+    border-bottom: 4px solid #0e0e0e;
 
     .map-action-buttons {
       display: flex;
@@ -176,8 +266,7 @@ const StyledCreateMapPage = styled.div<StyledProps>`
     }
 
     .locations-count {
-      color: var(--color2);
-      font-size: 18px;
+      color: #dcdcdc;
       font-weight: 400;
     }
 
@@ -196,7 +285,7 @@ const StyledCreateMapPage = styled.div<StyledProps>`
 
   @media (max-width: 1060px) {
     .main-content {
-      flex-direction: column;
+      /* flex-direction: column; */
 
       .selection-map-wrapper {
         .map-top-menu {
@@ -211,17 +300,6 @@ const StyledCreateMapPage = styled.div<StyledProps>`
       }
 
       .preview-map-wrapper {
-        .preview-map {
-          height: 100%;
-          display: ${({ isShowingPreview }) => isShowingPreview && 'grid'};
-          align-items: start;
-          grid-template-rows: auto min-content;
-        }
-
-        .map-top-menu {
-          display: ${({ isShowingPreview }) => isShowingPreview && 'none'};
-        }
-
         .no-locations-wrapper {
           .no-locations {
             img {
@@ -241,25 +319,6 @@ const StyledCreateMapPage = styled.div<StyledProps>`
       }
     }
   }
-
-  .import-export {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-
-    .import-button {
-    }
-
-    .export-button {
-    }
-  }
-
-  @media (max-width: 600px) {
-    .main-content {
-      padding: 66px 16px 86px 16px;
-      height: 100vh;
-    }
-  }
 `
 
-export default StyledCreateMapPage
+export default StyledNewCreateMapPage
