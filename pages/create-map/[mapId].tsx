@@ -10,7 +10,7 @@ import { NotFound } from '@components/errorViews'
 import { Head } from '@components/Head'
 import { CreateMapModal, SaveMapModal } from '@components/modals'
 import { Avatar, Button, Skeleton } from '@components/system'
-import { PencilIcon } from '@heroicons/react/outline'
+import { ChevronLeftIcon, PencilIcon } from '@heroicons/react/outline'
 import StyledCreateMapPage from '@styles/CreateMapPage.Styled'
 import { GoogleMapsConfigType, LocationType, MapType, PageType, StreetViewCoverageType } from '@types'
 import { PREVIEW_MAP_OPTIONS } from '@utils/constants/googleMapOptions'
@@ -251,8 +251,6 @@ const CreateMapPage: PageType = () => {
         <Head title="Map Editor" />
 
         <div className="header">
-          {/* <AppLogo /> */}
-
           {!isLoading && mapDetails ? (
             <div className="map-details">
               <Avatar type="map" src={mapDetails.previewImg} size={34} />
@@ -264,9 +262,9 @@ const CreateMapPage: PageType = () => {
               </button>
             </div>
           ) : (
-            <div className="map-top-menu">
+            <div>
               <div className="map-details">
-                <Skeleton variant="circular" height={40} width={40} />
+                <Skeleton height={34} width={34} />
                 <Skeleton height={20} width={200} noBorder />
               </div>
             </div>
