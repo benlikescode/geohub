@@ -7,8 +7,10 @@ import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 import { CreateMapDropdown } from '@components/dropdowns/CreateMapDropdown'
 import { NotFound } from '@components/errorViews'
+import { GoogleMapsSearch } from '@components/GoogleMapsSearch'
 import { Head } from '@components/Head'
 import { CreateMapModal, SaveMapModal } from '@components/modals'
+import { SelectMapLayers } from '@components/selects/SelectMapLayers'
 import { Avatar, Button, Skeleton } from '@components/system'
 import { ChevronLeftIcon, PencilIcon } from '@heroicons/react/outline'
 import StyledCreateMapPage from '@styles/CreateMapPage.Styled'
@@ -285,7 +287,15 @@ const CreateMapPage: PageType = () => {
         <div className="main-content">
           <Allotment vertical={isBreakpoint} className="allotment-wrapper">
             <Allotment.Pane>
-              {mapDetails && (
+              <div className="selection-map-wrapper">
+                <div className="map-top-menu">
+                  <GoogleMapsSearch
+                    googleMapsConfig={googleMapsConfig as GoogleMapsConfigType}
+                    addNewLocations={addNewLocations}
+                  />
+
+                  {googleMapsConfig && <SelectMapLayers selectionMap={googleMapsConfig.map} />}
+                </div>
                 <SelectionMap
                   googleMapsConfig={googleMapsConfig}
                   setGoogleMapsConfig={setGoogleMapsConfig}
@@ -294,7 +304,7 @@ const CreateMapPage: PageType = () => {
                   selectedLocation={selectedLocation}
                   setSelectedLocation={setSelectedLocation}
                 />
-              )}
+              </div>
             </Allotment.Pane>
 
             <Allotment.Pane>

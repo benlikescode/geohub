@@ -1,7 +1,5 @@
 import GoogleMapReact from 'google-map-react'
 import React, { FC, useEffect, useRef } from 'react'
-import { GoogleMapsSearch } from '@components/GoogleMapsSearch'
-import { SelectMapLayers } from '@components/selects/SelectMapLayers'
 import { PickingInfo } from '@deck.gl/core/typed'
 import { GoogleMapsOverlay } from '@deck.gl/google-maps/typed'
 import { IconLayer } from '@deck.gl/layers/typed'
@@ -122,25 +120,14 @@ const SelectionMap: FC<Props> = ({
 
   return (
     <StyledSelectionMap ref={wrapperRef}>
-      <div className="map-top-menu">
-        <GoogleMapsSearch
-          googleMapsConfig={googleMapsConfig as GoogleMapsConfigType}
-          addNewLocations={addNewLocations}
-        />
-
-        {googleMapsConfig && <SelectMapLayers selectionMap={googleMapsConfig.map} />}
-      </div>
-
-      <div className="selection-map">
-        <GoogleMapReact
-          bootstrapURLKeys={getMapsKey(user.mapsAPIKey)}
-          center={{ lat: 0, lng: 0 }}
-          zoom={2}
-          yesIWantToUseGoogleMapApiInternals
-          onGoogleApiLoaded={({ map, maps }) => setGoogleMapsConfig({ isLoaded: true, map, mapsApi: maps })}
-          options={SELECTION_MAP_OPTIONS}
-        ></GoogleMapReact>
-      </div>
+      <GoogleMapReact
+        bootstrapURLKeys={getMapsKey(user.mapsAPIKey)}
+        center={{ lat: 0, lng: 0 }}
+        zoom={2}
+        yesIWantToUseGoogleMapApiInternals
+        onGoogleApiLoaded={({ map, maps }) => setGoogleMapsConfig({ isLoaded: true, map, mapsApi: maps })}
+        options={SELECTION_MAP_OPTIONS}
+      ></GoogleMapReact>
     </StyledSelectionMap>
   )
 }

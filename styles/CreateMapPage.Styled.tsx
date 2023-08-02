@@ -82,6 +82,15 @@ const StyledNewCreateMapPage = styled.div<StyledProps>`
       border-radius: 6px;
     }
 
+    .selection-map-wrapper {
+      background-color: #222;
+      flex: 3 1;
+      position: relative;
+      border-right: 2px solid #0e0e0e;
+      background-color: #222;
+      height: 100%;
+    }
+
     .preview-map-wrapper {
       height: 100%;
       overflow: hidden;
