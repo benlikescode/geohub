@@ -49,4 +49,6 @@ export const PREVIEW_MAP_OPTIONS = {
   enableCloseButton: false,
   zoomControl: false,
   showRoadLabels: false,
+  motionTracking: false,
+  motionTrackingControl: false,
 }
