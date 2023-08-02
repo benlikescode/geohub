@@ -5,7 +5,7 @@ import { MapPreviewCard } from '@components/MapPreviewCard'
 import { Input, ToggleSwitch } from '@components/system'
 import { MapType } from '@types'
 import { MAP_AVATAR_PATH } from '@utils/constants/random'
-import { mailman, randomInt, showErrorToast } from '@utils/helpers'
+import { mailman, randomInt, showToast } from '@utils/helpers'
 import { MainModal } from '../'
 import { StyledCreateMapModal } from './'
 
@@ -54,7 +54,7 @@ const CreateMapModal: FC<Props> = ({ isOpen, closeModal, mapDetails, setMapDetai
     setIsSubmitting(false)
 
     if (res.error) {
-      showErrorToast(res.error.message)
+      showToast('error', res.error.message)
     }
 
     setMapDetails && setMapDetails({ ...(mapDetails as MapType), name, description, previewImg: avatar })
@@ -64,7 +64,7 @@ const CreateMapModal: FC<Props> = ({ isOpen, closeModal, mapDetails, setMapDetai
 
   const handleCreateMap = async () => {
     if (!name) {
-      return showErrorToast('Name is required', { id: 'CreateMapModal1' })
+      return showToast('error', 'Name is required')
     }
 
     setIsSubmitting(true)
@@ -80,7 +80,7 @@ const CreateMapModal: FC<Props> = ({ isOpen, closeModal, mapDetails, setMapDetai
     setIsSubmitting(false)
 
     if (res.error || !res.mapId) {
-      showErrorToast(res.error.message)
+      showToast('error', res.error.message)
     }
 
     return router.push(`/create-map/${res.mapId}`)

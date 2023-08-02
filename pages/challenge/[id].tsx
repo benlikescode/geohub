@@ -14,7 +14,7 @@ import { useAppDispatch } from '@redux/hook'
 import { updateStartTime } from '@redux/slices'
 import StyledGamePage from '@styles/GamePage.Styled'
 import { ChallengeType, PageType } from '@types'
-import { mailman, showErrorToast } from '@utils/helpers'
+import { mailman, showToast } from '@utils/helpers'
 
 const ChallengePage: PageType = () => {
   const [view, setView] = useState<'Start' | 'Game' | 'Result' | 'FinalResults'>('Game')
@@ -67,7 +67,7 @@ const ChallengePage: PageType = () => {
     const res = await mailman(`challenges/${challengeId}`, 'POST', JSON.stringify(gameData))
 
     if (res.error) {
-      return showErrorToast(res.error.message)
+      return showToast('error', res.error.message)
     }
 
     setGameData(res)

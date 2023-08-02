@@ -9,7 +9,7 @@ import { Button, Input } from '@components/system'
 import { updateUser } from '@redux/slices'
 import StyledAuthPage from '@styles/AuthPage.Styled'
 import { PageType } from '@types'
-import { showErrorToast } from '@utils/helpers'
+import { showToast } from '@utils/helpers'
 
 // Redirect to home page if already logged in
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
@@ -57,11 +57,11 @@ const LoginPage: PageType = () => {
     e.preventDefault()
 
     if (!email) {
-      return showErrorToast('Please enter your email address', { id: 'login-email' })
+      return showToast('error', 'Please enter your email address')
     }
 
     if (!password) {
-      return showErrorToast('Please enter your password', { id: 'login-pass' })
+      return showToast('error', 'Please enter your password')
     }
 
     setShowBtnSpinner(true)
@@ -72,7 +72,8 @@ const LoginPage: PageType = () => {
 
     if (!res || res.error) {
       setShowBtnSpinner(false)
-      return showErrorToast(res?.error || '', { id: 'login-api' })
+
+      return showToast('error', res?.error || '')
     }
 
     setShowBtnSpinner(false)

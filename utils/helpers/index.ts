@@ -17,5 +17,4 @@ export { default as randomElement } from './randomElement'
 export { default as randomInt } from './randomInt'
 export { default as randomRange } from './randomRange'
 export { default as redirectToRegister } from './redirectToRegister'
-
-export { showErrorToast, showSuccessToast } from './showToasts'
+export { default as showToast } from './showToast'

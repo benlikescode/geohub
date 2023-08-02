@@ -14,7 +14,7 @@ import { VerifiedBadge } from '@components/VerifiedBadge'
 import { useAppSelector } from '@redux/hook'
 import StyledMapPage from '@styles/MapPage.Styled'
 import { MapLeaderboardType, MapType } from '@types'
-import { mailman, showErrorToast } from '@utils/helpers'
+import { mailman, showToast } from '@utils/helpers'
 
 const MapPage: FC = () => {
   const [settingsModalOpen, setSettingsModalOpen] = useState(false)
@@ -50,7 +50,7 @@ const MapPage: FC = () => {
     const res = await mailman(`scores/${mapId}`)
 
     if (res.error) {
-      return showErrorToast(res.error.message)
+      return showToast('error', res.error.message)
     }
 
     setLeaderboardData(res)
@@ -60,7 +60,7 @@ const MapPage: FC = () => {
     const res = await mailman(`maps/browse/popular?count=6&mapId=${mapId}`)
 
     if (res.error) {
-      return showErrorToast(res.error.message)
+      return showToast('error', res.error.message)
     }
 
     setOtherMaps(res)

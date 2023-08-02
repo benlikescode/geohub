@@ -11,7 +11,7 @@ import { useAppSelector } from '@redux/hook'
 import { LocationType } from '@types'
 import { KEY_CODES } from '@utils/constants/keyCodes'
 import { URBAN_WORLD_ID } from '@utils/constants/random'
-import { getMapsKey, mailman, showErrorToast } from '@utils/helpers'
+import { getMapsKey, mailman, showToast } from '@utils/helpers'
 import { StyledStreetView } from './'
 
 type Props = {
@@ -35,7 +35,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
   const handleSubmitGuess = async (timedOut?: boolean) => {
     if (currGuess || countryStreakGuess || timedOut) {
       if (!game.startTime) {
-        return showErrorToast('Something went wrong')
+        return showToast('error', 'Something went wrong')
       }
 
       const body = {
@@ -52,7 +52,7 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
       const res = await mailman(`games/${gameData.id}`, 'PUT', JSON.stringify(body))
 
       if (res.error) {
-        return showErrorToast(res.error.message, { id: 'streetView-submit' })
+        return showToast('error', res.error.message)
       }
 
       setGameData({ id: res._id, ...res })

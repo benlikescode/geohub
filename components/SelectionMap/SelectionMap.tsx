@@ -6,7 +6,7 @@ import { IconLayer } from '@deck.gl/layers/typed'
 import { useAppSelector } from '@redux/hook'
 import { GoogleMapsConfigType, LocationType } from '@types'
 import { SELECTION_MAP_OPTIONS } from '@utils/constants/googleMapOptions'
-import { getMapsKey, showErrorToast } from '@utils/helpers'
+import { getMapsKey, showToast } from '@utils/helpers'
 import { StyledSelectionMap } from './'
 
 const REGULAR_MARKER_ICON = '/images/regular-pin.png'
@@ -112,7 +112,7 @@ const SelectionMap: FC<Props> = ({
     })
 
     if (!isLocationCovered) {
-      return showErrorToast('No coverage found here')
+      return showToast('error', 'No coverage found here', 'mapEditor')
     }
 
     addNewLocations(location)

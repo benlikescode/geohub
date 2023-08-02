@@ -7,7 +7,7 @@ import { Head } from '@components/Head'
 import { PageHeader, WidthController } from '@components/layout'
 import { Skeleton } from '@components/system'
 import { AnalyticsType } from '@types'
-import { mailman, showErrorToast } from '@utils/helpers'
+import { mailman, showToast } from '@utils/helpers'
 
 const AnalyticsPage: NextPage = () => {
   const [analytics, setAnalytics] = useState<AnalyticsType>()
@@ -16,7 +16,7 @@ const AnalyticsPage: NextPage = () => {
     const res = await mailman('analytics', 'GET')
 
     if (res.error) {
-      return showErrorToast(res.error.message)
+      return showToast('error', res.error.message)
     }
 
     setAnalytics(res.data)

@@ -12,7 +12,7 @@ import { useAppSelector } from '@redux/hook'
 import StyledPlayStreaksPage from '@styles/PlayStreaksPage.Styled'
 import { MapLeaderboardType, StreakStatsType } from '@types'
 import { COUNTRY_STREAK_DETAILS } from '@utils/constants/random'
-import { mailman, showErrorToast } from '@utils/helpers'
+import { mailman, showToast } from '@utils/helpers'
 
 const StreaksPage = () => {
   const [streakStats, setStreakStats] = useState<StreakStatsType>()
@@ -30,7 +30,7 @@ const StreaksPage = () => {
     const res = await mailman('streaks/stats')
 
     if (res.error) {
-      return showErrorToast(res.error.message)
+      return showToast('error', res.error.message)
     }
 
     setStreakStats(res)

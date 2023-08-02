@@ -2,10 +2,10 @@ import saveAs from 'file-saver'
 import { useRouter } from 'next/router'
 import { ChangeEvent, FC, useState } from 'react'
 import { DestroyModal } from '@components/modals'
-import { MenuIcon } from '@heroicons/react/outline'
+import { DotsHorizontalIcon, MenuIcon } from '@heroicons/react/outline'
 import { Content, Item, Portal, Root, Separator, Trigger } from '@radix-ui/react-dropdown-menu'
 import { LocationType } from '@types'
-import { mailman, parseJsonFile, showErrorToast, showSuccessToast } from '@utils/helpers'
+import { mailman, parseJsonFile, showToast } from '@utils/helpers'
 import { StyledCreateMapDropdown } from './'
 
 type Props = {
@@ -30,19 +30,13 @@ const CreateMapDropdown: FC<Props> = ({ locations, addNewLocations }) => {
     const jsonArray = containsArrayCheck(jsonData)
 
     if (!jsonArray) {
-      return showErrorToast('File must contain an array', {
-        position: 'bottom-center',
-        style: { backgroundColor: '#282828' },
-      })
+      return showToast('error', 'File must contain an array', 'mapEditor')
     }
 
     const validateCoords = hasValidCoordinates(jsonArray)
 
     if (!validateCoords.valid) {
-      return showErrorToast(validateCoords.error, {
-        position: 'bottom-center',
-        style: { backgroundColor: '#282828' },
-      })
+      return showToast('error', validateCoords.error, 'mapEditor')
     }
 
     const newLocations = jsonArray.map((location) => {
@@ -53,7 +47,7 @@ const CreateMapDropdown: FC<Props> = ({ locations, addNewLocations }) => {
 
     closeDropdown()
 
-    showSuccessToast('Successfully uploaded locations')
+    showToast('success', 'Successfully uploaded locations', 'mapEditor')
   }
 
   const containsArrayCheck = (jsonData: any): any[] | undefined => {
@@ -124,7 +118,7 @@ const CreateMapDropdown: FC<Props> = ({ locations, addNewLocations }) => {
     const res = await mailman(`maps/custom/${mapId}`, 'DELETE')
 
     if (res.error) {
-      return showErrorToast(res.error.message)
+      return showToast('error', res.error.message, 'mapEditor')
     }
 
     if (res.message) {
@@ -141,7 +135,7 @@ const CreateMapDropdown: FC<Props> = ({ locations, addNewLocations }) => {
         <Root>
           <Trigger asChild>
             <button className="trigger-button" aria-label="More options">
-              <MenuIcon />
+              <DotsHorizontalIcon />
             </button>
           </Trigger>
 

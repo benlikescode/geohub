@@ -4,7 +4,7 @@ import { MainModal } from '@components/modals'
 import { ToggleSwitch } from '@components/system'
 import { LocationType } from '@types'
 import { MAX_ALLOWED_CUSTOM_LOCATIONS } from '@utils/constants/random'
-import { formatLargeNumber, mailman, showErrorToast, showSuccessToast } from '@utils/helpers'
+import { formatLargeNumber, mailman, showToast } from '@utils/helpers'
 import { StyledSaveMapModal } from './'
 
 type Props = {
@@ -38,17 +38,15 @@ const SaveMapModal: FC<Props> = ({
     const publishedHasChanged = initiallyPublished !== isPublished
 
     if (!haveLocationsChanged && !publishedHasChanged) {
-      return showErrorToast('No changes since last save', {
-        position: 'bottom-center',
-        style: { backgroundColor: '#282828' },
-      })
+      return showToast('error', 'No changes since last save', 'mapEditor')
     }
 
     if (locations.length > MAX_ALLOWED_CUSTOM_LOCATIONS) {
-      return showErrorToast(`The max locations allowed is ${formatLargeNumber(MAX_ALLOWED_CUSTOM_LOCATIONS)}`, {
-        position: 'bottom-center',
-        style: { backgroundColor: '#282828' },
-      })
+      return showToast(
+        'error',
+        `The max locations allowed is ${formatLargeNumber(MAX_ALLOWED_CUSTOM_LOCATIONS)}`,
+        'mapEditor'
+      )
     }
 
     setIsSaving(true)
@@ -58,7 +56,7 @@ const SaveMapModal: FC<Props> = ({
     setIsSaving(false)
 
     if (res.error) {
-      return showErrorToast(res.error.message)
+      return showToast('error', res.error.message, 'mapEditor')
     }
 
     setLastSave(new Date())
@@ -67,10 +65,7 @@ const SaveMapModal: FC<Props> = ({
 
     closeModal()
 
-    return showSuccessToast('Your changes have been saved', {
-      position: 'bottom-center',
-      style: { backgroundColor: '#282828' },
-    })
+    return showToast('success', 'Your changes have been saved', 'mapEditor')
   }
 
   return (

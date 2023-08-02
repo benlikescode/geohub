@@ -5,7 +5,7 @@ import { UserGroupIcon, UserIcon } from '@heroicons/react/outline'
 import { useAppDispatch, useAppSelector } from '@redux/hook'
 import { resetGameSettings, updateGameSettings, updateStartTime } from '@redux/slices'
 import { GameSettingsType, GameType, MapType, UserType } from '@types'
-import { formatTimeLimit, mailman, showErrorToast } from '@utils/helpers'
+import { formatTimeLimit, mailman, showToast } from '@utils/helpers'
 import { MainModal } from '../MainModal'
 import { StyledGameSettingsModal } from './'
 import { Challenge } from './Challenge'
@@ -125,7 +125,7 @@ const GameSettingsModal: FC<Props> = ({ isOpen, closeModal, mapDetails, gameMode
 
     if (res.error) {
       setIsSubmitting(false)
-      return showErrorToast(res.error.message)
+      return showToast('error', res.error.message)
     }
 
     router.push(`/game/${res}`)

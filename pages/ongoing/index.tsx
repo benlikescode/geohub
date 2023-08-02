@@ -14,7 +14,7 @@ import StyledOngoingGamesPage from '@styles/OngoingGamesPage.Styled'
 import { GameType, MapType } from '@types'
 import { COUNTRY_STREAK_DETAILS, DAILY_CHALLENGE_DETAILS } from '@utils/constants/random'
 import { formatMonthDayYear } from '@utils/dateHelpers'
-import { formatOngoingScore, mailman, showErrorToast } from '@utils/helpers'
+import { formatOngoingScore, mailman, showToast } from '@utils/helpers'
 import { useBreakpoint } from '@utils/hooks'
 
 type OngoingGame = GameType & {
@@ -44,7 +44,7 @@ const OngoingGamesPage: NextPage = () => {
     const res = await mailman(`games/unfinished?page=${gamesPage}`)
 
     if (res.error) {
-      return showErrorToast(res.error.message)
+      return showToast('error', res.error.message)
     }
 
     setHasMore(res.hasMore)
