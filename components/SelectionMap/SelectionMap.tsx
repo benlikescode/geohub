@@ -52,7 +52,7 @@ const SelectionMap: FC<Props> = ({
     const svLayer = new window.google.maps.StreetViewCoverageLayer()
     svLayer.setMap(map)
 
-    const overlay = new GoogleMapsOverlay({})
+    const overlay = new GoogleMapsOverlay({ pickingRadius: 10 })
     overlay.setMap(map)
     deckRef.current = overlay
   }
