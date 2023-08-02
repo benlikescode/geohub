@@ -130,6 +130,7 @@ const StyledNewCreateMapPage = styled.div<StyledProps>`
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            flex: 1;
 
             @media (max-width: 600px) {
               display: none;
