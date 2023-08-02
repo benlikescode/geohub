@@ -75,40 +75,11 @@ const StyledNewCreateMapPage = styled.div<StyledProps>`
   }
 
   .main-content {
-    margin: 0 auto;
     height: calc(100vh - var(--navbarHeight));
-    display: flex;
-    flex: 1 1;
-    flex-direction: row;
-    gap: 8px;
-    max-height: 100%;
-    position: relative;
-    overflow: hidden auto;
     padding: 16px;
-    border-radius: 6px;
 
     .allotment-wrapper {
       border-radius: 6px;
-    }
-
-    .allotment-indicator {
-      height: 30px;
-      width: 30px;
-      border-radius: 50%;
-      background-color: #333;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      color: #555;
-      position: absolute;
-      top: 50%;
-      right: -15px;
-      z-index: 99999999999999999999999;
-
-      svg {
-        height: 18px;
-      }
     }
 
     .preview-map-wrapper {
@@ -160,16 +131,7 @@ const StyledNewCreateMapPage = styled.div<StyledProps>`
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            /* flex-direction: row-reverse; */
             gap: 16px;
-            /* margin-top: 10px; */
-
-            /* position: absolute; */
-            /* bottom: 30px;
-          right: 12px; */
-            /* z-index: 9;
-          bottom: 8px;
-          left: 8px; */
           }
         }
       }
@@ -222,83 +184,14 @@ const StyledNewCreateMapPage = styled.div<StyledProps>`
     gap: 16px;
     border-bottom: 4px solid #0e0e0e;
 
-    .map-action-buttons {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-
-      &.mobile {
-        display: none;
-
-        button {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border-radius: 5px;
-          padding: 10px;
-          font-size: 1rem;
-          font-weight: 500;
-          user-select: none;
-          background-color: var(--mediumPurple);
-          color: rgb(255, 255, 255, 0.7);
-
-          &.edit-button {
-            background-color: rgb(255, 255, 255, 0.1);
-          }
-
-          svg {
-            height: 20px;
-            color: #fff;
-          }
-
-          &:hover {
-            background-color: var(--indigo-600);
-
-            &.edit-button {
-              background-color: rgb(255, 255, 255, 0.15);
-            }
-          }
-        }
-        svg {
-          height: 20px;
-        }
-      }
-    }
-
     .locations-count {
       color: #dcdcdc;
       font-weight: 400;
-    }
-
-    .visibility-selection {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-
-      .visibility-warning {
-        color: var(--color2);
-        font-size: 1rem;
-        font-weight: 500;
-      }
     }
   }
 
   @media (max-width: 1060px) {
     .main-content {
-      /* flex-direction: column; */
-
-      .selection-map-wrapper {
-        .map-top-menu {
-          .map-action-buttons {
-            display: none;
-
-            &.mobile {
-              display: flex;
-            }
-          }
-        }
-      }
-
       .preview-map-wrapper {
         .no-locations-wrapper {
           .no-locations {
