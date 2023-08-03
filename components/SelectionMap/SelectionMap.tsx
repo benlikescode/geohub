@@ -103,19 +103,23 @@ const SelectionMap: FC<Props> = ({
 
     // Return early if clicked location has no coverage
     let isLocationCovered = true
+    let adjustedLocation
     const streetViewService = new google.maps.StreetViewService()
 
-    await streetViewService.getPanorama({ location: e.latLng, radius: 1000 }, (data) => {
-      if (!data || !data.location) {
+    await streetViewService.getPanorama({ location: e.latLng }, (data) => {
+      if (!data || !data.location || !data.location.latLng) {
         isLocationCovered = false
+        return
       }
+
+      adjustedLocation = { lat: data.location.latLng.lat(), lng: data.location.latLng.lng() }
     })
 
     if (!isLocationCovered) {
       return showToast('error', 'No coverage found here', 'mapEditor')
     }
 
-    addNewLocations(location)
+    addNewLocations(adjustedLocation || location)
   }
 
   return (

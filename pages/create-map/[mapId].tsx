@@ -144,7 +144,7 @@ const CreateMapPage: PageType = () => {
 
     if (!svService || !svPanorama || !selectedLocation) return
 
-    svService.getPanorama({ location: selectedLocation, radius: 1000 }, (data) => {
+    svService.getPanorama({ location: selectedLocation }, (data) => {
       if (!data || !data.location || !data.location.latLng) return
 
       // Idk why google doesn't have a type def for time but it does exist...
@@ -347,11 +347,11 @@ const CreateMapPage: PageType = () => {
                 {/* {pastCoverage && <SelectCoverage coverageOptions={pastCoverage} onChange={loadNewPanoById} />} */}
                 {panoMetaData && <span className="pano-description">{panoMetaData.location?.description}</span>}
                 <div className="preview-action-buttons">
-                  <Button variant="solidGray" size="md" onClick={() => handleUpdateLocation()}>
-                    Update Location
-                  </Button>
                   <Button variant="destroy" size="md" onClick={() => handleRemoveLocation()}>
                     Remove
+                  </Button>
+                  <Button variant="solidGray" size="md" onClick={() => handleUpdateLocation()}>
+                    Update Location
                   </Button>
                 </div>
               </div>
