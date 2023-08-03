@@ -79,10 +79,10 @@ const SaveMapModal: FC<Props> = ({
       maxWidth="500px"
     >
       <StyledSaveMapModal>
-        <div className="visibility-selection">
-          <div className="cool">
-            <div className="happy">Publish Map</div>
-            <p>Make your map visible to others</p>
+        <div className="publish-wrapper">
+          <div className="publish-text">
+            <div className="publish-header">Publish Map</div>
+            <p className="publish-subheader">Make your map visible to others</p>
           </div>
           <ToggleSwitch isActive={isPublished} setIsActive={setIsPublished} />
         </div>
