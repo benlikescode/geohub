@@ -132,14 +132,6 @@ const StyledNewCreateMapPage = styled.div<StyledProps>`
         height: 100%;
         width: 100%;
       }
-
-      #previewMap > div.gm-style > div:nth-child(2) > div:nth-child(1) > div:nth-child(9) > div:nth-child(2) > div {
-        filter: invert(1) !important;
-      }
-
-      #previewMap > div.gm-style > div:nth-child(2) > div:nth-child(1) > div:nth-child(9) > div:nth-child(1) {
-        display: none;
-      }
     }
 
     .no-locations-wrapper {
