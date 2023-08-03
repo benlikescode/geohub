@@ -168,7 +168,7 @@ const GoogleMapsSearch: FC<Props> = ({ placeholder, autoFocus, googleMapsConfig,
       <div className="searchbar-wrapper">
         <input
           type="text"
-          placeholder={placeholder ? placeholder : 'Search or paste link'}
+          placeholder={placeholder ? placeholder : 'Search'}
           onChange={(e) => setQuery(e.currentTarget.value)}
           autoFocus={autoFocus}
           ref={inputElementRef}

@@ -50,9 +50,9 @@ const StyledCreateMapDropdown = styled.div`
     align-items: center;
     justify-content: center;
     background-color: #333;
-    height: 35px;
-    width: 35px;
-    border-radius: 4px;
+    height: 38px;
+    width: 38px;
+    border-radius: 5px;
     color: #999;
 
     &:hover {

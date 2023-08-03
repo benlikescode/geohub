@@ -6,19 +6,17 @@ const StyledSelectMapLayers = styled.div<StyledProps>`
   .SelectTrigger {
     display: inline-flex;
     align-items: center;
-    border-radius: 4px;
+    border-radius: 3px;
     padding: 0 15px;
     font-size: 13px;
     line-height: 1;
-    height: 35px;
+    height: 38px;
     gap: 5px;
     background-color: #333;
     color: #dcdcdc;
     min-width: 185px;
     position: relative;
     box-shadow: 0 0 0 1px #434343;
-
-    /* box-shadow: 0 2px 10px var(--black-a7); */
 
     &:hover {
       background-color: #383838;

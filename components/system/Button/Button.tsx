@@ -12,8 +12,6 @@ type Props = {
   children?: ReactNode
   width?: string
   height?: string
-  padding?: string
-  disabledBackground?: boolean
 } & ButtonHTMLAttributes<HTMLButtonElement>
 
 const Button: FC<Props> = ({
@@ -26,8 +24,7 @@ const Button: FC<Props> = ({
   children,
   width,
   height,
-  padding,
-  disabledBackground,
+  onClick,
   ...rest
 }) => {
   return (
@@ -40,10 +37,10 @@ const Button: FC<Props> = ({
       width={width}
       height={height}
       isLoading={isLoading}
-      padding={padding}
+      onClick={isLoading ? undefined : onClick}
       {...rest}
     >
-      {children}
+      <span className="button-content">{children}</span>
 
       {isLoading && (
         <div className="spinner">

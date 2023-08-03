@@ -40,11 +40,11 @@ const MainModal: FC<Props> = ({
         <div className="modal-body">{children}</div>
 
         <div className="modal-footer">
-          <Button variant="solidGray" onClick={onCancel ?? onClose} padding="0 16px">
+          <Button variant="solidGray" onClick={onCancel ?? onClose} size="md">
             {cancelButtonText || 'Cancel'}
           </Button>
 
-          <Button onClick={onAction} isLoading={isSubmitting} padding="0 16px">
+          <Button onClick={onAction} isLoading={isSubmitting} size="md">
             {actionButtonText || 'Confirm'}
           </Button>
         </div>

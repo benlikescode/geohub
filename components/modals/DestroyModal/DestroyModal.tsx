@@ -27,7 +27,7 @@ const DestroyModal: FC<Props> = ({ title, message, isOpen, onClose, onAction, is
           <Button variant="solidGray" size="md" onClick={onClose}>
             Cancel
           </Button>
-          <Button variant="destroy" size="md" onClick={onAction} isLoading={isSubmitting} disabled={isSubmitting}>
+          <Button variant="destroy" size="md" onClick={onAction} isLoading={isSubmitting}>
             Delete
           </Button>
         </div>

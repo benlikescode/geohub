@@ -10,8 +10,8 @@ const StyledGoogleMapsSearch = styled.div<StyledProps>`
   .searchbar-wrapper {
     display: flex;
     align-items: center;
-    height: 35px;
-    border-radius: 4px;
+    height: 38px;
+    border-radius: 3px;
     background-color: #333;
     color: #dcdcdc;
     position: relative;
@@ -25,22 +25,16 @@ const StyledGoogleMapsSearch = styled.div<StyledProps>`
       background: transparent;
       font-weight: 400;
       padding-left: 10px;
-      border-radius: 6px;
       padding-right: 35px;
-      font-size: 14px;
+      font-size: 13px;
       position: relative;
       top: 1px;
 
       &::placeholder {
         color: ${({ theme }) => theme.color.gray[400]};
         font-weight: 400;
-        font-size: 14px;
+        font-size: 13px;
       }
-
-      /* &:focus {
-        box-shadow: 0 0 0 2px #434343;
-        transition: background-color 100ms, box-shadow 100ms;
-      } */
     }
 
     .search-icon {

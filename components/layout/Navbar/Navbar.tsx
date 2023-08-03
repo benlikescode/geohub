@@ -50,7 +50,7 @@ const Navbar: FC = () => {
                 <>
                   <Link href="/login">
                     <a>
-                      <Button variant="solidCustom" size="md" backgroundColor="#3d3d3d" color="#fff" hoverColor="#444">
+                      <Button variant="solidCustom" size="sm" backgroundColor="#3d3d3d" color="#fff" hoverColor="#444">
                         Log In
                       </Button>
                     </a>
@@ -58,7 +58,7 @@ const Navbar: FC = () => {
 
                   <Link href="/register">
                     <a>
-                      <Button size="md">Sign Up</Button>
+                      <Button size="sm">Sign Up</Button>
                     </a>
                   </Link>
                 </>

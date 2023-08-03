@@ -119,12 +119,7 @@ const GuessMap: FC<Props> = ({ currGuess, setCurrGuess, mobileMapOpen, closeMobi
         </button>
 
         <div className="submit-button-wrapper">
-          <Button
-            width="100%"
-            disabled={currGuess === null}
-            disabledBackground={currGuess === null}
-            onClick={() => handleSubmitGuess()}
-          >
+          <Button width="100%" disabled={currGuess === null} onClick={() => handleSubmitGuess()}>
             Submit Guess
           </Button>
         </div>

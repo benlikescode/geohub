@@ -46,41 +46,6 @@ const StyledMainModal = styled.div<StyledProps>`
     display: flex;
     justify-content: flex-end;
     gap: 12px;
-
-    .cancel-button {
-      background-color: rgb(255, 255, 255, 0.1);
-      color: rgb(255, 255, 255, 0.7);
-      border-radius: 4px;
-      font-size: 1rem;
-      font-weight: 400;
-      user-select: none;
-      padding: 10px 16px;
-
-      &:hover {
-        background-color: rgb(255, 255, 255, 0.15);
-      }
-    }
-
-    .action-button {
-      background-color: var(--mediumPurple);
-      color: #fff;
-      border-radius: 4px;
-      font-size: 1rem;
-      font-weight: 400;
-      user-select: none;
-      padding: 10px 16px;
-
-      &:disabled {
-        background-color: #404040;
-        color: var(--color2);
-        cursor: not-allowed !important;
-        opacity: 0.5;
-      }
-
-      :hover {
-        background-color: var(--indigo-600);
-      }
-    }
   }
 `
 
