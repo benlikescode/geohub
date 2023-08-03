@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React, { FC, useEffect, useMemo, useRef, useState } from 'react'
+import React, { FC, useState } from 'react'
 import { MapPreviewCard } from '@components/MapPreviewCard'
-import { Input, ToggleSwitch } from '@components/system'
+import { Input } from '@components/system'
 import { MapType } from '@types'
 import { MAP_AVATAR_PATH } from '@utils/constants/random'
 import { mailman, randomInt, showToast } from '@utils/helpers'
@@ -26,18 +26,16 @@ const CreateMapModal: FC<Props> = ({ isOpen, closeModal, mapDetails, setMapDetai
   const [avatar, setAvatar] = useState(mapDetails?.previewImg || `custom${randomInt(1, 17)}.jpg`)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const orginalMapDetails = useRef(mapDetails)
-
   const isEditMode = !!mapDetails
 
   const hasMadeChanges = () => {
-    const original = orginalMapDetails.current as MapType
+    const original = mapDetails as MapType
 
     return name !== original.name || description !== original.description || avatar !== original.previewImg
   }
 
   const handleEditMap = async () => {
-    if (!hasMadeChanges) {
+    if (!hasMadeChanges()) {
       return closeModal()
     }
 
