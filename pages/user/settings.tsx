@@ -8,7 +8,7 @@ import { ArrowRightIcon } from '@heroicons/react/outline'
 import { useAppDispatch } from '@redux/hook'
 import { updateDistanceUnit, updateMapsAPIKey } from '@redux/slices'
 import StyledSettingsPage from '@styles/SettingsPage.Styled'
-import { mailman, showErrorToast, showSuccessToast } from '@utils/helpers'
+import { mailman, showToast } from '@utils/helpers'
 
 const DISTANCE_UNIT_OPTIONS = [
   { value: 'metric', label: 'Metric (km)' },
@@ -43,7 +43,7 @@ const SettingsPage: NextPage = () => {
     const res = await mailman('users/settings')
 
     if (res.error) {
-      return showErrorToast(res.error.message)
+      return showToast('error', res.error.message)
     }
 
     setLoading(false)
@@ -58,7 +58,7 @@ const SettingsPage: NextPage = () => {
     const res = await mailman('users/settings', 'POST', JSON.stringify(newSettings))
 
     if (res.error) {
-      return showErrorToast(res.error.message)
+      return showToast('error', res.error.message)
     }
 
     setInitialSettings(newSettings)
@@ -66,7 +66,7 @@ const SettingsPage: NextPage = () => {
     dispatch(updateDistanceUnit(distanceUnit))
     dispatch(updateMapsAPIKey(mapsAPIKey))
 
-    showSuccessToast('Successfully updated user settings')
+    showToast('success', 'Successfully updated user settings')
   }
 
   return (

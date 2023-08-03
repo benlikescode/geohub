@@ -14,8 +14,8 @@ import StyledOngoingGamesPage from '@styles/OngoingGamesPage.Styled'
 import { GameType, MapType } from '@types'
 import { COUNTRY_STREAK_DETAILS, DAILY_CHALLENGE_DETAILS } from '@utils/constants/random'
 import { formatMonthDayYear } from '@utils/dateHelpers'
-import { formatOngoingScore, mailman, showErrorToast } from '@utils/helpers'
-import { useIsMobile } from '@utils/hooks'
+import { formatOngoingScore, mailman, showToast } from '@utils/helpers'
+import { useBreakpoint } from '@utils/hooks'
 
 type OngoingGame = GameType & {
   mapDetails: MapType[]
@@ -30,7 +30,7 @@ const OngoingGamesPage: NextPage = () => {
   const [deletingGameId, setDeletingGameId] = useState('')
   const [isDeleting, setIsDeleting] = useState(false)
   const user = useAppSelector((state) => state.user)
-  const { isMobile } = useIsMobile()
+  const { isBreakpoint } = useBreakpoint()
 
   useEffect(() => {
     if (!user.id) {
@@ -44,7 +44,7 @@ const OngoingGamesPage: NextPage = () => {
     const res = await mailman(`games/unfinished?page=${gamesPage}`)
 
     if (res.error) {
-      return showErrorToast(res.error.message)
+      return showToast('error', res.error.message)
     }
 
     setHasMore(res.hasMore)
@@ -115,8 +115,8 @@ const OngoingGamesPage: NextPage = () => {
                     <Spinner size={24} />
                   </div>
                 }
-                key={isMobile ? 1 : 0}
-                scrollableTarget={isMobile ? undefined : 'main'}
+                key={isBreakpoint ? 1 : 0}
+                scrollableTarget={isBreakpoint ? undefined : 'main'}
               >
                 {games.map((game, idx) => (
                   <div key={idx} className={`ongoing-item ${idx % 2 === 0 ? 'variant' : ''}`}>

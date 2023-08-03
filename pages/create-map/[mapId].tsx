@@ -1,364 +1,246 @@
-/* eslint-disable @next/next/no-img-element */
-import GoogleMapReact from 'google-map-react'
+import 'allotment/dist/style.css'
+import { Allotment } from 'allotment'
 import throttle from 'lodash/throttle'
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
+import { CreateMapDropdown } from '@components/dropdowns/CreateMapDropdown'
 import { NotFound } from '@components/errorViews'
+import { GoogleMapsSearch } from '@components/GoogleMapsSearch'
 import { Head } from '@components/Head'
-import { MobileNav, Navbar } from '@components/layout'
-import { CreateMapModal } from '@components/modals'
-import {
-  Avatar,
-  Button,
-  Skeleton,
-  Spinner,
-  ToggleSwitch
-} from '@components/system'
-import { CloudUploadIcon, PencilIcon } from '@heroicons/react/outline'
-import { useAppSelector } from '@redux/hook'
+import { CreateMapModal, SaveMapModal } from '@components/modals'
+import { SelectMapLayers } from '@components/selects/SelectMapLayers'
+import { Avatar, Button, Skeleton } from '@components/system'
+import { ChevronLeftIcon, PencilAltIcon, PencilIcon } from '@heroicons/react/outline'
 import StyledCreateMapPage from '@styles/CreateMapPage.Styled'
-import { LocationType, MapType, PageType } from '@types'
-import {
-  createMapMarker,
-  getMapsKey,
-  mailman,
-  showErrorToast,
-  showSuccessToast
-} from '@utils/helpers'
-import { useConfirmLeave } from '../../utils/hooks'
+import { GoogleMapsConfigType, LocationType, MapType, PageType, StreetViewCoverageType } from '@types'
+import { PREVIEW_MAP_OPTIONS } from '@utils/constants/googleMapOptions'
+import { formatMonthYear, formatTimeAgo } from '@utils/dateHelpers'
+import { formatLargeNumber, mailman } from '@utils/helpers'
+import { useBreakpoint, useConfirmLeave } from '@utils/hooks'
 
-const SELECTED_MARKER_ICON = '/images/selected-pin.png'
-const REGULAR_MARKER_ICON = '/images/regular-pin.png'
-const SELECTED_MARKER_SIZE = 40
-const REGULAR_MARKER_SIZE = 30
+const SelectionMap = dynamic(() => import('@components/SelectionMap/SelectionMap'), {
+  ssr: false,
+})
 
 const CreateMapPage: PageType = () => {
-  const [locations, _setLocations] = useState<LocationType[]>([])
+  const router = useRouter()
+  const mapId = router.query.mapId as string
+
+  const [locations, setLocations] = useState<LocationType[]>([])
+  const [selectedLocation, setSelectedLocation] = useState<LocationType | null>(null)
   const [haveLocationsChanged, setHaveLocationsChanged] = useState(false)
-  const [isShowingPreview, setIsShowingPreview] = useState(false)
-  const [editModalOpen, setEditModalOpen] = useState(false)
-  const [isPublished, setIsPublished] = useState(false)
-  const [initiallyPublished, setInitiallyPubished] = useState(false)
-  const [mapName, setMapName] = useState('')
-  const [mapDescription, setMapDescription] = useState('')
-  const [mapAvatar, setMapAvatar] = useState('')
+  const [initiallyPublished, setInitiallyPublished] = useState<boolean | null>(null)
+  const [mapDetails, setMapDetails] = useState<MapType | null>(null)
+  const [showErrorPage, setShowErrorPage] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
-  const [selectedIndex, _setSelectedIndex] = useState(-1)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [googleMapsLoaded, setGoogleMapsLoaded] = useState(false)
+  const [showPreviewMap, setShowPreviewMap] = useState(false)
+  const [googleMapsConfig, setGoogleMapsConfig] = useState<GoogleMapsConfigType>()
+  const [editModalOpen, setEditModalOpen] = useState(false)
+  const [saveModalOpen, setSaveModalOpen] = useState(false)
+  const [lastSave, setLastSave] = useState<Date>()
 
   const [modifiedHeading, setModifiedHeading] = useState<number | null>(null)
   const [modifiedPitch, setModifiedPitch] = useState<number | null>(null)
   const [modifiedPosition, setModifiedPosition] = useState<{ lat: number; lng: number } | null>(null)
+  const [modifiedZoom, setModifiedZoom] = useState<number | null>(null)
+  const [modifiedPanoId, setModifiedPanoId] = useState<string | null>(null)
 
-  const [showErrorPage, setShowErrorPage] = useState(false)
+  const [pastCoverage, setPastCoverage] = useState<StreetViewCoverageType[]>()
+  const [panoMetaData, setPanoMetaData] = useState<google.maps.StreetViewPanoramaData | null>(null)
 
-  const router = useRouter()
-  const mapId = router.query.mapId as string
-  const user = useAppSelector((state) => state.user)
+  const { isBreakpoint } = useBreakpoint(600)
 
-  // Refs used to access recent state in event listeners
-  const prevMarkersRef = useRef<google.maps.Marker[]>([])
-  const locationsRef = useRef<LocationType[]>([])
-  const selectedIndexRef = useRef(-1)
+  const svServiceRef = useRef<google.maps.StreetViewService | null>(null)
+  const svPanoramaRef = useRef<google.maps.StreetViewPanorama | null>(null)
 
   useConfirmLeave(haveLocationsChanged)
 
-  const setLocations = (newLocations: LocationType[]) => {
-    locationsRef.current = newLocations
-    _setLocations(newLocations)
-  }
+  useEffect(() => {
+    if (!mapId) return
 
-  const setSelectedIndex = (newIndex: number) => {
-    selectedIndexRef.current = newIndex
-    _setSelectedIndex(newIndex)
-  }
+    getMapDetails()
+  }, [mapId])
 
   useEffect(() => {
-    if (!mapId || !googleMapsLoaded) return
-    handleMount()
-  }, [mapId, googleMapsLoaded])
+    if (!googleMapsConfig) return
+
+    handleLoadPreviewMap()
+  }, [googleMapsConfig])
 
   useEffect(() => {
-    if (!isLoading) {
-      setPreviewMap()
-    }
-  }, [isLoading])
-
-  const handleMount = async () => {
-    const shouldContinue = await getMapDetails()
-
-    if (shouldContinue) {
-      setSelectionMap()
-    }
-  }
+    loadNewPano()
+  }, [selectedLocation])
 
   const getMapDetails = async () => {
     const res = await mailman(`maps/custom/${mapId}`)
 
     if (res.error) {
-      setShowErrorPage(true)
-      return false
+      return setShowErrorPage(true)
     }
 
-    const { name, description, previewImg, isPublished, locations } = res as MapType
+    setMapDetails(res)
+    setLocations(res.locations)
+    setInitiallyPublished(res.isPublished)
+    setLastSave(res.lastUpdatedAt)
 
-    setLocations(locations || [])
-
-    setIsPublished(isPublished || false)
-    setInitiallyPubished(isPublished || false) // To check if value has been updated
-
-    setMapName(name)
-    setMapDescription(description || '')
-    setMapAvatar(previewImg)
     setIsLoading(false)
-
-    return true
   }
 
-  const handleMarkerClick = (marker: google.maps.Marker) => {
-    // If a marker was selected before click -> reset its icon to regular
-    if (selectedIndexRef.current !== -1) {
-      prevMarkersRef.current[selectedIndexRef.current].setIcon({
-        url: REGULAR_MARKER_ICON,
-        scaledSize: new google.maps.Size(REGULAR_MARKER_SIZE, REGULAR_MARKER_SIZE),
-      })
+  const addNewLocations = (newLocations: LocationType[] | LocationType) => {
+    setHaveLocationsChanged(true)
+
+    if (Array.isArray(newLocations)) {
+      return setLocations((prev) => [...prev, ...newLocations])
     }
 
-    marker.setIcon({
-      url: SELECTED_MARKER_ICON,
-      scaledSize: new google.maps.Size(SELECTED_MARKER_SIZE, SELECTED_MARKER_SIZE),
-    })
-
-    const markerIndex = prevMarkersRef.current.indexOf(marker)
-
-    setSelectedIndex(markerIndex)
-    setPreviewMap(markerIndex)
-    setIsShowingPreview(true)
+    setLocations((prev) => [...prev, newLocations])
+    setSelectedLocation(newLocations)
   }
 
-  const setSelectionMap = () => {
-    const map = new window.google.maps.Map(document.getElementById('selectionMap') as HTMLElement, {
-      zoom: 2,
-      minZoom: 2,
-      center: { lat: 0, lng: 0 },
-      disableDefaultUI: true,
-      clickableIcons: false,
-      gestureHandling: 'greedy',
-      draggableCursor: 'crosshair',
-      disableDoubleClickZoom: true,
-    })
+  const handleLoadPreviewMap = () => {
+    const svService = new google.maps.StreetViewService()
 
-    // Add markers for locations already stored for this map
-    locationsRef.current.map((location) => {
-      const marker = createMapMarker(location, map, REGULAR_MARKER_ICON, REGULAR_MARKER_SIZE)
-      prevMarkersRef.current.push(marker)
+    const svPanorama = new google.maps.StreetViewPanorama(
+      document.getElementById('previewMap') as HTMLElement,
+      PREVIEW_MAP_OPTIONS
+    )
 
-      marker.addListener('click', () => handleMarkerClick(marker))
-    })
+    svPanorama.addListener('position_changed', () => {
+      const newLatLng = svPanorama.getPosition()
 
-    // Click event listener for the selection map
-    map.addListener('click', async (e: any) => {
-      setHaveLocationsChanged(true)
-      setIsShowingPreview(false)
-
-      const location = {
-        lat: e.latLng.lat(),
-        lng: e.latLng.lng(),
-      }
-
-      // Return early if clicked location has no coverage
-      let isLocationCovered = true
-      const streetViewService = new google.maps.StreetViewService()
-
-      await streetViewService.getPanorama({ location: e.latLng, radius: 1000 }, (data: any, status: any) => {
-        if (status !== 'OK') {
-          isLocationCovered = false
-        }
-      })
-
-      if (!isLocationCovered) {
-        return showErrorToast('No coverage found here.')
-      }
-
-      setLocations([...locationsRef.current, location])
-
-      // If previously selected marker -> reset its icon to regular
-      if (selectedIndexRef.current !== -1) {
-        prevMarkersRef.current[selectedIndexRef.current].setIcon({
-          url: REGULAR_MARKER_ICON,
-          scaledSize: new google.maps.Size(REGULAR_MARKER_SIZE, REGULAR_MARKER_SIZE),
-        })
-      }
-
-      const marker = createMapMarker(location, map, SELECTED_MARKER_ICON, SELECTED_MARKER_SIZE)
-      prevMarkersRef.current.push(marker)
-
-      const markerIndex = prevMarkersRef.current.indexOf(marker)
-      setSelectedIndex(markerIndex)
-
-      setPreviewMap()
-      setIsShowingPreview(true)
-
-      marker.addListener('click', () => handleMarkerClick(marker))
-    })
-
-    const svLayer = new window.google.maps.StreetViewCoverageLayer()
-    svLayer.setMap(map)
-  }
-
-  const setPreviewMap = (indexOfLoc?: number) => {
-    const location = locationsRef.current[indexOfLoc !== undefined ? indexOfLoc : locationsRef.current.length - 1]
-
-    const streetViewService = new window.google.maps.StreetViewService()
-    const panorama = new window.google.maps.StreetViewPanorama(document.getElementById('previewMap') as HTMLElement, {
-      addressControl: false,
-      panControl: true,
-      panControlOptions: {
-        position: google.maps.ControlPosition.RIGHT_BOTTOM,
-      },
-      enableCloseButton: false,
-      zoomControl: false,
-      showRoadLabels: false,
-      position: location,
-    })
-
-    panorama.addListener('position_changed', () => {
-      const newLatLng = panorama.getPosition()
       if (!newLatLng) return
 
       setModifiedPosition({ lat: newLatLng.lat(), lng: newLatLng.lng() })
     })
 
-    panorama.addListener(
+    svPanorama.addListener(
       'pov_changed',
       throttle(() => {
-        const { heading, pitch } = panorama.getPov()
+        const { heading, pitch } = svPanorama.getPov()
 
         setModifiedHeading(heading)
         setModifiedPitch(pitch)
       }, 300)
     )
 
-    const processSVData = (data: any, status: any) => {
-      //setIsShowingPreview(true)
-      const adjustedLat = data.location.latLng.lat()
-      const adjustedLng = data.location.latLng.lng()
-      const adjustedLocation = { ...location, lat: adjustedLat, lng: adjustedLng }
+    svPanorama.addListener(
+      'zoom_changed',
+      throttle(() => {
+        const newZoom = svPanorama.getZoom()
 
-      const locationsCopy = [...locationsRef.current]
-      locationsCopy[indexOfLoc !== undefined ? indexOfLoc : locationsCopy.length - 1] = adjustedLocation
-      setLocations(locationsCopy)
+        setModifiedZoom(newZoom)
+      }, 300)
+    )
 
-      panorama.setPano(data.location.pano)
-      panorama.setPov({
-        heading: location.heading || 0,
-        pitch: location.pitch || 0,
+    svServiceRef.current = svService
+    svPanoramaRef.current = svPanorama
+  }
+
+  const loadNewPano = () => {
+    const svService = svServiceRef.current
+    const svPanorama = svPanoramaRef.current
+
+    if (!svService || !svPanorama || !selectedLocation) return
+
+    svService.getPanorama({ location: selectedLocation }, (data) => {
+      if (!data || !data.location || !data.location.latLng) return
+
+      // Idk why google doesn't have a type def for time but it does exist...
+      const pastCoverage: StreetViewCoverageType[] = (data as any)?.time?.map((x: any) => {
+        return {
+          pano: x.pano,
+          date: formatMonthYear(x.zp),
+          isCurrent: data.location?.pano === x.pano,
+        }
       })
-      panorama.setZoom(location.zoom || 0)
-      panorama.setVisible(true)
-    }
 
-    streetViewService.getPanorama(
-      {
-        location: location,
-        radius: 1000,
-      },
-      processSVData
-    )
+      setPastCoverage(pastCoverage)
+      setPanoMetaData(data)
+
+      svPanorama.setPano(data.location.pano)
+      svPanorama.setPov({
+        heading: selectedLocation.heading || 0,
+        pitch: selectedLocation.pitch || 0,
+      })
+      svPanorama.setZoom(selectedLocation.zoom || 0)
+      svPanorama.setVisible(true)
+    })
+
+    setShowPreviewMap(true)
   }
 
-  // Updates locations and isPublished if they have changed in this session
-  const handleSaveMap = async () => {
-    const isPublishedHasChanged = initiallyPublished !== isPublished
+  // const loadNewPanoById = (panoId: string) => {
+  //   if (panoId === 'auto-update') {
+  //     return loadNewPano(selectedMarkerIndexRef.current)
+  //   }
 
-    if (!isPublishedHasChanged && !haveLocationsChanged) {
-      return showErrorToast('You have not made any changes.')
-    }
+  //   const svService = svServiceRef.current
+  //   const svPanorama = svPanoramaRef.current
 
-    setIsSubmitting(true)
+  //   if (!svService || !svPanorama) return
+  //   console.log('PANOIDOIDOAIDOAIDA', panoId)
 
-    const res = await mailman(
-      `maps/custom/${mapId}`,
-      'PUT',
-      JSON.stringify({ locations: locationsRef.current, isPublished })
-    )
+  //   svService.getPanorama({ pano: panoId }, () => {
+  //     svPanorama.setPano(panoId)
+  //     svPanorama.setPov({
+  //       heading: 0,
+  //       pitch: 0,
+  //     })
+  //     svPanorama.setZoom(0)
+  //     svPanorama.setVisible(true)
+  //   })
 
-    setIsSubmitting(false)
+  //   setShowPreviewMap(true)
+  //   setModifiedPanoId(panoId)
+  // }
 
-    if (res.error) {
-      return showErrorToast(res.error.message)
-    }
-
-    setInitiallyPubished(isPublished)
-    setHaveLocationsChanged(false)
-
-    return showSuccessToast('Your changes have been saved')
-  }
-
-  // Removes a location from locations array, unlinks marker from map, removes marker from marker array
-  const handleRemoveLocation = () => {
-    const markers = prevMarkersRef.current
-
-    // If we have not selected a location, we remove the most recently added
-    if (selectedIndex === -1) {
-      const newLocations = locationsRef.current.slice(0, -1)
-      setLocations(newLocations)
-
-      markers[markers.length - 1].setMap(null)
-      prevMarkersRef.current = prevMarkersRef.current.slice(0, -1)
-    }
-    // If we have selected a location, we remove at that index
-    else {
-      locationsRef.current.splice(selectedIndex, 1)
-
-      markers[selectedIndex].setMap(null)
-      prevMarkersRef.current.splice(selectedIndex, 1)
-      setSelectedIndex(-1)
-    }
+  const handleUpdateLocation = () => {
+    if (!selectedLocation) return
 
     setHaveLocationsChanged(true)
-    setIsShowingPreview(false)
-  }
+    setShowPreviewMap(false)
 
-  const handleSaveLocation = () => {
-    setHaveLocationsChanged(true)
-    setIsShowingPreview(false)
+    const updatedLocations = [...locations]
+    const indexOfSelected = updatedLocations.indexOf(selectedLocation)
 
-    // If location has been modified in the preview window -> update the respective fields
     if (modifiedPosition) {
-      locationsRef.current[selectedIndexRef.current].lat = modifiedPosition.lat
-      locationsRef.current[selectedIndexRef.current].lng = modifiedPosition.lng
-
-      prevMarkersRef.current[selectedIndexRef.current].setPosition({
-        lat: modifiedPosition.lat,
-        lng: modifiedPosition.lng,
-      })
+      updatedLocations[indexOfSelected].lat = modifiedPosition.lat
+      updatedLocations[indexOfSelected].lng = modifiedPosition.lng
     }
 
     if (modifiedHeading) {
-      locationsRef.current[selectedIndexRef.current].heading = modifiedHeading
+      updatedLocations[indexOfSelected].heading = modifiedHeading
     }
 
     if (modifiedPitch) {
-      locationsRef.current[selectedIndexRef.current].pitch = modifiedPitch
+      updatedLocations[indexOfSelected].pitch = modifiedPitch
     }
 
-    // Reset the marker to unselected icon
-    prevMarkersRef.current[selectedIndexRef.current].setIcon({
-      url: REGULAR_MARKER_ICON,
-      scaledSize: new google.maps.Size(REGULAR_MARKER_SIZE, REGULAR_MARKER_SIZE),
-    })
+    if (modifiedZoom) {
+      updatedLocations[indexOfSelected].zoom = modifiedZoom
+    }
 
-    setSelectedIndex(-1)
+    if (modifiedPanoId) {
+      updatedLocations[indexOfSelected].panoId = modifiedPanoId
+    }
+
+    setLocations(updatedLocations)
+    setSelectedLocation(null)
   }
 
-  // Callback passed into edit modal
-  const updateMapDetails = (name: string, description: string, avatar: string) => {
-    setMapName(name)
-    setMapDescription(description)
-    setMapAvatar(avatar)
+  const handleRemoveLocation = () => {
+    setHaveLocationsChanged(true)
+    setShowPreviewMap(false)
+
+    // If we have not selected a location, we remove the most recently added
+    if (!selectedLocation) {
+      return setLocations((prev) => prev.slice(0, -1))
+    }
+
+    setLocations((prev) => prev.filter((x) => x !== selectedLocation))
+    setSelectedLocation(null)
   }
 
   if (showErrorPage) {
@@ -366,116 +248,140 @@ const CreateMapPage: PageType = () => {
   }
 
   return (
-    <StyledCreateMapPage isShowingPreview={isShowingPreview /*& test1*/}>
-      <Head title="Create A Map" />
-      <Navbar />
+    <>
+      <StyledCreateMapPage showPreviewMap={showPreviewMap}>
+        <Head title="Map Editor" />
 
-      <div className="main-content">
-        <div className="selection-map-wrapper">
-          {!isLoading ? (
-            <div className="map-top-menu">
-              <div className="map-details">
-                <Avatar type="map" src={mapAvatar} size={40} />
-                <div className="map-name-wrapper">
-                  <span className="map-name">{mapName}</span>
+        <Allotment vertical={isBreakpoint}>
+          <Allotment.Pane className="allotment-item border">
+            <div className="menu-group">
+              {!isLoading && mapDetails ? (
+                <div className="map-details">
+                  <Avatar type="map" src={mapDetails.previewImg} size={34} />
+                  <div className="map-name-wrapper">
+                    <span className="map-name">{mapDetails.name}</span>
+                  </div>
+                  <button className="edit-button" onClick={() => setEditModalOpen(true)}>
+                    <PencilIcon />
+                  </button>
+                </div>
+              ) : (
+                <div>
+                  <div className="map-details">
+                    <Skeleton height={34} width={34} />
+                    <Skeleton height={20} width={200} noBorder />
+                  </div>
+                </div>
+              )}
+
+              <GoogleMapsSearch
+                googleMapsConfig={googleMapsConfig as GoogleMapsConfigType}
+                addNewLocations={addNewLocations}
+              />
+            </div>
+
+            <div className="selection-map-wrapper">
+              {/* <div className="map-top-menu">
+                  <GoogleMapsSearch
+                    googleMapsConfig={googleMapsConfig as GoogleMapsConfigType}
+                    addNewLocations={addNewLocations}
+                  />
+
+                  {googleMapsConfig && <SelectMapLayers selectionMap={googleMapsConfig.map} />}
+                </div> */}
+              <SelectionMap
+                googleMapsConfig={googleMapsConfig}
+                setGoogleMapsConfig={setGoogleMapsConfig}
+                locations={locations}
+                addNewLocations={addNewLocations}
+                selectedLocation={selectedLocation}
+                setSelectedLocation={setSelectedLocation}
+              />
+            </div>
+
+            <div className="menu-group">
+              {googleMapsConfig && <SelectMapLayers selectionMap={googleMapsConfig.map} />}
+            </div>
+          </Allotment.Pane>
+
+          <Allotment.Pane className="allotment-item">
+            <div className="menu-group">
+              {!isLoading ? (
+                <span className="locations-count">{`${formatLargeNumber(locations.length)} location${
+                  locations.length !== 1 ? 's' : ''
+                }`}</span>
+              ) : (
+                <Skeleton height={20} width={100} />
+              )}
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <div className="save-map-wrapper">
+                  {lastSave && <div className="last-save-date">{`Saved ${formatTimeAgo(lastSave)}`}</div>}
+                  <Button onClick={() => setSaveModalOpen(true)} size="md">
+                    Save Map
+                  </Button>
+                </div>
+
+                <CreateMapDropdown locations={locations} addNewLocations={addNewLocations} />
+              </div>
+            </div>
+
+            <div className="preview-map-wrapper">
+              <div className="preview-map">
+                <div id="previewMap"></div>
+              </div>
+
+              {!isLoading && locations.length === 0 && (
+                <div className="no-locations-wrapper">
+                  <div className="no-locations">
+                    <Image src="/images/no-locations.png" alt="" height={100} width={100} />
+                    <h2>No locations added</h2>
+                    <h3>Click a location on the map to preview it here.</h3>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="menu-group">
+              <div className="preview-bottom">
+                {/* {pastCoverage && <SelectCoverage coverageOptions={pastCoverage} onChange={loadNewPanoById} />} */}
+                {panoMetaData && <span className="pano-description">{panoMetaData.location?.description}</span>}
+                <div className="preview-action-buttons">
+                  <Button variant="solidGray" size="md" onClick={() => handleUpdateLocation()}>
+                    Update Location
+                  </Button>
+                  <Button variant="destroy" size="md" onClick={() => handleRemoveLocation()}>
+                    Remove
+                  </Button>
                 </div>
               </div>
-              <div className="map-action-buttons">
-                <Button variant="solidGray" onClick={() => setEditModalOpen(true)}>
-                  Edit Details
-                </Button>
-                <Button onClick={handleSaveMap} isLoading={isSubmitting} disabled={isSubmitting}>
-                  Save Map
-                </Button>
-              </div>
-              <div className="map-action-buttons mobile">
-                <button className="edit-button" onClick={() => setEditModalOpen(true)}>
-                  <PencilIcon />
-                </button>
-                <button onClick={handleSaveMap} disabled={isSubmitting}>
-                  {isSubmitting ? <Spinner size={20} /> : <CloudUploadIcon />}
-                </button>
-              </div>
             </div>
-          ) : (
-            <div className="map-top-menu">
-              <div className="map-details">
-                <Skeleton variant="circular" height={40} width={40} />
-                <Skeleton height={20} width={200} noBorder />
-              </div>
-              <div className="map-action-buttons">
-                <Skeleton height={36} width={120} />
-                <Skeleton height={36} width={120} />
-              </div>
-            </div>
-          )}
+          </Allotment.Pane>
+        </Allotment>
+      </StyledCreateMapPage>
 
-          <div id="selectionMap"></div>
-        </div>
+      {mapDetails && (
+        <CreateMapModal
+          isOpen={editModalOpen}
+          closeModal={() => setEditModalOpen(false)}
+          mapDetails={mapDetails as MapType}
+          setMapDetails={setMapDetails}
+        />
+      )}
 
-        <div className="preview-map-wrapper">
-          {!isLoading ? (
-            <div className="map-top-menu">
-              <span className="locations-count">{`${locations.length} location${
-                locations.length !== 1 ? 's' : ''
-              }`}</span>
-
-              <div className="visibility-selection">
-                <h2 className="visibility-warning">Publish Map</h2>
-                <ToggleSwitch isActive={isPublished} setIsActive={setIsPublished} />
-              </div>
-            </div>
-          ) : (
-            <div className="map-top-menu">
-              <Skeleton height={20} width={100} />
-              <Skeleton height={20} width={200} />
-            </div>
-          )}
-
-          <div className="preview-map">
-            <div id="previewMap"></div>
-            <div className="preview-action-buttons">
-              <Button variant="destroy" onClick={handleRemoveLocation}>
-                Remove Location
-              </Button>
-              <Button variant="solidGray" onClick={handleSaveLocation}>
-                Save Location
-              </Button>
-            </div>
-          </div>
-
-          {!isLoading && locationsRef.current.length === 0 && (
-            <div className="no-locations-wrapper">
-              <div className="no-locations">
-                <Image src="/images/no-locations.png" alt="" height={100} width={100} />
-                <h2>No locations added</h2>
-                <h3>Click a location on the map to preview it here.</h3>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      <GoogleMapReact
-        bootstrapURLKeys={getMapsKey(user.mapsAPIKey)}
-        center={{ lat: 0, lng: 0 }}
-        zoom={11}
-        yesIWantToUseGoogleMapApiInternals
-        onGoogleApiLoaded={() => setGoogleMapsLoaded(true)}
-      ></GoogleMapReact>
-
-      <MobileNav />
-
-      <CreateMapModal
-        isOpen={editModalOpen}
-        closeModal={() => setEditModalOpen(false)}
-        mapId={mapId}
-        mapName={mapName}
-        mapDescription={mapDescription}
-        mapAvatar={mapAvatar}
-        updateMapDetails={updateMapDetails}
-      />
-    </StyledCreateMapPage>
+      {initiallyPublished !== null && (
+        <SaveMapModal
+          isOpen={saveModalOpen}
+          closeModal={() => setSaveModalOpen(false)}
+          locations={locations}
+          setLastSave={setLastSave}
+          initiallyPublished={initiallyPublished}
+          setInitiallyPublished={setInitiallyPublished}
+          haveLocationsChanged={haveLocationsChanged}
+          setHaveLocationsChanged={setHaveLocationsChanged}
+        />
+      )}
+    </>
   )
 }
 

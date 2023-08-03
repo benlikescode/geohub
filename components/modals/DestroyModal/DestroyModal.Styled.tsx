@@ -14,7 +14,7 @@ const StyledDestroyModal = styled.div<StyledProps>`
       justify-content: space-between;
 
       .title {
-        font-size: 18px;
+        font-size: 16px;
         position: relative;
         top: 1px;
       }
@@ -41,6 +41,7 @@ const StyledDestroyModal = styled.div<StyledProps>`
   .message {
     color: #808080;
     font-weight: 400;
+    font-size: 14px;
   }
 
   .footer {
@@ -48,9 +49,8 @@ const StyledDestroyModal = styled.div<StyledProps>`
     align-items: center;
     justify-content: flex-end;
     gap: 14px;
-    background-color: #161616;
     padding: 14px 20px;
-    border-top: 1px solid #121212;
+    border-top: 1px solid #222;
   }
 `
 

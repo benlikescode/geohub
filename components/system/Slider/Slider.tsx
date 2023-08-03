@@ -1,35 +1,24 @@
-import { ChangeEvent, FC, useState } from 'react'
+import { FC, InputHTMLAttributes } from 'react'
 import { StyledSlider } from './'
 
 type Props = {
-  onChange: (sliderValue: number) => void
-  min?: number
-  max?: number
-  defaultValue?: number
-}
+  value: number
+  min: number
+  max: number
+  onChange: (value: number) => void
+} & Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'>
 
-const Slider: FC<Props> = ({ onChange, min = 0, max = 60, defaultValue = 0 }) => {
-  const [value, setValue] = useState(defaultValue)
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.valueAsNumber
-    setValue(value)
-    onChange(value)
-  }
-
-  const getBackgroundSize = () => {
-    return { backgroundSize: `${(value * 100) / max}% 100%` }
-  }
-
+const Slider: FC<Props> = ({ value, min, max, onChange, ...rest }) => {
   return (
     <StyledSlider>
       <input
         type="range"
         min={min}
         max={max}
-        onChange={(e) => handleChange(e)}
-        defaultValue={defaultValue}
-        style={getBackgroundSize()}
+        onChange={(e) => onChange(e.target.valueAsNumber)}
+        value={value}
+        style={{ backgroundSize: `${(value * 100) / max}% 100%` }}
+        {...rest}
       />
     </StyledSlider>
   )

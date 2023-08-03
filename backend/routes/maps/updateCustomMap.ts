@@ -2,6 +2,8 @@ import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { calculateMapScoreFactor, collections, getUserId, throwError } from '@backend/utils'
 import { LocationType } from '@types'
+import { MAX_ALLOWED_CUSTOM_LOCATIONS } from '@utils/constants/random'
+import { formatLargeNumber } from '@utils/helpers'
 
 type ReqBody = {
   name?: string
@@ -11,7 +13,13 @@ type ReqBody = {
   locations?: LocationType[]
 }
 
-type UpdatedMap = { name?: string; description?: string; previewImg?: string; isPublished?: boolean }
+type UpdatedMap = {
+  name?: string
+  description?: string
+  previewImg?: string
+  isPublished?: boolean
+  lastUpdatedAt?: Date
+}
 
 const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
   const userId = await getUserId(req, res)
@@ -56,6 +64,8 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
     updatedMap['isPublished'] = isPublished
   }
 
+  updatedMap.lastUpdatedAt = new Date()
+
   const result = await collections.maps?.findOneAndUpdate({ _id: new ObjectId(mapId) }, { $set: updatedMap })
 
   if (!result) {
@@ -64,6 +74,10 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
 
   // HALP -> Really shouldn't be deleting locations and then inserting new
   if (locations) {
+    if (locations.length > MAX_ALLOWED_CUSTOM_LOCATIONS) {
+      return throwError(res, 400, `The max locations allowed is ${formatLargeNumber(MAX_ALLOWED_CUSTOM_LOCATIONS)}`)
+    }
+
     // Removes old locations
     const removeResult = await collections.userLocations?.deleteMany({ mapId: new ObjectId(mapId) })
 

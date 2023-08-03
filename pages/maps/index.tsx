@@ -5,7 +5,7 @@ import { MapPreviewCard } from '@components/MapPreviewCard'
 import { SkeletonCards } from '@components/skeletons'
 import StyledMapsPage from '@styles/MapsPage.Styled'
 import { MapType } from '@types'
-import { mailman, showErrorToast } from '@utils/helpers'
+import { mailman, showToast } from '@utils/helpers'
 
 const MapsPage: FC = () => {
   const [officialMaps, setOfficialMaps] = useState<MapType[]>([])
@@ -22,7 +22,7 @@ const MapsPage: FC = () => {
     const res = await mailman(`maps/browse/official?page=${officialMapsPage}`)
 
     if (res.error) {
-      return showErrorToast(res.error.message)
+      return showToast('error', res.error.message)
     }
 
     setOfficialMaps((prev) => [...prev, ...res.data])
@@ -34,7 +34,7 @@ const MapsPage: FC = () => {
     const res = await mailman(`maps/browse/custom?page=${communityMapsPage}`)
 
     if (res.error) {
-      return showErrorToast(res.error.message)
+      return showToast('error', res.error.message)
     }
 
     setCommunityMaps((prev) => [...prev, ...res.data])

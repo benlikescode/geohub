@@ -1,55 +1,41 @@
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { FC, useEffect, useMemo, useState } from 'react'
+import React, { FC, useState } from 'react'
 import { MapPreviewCard } from '@components/MapPreviewCard'
 import { Input } from '@components/system'
+import { MapType } from '@types'
 import { MAP_AVATAR_PATH } from '@utils/constants/random'
-import { mailman, randomInt, showErrorToast } from '@utils/helpers'
+import { mailman, randomInt, showToast } from '@utils/helpers'
 import { MainModal } from '../'
 import { StyledCreateMapModal } from './'
 
 type Props = {
   isOpen: boolean
   closeModal: () => void
-  mapId?: string
-  mapName?: string
-  mapDescription?: string
-  mapAvatar?: string
-  updateMapDetails?: (name: string, description: string, avatar: string) => void
+  mapDetails?: MapType
+  setMapDetails?: (mapDetails: MapType) => void
 }
 
 const mapAvatars = Array.from({ length: 16 }).map((_, idx) => `custom${idx + 1}.jpg`)
 
-const CreateMapModal: FC<Props> = ({
-  isOpen,
-  closeModal,
-  mapId,
-  mapName,
-  mapDescription,
-  mapAvatar,
-  updateMapDetails,
-}) => {
+const CreateMapModal: FC<Props> = ({ isOpen, closeModal, mapDetails, setMapDetails }) => {
   const router = useRouter()
 
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const [avatar, setAvatar] = useState(`custom${randomInt(1, 17)}.jpg`)
+  const [name, setName] = useState(mapDetails?.name || '')
+  const [description, setDescription] = useState(mapDetails?.description || '')
+  const [avatar, setAvatar] = useState(mapDetails?.previewImg || `custom${randomInt(1, 17)}.jpg`)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const hasMadeChanges = useMemo(
-    () => name !== mapName || description !== mapDescription || avatar !== mapAvatar,
-    [name, description, avatar, mapName, mapDescription, mapAvatar]
-  )
+  const isEditMode = !!mapDetails
 
-  // Future Improvement: Store map details in a redux slice
-  useEffect(() => {
-    mapName && setName(mapName)
-    mapDescription && setDescription(mapDescription)
-    mapAvatar && setAvatar(mapAvatar)
-  }, [mapName, mapDescription, mapAvatar])
+  const hasMadeChanges = () => {
+    const original = mapDetails as MapType
+
+    return name !== original.name || description !== original.description || avatar !== original.previewImg
+  }
 
   const handleEditMap = async () => {
-    if (!hasMadeChanges) {
+    if (!hasMadeChanges()) {
       return closeModal()
     }
 
@@ -61,23 +47,22 @@ const CreateMapModal: FC<Props> = ({
       previewImg: avatar,
     }
 
-    const res = await mailman(`maps/custom/${mapId}`, 'PUT', JSON.stringify(reqBody))
+    const res = await mailman(`maps/custom/${mapDetails?._id}`, 'PUT', JSON.stringify(reqBody))
 
     setIsSubmitting(false)
 
     if (res.error) {
-      showErrorToast(res.error.message)
+      showToast('error', res.error.message)
     }
 
-    if (updateMapDetails) {
-      updateMapDetails(name, description, avatar)
-      closeModal()
-    }
+    setMapDetails && setMapDetails({ ...(mapDetails as MapType), name, description, previewImg: avatar })
+
+    closeModal()
   }
 
   const handleCreateMap = async () => {
     if (!name) {
-      return showErrorToast('Name is required', { id: 'CreateMapModal1' })
+      return showToast('error', 'Name is required')
     }
 
     setIsSubmitting(true)
@@ -93,7 +78,7 @@ const CreateMapModal: FC<Props> = ({
     setIsSubmitting(false)
 
     if (res.error || !res.mapId) {
-      showErrorToast(res.error.message)
+      showToast('error', res.error.message)
     }
 
     return router.push(`/create-map/${res.mapId}`)
@@ -104,8 +89,8 @@ const CreateMapModal: FC<Props> = ({
       isOpen={isOpen}
       onClose={closeModal}
       title="Map Details"
-      onAction={updateMapDetails ? handleEditMap : handleCreateMap}
-      actionButtonText={updateMapDetails ? 'Update' : 'Next'}
+      onAction={isEditMode ? handleEditMap : handleCreateMap}
+      actionButtonText={isEditMode ? 'Update' : 'Next'}
       isSubmitting={isSubmitting}
       maxWidth="768px"
     >
@@ -146,7 +131,7 @@ const CreateMapModal: FC<Props> = ({
 
         <div className="map-preview-section">
           <MapPreviewCard
-            map={{ _id: mapId, name: name || 'Map Name' || '', previewImg: avatar || '', description: mapDescription }}
+            map={{ _id: mapDetails?._id, name: name || 'Map Name' || '', previewImg: avatar || '', description }}
             isForDisplayOnly
           />
         </div>

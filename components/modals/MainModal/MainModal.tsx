@@ -1,5 +1,5 @@
 import { FC, ReactNode } from 'react'
-import { Modal, Spinner } from '@components/system'
+import { Button, Modal, Spinner } from '@components/system'
 import { XIcon } from '@heroicons/react/outline'
 import { StyledMainModal } from './'
 
@@ -40,13 +40,13 @@ const MainModal: FC<Props> = ({
         <div className="modal-body">{children}</div>
 
         <div className="modal-footer">
-          <button className="cancel-button" onClick={onCancel ?? onClose}>
+          <Button variant="solidGray" onClick={onCancel ?? onClose} size="md">
             {cancelButtonText || 'Cancel'}
-          </button>
+          </Button>
 
-          <button className="action-button" onClick={onAction} disabled={isSubmitting}>
-            {isSubmitting ? <Spinner size={18} /> : actionButtonText || 'Confirm'}
-          </button>
+          <Button onClick={onAction} isLoading={isSubmitting} size="md">
+            {actionButtonText || 'Confirm'}
+          </Button>
         </div>
       </StyledMainModal>
     </Modal>

@@ -1,257 +1,212 @@
 import styled from 'styled-components'
 
 type StyledProps = {
-  isShowingPreview?: boolean
+  showPreviewMap?: boolean
 }
 
-const StyledCreateMapPage = styled.div<StyledProps>`
-  .main-content {
-    max-width: 2000px;
-    width: 100%;
-    padding: 1rem;
-    margin: 0 auto;
-    height: calc(100vh - var(--navbarHeight));
-    display: flex;
-    flex: 1 1;
-    flex-direction: row;
-    gap: 8px;
-    max-height: 100%;
-    position: relative;
-    overflow: hidden auto;
+const StyledNewCreateMapPage = styled.div<StyledProps>`
+  height: 100vh;
+  height: 100dvh;
 
-    .selection-map-wrapper {
-      //max-height: calc(100vh - 5rem);
-      height: 100%;
-      //overflow: hidden;
-      background-color: #212121;
-      border-radius: 6px;
-      padding: 16px;
+  .allotment-item {
+    display: grid;
+    grid-template-rows: 55px auto 55px;
+    gap: 3px;
 
-      flex: 3 1;
-      position: relative;
-
-      #selectionMap {
-        height: calc(100% - 76px);
-        width: 100%;
-        border-radius: 8px;
-      }
-    }
-
-    .preview-map-wrapper {
-      height: 100%;
-      overflow: hidden;
-      background-color: #212121;
-      border-radius: 6px;
-      padding: 16px;
-      flex: 2 1;
-      /* display: grid;
-      grid-template-rows: auto minmax(0px, 1fr); */
-
-      .preview-map {
-        height: 50%;
-        border-radius: 8px;
-        display: ${({ isShowingPreview }) => (isShowingPreview ? 'block' : 'none')};
-
-        #previewMap {
-          height: 100%;
-          width: 100%;
-          border-radius: 8px;
-        }
-
-        .preview-action-buttons {
-          display: ${({ isShowingPreview }) => (isShowingPreview ? 'flex' : 'none')};
-          align-items: center;
-          justify-content: flex-end;
-          gap: 12px;
-          margin-top: 20px;
-        }
-      }
-
-      .no-locations-wrapper {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: calc(100% - 76px);
-
-        .no-locations {
-          max-width: 450px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          user-select: none;
-
-          img {
-            filter: grayscale(1);
-          }
-
-          h2 {
-            font-size: 20px;
-            color: #e7e7e7;
-            font-weight: 500;
-            line-height: 35px;
-            text-align: center;
-            margin-top: 12px;
-          }
-
-          h3 {
-            margin-top: 10px;
-            color: #828181;
-            font-size: 16px;
-            font-weight: 400;
-            text-align: center;
-            line-height: 23px;
-          }
-        }
-      }
+    &.border {
+      border-right: 2px solid #0e0e0e;
     }
   }
 
-  .map-top-menu {
-    border-radius: 6px;
-    background-color: #363636;
-    height: 60px;
-    padding: 0.5rem 1rem;
+  .menu-group {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 16px;
-    margin-bottom: 1rem;
+    background-color: #222;
+    padding: 0 10px;
 
-    .map-details {
-      display: flex;
+    .preview-bottom {
+      display: ${({ showPreviewMap }) => (showPreviewMap ? 'flex' : 'none')};
       align-items: center;
-      gap: 12px;
+      justify-content: space-between;
+      width: 100%;
 
-      .map-name-wrapper {
-        display: grid;
-
-        .map-name {
-          color: #fff;
-          font-size: 18px;
-          font-weight: 500;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
+      .pano-description {
+        font-size: 15px;
+        font-weight: 400;
+        color: #dcdcdc;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex: 1;
       }
-    }
 
-    .map-action-buttons {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-
-      &.mobile {
-        display: none;
-
-        button {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border-radius: 5px;
-          padding: 10px;
-          font-size: 1rem;
-          font-weight: 500;
-          user-select: none;
-          background-color: var(--mediumPurple);
-          color: rgb(255, 255, 255, 0.7);
-
-          &.edit-button {
-            background-color: rgb(255, 255, 255, 0.1);
-          }
-
-          svg {
-            height: 20px;
-            color: #fff;
-          }
-
-          &:hover {
-            background-color: var(--indigo-600);
-
-            &.edit-button {
-              background-color: rgb(255, 255, 255, 0.15);
-            }
-          }
-        }
-        svg {
-          height: 20px;
-        }
+      .preview-action-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 16px;
       }
     }
 
     .locations-count {
-      color: var(--color2);
-      font-size: 18px;
+      color: #dcdcdc;
       font-weight: 400;
+      font-size: 15px;
     }
+  }
 
-    .visibility-selection {
+  .map-details {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .map-name-wrapper {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 4px;
 
-      .visibility-warning {
-        color: var(--color2);
-        font-size: 1rem;
-        font-weight: 500;
+      .map-name {
+        color: #fff;
+        font-weight: 400;
+        font-size: 15px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        position: relative;
+        top: 1px;
+      }
+    }
+
+    .edit-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: transparent;
+      padding: 6px;
+      border-radius: 4px;
+      color: #999;
+      margin-left: -4px;
+
+      &:hover {
+        background-color: #444;
+        color: #ccc;
+      }
+
+      svg {
+        height: 16px;
       }
     }
   }
 
-  @media (max-width: 1060px) {
-    .main-content {
-      flex-direction: column;
+  .save-map-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 16px;
 
-      .selection-map-wrapper {
-        .map-top-menu {
-          .map-action-buttons {
-            display: none;
+    .last-save-date {
+      font-size: 12px;
+      color: #858585;
+    }
+  }
 
-            &.mobile {
-              display: flex;
-            }
-          }
-        }
+  .selection-map-wrapper {
+    background-color: #222;
+    position: relative;
+    background-color: #222;
+    height: 100%;
+  }
+
+  .preview-map-wrapper {
+    height: 100%;
+    overflow: hidden;
+    background-color: #222;
+
+    .preview-map {
+      height: 100%;
+      position: relative;
+      display: ${({ showPreviewMap }) => (showPreviewMap ? 'block' : 'none')};
+
+      #previewMap {
+        height: 100%;
+        width: 100%;
       }
+    }
 
-      .preview-map-wrapper {
-        .preview-map {
-          height: 100%;
-          display: ${({ isShowingPreview }) => isShowingPreview && 'grid'};
-          align-items: start;
-          grid-template-rows: auto min-content;
+    .no-locations-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: calc(100% - 76px);
+
+      .no-locations {
+        max-width: 450px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        user-select: none;
+
+        img {
+          filter: grayscale(1);
         }
 
-        .map-top-menu {
-          display: ${({ isShowingPreview }) => isShowingPreview && 'none'};
+        h2 {
+          font-size: 20px;
+          color: #e7e7e7;
+          font-weight: 500;
+          line-height: 35px;
+          text-align: center;
+          margin-top: 12px;
         }
 
-        .no-locations-wrapper {
-          .no-locations {
-            img {
-              height: 70px;
-            }
-
-            h2 {
-              font-size: 18px;
-            }
-
-            h3 {
-              margin-top: 2px;
-              font-size: 14px;
-            }
-          }
+        h3 {
+          margin-top: 10px;
+          color: #828181;
+          font-size: 16px;
+          font-weight: 400;
+          text-align: center;
+          line-height: 23px;
         }
       }
     }
   }
 
   @media (max-width: 600px) {
-    .main-content {
-      padding: 66px 16px 86px 16px;
-      height: 100vh;
+    .allotment-item {
+      &.border {
+        border-right: none;
+        border-bottom: 2px solid #0e0e0e;
+      }
+    }
+
+    .last-save-date {
+      display: none;
+    }
+
+    .pano-description {
+      display: none;
+    }
+
+    .preview-map-wrapper {
+      .no-locations-wrapper {
+        .no-locations {
+          img {
+            height: 70px;
+          }
+
+          h2 {
+            font-size: 18px;
+          }
+
+          h3 {
+            margin-top: 2px;
+            font-size: 14px;
+          }
+        }
+      }
     }
   }
 `
 
-export default StyledCreateMapPage
+export default StyledNewCreateMapPage

@@ -2,7 +2,7 @@ import { FC } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { Spinner } from '@components/system'
 import { MapLeaderboardType } from '@types'
-import { useIsMobile } from '../../utils/hooks/'
+import { useBreakpoint } from '../../utils/hooks/'
 import { StyledMapLeaderboard } from './'
 import { LeaderboardItem } from './LeaderboardItem'
 
@@ -25,7 +25,7 @@ const MapLeaderboard: FC<Props> = ({
   infiniteScrollCallback,
   hasMore,
 }) => {
-  const { isMobile } = useIsMobile()
+  const { isBreakpoint } = useBreakpoint()
 
   return (
     <StyledMapLeaderboard>
@@ -52,8 +52,8 @@ const MapLeaderboard: FC<Props> = ({
               <Spinner size={24} />
             </div>
           }
-          key={isMobile ? 1 : 0}
-          scrollableTarget={isMobile ? undefined : 'main'}
+          key={isBreakpoint ? 1 : 0}
+          scrollableTarget={isBreakpoint ? undefined : 'main'}
         >
           {leaderboard.map((row, idx) => (
             <LeaderboardItem key={idx} finishPlace={idx + 1} row={row} />

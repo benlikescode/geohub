@@ -24,6 +24,7 @@ const Button: FC<Props> = ({
   children,
   width,
   height,
+  onClick,
   ...rest
 }) => {
   return (
@@ -35,9 +36,17 @@ const Button: FC<Props> = ({
       hoverColor={hoverColor}
       width={width}
       height={height}
+      isLoading={isLoading}
+      onClick={isLoading ? undefined : onClick}
       {...rest}
     >
-      {isLoading ? <Spinner size={20} /> : children}
+      <span className="button-content">{children}</span>
+
+      {isLoading && (
+        <div className="spinner">
+          <Spinner size={20} />
+        </div>
+      )}
     </StyledButton>
   )
 }

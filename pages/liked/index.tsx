@@ -7,7 +7,7 @@ import { LikedMapCard } from '@components/MapCards/LikedMapCard'
 import { SkeletonCards } from '@components/skeletons'
 import { useAppSelector } from '@redux/hook'
 import StyledLikedMapsPage from '@styles/LikedMapsPage.Styled'
-import { mailman, showErrorToast } from '@utils/helpers'
+import { mailman, showToast } from '@utils/helpers'
 
 const LikedMapsPage: NextPage = () => {
   const [likedMaps, setLikedMaps] = useState<any[]>([])
@@ -23,7 +23,7 @@ const LikedMapsPage: NextPage = () => {
     const res = await mailman('likes')
 
     if (res.error) {
-      return showErrorToast(res.error.message)
+      return showToast('error', res.error.message)
     }
 
     setLikedMaps(res)

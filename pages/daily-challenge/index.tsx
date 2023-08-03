@@ -13,7 +13,7 @@ import { useAppSelector } from '@redux/hook'
 import StyledDailyChallengePage from '@styles/DailyChallengePage.Styled'
 import { DailyChallengeStatsType, MapLeaderboardType } from '@types'
 import { DAILY_CHALLENGE_DETAILS } from '@utils/constants/random'
-import { mailman, showErrorToast } from '@utils/helpers'
+import { mailman, showToast } from '@utils/helpers'
 
 const DailyChallengePage: FC = () => {
   const [mapStats, setMapStats] = useState<DailyChallengeStatsType | null>()
@@ -36,7 +36,7 @@ const DailyChallengePage: FC = () => {
     const res = await mailman(`challenges/daily`)
 
     if (res.error) {
-      return showErrorToast(res.error.message)
+      return showToast('error', res.error.message)
     }
 
     setMapStats(res.stats)
@@ -48,7 +48,7 @@ const DailyChallengePage: FC = () => {
     const res = await mailman(`scores/challenges/daily/leaderboard`)
 
     if (res.error) {
-      return showErrorToast(res.error.message)
+      return showToast('error', res.error.message)
     }
 
     setAllTimeScores(res.allTime)
@@ -59,7 +59,7 @@ const DailyChallengePage: FC = () => {
     const res = await mailman(`scores/challenges/daily/previous`)
 
     if (res.error) {
-      return showErrorToast(res.error.message)
+      return showToast('error', res.error.message)
     }
 
     setPreviousWinners(res)

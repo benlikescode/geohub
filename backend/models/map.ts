@@ -1,5 +1,4 @@
 import { ObjectId } from 'mongodb'
-
 import { LocationType } from '@types'
 
 type Map = {
@@ -14,6 +13,7 @@ type Map = {
   isPublished?: boolean
   isDeleted?: boolean
   createdAt?: Date
+  lastUpdatedAt?: Date
   locations?: LocationType[]
   // backwards compatibility
   locationCount: number

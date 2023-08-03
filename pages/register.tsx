@@ -9,7 +9,7 @@ import { Button, Input } from '@components/system'
 import { updateUser } from '@redux/slices'
 import StyledAuthPage from '@styles/AuthPage.Styled'
 import { PageType } from '@types'
-import { mailman, showErrorToast } from '@utils/helpers'
+import { mailman, showToast } from '@utils/helpers'
 
 // Redirect to home page if already logged in
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
@@ -40,12 +40,12 @@ const RegisterPage: PageType = () => {
     const EMAIL_REGEX = /\S+@\S+\.\S+/
 
     if (!EMAIL_REGEX.test(email)) {
-      showErrorToast('Invalid email address', { id: 'register-email' })
+      showToast('error', 'Invalid email address')
       return false
     }
 
     if (password.length < 6) {
-      showErrorToast('Password must be atleast 6 characters', { id: 'register-pass' })
+      showToast('error', 'Password must be atleast 6 characters')
       return false
     }
 
@@ -63,7 +63,7 @@ const RegisterPage: PageType = () => {
       if (res.error) {
         setShowBtnSpinner(false)
 
-        return showErrorToast(res.error.message, { id: 'register-general' })
+        return showToast('error', res.error.message)
       }
 
       dispatch(
@@ -85,7 +85,7 @@ const RegisterPage: PageType = () => {
 
       if (!signInResponse || signInResponse.error) {
         setShowBtnSpinner(false)
-        return showErrorToast(res?.error || '', { id: 'login-api' })
+        return showToast('error', res?.error || '')
       }
 
       const prevRoute = router.query.callback as string

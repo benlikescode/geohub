@@ -5,7 +5,7 @@ import { HeartIcon as HeartIconOutline } from '@heroicons/react/outline'
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/solid'
 import { MapType } from '@types'
 import { MAP_AVATAR_PATH } from '@utils/constants/random'
-import { mailman, showErrorToast, showSuccessToast } from '@utils/helpers'
+import { mailman, showToast } from '@utils/helpers'
 import { StyledLikedMapCard } from './'
 
 type Props = {
@@ -20,10 +20,11 @@ const LikedMapCard: FC<Props> = ({ map, reloadMaps }) => {
     const res = await mailman(`likes/${map._id}`, 'DELETE')
 
     if (res.error) {
-      return showErrorToast(res.error.message)
+      return showToast('error', res.error.message)
     }
 
-    showSuccessToast(res.message)
+    showToast('success', res.message)
+
     reloadMaps(map._id as string)
   }
 

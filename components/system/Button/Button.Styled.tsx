@@ -9,11 +9,11 @@ type StyledProps = {
   hoverColor?: string
   width?: string
   height?: string
+  isLoading?: boolean
 } & ButtonHTMLAttributes<HTMLButtonElement>
 
 const StyledButton = styled.button<StyledProps>`
   display: flex;
-  position: relative;
   align-items: center;
   justify-content: center;
   gap: 8px;
@@ -24,26 +24,47 @@ const StyledButton = styled.button<StyledProps>`
   font-size: 1rem;
   font-weight: 400;
   user-select: none;
+  position: relative;
+  color: ${({ isLoading }) => isLoading && 'transparent !important'};
+  flex-shrink: 0;
+
+  .button-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 
   ${({ size }) =>
     size === 'sm' &&
     `
-        height: 30px;
-        font-size: 14px;
-        border-radius: 3px;
-        padding: 0 16px;
-    `}
+    height: 36px;
+    font-size: 16px;
+    border-radius: 3px;
+    padding: 0 12px;
+  `}
 
   ${({ size }) =>
     size === 'md' &&
     `
-        height: 36px;
-        font-size: 16px;
-        border-radius: 3px;
-        padding: 0 12px;
+        height: 38px;
+        font-size: 15px;
+        padding: 0 16px;
+
+        .button-content {
+          position: relative;
+          top: 1px;
+        }
     `}
 
-    ${({ variant, disabled }) =>
+  ${({ variant, disabled }) =>
     variant === 'primary' &&
     !disabled &&
     `
@@ -61,11 +82,7 @@ const StyledButton = styled.button<StyledProps>`
     !disabled &&
     `
         background-color: rgb(255, 255, 255, 0.1);
-        color: #fee2e2;
-        border-radius: 4px;
-        font-size: 1rem;
-        font-weight: 400;
-        user-select: none;
+        color: #fff;
 
         &:hover {
           background-color: rgb(255, 255, 255, 0.15);
@@ -76,7 +93,7 @@ const StyledButton = styled.button<StyledProps>`
     variant === 'destroy' &&
     !disabled &&
     `     
-        color: #fee2e2;
+        color: #fff;
         background-color: #7f1d1d;
      
 
