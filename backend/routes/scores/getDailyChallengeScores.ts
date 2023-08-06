@@ -4,7 +4,7 @@ import queryTopScores from '@backend/queries/topScores'
 import { getUserId, throwError, todayEnd, todayStart } from '@backend/utils'
 
 const getScoresHelper = async (userId: string | undefined, query: any, res: NextApiResponse, limit: number | undefined) => {
-  const data = await queryTopScores(query, limit || 5)
+  const data = await queryTopScores(query, limit ? Math.min(limit, 200): 5);
 
   if (!data) {
     return throwError(res, 404, 'Failed to get scores for The Daily Challenge')
