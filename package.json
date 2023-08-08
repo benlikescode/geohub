@@ -17,6 +17,7 @@
     "@radix-ui/react-dropdown-menu": "^2.0.5",
     "@radix-ui/react-select": "^1.2.2",
     "@reduxjs/toolkit": "^1.8.2",
+    "@sendgrid/mail": "^7.7.0",
     "@turf/boolean-point-in-polygon": "^6.5.0",
     "@turf/turf": "^6.5.0",
     "@types/google.maps": "^3.51.0",

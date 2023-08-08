@@ -6,21 +6,14 @@ const StyledAuthPage = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: linear-gradient(250deg, rgba(19, 19, 20, 0) 0%, #0e0e0e 50%), url('/images/backgrounds/hero.jpg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-
-  @media (max-width: 600px) {
-    background-image: none;
-  }
+  background-color: #121212;
 
   .authContainer {
     max-width: 400px;
     width: 100%;
-    background-color: #101112;
+    background-color: #151515;
     color: var(--color1);
-    border-radius: 4px;
+    border-radius: 16px;
     padding: 30px;
     box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.55);
     border: 1px solid #222;
@@ -35,28 +28,38 @@ const StyledAuthPage = styled.div`
 
   .title {
     font-weight: 600;
-    font-size: 20px;
+    font-size: 18px;
     margin-bottom: 20px;
     color: var(--color2);
   }
 
-  .inputGroup {
-    display: grid;
-    gap: 30px;
-    border-top: 1px solid #333;
+  .form-container {
     padding-top: 30px;
+    border-top: 1px solid #303030;
 
-    @media (max-width: 600px) {
-      border-top: none;
-      padding-top: 20px;
+    .inputGroup {
+      display: grid;
+      gap: 30px;
+
+      @media (max-width: 600px) {
+        border-top: none;
+        padding-top: 20px;
+      }
     }
-  }
 
-  .errorMessage {
-    color: var(--red-400);
-    font-weight: 600;
-    font-size: 14px;
-    margin-top: 10px;
+    .forgot-message {
+      font-weight: 400;
+      font-size: 13px;
+      color: var(--indigo-400);
+      display: block;
+      margin: 12px 0 30px 0;
+      cursor: pointer;
+      width: fit-content;
+    }
+
+    .submit-button {
+      margin-top: 30px;
+    }
   }
 
   .authPrompt {
@@ -68,54 +71,33 @@ const StyledAuthPage = styled.div`
     font-size: 13px;
 
     a {
-      color: #a78bfa;
+      color: var(--indigo-400);
       display: inline-flex;
-      margin-left: 6px;
-      text-decoration: underline;
-
-      &:hover {
-        svg {
-          transform: translateX(1.1px) scale(1.1);
-        }
-      }
-
-      svg {
-        height: 13px;
-        margin-left: 4px;
-      }
+      margin-left: 4px;
     }
-  }
-
-  .errorBanner {
-    background-color: transparent;
-    border: 2px solid var(--red-500);
-    color: var(--red-300);
-    border-radius: 4px;
-    padding: 15px;
-    font-size: 14px;
-    font-weight: 400;
-    display: flex;
-    align-items: center;
-    margin-bottom: 40px;
-    transition: all 0.4s ease;
-
-    svg {
-      height: 14px;
-      width: 14px;
-      fill: var(--red-300);
-    }
-  }
-
-  .inputErrorText {
-    display: block;
-    margin-top: 3px;
-    margin-left: 10px;
   }
 
   .logoWrapper {
     position: absolute;
     top: 16px;
     left: 16px;
+  }
+
+  .email-sent-container {
+    .email-sent-msg {
+      color: #aaa;
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 22px;
+
+      button {
+        background: transparent;
+        color: var(--indigo-400);
+        font-weight: 400;
+        font-size: 15px;
+        margin-left: 4px;
+      }
+    }
   }
 `
 

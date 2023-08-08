@@ -102,29 +102,38 @@ const RegisterPage: PageType = () => {
           <AppLogo />
         </div>
 
-        <h1 className="title">Create your Account</h1>
+        <h1 className="title">Create your account</h1>
 
-        <form className="inputGroup" onSubmit={(e) => handleRegister(e)}>
-          <Input
-            id="name"
-            type="text"
-            label="Display Name"
-            value={name}
-            callback={setName}
-            autoComplete="username"
-            autoFocus
-          />
-          <Input id="email" type="text" label="Email Address" value={email} callback={setEmail} autoComplete="email" />
-          <Input
-            id="password"
-            type="password"
-            label="Password"
-            value={password}
-            callback={setPassword}
-            autoComplete="new-password"
-          />
+        <form className="form-container" onSubmit={(e) => handleRegister(e)}>
+          <div className="inputGroup">
+            <Input
+              id="name"
+              type="text"
+              label="Display Name"
+              value={name}
+              callback={setName}
+              autoComplete="username"
+              autoFocus
+            />
+            <Input
+              id="email"
+              type="text"
+              label="Email Address"
+              value={email}
+              callback={setEmail}
+              autoComplete="email"
+            />
+            <Input
+              id="password"
+              type="password"
+              label="Password"
+              value={password}
+              callback={setPassword}
+              autoComplete="new-password"
+            />
+          </div>
 
-          <Button width="100%" isLoading={showBtnSpinner}>
+          <Button className="submit-button" width="100%" isLoading={showBtnSpinner}>
             Register
           </Button>
         </form>
@@ -132,7 +141,7 @@ const RegisterPage: PageType = () => {
         <span className="authPrompt">
           Already have an account?
           <Link href="/login">
-            <a>Sign in.</a>
+            <a>Sign in</a>
           </Link>
         </span>
       </section>
