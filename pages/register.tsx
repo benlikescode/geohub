@@ -28,6 +28,11 @@ const RegisterPage: PageType = () => {
   }, [session])
 
   const validateInputs = () => {
+    if (!name) {
+      showToast('error', 'Name can not be blank')
+      return false
+    }
+
     const EMAIL_REGEX = /\S+@\S+\.\S+/
 
     if (!EMAIL_REGEX.test(email)) {

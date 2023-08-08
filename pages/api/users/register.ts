@@ -11,6 +11,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === 'POST') {
       const { name, email, password } = req.body
 
+      if (!name) {
+        return throwError(res, 400, 'Name can not be blank')
+      }
+
+      const EMAIL_REGEX = /\S+@\S+\.\S+/
+
+      if (!EMAIL_REGEX.test(email)) {
+        return throwError(res, 400, 'Invalid email address')
+      }
+
+      if (password.length < 6) {
+        return throwError(res, 400, 'Password must be atleast 6 characters')
+      }
+
       const findUserWithEmail = await collections.users?.findOne({ email: email })
 
       if (findUserWithEmail) {
