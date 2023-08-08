@@ -10,6 +10,7 @@ export const collections: {
   locations?: Collection
   userLocations?: Collection
   recentSearches?: Collection<RecentSearch>
+  passwordResets?: Collection
 } = {}
 
 const IS_PROD = process.env.NODE_ENV === 'production'
@@ -41,6 +42,7 @@ export const dbConnect = async () => {
     collections.locations = db.collection('locations')
     collections.userLocations = db.collection('userLocations')
     collections.recentSearches = db.collection('recentSearches')
+    collections.passwordResets = db.collection('passwordResets')
 
     return cachedDb
   } catch (err) {
