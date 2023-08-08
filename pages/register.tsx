@@ -1,8 +1,8 @@
 import { GetServerSidePropsContext } from 'next'
-import { getSession, signIn } from 'next-auth/react'
+import { getSession, signIn, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { AppLogo } from '@components/AppLogo'
 import { Button, Input } from '@components/system'
@@ -10,22 +10,6 @@ import { updateUser } from '@redux/slices'
 import StyledAuthPage from '@styles/AuthPage.Styled'
 import { PageType } from '@types'
 import { mailman, showToast } from '@utils/helpers'
-
-// Redirect to home page if already logged in
-export const getServerSideProps = async (context: GetServerSidePropsContext) => {
-  const session = await getSession({ req: context.req })
-
-  if (session) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    }
-  }
-
-  return { props: {} }
-}
 
 const RegisterPage: PageType = () => {
   const [name, setName] = useState('')
@@ -35,6 +19,13 @@ const RegisterPage: PageType = () => {
 
   const router = useRouter()
   const dispatch = useDispatch()
+  const { data: session } = useSession()
+
+  useEffect(() => {
+    if (session) {
+      router.replace('/')
+    }
+  }, [session])
 
   const validateInputs = () => {
     const EMAIL_REGEX = /\S+@\S+\.\S+/

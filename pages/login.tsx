@@ -11,26 +11,11 @@ import StyledAuthPage from '@styles/AuthPage.Styled'
 import { PageType } from '@types'
 import { showToast } from '@utils/helpers'
 
-// Redirect to home page if already logged in
-export const getServerSideProps = async (context: GetServerSidePropsContext) => {
-  const session = await getSession({ req: context.req })
-
-  if (session) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    }
-  }
-
-  return { props: {} }
-}
-
 const LoginPage: PageType = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showBtnSpinner, setShowBtnSpinner] = useState(false)
+
   const router = useRouter()
   const dispatch = useDispatch()
   const { data: session } = useSession()
@@ -49,7 +34,8 @@ const LoginPage: PageType = () => {
           mapsAPIKey: session.user.mapsAPIKey,
         })
       )
-      router.push('/')
+
+      router.replace('/')
     }
   }, [session])
 
@@ -66,17 +52,13 @@ const LoginPage: PageType = () => {
 
     setShowBtnSpinner(true)
 
-    const userCredentials = { email, password }
-
-    const res = await signIn('credentials', { redirect: false, ...userCredentials })
-
-    if (!res || res.error) {
-      setShowBtnSpinner(false)
-
-      return showToast('error', res?.error || '')
-    }
+    const res = await signIn('credentials', { redirect: false, ...{ email, password } })
 
     setShowBtnSpinner(false)
+
+    if (!res || res.error) {
+      return showToast('error', res?.error || '')
+    }
   }
 
   return (
