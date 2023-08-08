@@ -77,7 +77,7 @@ const Input: FC<Props> = ({
           />
 
           {type === 'password' && value && (
-            <button className="input-icon" type="button" onClick={() => setShowPassword(!showPassword)}>
+            <button className="input-icon" type="button" tabIndex={-1} onClick={() => setShowPassword(!showPassword)}>
               {showPassword ? <EyeOffIcon /> : <EyeIcon />}
             </button>
           )}
