@@ -1413,6 +1413,29 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.0.6.tgz#023d72a5c4531b4ce204528971700a78a85a0c50"
   integrity sha512-Myxw//kzromB9yWgS8qYGuGVf91oBUUJpNvy5eM50sqvmKLbKjwLxohJnkWGTeeI9v9IBMtPLxz5Gc60FIfvCA==
 
+"@sendgrid/client@^7.7.0":
+  version "7.7.0"
+  resolved "https://registry.yarnpkg.com/@sendgrid/client/-/client-7.7.0.tgz#f8f67abd604205a0d0b1af091b61517ef465fdbf"
+  integrity sha512-SxH+y8jeAQSnDavrTD0uGDXYIIkFylCo+eDofVmZLQ0f862nnqbC3Vd1ej6b7Le7lboyzQF6F7Fodv02rYspuA==
+  dependencies:
+    "@sendgrid/helpers" "^7.7.0"
+    axios "^0.26.0"
+
+"@sendgrid/helpers@^7.7.0":
+  version "7.7.0"
+  resolved "https://registry.yarnpkg.com/@sendgrid/helpers/-/helpers-7.7.0.tgz#93fb4b6e2f0dc65080440d6a784cc93e8e148757"
+  integrity sha512-3AsAxfN3GDBcXoZ/y1mzAAbKzTtUZ5+ZrHOmWQ279AuaFXUNCh9bPnRpN504bgveTqoW+11IzPg3I0WVgDINpw==
+  dependencies:
+    deepmerge "^4.2.2"
+
+"@sendgrid/mail@^7.7.0":
+  version "7.7.0"
+  resolved "https://registry.yarnpkg.com/@sendgrid/mail/-/mail-7.7.0.tgz#aba09f5ce2e9d8ceee92284c3ea8b4a90b0e38fe"
+  integrity sha512-5+nApPE9wINBvHSUxwOxkkQqM/IAAaBYoP9hw7WwgDNQPxraruVqHizeTitVtKGiqWCKm2mnjh4XGN3fvFLqaw==
+  dependencies:
+    "@sendgrid/client" "^7.7.0"
+    "@sendgrid/helpers" "^7.7.0"
+
 "@sinclair/typebox@^0.23.3":
   version "0.23.5"
   resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.23.5.tgz#93f7b9f4e3285a7a9ade7557d9a8d36809cbc47d"
@@ -3133,6 +3156,13 @@ axe-core@^4.0.2:
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.3.3.tgz#b55cd8e8ddf659fe89b064680e1c6a4dceab0325"
   integrity sha512-/lqqLAmuIPi79WYfRpy2i8z+x+vxU3zX2uAm0gs1q52qTuKwolOj1P8XbufpXcsydrpKx2yGn2wzAnxCMV86QA==
 
+axios@^0.26.0:
+  version "0.26.1"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.26.1.tgz#1ede41c51fcf51bbbd6fd43669caaa4f0495aaa9"
+  integrity sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==
+  dependencies:
+    follow-redirects "^1.14.8"
+
 axobject-query@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/axobject-query/-/axobject-query-2.2.0.tgz#943d47e10c0b704aa42275e20edf3722648989be"
@@ -4168,6 +4198,11 @@ flatted@^3.1.0:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/flatted/-/flatted-3.2.2.tgz#64bfed5cb68fe3ca78b3eb214ad97b63bedce561"
   integrity sha512-JaTY/wtrcSyvXJl4IMFHPKyFur1sE9AUqc0QnhOaJ0CxHtAoIV8pYDzeEfAaNEtGkOfq4gr3LBFmdXW5mOQFnA==
+
+follow-redirects@^1.14.8:
+  version "1.15.2"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
+  integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==
 
 form-data@^3.0.0:
   version "3.0.1"
