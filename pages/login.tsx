@@ -88,26 +88,32 @@ const LoginPage: PageType = () => {
       <section className="authContainer">
         <h1 className="title">Welcome Back!</h1>
 
-        <form className="inputGroup" onSubmit={(e) => handleLogin(e)}>
-          <Input
-            id="email"
-            type="text"
-            label="Email Address"
-            value={email}
-            callback={setEmail}
-            autoComplete="email"
-            autoFocus
-          />
-          <Input
-            id="password"
-            type="password"
-            label="Password"
-            value={password}
-            callback={setPassword}
-            autoComplete="current-password"
-          />
+        <form className="form-container" onSubmit={(e) => handleLogin(e)}>
+          <div className="inputGroup">
+            <Input
+              id="email"
+              type="text"
+              label="Email Address"
+              value={email}
+              callback={setEmail}
+              autoComplete="email"
+              autoFocus
+            />
+            <Input
+              id="password"
+              type="password"
+              label="Password"
+              value={password}
+              callback={setPassword}
+              autoComplete="current-password"
+            />
+          </div>
 
-          <Button width="100%" isLoading={showBtnSpinner}>
+          <Link href="/forgot">
+            <a className="forgot-message">Forgot password?</a>
+          </Link>
+
+          <Button className="submit-button" width="100%" isLoading={showBtnSpinner}>
             Login
           </Button>
         </form>
@@ -115,7 +121,7 @@ const LoginPage: PageType = () => {
         <span className="authPrompt">
           Need an account?
           <Link href="/register">
-            <a>Sign up.</a>
+            <a>Sign up</a>
           </Link>
         </span>
       </section>
