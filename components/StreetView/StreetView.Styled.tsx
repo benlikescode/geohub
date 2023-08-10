@@ -50,6 +50,11 @@ const StyledStreetView = styled.div<StyledProps>`
       }
     }
   }
+
+  a[href^="https://maps.google.com/maps"]
+  {
+    pointer-events: none;
+  }
 `
 
 export default StyledStreetView
