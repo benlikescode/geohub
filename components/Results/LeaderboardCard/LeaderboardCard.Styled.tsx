@@ -67,8 +67,12 @@ const StyledLeaderboardCard = styled.div`
           flex-direction: column;
           gap: 5px;
 
-          .label1 {
+          .mapNameLabel, label1 {
             font-size: 14px;
+          }
+          
+          .mapNameLabel:hover {
+            text-decoration: underline;
           }
 
           .label2 {

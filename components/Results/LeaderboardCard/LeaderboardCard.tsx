@@ -6,6 +6,7 @@ import { MapType } from '@types'
 import { formatDistance, formatLargeNumber, formatRoundTime, formatSettingsLabel } from '@utils/helpers'
 import { useAppSelector } from '../../../redux-utils'
 import { StyledLeaderboardCard } from './'
+import Link from 'next/link'
 
 type Props = {
   gameData: Game[]
@@ -23,10 +24,17 @@ const LeaderboardCard: FC<Props> = ({ gameData, mapData, selectedGameIndex, setS
       <div className="leaderboardWrapper">
         <div className="gameInfoWrapper">
           <div className="gameInfoItem">
-            <Avatar type="map" src={mapData.previewImg} size={50} />
-
+            <Link href={`/map/${gameData[0].mapId}`}>
+              <a>
+                <Avatar type="map" src={mapData.previewImg} size={50} />
+              </a>
+            </Link>
             <div className="gameInfoContent">
-              <span className="label1">{mapData.name}</span>
+              <Link href={`/map/${gameData[0].mapId}`}>
+                <a className="mapNameLabel">
+                  {mapData.name}
+                </a>
+              </Link>
               <span className="label2">
                 Created by {mapData.creator === 'GeoHub' ? 'GeoHub' : mapData.creatorDetails?.name}
               </span>
