@@ -12,6 +12,7 @@ type Props = {
   children?: ReactNode
   width?: string
   height?: string
+  spinnerSize?: number
 } & ButtonHTMLAttributes<HTMLButtonElement>
 
 const Button: FC<Props> = ({
@@ -24,6 +25,7 @@ const Button: FC<Props> = ({
   children,
   width,
   height,
+  spinnerSize,
   onClick,
   ...rest
 }) => {
@@ -44,7 +46,7 @@ const Button: FC<Props> = ({
 
       {isLoading && (
         <div className="spinner">
-          <Spinner size={20} />
+          <Spinner size={spinnerSize || 20} />
         </div>
       )}
     </StyledButton>

@@ -5,7 +5,10 @@ type StyledProps = {
 }
 
 const StyledStreetView = styled.div<StyledProps>`
-  #map {
+  height: 100%;
+  width: 100%;
+
+  /* #streetview {
     position: fixed !important;
     top: 0;
     left: 0;
@@ -16,10 +19,23 @@ const StyledStreetView = styled.div<StyledProps>`
     display: none;
 
     ${({ showMap }) =>
-      showMap &&
-      `
+    showMap &&
+    `
       display: block
     `}
+  } */
+
+  #streetview {
+    height: 100%;
+    width: 100%;
+  }
+
+  #streetview > div.gm-style > div:nth-child(2) > div:nth-child(1) > div:nth-child(9) > div:nth-child(2) > div {
+    filter: invert(1) !important;
+  }
+
+  #streetview > div.gm-style > div:nth-child(2) > div:nth-child(1) > div:nth-child(9) > div:nth-child(1) {
+    display: none;
   }
 
   .toggle-map-button {

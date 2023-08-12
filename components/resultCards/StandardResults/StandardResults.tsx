@@ -1,11 +1,11 @@
-import { FC, useState } from 'react'
-import { Button, ProgressBar } from '@components/system'
+import { FC, useEffect, useState } from 'react'
+import { ProgressBar } from '@components/system'
 import { useAppDispatch, useAppSelector } from '@redux/hook'
 import { updateStartTime } from '@redux/slices'
+import { KEY_CODES } from '@utils/constants/keyCodes'
 import { formatLargeNumber } from '@utils/helpers'
 import formatDistance from '@utils/helpers/formatDistance'
 import { DistanceType } from '../../../@types'
-import { ResultsWrapper } from '../ResultsWrapper'
 import { StyledStandardResults } from './'
 
 type Props = {
@@ -13,18 +13,31 @@ type Props = {
   distance: DistanceType
   points: number
   noGuess?: boolean
+  view: 'Game' | 'Result' | 'FinalResults'
   setView: (view: 'Game' | 'Result' | 'FinalResults') => void
 }
 
-const StandardResults: FC<Props> = ({ round, distance, points, noGuess, setView }) => {
+const StandardResults: FC<Props> = ({ round, distance, points, noGuess, view, setView }) => {
   const [progressFinished, setProgressFinished] = useState(false)
   const dispatch = useAppDispatch()
   const user = useAppSelector((state) => state.user)
 
-  const calculateProgress = () => {
-    const progress = (points / 5000) * 100
+  useEffect(() => {
+    if (view !== 'Result') return
 
-    return progress
+    document.addEventListener('keydown', handleKeyDown, { once: true })
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [view])
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    const actionKeys = [KEY_CODES.SPACE, KEY_CODES.SPACE_IE11, KEY_CODES.ENTER]
+
+    if (actionKeys.includes(e.key)) {
+      handleNextRound()
+    }
   }
 
   const handleNextRound = () => {
@@ -37,34 +50,38 @@ const StandardResults: FC<Props> = ({ round, distance, points, noGuess, setView 
     }
   }
 
+  const calculateProgress = () => {
+    const progress = (points / 5000) * 100
+
+    return progress
+  }
+
   return (
-    <ResultsWrapper>
-      <StyledStandardResults showPoints={progressFinished}>
-        <div className="pointsWrapper">{`${formatLargeNumber(points)} points`}</div>
+    <StyledStandardResults showPoints={progressFinished}>
+      <div className="pointsWrapper">{`${formatLargeNumber(points)} Points`}</div>
 
-        <div className="progress-bar">
-          <ProgressBar progress={calculateProgress()} setProgressFinished={setProgressFinished} />
-        </div>
+      <div className="progress-bar">
+        <ProgressBar progress={calculateProgress()} setProgressFinished={setProgressFinished} />
+      </div>
 
-        <div>
-          {noGuess ? (
-            <span className="noGuessMessage">You did not make a guess this round 😢</span>
-          ) : (
-            <span className="distanceMessage">
-              Your guess was
-              <span className="emphasisText"> {formatDistance(distance, user.distanceUnit)} </span>
-              from the correct location
-            </span>
-          )}
-        </div>
+      <div>
+        {noGuess ? (
+          <span className="noGuessMessage">You did not make a guess this round 😢</span>
+        ) : (
+          <span className="distanceMessage">
+            Your guess was
+            <span className="emphasisText"> {formatDistance(distance, user.distanceUnit)} </span>
+            from the correct location
+          </span>
+        )}
+      </div>
 
-        <div className="actionButton">
-          <Button onClick={handleNextRound} width="200px">
-            {round > 5 ? 'View Results' : 'Play Next Round'}
-          </Button>
-        </div>
-      </StyledStandardResults>
-    </ResultsWrapper>
+      <div className="actionButton">
+        <button className="next-round-btn" onClick={() => handleNextRound()}>
+          {round > 5 ? 'View Results' : 'Next Round'}
+        </button>
+      </div>
+    </StyledStandardResults>
   )
 }
 
