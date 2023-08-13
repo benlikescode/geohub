@@ -31,27 +31,28 @@ const ResultMap: FC<Props> = ({
   const [guessMarkers, setGuessMarkers] = useState<GuessType[]>([])
   const [actualMarkers, setActualMarkers] = useState<LocationType[]>([])
 
-  const guessedLocation = guessedLocations[guessedLocations.length - 1]
-  const actualLocation = actualLocations[round - 2]
   const resultMapRef = useRef<google.maps.Map | null>(null)
   const polylinesRef = useRef<google.maps.Polyline[]>([])
   const user = useAppSelector((state) => state.user)
 
   // If locations change (because we toggle the view on challenge results) -> reload the markers
   useEffect(() => {
-    if (!resultMapRef.current) return
+    if (!resultMapRef.current || !guessedLocations.length) return
 
     loadMapMarkers(resultMapRef.current)
   }, [guessedLocations, actualLocations])
 
   useEffect(() => {
-    if (resetMap && resultMapRef.current) {
+    if (resetMap && resultMapRef.current && guessedLocations.length > 0) {
       loadMapMarkers(resultMapRef.current)
       getMapBounds(resultMapRef.current)
     }
-  }, [resetMap])
+  }, [resetMap, isFinalResults])
 
   const getMapBounds = (map: google.maps.Map) => {
+    const guessedLocation = guessedLocations[guessedLocations.length - 1]
+    const actualLocation = actualLocations[round - 2]
+
     const bounds = new google.maps.LatLngBounds()
 
     // I do this weirdly because actual location is 1 location ahead of guessed...
@@ -70,6 +71,9 @@ const ResultMap: FC<Props> = ({
   }
 
   const loadMapMarkers = (map: google.maps.Map) => {
+    const guessedLocation = guessedLocations[guessedLocations.length - 1]
+    const actualLocation = actualLocations[round - 2]
+
     // Clear prev guess markers and polylines
     setGuessMarkers([])
     polylinesRef.current.map((polyline) => polyline.setMap(null))

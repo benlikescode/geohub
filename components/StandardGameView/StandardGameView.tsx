@@ -19,15 +19,19 @@ const StandardGameView: FC<Props> = ({ gameData, setGameData, view, setView }) =
         <StreetView gameData={gameData} setGameData={setGameData} view={view} setView={setView} />
       </div>
 
-      {gameData.guesses.length > 0 && (
-        <div className="results-wrapper" style={{ display: view === 'Result' ? 'block' : 'none' }}>
-          <ResultMap
-            guessedLocations={gameData.guesses}
-            actualLocations={gameData.rounds}
-            round={gameData.round}
-            resetMap={view === 'Result'}
-          />
-          <div className="results-card-wrapper">
+      <div
+        className="results-wrapper"
+        style={{ display: view === 'Result' || view === 'FinalResults' ? 'block' : 'none' }}
+      >
+        <ResultMap
+          guessedLocations={gameData.guesses}
+          actualLocations={gameData.rounds}
+          round={gameData.round}
+          resetMap={view === 'Result' || view === 'FinalResults'}
+          isFinalResults={view === 'FinalResults'}
+        />
+        <div className="results-card-wrapper">
+          {view === 'Result' ? (
             <StandardResults
               round={gameData.round}
               distance={gameData.guesses[gameData.guesses.length - 1].distance}
@@ -39,24 +43,11 @@ const StandardGameView: FC<Props> = ({ gameData, setGameData, view, setView }) =
               view={view}
               setView={setView}
             />
-          </div>
-        </div>
-      )}
-
-      {view === 'FinalResults' && (
-        <div className="results-wrapper" style={{ display: view === 'FinalResults' ? 'block' : 'none' }}>
-          <ResultMap
-            guessedLocations={gameData.guesses}
-            actualLocations={gameData.rounds}
-            round={gameData.round}
-            resetMap={false}
-            isFinalResults
-          />
-          <div className="results-card-wrapper">
+          ) : (
             <StandardFinalResults gameData={gameData} setGameData={setGameData} view={view} setView={setView} />
-          </div>
+          )}
         </div>
-      )}
+      </div>
     </StyledStandardGameView>
   )
 }
