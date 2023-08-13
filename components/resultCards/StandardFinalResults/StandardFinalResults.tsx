@@ -73,7 +73,9 @@ const StandardFinalResults: FC<Props> = ({ gameData, setGameData, view, setView 
       return showToast('error', res.error.message)
     }
 
-    router.replace(`/game/${res}`)
+    setGameData(res)
+
+    router.replace(`/game/${res._id}`, undefined, { shallow: true })
   }
 
   const navigateToResults = () => {

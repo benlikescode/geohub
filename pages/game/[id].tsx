@@ -62,7 +62,6 @@ const GamePage: PageType = () => {
 
   useEffect(() => {
     if (gameId !== prevGameId) {
-      setGameData(undefined)
       setView('Game')
     }
   }, [gameId])
