@@ -19,7 +19,12 @@ const Marker: FC<Props> = ({ lat, lng, type, userAvatar, roundNumber, isFinalRes
 
   return (
     <StyledMarker type={type} onClick={() => type === 'actual' && handleActualLocationClick()}>
-      {type === 'guess' && <Avatar size={26} type="user" src={userAvatar?.emoji} backgroundColor={userAvatar?.color} />}
+      {type === 'guess' && (
+        <img
+          src="https://www.usnews.com/object/image/00000169-5e07-df95-a57d-7ec72aae0000/2-angkor-wat-getty.jpg?update-time=1552060887681&size=responsive640"
+          alt=""
+        />
+      )}
 
       {type === 'actual' && <div className="actual-marker">{isFinalResults ? roundNumber : <FlagIcon />}</div>}
     </StyledMarker>

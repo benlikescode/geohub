@@ -9,11 +9,18 @@ const StyledMarker = styled.div<StyledProps>`
   top: 50%;
   left: 50%;
   //background-color: #000;
-  border: 3px solid #fff;
-  border-radius: 100%;
+
   transform: translate(-50%, -50%);
   //pointer-events: none !important;
   //background-color: red !important;
+
+  img {
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    position: relative;
+    border: 2px solid #fff;
+  }
 
   ${({ type }) =>
     type === 'actual' &&

@@ -1,8 +1,9 @@
-import { FC } from 'react'
+import { FC, useRef, useState } from 'react'
 import Game from '@backend/models/game'
 import { StandardFinalResults, StandardResults } from '@components/resultCards'
 import { ResultMap } from '@components/ResultMap'
 import { StreetView } from '@components/StreetView'
+import { GoogleMapsConfigType } from '@types'
 import { StyledStandardGameView } from './'
 
 type Props = {
@@ -13,47 +14,60 @@ type Props = {
 }
 
 const StandardGameView: FC<Props> = ({ gameData, setGameData, view, setView }) => {
+  const [googleMapsConfig, setGoogleMapsConfig] = useState<GoogleMapsConfigType>()
+
+  const polylinesRef = useRef<google.maps.Polyline[]>([])
+  const markersRef = useRef<google.maps.Marker[]>([])
+
+  const clearMapItems = () => {
+    polylinesRef.current.map((polyline) => polyline.setMap(null))
+    markersRef.current.map((marker) => marker.setMap(null))
+  }
+
   return (
     <StyledStandardGameView>
       <div className="play-wrapper" style={{ display: view === 'Game' ? 'block' : 'none' }}>
-        <StreetView gameData={gameData} setGameData={setGameData} view={view} setView={setView} />
+        <StreetView
+          gameData={gameData}
+          setGameData={setGameData}
+          view={view}
+          setView={setView}
+          googleMapsConfig={googleMapsConfig}
+          setGoogleMapsConfig={setGoogleMapsConfig}
+          clearMapItems={clearMapItems}
+        />
       </div>
 
-      {gameData.guesses.length > 0 && (
-        <div className="results-wrapper" style={{ display: view === 'Result' ? 'block' : 'none' }}>
+      {(view === 'Result' || view === 'FinalResults') && (
+        <div className="results-wrapper">
           <ResultMap
             guessedLocations={gameData.guesses}
             actualLocations={gameData.rounds}
             round={gameData.round}
-            resetMap={view === 'Result'}
+            resetMap={true}
+            googleMapsConfig={googleMapsConfig}
+            isFinalResults={view === 'FinalResults'}
+            polylinesRef={polylinesRef}
+            markersRef={markersRef}
+            clearMapItems={clearMapItems}
           />
-          <div className="results-card-wrapper">
-            <StandardResults
-              round={gameData.round}
-              distance={gameData.guesses[gameData.guesses.length - 1].distance}
-              points={gameData.guesses[gameData.guesses.length - 1].points}
-              noGuess={
-                gameData.guesses[gameData.guesses.length - 1].timedOut &&
-                !gameData.guesses[gameData.guesses.length - 1].timedOutWithGuess
-              }
-              view={view}
-              setView={setView}
-            />
-          </div>
-        </div>
-      )}
 
-      {view === 'FinalResults' && (
-        <div className="results-wrapper" style={{ display: view === 'FinalResults' ? 'block' : 'none' }}>
-          <ResultMap
-            guessedLocations={gameData.guesses}
-            actualLocations={gameData.rounds}
-            round={gameData.round}
-            resetMap={false}
-            isFinalResults
-          />
           <div className="results-card-wrapper">
-            <StandardFinalResults gameData={gameData} setGameData={setGameData} view={view} setView={setView} />
+            {view === 'Result' ? (
+              <StandardResults
+                round={gameData.round}
+                distance={gameData.guesses[gameData.guesses.length - 1].distance}
+                points={gameData.guesses[gameData.guesses.length - 1].points}
+                noGuess={
+                  gameData.guesses[gameData.guesses.length - 1].timedOut &&
+                  !gameData.guesses[gameData.guesses.length - 1].timedOutWithGuess
+                }
+                view={view}
+                setView={setView}
+              />
+            ) : (
+              <StandardFinalResults gameData={gameData} setGameData={setGameData} view={view} setView={setView} />
+            )}
           </div>
         </div>
       )}

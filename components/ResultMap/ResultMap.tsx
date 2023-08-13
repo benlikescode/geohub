@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import GoogleMapReact from 'google-map-react'
-import { FC, useEffect, useRef, useState } from 'react'
+import { FC, MutableRefObject, useEffect, useRef, useState } from 'react'
+import ReactDOM from 'react-dom'
 import { Marker } from '@components/Marker'
 import { useAppSelector } from '@redux/hook'
-import { GuessType, LocationType } from '@types'
+import { GoogleMapsConfigType, GuessType, LocationType } from '@types'
 import { RESULT_MAP_OPTIONS } from '@utils/constants/googleMapOptions'
-import { createMapPolyline } from '@utils/helpers'
+import { createMapMarker, createMapPolyline } from '@utils/helpers'
 import getMapsKey from '../../utils/helpers/getMapsKey'
 import { StyledResultMap } from './'
 
@@ -17,6 +18,10 @@ type Props = {
   isLeaderboard?: boolean
   userAvatar?: { emoji: string; color: string }
   resetMap?: boolean
+  googleMapsConfig: GoogleMapsConfigType | undefined
+  polylinesRef: MutableRefObject<google.maps.Polyline[]>
+  markersRef: MutableRefObject<google.maps.Marker[]>
+  clearMapItems: () => void
 }
 
 const ResultMap: FC<Props> = ({
@@ -27,29 +32,48 @@ const ResultMap: FC<Props> = ({
   isLeaderboard,
   userAvatar,
   resetMap,
+  googleMapsConfig,
+  polylinesRef,
+  markersRef,
+  clearMapItems,
 }) => {
   const [guessMarkers, setGuessMarkers] = useState<GuessType[]>([])
   const [actualMarkers, setActualMarkers] = useState<LocationType[]>([])
 
   const guessedLocation = guessedLocations[guessedLocations.length - 1]
   const actualLocation = actualLocations[round - 2]
-  const resultMapRef = useRef<google.maps.Map | null>(null)
-  const polylinesRef = useRef<google.maps.Polyline[]>([])
+  const resultMapRef = useRef<HTMLDivElement | null>(null)
+
   const user = useAppSelector((state) => state.user)
 
-  // If locations change (because we toggle the view on challenge results) -> reload the markers
   useEffect(() => {
-    if (!resultMapRef.current) return
+    if (!googleMapsConfig || !resultMapRef.current) return
 
-    loadMapMarkers(resultMapRef.current)
-  }, [guessedLocations, actualLocations])
+    const { map } = googleMapsConfig
 
-  useEffect(() => {
-    if (resetMap && resultMapRef.current) {
-      loadMapMarkers(resultMapRef.current)
-      getMapBounds(resultMapRef.current)
+    if (resetMap) {
+      resultMapRef.current.append(googleMapsConfig.map.getDiv())
+
+      map.addListener('click', () => null)
     }
-  }, [resetMap])
+
+    loadMapMarkersV2(map)
+    getMapBounds(map)
+  }, [resetMap, googleMapsConfig, resultMapRef])
+
+  // If locations change (because we toggle the view on challenge results) -> reload the markers
+  // useEffect(() => {
+  //   if (!resultMapRef.current) return
+
+  //   loadMapMarkers(resultMapRef.current)
+  // }, [guessedLocations, actualLocations])
+
+  // useEffect(() => {
+  //   if (resetMap && resultMapRef.current) {
+  //     loadMapMarkers(resultMapRef.current)
+  //     getMapBounds(resultMapRef.current)
+  //   }
+  // }, [resetMap])
 
   const getMapBounds = (map: google.maps.Map) => {
     const bounds = new google.maps.LatLngBounds()
@@ -67,6 +91,55 @@ const ResultMap: FC<Props> = ({
 
     map.setCenter(bounds.getCenter())
     map.fitBounds(bounds)
+  }
+
+  const loadMapMarkersV2 = (map: google.maps.Map) => {
+    clearMapItems()
+
+    markersRef.current.push(
+      createMapMarker(
+        actualLocation,
+        map,
+        'https://e7.pngegg.com/pngimages/931/847/png-clipart-computer-icons-racing-flags-flag-miscellaneous-flag.png' +
+          '#custom_marker'
+      )
+    )
+
+    polylinesRef.current.push(createMapPolyline(guessedLocation, actualLocation, map))
+
+    // createMapMarker(actualLocation, map, '/images/backgrounds/hero.jpg', 32)
+    // const markerElement = document.createElement('div')
+    // const customMarker = (
+    //   <Marker
+    //     type="guess"
+    //     lat={guessedLocation.lat}
+    //     lng={guessedLocation.lng}
+    //     userAvatar={userAvatar ?? user.avatar}
+    //     isFinalResults={!!isFinalResults}
+    //   />
+    // )
+    // ReactDOM.render(customMarker, markerElement)
+
+    // const googleMarker = new window.google.maps.Marker({
+    //   position: { lat: guessedLocation.lat, lng: guessedLocation.lng },
+    //   map: map,
+    //   icon: {
+    //     url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(markerElement.innerHTML),
+    //     scaledSize: new window.google.maps.Size(30, 30),
+    //   },
+    // })
+
+    // const markerElement = document.createElement('div')
+    // markerElement.innerHTML = `<div style="background-color: blue; color: white; padding: 5px;">YOOOOOOOOOO</div>`
+
+    // const googleMarker2 = new window.google.maps.Marker({
+    //   position: { lat: actualLocation.lat, lng: actualLocation.lng },
+    //   map: map,
+    //   icon: {
+    //     url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(markerElement.innerHTML),
+    //     scaledSize: new window.google.maps.Size(30, 30),
+    //   },
+    // })
   }
 
   const loadMapMarkers = (map: google.maps.Map) => {
@@ -94,41 +167,28 @@ const ResultMap: FC<Props> = ({
 
   return (
     <StyledResultMap>
-      <div className="map">
-        <GoogleMapReact
-          bootstrapURLKeys={getMapsKey(user.mapsAPIKey)}
-          center={{ lat: 0, lng: 0 }}
-          zoom={2}
-          yesIWantToUseGoogleMapApiInternals
-          onGoogleApiLoaded={({ map }) => {
-            loadMapMarkers(map)
-            getMapBounds(map)
-            resultMapRef.current = map
-          }}
-          options={RESULT_MAP_OPTIONS}
-        >
-          {guessMarkers.map((marker, idx) => (
-            <Marker
-              key={idx}
-              type="guess"
-              lat={marker.lat}
-              lng={marker.lng}
-              userAvatar={userAvatar ?? user.avatar}
-              isFinalResults={!!isFinalResults}
-            />
-          ))}
+      <div className="map" ref={resultMapRef}>
+        {guessMarkers.map((marker, idx) => (
+          <Marker
+            key={idx}
+            type="guess"
+            lat={marker.lat}
+            lng={marker.lng}
+            userAvatar={userAvatar ?? user.avatar}
+            isFinalResults={!!isFinalResults}
+          />
+        ))}
 
-          {actualMarkers.map((marker, idx) => (
-            <Marker
-              key={idx}
-              type="actual"
-              lat={marker.lat}
-              lng={marker.lng}
-              roundNumber={idx + 1}
-              isFinalResults={!!isFinalResults}
-            />
-          ))}
-        </GoogleMapReact>
+        {actualMarkers.map((marker, idx) => (
+          <Marker
+            key={idx}
+            type="actual"
+            lat={marker.lat}
+            lng={marker.lng}
+            roundNumber={idx + 1}
+            isFinalResults={!!isFinalResults}
+          />
+        ))}
       </div>
     </StyledResultMap>
   )

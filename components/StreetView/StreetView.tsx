@@ -16,14 +16,24 @@ type Props = {
   setGameData: (gameData: Game) => void
   view: 'Game' | 'Result' | 'FinalResults'
   setView: (view: 'Game' | 'Result' | 'FinalResults') => void
+  googleMapsConfig: GoogleMapsConfigType | undefined
+  setGoogleMapsConfig: (googleMapsConfig: GoogleMapsConfigType) => void
+  clearMapItems: () => void
 }
 
-const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
+const Streetview: FC<Props> = ({
+  gameData,
+  setGameData,
+  view,
+  setView,
+  googleMapsConfig,
+  setGoogleMapsConfig,
+  clearMapItems,
+}) => {
   const [loading, setLoading] = useState(true)
   const [currGuess, setCurrGuess] = useState<LocationType | null>(null)
   const [countryStreakGuess, setCountryStreakGuess] = useState('')
   const [mobileMapOpen, setMobileMapOpen] = useState(false)
-  const [googleMapsConfig, setGoogleMapsConfig] = useState<GoogleMapsConfigType>()
 
   const location = gameData.rounds[gameData.round - 1]
   const game = useAppSelector((state) => state.game)
@@ -176,6 +186,7 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
           googleMapsConfig={googleMapsConfig}
           setGoogleMapsConfig={setGoogleMapsConfig}
           resetMap={view === 'Game'}
+          clearMapItems={clearMapItems}
         />
       </div>
     </StyledStreetView>

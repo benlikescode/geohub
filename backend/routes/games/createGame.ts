@@ -35,7 +35,7 @@ const createGame = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(500).send('Failed to create a new game.')
   }
 
-  res.status(201).send(result.insertedId)
+  res.status(201).send({ _id: result.insertedId, ...newGame })
 }
 
 export default createGame

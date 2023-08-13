@@ -19,6 +19,7 @@ type Props = {
   googleMapsConfig: GoogleMapsConfigType | undefined
   setGoogleMapsConfig: (googleMapsConfig: GoogleMapsConfigType) => void
   resetMap?: boolean
+  clearMapItems: () => void
 }
 
 const GuessMap: FC<Props> = ({
@@ -30,8 +31,11 @@ const GuessMap: FC<Props> = ({
   googleMapsConfig,
   setGoogleMapsConfig,
   resetMap,
+  clearMapItems,
 }) => {
   const [marker, setMarker] = useState<{ lat: number; lng: number } | null>(null)
+
+  const mapRef = useRef<HTMLDivElement | null>(null)
 
   const {
     mapHeight,
@@ -52,7 +56,7 @@ const GuessMap: FC<Props> = ({
 
   useEffect(() => {
     handleResetMapState()
-  }, [resetMap, googleMapsConfig])
+  }, [resetMap, googleMapsConfig, mapRef])
 
   const handleSetupMap = () => {
     if (!googleMapsConfig) return
@@ -63,12 +67,16 @@ const GuessMap: FC<Props> = ({
   }
 
   const handleResetMapState = () => {
-    if (!resetMap || !googleMapsConfig) return
+    if (!resetMap || !googleMapsConfig || !mapRef.current) return
 
     const { map } = googleMapsConfig
 
+    mapRef.current.append(map.getDiv())
+
     map.setCenter({ lat: 0, lng: 0 })
     map.setZoom(1)
+
+    clearMapItems()
 
     setHovering(false)
     setMapHeight(15)
@@ -118,7 +126,7 @@ const GuessMap: FC<Props> = ({
             </button>
           </div>
         )}
-        <div className="map">
+        <div className="map" ref={mapRef}>
           <GoogleMapReact
             bootstrapURLKeys={getMapsKey(user.mapsAPIKey)}
             defaultCenter={{ lat: 0, lng: 0 }}
