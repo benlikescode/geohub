@@ -3,13 +3,14 @@ import Game from '@backend/models/game'
 import { StandardFinalResults, StandardResults } from '@components/resultCards'
 import { ResultMap } from '@components/ResultMap'
 import { StreetView } from '@components/StreetView'
+import { GameViewType } from '@types'
 import { StyledStandardGameView } from './'
 
 type Props = {
   gameData: Game
   setGameData: (gameData: Game) => void
-  view: 'Game' | 'Result' | 'FinalResults'
-  setView: (view: 'Game' | 'Result' | 'FinalResults') => void
+  view: GameViewType
+  setView: (view: GameViewType) => void
 }
 
 const StandardGameView: FC<Props> = ({ gameData, setGameData, view, setView }) => {

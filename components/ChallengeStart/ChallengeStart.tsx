@@ -10,7 +10,7 @@ import {
   ZoomInIcon,
 } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
-import { ChallengeType } from '@types'
+import { ChallengeType, GameViewType } from '@types'
 import { MAP_AVATAR_PATH } from '@utils/constants/random'
 import { formatTimeLimit, redirectToRegister } from '@utils/helpers'
 import { StyledChallengeStart } from './'
@@ -18,7 +18,7 @@ import { StyledChallengeStart } from './'
 type Props = {
   challengeData: ChallengeType
   handleStartChallenge: (challengeData: ChallengeType) => void
-  setView: (view: 'Start' | 'Game' | 'Result' | 'FinalResults') => void
+  setView: (view: GameViewType) => void
 }
 
 const ChallengeStart: FC<Props> = ({ challengeData, handleStartChallenge, setView }) => {

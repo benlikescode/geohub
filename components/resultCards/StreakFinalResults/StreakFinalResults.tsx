@@ -3,12 +3,13 @@ import { FC } from 'react'
 import Game from '@backend/models/game'
 import { StreakCountryList } from '@components/StreakCountryList'
 import { Button } from '@components/system'
+import { GameViewType } from '@types'
 import { ResultsWrapper } from '../'
 import { StyledStreakFinalResults } from './'
 
 type Props = {
   gameData: Game
-  setView: (view: 'Game' | 'Result' | 'FinalResults') => void
+  setView: (view: GameViewType) => void
 }
 
 const StreakFinalResults: FC<Props> = ({ gameData, setView }) => {

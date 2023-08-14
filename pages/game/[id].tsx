@@ -8,11 +8,11 @@ import { StandardGameView } from '@components/StandardGameView'
 import { useAppDispatch } from '@redux/hook'
 import { updateRecentlyPlayed } from '@redux/slices'
 import StyledGamePage from '@styles/GamePage.Styled'
-import { PageType } from '@types'
+import { GameViewType, PageType } from '@types'
 import { mailman } from '@utils/helpers'
 
 const GamePage: PageType = () => {
-  const [view, setView] = useState<'Game' | 'Result' | 'FinalResults'>('Game')
+  const [view, setView] = useState<GameViewType>('Game')
   const [gameData, setGameData] = useState<Game | null>()
   const [prevGameId, setPrevGameId] = useState('')
   const router = useRouter()

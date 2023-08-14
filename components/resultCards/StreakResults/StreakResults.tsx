@@ -5,13 +5,14 @@ import Game from '@backend/models/game'
 import { Button } from '@components/system'
 import { useAppDispatch } from '@redux/hook'
 import { updateStartTime } from '@redux/slices'
+import { GameViewType } from '@types'
 import countries from '@utils/constants/countries'
 import { ResultsWrapper } from '../ResultsWrapper'
 import { StyledStreakResults } from './'
 
 type Props = {
   gameData: Game
-  setView: (view: 'Game' | 'Result' | 'FinalResults') => void
+  setView: (view: GameViewType) => void
 }
 
 const StreakResults: FC<Props> = ({ gameData, setView }) => {

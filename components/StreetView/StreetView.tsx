@@ -5,7 +5,7 @@ import { GuessMap } from '@components/GuessMap'
 import { LoadingPage } from '@components/layout'
 import { StreetViewControls } from '@components/StreetViewControls'
 import { useAppSelector } from '@redux/hook'
-import { GoogleMapsConfigType, LocationType } from '@types'
+import { GameViewType, GoogleMapsConfigType, LocationType } from '@types'
 import { getStreetviewOptions } from '@utils/constants/googleMapOptions'
 import { KEY_CODES } from '@utils/constants/keyCodes'
 import { mailman, showToast } from '@utils/helpers'
@@ -14,8 +14,8 @@ import { StyledStreetView } from './'
 type Props = {
   gameData: Game
   setGameData: (gameData: Game) => void
-  view: 'Game' | 'Result' | 'FinalResults'
-  setView: (view: 'Game' | 'Result' | 'FinalResults') => void
+  view: GameViewType
+  setView: (view: GameViewType) => void
 }
 
 const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {

@@ -5,7 +5,7 @@ import { updateStartTime } from '@redux/slices'
 import { KEY_CODES } from '@utils/constants/keyCodes'
 import { formatLargeNumber } from '@utils/helpers'
 import formatDistance from '@utils/helpers/formatDistance'
-import { DistanceType } from '../../../@types'
+import { DistanceType, GameViewType } from '../../../@types'
 import { StyledStandardResults } from './'
 
 type Props = {
@@ -13,8 +13,8 @@ type Props = {
   distance: DistanceType
   points: number
   noGuess?: boolean
-  view: 'Game' | 'Result' | 'FinalResults'
-  setView: (view: 'Game' | 'Result' | 'FinalResults') => void
+  view: GameViewType
+  setView: (view: GameViewType) => void
 }
 
 const StandardResults: FC<Props> = ({ round, distance, points, noGuess, view, setView }) => {
