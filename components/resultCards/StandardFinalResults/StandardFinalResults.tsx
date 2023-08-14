@@ -5,7 +5,7 @@ import { Button, ProgressBar } from '@components/system'
 import { ChartPieIcon, MapIcon } from '@heroicons/react/outline'
 import { useAppDispatch, useAppSelector } from '@redux/hook'
 import { updateStartTime } from '@redux/slices'
-import { UserType } from '@types'
+import { GameViewType } from '@types'
 import { KEY_CODES } from '@utils/constants/keyCodes'
 import { formatLargeNumber, mailman, showToast } from '@utils/helpers'
 import { StyledStandardFinalResults } from './'
@@ -13,15 +13,17 @@ import { StyledStandardFinalResults } from './'
 type Props = {
   gameData: Game
   setGameData: (gameData: any) => void
-  view: 'Game' | 'Result' | 'FinalResults'
-  setView: (view: 'Game' | 'Result' | 'FinalResults') => void
+  view: GameViewType
+  setView: (view: GameViewType) => void
 }
 
 const StandardFinalResults: FC<Props> = ({ gameData, setGameData, view, setView }) => {
   const [isLoading, setIsLoading] = useState(false)
-  const IS_CHALLENGE = !!gameData.challengeId
-  const user: UserType = useAppSelector((state) => state.user)
+
+  const user = useAppSelector((state) => state.user)
   const dispatch = useAppDispatch()
+
+  const IS_CHALLENGE = !!gameData.challengeId
 
   useEffect(() => {
     if (view !== 'FinalResults') return
@@ -37,7 +39,7 @@ const StandardFinalResults: FC<Props> = ({ gameData, setGameData, view, setView 
     const actionKeys = [KEY_CODES.SPACE, KEY_CODES.SPACE_IE11, KEY_CODES.ENTER]
 
     if (actionKeys.includes(e.key)) {
-      await playAgain()
+      IS_CHALLENGE ? navigateToResults() : playAgain()
     }
   }
 
@@ -99,29 +101,41 @@ const StandardFinalResults: FC<Props> = ({ gameData, setGameData, view, setView 
           <ProgressBar progress={calculateProgress()} />
         </div>
 
-        <div className="buttons-wrapper">
-          <div className="side-button">
-            <button className="results-btn" onClick={() => navigateToResults()}>
-              <ChartPieIcon />
-            </button>
-            <span>Breakdown</span>
-          </div>
+        {IS_CHALLENGE ? (
+          <div className="buttons-wrapper">
+            <div className="side-button">
+              <Button className="play-again-btn" onClick={() => navigateToResults()}>
+                Breakdown
+              </Button>
 
-          <div className="side-button">
-            <Button className="play-again-btn" onClick={() => playAgain()} isLoading={isLoading} spinnerSize={24}>
-              Play Again
-            </Button>
-
-            <span>New Game, Same Map</span>
+              <span>View the leaderboard</span>
+            </div>
           </div>
+        ) : (
+          <div className="buttons-wrapper">
+            <div className="side-button">
+              <button className="results-btn" onClick={() => navigateToResults()}>
+                <ChartPieIcon />
+              </button>
+              <span>Breakdown</span>
+            </div>
 
-          <div className="side-button">
-            <button className="map-btn" onClick={() => navigateToMapsPage()}>
-              <MapIcon />
-            </button>
-            <span>Exit</span>
+            <div className="side-button">
+              <Button className="play-again-btn" onClick={() => playAgain()} isLoading={isLoading} spinnerSize={24}>
+                Play Again
+              </Button>
+
+              <span>New Game, Same Map</span>
+            </div>
+
+            <div className="side-button">
+              <button className="map-btn" onClick={() => navigateToMapsPage()}>
+                <MapIcon />
+              </button>
+              <span>Exit</span>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </StyledStandardFinalResults>
   )

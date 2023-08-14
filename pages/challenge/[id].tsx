@@ -5,19 +5,15 @@ import { ChallengeStart } from '@components/ChallengeStart'
 import { NotFound } from '@components/errorViews'
 import { Head } from '@components/Head'
 import { LoadingPage } from '@components/layout'
-import { StandardFinalResults, StandardResults, StreakFinalResults, StreakResults } from '@components/resultCards'
-import { ResultMap } from '@components/ResultMap'
-import { StreaksResultMap } from '@components/StreaksResultMap'
-import { StreaksSummaryMap } from '@components/StreaksSummaryMap'
-import { StreetView } from '@components/StreetView'
+import { StandardGameView } from '@components/StandardGameView'
 import { useAppDispatch } from '@redux/hook'
 import { updateStartTime } from '@redux/slices'
 import StyledGamePage from '@styles/GamePage.Styled'
-import { ChallengeType, PageType } from '@types'
+import { ChallengeType, GameViewType, PageType } from '@types'
 import { mailman, showToast } from '@utils/helpers'
 
 const ChallengePage: PageType = () => {
-  const [view, setView] = useState<'Start' | 'Game' | 'Result' | 'FinalResults'>('Game')
+  const [view, setView] = useState<GameViewType>('Game')
   const [challengeData, setChallengeData] = useState<ChallengeType | null>()
   const [gameData, setGameData] = useState<Game | null>()
 
@@ -44,7 +40,7 @@ const ChallengePage: PageType = () => {
 
     // If they have finished the game, push to results page
     if (playersGame.state === 'finished') {
-      return router.push(`/results/challenge/${challengeId}`)
+      return router.replace(`/results/challenge/${challengeId}`)
     }
 
     // If they have not finished the game, set their game state
@@ -99,53 +95,7 @@ const ChallengePage: PageType = () => {
     <StyledGamePage>
       <Head title={`Challenge - GeoHub`} />
 
-      {view === 'Game' && <StreetView gameData={gameData} setGameData={setGameData} setView={setView} />}
-
-      {view !== 'Game' && (
-        <>
-          {/* Result Maps */}
-          {gameData.mode === 'standard' && view === 'Result' && (
-            <ResultMap guessedLocations={gameData.guesses} actualLocations={gameData.rounds} round={gameData.round} />
-          )}
-
-          {gameData.mode === 'standard' && view === 'FinalResults' && (
-            <ResultMap
-              guessedLocations={gameData.guesses}
-              actualLocations={gameData.rounds}
-              round={gameData.round}
-              isFinalResults
-            />
-          )}
-
-          {gameData.mode === 'streak' && view === 'Result' && <StreaksResultMap gameData={gameData} />}
-
-          {gameData.mode === 'streak' && view === 'FinalResults' && <StreaksSummaryMap gameData={gameData} />}
-
-          {/* Result Cards */}
-          <div className="resultsWrapper">
-            {gameData.mode === 'standard' && view === 'Result' && (
-              <StandardResults
-                round={gameData.round}
-                distance={gameData.guesses[gameData.guesses.length - 1].distance}
-                points={gameData.guesses[gameData.guesses.length - 1].points}
-                noGuess={
-                  gameData.guesses[gameData.guesses.length - 1].timedOut &&
-                  !gameData.guesses[gameData.guesses.length - 1].timedOutWithGuess
-                }
-                setView={setView}
-              />
-            )}
-
-            {gameData.mode === 'standard' && view === 'FinalResults' && <StandardFinalResults gameData={gameData} />}
-
-            {gameData.mode === 'streak' && view === 'Result' && <StreakResults gameData={gameData} setView={setView} />}
-
-            {gameData.mode === 'streak' && view === 'FinalResults' && (
-              <StreakFinalResults gameData={gameData} setView={setView} />
-            )}
-          </div>
-        </>
-      )}
+      <StandardGameView gameData={gameData} setGameData={setGameData} view={view} setView={setView} />
     </StyledGamePage>
   )
 }
