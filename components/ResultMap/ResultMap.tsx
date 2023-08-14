@@ -67,7 +67,7 @@ const ResultMap: FC<Props> = ({
     }
 
     map.setCenter(bounds.getCenter())
-    map.fitBounds(bounds)
+    map.fitBounds(bounds, { bottom: 20 })
   }
 
   const loadMapMarkers = (map: google.maps.Map) => {
