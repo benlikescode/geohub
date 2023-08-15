@@ -1,5 +1,4 @@
-export { ResultsWrapper } from './ResultsWrapper'
 export { StandardFinalResults } from './StandardFinalResults'
 export { StandardResults } from './StandardResults'
-export { StreakFinalResults } from './StreakFinalResults'
-export { StreakResults } from './StreakResults'
+export { StreakContinueCard } from './StreakContinueCard'
+export { StreakEndedCard } from './StreakEndedCard'

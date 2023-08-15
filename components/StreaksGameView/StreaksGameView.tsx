@@ -1,9 +1,6 @@
 import { FC } from 'react'
 import Game from '@backend/models/game'
-import { StandardFinalResults, StandardResults, StreakFinalResults, StreakResults } from '@components/resultCards'
-import { StreakContinueCard } from '@components/resultCards/StreakContinueCard'
-import { StreakEndedCard } from '@components/resultCards/StreakEndedCard'
-import { ResultMap } from '@components/ResultMap'
+import { StreakContinueCard, StreakEndedCard } from '@components/resultCards'
 import { StreaksResultMap } from '@components/StreaksResultMap'
 import { StreetView } from '@components/StreetView'
 import { GameViewType } from '@types'
@@ -36,10 +33,6 @@ const StreaksGameView: FC<Props> = ({ gameData, setGameData, view, setView }) =>
 
           {view === 'Result' && gameData.state === 'finished' && (
             <StreakEndedCard gameData={gameData} setGameData={setGameData} view={view} setView={setView} />
-          )}
-
-          {view === 'FinalResults' && (
-            <StreakFinalResults gameData={gameData} setGameData={setGameData} view={view} setView={setView} />
           )}
         </div>
       </div>
