@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const StyledStreaksResultMap = styled.div`
-  height: calc(100vh - 300px);
+  height: 100%;
 
   .map {
     height: 100%;
@@ -9,7 +9,7 @@ const StyledStreaksResultMap = styled.div`
   }
 
   .map-skeleton {
-    height: calc(100vh - 300px);
+    height: calc(100vh - 250px);
     background-color: #999999;
     opacity: 0.08;
   }

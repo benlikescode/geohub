@@ -13,16 +13,23 @@ import { StyledStreaksResultMap } from './'
 
 type Props = {
   gameData: Game
+  resetMap?: boolean
 }
 
-const ResultMap: FC<Props> = ({ gameData }) => {
+const ResultMap: FC<Props> = ({ gameData, resetMap }) => {
   const [actualMarker, setActualMarker] = useState<LocationType>()
+  const [countryBounds, setCountryBounds] = useState<any>()
 
   const guessedCountry = gameData.guesses[gameData.guesses.length - 1]
   const actualCountry = gameData.rounds[gameData.round - 2]
 
   const resultMapRef = useRef<google.maps.Map | null>(null)
+  const prevCountriesRef = useRef<any>(null)
   const user = useAppSelector((state) => state.user)
+
+  useEffect(() => {
+    loadCountryBounds()
+  }, [])
 
   // If locations change (because we toggle the view on challenge results) -> reload the markers
   useEffect(() => {
@@ -31,25 +38,39 @@ const ResultMap: FC<Props> = ({ gameData }) => {
     loadMapMarkers()
   }, [guessedCountry, actualCountry])
 
+  useEffect(() => {
+    if (resetMap && resultMapRef.current && gameData.guesses.length > 0) {
+      loadMapMarkers()
+      getMapBounds(resultMapRef.current)
+      loadCountryGeojson(resultMapRef.current)
+    }
+  }, [resetMap])
+
+  const loadCountryBounds = async () => {
+    const { default: countryBounds } = await import('@utils/constants/countryBounds.json')
+
+    setCountryBounds(countryBounds)
+  }
+
   const loadMapMarkers = () => {
     setActualMarker(actualCountry)
   }
 
   const loadCountryGeojson = async (map: google.maps.Map) => {
-    const { default: countryBounds } = await import('@utils/constants/countryBounds.json')
-
-    const bounds = countryBounds as any
-
     const { countryCode } = actualCountry
 
     if (!countryCode) return
 
     const countryCodeLowerCase = countryCode.toLowerCase()
-    const polygon = formatPolygon(bounds[countryCodeLowerCase], { code: countryCodeLowerCase })
+    const polygon = formatPolygon(countryBounds[countryCodeLowerCase], { code: countryCodeLowerCase })
 
     const isCorrect = gameData.state !== 'finished'
 
-    map.data.addGeoJson(polygon)
+    removeCountryPolygons(map)
+
+    const newCountry = map.data.addGeoJson(polygon)
+    prevCountriesRef.current = newCountry
+
     map.data.setStyle(POLYGON_STYLES[isCorrect ? 'correct' : 'incorrect'])
 
     getMapBounds(map)
@@ -72,13 +93,20 @@ const ResultMap: FC<Props> = ({ gameData }) => {
     map.setCenter(bounds.getCenter())
   }
 
+  const removeCountryPolygons = (map: google.maps.Map) => {
+    prevCountriesRef.current &&
+      prevCountriesRef.current.map((feature: any) => {
+        map.data.remove(feature)
+      })
+  }
+
   return (
     <StyledStreaksResultMap>
       <div className="map">
         <GoogleMapReact
           bootstrapURLKeys={getMapsKey(user.mapsAPIKey)}
-          center={{ lat: actualCountry.lat, lng: actualCountry.lng }}
-          zoom={4}
+          center={{ lat: 0, lng: 0 }}
+          zoom={2}
           yesIWantToUseGoogleMapApiInternals
           onGoogleApiLoaded={({ map }) => {
             loadMapMarkers()

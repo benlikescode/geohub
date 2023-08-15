@@ -1,16 +1,17 @@
 /* eslint-disable @next/next/no-img-element */
 import GoogleMapReact from 'google-map-react'
-import { FC, useRef, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { Button } from '@components/system'
 import { ArrowRightIcon, XIcon } from '@heroicons/react/outline'
-import { useAppDispatch, useAppSelector } from '@redux/hook'
-import { updateGuessMapSize } from '@redux/slices'
+import { useAppSelector } from '@redux/hook'
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon'
 import { multiPolygon, polygon } from '@turf/helpers'
+import { GoogleMapsConfigType } from '@types'
 import countries from '@utils/constants/countries'
 import { GUESS_MAP_OPTIONS } from '@utils/constants/googleMapOptions'
 import { POLYGON_STYLES } from '@utils/constants/polygonStyles'
-import { formatPolygon, getGuessMapSize, getMapsKey } from '@utils/helpers'
+import { formatPolygon, getMapsKey } from '@utils/helpers'
+import useGuessMap from '@utils/hooks/useGuessMap'
 import { StyledStreaksGuessMap } from './'
 
 type Props = {
@@ -19,6 +20,9 @@ type Props = {
   mobileMapOpen?: boolean
   closeMobileMap: () => void
   handleSubmitGuess: () => void
+  googleMapsConfig: GoogleMapsConfigType | undefined
+  setGoogleMapsConfig: (googleMapsConfig: GoogleMapsConfigType) => void
+  resetMap?: boolean
 }
 
 const StreaksGuessMap: FC<Props> = ({
@@ -27,79 +31,91 @@ const StreaksGuessMap: FC<Props> = ({
   mobileMapOpen,
   closeMobileMap,
   handleSubmitGuess,
+  googleMapsConfig,
+  setGoogleMapsConfig,
+  resetMap,
 }) => {
-  const [mapHeight, setMapHeight] = useState(15) // height in vh
-  const [mapWidth, setMapWidth] = useState(15) // width in vw
-  const [hovering, setHovering] = useState(false)
   const [selectedCountryName, setSelectedCountryName] = useState('')
 
-  const dispatch = useAppDispatch()
+  const {
+    mapHeight,
+    mapWidth,
+    hovering,
+    setHovering,
+    setMapHeight,
+    setMapWidth,
+    handleMapHover,
+    handleMapLeave,
+    changeMapSize,
+  } = useGuessMap()
+
   const user = useAppSelector((state) => state.user)
   const prevCountriesRef = useRef<any>(null)
-  const hoverDelay = useRef<any>()
 
-  const handleMapHover = () => {
-    clearInterval(hoverDelay.current)
-    setHovering(true)
+  useEffect(() => {
+    handleSetupMap()
+  }, [googleMapsConfig])
 
-    const { width, height } = getGuessMapSize(user.guessMapSize as number)
-    setMapHeight(height)
-    setMapWidth(width)
-  }
+  useEffect(() => {
+    handleResetMapState()
+  }, [resetMap, googleMapsConfig])
 
-  const handleMapLeave = () => {
-    hoverDelay.current = setTimeout(() => {
-      setHovering(false)
-      setMapHeight(15)
-      setMapWidth(15)
-    }, 700)
-  }
+  const handleSetupMap = async () => {
+    if (!googleMapsConfig) return
 
-  const changeMapSize = (change: 'increase' | 'decrease') => {
-    let newMapSize = 1
+    const { map } = googleMapsConfig
 
-    if (change === 'increase' && (user.guessMapSize as number) < 4) {
-      newMapSize = (user.guessMapSize as number) + 1
-    } else if (change === 'decrease' && (user.guessMapSize as number) > 1) {
-      newMapSize = (user.guessMapSize as number) - 1
-    }
-
-    const { width, height } = getGuessMapSize(newMapSize)
-    setMapHeight(height)
-    setMapWidth(width)
-
-    dispatch(updateGuessMapSize({ guessMapSize: newMapSize }))
-  }
-
-  const onInit = async (map: any, maps: any) => {
     const { default: countryBounds } = await import('@utils/constants/countryBounds.json')
 
-    maps.event.addListener(map, 'click', (e: any) => {
-      const clickedCoords = [e.latLng.lng(), e.latLng.lat()]
-      const clickedPoint = formatPolygon(clickedCoords, {}, 'Point')
+    map.addListener('click', (e: google.maps.MapMouseEvent) => addCountryPolygon(e, map, countryBounds))
+  }
 
-      Object.entries(countryBounds).map(([code, bounds]) => {
-        const poly = bounds.length > 1 ? multiPolygon(bounds.map((x) => [x])) : polygon(bounds)
+  const handleResetMapState = () => {
+    if (!resetMap || !googleMapsConfig) return
 
-        const isPointInThisCountry = booleanPointInPolygon(clickedPoint as any, poly as any)
+    const { map } = googleMapsConfig
 
-        if (isPointInThisCountry) {
-          prevCountriesRef.current &&
-            prevCountriesRef.current.map((feature: any) => {
-              map.data.remove(feature)
-            })
+    map.setCenter({ lat: 0, lng: 0 })
+    map.setZoom(1)
 
-          const newCountry = map.data.addGeoJson(formatPolygon(bounds, { code }))
+    setHovering(false)
+    setMapHeight(15)
+    setMapWidth(15)
+    setCountryStreakGuess('')
+    removeCountryPolygons(map)
+  }
 
-          map.data.setStyle(POLYGON_STYLES['guess'])
+  const addCountryPolygon = (e: google.maps.MapMouseEvent, map: google.maps.Map, countryBounds: Object) => {
+    if (!e.latLng) return
 
-          prevCountriesRef.current = newCountry
+    const clickedCoords = [e.latLng.lng(), e.latLng.lat()]
+    const clickedPoint = formatPolygon(clickedCoords, {}, 'Point')
 
-          setSelectedCountryName(countries.find((x) => x.code === code)?.name || '')
-          setCountryStreakGuess(code)
-        }
-      })
+    Object.entries(countryBounds).map(([code, bounds]) => {
+      const poly = bounds.length > 1 ? multiPolygon(bounds.map((x: any) => [x])) : polygon(bounds)
+
+      const isPointInThisCountry = booleanPointInPolygon(clickedPoint as any, poly as any)
+
+      if (isPointInThisCountry) {
+        removeCountryPolygons(map)
+
+        const newCountry = map.data.addGeoJson(formatPolygon(bounds, { code }))
+
+        map.data.setStyle(POLYGON_STYLES['guess'])
+
+        prevCountriesRef.current = newCountry
+
+        setSelectedCountryName(countries.find((x) => x.code === code)?.name || '')
+        setCountryStreakGuess(code)
+      }
     })
+  }
+
+  const removeCountryPolygons = (map: google.maps.Map) => {
+    prevCountriesRef.current &&
+      prevCountriesRef.current.map((feature: any) => {
+        map.data.remove(feature)
+      })
   }
 
   return (
@@ -131,7 +147,7 @@ const StreaksGuessMap: FC<Props> = ({
             defaultCenter={{ lat: 0, lng: 0 }}
             defaultZoom={1}
             yesIWantToUseGoogleMapApiInternals
-            onGoogleApiLoaded={({ map, maps }) => onInit(map, maps)}
+            onGoogleApiLoaded={({ map, maps }) => setGoogleMapsConfig({ isLoaded: true, map, mapsApi: maps })}
             options={GUESS_MAP_OPTIONS}
           ></GoogleMapReact>
 

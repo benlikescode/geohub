@@ -3,7 +3,9 @@ import { Game } from '@backend/models'
 import { GameStatus } from '@components/GameStatus'
 import { GuessMap } from '@components/GuessMap'
 import { LoadingPage } from '@components/layout'
+import { StreaksGuessMap } from '@components/StreaksGuessMap'
 import { StreetViewControls } from '@components/StreetViewControls'
+import { MapIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
 import { GameViewType, GoogleMapsConfigType, LocationType } from '@types'
 import { getStreetviewOptions } from '@utils/constants/googleMapOptions'
@@ -167,16 +169,36 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
       <div id="streetview">
         <StreetViewControls handleBackToStart={handleBackToStart} />
         <GameStatus gameData={gameData} handleSubmitGuess={handleSubmitGuess} />
-        <GuessMap
-          currGuess={currGuess}
-          setCurrGuess={setCurrGuess}
-          handleSubmitGuess={handleSubmitGuess}
-          mobileMapOpen={mobileMapOpen}
-          closeMobileMap={() => setMobileMapOpen(false)}
-          googleMapsConfig={googleMapsConfig}
-          setGoogleMapsConfig={setGoogleMapsConfig}
-          resetMap={view === 'Game'}
-        />
+
+        {gameData.mode === 'standard' && (
+          <GuessMap
+            currGuess={currGuess}
+            setCurrGuess={setCurrGuess}
+            handleSubmitGuess={handleSubmitGuess}
+            mobileMapOpen={mobileMapOpen}
+            closeMobileMap={() => setMobileMapOpen(false)}
+            googleMapsConfig={googleMapsConfig}
+            setGoogleMapsConfig={setGoogleMapsConfig}
+            resetMap={view === 'Game'}
+          />
+        )}
+
+        {gameData.mode === 'streak' && (
+          <StreaksGuessMap
+            countryStreakGuess={countryStreakGuess}
+            setCountryStreakGuess={setCountryStreakGuess}
+            handleSubmitGuess={handleSubmitGuess}
+            mobileMapOpen={mobileMapOpen}
+            closeMobileMap={() => setMobileMapOpen(false)}
+            googleMapsConfig={googleMapsConfig}
+            setGoogleMapsConfig={setGoogleMapsConfig}
+            resetMap={view === 'Game'}
+          />
+        )}
+
+        <button className="toggle-map-button" onClick={() => setMobileMapOpen(true)}>
+          <MapIcon />
+        </button>
       </div>
     </StyledStreetView>
   )

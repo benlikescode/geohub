@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { FC } from 'react'
 import Game from '@backend/models/game'
 import { Button } from '@components/system'
+import { ChartPieIcon, MapIcon } from '@heroicons/react/outline'
 import { useAppDispatch } from '@redux/hook'
 import { updateStartTime } from '@redux/slices'
 import { GameViewType } from '@types'
@@ -25,6 +26,8 @@ const StreakResults: FC<Props> = ({ gameData, setView }) => {
 
   const guessedCountry = countries.find((x) => x.code === guessedCountryCode)?.name
   const correctCountry = countries.find((x) => x.code === correctCountryCode)?.name
+
+  const IS_CHALLENGE = !!gameData.challengeId
 
   const handleNextRound = () => {
     // Store start time
@@ -76,6 +79,42 @@ const StreakResults: FC<Props> = ({ gameData, setView }) => {
             <p className="streak-count">
               {`Your streak ended at ${gameData.streak} ${gameData.streak === 1 ? 'country' : 'countries'}`}.
             </p>
+          </div>
+        )}
+
+        {IS_CHALLENGE ? (
+          <div className="buttons-wrapper">
+            <div className="side-button">
+              <Button className="play-again-btn" onClick={() => navigateToResults()}>
+                Breakdown
+              </Button>
+
+              <span>View the leaderboard</span>
+            </div>
+          </div>
+        ) : (
+          <div className="buttons-wrapper">
+            <div className="side-button">
+              <button className="results-btn" onClick={() => navigateToResults()}>
+                <ChartPieIcon />
+              </button>
+              <span>Summary</span>
+            </div>
+
+            <div className="side-button">
+              <Button className="play-again-btn" onClick={() => playAgain()} isLoading={isLoading} spinnerSize={24}>
+                Play Again
+              </Button>
+
+              <span>New Country Streak</span>
+            </div>
+
+            <div className="side-button">
+              <button className="map-btn" onClick={() => navigateToStreaksPage()}>
+                <MapIcon />
+              </button>
+              <span>Exit</span>
+            </div>
           </div>
         )}
 
