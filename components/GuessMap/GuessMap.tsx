@@ -118,6 +118,7 @@ const GuessMap: FC<Props> = ({
             </button>
           </div>
         )}
+
         <div className="map">
           <GoogleMapReact
             bootstrapURLKeys={getMapsKey(user.mapsAPIKey)}
