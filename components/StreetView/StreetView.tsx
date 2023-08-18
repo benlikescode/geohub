@@ -168,7 +168,7 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
 
       <div id="streetview">
         <StreetViewControls handleBackToStart={handleBackToStart} />
-        <GameStatus gameData={gameData} handleSubmitGuess={handleSubmitGuess} />
+        {view === 'Game' && <GameStatus gameData={gameData} handleSubmitGuess={handleSubmitGuess} />}
 
         {gameData.mode === 'standard' && (
           <GuessMap
