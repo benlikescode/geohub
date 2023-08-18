@@ -86,25 +86,24 @@ const ChallengeResultsPage: PageType = () => {
     return (
       <StyledResultPage>
         <Head title="Challenge Results" />
-        <section>
-          <Navbar />
 
-          {!gamesFromChallenge ? (
-            <SkeletonGameResults />
-          ) : (
-            <main>
-              <StreaksSummaryMap gameData={gamesFromChallenge[selectedGameIndex]} />
+        {!gamesFromChallenge ? (
+          <SkeletonGameResults />
+        ) : (
+          <section>
+            <Navbar />
 
-              <FlexGroup justify="center">
-                <StreaksLeaderboard
-                  gameData={gamesFromChallenge}
-                  selectedGameIndex={selectedGameIndex}
-                  setSelectedGameIndex={setSelectedGameIndex}
-                />
-              </FlexGroup>
-            </main>
-          )}
-        </section>
+            <StreaksSummaryMap gameData={gamesFromChallenge[selectedGameIndex]} />
+
+            <FlexGroup justify="center">
+              <StreaksLeaderboard
+                gameData={gamesFromChallenge}
+                selectedGameIndex={selectedGameIndex}
+                setSelectedGameIndex={setSelectedGameIndex}
+              />
+            </FlexGroup>
+          </section>
+        )}
       </StyledResultPage>
     )
   }

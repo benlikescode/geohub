@@ -6,13 +6,11 @@ const StyledResultPage = styled.div`
     height: 100dvh;
     overflow: hidden auto;
     display: grid;
-    grid-template-rows: var(--navbarHeight) minmax(0, 1fr) auto;
+    grid-template-rows: var(--navbarHeight) calc(100% - 250px - var(--navbarHeight)) auto;
 
-     {
-      /* Navbar goes position fixed at 600px */
-    }
+    // Navbar goes position fixed at 600px
     @media (max-width: 600px) {
-      grid-template-rows: minmax(0, 1fr) auto;
+      grid-template-rows: calc(100% - 250px) auto;
     }
   }
 

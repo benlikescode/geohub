@@ -8,6 +8,10 @@ const StyledLeaderboardCard = styled.div`
   z-index: 1;
   padding-bottom: 3rem;
 
+  @media (max-width: 600px) {
+    margin-top: 0;
+  }
+
   @media (max-width: 1300px) {
     max-width: 100%;
     padding: 8px;
