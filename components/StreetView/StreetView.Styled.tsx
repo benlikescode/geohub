@@ -13,14 +13,6 @@ const StyledStreetView = styled.div<StyledProps>`
     width: 100%;
   }
 
-  #streetview > div.gm-style > div:nth-child(2) > div:nth-child(1) > div:nth-child(9) > div:nth-child(2) > div {
-    filter: invert(1) !important;
-  }
-
-  #streetview > div.gm-style > div:nth-child(2) > div:nth-child(1) > div:nth-child(9) > div:nth-child(1) {
-    display: none;
-  }
-
   .toggle-map-button {
     display: none;
 
