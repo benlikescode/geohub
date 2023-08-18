@@ -22,6 +22,7 @@ const StyledStreaksGuessMap = styled.div<StyledProps>`
     @media (max-width: 600px) {
       display: flex;
       flex-direction: column;
+      height: 60vh;
       height: 60dvh;
       width: 100%;
       bottom: -100%;
