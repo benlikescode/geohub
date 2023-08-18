@@ -4,6 +4,7 @@ import User from './user'
 
 type Game = {
   id?: ObjectId
+  _id?: ObjectId // replace id with _id throughout app
   mapId: string
   mapObjectId: ObjectId
   mapName?: string

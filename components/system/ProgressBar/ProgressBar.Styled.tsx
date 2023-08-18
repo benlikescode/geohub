@@ -6,7 +6,7 @@ type StyledProps = {
 }
 
 const StyledProgressBar = styled.div<StyledProps>`
-  height: 16px;
+  height: 10px;
   width: 100%;
   border-radius: 50rem;
   background: #202020;

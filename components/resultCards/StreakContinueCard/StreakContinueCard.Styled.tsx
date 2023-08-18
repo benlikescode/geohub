@@ -18,8 +18,9 @@ const StyledStreakContinueCard = styled.div<StyledProps>`
 
   .result-wrapper {
     display: grid;
-    gap: 20px;
+    gap: 14px;
     text-align: center;
+    max-width: 600px;
 
     .correct-country {
       font-size: 18px;
@@ -42,7 +43,7 @@ const StyledStreakContinueCard = styled.div<StyledProps>`
   }
 
   .actionButton {
-    margin-top: 20px;
+    margin-top: 12px;
 
     .next-round-btn {
       border-radius: 50rem;
@@ -50,9 +51,8 @@ const StyledStreakContinueCard = styled.div<StyledProps>`
       align-items: center;
       justify-content: center;
       gap: 8px;
-      height: 50px;
-      width: 200px;
-      font-size: 18px;
+      height: 56px;
+      width: 180px;
       font-weight: 400;
       user-select: none;
       background-color: var(--mediumPurple);

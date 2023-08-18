@@ -3,10 +3,9 @@ import { useEffect, useState } from 'react'
 import Game from '@backend/models/game'
 import { ChallengeStart } from '@components/ChallengeStart'
 import { NotFound } from '@components/errorViews'
+import { StandardGameView, StreakGameView } from '@components/gameViews'
 import { Head } from '@components/Head'
 import { LoadingPage } from '@components/layout'
-import { StandardGameView } from '@components/StandardGameView'
-import { StreaksGameView } from '@components/StreaksGameView'
 import { useAppDispatch } from '@redux/hook'
 import { updateStartTime } from '@redux/slices'
 import StyledGamePage from '@styles/GamePage.Styled'
@@ -25,7 +24,7 @@ const ChallengePage: PageType = () => {
   const fetchChallenge = async () => {
     const res = await mailman(`challenges/${challengeId}`)
 
-    const { challengeBelongsToUser, playersGame } = res
+    const { challengeBelongsToUser, playersGame, mapDetails } = res
 
     // If challenge not found -> show error page
     if (res.error) {
@@ -45,8 +44,7 @@ const ChallengePage: PageType = () => {
     }
 
     // If they have not finished the game, set their game state
-    const formattedGameData = { id: playersGame._id, ...playersGame }
-    setGameData(formattedGameData)
+    setGameData({ ...playersGame, mapDetails })
   }
 
   const createGame = async (challengeData: ChallengeType) => {
@@ -101,7 +99,7 @@ const ChallengePage: PageType = () => {
       )}
 
       {gameData.mode === 'streak' && (
-        <StreaksGameView gameData={gameData} setGameData={setGameData} view={view} setView={setView} />
+        <StreakGameView gameData={gameData} setGameData={setGameData} view={view} setView={setView} />
       )}
     </StyledGamePage>
   )

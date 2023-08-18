@@ -2,10 +2,9 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Game from '@backend/models/game'
 import { NotFound } from '@components/errorViews'
+import { StandardGameView, StreakGameView } from '@components/gameViews'
 import { Head } from '@components/Head'
 import { LoadingPage } from '@components/layout'
-import { StandardGameView } from '@components/StandardGameView'
-import { StreaksGameView } from '@components/StreaksGameView'
 import { useAppDispatch } from '@redux/hook'
 import { updateRecentlyPlayed } from '@redux/slices'
 import StyledGamePage from '@styles/GamePage.Styled'
@@ -28,7 +27,7 @@ const GamePage: PageType = () => {
       return setGameData(null)
     }
 
-    const { game, gameBelongsToUser } = res
+    const { game, mapDetails, gameBelongsToUser } = res
 
     if (!gameBelongsToUser) {
       return setGameData(null)
@@ -41,13 +40,7 @@ const GamePage: PageType = () => {
 
     dispatch(updateRecentlyPlayed({ recentlyPlayed: [] }))
 
-    // HALP -> update this to not need to use "id" -> should be using "_id"
-    const gameData = {
-      id: gameId,
-      ...game,
-    }
-
-    setGameData(gameData)
+    setGameData({ ...game, mapDetails })
     setPrevGameId(gameId)
   }
 
@@ -84,7 +77,7 @@ const GamePage: PageType = () => {
       )}
 
       {gameData.mode === 'streak' && (
-        <StreaksGameView gameData={gameData} setGameData={setGameData} view={view} setView={setView} />
+        <StreakGameView gameData={gameData} setGameData={setGameData} view={view} setView={setView} />
       )}
     </StyledGamePage>
   )

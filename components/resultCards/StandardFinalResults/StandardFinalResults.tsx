@@ -81,7 +81,7 @@ const StandardFinalResults: FC<Props> = ({ gameData, setGameData, view, setView 
   }
 
   const navigateToResults = () => {
-    const url = IS_CHALLENGE ? `/results/challenge/${gameData.challengeId}` : `/results/${gameData.id}`
+    const url = IS_CHALLENGE ? `/results/challenge/${gameData.challengeId}` : `/results/${gameData._id}`
 
     router.push(url)
   }
@@ -95,7 +95,9 @@ const StandardFinalResults: FC<Props> = ({ gameData, setGameData, view, setView 
   return (
     <StyledStandardFinalResults>
       <div className="results-card">
-        <div className="pointsWrapper">{`${formatLargeNumber(gameData.totalPoints)} Total Points`}</div>
+        <div className="pointsWrapper">
+          <span>{formatLargeNumber(gameData.totalPoints)}</span> Total Points
+        </div>
 
         <div className="progress-bar">
           <ProgressBar progress={calculateProgress()} />
@@ -110,11 +112,18 @@ const StandardFinalResults: FC<Props> = ({ gameData, setGameData, view, setView 
 
               <span>View the leaderboard</span>
             </div>
+
+            <div className="side-button">
+              <button className="map-btn" onClick={() => navigateToMapsPage()}>
+                <MapIcon />
+              </button>
+              <span>Exit</span>
+            </div>
           </div>
         ) : (
           <div className="buttons-wrapper">
             <div className="side-button">
-              <button className="results-btn" onClick={() => navigateToResults()}>
+              <button className="results-btn" onClick={() => setView('Leaderboard')}>
                 <ChartPieIcon />
               </button>
               <span>Breakdown</span>

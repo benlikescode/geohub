@@ -112,33 +112,32 @@ const ChallengeResultsPage: PageType = () => {
   return (
     <StyledResultPage>
       <Head title="Challenge Results" />
-      <section>
-        <Navbar />
 
-        {!gamesFromChallenge || !mapData ? (
-          <SkeletonGameResults />
-        ) : (
-          <main>
-            <ResultMap
-              guessedLocations={gamesFromChallenge[selectedGameIndex].guesses}
-              actualLocations={gamesFromChallenge[selectedGameIndex].rounds}
-              round={gamesFromChallenge[selectedGameIndex].round}
-              isFinalResults
-              isLeaderboard
-              userAvatar={gamesFromChallenge[selectedGameIndex].userDetails?.avatar}
+      {!gamesFromChallenge || !mapData ? (
+        <SkeletonGameResults />
+      ) : (
+        <section>
+          <Navbar />
+
+          <ResultMap
+            guessedLocations={gamesFromChallenge[selectedGameIndex].guesses}
+            actualLocations={gamesFromChallenge[selectedGameIndex].rounds}
+            round={gamesFromChallenge[selectedGameIndex].round}
+            isFinalResults
+            isLeaderboard
+            userAvatar={gamesFromChallenge[selectedGameIndex].userDetails?.avatar}
+          />
+
+          <FlexGroup justify="center">
+            <LeaderboardCard
+              gameData={gamesFromChallenge}
+              mapData={mapData}
+              selectedGameIndex={selectedGameIndex}
+              setSelectedGameIndex={setSelectedGameIndex}
             />
-
-            <FlexGroup justify="center">
-              <LeaderboardCard
-                gameData={gamesFromChallenge}
-                mapData={mapData}
-                selectedGameIndex={selectedGameIndex}
-                setSelectedGameIndex={setSelectedGameIndex}
-              />
-            </FlexGroup>
-          </main>
-        )}
-      </section>
+          </FlexGroup>
+        </section>
+      )}
     </StyledResultPage>
   )
 }

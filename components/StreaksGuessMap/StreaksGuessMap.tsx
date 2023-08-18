@@ -83,6 +83,7 @@ const StreaksGuessMap: FC<Props> = ({
     setMapWidth(15)
     setCountryStreakGuess('')
     removeCountryPolygons(map)
+    closeMobileMap()
   }
 
   const addCountryPolygon = (e: google.maps.MapMouseEvent, map: google.maps.Map, countryBounds: Object) => {

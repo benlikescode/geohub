@@ -1,3 +1,3 @@
-type GameView = 'Start' | 'Game' | 'Result' | 'FinalResults'
+type GameView = 'Start' | 'Game' | 'Result' | 'FinalResults' | 'Leaderboard'
 
 export default GameView

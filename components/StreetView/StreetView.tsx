@@ -101,13 +101,13 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
         streakLocationCode: countryStreakGuess.toLowerCase(),
       }
 
-      const res = await mailman(`games/${gameData.id}`, 'PUT', JSON.stringify(body))
+      const res = await mailman(`games/${gameData._id}`, 'PUT', JSON.stringify(body))
 
       if (res.error) {
         return showToast('error', res.error.message)
       }
 
-      setGameData({ id: res._id, ...res })
+      setGameData({ ...res.game, mapDetails: res.mapDetails, userDetails: gameData.userDetails })
       setView('Result')
     }
   }

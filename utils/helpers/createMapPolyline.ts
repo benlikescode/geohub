@@ -7,8 +7,13 @@ const createPolyline = (guessedLocation: GuessType, actualLocation: LocationType
     scale: 1.75,
   }
 
+  const midpoint = {
+    lat: (guessedLocation.lat + actualLocation.lat) / 2,
+    lng: (guessedLocation.lng + actualLocation.lng) / 2,
+  }
+
   return new google.maps.Polyline({
-    path: [guessedLocation, actualLocation],
+    path: [guessedLocation, midpoint, actualLocation],
     map: map,
     clickable: false,
     strokeOpacity: 0,

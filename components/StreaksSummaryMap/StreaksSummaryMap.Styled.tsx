@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 const StyledStreaksSummaryMap = styled.div`
   height: calc(100vh - 300px);
+  height: calc(100dvh - 300px);
 
   .map {
     height: 100%;
@@ -10,6 +11,7 @@ const StyledStreaksSummaryMap = styled.div`
 
   .map-skeleton {
     height: calc(100vh - 300px);
+    height: calc(100dvh - 300px);
     background-color: #999999;
     opacity: 0.08;
   }

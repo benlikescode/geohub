@@ -11,7 +11,7 @@ const StyledStandardFinalResults = styled.div<StyledProps>`
   flex-direction: column;
   gap: 12px;
   padding: 20px;
-  height: 250px;
+  height: 100%;
   width: 100%;
   background-color: #121212;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
@@ -19,7 +19,7 @@ const StyledStandardFinalResults = styled.div<StyledProps>`
   background: linear-gradient(360deg, rgba(25, 26, 27, 0) 0%, rgb(8 8 8 / 57%) 47.4%, #000 100%);
 
   .results-card {
-    max-width: 550px;
+    /* max-width: 550px; */
     width: 100%;
     display: flex;
     align-items: center;
@@ -49,8 +49,8 @@ const StyledStandardFinalResults = styled.div<StyledProps>`
       align-items: center;
       justify-content: center;
       gap: 8px;
-      height: 60px;
-      width: 200px;
+      height: 56px;
+      width: 180px;
       font-size: 18px;
       font-weight: 400;
       user-select: none;
@@ -68,14 +68,14 @@ const StyledStandardFinalResults = styled.div<StyledProps>`
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 60px;
-      width: 60px;
-      background-color: #282828;
-      color: #fff;
+      height: 56px;
+      width: 56px;
+      background-color: #202020;
+      color: #959595;
       border: 1px solid rgba(255, 255, 255, 0.05);
 
       &:hover {
-        background-color: #333;
+        background-color: #282828;
       }
 
       svg {
@@ -84,34 +84,14 @@ const StyledStandardFinalResults = styled.div<StyledProps>`
     }
   }
 
-  .secondary-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    border-radius: 5px;
-    height: 40px;
-    padding: 0 25px;
-    user-select: none;
-    background-color: #222;
-    border: 1px solid #252525;
-    color: #fff;
-    font-weight: 400;
-
-    :hover {
-      background-color: #252525;
-    }
-  }
-
-  .points-wrapper {
-    display: grid;
-    gap: 4px;
-  }
-
   .pointsWrapper {
     font-size: 20px;
-    font-weight: 600;
-    color: #ababab;
+    font-weight: 500;
+    color: #8a8a8a;
+
+    span {
+      color: #fff;
+    }
 
     @media (max-width: 600px) {
       font-size: 18px;
@@ -120,20 +100,9 @@ const StyledStandardFinalResults = styled.div<StyledProps>`
 
   .progress-bar {
     margin-top: 10px;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
     max-width: 525px;
     width: 100%;
-  }
-
-  .finishedMessage {
-    font-size: 16px;
-    color: #808080;
-    margin-bottom: 30px;
-
-    @media (max-width: 600px) {
-      font-size: 14px;
-      text-align: center;
-    }
   }
 `
 

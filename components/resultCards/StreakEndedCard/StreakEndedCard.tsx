@@ -84,7 +84,7 @@ const StreakEndedCard: FC<Props> = ({ gameData, setGameData, view, setView }) =>
   }
 
   const navigateToResults = () => {
-    const url = IS_CHALLENGE ? `/results/challenge/${gameData.challengeId}` : `/results/${gameData.id}`
+    const url = IS_CHALLENGE ? `/results/challenge/${gameData.challengeId}` : `/results/${gameData._id}`
 
     router.push(url)
   }
@@ -111,7 +111,7 @@ const StreakEndedCard: FC<Props> = ({ gameData, setGameData, view, setView }) =>
             </Button>
             {IS_CHALLENGE ? (
               <Button className="view-summary-btn" onClick={() => navigateToResults()}>
-                View Leaderboard
+                Show Highscore
               </Button>
             ) : (
               <Button className="view-summary-btn" onClick={() => navigateToStreaksPage()}>
@@ -129,7 +129,7 @@ const StreakEndedCard: FC<Props> = ({ gameData, setGameData, view, setView }) =>
                 src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${guessedCountryCode?.toUpperCase()}.svg`}
                 alt={guessedCountry}
               />
-              but the correct country was <span>{correctCountry}</span>
+              but it was actually <span>{correctCountry}</span>
               <img
                 src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${correctCountryCode?.toUpperCase()}.svg`}
                 alt={correctCountry}

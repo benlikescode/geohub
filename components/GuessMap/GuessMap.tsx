@@ -75,6 +75,7 @@ const GuessMap: FC<Props> = ({
     setMapWidth(15)
     setCurrGuess(null)
     setMarker(null)
+    closeMobileMap()
   }
 
   const addMarker = (e: google.maps.MapMouseEvent) => {
@@ -85,16 +86,6 @@ const GuessMap: FC<Props> = ({
     setCurrGuess(location)
     setMarker(location)
   }
-
-  // const onInit = (map: any, maps: any) => {
-  //   setGoogleMapsConfig({ isLoaded: true, map, mapsApi: maps })
-
-  //   maps.event.addListener(map, 'click', (e: any) => {
-  //     addMarker(e.latLng)
-  //   })
-
-  //   mapRef.current = map
-  // }
 
   return (
     <StyledGuessMap mapHeight={mapHeight} mapWidth={mapWidth} mobileMapOpen={mobileMapOpen}>

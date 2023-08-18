@@ -21,11 +21,13 @@ const StyledStreakEndedCard = styled.div<StyledProps>`
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    max-width: 600px;
 
     .correct-country {
       font-size: 18px;
       font-weight: 600;
       color: #ababab;
+      text-align: center;
 
       img {
         height: 14px;
@@ -44,7 +46,7 @@ const StyledStreakEndedCard = styled.div<StyledProps>`
       color: #808080;
       font-weight: 400;
       text-align: center;
-      margin-top: 20px;
+      margin-top: 14px;
       margin-bottom: 40px;
     }
 
@@ -59,7 +61,11 @@ const StyledStreakEndedCard = styled.div<StyledProps>`
   .buttons-wrapper {
     display: flex;
     align-items: center;
-    gap: 25px;
+    gap: 20px;
+
+    @media (max-width: 600px) {
+      gap: 16px;
+    }
 
     .side-button {
       display: flex;
@@ -77,9 +83,8 @@ const StyledStreakEndedCard = styled.div<StyledProps>`
       align-items: center;
       justify-content: center;
       gap: 8px;
-      height: 60px;
-      padding: 0 40px;
-      font-size: 18px;
+      height: 56px;
+      padding: 0 32px;
       font-weight: 400;
       user-select: none;
       background-color: var(--mediumPurple);
@@ -87,6 +92,11 @@ const StyledStreakEndedCard = styled.div<StyledProps>`
 
       :hover {
         background-color: var(--indigo-600);
+      }
+
+      @media (max-width: 600px) {
+        height: 50px;
+        padding: 0 20px;
       }
     }
 
@@ -96,9 +106,8 @@ const StyledStreakEndedCard = styled.div<StyledProps>`
       align-items: center;
       justify-content: center;
       gap: 8px;
-      height: 60px;
-      padding: 0 40px;
-      font-size: 18px;
+      height: 56px;
+      padding: 0 32px;
       font-weight: 400;
       user-select: none;
       background-color: #282828;
@@ -106,6 +115,11 @@ const StyledStreakEndedCard = styled.div<StyledProps>`
 
       :hover {
         background-color: #333;
+      }
+
+      @media (max-width: 600px) {
+        height: 50px;
+        padding: 0 20px;
       }
     }
 

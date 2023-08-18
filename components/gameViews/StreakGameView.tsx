@@ -4,7 +4,7 @@ import { StreakContinueCard, StreakEndedCard } from '@components/resultCards'
 import { StreaksResultMap } from '@components/StreaksResultMap'
 import { StreetView } from '@components/StreetView'
 import { GameViewType } from '@types'
-import { StyledStreaksGameView } from './'
+import { StyledGameView } from './'
 
 type Props = {
   gameData: Game
@@ -13,9 +13,9 @@ type Props = {
   setView: (view: GameViewType) => void
 }
 
-const StreaksGameView: FC<Props> = ({ gameData, setGameData, view, setView }) => {
+const StreakGameView: FC<Props> = ({ gameData, setGameData, view, setView }) => {
   return (
-    <StyledStreaksGameView>
+    <StyledGameView>
       <div className="play-wrapper" style={{ display: view === 'Game' ? 'block' : 'none' }}>
         <StreetView gameData={gameData} setGameData={setGameData} view={view} setView={setView} />
       </div>
@@ -36,8 +36,8 @@ const StreaksGameView: FC<Props> = ({ gameData, setGameData, view, setView }) =>
           )}
         </div>
       </div>
-    </StyledStreaksGameView>
+    </StyledGameView>
   )
 }
 
-export default StreaksGameView
+export default StreakGameView

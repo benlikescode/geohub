@@ -10,8 +10,8 @@ const StyledStandardResults = styled.div<StyledProps>`
   justify-content: center;
   flex-direction: column;
   gap: 2px;
-  padding: 20px;
-  height: 250px;
+  padding: 32px 20px;
+  height: 100%;
   width: 100%;
   background-color: #121212;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
@@ -27,9 +27,9 @@ const StyledStandardResults = styled.div<StyledProps>`
     transition: opacity 0.6s linear, transform 0.6s ease;
     transition-delay: 0.3s;
 
-    @media (max-width: 600px) {
+    /* @media (max-width: 600px) {
       font-size: 18px;
-    }
+    } */
 
     ${({ showPoints }) =>
       showPoints &&

@@ -103,7 +103,7 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   // Calculate distance and points for this guess
-  const map = await collections.maps?.findOne({ _id: game.mapId })
+  const mapDetails = await collections.maps?.findOne({ _id: game.mapId })
 
   const metricDistance = calculateDistance(guess, game.rounds[game.round - 1], 'metric')
   const imperialDistance = calculateDistance(guess, game.rounds[game.round - 1], 'imperial')
@@ -113,7 +113,7 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
     imperial: imperialDistance,
   }
 
-  const points = calculateRoundScore(metricDistance, map?.scoreFactor)
+  const points = calculateRoundScore(metricDistance, mapDetails?.scoreFactor)
 
   // Add this guess to guesses array
   const newGuess: GuessType = {
@@ -141,7 +141,7 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
     return throwError(res, 500, 'Failed to save your recent guess')
   }
 
-  res.status(200).send(game)
+  res.status(200).send({ game, mapDetails })
 }
 
 export default updateGame
