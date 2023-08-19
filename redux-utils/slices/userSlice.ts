@@ -10,7 +10,7 @@ const initialState: UserState = {
   name: '',
   email: '',
   avatar: { emoji: '1f3b1', color: '#fecaca' },
-  guessMapSize: 1,
+  guessMapSize: 2,
   gameSettings: { canMove: true, canPan: true, canZoom: true, timeLimit: 0 },
   recentlyPlayed: [],
 }
