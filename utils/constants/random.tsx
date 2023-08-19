@@ -1,4 +1,3 @@
-export const URBAN_WORLD_ID = '631d1a5be3615f68c5ffc4eb'
 export const OFFICIAL_WORLD_ID = '6185df7a7b54baf63473a53e'
 export const COUNTRY_STREAKS_ID = 'country-streaks'
 
