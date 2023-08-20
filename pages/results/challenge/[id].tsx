@@ -37,7 +37,15 @@ const ChallengeResultsPage: PageType = () => {
     }
 
     setGamesFromChallenge(res.games)
-    setMapData(res.map)
+
+    if (res.games.length > 0 && res.games[0].mode === 'standard') {
+      fetchMap(res.games[0].mapId)
+    }
+  }
+
+  const fetchMap = async (mapId: string) => {
+    const res = await mailman(`maps/${mapId}`)
+    setMapData(res)
   }
 
   const getDefaultGameToShow = () => {
