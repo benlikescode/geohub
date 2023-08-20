@@ -1,6 +1,7 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Game } from '@backend/models'
+import getMapFromGame from '@backend/queries/getMapFromGame'
 import {
   calculateDistance,
   calculateRoundScore,
@@ -103,7 +104,7 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   // Calculate distance and points for this guess
-  const mapDetails = await collections.maps?.findOne({ _id: game.mapId })
+  const mapDetails = await getMapFromGame(game)
 
   const metricDistance = calculateDistance(guess, game.rounds[game.round - 1], 'metric')
   const imperialDistance = calculateDistance(guess, game.rounds[game.round - 1], 'imperial')

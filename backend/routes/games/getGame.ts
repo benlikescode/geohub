@@ -1,9 +1,9 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Game } from '@backend/models'
+import getMapFromGame from '@backend/queries/getMapFromGame'
 import { collections, getUserId, throwError } from '@backend/utils'
 import { userProject } from '@backend/utils/dbProjects'
-import { OFFICIAL_WORLD_ID } from '@utils/constants/random'
 
 const getGame = async (req: NextApiRequest, res: NextApiResponse) => {
   const gameId = req.query.id as string
@@ -37,11 +37,13 @@ const getGame = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const gameBelongsToUser = userId === game.userId.toString()
 
-  const map = await collections.maps?.findOne({
-    _id: new ObjectId(game.mapId.length === 24 ? game.mapId : OFFICIAL_WORLD_ID),
-  })
+  console.log(game.mapId)
 
-  res.status(200).send({ game, mapDetails: map, gameBelongsToUser })
+  const mapDetails = await getMapFromGame(game)
+
+  console.log(mapDetails)
+
+  res.status(200).send({ game, mapDetails, gameBelongsToUser })
 }
 
 export default getGame
