@@ -1,10 +1,6 @@
 import styled from 'styled-components'
 
-type StyledProps = {
-  showPoints?: boolean
-}
-
-const StyledStandardResults = styled.div<StyledProps>`
+const StyledStandardResults = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -22,21 +18,6 @@ const StyledStandardResults = styled.div<StyledProps>`
     font-size: 20px;
     font-weight: 600;
     color: #ababab;
-    opacity: 0;
-    transform: translateY(3rem) scale(0.5);
-    transition: opacity 0.6s linear, transform 0.6s ease;
-    transition-delay: 0.3s;
-
-    /* @media (max-width: 600px) {
-      font-size: 18px;
-    } */
-
-    ${({ showPoints }) =>
-      showPoints &&
-      `
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        `}
   }
 
   .progress-bar {

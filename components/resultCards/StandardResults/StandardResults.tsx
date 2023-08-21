@@ -18,7 +18,6 @@ type Props = {
 }
 
 const StandardResults: FC<Props> = ({ round, distance, points, noGuess, view, setView }) => {
-  const [progressFinished, setProgressFinished] = useState(false)
   const dispatch = useAppDispatch()
   const user = useAppSelector((state) => state.user)
 
@@ -57,11 +56,11 @@ const StandardResults: FC<Props> = ({ round, distance, points, noGuess, view, se
   }
 
   return (
-    <StyledStandardResults showPoints={progressFinished}>
+    <StyledStandardResults>
       <div className="pointsWrapper">{`${formatLargeNumber(points)} Points`}</div>
 
       <div className="progress-bar">
-        <ProgressBar progress={calculateProgress()} setProgressFinished={setProgressFinished} />
+        <ProgressBar progress={calculateProgress()} />
       </div>
 
       <div>
