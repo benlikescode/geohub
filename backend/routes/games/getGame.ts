@@ -34,16 +34,10 @@ const getGame = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const game = gameQuery[0] as Game
-
   const gameBelongsToUser = userId === game.userId.toString()
-
-  console.log(game.mapId)
-
   const mapDetails = await getMapFromGame(game)
 
-  console.log(mapDetails)
-
-  res.status(200).send({ game, mapDetails, gameBelongsToUser })
+  res.status(200).send({ game, gameBelongsToUser, mapDetails })
 }
 
 export default getGame
