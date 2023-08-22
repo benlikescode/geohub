@@ -1,7 +1,8 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { Game } from '@backend/models'
+import getMapFromGame from '@backend/queries/getMapFromGame'
 import { collections, getUserId, throwError } from '@backend/utils'
-import { OFFICIAL_WORLD_ID } from '@utils/constants/random'
 
 const createChallengeGame = async (req: NextApiRequest, res: NextApiResponse) => {
   const userId = await getUserId(req, res)
@@ -42,9 +43,7 @@ const createChallengeGame = async (req: NextApiRequest, res: NextApiResponse) =>
     return throwError(res, 400, 'Failed to create your game in this challenge')
   }
 
-  const mapDetails = await collections.maps?.findOne({
-    _id: new ObjectId(mapId.length === 24 ? mapId : OFFICIAL_WORLD_ID),
-  })
+  const mapDetails = await getMapFromGame(newGame as Game)
 
   const _id = result.insertedId
 
