@@ -110,11 +110,11 @@ const StreakEndedCard: FC<Props> = ({ gameData, setGameData, view, setView }) =>
               Play Again
             </Button>
             {IS_CHALLENGE ? (
-              <Button className="view-summary-btn" onClick={() => navigateToResults()}>
+              <Button className="alternate-action-btn" onClick={() => navigateToResults()}>
                 Show Highscore
               </Button>
             ) : (
-              <Button className="view-summary-btn" onClick={() => navigateToStreaksPage()}>
+              <Button className="alternate-action-btn" onClick={() => navigateToStreaksPage()}>
                 Back To Streaks
               </Button>
             )}
@@ -153,31 +153,9 @@ const StreakEndedCard: FC<Props> = ({ gameData, setGameData, view, setView }) =>
             <Button className="play-again-btn" onClick={() => playAgain()} isLoading={isLoading} spinnerSize={24}>
               Play Again
             </Button>
-            <Button className="view-summary-btn" onClick={() => setShowSummary(true)}>
+            <Button className="alternate-action-btn" onClick={() => setShowSummary(true)}>
               View Summary
             </Button>
-
-            {/* <div className="side-button">
-                <button className="results-btn" onClick={() => setShowSummary(true)}>
-                  <ChartPieIcon />
-                </button>
-                <span>Summary</span>
-              </div>
-
-              <div className="side-button">
-                <Button className="play-again-btn" onClick={() => playAgain()} isLoading={isLoading} spinnerSize={24}>
-                  Play Again
-                </Button>
-
-                <span>New Country Streak</span>
-              </div>
-
-              <div className="side-button">
-                <button className="map-btn" onClick={() => navigateToStreaksPage()}>
-                  <MapIcon />
-                </button>
-                <span>Exit</span>
-              </div> */}
           </div>
         </div>
       )}

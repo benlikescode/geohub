@@ -11,9 +11,7 @@ const StyledStreakEndedCard = styled.div<StyledProps>`
   padding: 30px;
   width: 100%;
   height: 100%;
-  /* background-color: #121212; */
   border-top: 1px solid rgba(255, 255, 255, 0.05);
-  /* background: linear-gradient(360deg, rgba(25, 26, 27, 0) 0%, rgb(12 13 15 / 57%) 47.4%, #00274e 100%); */
   background: linear-gradient(360deg, rgba(25, 26, 27, 0) 0%, rgb(8 8 8 / 57%) 47.4%, #0e0e0e 100%);
 
   .result-wrapper {
@@ -77,7 +75,8 @@ const StyledStreakEndedCard = styled.div<StyledProps>`
       color: #686868;
     }
 
-    .play-again-btn {
+    .play-again-btn,
+    .alternate-action-btn {
       border-radius: 50rem;
       display: flex;
       align-items: center;
@@ -90,57 +89,21 @@ const StyledStreakEndedCard = styled.div<StyledProps>`
       background-color: var(--mediumPurple);
       color: #fff;
 
+      &.alternate-action-btn {
+        background-color: #282828;
+      }
+
       :hover {
         background-color: var(--indigo-600);
+
+        &.alternate-action-btn {
+          background-color: #333;
+        }
       }
 
       @media (max-width: 600px) {
         height: 50px;
         padding: 0 20px;
-      }
-    }
-
-    .view-summary-btn {
-      border-radius: 50rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      height: 56px;
-      padding: 0 32px;
-      font-weight: 400;
-      user-select: none;
-      background-color: #282828;
-      color: #fff;
-
-      :hover {
-        background-color: #333;
-      }
-
-      @media (max-width: 600px) {
-        height: 50px;
-        padding: 0 20px;
-      }
-    }
-
-    .results-btn,
-    .map-btn {
-      border-radius: 50rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 60px;
-      width: 60px;
-      background-color: #282828;
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-
-      &:hover {
-        background-color: #333;
-      }
-
-      svg {
-        height: 24px;
       }
     }
   }
