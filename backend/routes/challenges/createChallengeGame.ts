@@ -1,5 +1,7 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { Game } from '@backend/models'
+import getMapFromGame from '@backend/queries/getMapFromGame'
 import { collections, getUserId, throwError } from '@backend/utils'
 
 const createChallengeGame = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -41,8 +43,10 @@ const createChallengeGame = async (req: NextApiRequest, res: NextApiResponse) =>
     return throwError(res, 400, 'Failed to create your game in this challenge')
   }
 
-  const id = result.insertedId
+  const mapDetails = await getMapFromGame(newGame as Game)
 
-  res.status(201).send({ id, ...newGame })
+  const _id = result.insertedId
+
+  res.status(201).send({ _id, ...newGame, mapDetails })
 }
 export default createChallengeGame

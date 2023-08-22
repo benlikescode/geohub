@@ -2,22 +2,19 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Game from '@backend/models/game'
 import { NotFound } from '@components/errorViews'
+import { StandardGameView, StreakGameView } from '@components/gameViews'
 import { Head } from '@components/Head'
 import { LoadingPage } from '@components/layout'
-import { StandardFinalResults, StandardResults, StreakFinalResults, StreakResults } from '@components/resultCards'
-import { ResultMap } from '@components/ResultMap'
-import { StreaksResultMap } from '@components/StreaksResultMap'
-import { StreaksSummaryMap } from '@components/StreaksSummaryMap'
-import { StreetView } from '@components/StreetView'
 import { useAppDispatch } from '@redux/hook'
 import { updateRecentlyPlayed } from '@redux/slices'
 import StyledGamePage from '@styles/GamePage.Styled'
-import { PageType } from '@types'
+import { GameViewType, PageType } from '@types'
 import { mailman } from '@utils/helpers'
 
 const GamePage: PageType = () => {
-  const [view, setView] = useState<'Game' | 'Result' | 'FinalResults'>('Game')
+  const [view, setView] = useState<GameViewType>('Game')
   const [gameData, setGameData] = useState<Game | null>()
+  const [prevGameId, setPrevGameId] = useState('')
   const router = useRouter()
   const gameId = router.query.id as string
   const dispatch = useAppDispatch()
@@ -30,7 +27,7 @@ const GamePage: PageType = () => {
       return setGameData(null)
     }
 
-    const { game, gameBelongsToUser } = res
+    const { game, mapDetails, gameBelongsToUser } = res
 
     if (!gameBelongsToUser) {
       return setGameData(null)
@@ -43,13 +40,8 @@ const GamePage: PageType = () => {
 
     dispatch(updateRecentlyPlayed({ recentlyPlayed: [] }))
 
-    // HALP -> update this to not need to use "id" -> should be using "_id"
-    const gameData = {
-      id: gameId,
-      ...game,
-    }
-
-    setGameData(gameData)
+    setGameData({ ...game, mapDetails })
+    setPrevGameId(gameId)
   }
 
   useEffect(() => {
@@ -61,6 +53,12 @@ const GamePage: PageType = () => {
       fetchGame()
     }
   }, [gameId, view])
+
+  useEffect(() => {
+    if (gameId !== prevGameId) {
+      setView('Game')
+    }
+  }, [gameId])
 
   if (gameData === null) {
     return <NotFound title="Game Not Found" message="This game likely does not exist or does not belong to you." />
@@ -74,54 +72,13 @@ const GamePage: PageType = () => {
     <StyledGamePage>
       <Head title={`Game - GeoHub`} />
 
-      {view === 'Game' && <StreetView gameData={gameData} setGameData={setGameData} setView={setView} />}
-
-      {view !== 'Game' && (
-        <>
-          {/* Result Maps */}
-          {gameData.mode === 'standard' && view === 'Result' && (
-            <ResultMap guessedLocations={gameData.guesses} actualLocations={gameData.rounds} round={gameData.round} />
-          )}
-
-          {gameData.mode === 'standard' && view === 'FinalResults' && (
-            <ResultMap
-              guessedLocations={gameData.guesses}
-              actualLocations={gameData.rounds}
-              round={gameData.round}
-              isFinalResults
-            />
-          )}
-
-          {gameData.mode === 'streak' && view === 'Result' && <StreaksResultMap gameData={gameData} />}
-
-          {gameData.mode === 'streak' && view === 'FinalResults' && <StreaksSummaryMap gameData={gameData} />}
-
-          {/* Result Cards */}
-          <div className="resultsWrapper">
-            {gameData.mode === 'standard' && view === 'Result' && (
-              <StandardResults
-                round={gameData.round}
-                distance={gameData.guesses[gameData.guesses.length - 1].distance}
-                points={gameData.guesses[gameData.guesses.length - 1].points}
-                noGuess={
-                  gameData.guesses[gameData.guesses.length - 1].timedOut &&
-                  !gameData.guesses[gameData.guesses.length - 1].timedOutWithGuess
-                }
-                setView={setView}
-              />
-            )}
-
-            {gameData.mode === 'standard' && view === 'FinalResults' && <StandardFinalResults gameData={gameData} />}
-
-            {gameData.mode === 'streak' && view === 'Result' && <StreakResults gameData={gameData} setView={setView} />}
-
-            {gameData.mode === 'streak' && view === 'FinalResults' && (
-              <StreakFinalResults gameData={gameData} setView={setView} />
-            )}
-          </div>
-        </>
+      {gameData.mode === 'standard' && (
+        <StandardGameView gameData={gameData} setGameData={setGameData} view={view} setView={setView} />
       )}
-      <></>
+
+      {gameData.mode === 'streak' && (
+        <StreakGameView gameData={gameData} setGameData={setGameData} view={view} setView={setView} />
+      )}
     </StyledGamePage>
   )
 }

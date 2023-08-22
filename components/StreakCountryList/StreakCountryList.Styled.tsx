@@ -6,16 +6,17 @@ const StyledStreakCountryList = styled.ol<StyledProps>`
   display: grid;
   gap: 25px;
   padding: 0;
-  /* margin: 40px 0; */
-  /* border-bottom: 1px solid #333; */
-  /* padding-bottom: 25px; */
+  width: 100%;
 
   .streak-result-item {
     display: flex;
     align-items: center;
+    font-size: 15px;
 
     .result-number {
-      width: 40px;
+      font-feature-settings: 'tnum';
+      margin-right: 20px;
+      font-weight: 400;
     }
 
     .result-flag {
@@ -42,10 +43,11 @@ const StyledStreakCountryList = styled.ol<StyledProps>`
 
     .result-name {
       font-weight: 400;
+
       .result-guessed-name {
-        font-size: 14px;
+        font-size: 12px;
         color: #bababa;
-        margin-top: 2px;
+        margin-top: 4px;
       }
     }
   }

@@ -66,21 +66,20 @@ const ResultsPage: PageType = () => {
     return (
       <StyledResultPage>
         <Head title="Challenge Results" />
-        <section>
-          <Navbar />
 
-          {!gameData ? (
-            <SkeletonGameResults />
-          ) : (
-            <main>
-              <StreaksSummaryMap gameData={gameData} />
+        {!gameData ? (
+          <SkeletonGameResults />
+        ) : (
+          <section>
+            <Navbar />
 
-              <FlexGroup justify="center">
-                <StreaksLeaderboard gameData={[gameData]} />
-              </FlexGroup>
-            </main>
-          )}
-        </section>
+            <StreaksSummaryMap gameData={gameData} />
+
+            <FlexGroup justify="center">
+              <StreaksLeaderboard gameData={[gameData]} />
+            </FlexGroup>
+          </section>
+        )}
       </StyledResultPage>
     )
   }
@@ -94,20 +93,19 @@ const ResultsPage: PageType = () => {
       ) : (
         <section>
           <Navbar />
-          <main>
-            <ResultMap
-              guessedLocations={gameData.guesses}
-              actualLocations={gameData.rounds}
-              round={gameData.round}
-              isFinalResults
-              isLeaderboard
-              userAvatar={gameData.userDetails?.avatar}
-            />
 
-            <FlexGroup justify="center">
-              <LeaderboardCard gameData={[gameData]} mapData={mapData} />
-            </FlexGroup>
-          </main>
+          <ResultMap
+            guessedLocations={gameData.guesses}
+            actualLocations={gameData.rounds}
+            round={gameData.round}
+            isFinalResults
+            isLeaderboard
+            userAvatar={gameData.userDetails?.avatar}
+          />
+
+          <FlexGroup justify="center">
+            <LeaderboardCard gameData={[gameData]} mapData={mapData} />
+          </FlexGroup>
         </section>
       )}
     </StyledResultPage>

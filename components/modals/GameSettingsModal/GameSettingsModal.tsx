@@ -128,7 +128,7 @@ const GameSettingsModal: FC<Props> = ({ isOpen, closeModal, mapDetails, gameMode
       return showToast('error', res.error.message)
     }
 
-    router.push(`/game/${res}`)
+    router.push(`/game/${res._id}`)
   }
 
   const handleCheck = () => {

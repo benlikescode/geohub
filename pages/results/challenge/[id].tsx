@@ -37,7 +37,15 @@ const ChallengeResultsPage: PageType = () => {
     }
 
     setGamesFromChallenge(res.games)
-    setMapData(res.map)
+
+    if (res.games.length > 0 && res.games[0].mode === 'standard') {
+      fetchMap(res.games[0].mapId)
+    }
+  }
+
+  const fetchMap = async (mapId: string) => {
+    const res = await mailman(`maps/${mapId}`)
+    setMapData(res)
   }
 
   const getDefaultGameToShow = () => {
@@ -86,25 +94,24 @@ const ChallengeResultsPage: PageType = () => {
     return (
       <StyledResultPage>
         <Head title="Challenge Results" />
-        <section>
-          <Navbar />
 
-          {!gamesFromChallenge ? (
-            <SkeletonGameResults />
-          ) : (
-            <main>
-              <StreaksSummaryMap gameData={gamesFromChallenge[selectedGameIndex]} />
+        {!gamesFromChallenge ? (
+          <SkeletonGameResults />
+        ) : (
+          <section>
+            <Navbar />
 
-              <FlexGroup justify="center">
-                <StreaksLeaderboard
-                  gameData={gamesFromChallenge}
-                  selectedGameIndex={selectedGameIndex}
-                  setSelectedGameIndex={setSelectedGameIndex}
-                />
-              </FlexGroup>
-            </main>
-          )}
-        </section>
+            <StreaksSummaryMap gameData={gamesFromChallenge[selectedGameIndex]} />
+
+            <FlexGroup justify="center">
+              <StreaksLeaderboard
+                gameData={gamesFromChallenge}
+                selectedGameIndex={selectedGameIndex}
+                setSelectedGameIndex={setSelectedGameIndex}
+              />
+            </FlexGroup>
+          </section>
+        )}
       </StyledResultPage>
     )
   }
@@ -112,33 +119,32 @@ const ChallengeResultsPage: PageType = () => {
   return (
     <StyledResultPage>
       <Head title="Challenge Results" />
-      <section>
-        <Navbar />
 
-        {!gamesFromChallenge || !mapData ? (
-          <SkeletonGameResults />
-        ) : (
-          <main>
-            <ResultMap
-              guessedLocations={gamesFromChallenge[selectedGameIndex].guesses}
-              actualLocations={gamesFromChallenge[selectedGameIndex].rounds}
-              round={gamesFromChallenge[selectedGameIndex].round}
-              isFinalResults
-              isLeaderboard
-              userAvatar={gamesFromChallenge[selectedGameIndex].userDetails?.avatar}
+      {!gamesFromChallenge || !mapData ? (
+        <SkeletonGameResults />
+      ) : (
+        <section>
+          <Navbar />
+
+          <ResultMap
+            guessedLocations={gamesFromChallenge[selectedGameIndex].guesses}
+            actualLocations={gamesFromChallenge[selectedGameIndex].rounds}
+            round={gamesFromChallenge[selectedGameIndex].round}
+            isFinalResults
+            isLeaderboard
+            userAvatar={gamesFromChallenge[selectedGameIndex].userDetails?.avatar}
+          />
+
+          <FlexGroup justify="center">
+            <LeaderboardCard
+              gameData={gamesFromChallenge}
+              mapData={mapData}
+              selectedGameIndex={selectedGameIndex}
+              setSelectedGameIndex={setSelectedGameIndex}
             />
-
-            <FlexGroup justify="center">
-              <LeaderboardCard
-                gameData={gamesFromChallenge}
-                mapData={mapData}
-                selectedGameIndex={selectedGameIndex}
-                setSelectedGameIndex={setSelectedGameIndex}
-              />
-            </FlexGroup>
-          </main>
-        )}
-      </section>
+          </FlexGroup>
+        </section>
+      )}
     </StyledResultPage>
   )
 }

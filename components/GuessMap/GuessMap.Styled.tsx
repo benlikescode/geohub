@@ -1,10 +1,16 @@
-import styled from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 
 type StyledProps = {
   mapHeight: number
   mapWidth: number
   mobileMapOpen?: boolean
 }
+
+const slideUpAnim = keyframes`
+  to {
+    bottom: 0px;
+  }
+`
 
 const StyledGuessMap = styled.div<StyledProps>`
   .guessMapWrapper {
@@ -14,20 +20,21 @@ const StyledGuessMap = styled.div<StyledProps>`
     z-index: 3;
 
     @media (max-width: 600px) {
-      display: none;
+      display: flex;
+      flex-direction: column;
+      height: 60vh;
+      height: 60dvh;
+      width: 100%;
+      bottom: -100%;
+      right: 0;
+      background-color: var(--background1);
+      gap: 0;
 
       ${({ mobileMapOpen }) =>
         mobileMapOpen &&
-        `
-          display: flex;
-          flex-direction: column;
-          height: 50vh;
-          width: 100%;
-          bottom: 0;
-          right: 0;
-          background-color: var(--background1);
-          gap: 0;
-      `}
+        css`
+          animation: ${slideUpAnim} 0.4s ease forwards;
+        `}
     }
   }
 
@@ -108,6 +115,8 @@ const StyledGuessMap = styled.div<StyledProps>`
       width: 32px;
       border-radius: 50%;
       border: 1px solid var(--background1);
+
+      ${({ mobileMapOpen }) => !mobileMapOpen && 'display: none'};
     }
 
     svg {
@@ -118,7 +127,9 @@ const StyledGuessMap = styled.div<StyledProps>`
 
   .submit-button-wrapper {
     @media (max-width: 600px) {
-      padding: 10px;
+      padding: 6px 16px 16px 16px;
+
+      ${({ mobileMapOpen }) => !mobileMapOpen && 'display: none'};
     }
   }
 `

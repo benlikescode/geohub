@@ -1,7 +1,8 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
+import getMapFromGame from '@backend/queries/getMapFromGame'
 import { collections, getUserId, throwError } from '@backend/utils'
-import { COUNTRY_STREAKS_ID, OFFICIAL_WORLD_ID } from '@utils/constants/random'
+import { ChallengeType } from '@types'
 
 const getChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
   const userId = await getUserId(req, res)
@@ -32,9 +33,7 @@ const getChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
     })
   }
 
-  const mapId =
-    challenge.isDailyChallenge || challenge.mapId === COUNTRY_STREAKS_ID ? OFFICIAL_WORLD_ID : challenge.mapId
-  const mapDetails = await collections.maps?.findOne({ _id: new ObjectId(mapId) })
+  const mapDetails = await getMapFromGame(challenge as ChallengeType)
 
   if (!mapDetails) {
     return throwError(res, 404, 'Failed to find challenge')

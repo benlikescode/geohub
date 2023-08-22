@@ -1,5 +1,4 @@
-import GoogleMapReact from 'google-map-react'
-import { FC, useEffect, useRef, useState } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 import { Game } from '@backend/models'
 import { GameStatus } from '@components/GameStatus'
 import { GuessMap } from '@components/GuessMap'
@@ -8,29 +7,84 @@ import { StreaksGuessMap } from '@components/StreaksGuessMap'
 import { StreetViewControls } from '@components/StreetViewControls'
 import { MapIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
-import { LocationType } from '@types'
+import { GameViewType, GoogleMapsConfigType, LocationType } from '@types'
+import { getStreetviewOptions } from '@utils/constants/googleMapOptions'
 import { KEY_CODES } from '@utils/constants/keyCodes'
-import { URBAN_WORLD_ID } from '@utils/constants/random'
-import { getMapsKey, mailman, showToast } from '@utils/helpers'
+import { mailman, showToast } from '@utils/helpers'
 import { StyledStreetView } from './'
 
 type Props = {
   gameData: Game
-  setView: (view: 'Game' | 'Result' | 'FinalResults') => void
-  setGameData: any
+  setGameData: (gameData: Game) => void
+  view: GameViewType
+  setView: (view: GameViewType) => void
 }
 
-const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
+const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
   const [loading, setLoading] = useState(true)
   const [currGuess, setCurrGuess] = useState<LocationType | null>(null)
   const [countryStreakGuess, setCountryStreakGuess] = useState('')
-  const [adjustedLocation, setAdjustedLocation] = useState<LocationType | null>(null)
   const [mobileMapOpen, setMobileMapOpen] = useState(false)
+  const [googleMapsConfig, setGoogleMapsConfig] = useState<GoogleMapsConfigType>()
 
   const location = gameData.rounds[gameData.round - 1]
   const game = useAppSelector((state) => state.game)
-  const user = useAppSelector((state) => state.user)
+
+  const serviceRef = useRef<google.maps.StreetViewService | null>(null)
   const panoramaRef = useRef<google.maps.StreetViewPanorama | null>(null)
+
+  // Initializes Streetview & loads first pano
+  useEffect(() => {
+    if (!googleMapsConfig) return
+
+    initializeStreetView()
+  }, [googleMapsConfig])
+
+  // Loads all subsequent panos
+  useEffect(() => {
+    if (view !== 'Game' || !serviceRef.current) return
+
+    loadNewPano()
+  }, [view])
+
+  const initializeStreetView = () => {
+    const svService = new google.maps.StreetViewService()
+
+    const svPanorama = new google.maps.StreetViewPanorama(
+      document.getElementById('streetview') as HTMLElement,
+      getStreetviewOptions(gameData)
+    )
+
+    serviceRef.current = svService
+    panoramaRef.current = svPanorama
+
+    loadNewPano()
+  }
+
+  const loadNewPano = async () => {
+    setLoading(true)
+
+    const svService = serviceRef.current
+    const svPanorama = panoramaRef.current
+
+    if (!svService || !svPanorama) return
+
+    await svService.getPanorama({ location, radius: 50 }, (data) => {
+      if (!data || !data.location) {
+        return showToast('error', 'Could not load streetview for this location')
+      }
+
+      svPanorama.setPano(data.location.pano)
+      svPanorama.setPov({
+        heading: location.heading || 0,
+        pitch: location.pitch || 0,
+      })
+      svPanorama.setZoom(location.zoom || 0)
+      svPanorama.setVisible(true)
+    })
+
+    setLoading(false)
+  }
 
   const handleSubmitGuess = async (timedOut?: boolean) => {
     if (currGuess || countryStreakGuess || timedOut) {
@@ -44,17 +98,16 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
         localRound: gameData.round,
         timedOut,
         timedOutWithGuess: currGuess !== null,
-        adjustedLocation,
         streakLocationCode: countryStreakGuess.toLowerCase(),
       }
 
-      const res = await mailman(`games/${gameData.id}`, 'PUT', JSON.stringify(body))
+      const res = await mailman(`games/${gameData._id}`, 'PUT', JSON.stringify(body))
 
       if (res.error) {
         return showToast('error', res.error.message)
       }
 
-      setGameData({ id: res._id, ...res })
+      setGameData({ ...res.game, mapDetails: res.mapDetails, userDetails: gameData.userDetails })
       setView('Result')
     }
   }
@@ -62,12 +115,8 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
   const handleBackToStart = () => {
     if (!panoramaRef.current) return
 
-    panoramaRef.current.setPosition(adjustedLocation)
-
-    // Have to check heading and pitch exist since Location type has them as possibly undefined...
-    if (typeof adjustedLocation?.heading !== 'undefined' && typeof adjustedLocation.pitch !== 'undefined') {
-      panoramaRef.current.setPov({ heading: adjustedLocation?.heading, pitch: adjustedLocation?.pitch })
-    }
+    panoramaRef.current.setPosition(location)
+    panoramaRef.current.setPov({ heading: location.heading || 0, pitch: location.pitch || 0 })
   }
 
   const handleSubmitGuessKeys = async (e: KeyboardEvent) => {
@@ -79,12 +128,14 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
   }
 
   useEffect(() => {
-    document.addEventListener('keydown', handleSubmitGuessKeys)
+    if (view !== 'Game') return
+
+    document.addEventListener('keydown', handleSubmitGuessKeys, { once: true })
 
     return () => {
       document.removeEventListener('keydown', handleSubmitGuessKeys)
     }
-  }, [currGuess, countryStreakGuess])
+  }, [currGuess, countryStreakGuess, view])
 
   const handleMovingArrowKeys = (e: KeyboardEvent) => {
     const movingArrowKeys = [
@@ -102,82 +153,23 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
   }
 
   useEffect(() => {
+    if (view !== 'Game') return
+
     document.addEventListener('keydown', handleMovingArrowKeys, { capture: true })
 
     return () => {
       document.removeEventListener('keydown', handleMovingArrowKeys, { capture: true })
     }
-  }, [])
-
-  const loadLocation = () => {
-    var sv = new window.google.maps.StreetViewService()
-    var panorama = new window.google.maps.StreetViewPanorama(document.getElementById('map') as HTMLElement, {
-      addressControl: false, // hide address
-      linksControl: gameData.gameSettings.canMove, // arrows to move
-      panControl: true, // compass
-      panControlOptions: {
-        position: google.maps.ControlPosition.LEFT_BOTTOM,
-      },
-      motionTracking: false, // mobile tracking
-      motionTrackingControl: false,
-      enableCloseButton: false, // hide default UI elements
-      zoomControl: false,
-      fullscreenControl: false,
-      showRoadLabels: false, // hide road labels
-      clickToGo: gameData.gameSettings.canMove,
-      scrollwheel: gameData.gameSettings.canZoom,
-    })
-
-    const processSVData = (data: any, status: any) => {
-      if (data == null) {
-        console.log('There was an error loading the round :(')
-      } else {
-        const adjustedLat = data.location.latLng.lat()
-        const adjustedLng = data.location.latLng.lng()
-        const adjustedLocation = { ...location, lat: adjustedLat, lng: adjustedLng }
-
-        setAdjustedLocation(adjustedLocation)
-
-        panorama.setPano(data.location.pano)
-        panorama.setPov({
-          heading: location.heading || 0,
-          pitch: location.pitch || 0,
-        })
-        panorama.setZoom(location.zoom || 0)
-        panorama.setVisible(true)
-      }
-    }
-
-    sv.getPanorama(getPanoSettings(location, gameData.mapId.toString()), processSVData)
-
-    panoramaRef.current = panorama
-
-    setLoading(false)
-  }
-
-  const getPanoSettings = (location: LocationType, mapId: string) => {
-    // Need a larger radius for Urban World
-    if (mapId === URBAN_WORLD_ID) {
-      return {
-        location,
-        radius: 1000,
-        source: google.maps.StreetViewSource.OUTDOOR,
-      }
-    }
-
-    return {
-      location,
-      radius: 50,
-    }
-  }
+  }, [view])
 
   return (
     <StyledStreetView showMap={!loading}>
       {loading && <LoadingPage />}
 
-      <div id="map">
+      <div id="streetview">
         <StreetViewControls handleBackToStart={handleBackToStart} />
-        <GameStatus gameData={gameData} handleSubmitGuess={handleSubmitGuess} />
+        {view === 'Game' && <GameStatus gameData={gameData} handleSubmitGuess={handleSubmitGuess} />}
+
         {gameData.mode === 'standard' && (
           <GuessMap
             currGuess={currGuess}
@@ -185,6 +177,9 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
             handleSubmitGuess={handleSubmitGuess}
             mobileMapOpen={mobileMapOpen}
             closeMobileMap={() => setMobileMapOpen(false)}
+            googleMapsConfig={googleMapsConfig}
+            setGoogleMapsConfig={setGoogleMapsConfig}
+            resetMap={view === 'Game'}
           />
         )}
 
@@ -195,6 +190,9 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
             handleSubmitGuess={handleSubmitGuess}
             mobileMapOpen={mobileMapOpen}
             closeMobileMap={() => setMobileMapOpen(false)}
+            googleMapsConfig={googleMapsConfig}
+            setGoogleMapsConfig={setGoogleMapsConfig}
+            resetMap={view === 'Game'}
           />
         )}
 
@@ -202,16 +200,8 @@ const StreetView: FC<Props> = ({ gameData, setView, setGameData }) => {
           <MapIcon />
         </button>
       </div>
-
-      <GoogleMapReact
-        bootstrapURLKeys={getMapsKey(user.mapsAPIKey)}
-        center={location}
-        zoom={11}
-        yesIWantToUseGoogleMapApiInternals
-        onGoogleApiLoaded={({ map, maps }) => loadLocation()}
-      ></GoogleMapReact>
     </StyledStreetView>
   )
 }
 
-export default StreetView
+export default Streetview

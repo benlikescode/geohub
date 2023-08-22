@@ -1,9 +1,17 @@
 import styled from 'styled-components'
 
 const StyledResultPage = styled.div`
-  main {
+  section {
+    height: 100vh;
+    height: 100dvh;
     overflow: hidden auto;
-    height: calc(100vh - var(--navbarHeight));
+    display: grid;
+    grid-template-rows: var(--navbarHeight) calc(100% - 250px - var(--navbarHeight)) auto;
+
+    // Navbar goes position fixed at 600px
+    @media (max-width: 600px) {
+      grid-template-rows: calc(100% - 250px) auto;
+    }
   }
 
   .not-played-wrapper {

@@ -4,7 +4,7 @@ type StyledProps = {}
 
 const StyledSkeletonGameResults = styled.div<StyledProps>`
   .map-skeleton {
-    height: calc(100vh - 300px);
+    height: calc(100vh - 250px);
     background-color: #999999;
     opacity: 0.08;
   }

@@ -1,9 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 import { Game } from '@backend/models'
 import { LightningBoltIcon } from '@heroicons/react/solid'
-import { MapType } from '@types'
-import { formatLargeNumber, formatStatusTimer, mailman } from '@utils/helpers'
-import { setMapName, useAppDispatch, useAppSelector } from '../../redux-utils'
+import { formatLargeNumber, formatStatusTimer } from '@utils/helpers'
 import { StyledGameStatus } from './'
 
 type Props = {
@@ -17,21 +15,6 @@ const GameStatus: FC<Props> = ({ gameData, handleSubmitGuess, hasCustomRoundLeng
   const hasTimeLimit = gameData.gameSettings.timeLimit !== 0
 
   const [timeLeft, setTimeLeft] = useState(timeLimit)
-
-  const dispatch = useAppDispatch()
-  const game = useAppSelector((state) => state.game)
-
-  useEffect(() => {
-    if (gameData.round === 1 && gameData.mode !== 'streak') {
-      getMapName()
-    }
-  }, [])
-
-  const getMapName = async () => {
-    const mapDetails = (await mailman(`maps/${gameData.mapId}`)) as MapType
-
-    dispatch(setMapName(mapDetails.name))
-  }
 
   useEffect(() => {
     if (hasTimeLimit) {
@@ -56,8 +39,7 @@ const GameStatus: FC<Props> = ({ gameData, handleSubmitGuess, hasCustomRoundLeng
               <span>Map</span>
             </div>
             <div className="value">
-              {/* <span>{gameData.mapDetails?.name || gameData?.mapName}</span> */}
-              <span>{game.mapName}</span>
+              <span>{gameData.mapDetails?.name}</span>
             </div>
           </div>
 
