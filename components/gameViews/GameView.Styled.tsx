@@ -37,6 +37,11 @@ const StyledGameView = styled.div`
     font-weight: 400;
     cursor: pointer;
 
+    &:hover {
+      background-color: #282828;
+      color: #fff;
+    }
+
     svg {
       height: 22px;
       margin-left: -4px;
