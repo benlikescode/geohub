@@ -32,7 +32,6 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
 
   const serviceRef = useRef<google.maps.StreetViewService | null>(null)
   const panoramaRef = useRef<google.maps.StreetViewPanorama | null>(null)
-  const timeoutRef = useRef<NodeJS.Timeout>()
 
   // Initializes Streetview & loads first pano
   useEffect(() => {
@@ -48,13 +47,6 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
     loadNewPano()
   }, [view])
 
-  // Cleanup
-  useEffect(() => {
-    const timeout = timeoutRef.current as NodeJS.Timeout
-
-    return () => clearTimeout(timeout)
-  }, [])
-
   const initializeStreetView = () => {
     const svService = new google.maps.StreetViewService()
 
@@ -69,7 +61,7 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
     loadNewPano()
   }
 
-  const loadNewPano = () => {
+  const loadNewPano = async () => {
     setLoading(true)
 
     const svService = serviceRef.current
@@ -77,7 +69,7 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
 
     if (!svService || !svPanorama) return
 
-    svService.getPanorama({ location, radius: 50 }, (data) => {
+    await svService.getPanorama({ location, radius: 50 }, (data) => {
       if (!data || !data.location) {
         return showToast('error', 'Could not load streetview for this location')
       }
@@ -91,8 +83,7 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
       svPanorama.setVisible(true)
     })
 
-    const timeout = setTimeout(() => setLoading(false), 250)
-    timeoutRef.current = timeout
+    setLoading(false)
   }
 
   const handleSubmitGuess = async (timedOut?: boolean) => {
