@@ -55,7 +55,6 @@ const ResultMap: FC<Props> = ({
 
     const bounds = new google.maps.LatLngBounds()
 
-    // I do this weirdly because actual location is 1 location ahead of guessed...
     if (isFinalResults) {
       for (let i = 0; i < guessedLocations.length; i++) {
         bounds.extend(guessedLocations[i])
