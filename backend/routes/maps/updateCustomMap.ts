@@ -1,5 +1,6 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
+import pako from 'pako'
 import { calculateMapScoreFactor, collections, getUserId, throwError } from '@backend/utils'
 import { LocationType } from '@types'
 import { MAX_ALLOWED_CUSTOM_LOCATIONS } from '@utils/constants/random'
@@ -22,97 +23,29 @@ type UpdatedMap = {
 }
 
 const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
-  const userId = await getUserId(req, res)
-  const mapId = req.query.mapId as string
+  // const { name, description, previewImg, isPublished, locations } = req.body as ReqBody
 
-  if (!mapId) {
-    return throwError(res, 400, 'You must pass a valid mapId')
+  // try {
+  //   const decompressed = ungzip(req.body, { to: 'string' })
+
+  //   console.log(decompressed)
+  //   console.log(JSON.parse(decompressed))
+  // } catch (err) {
+  //   return res.status(500).send(err)
+  // }
+
+  try {
+    // Decompress the incoming data
+    // const a = pako.ungzip(req.body, { to: 'string' })
+    const restored = JSON.parse(pako.inflate(req.body, { to: 'string' }))
+
+    console.log(restored)
+
+    return res.status(200).send({ restored })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).send('Error during decompression')
   }
-
-  const mapDetails = await collections.maps?.findOne({ _id: new ObjectId(mapId) })
-
-  if (!mapDetails) {
-    return throwError(res, 400, `Failed to find map details`)
-  }
-
-  // Verify user is updating their own map
-  if (userId !== mapDetails.creator?.toString()) {
-    return throwError(res, 401, 'You can only make changes to maps you create')
-  }
-
-  let updatedMap: UpdatedMap = {}
-
-  const { name, description, previewImg, isPublished, locations } = req.body as ReqBody
-
-  if (name) {
-    updatedMap['name'] = name
-  }
-
-  if (description) {
-    updatedMap['description'] = description
-  }
-
-  if (previewImg) {
-    updatedMap['previewImg'] = previewImg
-  }
-
-  if (locations && locations.length < 5) {
-    return throwError(res, 400, 'Maps must have a minimum of 5 locations')
-  }
-
-  if (isPublished !== undefined) {
-    updatedMap['isPublished'] = isPublished
-  }
-
-  updatedMap.lastUpdatedAt = new Date()
-
-  const result = await collections.maps?.findOneAndUpdate({ _id: new ObjectId(mapId) }, { $set: updatedMap })
-
-  if (!result) {
-    return throwError(res, 400, 'Could not update map details')
-  }
-
-  // HALP -> Really shouldn't be deleting locations and then inserting new
-  if (locations) {
-    if (locations.length > MAX_ALLOWED_CUSTOM_LOCATIONS) {
-      return throwError(res, 400, `The max locations allowed is ${formatLargeNumber(MAX_ALLOWED_CUSTOM_LOCATIONS)}`)
-    }
-
-    // Removes old locations
-    const removeResult = await collections.userLocations?.deleteMany({ mapId: new ObjectId(mapId) })
-
-    if (!removeResult) {
-      return throwError(res, 400, 'Something went wrong updating locations')
-    }
-
-    // Attach mapId to each location
-    locations.map((location) => {
-      location.mapId = new ObjectId(mapId)
-    })
-
-    // Finally insert the new locations (if not empty)
-    if (locations.length > 0) {
-      const result = await collections.userLocations?.insertMany(locations)
-
-      if (!result) {
-        return throwError(res, 400, 'Could not add locations')
-      }
-
-      // Update map's score factor (since locations have changed)
-      const scoreFactor = calculateMapScoreFactor(locations)
-
-      const updateMap = await collections.maps?.updateOne(
-        { _id: new ObjectId(mapId) },
-        { $set: { scoreFactor: scoreFactor } }
-      )
-
-      if (!updateMap) {
-        return throwError(res, 400, 'Failed to save new map score factor')
-      }
-    }
-  }
-
-  res.status(200).send({ message: 'Map was successfully updated' })
 }
 
 export default updateCustomMap

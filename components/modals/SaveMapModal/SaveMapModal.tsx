@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router'
+import pako from 'pako'
 import { FC, useState } from 'react'
 import { MainModal } from '@components/modals'
 import { ToggleSwitch } from '@components/system'
@@ -51,13 +52,35 @@ const SaveMapModal: FC<Props> = ({
 
     setIsSaving(true)
 
-    const res = await mailman(`maps/custom/${mapId}`, 'PUT', JSON.stringify({ locations, isPublished }))
+    // const body = {
+    //   locations: deflate(JSON.stringify(locations)),
+    //   isPublished,
+    // }
+
+    const jsonString = JSON.stringify(locations)
+
+    const compressed = pako.deflate(jsonString)
+    console.log(compressed)
+
+    // const restored = JSON.parse(pako.inflate(compressed, { to: 'string' }))
+    // console.log(restored)
+
+    // const compressedBuffer = Buffer.from(compressedData)
+
+    const resRaw = await fetch(`/api/maps/custom/${mapId}`, {
+      method: 'PUT',
+      body: compressed,
+    })
+
+    // console.log(resRaw)
+
+    // const res = await mailman(`maps/custom/${mapId}`, 'PUT', compressedData)
 
     setIsSaving(false)
 
-    if (res.error) {
-      return showToast('error', res.error.message, 'mapEditor')
-    }
+    // if (res.error) {
+    //   return showToast('error', res.error.message, 'mapEditor')
+    // }
 
     setLastSave(new Date())
     setInitiallyPublished(isPublished)
