@@ -1,5 +1,6 @@
 import GoogleMapReact from 'google-map-react'
 import { FC, useEffect, useRef, useState } from 'react'
+import Game from '@backend/models/game'
 import { Marker } from '@components/Marker'
 import { Button } from '@components/system'
 import { ArrowRightIcon, XIcon } from '@heroicons/react/outline'
@@ -19,6 +20,7 @@ type Props = {
   googleMapsConfig: GoogleMapsConfigType | undefined
   setGoogleMapsConfig: (googleMapsConfig: GoogleMapsConfigType) => void
   resetMap?: boolean
+  gameData: Game
 }
 
 const GuessMap: FC<Props> = ({
@@ -30,6 +32,7 @@ const GuessMap: FC<Props> = ({
   googleMapsConfig,
   setGoogleMapsConfig,
   resetMap,
+  gameData,
 }) => {
   const [marker, setMarker] = useState<{ lat: number; lng: number } | null>(null)
 
@@ -52,7 +55,7 @@ const GuessMap: FC<Props> = ({
 
   useEffect(() => {
     handleResetMapState()
-  }, [resetMap, googleMapsConfig])
+  }, [resetMap, googleMapsConfig, gameData])
 
   const handleSetupMap = () => {
     if (!googleMapsConfig) return
@@ -63,12 +66,21 @@ const GuessMap: FC<Props> = ({
   }
 
   const handleResetMapState = () => {
-    if (!resetMap || !googleMapsConfig) return
+    if (!resetMap || !googleMapsConfig || !gameData.mapDetails) return
 
     const { map } = googleMapsConfig
 
-    map.setCenter({ lat: 0, lng: 0 })
-    map.setZoom(1)
+    if (gameData.mapDetails.bounds) {
+      const { min, max } = gameData.mapDetails.bounds
+
+      const bounds = new google.maps.LatLngBounds()
+
+      bounds.extend(min)
+      bounds.extend(max)
+
+      map.setCenter(bounds.getCenter())
+      map.fitBounds(bounds, -100)
+    }
 
     setHovering(false)
     setMapHeight(15)
