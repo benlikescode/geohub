@@ -39,6 +39,24 @@ const CreateMapDropdown: FC<Props> = ({ locations, addNewLocations }) => {
       return showToast('error', validateCoords.error, 'mapEditor')
     }
 
+    // Upload file to S3
+    const res = await mailman('uploads/url', 'POST')
+
+    if (res.error) {
+      return showToast('error', 'Failed to save locations file', 'mapEditor')
+    }
+
+    const { url } = res
+
+    const s3UploadRaw = await fetch(url, {
+      method: 'PUT',
+      body: file,
+    })
+
+    if (!s3UploadRaw.ok) {
+      showToast('error', 'Failed to save locations file', 'mapEditor')
+    }
+
     const newLocations = jsonArray.map((location) => {
       return formatLocationForImportExport(location)
     })
