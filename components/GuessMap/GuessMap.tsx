@@ -73,10 +73,10 @@ const GuessMap: FC<Props> = ({
     if (gameData.mapDetails.bounds) {
       const { min, max } = gameData.mapDetails.bounds
 
-      const bounds = new google.maps.LatLngBounds()
-
-      bounds.extend(min)
-      bounds.extend(max)
+      const bounds = new google.maps.LatLngBounds(
+        new google.maps.LatLng(min.lat, min.lng),
+        new google.maps.LatLng(max.lat, max.lng)
+      )
 
       map.setCenter(bounds.getCenter())
       map.fitBounds(bounds, -100)
