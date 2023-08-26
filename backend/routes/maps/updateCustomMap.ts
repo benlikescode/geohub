@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { calculateMapScoreFactor, collections, getUserId, throwError } from '@backend/utils'
+import { calculateMapScoreFactor, collections, getMapBounds, getUserId, throwError } from '@backend/utils'
 import { LocationType } from '@types'
 import { MAX_ALLOWED_CUSTOM_LOCATIONS } from '@utils/constants/random'
 import { formatLargeNumber } from '@utils/helpers'
@@ -99,11 +99,12 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       // Update map's score factor (since locations have changed)
-      const scoreFactor = calculateMapScoreFactor(locations)
+      const newBounds = getMapBounds(locations)
+      const newScoreFactor = calculateMapScoreFactor(newBounds)
 
       const updateMap = await collections.maps?.updateOne(
         { _id: new ObjectId(mapId) },
-        { $set: { scoreFactor: scoreFactor } }
+        { $set: { bounds: newBounds, scoreFactor: newScoreFactor } }
       )
 
       if (!updateMap) {

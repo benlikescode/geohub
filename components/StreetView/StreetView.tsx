@@ -180,6 +180,7 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
             googleMapsConfig={googleMapsConfig}
             setGoogleMapsConfig={setGoogleMapsConfig}
             resetMap={view === 'Game'}
+            gameData={gameData}
           />
         )}
 

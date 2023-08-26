@@ -1,5 +1,3 @@
-import { GuessType, LocationType } from '../../@types'
-
 const EARTH_RADIUS_KILOMETERS = 6371.071
 const EARTH_RADIUS_MILES = 3958.799
 
@@ -8,7 +6,11 @@ const toRadians = (degrees: number) => {
 }
 
 // Gets the distance between guess and actual locations
-const calculateDistance = (loc1: GuessType, loc2: LocationType, distanceUnit: 'metric' | 'imperial') => {
+const calculateDistance = (
+  loc1: { lat: number; lng: number },
+  loc2: { lat: number; lng: number },
+  distanceUnit: 'metric' | 'imperial'
+) => {
   const lat1Rad = toRadians(loc1.lat)
   const lng1Rad = toRadians(loc1.lng)
   const lat2Rad = toRadians(loc2.lat)
