@@ -20,6 +20,7 @@ type Map = {
   usersPlayed?: number
   avgScore?: number
   bounds?: { min: { lat: number; lng: number }; max: { lat: number; lng: number } }
+  scoreFactor?: number
 }
 
 export default Map

@@ -68,18 +68,19 @@ const GuessMap: FC<Props> = ({
   const handleResetMapState = () => {
     if (!resetMap || !googleMapsConfig || !gameData.mapDetails) return
 
-    const { map } = googleMapsConfig
+    const { bounds, scoreFactor } = gameData.mapDetails
 
-    if (gameData.mapDetails.bounds) {
-      const { min, max } = gameData.mapDetails.bounds
+    // Zoom in for smaller maps
+    if (bounds && scoreFactor && scoreFactor < 1000) {
+      const { min, max } = bounds
 
-      const bounds = new google.maps.LatLngBounds(
+      const googleBounds = new google.maps.LatLngBounds(
         new google.maps.LatLng(min.lat, min.lng),
         new google.maps.LatLng(max.lat, max.lng)
       )
 
-      map.setCenter(bounds.getCenter())
-      map.fitBounds(bounds, -100)
+      googleMapsConfig.map.setCenter(googleBounds.getCenter())
+      googleMapsConfig.map.fitBounds(googleBounds, -100)
     }
 
     setHovering(false)
