@@ -108,12 +108,12 @@ const RegisterPage: PageType = () => {
               label="Display Name"
               value={name}
               callback={setName}
-              autoComplete="username"
+              autoComplete="nickname"
               autoFocus
             />
             <Input
               id="email"
-              type="text"
+              type="email"
               label="Email Address"
               value={email}
               callback={setEmail}

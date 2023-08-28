@@ -74,7 +74,7 @@ const LoginPage: PageType = () => {
           <div className="inputGroup">
             <Input
               id="email"
-              type="text"
+              type="email"
               label="Email Address"
               value={email}
               callback={setEmail}
