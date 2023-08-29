@@ -24,7 +24,7 @@ const LeaderboardItem: FC<Props> = ({ finishPlace, row, removeResults }) => {
           <div className="userInfo">
             <Avatar type="map" src={row.mapAvatar} />
 
-            <Link href={`/maps/${row.mapId}`}>
+            <Link href={`/map/${row.mapId}`}>
               <a className="username-wrapper">
                 <span className="username">{row.mapName}</span>
               </a>
