@@ -32,7 +32,7 @@ const getUserStats = async (req: NextApiRequest, res: NextApiResponse) => {
   const result = {
     gamesPlayed: gamesPlayed || 0,
     bestGameScore: bestGame?.totalPoints || 0,
-    averageGameScore: averageGameScore ? Math.ceil(averageGameScore[0]?.avgScore) : 0,
+    averageGameScore: averageGameScore && averageGameScore.length > 0 ? Math.ceil(averageGameScore[0].avgScore) : 0,
     streakGamesPlayed: streakGamesPlayed || 0,
     bestStreakGame: bestStreakGame?.streak || 0,
     dailyChallengeWins: dailyChallengeWins || 0,
