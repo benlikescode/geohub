@@ -1,10 +1,32 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections, getLocations, throwError, todayEnd, todayStart } from '@backend/utils'
+import { collections, getLocations, throwError } from '@backend/utils'
 import { OFFICIAL_WORLD_ID } from '@utils/constants/random'
 
 const createDailyChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log(todayStart, todayEnd, new Date())
+  // First set winner for previous daily challenge
+  const previousDailyChallenge = await collections.challenges?.findOne(
+    { isDailyChallenge: true },
+    { sort: { createdAt: -1 } }
+  )
+
+  console.log(previousDailyChallenge)
+
+  if (previousDailyChallenge) {
+    const winningGame = await collections.games?.findOne(
+      { challengeId: new ObjectId(previousDailyChallenge._id) },
+      { sort: { totalPoints: -1, totalTime: 1 } }
+    )
+
+    console.log(winningGame)
+
+    if (winningGame) {
+      await collections.challenges?.findOneAndUpdate(
+        { _id: previousDailyChallenge._id },
+        { $set: { winner: new ObjectId(winningGame.userId) } }
+      )
+    }
+  }
 
   const locations = await getLocations(OFFICIAL_WORLD_ID)
 
