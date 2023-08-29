@@ -62,16 +62,19 @@ const ProfilePage: NextPage = () => {
     }
 
     fetchUserDetails()
-    fetchLeaderboard()
   }, [userId])
 
   useEffect(() => {
-    if (selectedTab === 'maps' && !usersMaps) {
-      getUsersMaps()
-    }
-
     if (selectedTab === 'stats' && !usersStats) {
       getUsersStats()
+    }
+
+    if (selectedTab === 'gameHistory' && !leaderboardData) {
+      fetchLeaderboard()
+    }
+
+    if (selectedTab === 'maps' && !usersMaps) {
+      getUsersMaps()
     }
   }, [selectedTab])
 
@@ -152,7 +155,7 @@ const ProfilePage: NextPage = () => {
     <StyledProfilePage isEditing={isEditing}>
       <Head title={userDetails ? userDetails.name : 'GeoHub'} />
 
-      {loading || !leaderboardData ? (
+      {loading || !usersStats ? (
         <SkeletonProfile />
       ) : (
         <div>
@@ -286,7 +289,7 @@ const ProfilePage: NextPage = () => {
               </Tabs>
             </div>
 
-            {selectedTab === 'gameHistory' && (
+            {selectedTab === 'gameHistory' && leaderboardData && (
               <>
                 {leaderboardData.length ? (
                   <MapLeaderboard
