@@ -6,9 +6,10 @@ type StyledProps = {
 
 const StyledProfilePage = styled.div<StyledProps>`
   .banner-image {
-    height: 250px;
+    height: 230px;
     width: 100%;
     position: relative;
+    opacity: 0.7;
 
     &::after {
       position: absolute;
@@ -34,7 +35,7 @@ const StyledProfilePage = styled.div<StyledProps>`
       object-fit: cover;
     }
 
-    button {
+    .settings-button {
       font-weight: 500;
       user-select: none;
       height: 36px;
@@ -45,7 +46,6 @@ const StyledProfilePage = styled.div<StyledProps>`
       border: none;
       transition: 0.2s;
       border-radius: 6px;
-      /* background-color: rgb(255, 255, 255, 0.1); */
       background-color: #202020;
       color: rgb(255, 255, 255, 0.7);
       position: absolute;
@@ -64,8 +64,46 @@ const StyledProfilePage = styled.div<StyledProps>`
     }
   }
 
+  .user-info-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .user-info {
+    }
+  }
+
+  .profile-tabs {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #222;
+    font-weight: 400;
+  }
+
+  .users-maps {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 30px;
+  }
+
+  .users-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 30px;
+
+    .user-stat-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px;
+      border-radius: 16px;
+      background-color: #363636;
+    }
+  }
+
   .profile-details {
-    max-width: 650px;
+    max-width: 960px;
     margin: 0 auto;
     width: 100%;
     position: relative;
@@ -74,7 +112,7 @@ const StyledProfilePage = styled.div<StyledProps>`
     padding: 20px;
 
     .profile-heading {
-      padding-bottom: 30px;
+      padding-bottom: 20px;
       margin-bottom: 10px;
 
       .profile-avatar {

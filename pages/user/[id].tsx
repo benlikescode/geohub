@@ -3,20 +3,23 @@ import { signOut, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { CountItem } from '@components/Admin/Analytics/CountItem'
 import { Head } from '@components/Head'
 import { MapLeaderboard } from '@components/MapLeaderboard'
+import { MapPreviewCard } from '@components/MapPreviewCard'
 import { AvatarPickerModal } from '@components/modals'
 import { SkeletonProfile } from '@components/skeletons'
+import { Tab, Tabs } from '@components/system'
 import { VerifiedBadge } from '@components/VerifiedBadge'
 import { CameraIcon } from '@heroicons/react/outline'
 import { CogIcon, PencilAltIcon } from '@heroicons/react/solid'
 import { useAppDispatch, useAppSelector } from '@redux/hook'
 import { logOutUser, updateAvatar, updateBio, updateUsername } from '@redux/slices'
 import StyledProfilePage from '@styles/ProfilePage.Styled'
-import { MapLeaderboardType } from '@types'
+import { MapType, UserGameHistoryType } from '@types'
 import { USER_AVATAR_PATH } from '@utils/constants/random'
-import { mailman } from '@utils/helpers'
+import { mailman, showToast } from '@utils/helpers'
 
 import type { NextPage } from 'next'
 type NewProfileValuesType = {
@@ -25,8 +28,17 @@ type NewProfileValuesType = {
   avatar?: { emoji: string; color: string }
 }
 
+type UserStatsType = {
+  gamesPlayed: number
+  bestGameScore: number
+  averageGameScore: number
+  streakGamesPlayed: number
+  bestStreakGame: number
+  dailyChallengeWins: number
+}
+
 const ProfilePage: NextPage = () => {
-  const [leaderboardData, setLeaderboardData] = useState<MapLeaderboardType[] | null>(null)
+  const [leaderboardData, setLeaderboardData] = useState<UserGameHistoryType[] | null>(null)
   const [newProfileValues, setNewProfileValues] = useState<NewProfileValuesType>()
   const [isEditing, setIsEditing] = useState(false)
   const [userDetails, setUserDetails] = useState<any>()
@@ -34,20 +46,41 @@ const ProfilePage: NextPage = () => {
   const [leaderboardPage, setLeaderboardPage] = useState(0)
   const [leaderboardHasMore, setLeaderboardHasMore] = useState(true)
   const [avatarModalOpen, setAvatarModalOpen] = useState(false)
+  const [selectedTab, setSelectedTab] = useState<'gameHistory' | 'stats' | 'maps' | 'challengeLinks'>('stats')
+  const [usersMaps, setUsersMaps] = useState<MapType[]>()
+  const [usersStats, setUsersStats] = useState<UserStatsType>()
+
   const user = useAppSelector((state) => state.user)
   const router = useRouter()
   const userId = router.query.id
   const dispatch = useAppDispatch()
   const { data: session } = useSession()
 
-  const isThisUsersProfile = () => {
-    return session?.user.id === userId
-  }
+  useEffect(() => {
+    if (!userId) {
+      return
+    }
 
-  const handleLogout = () => {
-    signOut({ callbackUrl: '/login' })
+    fetchUserDetails()
+    fetchLeaderboard()
+  }, [userId])
 
-    dispatch(logOutUser())
+  useEffect(() => {
+    if (selectedTab === 'maps' && !usersMaps) {
+      getUsersMaps()
+    }
+
+    if (selectedTab === 'stats' && !usersStats) {
+      getUsersStats()
+    }
+  }, [selectedTab])
+
+  const fetchUserDetails = async () => {
+    const res = await mailman(`users/${userId}`)
+
+    setUserDetails(res)
+    setNewProfileValues({ name: res.name, bio: res.bio, avatar: user.avatar })
+    setLoading(false)
   }
 
   const fetchLeaderboard = async () => {
@@ -58,6 +91,36 @@ const ProfilePage: NextPage = () => {
     setLeaderboardHasMore(res.hasMore)
     setLeaderboardData((prev) => [...(prev || []), ...res.data])
     setLeaderboardPage((prev) => prev + 1)
+  }
+
+  const getUsersMaps = async () => {
+    const res = await mailman(`maps/custom?userId=${userId}`)
+
+    if (res.error) {
+      return showToast('error', res.error.message)
+    }
+
+    setUsersMaps(res)
+  }
+
+  const getUsersStats = async () => {
+    const res = await mailman(`users/stats?userId=${userId}`)
+
+    if (res.error) {
+      return showToast('error', res.error.message)
+    }
+
+    setUsersStats(res)
+  }
+
+  const isThisUsersProfile = () => {
+    return session?.user.id === userId
+  }
+
+  const handleLogout = () => {
+    signOut({ callbackUrl: '/login' })
+
+    dispatch(logOutUser())
   }
 
   const setNewUserDetails = (changedValues: any) => {
@@ -85,30 +148,6 @@ const ProfilePage: NextPage = () => {
     setIsEditing(false)
   }
 
-  useEffect(() => {
-    if (!userId) {
-      return
-    }
-
-    fetchLeaderboard()
-
-    // If this users profile, use the cached data in redux store
-    if (isThisUsersProfile()) {
-      setUserDetails({ name: user.name, bio: user.bio, avatar: user.avatar, isAdmin: user.isAdmin })
-      setNewProfileValues({ name: user.name, bio: user.bio, avatar: user.avatar })
-      setLoading(false)
-    } else {
-      const fetchUserDetails = async () => {
-        const res = await mailman(`users/${userId}`)
-        setUserDetails(res)
-        setNewProfileValues({ name: res.name, bio: res.bio, avatar: user.avatar })
-        setLoading(false)
-      }
-
-      fetchUserDetails()
-    }
-  }, [userId])
-
   return (
     <StyledProfilePage isEditing={isEditing}>
       <Head title={userDetails ? userDetails.name : 'GeoHub'} />
@@ -119,10 +158,11 @@ const ProfilePage: NextPage = () => {
         <div>
           <div className="banner-image">
             <Image src="/images/backgrounds/profile-banner.png" alt="" layout="fill" quality={100} />
+
             {isThisUsersProfile() && (
               <Link href={`/user/settings`}>
                 <a>
-                  <button>
+                  <button className="settings-button">
                     <CogIcon />
                   </button>
                 </a>
@@ -171,6 +211,7 @@ const ProfilePage: NextPage = () => {
                         avatar: newProfileValues?.avatar,
                       })
                     }
+                    maxLength={30}
                   />
                 ) : (
                   <div className="name-container">
@@ -194,6 +235,7 @@ const ProfilePage: NextPage = () => {
                           avatar: newProfileValues?.avatar,
                         })
                       }
+                      maxLength={200}
                     ></textarea>
                   ) : (
                     userDetails.bio
@@ -212,7 +254,7 @@ const ProfilePage: NextPage = () => {
                 </div>
               )}
 
-              {isEditing && (
+              {isThisUsersProfile() && isEditing && (
                 <div className="profile-actions">
                   <button onClick={() => updateUserInfo()}>Save Changes</button>
                   <button className="logout-btn" onClick={() => cancelEditing()}>
@@ -222,15 +264,60 @@ const ProfilePage: NextPage = () => {
               )}
             </div>
 
-            {leaderboardData.length ? (
-              <MapLeaderboard
-                removeHeader
-                leaderboard={leaderboardData}
-                infiniteScrollCallback={fetchLeaderboard}
-                hasMore={leaderboardHasMore}
-              />
-            ) : (
-              <span className="no-games-message">This user has not finished any games yet</span>
+            <div className="profile-tabs">
+              <Tabs>
+                <Tab isActive={selectedTab === 'stats'} onClick={() => setSelectedTab('stats')}>
+                  <div className="filter-tab">
+                    <span>Stats</span>
+                  </div>
+                </Tab>
+
+                <Tab isActive={selectedTab === 'gameHistory'} onClick={() => setSelectedTab('gameHistory')}>
+                  <div className="filter-tab">
+                    <span>Games</span>
+                  </div>
+                </Tab>
+
+                <Tab isActive={selectedTab === 'maps'} onClick={() => setSelectedTab('maps')}>
+                  <div className="filter-tab">
+                    <span>Maps</span>
+                  </div>
+                </Tab>
+              </Tabs>
+            </div>
+
+            {selectedTab === 'gameHistory' && (
+              <>
+                {leaderboardData.length ? (
+                  <MapLeaderboard
+                    removeHeader
+                    leaderboard={leaderboardData}
+                    infiniteScrollCallback={fetchLeaderboard}
+                    hasMore={leaderboardHasMore}
+                  />
+                ) : (
+                  <span className="no-games-message">This user has not finished any games yet</span>
+                )}
+              </>
+            )}
+
+            {selectedTab === 'stats' && usersStats && (
+              <div className="users-stats">
+                <CountItem title="Completed Games" count={usersStats.gamesPlayed} />
+                <CountItem title="Best Game" count={usersStats.bestGameScore} />
+                <CountItem title="Average Game Score" count={usersStats.averageGameScore} />
+                <CountItem title="Completed Streak Games" count={usersStats.streakGamesPlayed} />
+                <CountItem title="Best Streak Game" count={usersStats.bestStreakGame} />
+                <CountItem title="Daily Challenge Wins" count={usersStats.dailyChallengeWins} />
+              </div>
+            )}
+
+            {selectedTab === 'maps' && (
+              <div className="users-maps">
+                {usersMaps?.map((map, idx) => (
+                  <MapPreviewCard key={idx} map={map} />
+                ))}
+              </div>
             )}
           </div>
         </div>
