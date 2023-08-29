@@ -9,7 +9,7 @@ const getCustomMaps = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (queryUserId) {
     const customMaps = await collections.maps
-      ?.find({ creator: new ObjectId(userId), isPublished: true, isDeleted: { $exists: false } })
+      ?.find({ creator: new ObjectId(queryUserId), isPublished: true, isDeleted: { $exists: false } })
       .sort({ createdAt: -1 })
       .limit(9)
       .toArray()
