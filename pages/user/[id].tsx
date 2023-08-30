@@ -9,7 +9,7 @@ import { Head } from '@components/Head'
 import { MapLeaderboard } from '@components/MapLeaderboard'
 import { MapPreviewCard } from '@components/MapPreviewCard'
 import { AvatarPickerModal } from '@components/modals'
-import { SkeletonProfile } from '@components/skeletons'
+import { SkeletonCards, SkeletonLeaderboard, SkeletonProfile } from '@components/skeletons'
 import { Tab, Tabs } from '@components/system'
 import { VerifiedBadge } from '@components/VerifiedBadge'
 import { CameraIcon } from '@heroicons/react/outline'
@@ -37,6 +37,8 @@ type UserStatsType = {
   dailyChallengeWins: number
 }
 
+type ProfileTabs = 'stats' | 'games' | 'maps' | 'settings' | 'challenges'
+
 const ProfilePage: NextPage = () => {
   const [leaderboardData, setLeaderboardData] = useState<UserGameHistoryType[] | null>(null)
   const [newProfileValues, setNewProfileValues] = useState<NewProfileValuesType>()
@@ -46,7 +48,7 @@ const ProfilePage: NextPage = () => {
   const [leaderboardPage, setLeaderboardPage] = useState(0)
   const [leaderboardHasMore, setLeaderboardHasMore] = useState(true)
   const [avatarModalOpen, setAvatarModalOpen] = useState(false)
-  const [selectedTab, setSelectedTab] = useState<'gameHistory' | 'stats' | 'maps' | 'challengeLinks'>('stats')
+  const [selectedTab, setSelectedTab] = useState<ProfileTabs>('stats')
   const [usersMaps, setUsersMaps] = useState<MapType[]>()
   const [usersStats, setUsersStats] = useState<UserStatsType>()
 
@@ -69,7 +71,7 @@ const ProfilePage: NextPage = () => {
       getUsersStats()
     }
 
-    if (selectedTab === 'gameHistory' && !leaderboardData) {
+    if (selectedTab === 'games' && !leaderboardData) {
       fetchLeaderboard()
     }
 
@@ -166,7 +168,7 @@ const ProfilePage: NextPage = () => {
               <Link href={`/user/settings`}>
                 <a>
                   <button className="settings-button">
-                    <CogIcon />
+                    <CameraIcon />
                   </button>
                 </a>
               </Link>
@@ -175,32 +177,53 @@ const ProfilePage: NextPage = () => {
 
           <div className="profile-details">
             <div className="profile-heading">
-              {isEditing ? (
-                <button
-                  className="profile-avatar"
-                  style={{ backgroundColor: newProfileValues?.avatar?.color }}
-                  onClick={() => setAvatarModalOpen(true)}
-                >
-                  <Image
-                    src={`${USER_AVATAR_PATH}/${newProfileValues?.avatar?.emoji}.svg`}
-                    alt=""
-                    layout="fill"
-                    className="emoji"
-                  />
-                  <div className="profile-avatar-editing-icon">
-                    <CameraIcon />
+              <div className="avatar-wrapper">
+                {isEditing ? (
+                  <button
+                    className="profile-avatar"
+                    style={{ backgroundColor: newProfileValues?.avatar?.color }}
+                    onClick={() => setAvatarModalOpen(true)}
+                  >
+                    <Image
+                      src={`${USER_AVATAR_PATH}/${newProfileValues?.avatar?.emoji}.svg`}
+                      alt=""
+                      layout="fill"
+                      className="emoji"
+                    />
+                    <div className="profile-avatar-editing-icon">
+                      <CameraIcon />
+                    </div>
+                  </button>
+                ) : (
+                  <div className="profile-avatar" style={{ backgroundColor: userDetails.avatar?.color }}>
+                    <Image
+                      src={`${USER_AVATAR_PATH}/${userDetails.avatar?.emoji}.svg`}
+                      alt=""
+                      layout="fill"
+                      className="emoji"
+                    />
                   </div>
-                </button>
-              ) : (
-                <div className="profile-avatar" style={{ backgroundColor: userDetails.avatar?.color }}>
-                  <Image
-                    src={`${USER_AVATAR_PATH}/${userDetails.avatar?.emoji}.svg`}
-                    alt=""
-                    layout="fill"
-                    className="emoji"
-                  />
-                </div>
-              )}
+                )}
+                {isThisUsersProfile() && !isEditing && (
+                  <div className="profile-actions">
+                    <button onClick={() => setIsEditing(true)}>
+                      <PencilAltIcon /> Edit Profile
+                    </button>
+                    {/* <button className="logout-btn" onClick={() => handleLogout()}>
+                      Logout
+                    </button> */}
+                  </div>
+                )}
+
+                {isThisUsersProfile() && isEditing && (
+                  <div className="profile-actions">
+                    <button onClick={() => updateUserInfo()}>Save Changes</button>
+                    <button className="logout-btn" onClick={() => cancelEditing()}>
+                      Cancel
+                    </button>
+                  </div>
+                )}
+              </div>
 
               <h1 className="profile-name">
                 {isEditing ? (
@@ -245,26 +268,6 @@ const ProfilePage: NextPage = () => {
                   )}
                 </span>
               )}
-
-              {isThisUsersProfile() && !isEditing && (
-                <div className="profile-actions">
-                  <button onClick={() => setIsEditing(true)}>
-                    <PencilAltIcon /> Edit Profile
-                  </button>
-                  <button className="logout-btn" onClick={() => handleLogout()}>
-                    Logout
-                  </button>
-                </div>
-              )}
-
-              {isThisUsersProfile() && isEditing && (
-                <div className="profile-actions">
-                  <button onClick={() => updateUserInfo()}>Save Changes</button>
-                  <button className="logout-btn" onClick={() => cancelEditing()}>
-                    Cancel
-                  </button>
-                </div>
-              )}
             </div>
 
             <div className="profile-tabs">
@@ -275,7 +278,7 @@ const ProfilePage: NextPage = () => {
                   </div>
                 </Tab>
 
-                <Tab isActive={selectedTab === 'gameHistory'} onClick={() => setSelectedTab('gameHistory')}>
+                <Tab isActive={selectedTab === 'games'} onClick={() => setSelectedTab('games')}>
                   <div className="filter-tab">
                     <span>Games</span>
                   </div>
@@ -286,23 +289,22 @@ const ProfilePage: NextPage = () => {
                     <span>Maps</span>
                   </div>
                 </Tab>
+
+                {/* <Tab isActive={selectedTab === 'challenges'} onClick={() => setSelectedTab('challenges')}>
+                  <div className="filter-tab">
+                    <span>Challenges</span>
+                  </div>
+                </Tab> */}
+
+                {isThisUsersProfile() && (
+                  <Tab isActive={selectedTab === 'settings'} onClick={() => router.push('/user/settings')}>
+                    <div className="filter-tab">
+                      <span>Settings</span>
+                    </div>
+                  </Tab>
+                )}
               </Tabs>
             </div>
-
-            {selectedTab === 'gameHistory' && leaderboardData && (
-              <>
-                {leaderboardData.length ? (
-                  <MapLeaderboard
-                    removeHeader
-                    leaderboard={leaderboardData}
-                    infiniteScrollCallback={fetchLeaderboard}
-                    hasMore={leaderboardHasMore}
-                  />
-                ) : (
-                  <span className="no-games-message">This user has not finished any games yet</span>
-                )}
-              </>
-            )}
 
             {selectedTab === 'stats' && usersStats && (
               <div className="users-stats">
@@ -315,12 +317,41 @@ const ProfilePage: NextPage = () => {
               </div>
             )}
 
+            {selectedTab === 'games' && (
+              <>
+                {leaderboardData ? (
+                  leaderboardData.length ? (
+                    <MapLeaderboard
+                      removeHeader
+                      leaderboard={leaderboardData}
+                      infiniteScrollCallback={fetchLeaderboard}
+                      hasMore={leaderboardHasMore}
+                    />
+                  ) : (
+                    <span className="no-games-message">{userDetails.name} has not finished any games yet</span>
+                  )
+                ) : (
+                  <SkeletonLeaderboard removeHeader />
+                )}
+              </>
+            )}
+
             {selectedTab === 'maps' && (
-              <div className="users-maps">
-                {usersMaps?.map((map, idx) => (
-                  <MapPreviewCard key={idx} map={map} />
-                ))}
-              </div>
+              <>
+                {usersMaps ? (
+                  usersMaps.length ? (
+                    <div className="users-maps">
+                      {usersMaps?.map((map, idx) => (
+                        <MapPreviewCard key={idx} map={map} />
+                      ))}
+                    </div>
+                  ) : (
+                    <span className="no-games-message">{userDetails.name} has not created any maps yet</span>
+                  )
+                ) : (
+                  <SkeletonCards />
+                )}
+              </>
             )}
           </div>
         </div>

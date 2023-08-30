@@ -9,7 +9,7 @@ const StyledProfilePage = styled.div<StyledProps>`
     height: 230px;
     width: 100%;
     position: relative;
-    opacity: 0.7;
+    opacity: 0.85;
 
     &::after {
       position: absolute;
@@ -19,6 +19,12 @@ const StyledProfilePage = styled.div<StyledProps>`
       right: 0;
       height: 200px;
       background: linear-gradient(transparent, #0e0e0e);
+    }
+
+    &:hover {
+      .settings-button {
+        opacity: 1;
+      }
     }
 
     @media (max-width: 600px) {
@@ -52,6 +58,7 @@ const StyledProfilePage = styled.div<StyledProps>`
       bottom: 10px;
       right: 10px;
       z-index: 9;
+      opacity: 0;
 
       svg {
         height: 18px;
@@ -89,7 +96,7 @@ const StyledProfilePage = styled.div<StyledProps>`
   .users-stats {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
+    gap: 12px;
     margin-top: 30px;
 
     .user-stat-card {
@@ -103,7 +110,7 @@ const StyledProfilePage = styled.div<StyledProps>`
   }
 
   .profile-details {
-    max-width: 960px;
+    max-width: 720px;
     margin: 0 auto;
     width: 100%;
     position: relative;
@@ -115,54 +122,60 @@ const StyledProfilePage = styled.div<StyledProps>`
       padding-bottom: 20px;
       margin-bottom: 10px;
 
-      .profile-avatar {
-        background-color: #0e0e0e;
-        width: 125px;
-        height: 125px;
-        border-radius: 50%;
-        position: relative;
-        box-shadow: 0 0 0 5px #0e0e0e;
+      .avatar-wrapper {
         display: flex;
-        align-items: center;
-        justify-content: center;
+        align-items: flex-end;
+        justify-content: space-between;
 
-        @media (max-width: 600px) {
-          height: 75px;
-          width: 75px;
-        }
-
-        &:hover {
-          ${({ isEditing }) =>
-            isEditing &&
-            `
-              outline: 1px solid #1c1c1c;
-              outline-offset: 5px;
-          `}
-        }
-
-        .emoji {
-          padding: 20% !important;
-        }
-
-        .profile-avatar-editing-icon {
-          background-color: #363636;
-          border-radius: 50rem;
-          padding: 0.5rem;
-          border: 1px solid rgba(255, 255, 255, 0.15);
-          position: absolute;
-          top: -0.5rem;
-          right: 0;
-          height: 42px;
-          width: 42px;
+        .profile-avatar {
+          background-color: #0e0e0e;
+          width: 125px;
+          height: 125px;
+          border-radius: 50%;
+          position: relative;
+          box-shadow: 0 0 0 5px #0e0e0e;
           display: flex;
           align-items: center;
           justify-content: center;
 
-          svg {
-            height: 20px;
-            color: var(--color2);
-            position: relative;
-            top: -1px;
+          @media (max-width: 600px) {
+            height: 75px;
+            width: 75px;
+          }
+
+          &:hover {
+            ${({ isEditing }) =>
+              isEditing &&
+              `
+              outline: 1px solid #1c1c1c;
+              outline-offset: 5px;
+          `}
+          }
+
+          .emoji {
+            padding: 20% !important;
+          }
+
+          .profile-avatar-editing-icon {
+            background-color: #363636;
+            border-radius: 50rem;
+            padding: 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            position: absolute;
+            top: -0.5rem;
+            right: 0;
+            height: 42px;
+            width: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            svg {
+              height: 20px;
+              color: var(--color2);
+              position: relative;
+              top: -1px;
+            }
           }
         }
       }
