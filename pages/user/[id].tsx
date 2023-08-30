@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import { signOut, useSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { CountItem } from '@components/Admin/Analytics/CountItem'
@@ -15,7 +14,7 @@ import { VerifiedBadge } from '@components/VerifiedBadge'
 import { CameraIcon } from '@heroicons/react/outline'
 import { PencilAltIcon } from '@heroicons/react/solid'
 import { useAppDispatch, useAppSelector } from '@redux/hook'
-import { logOutUser, updateAvatar, updateBio, updateUsername } from '@redux/slices'
+import { updateAvatar, updateBio, updateUsername } from '@redux/slices'
 import StyledProfilePage from '@styles/ProfilePage.Styled'
 import { MapType, UserGameHistoryType } from '@types'
 import { USER_AVATAR_PATH } from '@utils/constants/random'
@@ -115,12 +114,6 @@ const ProfilePage: NextPage = () => {
     return session?.user.id === userId
   }
 
-  const handleLogout = () => {
-    signOut({ callbackUrl: '/login' })
-
-    dispatch(logOutUser())
-  }
-
   const setNewUserDetails = (changedValues: any) => {
     setNewProfileValues({ ...newProfileValues, ...changedValues })
   }
@@ -199,7 +192,7 @@ const ProfilePage: NextPage = () => {
                 {isThisUsersProfile() && isEditing && (
                   <div className="profile-actions">
                     <button onClick={() => updateUserInfo()}>Save Changes</button>
-                    <button className="logout-btn" onClick={() => cancelEditing()}>
+                    <button className="cancel-btn" onClick={() => cancelEditing()}>
                       Cancel
                     </button>
                   </div>

@@ -231,7 +231,7 @@ const StyledProfilePage = styled.div<StyledProps>`
             margin-right: 10px;
           }
 
-          &.logout-btn {
+          &.cancel-btn {
             color: #fee2e2;
             background-color: #7f1d1d;
 

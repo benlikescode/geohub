@@ -11,14 +11,14 @@ const StyledSettingsPage = styled.div`
 
     .header-details {
       h1 {
-        font-size: 22px;
+        font-size: 20px;
         font-weight: 500;
         color: rgb(245, 245, 245);
       }
 
       h2 {
         margin-top: 6px;
-        font-size: 16px;
+        font-size: 15px;
         font-weight: 400;
         color: rgb(163, 163, 163);
       }
@@ -38,8 +38,6 @@ const StyledSettingsPage = styled.div`
     gap: 40px;
 
     .settings-form {
-      max-width: 420px;
-      width: 100%;
       display: grid;
       gap: 25px;
       align-content: flex-start;
@@ -71,6 +69,8 @@ const StyledSettingsPage = styled.div`
       }
 
       .cta-button {
+        padding: 16px;
+
         svg {
           height: 20px;
         }
@@ -86,6 +86,26 @@ const StyledSettingsPage = styled.div`
       border-radius: 6px;
       border: 1px solid ${({ theme }) => theme.color.gray[800]};
       background-color: #181818;
+    }
+
+    .logout-btn {
+      padding: 1px 14px 0 14px;
+      font-weight: 500;
+      user-select: none;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      transition: 0.2s;
+      border-radius: 6px;
+
+      color: #fee2e2;
+      background-color: #7f1d1d;
+
+      &:hover {
+        background-color: #991b1b;
+      }
     }
   }
 
