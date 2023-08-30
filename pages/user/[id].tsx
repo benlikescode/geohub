@@ -29,20 +29,20 @@ type NewProfileValuesType = {
 }
 
 type UserStatsType = { label: string; data: number }[]
-type ProfileTabs = 'stats' | 'games' | 'maps' | 'settings' | 'challenges'
+type ProfileTabsType = 'stats' | 'games' | 'maps'
+type UserGamesPaginationType = { page: number; hasMore: boolean }
 
 const ProfilePage: NextPage = () => {
-  const [leaderboardData, setLeaderboardData] = useState<UserGameHistoryType[] | null>(null)
-  const [newProfileValues, setNewProfileValues] = useState<NewProfileValuesType>()
-  const [isEditing, setIsEditing] = useState(false)
   const [userDetails, setUserDetails] = useState<any>()
+  const [userStats, setUserStats] = useState<UserStatsType>()
+  const [userGames, setUserGames] = useState<UserGameHistoryType[] | null>(null)
+  const [userGamesPagination, setUserGamesPagination] = useState<UserGamesPaginationType>({ page: 0, hasMore: true })
+  const [userMaps, setUserMaps] = useState<MapType[]>()
+  const [newProfileValues, setNewProfileValues] = useState<NewProfileValuesType>()
+  const [selectedTab, setSelectedTab] = useState<ProfileTabsType>('stats')
+  const [isEditing, setIsEditing] = useState(false)
   const [loading, setLoading] = useState(true)
-  const [leaderboardPage, setLeaderboardPage] = useState(0)
-  const [leaderboardHasMore, setLeaderboardHasMore] = useState(true)
   const [avatarModalOpen, setAvatarModalOpen] = useState(false)
-  const [selectedTab, setSelectedTab] = useState<ProfileTabs>('stats')
-  const [usersMaps, setUsersMaps] = useState<MapType[]>()
-  const [usersStats, setUsersStats] = useState<UserStatsType>()
 
   const user = useAppSelector((state) => state.user)
   const router = useRouter()
@@ -55,24 +55,24 @@ const ProfilePage: NextPage = () => {
       return
     }
 
-    fetchUserDetails()
+    getUserDetails()
   }, [userId])
 
   useEffect(() => {
-    if (selectedTab === 'stats' && !usersStats) {
-      getUsersStats()
+    if (selectedTab === 'stats' && !userStats) {
+      getUserStats()
     }
 
-    if (selectedTab === 'games' && !leaderboardData) {
-      fetchLeaderboard()
+    if (selectedTab === 'games' && !userGames) {
+      getUserGames()
     }
 
-    if (selectedTab === 'maps' && !usersMaps) {
-      getUsersMaps()
+    if (selectedTab === 'maps' && !userMaps) {
+      getUserMaps()
     }
   }, [selectedTab])
 
-  const fetchUserDetails = async () => {
+  const getUserDetails = async () => {
     const res = await mailman(`users/${userId}`)
 
     setUserDetails(res)
@@ -80,34 +80,37 @@ const ProfilePage: NextPage = () => {
     setLoading(false)
   }
 
-  const fetchLeaderboard = async () => {
-    const res = await mailman(`scores/user/${userId}?page=${leaderboardPage}`)
+  const getUserGames = async () => {
+    const res = await mailman(`scores/user/${userId}?page=${userGamesPagination.page}`)
 
     if (res.error || !res.data) return
 
-    setLeaderboardHasMore(res.hasMore)
-    setLeaderboardData((prev) => [...(prev || []), ...res.data])
-    setLeaderboardPage((prev) => prev + 1)
+    setUserGames((prev) => [...(prev || []), ...res.data])
+
+    setUserGamesPagination({
+      page: userGamesPagination.page + 1,
+      hasMore: res.hasMore,
+    })
   }
 
-  const getUsersMaps = async () => {
+  const getUserMaps = async () => {
     const res = await mailman(`maps/custom?userId=${userId}`)
 
     if (res.error) {
       return showToast('error', res.error.message)
     }
 
-    setUsersMaps(res)
+    setUserMaps(res)
   }
 
-  const getUsersStats = async () => {
+  const getUserStats = async () => {
     const res = await mailman(`users/stats?userId=${userId}`)
 
     if (res.error) {
       return showToast('error', res.error.message)
     }
 
-    setUsersStats(res)
+    setUserStats(res)
   }
 
   const isThisUsersProfile = () => {
@@ -143,7 +146,7 @@ const ProfilePage: NextPage = () => {
     <StyledProfilePage isEditing={isEditing}>
       <Head title={userDetails ? userDetails.name : 'GeoHub'} />
 
-      {loading || !usersStats ? (
+      {loading || !userStats ? (
         <SkeletonProfile />
       ) : (
         <div>
@@ -247,36 +250,28 @@ const ProfilePage: NextPage = () => {
             <div className="profile-tabs">
               <Tabs>
                 <Tab isActive={selectedTab === 'stats'} onClick={() => setSelectedTab('stats')}>
-                  <div className="filter-tab">
-                    <span>Stats</span>
-                  </div>
+                  Stats
                 </Tab>
 
                 <Tab isActive={selectedTab === 'games'} onClick={() => setSelectedTab('games')}>
-                  <div className="filter-tab">
-                    <span>Games</span>
-                  </div>
+                  Games
                 </Tab>
 
                 <Tab isActive={selectedTab === 'maps'} onClick={() => setSelectedTab('maps')}>
-                  <div className="filter-tab">
-                    <span>Maps</span>
-                  </div>
+                  Maps
                 </Tab>
 
                 {isThisUsersProfile() && (
-                  <Tab isActive={selectedTab === 'settings'} onClick={() => router.push('/user/settings')}>
-                    <div className="filter-tab">
-                      <span>Settings</span>
-                    </div>
+                  <Tab isActive={false} onClick={() => router.push('/user/settings')}>
+                    Settings
                   </Tab>
                 )}
               </Tabs>
             </div>
 
-            {selectedTab === 'stats' && usersStats && (
-              <div className="users-stats">
-                {usersStats.map((statItem) => (
+            {selectedTab === 'stats' && userStats && (
+              <div className="user-stats">
+                {userStats.map((statItem) => (
                   <CountItem key={statItem.label} title={statItem.label} count={statItem.data} />
                 ))}
               </div>
@@ -284,16 +279,16 @@ const ProfilePage: NextPage = () => {
 
             {selectedTab === 'games' && (
               <>
-                {leaderboardData ? (
-                  leaderboardData.length ? (
+                {userGames ? (
+                  userGames.length ? (
                     <MapLeaderboard
                       removeHeader
-                      leaderboard={leaderboardData}
-                      infiniteScrollCallback={fetchLeaderboard}
-                      hasMore={leaderboardHasMore}
+                      leaderboard={userGames}
+                      infiniteScrollCallback={getUserGames}
+                      hasMore={userGamesPagination.hasMore}
                     />
                   ) : (
-                    <span className="no-games-message">{userDetails.name} has not finished any games yet</span>
+                    <span className="no-results-message">{userDetails.name} has not finished any games yet</span>
                   )
                 ) : (
                   <SkeletonLeaderboard removeHeader />
@@ -303,15 +298,15 @@ const ProfilePage: NextPage = () => {
 
             {selectedTab === 'maps' && (
               <>
-                {usersMaps ? (
-                  usersMaps.length ? (
-                    <div className="users-maps">
-                      {usersMaps?.map((map, idx) => (
+                {userMaps ? (
+                  userMaps.length ? (
+                    <div className="user-maps">
+                      {userMaps?.map((map, idx) => (
                         <MapPreviewCard key={idx} map={map} />
                       ))}
                     </div>
                   ) : (
-                    <span className="no-games-message">{userDetails.name} has not created any maps yet</span>
+                    <span className="no-results-message">{userDetails.name} has not created any maps yet</span>
                   )
                 ) : (
                   <SkeletonCards numCards={2} />
@@ -333,7 +328,7 @@ const ProfilePage: NextPage = () => {
 
 // Fixes issue where state doesnt reset when navigating to same page
 ProfilePage.getInitialProps = ({ query }) => ({
-  leaderboardData: null,
+  userGames: null,
   leaderboardPage: 0,
   leaderboardHasMore: true,
   key: query.id,

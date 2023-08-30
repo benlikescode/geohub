@@ -9,7 +9,12 @@ const StyledProfilePage = styled.div<StyledProps>`
     height: 230px;
     width: 100%;
     position: relative;
-    opacity: 0.85;
+
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
 
     &::after {
       position: absolute;
@@ -19,55 +24,6 @@ const StyledProfilePage = styled.div<StyledProps>`
       right: 0;
       height: 200px;
       background: linear-gradient(transparent, #0e0e0e);
-    }
-
-    @media (max-width: 600px) {
-      height: 125px;
-
-      &::after {
-        height: 60px;
-      }
-    }
-
-    img {
-      height: 100%;
-      width: 100%;
-      object-fit: cover;
-    }
-  }
-
-  .user-info-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .profile-tabs {
-    margin-bottom: 20px;
-    border-bottom: 1px solid #222;
-    font-weight: 400;
-  }
-
-  .users-maps {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
-    margin-top: 30px;
-  }
-
-  .users-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 12px;
-    margin-top: 30px;
-
-    .user-stat-card {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px;
-      border-radius: 16px;
-      background-color: #363636;
     }
   }
 
@@ -99,11 +55,6 @@ const StyledProfilePage = styled.div<StyledProps>`
           display: flex;
           align-items: center;
           justify-content: center;
-
-          @media (max-width: 600px) {
-            height: 75px;
-            width: 75px;
-          }
 
           &:hover {
             ${({ isEditing }) =>
@@ -242,13 +193,50 @@ const StyledProfilePage = styled.div<StyledProps>`
         }
       }
     }
-  }
 
-  .no-games-message {
-    color: var(--color3);
+    .profile-tabs {
+      margin-bottom: 20px;
+      border-bottom: 1px solid #222;
+      font-weight: 400;
+    }
+
+    .user-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      margin-top: 30px;
+
+      .user-stat-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px;
+        border-radius: 16px;
+        background-color: #363636;
+      }
+    }
+
+    .user-maps {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 30px;
+    }
+
+    .no-results-message {
+      color: var(--color3);
+    }
   }
 
   @media (max-width: 600px) {
+    .banner-image {
+      height: 125px;
+
+      &::after {
+        height: 60px;
+      }
+    }
+
     .profile-details {
       margin-top: -45px;
 
@@ -256,15 +244,20 @@ const StyledProfilePage = styled.div<StyledProps>`
         border: 0;
         margin-bottom: 0;
 
-        .profile-avatar {
-          .profile-avatar-editing-icon {
-            top: -6px;
-            right: -6px;
-            height: 36px;
-            width: 36px;
+        .avatar-wrapper {
+          .profile-avatar {
+            height: 75px;
+            width: 75px;
 
-            svg {
-              height: 16px;
+            .profile-avatar-editing-icon {
+              top: -6px;
+              right: -6px;
+              height: 36px;
+              width: 36px;
+
+              svg {
+                height: 16px;
+              }
             }
           }
         }
