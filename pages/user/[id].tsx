@@ -156,16 +156,6 @@ const ProfilePage: NextPage = () => {
         <div>
           <div className="banner-image">
             <Image src="/images/backgrounds/profile-banner.png" alt="" layout="fill" quality={100} />
-
-            {isThisUsersProfile() && (
-              <Link href={`/user/settings`}>
-                <a>
-                  <button className="settings-button">
-                    <CameraIcon />
-                  </button>
-                </a>
-              </Link>
-            )}
           </div>
 
           <div className="profile-details">
@@ -197,14 +187,12 @@ const ProfilePage: NextPage = () => {
                     />
                   </div>
                 )}
+
                 {isThisUsersProfile() && !isEditing && (
                   <div className="profile-actions">
                     <button onClick={() => setIsEditing(true)}>
                       <PencilAltIcon /> Edit Profile
                     </button>
-                    {/* <button className="logout-btn" onClick={() => handleLogout()}>
-                      Logout
-                    </button> */}
                   </div>
                 )}
 

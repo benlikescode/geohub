@@ -21,12 +21,6 @@ const StyledProfilePage = styled.div<StyledProps>`
       background: linear-gradient(transparent, #0e0e0e);
     }
 
-    &:hover {
-      .settings-button {
-        opacity: 1;
-      }
-    }
-
     @media (max-width: 600px) {
       height: 125px;
 
@@ -40,44 +34,12 @@ const StyledProfilePage = styled.div<StyledProps>`
       width: 100%;
       object-fit: cover;
     }
-
-    .settings-button {
-      font-weight: 500;
-      user-select: none;
-      height: 36px;
-      width: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      transition: 0.2s;
-      border-radius: 6px;
-      background-color: #202020;
-      color: rgb(255, 255, 255, 0.7);
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      z-index: 9;
-      opacity: 0;
-
-      svg {
-        height: 18px;
-      }
-
-      &:hover {
-        cursor: pointer;
-        background-color: #252525;
-      }
-    }
   }
 
   .user-info-wrapper {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    .user-info {
-    }
   }
 
   .profile-tabs {
