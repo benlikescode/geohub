@@ -9,7 +9,7 @@ const SkeletonProfile: FC<Props> = ({}) => {
   return (
     <StyledSkeletonProfile>
       <div>
-        <Skeleton className="skeleton-banner" height={250} noBorder />
+        <Skeleton className="skeleton-banner" height={230} noBorder />
 
         <div className="skeleton-profile-details">
           <div className="skeleton-profile-heading">
@@ -23,7 +23,15 @@ const SkeletonProfile: FC<Props> = ({}) => {
             </div>
           </div>
 
-          <SkeletonLeaderboard numRows={20} removeHeader />
+          <div className="skeleton-tabs">
+            <Skeleton height={50} noBorder />
+          </div>
+
+          <div className="skeleton-users-stats">
+            {Array.from({ length: 6 }).map((_, idx) => (
+              <Skeleton key={idx} height={118} />
+            ))}
+          </div>
         </div>
       </div>
     </StyledSkeletonProfile>
