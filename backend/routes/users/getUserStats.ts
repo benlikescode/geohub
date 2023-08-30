@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections, getUserId, throwError } from '@backend/utils'
+import { collections } from '@backend/utils'
 
 const getUserStats = async (req: NextApiRequest, res: NextApiResponse) => {
   const userId = req.query.userId as string
