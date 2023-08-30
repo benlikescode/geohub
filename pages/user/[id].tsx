@@ -333,7 +333,7 @@ const ProfilePage: NextPage = () => {
                     <span className="no-games-message">{userDetails.name} has not created any maps yet</span>
                   )
                 ) : (
-                  <SkeletonCards />
+                  <SkeletonCards numCards={2} />
                 )}
               </>
             )}
