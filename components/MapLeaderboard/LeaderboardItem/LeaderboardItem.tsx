@@ -56,7 +56,10 @@ const LeaderboardItem: FC<Props> = ({ finishPlace, row, removeResults }) => {
   return (
     <StyledLeaderboardItem highlight={!!row.highlight} removeResults={removeResults}>
       <div className="userSection">
-        <span className="userPlace">{finishPlace === LAST_PLACE && row.highlight ? '' : `#${finishPlace}`}</span>
+        <span
+          className="userPlace"
+          style={{ opacity: finishPlace === LAST_PLACE && row.highlight ? 0 : 1 }}
+        >{`#${finishPlace}`}</span>
         <div className="userInfo">
           <Avatar type="user" src={row.userAvatar.emoji} backgroundColor={row.userAvatar.color} />
 
