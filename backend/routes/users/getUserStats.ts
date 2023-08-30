@@ -29,14 +29,17 @@ const getUserStats = async (req: NextApiRequest, res: NextApiResponse) => {
     ?.find({ isDailyChallenge: true, winner: new ObjectId(userId) })
     .count()
 
-  const result = {
-    gamesPlayed: gamesPlayed || 0,
-    bestGameScore: bestGame?.totalPoints || 0,
-    averageGameScore: averageGameScore && averageGameScore.length > 0 ? Math.ceil(averageGameScore[0].avgScore) : 0,
-    streakGamesPlayed: streakGamesPlayed || 0,
-    bestStreakGame: bestStreakGame?.streak || 0,
-    dailyChallengeWins: dailyChallengeWins || 0,
-  }
+  const result = [
+    { label: 'Completed Games', data: gamesPlayed || 0 },
+    { label: 'Best Game', data: bestGame?.totalPoints || 0 },
+    {
+      label: 'Average Game Score',
+      data: averageGameScore && averageGameScore.length > 0 ? Math.ceil(averageGameScore[0].avgScore) : 0,
+    },
+    { label: 'Completed Streak Games', data: streakGamesPlayed || 0 },
+    { label: 'Best Streak Game', data: bestStreakGame?.streak || 0 },
+    { label: 'Daily Challenge Wins', data: dailyChallengeWins || 0 },
+  ]
 
   res.status(200).send(result)
 }

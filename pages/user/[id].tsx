@@ -13,7 +13,7 @@ import { SkeletonCards, SkeletonLeaderboard, SkeletonProfile } from '@components
 import { Tab, Tabs } from '@components/system'
 import { VerifiedBadge } from '@components/VerifiedBadge'
 import { CameraIcon } from '@heroicons/react/outline'
-import { CogIcon, PencilAltIcon } from '@heroicons/react/solid'
+import { PencilAltIcon } from '@heroicons/react/solid'
 import { useAppDispatch, useAppSelector } from '@redux/hook'
 import { logOutUser, updateAvatar, updateBio, updateUsername } from '@redux/slices'
 import StyledProfilePage from '@styles/ProfilePage.Styled'
@@ -22,21 +22,14 @@ import { USER_AVATAR_PATH } from '@utils/constants/random'
 import { mailman, showToast } from '@utils/helpers'
 
 import type { NextPage } from 'next'
+
 type NewProfileValuesType = {
   name: string
   bio?: string
   avatar?: { emoji: string; color: string }
 }
 
-type UserStatsType = {
-  gamesPlayed: number
-  bestGameScore: number
-  averageGameScore: number
-  streakGamesPlayed: number
-  bestStreakGame: number
-  dailyChallengeWins: number
-}
-
+type UserStatsType = { label: string; data: number }[]
 type ProfileTabs = 'stats' | 'games' | 'maps' | 'settings' | 'challenges'
 
 const ProfilePage: NextPage = () => {
@@ -290,12 +283,6 @@ const ProfilePage: NextPage = () => {
                   </div>
                 </Tab>
 
-                {/* <Tab isActive={selectedTab === 'challenges'} onClick={() => setSelectedTab('challenges')}>
-                  <div className="filter-tab">
-                    <span>Challenges</span>
-                  </div>
-                </Tab> */}
-
                 {isThisUsersProfile() && (
                   <Tab isActive={selectedTab === 'settings'} onClick={() => router.push('/user/settings')}>
                     <div className="filter-tab">
@@ -308,12 +295,9 @@ const ProfilePage: NextPage = () => {
 
             {selectedTab === 'stats' && usersStats && (
               <div className="users-stats">
-                <CountItem title="Completed Games" count={usersStats.gamesPlayed} />
-                <CountItem title="Best Game" count={usersStats.bestGameScore} />
-                <CountItem title="Average Game Score" count={usersStats.averageGameScore} />
-                <CountItem title="Completed Streak Games" count={usersStats.streakGamesPlayed} />
-                <CountItem title="Best Streak Game" count={usersStats.bestStreakGame} />
-                <CountItem title="Daily Challenge Wins" count={usersStats.dailyChallengeWins} />
+                {usersStats.map((statItem) => (
+                  <CountItem key={statItem.label} title={statItem.label} count={statItem.data} />
+                ))}
               </div>
             )}
 
