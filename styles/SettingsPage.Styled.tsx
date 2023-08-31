@@ -64,8 +64,7 @@ const StyledSettingsPage = styled.div`
         line-height: 20px;
         letter-spacing: -0.01rem;
         color: #9e9e9e;
-        margin: 20px 0 25px 0;
-        max-width: 410px;
+        margin: 8px 0 20px 0;
       }
 
       .cta-button {
@@ -99,7 +98,6 @@ const StyledSettingsPage = styled.div`
       border: none;
       transition: 0.2s;
       border-radius: 6px;
-
       color: #fee2e2;
       background-color: #7f1d1d;
 

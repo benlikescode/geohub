@@ -83,7 +83,7 @@ const SettingsPage: NextPage = () => {
         <div className="header">
           <div className="header-details">
             <h1>Account</h1>
-            <h2>Manage your account settings</h2>
+            <h2>Manage your settings</h2>
           </div>
 
           <Button onClick={() => handleSaveChanges()} style={{ padding: '0 12px' }} disabled={!hasEdited}>
@@ -108,7 +108,7 @@ const SettingsPage: NextPage = () => {
                 id="maps-key"
                 label="Custom API Key"
                 type="text"
-                placeholder="Ex. AIza123..."
+                placeholder="Ex. AIza-lots-of-characters"
                 value={mapsAPIKey}
                 callback={setMapsAPIKey}
               />
@@ -118,8 +118,7 @@ const SettingsPage: NextPage = () => {
               <div className="maps-key-cta">
                 <div className="cta-title">How to add your own Google Maps API key</div>
                 <p className="cta-description">
-                  Adding your own key will allow you to play many more games and is virtually impossible to exceed the
-                  free tier on your own.
+                  Adding your own key allows you to play essentially unlimited games for free!
                 </p>
 
                 <Link href="/custom-key-instructions.pdf" passHref>
