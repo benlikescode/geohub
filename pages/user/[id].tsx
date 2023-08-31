@@ -10,6 +10,7 @@ import { MapPreviewCard } from '@components/MapPreviewCard'
 import { AvatarPickerModal } from '@components/modals'
 import { SkeletonCards, SkeletonLeaderboard, SkeletonProfile } from '@components/skeletons'
 import { Tab, Tabs } from '@components/system'
+import { TextWithLinks } from '@components/TextWithLinks'
 import { VerifiedBadge } from '@components/VerifiedBadge'
 import { CameraIcon } from '@heroicons/react/outline'
 import { PencilAltIcon } from '@heroicons/react/solid'
@@ -21,7 +22,6 @@ import { USER_AVATAR_PATH } from '@utils/constants/random'
 import { mailman, showToast } from '@utils/helpers'
 
 import type { NextPage } from 'next'
-
 type NewProfileValuesType = {
   name: string
   bio?: string
@@ -241,7 +241,7 @@ const ProfilePage: NextPage = () => {
                       maxLength={200}
                     ></textarea>
                   ) : (
-                    userDetails.bio
+                    <TextWithLinks>{userDetails.bio}</TextWithLinks>
                   )}
                 </span>
               )}
