@@ -1,8 +1,6 @@
 import styled from 'styled-components'
 
-type StyledProps = {}
-
-const StyledTextWithLinks = styled.div<StyledProps>`
+const StyledTextWithLinks = styled.div`
   a {
     color: #1d9bf0;
 

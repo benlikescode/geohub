@@ -9,13 +9,12 @@ const getCustomMaps = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (queryUserId) {
     const customMaps = await collections.maps
-      ?.find({ creator: new ObjectId(queryUserId), isPublished: true, isDeleted: { $exists: false } })
+      ?.find({ creator: new ObjectId(queryUserId), isDeleted: { $exists: false }, isPublished: true })
       .sort({ createdAt: -1 })
-      .limit(9)
       .toArray()
 
     if (!customMaps) {
-      return throwError(res, 400, 'Could not retrieve your maps')
+      return throwError(res, 400, 'Failed to get users maps')
     }
 
     return res.status(200).send(customMaps)
