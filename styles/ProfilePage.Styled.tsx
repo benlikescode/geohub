@@ -6,9 +6,15 @@ type StyledProps = {
 
 const StyledProfilePage = styled.div<StyledProps>`
   .banner-image {
-    height: 250px;
+    height: 230px;
     width: 100%;
     position: relative;
+
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
 
     &::after {
       position: absolute;
@@ -19,53 +25,10 @@ const StyledProfilePage = styled.div<StyledProps>`
       height: 200px;
       background: linear-gradient(transparent, #0e0e0e);
     }
-
-    @media (max-width: 600px) {
-      height: 125px;
-
-      &::after {
-        height: 60px;
-      }
-    }
-
-    img {
-      height: 100%;
-      width: 100%;
-      object-fit: cover;
-    }
-
-    button {
-      font-weight: 500;
-      user-select: none;
-      height: 36px;
-      width: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      transition: 0.2s;
-      border-radius: 6px;
-      /* background-color: rgb(255, 255, 255, 0.1); */
-      background-color: #202020;
-      color: rgb(255, 255, 255, 0.7);
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      z-index: 9;
-
-      svg {
-        height: 18px;
-      }
-
-      &:hover {
-        cursor: pointer;
-        background-color: #252525;
-      }
-    }
   }
 
   .profile-details {
-    max-width: 650px;
+    max-width: 720px;
     margin: 0 auto;
     width: 100%;
     position: relative;
@@ -74,57 +37,58 @@ const StyledProfilePage = styled.div<StyledProps>`
     padding: 20px;
 
     .profile-heading {
-      padding-bottom: 30px;
+      padding-bottom: 20px;
       margin-bottom: 10px;
 
-      .profile-avatar {
-        background-color: #0e0e0e;
-        width: 125px;
-        height: 125px;
-        border-radius: 50%;
-        position: relative;
-        box-shadow: 0 0 0 5px #0e0e0e;
+      .avatar-wrapper {
         display: flex;
-        align-items: center;
-        justify-content: center;
+        align-items: flex-end;
+        justify-content: space-between;
 
-        @media (max-width: 600px) {
-          height: 75px;
-          width: 75px;
-        }
-
-        &:hover {
-          ${({ isEditing }) =>
-            isEditing &&
-            `
-              outline: 1px solid #1c1c1c;
-              outline-offset: 5px;
-          `}
-        }
-
-        .emoji {
-          padding: 20% !important;
-        }
-
-        .profile-avatar-editing-icon {
-          background-color: #363636;
-          border-radius: 50rem;
-          padding: 0.5rem;
-          border: 1px solid rgba(255, 255, 255, 0.15);
-          position: absolute;
-          top: -0.5rem;
-          right: 0;
-          height: 42px;
-          width: 42px;
+        .profile-avatar {
+          background-color: #0e0e0e;
+          width: 125px;
+          height: 125px;
+          border-radius: 50%;
+          position: relative;
+          box-shadow: 0 0 0 5px #0e0e0e;
           display: flex;
           align-items: center;
           justify-content: center;
 
-          svg {
-            height: 20px;
-            color: var(--color2);
-            position: relative;
-            top: -1px;
+          &:hover {
+            ${({ isEditing }) =>
+              isEditing &&
+              `
+              outline: 1px solid #1c1c1c;
+              outline-offset: 5px;
+          `}
+          }
+
+          .emoji {
+            padding: 20% !important;
+          }
+
+          .profile-avatar-editing-icon {
+            background-color: #363636;
+            border-radius: 50rem;
+            padding: 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            position: absolute;
+            top: -0.5rem;
+            right: 0;
+            height: 42px;
+            width: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            svg {
+              height: 20px;
+              color: var(--color2);
+              position: relative;
+              top: -1px;
+            }
           }
         }
       }
@@ -218,7 +182,7 @@ const StyledProfilePage = styled.div<StyledProps>`
             margin-right: 10px;
           }
 
-          &.logout-btn {
+          &.cancel-btn {
             color: #fee2e2;
             background-color: #7f1d1d;
 
@@ -229,13 +193,50 @@ const StyledProfilePage = styled.div<StyledProps>`
         }
       }
     }
-  }
 
-  .no-games-message {
-    color: var(--color3);
+    .profile-tabs {
+      margin-bottom: 20px;
+      border-bottom: 1px solid #222;
+      font-weight: 400;
+    }
+
+    .user-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      margin-top: 30px;
+
+      .user-stat-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px;
+        border-radius: 16px;
+        background-color: #363636;
+      }
+    }
+
+    .user-maps {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 30px;
+    }
+
+    .no-results-message {
+      color: var(--color3);
+    }
   }
 
   @media (max-width: 600px) {
+    .banner-image {
+      height: 125px;
+
+      &::after {
+        height: 60px;
+      }
+    }
+
     .profile-details {
       margin-top: -45px;
 
@@ -243,15 +244,20 @@ const StyledProfilePage = styled.div<StyledProps>`
         border: 0;
         margin-bottom: 0;
 
-        .profile-avatar {
-          .profile-avatar-editing-icon {
-            top: -6px;
-            right: -6px;
-            height: 36px;
-            width: 36px;
+        .avatar-wrapper {
+          .profile-avatar {
+            height: 75px;
+            width: 75px;
 
-            svg {
-              height: 16px;
+            .profile-avatar-editing-icon {
+              top: -6px;
+              right: -6px;
+              height: 36px;
+              width: 36px;
+
+              svg {
+                height: 16px;
+              }
             }
           }
         }

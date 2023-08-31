@@ -6,7 +6,7 @@ const StyledSkeletonProfile = styled.div<StyledProps>`
   width: 100%;
 
   .skeleton-profile-details {
-    max-width: 650px;
+    max-width: 720px;
     margin: 0 auto;
     width: 100%;
     position: relative;
@@ -15,8 +15,8 @@ const StyledSkeletonProfile = styled.div<StyledProps>`
     padding: 20px;
 
     .skeleton-profile-heading {
-      padding-bottom: 30px;
-      margin-bottom: 30px;
+      padding-bottom: 20px;
+      margin-bottom: 10px;
 
       .skeleton-avatar-wrapper {
         background-color: #0e0e0e;
@@ -47,6 +47,13 @@ const StyledSkeletonProfile = styled.div<StyledProps>`
         gap: 0.75rem;
         margin-top: 1rem;
       }
+    }
+
+    .skeleton-users-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      margin-top: 30px;
     }
   }
 

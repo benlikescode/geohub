@@ -32,8 +32,7 @@ const StyledLeaderboardItem = styled.div<StyledProps>`
   }
 
   .userPlace {
-    width: 1.5rem;
-    flex-shrink: 0;
+    font-feature-settings: 'tnum';
   }
 
   .userSection {

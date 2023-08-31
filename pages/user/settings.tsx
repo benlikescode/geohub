@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import { signOut } from 'next-auth/react'
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 import { Head } from '@components/Head'
@@ -6,7 +7,7 @@ import { WidthController } from '@components/layout'
 import { Button, Input, Select, Spinner } from '@components/system'
 import { ArrowRightIcon } from '@heroicons/react/outline'
 import { useAppDispatch } from '@redux/hook'
-import { updateDistanceUnit, updateMapsAPIKey } from '@redux/slices'
+import { logOutUser, updateDistanceUnit, updateMapsAPIKey } from '@redux/slices'
 import StyledSettingsPage from '@styles/SettingsPage.Styled'
 import { mailman, showToast } from '@utils/helpers'
 
@@ -69,15 +70,20 @@ const SettingsPage: NextPage = () => {
     showToast('success', 'Successfully updated user settings')
   }
 
+  const handleLogout = () => {
+    signOut({ callbackUrl: '/login' })
+    dispatch(logOutUser())
+  }
+
   return (
     <StyledSettingsPage>
-      <WidthController customWidth="860px">
+      <WidthController customWidth="650px">
         <Head title="Account Settings" />
 
         <div className="header">
           <div className="header-details">
             <h1>Account</h1>
-            <h2>Manage your account settings</h2>
+            <h2>Manage your settings</h2>
           </div>
 
           <Button onClick={() => handleSaveChanges()} style={{ padding: '0 12px' }} disabled={!hasEdited}>
@@ -102,7 +108,7 @@ const SettingsPage: NextPage = () => {
                 id="maps-key"
                 label="Custom API Key"
                 type="text"
-                placeholder="Ex. AIzaSyBdJ88HN7LTGkHHK5whfaVv8a5ozlx2E_k"
+                placeholder="Ex. AIza-lots-of-characters"
                 value={mapsAPIKey}
                 callback={setMapsAPIKey}
               />
@@ -112,13 +118,12 @@ const SettingsPage: NextPage = () => {
               <div className="maps-key-cta">
                 <div className="cta-title">How to add your own Google Maps API key</div>
                 <p className="cta-description">
-                  Adding your own key will allow you to play many more games and is virtually impossible to exceed the
-                  free tier on your own.
+                  Adding your own key allows you to play essentially unlimited games for free!
                 </p>
 
                 <Link href="/custom-key-instructions.pdf" passHref>
                   <a target="_blank" rel="noopener noreferrer">
-                    <Button className="cta-button">
+                    <Button className="cta-button" variant="solidGray">
                       View Instructions
                       <ArrowRightIcon />
                     </Button>
@@ -137,6 +142,10 @@ const SettingsPage: NextPage = () => {
                 </Button>
               </div>
             )}
+
+            <button className="logout-btn" onClick={() => handleLogout()}>
+              Log Out
+            </button>
           </div>
         )}
       </WidthController>

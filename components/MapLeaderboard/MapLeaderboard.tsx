@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { Spinner } from '@components/system'
-import { MapLeaderboardType } from '@types'
+import { MapLeaderboardType, UserGameHistoryType } from '@types'
 import { useBreakpoint } from '../../utils/hooks/'
 import { StyledMapLeaderboard } from './'
 import { LeaderboardItem } from './LeaderboardItem'
@@ -10,7 +10,7 @@ type Props = {
   removeHeader?: boolean
   removeResults?: boolean
   title?: string
-  leaderboard: MapLeaderboardType[]
+  leaderboard: MapLeaderboardType[] | UserGameHistoryType[]
   noResultsMessage?: string
   infiniteScrollCallback?: () => void
   hasMore?: boolean

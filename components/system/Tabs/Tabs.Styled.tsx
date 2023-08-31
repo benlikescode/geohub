@@ -5,7 +5,7 @@ type StyledProps = {}
 const StyledTabs = styled.div<StyledProps>`
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 20px;
   position: relative;
 `
 
