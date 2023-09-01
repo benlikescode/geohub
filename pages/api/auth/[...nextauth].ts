@@ -19,7 +19,7 @@ export const authOptions: NextAuthOptions = {
         },
         password: { label: 'Password', type: 'password' },
       },
-      authorize: async (credentials) => {
+      authorize: async (credentials, req) => {
         await dbConnect()
         const user = await collections.users?.findOne({ email: credentials?.email })
 
@@ -34,6 +34,10 @@ export const authOptions: NextAuthOptions = {
         }
 
         const decrypedMapsAPIKey = user.mapsAPIKey ? cryptr.decrypt(user.mapsAPIKey) : ''
+
+        if (req.headers?.host === 'www.geohub.gg') {
+          await collections.users?.findOneAndUpdate({ _id: user._id }, { $set: { onNewDomain: true } })
+        }
 
         // return user
         return {
