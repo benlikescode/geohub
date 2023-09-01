@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import { FC, useState } from 'react'
 import { Avatar, Checkbox, Slider, ToggleSwitch } from '@components/system'
+import { TextWithLinks } from '@components/TextWithLinks'
 import { UserGroupIcon, UserIcon } from '@heroicons/react/outline'
 import { useAppDispatch, useAppSelector } from '@redux/hook'
 import { resetGameSettings, updateGameSettings, updateStartTime } from '@redux/slices'
@@ -169,7 +170,9 @@ const GameSettingsModal: FC<Props> = ({ isOpen, closeModal, mapDetails, gameMode
                 <Avatar type="map" src={mapDetails.previewImg} size={50} />
                 <div className="map-details">
                   <span className="map-name">{mapDetails.name}</span>
-                  <span className="map-description">{mapDetails.description}</span>
+                  <span className="map-description">
+                    <TextWithLinks>{mapDetails.description}</TextWithLinks>
+                  </span>
                 </div>
               </div>
 

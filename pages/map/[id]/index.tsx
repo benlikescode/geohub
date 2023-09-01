@@ -10,6 +10,7 @@ import { MapStats } from '@components/MapStats'
 import { GameSettingsModal } from '@components/modals'
 import { SkeletonCards, SkeletonLeaderboard, SkeletonMapInfo } from '@components/skeletons'
 import { Avatar, Button } from '@components/system'
+import { TextWithLinks } from '@components/TextWithLinks'
 import { VerifiedBadge } from '@components/VerifiedBadge'
 import { useAppSelector } from '@redux/hook'
 import StyledMapPage from '@styles/MapPage.Styled'
@@ -100,7 +101,11 @@ const MapPage: FC = () => {
                       <span className="name">{mapDetails.name}</span>
                       {mapDetails.creator === 'GeoHub' && <VerifiedBadge size={20} />}
                     </div>
-                    {mapDetails.description && <span className="description">{mapDetails.description}</span>}
+                    {mapDetails.description && (
+                      <span className="description">
+                        <TextWithLinks>{mapDetails.description}</TextWithLinks>
+                      </span>
+                    )}
                     {!mapDetails.description && mapDetails.creatorDetails && (
                       <span className="map-creator">
                         {'Created by '}
