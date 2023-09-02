@@ -30,6 +30,23 @@ const StyledSaveMapModal = styled.div<StyledProps>`
       }
     }
   }
+
+  .changes-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .change-box {
+      border-radius: 6px;
+      padding: 6px;
+      background-color: #282828;
+      color: #999;
+      font-weight: 400;
+      font-size: 14px;
+      width: fit-content;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+  }
 `
 
 export default StyledSaveMapModal

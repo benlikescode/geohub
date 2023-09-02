@@ -1,8 +1,8 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { calculateMapScoreFactor, collections, getMapBounds, getUserId, throwError } from '@backend/utils'
-import { LocationType } from '@types'
-import { MAX_ALLOWED_CUSTOM_LOCATIONS } from '@utils/constants/random'
+import { ChangedLocationsType, LocationType } from '@types'
+import { MAX_ALLOWED_CUSTOM_LOCATIONS, MIN_ALLOWED_CUSTOM_LOCATIONS } from '@utils/constants/random'
 import { formatLargeNumber } from '@utils/helpers'
 
 type ReqBody = {
@@ -10,7 +10,7 @@ type ReqBody = {
   description?: string
   previewImg?: string
   isPublished?: boolean
-  locations?: LocationType[]
+  locations?: ChangedLocationsType
 }
 
 type UpdatedMap = {
@@ -56,10 +56,6 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
     updatedMap['previewImg'] = previewImg
   }
 
-  if (locations && locations.length < 5) {
-    return throwError(res, 400, 'Maps must have a minimum of 5 locations')
-  }
-
   if (isPublished !== undefined) {
     updatedMap['isPublished'] = isPublished
   }
@@ -72,34 +68,88 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
     return throwError(res, 400, 'Could not update map details')
   }
 
-  // HALP -> Really shouldn't be deleting locations and then inserting new
   if (locations) {
-    if (locations.length > MAX_ALLOWED_CUSTOM_LOCATIONS) {
-      return throwError(res, 400, `The max locations allowed is ${formatLargeNumber(MAX_ALLOWED_CUSTOM_LOCATIONS)}`)
-    }
+    const { additions, modifications, deletions } = locations
 
-    // Removes old locations
-    const removeResult = await collections.userLocations?.deleteMany({ mapId: new ObjectId(mapId) })
+    if (additions.length || modifications.length || deletions.length) {
+      const currentLocationsCount = await collections.userLocations?.find({ mapId: new ObjectId(mapId) }).count()
 
-    if (!removeResult) {
-      return throwError(res, 400, 'Something went wrong updating locations')
-    }
+      if (currentLocationsCount === undefined) {
+        return throwError(res, 500, 'Failed to add new locations')
+      }
 
-    // Attach mapId to each location
-    locations.map((location) => {
-      location.mapId = new ObjectId(mapId)
-    })
+      // Min and Max number of locations validation
+      const newLocationsCount = currentLocationsCount + additions.length - deletions.length
 
-    // Finally insert the new locations (if not empty)
-    if (locations.length > 0) {
-      const result = await collections.userLocations?.insertMany(locations)
+      if (newLocationsCount < MIN_ALLOWED_CUSTOM_LOCATIONS) {
+        return throwError(res, 400, `Must have as least ${MIN_ALLOWED_CUSTOM_LOCATIONS} locations`)
+      }
 
-      if (!result) {
-        return throwError(res, 400, 'Could not add locations')
+      if (newLocationsCount > MAX_ALLOWED_CUSTOM_LOCATIONS) {
+        return throwError(res, 400, `The max locations allowed is ${formatLargeNumber(MAX_ALLOWED_CUSTOM_LOCATIONS)}`)
+      }
+
+      // Attach mapId to each location
+      additions.map((location) => {
+        location.mapId = new ObjectId(mapId)
+      })
+
+      modifications.map((location) => {
+        location.mapId = new ObjectId(mapId)
+      })
+
+      // We are good, so insert the locations
+      // const upsertAdditionsAndChanges = await collections.userLocations?.updateMany(
+      //   { mapId: new ObjectId(mapId) },
+      //   { $set: [...additions, ...modifications] },
+      //   { upsert: true }
+      // )
+
+      if (additions.length) {
+        const insertAdditions = await collections.userLocations?.insertMany(additions as any)
+
+        if (!insertAdditions) {
+          return throwError(res, 500, 'Failed to add new locations')
+        }
+      }
+
+      if (modifications.length) {
+        const bulkOperations = modifications.map((newDocument) => {
+          const { _id, ...replacement } = newDocument
+
+          return {
+            replaceOne: {
+              filter: { _id: new ObjectId(newDocument._id) },
+              replacement: replacement,
+            },
+          }
+        })
+
+        const updateModifications = await collections.userLocations?.bulkWrite(bulkOperations)
+
+        if (!updateModifications) {
+          return throwError(res, 500, 'Failed to update locations')
+        }
+      }
+
+      if (deletions.length) {
+        const idObjectsToDelete = deletions.map((idString) => new ObjectId(idString))
+
+        const removeDeletions = await collections.userLocations?.deleteMany({ _id: { $in: idObjectsToDelete } })
+
+        if (!removeDeletions) {
+          return throwError(res, 500, 'Failed to remove existing locations')
+        }
+      }
+
+      const newLocations = await collections.userLocations?.find({ mapId: new ObjectId(mapId) }).toArray()
+
+      if (!newLocations) {
+        return throwError(res, 500, 'Failed to update map bounds')
       }
 
       // Update map's score factor (since locations have changed)
-      const newBounds = getMapBounds(locations)
+      const newBounds = getMapBounds(newLocations as LocationType[])
       const newScoreFactor = calculateMapScoreFactor(newBounds)
 
       const updateMap = await collections.maps?.updateOne(
@@ -110,6 +160,8 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
       if (!updateMap) {
         return throwError(res, 400, 'Failed to save new map score factor')
       }
+
+      return res.status(200).send({ message: 'Map was successfully updated', locations: newLocations })
     }
   }
 

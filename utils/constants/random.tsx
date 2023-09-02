@@ -18,4 +18,5 @@ export const DAILY_CHALLENGE_DETAILS = {
 export const MAP_AVATAR_PATH = '/images/mapAvatars'
 export const USER_AVATAR_PATH = '/images/userAvatars'
 
+export const MIN_ALLOWED_CUSTOM_LOCATIONS = 5
 export const MAX_ALLOWED_CUSTOM_LOCATIONS = 60000

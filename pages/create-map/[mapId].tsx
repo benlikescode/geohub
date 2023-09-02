@@ -12,9 +12,16 @@ import { Head } from '@components/Head'
 import { CreateMapModal, SaveMapModal } from '@components/modals'
 import { SelectMapLayers } from '@components/selects/SelectMapLayers'
 import { Avatar, Button, Skeleton } from '@components/system'
-import { ChevronLeftIcon, PencilAltIcon, PencilIcon } from '@heroicons/react/outline'
+import { PencilIcon } from '@heroicons/react/outline'
 import StyledCreateMapPage from '@styles/CreateMapPage.Styled'
-import { GoogleMapsConfigType, LocationType, MapType, PageType, StreetViewCoverageType } from '@types'
+import {
+  ChangedLocationsType,
+  GoogleMapsConfigType,
+  LocationType,
+  MapType,
+  PageType,
+  StreetViewCoverageType,
+} from '@types'
 import { PREVIEW_MAP_OPTIONS } from '@utils/constants/googleMapOptions'
 import { formatMonthYear, formatTimeAgo } from '@utils/dateHelpers'
 import { formatLargeNumber, mailman } from '@utils/helpers'
@@ -28,9 +35,14 @@ const CreateMapPage: PageType = () => {
   const router = useRouter()
   const mapId = router.query.mapId as string
 
+  const [initialLocations, setInitialLocations] = useState<LocationType[]>([])
   const [locations, setLocations] = useState<LocationType[]>([])
+  const [changedLocations, setChangedLocations] = useState<ChangedLocationsType>({
+    additions: [],
+    modifications: [],
+    deletions: [],
+  })
   const [selectedLocation, setSelectedLocation] = useState<LocationType | null>(null)
-  const [haveLocationsChanged, setHaveLocationsChanged] = useState(false)
   const [initiallyPublished, setInitiallyPublished] = useState<boolean | null>(null)
   const [mapDetails, setMapDetails] = useState<MapType | null>(null)
   const [showErrorPage, setShowErrorPage] = useState(false)
@@ -55,7 +67,7 @@ const CreateMapPage: PageType = () => {
   const svServiceRef = useRef<google.maps.StreetViewService | null>(null)
   const svPanoramaRef = useRef<google.maps.StreetViewPanorama | null>(null)
 
-  useConfirmLeave(haveLocationsChanged)
+  useConfirmLeave(!!Object.values(changedLocations).reduce((acc, arr) => acc || arr.length > 0, false))
 
   useEffect(() => {
     if (!mapId) return
@@ -81,6 +93,7 @@ const CreateMapPage: PageType = () => {
     }
 
     setMapDetails(res)
+    setInitialLocations(res.locations)
     setLocations(res.locations)
     setInitiallyPublished(res.isPublished)
     setLastSave(res.lastUpdatedAt)
@@ -89,11 +102,23 @@ const CreateMapPage: PageType = () => {
   }
 
   const addNewLocations = (newLocations: LocationType[] | LocationType) => {
-    setHaveLocationsChanged(true)
-
     if (Array.isArray(newLocations)) {
-      return setLocations((prev) => [...prev, ...newLocations])
+      setChangedLocations({
+        additions: [...changedLocations.additions, ...newLocations],
+        modifications: changedLocations.modifications,
+        deletions: changedLocations.deletions,
+      })
+
+      setLocations((prev) => [...prev, ...newLocations])
+
+      return
     }
+
+    setChangedLocations((prev) => ({
+      additions: [...prev.additions, newLocations],
+      modifications: prev.modifications,
+      deletions: prev.deletions,
+    }))
 
     setLocations((prev) => [...prev, newLocations])
     setSelectedLocation(newLocations)
@@ -199,7 +224,6 @@ const CreateMapPage: PageType = () => {
   const handleUpdateLocation = () => {
     if (!selectedLocation) return
 
-    setHaveLocationsChanged(true)
     setShowPreviewMap(false)
 
     const updatedLocations = [...locations]
@@ -226,17 +250,67 @@ const CreateMapPage: PageType = () => {
       updatedLocations[indexOfSelected].panoId = modifiedPanoId
     }
 
+    const updatedLoc = updatedLocations[indexOfSelected]
+
+    if (initialLocations.some((x) => x._id === updatedLoc._id)) {
+      setChangedLocations({
+        additions: changedLocations.additions,
+        modifications: [...changedLocations.modifications, updatedLoc],
+        deletions: changedLocations.deletions,
+      })
+    }
+
     setLocations(updatedLocations)
     setSelectedLocation(null)
   }
 
   const handleRemoveLocation = () => {
-    setHaveLocationsChanged(true)
     setShowPreviewMap(false)
 
     // If we have not selected a location, we remove the most recently added
     if (!selectedLocation) {
-      return setLocations((prev) => prev.slice(0, -1))
+      const locationToDelete = locations[locations.length - 1]
+      // Existed before this session, so add to deletions array
+      if (locationToDelete._id) {
+        setChangedLocations({
+          additions: changedLocations.additions,
+          modifications: changedLocations.modifications,
+          deletions: [...changedLocations.deletions, locations[locations.length - 1]._id],
+        })
+      }
+      // Was added during this session, so remove from additions array
+      else {
+        setChangedLocations({
+          additions: changedLocations.additions.filter(
+            (x) => !(x.lat === locationToDelete.lat && x.lng === locationToDelete.lng)
+          ),
+          modifications: changedLocations.modifications,
+          deletions: changedLocations.deletions,
+        })
+      }
+
+      setLocations((prev) => prev.slice(0, -1))
+
+      return
+    }
+
+    // Existed before this session, so add to deletions array
+    if (selectedLocation._id) {
+      setChangedLocations({
+        additions: changedLocations.additions,
+        modifications: changedLocations.modifications,
+        deletions: [...changedLocations.deletions, selectedLocation._id],
+      })
+    }
+    // Was added during this session, so remove from additions array
+    else {
+      setChangedLocations({
+        additions: changedLocations.additions.filter(
+          (x) => !(x.lat === selectedLocation.lat && x.lng === selectedLocation.lng)
+        ),
+        modifications: changedLocations.modifications,
+        deletions: changedLocations.deletions,
+      })
     }
 
     setLocations((prev) => prev.filter((x) => x !== selectedLocation))
@@ -373,12 +447,12 @@ const CreateMapPage: PageType = () => {
         <SaveMapModal
           isOpen={saveModalOpen}
           closeModal={() => setSaveModalOpen(false)}
-          locations={locations}
+          changedLocations={changedLocations}
+          setChangedLocations={setChangedLocations}
           setLastSave={setLastSave}
           initiallyPublished={initiallyPublished}
           setInitiallyPublished={setInitiallyPublished}
-          haveLocationsChanged={haveLocationsChanged}
-          setHaveLocationsChanged={setHaveLocationsChanged}
+          setInitialLocations={setInitialLocations}
         />
       )}
     </>
