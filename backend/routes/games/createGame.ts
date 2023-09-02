@@ -7,6 +7,10 @@ const createGame = async (req: NextApiRequest, res: NextApiResponse) => {
   const userId = await getUserId(req, res)
   const { mode, mapId } = req.body
 
+  if (!userId) {
+    return throwError(res, 401, 'Unauthorized')
+  }
+
   const locations = await getLocations(mapId)
 
   if (!locations) {
