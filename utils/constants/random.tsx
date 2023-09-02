@@ -1,6 +1,8 @@
 export const OFFICIAL_WORLD_ID = '6185df7a7b54baf63473a53e'
 export const COUNTRY_STREAKS_ID = 'country-streaks'
 
+export const GUEST_ACCOUNT_ID = '636ed6784ec6f85e6f18591e'
+
 export const COUNTRY_STREAK_DETAILS = {
   _id: COUNTRY_STREAKS_ID,
   name: 'Country Streaks',

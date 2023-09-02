@@ -3,6 +3,7 @@ import Cryptr from 'cryptr'
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { collections, dbConnect, getUserId, throwError } from '@backend/utils'
+import { GUEST_ACCOUNT_ID } from '@utils/constants/random'
 
 const ALLOWED_DISTANCE_UNITS = ['metric', 'imperial']
 const GOOGLE_MAPS_KEY_LENGTH = 39
@@ -35,7 +36,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const userId = await getUserId(req, res)
 
       if (!userId) {
-        return throwError(res, 401, 'Not authorized to perform this action.')
+        return throwError(res, 401, 'Unauthorized')
+      }
+
+      if (userId === GUEST_ACCOUNT_ID) {
+        return throwError(res, 401, 'This account is not allowed to modify settings')
       }
 
       if (!distanceUnit) {
