@@ -53,10 +53,12 @@ const getDailyChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
   const todaysChallenge = todaysChallengeQuery[0]
 
   // Check if user has already played today's challenge
-  const hasAlreadyPlayed = await collections.games?.findOne({
-    challengeId: todaysChallenge._id,
-    userId: new ObjectId(userId),
-  })
+  const hasAlreadyPlayed = userId
+    ? await collections.games?.findOne({
+        challengeId: todaysChallenge._id,
+        userId: new ObjectId(userId),
+      })
+    : false
 
   const result = {
     stats: {

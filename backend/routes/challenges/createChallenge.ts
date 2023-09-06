@@ -1,9 +1,16 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections, getLocations, getUserId } from '@backend/utils'
+import {
+  collections,
+  getLocations,
+  throwError,
+  verifyUser
+} from '@backend/utils'
 
 const createChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
-  const userId = await getUserId(req, res)
+  const user = await verifyUser(req, res)
+  if (!user) return throwError(res, 401, 'Unauthorized')
+
   const { mapId, gameSettings, mode } = req.body
 
   const numLocationsToGenerate = mode === 'streak' ? 10 : 5
@@ -15,7 +22,7 @@ const createChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const newChallenge = {
     mapId: mode === 'standard' ? new ObjectId(mapId) : mapId,
-    creatorId: new ObjectId(userId),
+    creatorId: new ObjectId(user._id),
     mode,
     gameSettings,
     locations,
