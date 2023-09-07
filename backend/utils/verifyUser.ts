@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getServerSession } from 'next-auth/next'
-import { collections, throwError } from '@backend/utils'
+import { collections } from '@backend/utils'
 import { authOptions } from '@pages/api/auth/[...nextauth]'
 import { UserType } from '@types'
 
@@ -9,22 +9,22 @@ const verifyUser = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerSession(req, res, authOptions)
 
   if (!session) {
-    return throwError(res, 401, 'Unauthorized')
+    return null
   }
 
   const userId = session.user.id
 
   if (!userId) {
-    return throwError(res, 401, 'Unauthorized')
+    return null
   }
 
-  const user = await collections.users?.findOne({ _id: new ObjectId(userId) })
+  const user = (await collections.users?.findOne({ _id: new ObjectId(userId) })) as UserType
 
   if (!user) {
-    return throwError(res, 401, 'Unauthorized')
+    return null
   }
 
-  return user as UserType
+  return user
 }
 
 export default verifyUser
