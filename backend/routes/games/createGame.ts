@@ -9,8 +9,8 @@ import {
 } from '@backend/utils'
 
 const createGame = async (req: NextApiRequest, res: NextApiResponse) => {
-  const user = await verifyUser(req, res)
-  if (!user) return throwError(res, 401, 'Unauthorized')
+  const { userId } = await verifyUser(req, res)
+  if (!userId) return throwError(res, 401, 'Unauthorized')
 
   const { mode, mapId } = req.body
 
@@ -23,7 +23,7 @@ const createGame = async (req: NextApiRequest, res: NextApiResponse) => {
   const newGame = {
     ...req.body,
     mapId: mode === 'standard' ? new ObjectId(mapId) : mapId,
-    userId: new ObjectId(user._id),
+    userId: new ObjectId(userId),
     guesses: [],
     rounds: locations,
     round: 1,

@@ -6,29 +6,30 @@ import {
   calculateDistance,
   calculateRoundScore,
   collections,
+  compareObjectIds,
   getLocations,
-  getUserId,
   throwError,
+  verifyUser
 } from '@backend/utils'
 import { ChallengeType, DistanceType, GuessType } from '@types'
 
 const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { userId } = await verifyUser(req, res)
+  if (!userId) return throwError(res, 401, 'Unauthorized')
+
   const gameId = req.query.id as string
-  const userId = await getUserId(req, res)
-
   const getGameQuery = { _id: new ObjectId(gameId) }
-  const { guess, guessTime, localRound, timedOut, timedOutWithGuess, adjustedLocation, streakLocationCode } = req.body
-
   const game = (await collections.games?.findOne(getGameQuery)) as Game
 
   if (!game) {
     return throwError(res, 500, 'Failed to save your recent guess')
   }
 
-  // Verify this is the game creator
-  if (userId !== game.userId.toString()) {
+  if (!compareObjectIds(userId, game.userId)) {
     return throwError(res, 401, 'You are not authorized to modify this game')
   }
+
+  const { guess, guessTime, localRound, timedOut, timedOutWithGuess, adjustedLocation, streakLocationCode } = req.body
 
   // Checking if guess has already been submitted for this round
   if (game.guesses.length === localRound) {

@@ -5,26 +5,33 @@ import { collections } from '@backend/utils'
 import { authOptions } from '@pages/api/auth/[...nextauth]'
 import { UserType } from '@types'
 
+const ERROR_RESPONSE = { userId: undefined, roles: null }
+
 const verifyUser = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerSession(req, res, authOptions)
 
   if (!session) {
-    return null
+    return ERROR_RESPONSE
   }
 
   const userId = session.user.id
 
   if (!userId) {
-    return null
+    return ERROR_RESPONSE
   }
 
   const user = (await collections.users?.findOne({ _id: new ObjectId(userId) })) as UserType
 
   if (!user) {
-    return null
+    return ERROR_RESPONSE
   }
 
-  return user
+  return {
+    userId: user._id,
+    roles: {
+      isAdmin: user.isAdmin,
+    },
+  }
 }
 
 export default verifyUser

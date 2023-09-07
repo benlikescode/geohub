@@ -5,15 +5,15 @@ import getMapFromGame from '@backend/queries/getMapFromGame'
 import { collections, throwError, verifyUser } from '@backend/utils'
 
 const createChallengeGame = async (req: NextApiRequest, res: NextApiResponse) => {
-  const user = await verifyUser(req, res)
-  if (!user) return throwError(res, 401, 'Unauthorized')
+  const { userId } = await verifyUser(req, res)
+  if (!userId) return throwError(res, 401, 'Unauthorized')
 
   const challengeId = req.query.id as string
   const { mapId, mode, gameSettings, locations, isDailyChallenge } = req.body
 
   // Ensure user has not already played this challenge
   const hasAlreadyPlayed = await collections.games
-    ?.find({ challengeId: new ObjectId(challengeId), userId: new ObjectId(user._id) })
+    ?.find({ challengeId: new ObjectId(challengeId), userId: new ObjectId(userId) })
     .count()
 
   if (hasAlreadyPlayed) {
@@ -22,7 +22,7 @@ const createChallengeGame = async (req: NextApiRequest, res: NextApiResponse) =>
 
   const newGame = {
     mapId: mode === 'standard' ? new ObjectId(mapId) : mapId,
-    userId: new ObjectId(user._id),
+    userId: new ObjectId(userId),
     challengeId: new ObjectId(challengeId),
     mode,
     gameSettings,

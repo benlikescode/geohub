@@ -1,12 +1,17 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import getMapFromGame from '@backend/queries/getMapFromGame'
-import { collections, throwError, verifyUser } from '@backend/utils'
+import {
+  collections,
+  compareObjectIds,
+  throwError,
+  verifyUser
+} from '@backend/utils'
 import { ChallengeType } from '@types'
 
 const getChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
-  const user = await verifyUser(req, res)
-  if (!user) return throwError(res, 401, 'Unauthorized')
+  const { userId } = await verifyUser(req, res)
+  if (!userId) return throwError(res, 401, 'Unauthorized')
 
   const challengeId = req.query.id as string
   const challenge = await collections.challenges?.findOne({ _id: new ObjectId(challengeId) })
@@ -25,14 +30,10 @@ const getChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
     }
   }
 
-  let playersGame = null
-
-  if (user._id) {
-    playersGame = await collections.games?.findOne({
-      userId: new ObjectId(user._id),
-      challengeId: new ObjectId(challengeId),
-    })
-  }
+  const playersGame = await collections.games?.findOne({
+    userId: new ObjectId(userId),
+    challengeId: new ObjectId(challengeId),
+  })
 
   const mapDetails = await getMapFromGame(challenge as ChallengeType)
 
@@ -40,7 +41,7 @@ const getChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
     return throwError(res, 404, 'Failed to find challenge')
   }
 
-  const challengeBelongsToUser = challenge.creatorId && challenge.creatorId.toString() === user._id
+  const challengeBelongsToUser = compareObjectIds(userId, challenge.creatorId)
 
   const result = {
     ...challenge,

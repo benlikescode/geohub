@@ -1,12 +1,13 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections, getUserId, throwError } from '@backend/utils'
+import { collections, throwError, verifyUser } from '@backend/utils'
 
 const getUnfinishedGames = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { userId } = await verifyUser(req, res)
+  if (!userId) return throwError(res, 401, 'Unauthorized')
+
   const page = req.query.page ? Number(req.query.page) : 0
   const gamesPerPage = 20
-
-  const userId = await getUserId(req, res)
 
   const query = { userId: new ObjectId(userId), state: { $ne: 'finished' } }
   const games = await collections.games
