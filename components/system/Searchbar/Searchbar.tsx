@@ -51,14 +51,11 @@ const Searchbar: FC<Props> = ({ placeholder, autoFocus, isSmall, onClickOutside 
   const handleSearch = async () => {
     if (!queryRef.current) return
 
-    // Add to recently searched
-    const res = await mailman(
-      'search/recent',
-      'POST',
-      JSON.stringify({ userId: user.id, type: 'term', term: queryRef.current })
-    )
-
-    if (res.error) return
+    // Add to recent searches if logged in
+    if (user.id) {
+      const body = { userId: user.id, type: 'term', term: queryRef.current }
+      await mailman('search/recent', 'POST', JSON.stringify(body))
+    }
 
     setIsFocused(false)
     router.push(`/search?q=${queryRef.current}`)
