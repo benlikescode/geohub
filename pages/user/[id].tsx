@@ -134,7 +134,7 @@ const ProfilePage: NextPage = () => {
     })
     setIsEditing(false)
 
-    await mailman('users/update', 'POST', JSON.stringify({ _id: user.id, ...newProfileValues }))
+    await mailman('users/update', 'POST', JSON.stringify(newProfileValues))
   }
 
   const cancelEditing = () => {
