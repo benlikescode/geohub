@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections, getUserId, isUserAnAdmin, monthAgo, throwError, todayEnd } from '@backend/utils'
+import { collections, monthAgo, throwError, todayEnd, verifyUser } from '@backend/utils'
 import { userProject } from '@backend/utils/dbProjects'
 
 const getAnalytics = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -149,11 +149,10 @@ const getAnalytics = async (req: NextApiRequest, res: NextApiResponse) => {
     return gamesPlayedByDay
   }
 
-  const userId = await getUserId(req, res)
-  const isAdmin = await isUserAnAdmin(userId)
+  const { userId, roles } = await verifyUser(req, res)
 
-  if (!isAdmin) {
-    return throwError(res, 401, 'You are not authorized to view this page')
+  if (!userId || !roles?.isAdmin) {
+    return throwError(res, 401, 'Unauthorized')
   }
 
   const counts = await getCounts()
