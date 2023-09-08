@@ -5,7 +5,7 @@ import { collections } from '@backend/utils'
 import { authOptions } from '@pages/api/auth/[...nextauth]'
 import { UserType } from '@types'
 
-const ERROR_RESPONSE = { userId: undefined, roles: null }
+const ERROR_RESPONSE = { userId: undefined, roles: null, user: null }
 
 const verifyUser = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerSession(req, res, authOptions)
@@ -31,6 +31,7 @@ const verifyUser = async (req: NextApiRequest, res: NextApiResponse) => {
     roles: {
       isAdmin: user.isAdmin,
     },
+    user,
   }
 }
 
