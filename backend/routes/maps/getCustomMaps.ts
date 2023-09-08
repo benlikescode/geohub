@@ -1,10 +1,11 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections, getUserId, throwError } from '@backend/utils'
+import { collections, throwError, verifyUser } from '@backend/utils'
 
 // HALP -> likely want to paginate in future
 const getCustomMaps = async (req: NextApiRequest, res: NextApiResponse) => {
-  const userId = await getUserId(req, res)
+  const { userId } = await verifyUser(req, res)
+
   const queryUserId = req.query.userId as string
 
   if (queryUserId) {
@@ -18,6 +19,11 @@ const getCustomMaps = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     return res.status(200).send(customMaps)
+  }
+
+  // Getting our own maps requires auth
+  if (!userId) {
+    return throwError(res, 401, 'Unauthorized')
   }
 
   const customMaps = await collections.maps

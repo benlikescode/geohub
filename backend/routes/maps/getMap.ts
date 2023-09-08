@@ -1,10 +1,11 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections, getUserId, throwError } from '@backend/utils'
+import { collections, compareObjectIds, throwError, verifyUser } from '@backend/utils'
 import { userProject } from '@backend/utils/dbProjects'
 
 const getMap = async (req: NextApiRequest, res: NextApiResponse) => {
-  const userId = await getUserId(req, res)
+  const { userId } = await verifyUser(req, res)
+
   const mapId = req.query.id as string
   const includeStats = req.query.stats as string // true or false
 
@@ -20,7 +21,7 @@ const getMap = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   // If map is not published or is deleted -> return early
-  if (!mapDetails.isPublished || (mapDetails.isDeleted && mapDetails.creator?.toString() !== userId)) {
+  if (!mapDetails.isPublished || (mapDetails.isDeleted && !compareObjectIds(userId, mapDetails.creator))) {
     return throwError(res, 400, `This map has not been published or does not exist`)
   }
 
@@ -52,9 +53,7 @@ const getMap = async (req: NextApiRequest, res: NextApiResponse) => {
     return throwError(res, 404, `Failed to get likes for map with id: ${mapId}`)
   }
 
-  const likedByUser = likes.some((like) => {
-    return like.userId.toString() === userId?.toString()
-  })
+  const likedByUser = likes.some((like) => compareObjectIds(userId, like.userId))
 
   // Get Map's average score
   const avgScore = await collections.games

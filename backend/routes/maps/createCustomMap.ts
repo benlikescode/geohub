@@ -1,10 +1,12 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Map } from '@backend/models'
-import { collections, getUserId, throwError } from '@backend/utils'
+import { collections, throwError, verifyUser } from '@backend/utils'
 
 const createCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
-  const creatorId = await getUserId(req, res)
+  const { userId } = await verifyUser(req, res)
+  if (!userId) return throwError(res, 401, 'Unauthorized')
+
   const { name, description, avatar } = req.body
 
   if (!name) {
@@ -15,7 +17,7 @@ const createCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
     name,
     description,
     previewImg: avatar || 'https://wallpaperaccess.com/full/2707446.jpg',
-    creator: new ObjectId(creatorId),
+    creator: new ObjectId(userId),
     createdAt: new Date(),
     isPublished: false,
   } as Map

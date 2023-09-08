@@ -1,10 +1,11 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections, getUserId } from '@backend/utils'
+import { collections, throwError, verifyUser } from '@backend/utils'
 
-// Returns 10 maps by default
 const getUsersLikedMaps = async (req: NextApiRequest, res: NextApiResponse) => {
-  const userId = await getUserId(req, res)
+  const { userId } = await verifyUser(req, res)
+  if (!userId) return throwError(res, 401, 'Unauthorized')
+
   const count = Number(req.query.count as string)
 
   const likedMaps = await collections.mapLikes
@@ -26,7 +27,7 @@ const getUsersLikedMaps = async (req: NextApiRequest, res: NextApiResponse) => {
     .toArray()
 
   if (!likedMaps) {
-    return res.status(400).send(`Failed to get users liked maps with user id: ${userId}`)
+    return throwError(res, 400, 'Failed to get liked maps')
   }
 
   res.status(200).send(likedMaps)

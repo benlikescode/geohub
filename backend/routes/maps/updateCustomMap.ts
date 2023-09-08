@@ -1,6 +1,13 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { calculateMapScoreFactor, collections, getMapBounds, getUserId, throwError } from '@backend/utils'
+import {
+  calculateMapScoreFactor,
+  collections,
+  compareObjectIds,
+  getMapBounds,
+  throwError,
+  verifyUser,
+} from '@backend/utils'
 import { LocationType } from '@types'
 import { MAX_ALLOWED_CUSTOM_LOCATIONS } from '@utils/constants/random'
 import { formatLargeNumber } from '@utils/helpers'
@@ -22,11 +29,13 @@ type UpdatedMap = {
 }
 
 const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
-  const userId = await getUserId(req, res)
+  const { userId } = await verifyUser(req, res)
+  if (!userId) return throwError(res, 401, 'Unauthorized')
+
   const mapId = req.query.mapId as string
 
   if (!mapId) {
-    return throwError(res, 400, 'You must pass a valid mapId')
+    return throwError(res, 400, 'Missing map id')
   }
 
   const mapDetails = await collections.maps?.findOne({ _id: new ObjectId(mapId) })
@@ -36,7 +45,7 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   // Verify user is updating their own map
-  if (userId !== mapDetails.creator?.toString()) {
+  if (!compareObjectIds(userId, mapDetails.creator)) {
     return throwError(res, 401, 'You can only make changes to maps you create')
   }
 

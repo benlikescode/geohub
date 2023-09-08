@@ -1,9 +1,11 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections, getUserId, throwError } from '@backend/utils'
+import { collections, compareObjectIds, throwError, verifyUser } from '@backend/utils'
 
 const deleteCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
-  const userId = await getUserId(req, res)
+  const { userId } = await verifyUser(req, res)
+  if (!userId) return throwError(res, 401, 'Unauthorized')
+
   const mapId = req.query.mapId as string
 
   if (!mapId) {
@@ -16,7 +18,7 @@ const deleteCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
     return throwError(res, 400, `Failed to find map details`)
   }
 
-  if (userId !== mapDetails.creator?.toString()) {
+  if (!compareObjectIds(userId, mapDetails.creator)) {
     return throwError(res, 401, 'You do not have permission to delete this map')
   }
 

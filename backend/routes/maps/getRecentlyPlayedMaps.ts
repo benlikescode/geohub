@@ -1,9 +1,9 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections, getUserId, throwError } from '@backend/utils'
+import { collections, throwError, verifyUser } from '@backend/utils'
 
 const getRecentlyPlayedMaps = async (req: NextApiRequest, res: NextApiResponse) => {
-  const userId = await getUserId(req, res)
+  const { userId } = await verifyUser(req, res)
 
   const games = await collections.games
     ?.aggregate([
