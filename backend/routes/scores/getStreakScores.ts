@@ -7,7 +7,7 @@ const getStreakScores = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const query = { mode: 'streak', state: 'finished' }
 
-  const scores = await getHighscores(userId, query, 5)
+  const scores = await getHighscores(userId, query, 5, 'streak')
 
   if (!scores) {
     return throwError(res, 404, 'Failed to get top streaks')

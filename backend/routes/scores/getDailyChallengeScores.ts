@@ -10,8 +10,8 @@ const getDailyChallengeScores = async (req: NextApiRequest, res: NextApiResponse
   const allTimeQuery = { isDailyChallenge: true, state: 'finished' }
   const todayQuery = { isDailyChallenge: true, state: 'finished', createdAt: { $gte: todayStart, $lt: todayEnd } }
 
-  const allTimeScores = await getHighscores(userId, allTimeQuery, limit)
-  const todayScores = await getHighscores(userId, todayQuery, limit)
+  const allTimeScores = await getHighscores(userId, allTimeQuery, limit, 'standard')
+  const todayScores = await getHighscores(userId, todayQuery, limit, 'standard')
 
   if (!allTimeScores || !todayScores) {
     return throwError(res, 404, 'Failed to get daily challenge scores')

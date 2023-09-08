@@ -9,7 +9,7 @@ const getGameScores = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const query = { mapId: new ObjectId(mapId), state: 'finished' }
 
-  const scores = await getHighscores(userId, query, 5)
+  const scores = await getHighscores(userId, query, 5, 'standard')
 
   if (!scores) {
     return throwError(res, 404, 'Failed to get scores for this map')
