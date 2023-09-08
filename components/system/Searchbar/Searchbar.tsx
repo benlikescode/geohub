@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router'
 import { FC, useEffect, useRef, useState } from 'react'
-import toast from 'react-hot-toast'
 import { SearchIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
 import { SearchResultType } from '@types'
@@ -59,9 +58,7 @@ const Searchbar: FC<Props> = ({ placeholder, autoFocus, isSmall, onClickOutside 
       JSON.stringify({ userId: user.id, type: 'term', term: queryRef.current })
     )
 
-    if (res.error) {
-      toast.error(res.error.message)
-    }
+    if (res.error) return
 
     setIsFocused(false)
     router.push(`/search?q=${queryRef.current}`)
