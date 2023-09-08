@@ -1,10 +1,10 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import queryTopScores from '@backend/queries/topScores'
-import { getUserId, throwError } from '@backend/utils'
+import { throwError, verifyUser } from '@backend/utils'
 
 const getGameScores = async (req: NextApiRequest, res: NextApiResponse) => {
-  const userId = await getUserId(req, res)
+  const { userId } = await verifyUser(req, res)
   const mapId = req.query.id as string
 
   // Get the top 5 user scores

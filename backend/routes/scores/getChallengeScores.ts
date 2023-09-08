@@ -1,11 +1,11 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections, getUserId, throwError } from '@backend/utils'
+import { collections, compareObjectIds, throwError, verifyUser } from '@backend/utils'
 import { userProject } from '@backend/utils/dbProjects'
 import { COUNTRY_STREAK_DETAILS, COUNTRY_STREAKS_ID } from '@utils/constants/random'
 
 const getChallengeScores = async (req: NextApiRequest, res: NextApiResponse) => {
-  const userId = await getUserId(req, res)
+  const { userId } = await verifyUser(req, res)
   const challengeId = req.query.id as string
 
   const query = { challengeId: new ObjectId(challengeId), state: 'finished' }
@@ -33,7 +33,7 @@ const getChallengeScores = async (req: NextApiRequest, res: NextApiResponse) => 
   }
 
   // If user has not yet played challenge -> they cant see results
-  if (!gamesData.find((x) => x?.userId?.toString() === userId)) {
+  if (!gamesData.find((game) => compareObjectIds(userId, game?.userId))) {
     return throwError(res, 401, `You haven't finished this challenge yet`)
   }
 

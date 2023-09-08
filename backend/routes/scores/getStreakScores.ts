@@ -1,10 +1,10 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import queryTopStreaks from '@backend/queries/topStreaks'
-import { getUserId, throwError } from '@backend/utils'
+import { throwError, verifyUser } from '@backend/utils'
 
 const getStreakScores = async (req: NextApiRequest, res: NextApiResponse) => {
-  const userId = await getUserId(req, res)
+  const { userId } = await verifyUser(req, res)
 
   // Get the top 5 user streaks
   const query = { mode: 'streak', state: 'finished' }
