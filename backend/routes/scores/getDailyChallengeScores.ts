@@ -1,39 +1,6 @@
-import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import queryTopScores from '@backend/queries/topScores'
 import { throwError, todayEnd, todayStart, verifyUser } from '@backend/utils'
-
-const getScoresHelper = async (
-  userId: string | undefined,
-  query: any,
-  res: NextApiResponse,
-  limit: number | undefined
-) => {
-  const data = await queryTopScores(query, limit ? Math.min(limit, 200) : 5)
-
-  if (!data) {
-    return throwError(res, 404, 'Failed to get scores for The Daily Challenge')
-  }
-
-  // Determine if this user is in the top list (If yes -> mark them as highlight: true)
-  const thisUserIndex = data.findIndex((user) => user?.userId?.toString() === userId)
-  const isUserInTopFive = thisUserIndex !== -1
-
-  if (isUserInTopFive) {
-    data[thisUserIndex] = { ...data[thisUserIndex], highlight: true }
-    return data
-  }
-
-  // If this user is not in the top list -> Get their top score and mark them as highlight: true
-  const thisUserQuery = { userId: new ObjectId(userId), ...query }
-  const thisUserData = await queryTopScores(thisUserQuery, 1)
-
-  if (thisUserData && thisUserData.length === 1) {
-    data.push({ ...thisUserData[0], highlight: true })
-  }
-
-  return data
-}
+import getHighscores from '@backend/utils/getHighscores'
 
 const getDailyChallengeScores = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userId } = await verifyUser(req, res)
@@ -43,12 +10,16 @@ const getDailyChallengeScores = async (req: NextApiRequest, res: NextApiResponse
   const allTimeQuery = { isDailyChallenge: true, state: 'finished' }
   const todayQuery = { isDailyChallenge: true, state: 'finished', createdAt: { $gte: todayStart, $lt: todayEnd } }
 
-  const allTimeData = await getScoresHelper(userId, allTimeQuery, res, limit)
-  const todayData = await getScoresHelper(userId, todayQuery, res, limit)
+  const allTimeScores = await getHighscores(userId, allTimeQuery, limit)
+  const todayScores = await getHighscores(userId, todayQuery, limit)
+
+  if (!allTimeScores || !todayScores) {
+    return throwError(res, 404, 'Failed to get daily challenge scores')
+  }
 
   const result = {
-    allTime: allTimeData,
-    today: todayData,
+    allTime: allTimeScores,
+    today: todayScores,
   }
 
   res.status(200).send(result)
