@@ -1,15 +1,13 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections } from '@backend/utils'
-import { userProject } from '@backend/utils/dbProjects'
+import { collections, getQueryLimit } from '@backend/utils'
 
 // Reference: https://docs.atlas.mongodb.com/reference/atlas-search/text/
 
-// Takes in a search query and returns at most 3 users and 3 maps matching the query
 const getSearchResults = async (req: NextApiRequest, res: NextApiResponse) => {
   const query = req.query.q as string
-  const count = Number(req.query.count as string)
+  const limit = getQueryLimit(req.query.count as string, 3)
 
-  const usersQuery = await collections.users
+  const userResults = await collections.users
     ?.aggregate([
       {
         $search: {
@@ -20,12 +18,19 @@ const getSearchResults = async (req: NextApiRequest, res: NextApiResponse) => {
           },
         },
       },
-      { $project: userProject },
-      { $limit: count || 3 },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          avatar: 1,
+          score: { $meta: 'searchScore' },
+        },
+      },
+      { $limit: limit },
     ])
     .toArray()
 
-  const mapsQuery = await collections.maps
+  const mapResults = await collections.maps
     ?.aggregate([
       {
         $search: {
@@ -37,14 +42,25 @@ const getSearchResults = async (req: NextApiRequest, res: NextApiResponse) => {
         },
       },
       { $match: { isPublished: true, isDeleted: { $exists: false } } },
-      { $limit: count || 3 },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          previewImg: 1,
+          score: { $meta: 'searchScore' },
+        },
+      },
+      { $limit: limit },
     ])
     .toArray()
 
-  const users = usersQuery || []
-  const maps = mapsQuery || []
+  const users = userResults || []
+  const maps = mapResults || []
 
-  res.status(200).send({ users, maps })
+  const all = [...users, ...maps]
+  all.sort((a, b) => b?.score - a?.score)
+
+  res.status(200).send({ all, users, maps })
 }
 
 export default getSearchResults
