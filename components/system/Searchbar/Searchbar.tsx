@@ -21,7 +21,6 @@ const Searchbar: FC<Props> = ({ placeholder, autoFocus, isSmall, onClickOutside 
   const [query, _setQuery] = useState('')
   const [results, setResults] = useState<SearchResultType[]>([])
   const [isFocused, _setIsFocused] = useState(autoFocus || false)
-  const [loadingQueryResults, setLoadingQueryResults] = useState(false)
   const [loadingRecents, setLoadingRecents] = useState(false)
   const [recentSearches, setRecentSearches] = useState([])
   const wrapperRef = useRef(null)
@@ -123,19 +122,12 @@ const Searchbar: FC<Props> = ({ placeholder, autoFocus, isSmall, onClickOutside 
 
   // Gets search results for specified query
   useEffect(() => {
-    if (query) {
-      setLoadingQueryResults(true)
-    }
-
     const search = async () => {
-      const res = await mailman(`search?q=${query}&count=6`)
+      const res = await mailman(`search?q=${query}&count=4`)
 
-      if (!res) {
-        return
-      }
+      if (!res) return
 
-      setResults([...res.users, ...res.maps])
-      setLoadingQueryResults(false)
+      setResults(res.all)
     }
 
     const throttle = setTimeout(() => {
@@ -143,7 +135,6 @@ const Searchbar: FC<Props> = ({ placeholder, autoFocus, isSmall, onClickOutside 
         search()
       } else {
         setResults([])
-        setLoadingQueryResults(false)
       }
     }, 300)
 
