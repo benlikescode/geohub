@@ -1,17 +1,6 @@
 import crypto from 'crypto'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections, throwError } from '@backend/utils'
-import sendEmail from '@backend/utils/sendEmail'
-
-const generateUrlSafeToken = () => {
-  const buffer = crypto.randomBytes(64)
-  const token = buffer
-    .toString('base64')
-    .replace(/\+/g, '-') // Replace '+' with '-'
-    .replace(/\//g, '_') // Replace '/' with '_'
-    .replace(/=/g, '') // Remove trailing '=' characters
-  return token
-}
+import { collections, generateUrlSafeToken, sendEmail, throwError } from '@backend/utils'
 
 const SUCCESS_RESPONSE = { message: 'Successfully sent reset email' }
 
