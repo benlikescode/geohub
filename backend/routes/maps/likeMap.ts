@@ -1,27 +1,21 @@
-import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { collections, throwError, verifyUser } from '@backend/utils'
+import { objectIdSchema } from '@backend/validations/objectIdSchema'
 
 const likeMap = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userId } = await verifyUser(req, res)
   if (!userId) return throwError(res, 401, 'Unauthorized')
 
-  const mapId = req.query.id as string
-
-  if (!mapId) {
-    return throwError(res, 400, 'Missing map id')
-  }
-
-  const mapLikedByUserQuery = { userId: new ObjectId(userId), mapId: new ObjectId(mapId) }
+  const mapId = objectIdSchema.parse(req.query.id)
 
   // Check if already liked
-  const alreadyLiked = await collections.mapLikes?.find(mapLikedByUserQuery).count()
+  const alreadyLiked = await collections.mapLikes?.find({ userId, mapId }).count()
 
   if (alreadyLiked) {
     return throwError(res, 400, 'You have already liked this map')
   }
 
-  const likeMapResult = await collections.mapLikes?.insertOne(mapLikedByUserQuery)
+  const likeMapResult = await collections.mapLikes?.insertOne({ userId, mapId })
 
   if (!likeMapResult) {
     return throwError(res, 500, 'Failed to like map')

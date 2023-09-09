@@ -2,7 +2,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import createChallengeGame from '@backend/routes/challenges/createChallengeGame'
 import getChallenge from '@backend/routes/challenges/getChallenge'
-import { dbConnect, throwError } from '@backend/utils'
+import { catchErrors, dbConnect } from '@backend/utils'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -10,14 +10,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     switch (req.method) {
       case 'GET':
-        return getChallenge(req, res)
+        await getChallenge(req, res)
+        break
       case 'POST':
-        return createChallengeGame(req, res)
+        await createChallengeGame(req, res)
+        break
       default:
         res.status(405).end(`Method ${req.method} Not Allowed`)
     }
   } catch (err) {
-    console.error(err)
-    return throwError(res, 500, 'An unexpected server error occured')
+    return catchErrors(res, err)
   }
 }

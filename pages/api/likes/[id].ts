@@ -2,7 +2,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import likeMap from '@backend/routes/maps/likeMap'
 import unlikeMap from '@backend/routes/maps/unlikeMap'
-import { dbConnect } from '@backend/utils'
+import { catchErrors, dbConnect } from '@backend/utils'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -10,14 +10,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     switch (req.method) {
       case 'POST':
-        return likeMap(req, res)
+        await likeMap(req, res)
+        break
       case 'DELETE':
-        return unlikeMap(req, res)
+        await unlikeMap(req, res)
+        break
       default:
         res.status(405).end(`Method ${req.method} Not Allowed`)
     }
   } catch (err) {
-    console.error(err)
-    res.status(500).json({ success: false })
+    return catchErrors(res, err)
   }
 }

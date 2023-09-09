@@ -53,7 +53,7 @@ const Searchbar: FC<Props> = ({ placeholder, autoFocus, isSmall, onClickOutside 
 
     // Add to recent searches if logged in
     if (user.id) {
-      const body = { userId: user.id, type: 'term', term: queryRef.current }
+      const body = { type: 'term', term: queryRef.current }
       await mailman('search/recent', 'POST', JSON.stringify(body))
     }
 

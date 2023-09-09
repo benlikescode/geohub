@@ -2,21 +2,18 @@ import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Map } from '@backend/models'
 import { collections, throwError, verifyUser } from '@backend/utils'
+import { createCustomMapSchema } from '@backend/validations/mapValidations'
 
 const createCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userId } = await verifyUser(req, res)
   if (!userId) return throwError(res, 401, 'Unauthorized')
 
-  const { name, description, avatar } = req.body
-
-  if (!name) {
-    return throwError(res, 400, 'A map name is required')
-  }
+  const { name, description, avatar } = createCustomMapSchema.parse(req.body)
 
   const newMap = {
     name,
     description,
-    previewImg: avatar || 'https://wallpaperaccess.com/full/2707446.jpg',
+    previewImg: avatar,
     creator: new ObjectId(userId),
     createdAt: new Date(),
     isPublished: false,

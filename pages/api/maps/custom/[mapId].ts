@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import deleteCustomMap from '@backend/routes/maps/deleteCustomMap'
 import getCustomMap from '@backend/routes/maps/getCustomMap'
 import updateCustomMap from '@backend/routes/maps/updateCustomMap'
-import { dbConnect } from '@backend/utils'
+import { catchErrors, dbConnect } from '@backend/utils'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -11,17 +11,19 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     switch (req.method) {
       case 'GET':
-        return getCustomMap(req, res)
+        await getCustomMap(req, res)
+        break
       case 'PUT':
-        return updateCustomMap(req, res)
+        await updateCustomMap(req, res)
+        break
       case 'DELETE':
-        return deleteCustomMap(req, res)
+        await deleteCustomMap(req, res)
+        break
       default:
         res.status(405).end(`Method ${req.method} Not Allowed`)
     }
   } catch (err) {
-    console.error(err)
-    res.status(500).json({ success: false })
+    return catchErrors(res, err)
   }
 }
 

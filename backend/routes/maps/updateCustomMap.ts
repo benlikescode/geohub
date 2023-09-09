@@ -8,17 +8,7 @@ import {
   throwError,
   verifyUser,
 } from '@backend/utils'
-import { LocationType } from '@types'
-import { MAX_ALLOWED_CUSTOM_LOCATIONS } from '@utils/constants/random'
-import { formatLargeNumber } from '@utils/helpers'
-
-type ReqBody = {
-  name?: string
-  description?: string
-  previewImg?: string
-  isPublished?: boolean
-  locations?: LocationType[]
-}
+import { updateCustomMapSchema } from '@backend/validations/mapValidations'
 
 type UpdatedMap = {
   name?: string
@@ -32,11 +22,10 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userId } = await verifyUser(req, res)
   if (!userId) return throwError(res, 401, 'Unauthorized')
 
-  const mapId = req.query.mapId as string
-
-  if (!mapId) {
-    return throwError(res, 400, 'Missing map id')
-  }
+  const { name, description, previewImg, isPublished, locations, mapId } = updateCustomMapSchema.parse({
+    ...req.body,
+    ...req.query,
+  })
 
   const mapDetails = await collections.maps?.findOne({ _id: new ObjectId(mapId) })
 
@@ -51,8 +40,6 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
 
   let updatedMap: UpdatedMap = {}
 
-  const { name, description, previewImg, isPublished, locations } = req.body as ReqBody
-
   if (name) {
     updatedMap['name'] = name
   }
@@ -63,10 +50,6 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (previewImg) {
     updatedMap['previewImg'] = previewImg
-  }
-
-  if (locations && locations.length < 5) {
-    return throwError(res, 400, 'Maps must have a minimum of 5 locations')
   }
 
   if (isPublished !== undefined) {
@@ -83,10 +66,6 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
 
   // HALP -> Really shouldn't be deleting locations and then inserting new
   if (locations) {
-    if (locations.length > MAX_ALLOWED_CUSTOM_LOCATIONS) {
-      return throwError(res, 400, `The max locations allowed is ${formatLargeNumber(MAX_ALLOWED_CUSTOM_LOCATIONS)}`)
-    }
-
     // Removes old locations
     const removeResult = await collections.userLocations?.deleteMany({ mapId: new ObjectId(mapId) })
 

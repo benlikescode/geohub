@@ -3,13 +3,16 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { Game } from '@backend/models'
 import getMapFromGame from '@backend/queries/getMapFromGame'
 import { collections, throwError, verifyUser } from '@backend/utils'
+import createChallengeGameSchema from '@backend/validations/createChallengeGameSchema'
 
 const createChallengeGame = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userId } = await verifyUser(req, res)
   if (!userId) return throwError(res, 401, 'Unauthorized')
 
-  const challengeId = req.query.id as string
-  const { mapId, mode, gameSettings, locations, isDailyChallenge } = req.body
+  const { mapId, mode, gameSettings, locations, isDailyChallenge, challengeId } = createChallengeGameSchema.parse({
+    ...req.body,
+    ...req.query,
+  })
 
   // Ensure user has not already played this challenge
   const hasAlreadyPlayed = await collections.games

@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import deleteGame from '@backend/routes/games/deleteGame'
 import getGame from '@backend/routes/games/getGame'
 import updateGame from '@backend/routes/games/updateGame'
-import { dbConnect } from '@backend/utils'
+import { catchErrors, dbConnect } from '@backend/utils'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -11,16 +11,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     switch (req.method) {
       case 'GET':
-        return getGame(req, res)
+        await getGame(req, res)
+        break
       case 'PUT':
-        return updateGame(req, res)
+        await updateGame(req, res)
+        break
       case 'DELETE':
-        return deleteGame(req, res)
+        await deleteGame(req, res)
+        break
       default:
         res.status(405).end(`Method ${req.method} Not Allowed`)
     }
   } catch (err) {
-    console.error(err)
-    res.status(500).send({ success: false })
+    return catchErrors(res, err)
   }
 }

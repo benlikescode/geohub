@@ -1,21 +1,12 @@
 import crypto from 'crypto'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { collections, generateUrlSafeToken, sendEmail, throwError } from '@backend/utils'
+import { forgotPasswordSchema } from '@backend/validations/userValidations'
 
 const SUCCESS_RESPONSE = { message: 'Successfully sent reset email' }
 
 const handleForgotPassword = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { email } = req.body
-
-  if (!email) {
-    return throwError(res, 400, 'You must include an email')
-  }
-
-  const EMAIL_REGEX = /\S+@\S+\.\S+/
-
-  if (!EMAIL_REGEX.test(email)) {
-    return throwError(res, 400, 'Invalid email address')
-  }
+  const { email } = forgotPasswordSchema.parse(req.body)
 
   const user = await collections.users?.findOne({ email })
 

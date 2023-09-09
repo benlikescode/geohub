@@ -1,19 +1,19 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { collections, throwError, verifyUser } from '@backend/utils'
-import { RecentSearchItem } from '@types'
+import { saveSearchSchema } from '@backend/validations/searchValidations'
 
 const saveRecentSearch = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userId } = await verifyUser(req, res)
   if (!userId) return throwError(res, 401, 'Unauthorized')
 
-  const { type, term, searchedUserId, searchedMapId } = req.body
+  const { type, term, searchedUserId, searchedMapId } = saveSearchSchema.parse(req.body)
 
-  const newSearchItem: RecentSearchItem = {
+  const newSearchItem = {
     type,
     term,
-    userId: searchedUserId ? new ObjectId(searchedUserId) : undefined,
-    mapId: searchedMapId ? new ObjectId(searchedMapId) : undefined,
+    userId: searchedUserId,
+    mapId: searchedMapId,
     createdAt: new Date(),
   }
 

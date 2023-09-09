@@ -3,17 +3,10 @@ import crypto from 'crypto'
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { collections, throwError } from '@backend/utils'
+import { resetPasswordSchema } from '@backend/validations/userValidations'
 
 const handleResetPassword = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { password, confirmPassword, token } = req.body
-
-  if (!password || password.length < 6) {
-    return throwError(res, 400, 'Password must be at least 6 characters')
-  }
-
-  if (password !== confirmPassword) {
-    return throwError(res, 400, 'Passwords do not match')
-  }
+  const { password, token } = resetPasswordSchema.parse(req.body)
 
   const hashedToken = crypto.createHash('sha256').update(token).digest('hex')
 
@@ -29,6 +22,8 @@ const handleResetPassword = async (req: NextApiRequest, res: NextApiResponse) =>
   // Update user password
   const hashedPassword = bcrypt.hashSync(password, 10)
 
+  // HALP -> would be nice to send a confirmation email to let user know
+  // their password has been changed
   const updatedUser = await collections.users?.findOneAndUpdate(
     { _id: new ObjectId(resetData.userId) },
     { $set: { password: hashedPassword } }

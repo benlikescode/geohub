@@ -2,7 +2,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import createCustomMap from '@backend/routes/maps/createCustomMap'
 import getCustomMaps from '@backend/routes/maps/getCustomMaps'
-import { dbConnect } from '@backend/utils'
+import { catchErrors, dbConnect } from '@backend/utils'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -10,14 +10,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     switch (req.method) {
       case 'GET':
-        return getCustomMaps(req, res)
+        await getCustomMaps(req, res)
+        break
       case 'POST':
-        return createCustomMap(req, res)
+        await createCustomMap(req, res)
+        break
       default:
         res.status(405).end(`Method ${req.method} Not Allowed`)
     }
   } catch (err) {
-    console.error(err)
-    res.status(500).json({ success: false })
+    return catchErrors(res, err)
   }
 }

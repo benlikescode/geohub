@@ -1,7 +1,7 @@
-import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getServerSession } from 'next-auth/next'
 import { collections } from '@backend/utils'
+import { objectIdSchema } from '@backend/validations/objectIdSchema'
 import { authOptions } from '@pages/api/auth/[...nextauth]'
 import { UserType } from '@types'
 
@@ -14,20 +14,20 @@ const verifyUser = async (req: NextApiRequest, res: NextApiResponse) => {
     return ERROR_RESPONSE
   }
 
-  const userId = session.user.id
+  const userId = objectIdSchema.parse(session.user.id)
 
   if (!userId) {
     return ERROR_RESPONSE
   }
 
-  const user = (await collections.users?.findOne({ _id: new ObjectId(userId) })) as UserType
+  const user = (await collections.users?.findOne({ _id: userId })) as UserType
 
   if (!user) {
     return ERROR_RESPONSE
   }
 
   return {
-    userId: user._id,
+    userId,
     roles: {
       isAdmin: user.isAdmin,
     },
