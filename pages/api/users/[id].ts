@@ -1,28 +1,17 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections, dbConnect } from '@backend/utils'
-import { userProject } from '@backend/utils/dbProjects'
+import getUserDetails from '@backend/routes/users/getUserDetails'
+import { dbConnect } from '@backend/utils'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await dbConnect()
 
-    if (req.method === 'GET') {
-      const userId = req.query.id as string
-
-      const user = await collections.users
-        ?.find({ _id: new ObjectId(userId) })
-        .project(userProject)
-        .toArray()
-
-      if (!user || user.length !== 1) {
-        return res.status(400).send(`Failed to find user with id: ${userId}`)
-      }
-
-      res.status(200).send(user[0])
-    } else {
-      res.status(405).end(`Method ${req.method} Not Allowed`)
+    switch (req.method) {
+      case 'GET':
+        return getUserDetails(req, res)
+      default:
+        res.status(405).end(`Method ${req.method} Not Allowed`)
     }
   } catch (err) {
     console.error(err)
