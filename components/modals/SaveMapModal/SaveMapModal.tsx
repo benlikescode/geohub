@@ -3,8 +3,7 @@ import { FC, useState } from 'react'
 import { MainModal } from '@components/modals'
 import { ToggleSwitch } from '@components/system'
 import { LocationType } from '@types'
-import { MAX_ALLOWED_CUSTOM_LOCATIONS } from '@utils/constants/random'
-import { formatLargeNumber, mailman, showToast } from '@utils/helpers'
+import { mailman, showToast } from '@utils/helpers'
 import { StyledSaveMapModal } from './'
 
 type Props = {
@@ -39,14 +38,6 @@ const SaveMapModal: FC<Props> = ({
 
     if (!haveLocationsChanged && !publishedHasChanged) {
       return showToast('error', 'No changes since last save', 'mapEditor')
-    }
-
-    if (locations.length > MAX_ALLOWED_CUSTOM_LOCATIONS) {
-      return showToast(
-        'error',
-        `The max locations allowed is ${formatLargeNumber(MAX_ALLOWED_CUSTOM_LOCATIONS)}`,
-        'mapEditor'
-      )
     }
 
     setIsSaving(true)

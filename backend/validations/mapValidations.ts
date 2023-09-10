@@ -1,10 +1,12 @@
 import { z } from 'zod'
 import { locationsSchema } from '@backend/validations/locationsSchema'
-import { CUSTOM_MAP_AVATARS, MAX_ALLOWED_CUSTOM_LOCATIONS } from '@utils/constants/random'
+import { CUSTOM_MAP_AVATARS } from '@utils/constants/avatarOptions'
 import { formatLargeNumber } from '@utils/helpers'
 
 const NAME_MAX_LEN = 30
 const DESCRIPTION_MAX_LEN = 60
+const MIN_CUSTOM_LOCATIONS = 5
+const MAX_CUSTOM_LOCATIONS = 60000
 
 const nameSchema = z
   .string({ required_error: 'Name is required' })
@@ -22,11 +24,8 @@ const previewImgSchema = z.string({ required_error: 'Avatar is required' }).refi
 const isPublishedSchema = z.boolean()
 
 const customLocationsSchema = locationsSchema
-  .min(5, `Maps must have at least 5 locations`)
-  .max(
-    MAX_ALLOWED_CUSTOM_LOCATIONS,
-    `Maps must have at most ${formatLargeNumber(MAX_ALLOWED_CUSTOM_LOCATIONS)} locations`
-  )
+  .min(MIN_CUSTOM_LOCATIONS, `Maps must have at least ${MIN_CUSTOM_LOCATIONS} locations`)
+  .max(MAX_CUSTOM_LOCATIONS, `Maps must have at most ${formatLargeNumber(MAX_CUSTOM_LOCATIONS)} locations`)
 
 export const createCustomMapSchema = z.object({
   name: nameSchema,

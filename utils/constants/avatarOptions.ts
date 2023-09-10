@@ -36,21 +36,4 @@ export const EMOJIS = [
 
 export const BACKGROUND_COLORS = ['#fecaca', '#fed7aa', '#bbf7d0', '#bfdbfe', '#e9d5ff', '#fbcfe8']
 
-export const MAP_AVATARS = [
-  'Custom1.jpg',
-  'Custom2.jpg',
-  'Custom3.webp',
-  'Custom4.webp',
-  'Custom5.webp',
-  'Custom6.jpg',
-  'Custom7.webp',
-  'Custom8.webp',
-  'Custom9.webp',
-  'Custom10.webp',
-  'Custom11.webp',
-  'Custom12.webp',
-  'Custom13.webp',
-  'Custom14.webp',
-  'Custom15.avif',
-  'Custom16.webp',
-]
+export const CUSTOM_MAP_AVATARS = Array.from({ length: 16 }).map((_, idx) => `custom${idx + 1}.jpg`)

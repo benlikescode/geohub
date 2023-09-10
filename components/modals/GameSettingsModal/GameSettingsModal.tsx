@@ -83,10 +83,8 @@ const GameSettingsModal: FC<Props> = ({ isOpen, closeModal, mapDetails, gameMode
 
     const gameData = {
       mapId: mapDetails._id,
-      mapName: mapDetails.name,
       gameSettings,
       mode: gameMode,
-      userId: user.id,
     }
 
     const res = await mailman('challenges', 'POST', JSON.stringify(gameData))
@@ -111,7 +109,6 @@ const GameSettingsModal: FC<Props> = ({ isOpen, closeModal, mapDetails, gameMode
 
     const gameData = {
       mapId: mapDetails._id,
-      mapName: mapDetails.name,
       gameSettings,
       mode: gameMode,
     }

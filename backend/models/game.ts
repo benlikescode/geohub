@@ -1,32 +1,47 @@
 import { ObjectId } from 'mongodb'
 import { DistanceType, GameSettingsType, GuessType, LocationType, MapType } from '@types'
-import User from './user'
+import User from './User'
 
 type Game = {
-  id?: ObjectId
-  _id?: ObjectId // replace id with _id throughout app
-  mapId: string
-  mapName?: string
+  _id: ObjectId
+  mapId: ObjectId
   userId: ObjectId
-  userName?: string
-  userAvatar?: { emoji: string; color: string }
+  challengeId?: ObjectId
+  mode: 'standard' | 'streak'
   gameSettings: GameSettingsType
-  rounds: LocationType[]
   guesses: GuessType[]
+  rounds: LocationType[]
   round: number
   totalPoints: number
   totalDistance: DistanceType
   totalTime: number
-  difficulty?: 'Normal' | 'Easy' | 'Challenging'
-  countryCode?: string
-  challengeId?: ObjectId | string | null
-  userDetails?: User
-  createdAt?: Date
-  mapDetails?: MapType
-  state: 'started' | 'finished'
-  mode: 'standard' | 'streak'
   streak: number
+  state: 'started' | 'finished'
   isDailyChallenge?: boolean
+  createdAt?: Date
 }
+
+// type GameWithExtra = {
+//   _id: ObjectId
+//   mapId: ObjectId
+//   userId: ObjectId
+//   challengeId?: ObjectId | string | null
+//   mode: 'standard' | 'streak'
+//   gameSettings: GameSettingsType
+//   guesses: GuessType[]
+//   rounds: LocationType[]
+//   round: number
+//   totalPoints: number
+//   totalDistance: DistanceType
+//   totalTime: number
+//   streak: number
+//   state: 'started' | 'finished'
+//   isDailyChallenge?: boolean
+//   createdAt?: Date
+//   userDetails?: User
+//   mapDetails?: MapType
+//   userName?: string
+//   userAvatar?: { emoji: string; color: string }
+// }
 
 export default Game

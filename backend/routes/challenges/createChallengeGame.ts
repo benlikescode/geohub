@@ -1,9 +1,7 @@
-import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { Game } from '@backend/models'
+import { Challenge, Game } from '@backend/models'
 import getMapFromGame from '@backend/queries/getMapFromGame'
 import { collections, throwError, verifyUser } from '@backend/utils'
-import createChallengeGameSchema from '@backend/validations/createChallengeGameSchema'
 import { objectIdSchema } from '@backend/validations/objectIdSchema'
 
 const createChallengeGame = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -11,17 +9,24 @@ const createChallengeGame = async (req: NextApiRequest, res: NextApiResponse) =>
   if (!userId) return throwError(res, 401, 'Unauthorized')
 
   const challengeId = objectIdSchema.parse(req.query.id)
-  const { mapId, mode, gameSettings, locations, isDailyChallenge } = createChallengeGameSchema.parse(req.body)
 
-  // Ensure user has not already played this challenge
+  // Ensure user hasn't played challenge yet
   const hasAlreadyPlayed = await collections.games?.find({ challengeId, userId }).count()
 
   if (hasAlreadyPlayed) {
     return throwError(res, 400, 'You have already played this challenge')
   }
 
+  const challenge = (await collections.challenges?.findOne({ _id: challengeId })) as Challenge
+
+  if (!challenge) {
+    return throwError(res, 500, 'Failed to find challenge')
+  }
+
+  const { mapId, mode, gameSettings, locations, isDailyChallenge } = challenge
+
   const newGame = {
-    mapId: mode === 'standard' ? new ObjectId(mapId) : mapId,
+    mapId,
     userId,
     challengeId,
     mode,
@@ -36,7 +41,7 @@ const createChallengeGame = async (req: NextApiRequest, res: NextApiResponse) =>
     state: 'started',
     isDailyChallenge,
     createdAt: new Date(),
-  }
+  } as Game
 
   // Create game that is associated with this challenge
   const result = await collections.games?.insertOne(newGame)
@@ -45,7 +50,7 @@ const createChallengeGame = async (req: NextApiRequest, res: NextApiResponse) =>
     return throwError(res, 400, 'Failed to create your game in this challenge')
   }
 
-  const mapDetails = await getMapFromGame(newGame as Game)
+  const mapDetails = await getMapFromGame(newGame)
 
   const _id = result.insertedId
 

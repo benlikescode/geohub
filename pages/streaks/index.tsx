@@ -11,7 +11,7 @@ import { VerifiedBadge } from '@components/VerifiedBadge'
 import { useAppSelector } from '@redux/hook'
 import StyledPlayStreaksPage from '@styles/PlayStreaksPage.Styled'
 import { MapLeaderboardType, StreakStatsType } from '@types'
-import { COUNTRY_STREAK_DETAILS } from '@utils/constants/random'
+import { COUNTRY_STREAK_DETAILS } from '@utils/constants/otherGameModeDetails'
 import { mailman, showToast } from '@utils/helpers'
 
 const StreaksPage = () => {

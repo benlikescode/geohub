@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
+import { GUEST_ACCOUNT_ID } from '@backend/constants/ids'
 import { collections, compareObjectIds, throwError, verifyUser } from '@backend/utils'
 import { updateUserSchema } from '@backend/validations/userValidations'
-import { GUEST_ACCOUNT_ID } from '@utils/constants/random'
 
 const updateUserDetails = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userId } = await verifyUser(req, res)

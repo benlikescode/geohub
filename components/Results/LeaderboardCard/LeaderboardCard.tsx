@@ -1,14 +1,14 @@
 import { FC } from 'react'
-import { Game } from '@backend/models'
 import { Avatar } from '@components/system'
 import { CogIcon } from '@heroicons/react/outline'
-import { MapType } from '@types'
+import { GameType, MapType } from '@types'
 import { formatDistance, formatLargeNumber, formatRoundTime, formatSettingsLabel } from '@utils/helpers'
+import formatMapDetails from '@utils/helpers/formatMapDetails'
 import { useAppSelector } from '../../../redux-utils'
 import { StyledLeaderboardCard } from './'
 
 type Props = {
-  gameData: Game[]
+  gameData: GameType[]
   mapData: MapType
   selectedGameIndex?: number
   setSelectedGameIndex?: (newIndex: number) => void
@@ -23,7 +23,7 @@ const LeaderboardCard: FC<Props> = ({ gameData, mapData, selectedGameIndex, setS
       <div className="leaderboardWrapper">
         <div className="gameInfoWrapper">
           <div className="gameInfoItem">
-            <Avatar type="map" src={mapData.previewImg} size={50} />
+            <Avatar type="map" src={formatMapDetails(gameData[0], 'previewImg')} size={50} />
 
             <div className="gameInfoContent">
               <span className="label1">{mapData.name}</span>

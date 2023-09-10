@@ -1,11 +1,5 @@
-import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import {
-  collections,
-  getLocations,
-  throwError,
-  verifyUser
-} from '@backend/utils'
+import { collections, getLocations, throwError, verifyUser } from '@backend/utils'
 
 const createChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userId } = await verifyUser(req, res)
@@ -14,15 +8,15 @@ const createChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
   const { mapId, gameSettings, mode } = req.body
 
   const numLocationsToGenerate = mode === 'streak' ? 10 : 5
-  const locations = await getLocations(mapId, numLocationsToGenerate)
+  const locations = await getLocations(mapId, mode, numLocationsToGenerate)
 
   if (locations === null) {
     return res.status(400).send('Invalid map Id, challenge could not be created')
   }
 
   const newChallenge = {
-    mapId: mode === 'standard' ? new ObjectId(mapId) : mapId,
-    creatorId: new ObjectId(userId),
+    mapId,
+    creatorId: userId,
     mode,
     gameSettings,
     locations,

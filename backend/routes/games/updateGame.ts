@@ -63,7 +63,7 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
       const challenge = (await collections.challenges?.findOne({ _id: game.challengeId })) as ChallengeType
 
       if (localRound >= challenge.locations.length) {
-        const newLocations = await getLocations(game.mapId, NEW_LOCATIONS_COUNT)
+        const newLocations = await getLocations(game.mapId, game.mode, NEW_LOCATIONS_COUNT)
 
         if (!newLocations) {
           return throwError(res, 400, 'Failed to get new location')
@@ -89,7 +89,7 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
 
     if (isStreakGame && !game.challengeId) {
       if (localRound >= game.rounds.length) {
-        const newLocations = await getLocations(game.mapId, NEW_LOCATIONS_COUNT)
+        const newLocations = await getLocations(game.mapId, game.mode, NEW_LOCATIONS_COUNT)
 
         if (!newLocations) {
           return throwError(res, 400, 'Failed to get new location')

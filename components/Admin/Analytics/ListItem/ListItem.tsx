@@ -2,8 +2,8 @@ import Link from 'next/link'
 import { FC } from 'react'
 import { Avatar } from '@components/system'
 import { AnalyticsType } from '@types'
-import { COUNTRY_STREAK_DETAILS, DAILY_CHALLENGE_DETAILS } from '@utils/constants/random'
 import { formatMonthDayYearTime } from '@utils/dateHelpers'
+import formatMapDetails from '@utils/helpers/formatMapDetails'
 import { StyledListItem } from './'
 
 type Props = {
@@ -47,27 +47,10 @@ const ListItem: FC<Props> = ({ title, data }) => {
           <Link href={`/results/${game._id}`}>
             <a className="item-details">
               <div className="item-avatar">
-                {game.mapDetails && (
-                  <Avatar
-                    type="map"
-                    src={
-                      game.mode === 'streak'
-                        ? COUNTRY_STREAK_DETAILS.previewImg
-                        : game.isDailyChallenge
-                        ? DAILY_CHALLENGE_DETAILS.previewImg
-                        : game.mapDetails?.[0]?.previewImg
-                    }
-                  />
-                )}
+                {game.mapDetails && <Avatar type="map" src={formatMapDetails(game, 'previewImg')} />}
               </div>
               <div className="item-text-wrapper">
-                <span className="item-text-1">
-                  {game.mode === 'streak'
-                    ? COUNTRY_STREAK_DETAILS.name
-                    : game.isDailyChallenge
-                    ? DAILY_CHALLENGE_DETAILS.name
-                    : game.mapDetails?.[0]?.name}
-                </span>
+                <span className="item-text-1">{formatMapDetails(game, 'name')}</span>
                 <span className="item-text-2">{game.userDetails.name}</span>
               </div>
             </a>

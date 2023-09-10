@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { FC } from 'react'
 import { TrashIcon } from '@heroicons/react/outline'
 import { MapType } from '@types'
-import { MAP_AVATAR_PATH } from '../../utils/constants/random'
+import { MAP_AVATAR_PATH } from '@utils/constants/sitePaths'
 import { StyledMapPreviewCard } from './'
 
 type Props = {

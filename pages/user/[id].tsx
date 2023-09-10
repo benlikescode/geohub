@@ -18,7 +18,7 @@ import { useAppDispatch, useAppSelector } from '@redux/hook'
 import { updateAvatar, updateBio, updateUsername } from '@redux/slices'
 import StyledProfilePage from '@styles/ProfilePage.Styled'
 import { MapType, UserGameHistoryType } from '@types'
-import { USER_AVATAR_PATH } from '@utils/constants/random'
+import { USER_AVATAR_PATH } from '@utils/constants/sitePaths'
 import { mailman, showToast } from '@utils/helpers'
 
 import type { NextPage } from 'next'

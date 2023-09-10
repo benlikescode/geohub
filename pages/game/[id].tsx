@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import Game from '@backend/models/game'
+import Game from '@backend/models/Game'
 import { NotFound } from '@components/errorViews'
 import { StandardGameView, StreakGameView } from '@components/gameViews'
 import { Head } from '@components/Head'

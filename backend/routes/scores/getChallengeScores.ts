@@ -1,18 +1,17 @@
-import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { Game } from '@backend/models'
 import { collections, compareObjectIds, throwError, verifyUser } from '@backend/utils'
 import { userProject } from '@backend/utils/dbProjects'
-import { COUNTRY_STREAK_DETAILS, COUNTRY_STREAKS_ID } from '@utils/constants/random'
+import { objectIdSchema } from '@backend/validations/objectIdSchema'
+import { COUNTRY_STREAK_DETAILS } from '@utils/constants/otherGameModeDetails'
 
 const getChallengeScores = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userId } = await verifyUser(req, res)
-  const challengeId = req.query.id as string
+  const challengeId = objectIdSchema.parse(req.query.id)
 
-  const query = { challengeId: new ObjectId(challengeId), state: 'finished' }
-
-  const gamesData = await collections.games
+  const gamesData = (await collections.games
     ?.aggregate([
-      { $match: query },
+      { $match: { challengeId, state: 'finished' } },
       { $sort: { totalPoints: -1 } },
       {
         $lookup: {
@@ -26,7 +25,7 @@ const getChallengeScores = async (req: NextApiRequest, res: NextApiResponse) => 
       { $project: { userDetails: userProject } },
     ])
     .limit(100)
-    .toArray()
+    .toArray()) as Game[]
 
   if (!gamesData || gamesData.length < 1) {
     return throwError(res, 404, `Failed to get scores for challenged with id: ${challengeId}`)
@@ -38,13 +37,13 @@ const getChallengeScores = async (req: NextApiRequest, res: NextApiResponse) => 
   }
 
   // Get Map
-  const mapId = gamesData[0].mapId
+  const { mapId, mode } = gamesData[0]
 
-  if (mapId === COUNTRY_STREAKS_ID) {
+  if (mode === 'streak') {
     return res.status(200).send({ games: gamesData, map: COUNTRY_STREAK_DETAILS })
   }
 
-  const map = await collections.maps?.findOne({ _id: new ObjectId(mapId) })
+  const map = await collections.maps?.findOne({ _id: mapId })
 
   if (!map) {
     return throwError(res, 404, `Failed to get map for challenged with id: ${challengeId}`)

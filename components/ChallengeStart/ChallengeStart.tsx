@@ -11,7 +11,7 @@ import {
 } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
 import { ChallengeType, GameViewType } from '@types'
-import { MAP_AVATAR_PATH } from '@utils/constants/random'
+import { MAP_AVATAR_PATH } from '@utils/constants/sitePaths'
 import { formatTimeLimit, redirectToRegister } from '@utils/helpers'
 import { StyledChallengeStart } from './'
 

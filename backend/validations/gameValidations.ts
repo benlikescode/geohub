@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { locationsSchema } from '@backend/validations/locationsSchema'
 import { objectIdSchema } from '@backend/validations/objectIdSchema'
 
 const MODE_OPTIONS = ['standard', 'streak'] as const
@@ -17,12 +16,8 @@ const gameSettingsSchema = z.object(
   { required_error: 'Game settings are required' }
 )
 
-const createChallengeGameSchema = z.object({
+export const createGameSchema = z.object({
   mapId: objectIdSchema,
   mode: z.enum(MODE_OPTIONS, { required_error: 'Mode is required' }),
   gameSettings: gameSettingsSchema,
-  locations: locationsSchema,
-  isDailyChallenge: z.boolean({ required_error: 'isDailyChallenge is required' }),
 })
-
-export default createChallengeGameSchema

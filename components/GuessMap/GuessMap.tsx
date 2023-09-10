@@ -1,6 +1,6 @@
 import GoogleMapReact from 'google-map-react'
 import { FC, useEffect, useRef, useState } from 'react'
-import Game from '@backend/models/game'
+import Game from '@backend/models/Game'
 import { Marker } from '@components/Marker'
 import { Button } from '@components/system'
 import { ArrowRightIcon, XIcon } from '@heroicons/react/outline'

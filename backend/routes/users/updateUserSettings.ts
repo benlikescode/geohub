@@ -1,8 +1,8 @@
 import Cryptr from 'cryptr'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { GUEST_ACCOUNT_ID } from '@backend/constants/ids'
 import { collections, compareObjectIds, throwError, verifyUser } from '@backend/utils'
 import { updateUserSettingsSchema } from '@backend/validations/userValidations'
-import { GUEST_ACCOUNT_ID } from '@utils/constants/random'
 
 const cryptr = new Cryptr(process.env.CRYPTR_SECRET as string)
 

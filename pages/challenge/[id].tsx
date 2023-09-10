@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import Game from '@backend/models/game'
+import Game from '@backend/models/Game'
 import { ChallengeStart } from '@components/ChallengeStart'
 import { NotFound } from '@components/errorViews'
 import { StandardGameView, StreakGameView } from '@components/gameViews'
@@ -35,7 +35,7 @@ const ChallengePage: PageType = () => {
 
     // If the user has not started the challenge yet
     if (!playersGame) {
-      return challengeBelongsToUser ? await createGame(res) : setView('Start')
+      return challengeBelongsToUser ? await createGame() : setView('Start')
     }
 
     // If they have finished the game, push to results page
@@ -47,25 +47,15 @@ const ChallengePage: PageType = () => {
     setGameData({ ...playersGame, mapDetails })
   }
 
-  const createGame = async (challengeData: ChallengeType) => {
-    const gameData = {
-      mapId: challengeData.mapId,
-      mode: challengeData.mode,
-      gameSettings: challengeData.gameSettings,
-      locations: challengeData.locations,
-      isDailyChallenge: challengeData.isDailyChallenge,
-    }
-
-    // Store start time
-    dispatch(updateStartTime({ startTime: new Date().getTime() }))
-
-    const res = await mailman(`challenges/${challengeId}`, 'POST', JSON.stringify(gameData))
+  const createGame = async () => {
+    const res = await mailman(`challenges/${challengeId}`, 'POST')
 
     if (res.error) {
       return showToast('error', res.error.message)
     }
 
     setGameData(res)
+    dispatch(updateStartTime({ startTime: new Date().getTime() }))
   }
 
   useEffect(() => {

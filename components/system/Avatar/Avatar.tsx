@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { FC, ImgHTMLAttributes } from 'react'
-import { MAP_AVATAR_PATH, USER_AVATAR_PATH } from '@utils/constants/random'
+import { MAP_AVATAR_PATH, USER_AVATAR_PATH } from '@utils/constants/sitePaths'
 import { StyledAvatar } from './'
 
 type Props = {

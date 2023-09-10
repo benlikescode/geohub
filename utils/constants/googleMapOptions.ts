@@ -1,4 +1,4 @@
-import Game from '@backend/models/game'
+import Game from '@backend/models/Game'
 
 // This is the best way I found to enable POIs
 const showPOIs = [

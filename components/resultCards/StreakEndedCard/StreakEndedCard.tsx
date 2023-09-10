@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
-import Game from '@backend/models/game'
+import Game from '@backend/models/Game'
 import { StreakCountryList } from '@components/StreakCountryList'
 import { Button } from '@components/system'
 import { useAppDispatch, useAppSelector } from '@redux/hook'

@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { FC, useEffect } from 'react'
-import Game from '@backend/models/game'
+import Game from '@backend/models/Game'
 import { useAppDispatch } from '@redux/hook'
 import { updateStartTime } from '@redux/slices'
 import { GameViewType } from '@types'

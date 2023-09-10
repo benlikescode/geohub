@@ -12,9 +12,9 @@ import { TrashIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
 import StyledOngoingGamesPage from '@styles/OngoingGamesPage.Styled'
 import { GameType, MapType } from '@types'
-import { COUNTRY_STREAK_DETAILS, DAILY_CHALLENGE_DETAILS } from '@utils/constants/random'
 import { formatMonthDayYear } from '@utils/dateHelpers'
 import { formatOngoingScore, mailman, showToast } from '@utils/helpers'
+import formatMapDetails from '@utils/helpers/formatMapDetails'
 import { useBreakpoint } from '@utils/hooks'
 
 type OngoingGame = GameType & {
@@ -122,24 +122,9 @@ const OngoingGamesPage: NextPage = () => {
                   <div key={idx} className={`ongoing-item ${idx % 2 === 0 ? 'variant' : ''}`}>
                     <div className="flex-left">
                       <div className="map-details">
-                        <Avatar
-                          type="map"
-                          src={
-                            game.mode === 'streak'
-                              ? COUNTRY_STREAK_DETAILS.previewImg
-                              : game.isDailyChallenge
-                              ? DAILY_CHALLENGE_DETAILS.previewImg
-                              : game.mapDetails?.[0]?.previewImg
-                          }
-                        />
+                        <Avatar type="map" src={formatMapDetails(game, 'previewImg')} />
                         <div className="mapNameWrapper">
-                          <span className="mapName">
-                            {game.mode === 'streak'
-                              ? COUNTRY_STREAK_DETAILS.name
-                              : game.isDailyChallenge
-                              ? DAILY_CHALLENGE_DETAILS.name
-                              : game.mapDetails?.[0]?.name}
-                          </span>
+                          <span className="mapName">{formatMapDetails(game, 'name')}</span>
                         </div>
                       </div>
                     </div>

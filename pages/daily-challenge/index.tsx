@@ -12,7 +12,7 @@ import { CheckIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
 import StyledDailyChallengePage from '@styles/DailyChallengePage.Styled'
 import { DailyChallengeStatsType, MapLeaderboardType } from '@types'
-import { DAILY_CHALLENGE_DETAILS } from '@utils/constants/random'
+import { DAILY_CHALLENGE_DETAILS } from '@utils/constants/otherGameModeDetails'
 import { mailman, showToast } from '@utils/helpers'
 
 const DailyChallengePage: FC = () => {

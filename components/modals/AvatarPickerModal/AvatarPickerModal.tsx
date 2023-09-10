@@ -4,7 +4,7 @@ import { FC, useState } from 'react'
 import { CheckIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
 import { BACKGROUND_COLORS, EMOJIS } from '@utils/constants/avatarOptions'
-import { USER_AVATAR_PATH } from '@utils/constants/random'
+import { USER_AVATAR_PATH } from '@utils/constants/sitePaths'
 import { MainModal } from '../'
 import { StyledAvatarPickerModal } from './'
 

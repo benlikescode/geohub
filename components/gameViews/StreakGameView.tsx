@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import Game from '@backend/models/game'
+import Game from '@backend/models/Game'
 import { StreakContinueCard, StreakEndedCard } from '@components/resultCards'
 import { StreaksResultMap } from '@components/StreaksResultMap'
 import { StreetView } from '@components/StreetView'

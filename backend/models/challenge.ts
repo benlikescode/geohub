@@ -1,16 +1,14 @@
-import { GameSettingsType, GuessType, LocationType } from '@types'
+import { ObjectId } from 'mongodb'
+import { GameSettingsType, LocationType } from '@types'
 
-import Map from './map'
-import User from './user'
-
-// TODO: update types
 type Challenge = {
-  id: string
-  map: Map
+  _id: ObjectId
+  mapId: ObjectId
+  creatorId: ObjectId | string
+  mode: 'standard' | 'streak'
   gameSettings: GameSettingsType
-  rounds: LocationType[]
-  guesses: GuessType[]
-  player: User | string
+  locations: LocationType[]
+  isDailyChallenge?: boolean
 }
 
 export default Challenge

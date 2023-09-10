@@ -1,29 +1,25 @@
-import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import Game from '@backend/models/game'
-import {
-  collections,
-  getLocations,
-  throwError,
-  verifyUser
-} from '@backend/utils'
+import Game from '@backend/models/Game'
+import { collections, getLocations, throwError, verifyUser } from '@backend/utils'
+import { createGameSchema } from '@backend/validations/gameValidations'
 
 const createGame = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userId } = await verifyUser(req, res)
   if (!userId) return throwError(res, 401, 'Unauthorized')
 
-  const { mode, mapId } = req.body
+  const { mapId, mode, gameSettings } = createGameSchema.parse(req.body)
 
-  const locations = await getLocations(mapId)
+  const locations = await getLocations(mapId, mode)
 
   if (!locations) {
     return throwError(res, 400, 'Failed to get locations')
   }
 
   const newGame = {
-    ...req.body,
-    mapId: mode === 'standard' ? new ObjectId(mapId) : mapId,
-    userId: new ObjectId(userId),
+    mapId,
+    gameSettings,
+    mode,
+    userId,
     guesses: [],
     rounds: locations,
     round: 1,

@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import Game from '@backend/models/game'
+import Game from '@backend/models/Game'
 import { StandardFinalResults, StandardResults } from '@components/resultCards'
 import { ResultMap } from '@components/ResultMap'
 import { LeaderboardCard } from '@components/Results'

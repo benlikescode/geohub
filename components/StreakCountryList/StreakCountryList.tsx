@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react'
-import Game from '@backend/models/game'
+import Game from '@backend/models/Game'
 import countries from '../../utils/constants/countries'
 import { StyledStreakCountryList } from './'
 

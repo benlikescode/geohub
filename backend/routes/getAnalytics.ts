@@ -71,6 +71,7 @@ const getAnalytics = async (req: NextApiRequest, res: NextApiResponse) => {
             as: 'mapDetails',
           },
         },
+        { $unwind: '$mapDetails' },
         {
           $lookup: {
             from: 'users',

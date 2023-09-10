@@ -4,7 +4,7 @@ import { FC, useState } from 'react'
 import { HeartIcon as HeartIconOutline } from '@heroicons/react/outline'
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/solid'
 import { MapType } from '@types'
-import { MAP_AVATAR_PATH } from '@utils/constants/random'
+import { MAP_AVATAR_PATH } from '@utils/constants/sitePaths'
 import { mailman, showToast } from '@utils/helpers'
 import { StyledLikedMapCard } from './'
 

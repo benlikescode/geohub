@@ -29,6 +29,7 @@ const getUnfinishedGames = async (req: NextApiRequest, res: NextApiResponse) => 
           as: 'mapDetails',
         },
       },
+      { $unwind: '$mapDetails' },
     ])
     .toArray()
 

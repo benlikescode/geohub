@@ -1,4 +1,3 @@
-import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { throwError, verifyUser } from '@backend/utils'
 import getHighscores from '@backend/utils/getHighscores'

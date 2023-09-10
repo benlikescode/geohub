@@ -9,8 +9,6 @@ type MapLeaderboard = {
   totalPoints?: number
   totalTime?: number
   streak?: number
-  difficulty?: 'Normal' | 'Easy' | 'Challenging'
-  countryCode?: string
   createdAt?: Date
   highlight?: boolean
 }
