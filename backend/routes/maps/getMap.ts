@@ -1,23 +1,19 @@
-import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { collections, compareObjectIds, throwError, verifyUser } from '@backend/utils'
 import { userProject } from '@backend/utils/dbProjects'
+import { objectIdSchema } from '@backend/validations/objectIdSchema'
 
 const getMap = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userId } = await verifyUser(req, res)
 
-  const mapId = req.query.id as string
   const includeStats = req.query.stats as string // true or false
-
-  if (!mapId) {
-    return throwError(res, 400, 'You must pass a valid mapId')
-  }
+  const mapId = objectIdSchema.parse(req.query.id)
 
   // Get Map Details
-  let mapDetails = await collections.maps?.findOne({ _id: new ObjectId(mapId) })
+  let mapDetails = await collections.maps?.findOne({ _id: mapId })
 
   if (!mapDetails) {
-    return throwError(res, 404, `Failed to find map with id: ${mapId}`)
+    return throwError(res, 404, 'Failed to get map details')
   }
 
   // If map is not published or is deleted -> return early
@@ -29,10 +25,7 @@ const getMap = async (req: NextApiRequest, res: NextApiResponse) => {
 
   // If map is user created -> get the user details
   if (!isOfficialMap) {
-    const creatorDetails = await collections.users?.findOne(
-      { _id: new ObjectId(mapDetails.creator) },
-      { projection: userProject }
-    )
+    const creatorDetails = await collections.users?.findOne({ _id: mapDetails.creator }, { projection: userProject })
 
     if (!creatorDetails) {
       return throwError(res, 404, `Failed to get creator details for map with id: ${mapId}`)
@@ -47,7 +40,7 @@ const getMap = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   // Get Map's likes and if it's liked by this user
-  const likes = await collections.mapLikes?.find({ mapId: new ObjectId(mapId) }).toArray()
+  const likes = await collections.mapLikes?.find({ mapId }).toArray()
 
   if (!likes) {
     return throwError(res, 404, `Failed to get likes for map with id: ${mapId}`)
@@ -58,7 +51,7 @@ const getMap = async (req: NextApiRequest, res: NextApiResponse) => {
   // Get Map's average score
   const avgScore = await collections.games
     ?.aggregate([
-      { $match: { mapId: new ObjectId(mapId), state: 'finished' } },
+      { $match: { mapId, state: 'finished' } },
       {
         $group: {
           _id: null,
@@ -77,12 +70,12 @@ const getMap = async (req: NextApiRequest, res: NextApiResponse) => {
   // Get Map's location count
   const locationCollection = mapDetails.creator === 'GeoHub' ? 'locations' : 'userLocations'
 
-  const locationCount = await collections[locationCollection]?.find({ mapId: new ObjectId(mapId) }).count()
+  const locationCount = await collections[locationCollection]?.find({ mapId }).count()
 
   // Get Map's explorers count
   const explorers = await collections.games
     ?.aggregate([
-      { $match: { mapId: new ObjectId(mapId), state: 'finished' } },
+      { $match: { mapId, state: 'finished' } },
       {
         $group: {
           _id: '$userId',

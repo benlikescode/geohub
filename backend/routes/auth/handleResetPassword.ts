@@ -1,6 +1,5 @@
 import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
-import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { collections, throwError } from '@backend/utils'
 import { resetPasswordSchema } from '@backend/validations/userValidations'
@@ -25,7 +24,7 @@ const handleResetPassword = async (req: NextApiRequest, res: NextApiResponse) =>
   // HALP -> would be nice to send a confirmation email to let user know
   // their password has been changed
   const updatedUser = await collections.users?.findOneAndUpdate(
-    { _id: new ObjectId(resetData.userId) },
+    { _id: resetData.userId },
     { $set: { password: hashedPassword } }
   )
 

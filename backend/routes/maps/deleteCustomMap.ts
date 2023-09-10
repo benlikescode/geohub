@@ -1,18 +1,14 @@
-import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { collections, compareObjectIds, throwError, verifyUser } from '@backend/utils'
+import { objectIdSchema } from '@backend/validations/objectIdSchema'
 
 const deleteCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userId } = await verifyUser(req, res)
   if (!userId) return throwError(res, 401, 'Unauthorized')
 
-  const mapId = req.query.mapId as string
+  const mapId = objectIdSchema.parse(req.query.mapId)
 
-  if (!mapId) {
-    return throwError(res, 400, 'You must pass a valid mapId')
-  }
-
-  const mapDetails = await collections.maps?.findOne({ _id: new ObjectId(mapId) })
+  const mapDetails = await collections.maps?.findOne({ _id: mapId })
 
   if (!mapDetails) {
     return throwError(res, 400, `Failed to find map details`)
@@ -23,23 +19,20 @@ const deleteCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   // Remove map as a liked map for all users
-  await collections.mapLikes?.deleteMany({ mapId: new ObjectId(mapId) })
+  await collections.mapLikes?.deleteMany({ mapId })
 
   // Mark map as deleted in DB
-  const markMapAsDeleted = await collections.maps?.updateOne(
-    { _id: new ObjectId(mapId) },
-    { $set: { isDeleted: true } }
-  )
+  const markMapAsDeleted = await collections.maps?.updateOne({ _id: mapId }, { $set: { isDeleted: true } })
 
   if (!markMapAsDeleted) {
     return throwError(res, 400, 'An unexpected error occured while trying to delete')
   }
 
   // Remove it's locations
-  const deleteLocations = await collections.userLocations?.deleteMany({ mapId: new ObjectId(mapId) })
+  const deleteLocations = await collections.userLocations?.deleteMany({ mapId })
 
   if (!deleteLocations) {
-    return throwError(res, 400, `There was a problem removing the locations from map with id: ${mapId}`)
+    return throwError(res, 400, 'Failed to remove locations from map')
   }
 
   res.status(200).send({ message: 'Map was successfully deleted' })

@@ -1,4 +1,3 @@
-import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { collections, throwError, verifyUser } from '@backend/utils'
 import { saveSearchSchema } from '@backend/validations/searchValidations'
@@ -19,9 +18,9 @@ const saveRecentSearch = async (req: NextApiRequest, res: NextApiResponse) => {
 
   // Adds the recent search item and keeps only the 5 most recent
   await collections.recentSearches?.findOneAndUpdate(
-    { userId: new ObjectId(userId) },
+    { userId },
     {
-      $setOnInsert: { userId: new ObjectId(userId) },
+      $setOnInsert: { userId },
       $push: {
         searches: {
           $each: [newSearchItem],

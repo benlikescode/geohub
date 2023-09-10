@@ -1,13 +1,14 @@
-import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { collections } from '@backend/utils'
+import { objectIdSchema } from '@backend/validations/objectIdSchema'
 
 const getUserScores = async (req: NextApiRequest, res: NextApiResponse) => {
-  const userId = req.query.id as string
+  const userId = objectIdSchema.parse(req.query.id)
+
   const page = req.query.page ? Number(req.query.page) : 0
   const gamesPerPage = 20
 
-  const query = { userId: new ObjectId(userId), mode: 'standard', state: 'finished' }
+  const query = { userId, mode: 'standard', state: 'finished' }
   const games = await collections.games
     ?.aggregate([
       { $match: query },

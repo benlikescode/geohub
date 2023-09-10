@@ -1,16 +1,16 @@
-import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { collections, throwError, verifyUser } from '@backend/utils'
+import { objectIdSchema } from '@backend/validations/objectIdSchema'
 
 // HALP -> likely want to paginate in future
 const getCustomMaps = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userId } = await verifyUser(req, res)
 
-  const queryUserId = req.query.userId as string
+  const queryUserId = objectIdSchema.parse(req.query.userId)
 
   if (queryUserId) {
     const customMaps = await collections.maps
-      ?.find({ creator: new ObjectId(queryUserId), isDeleted: { $exists: false }, isPublished: true })
+      ?.find({ creator: queryUserId, isDeleted: { $exists: false }, isPublished: true })
       .sort({ createdAt: -1 })
       .toArray()
 
@@ -27,7 +27,7 @@ const getCustomMaps = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const customMaps = await collections.maps
-    ?.find({ creator: new ObjectId(userId), isDeleted: { $exists: false } })
+    ?.find({ creator: userId, isDeleted: { $exists: false } })
     .sort({ createdAt: -1 })
     .toArray()
 

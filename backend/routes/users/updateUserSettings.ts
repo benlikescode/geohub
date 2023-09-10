@@ -1,7 +1,6 @@
 import Cryptr from 'cryptr'
-import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections, throwError, verifyUser } from '@backend/utils'
+import { collections, compareObjectIds, throwError, verifyUser } from '@backend/utils'
 import { updateUserSettingsSchema } from '@backend/validations/userValidations'
 import { GUEST_ACCOUNT_ID } from '@utils/constants/random'
 
@@ -11,7 +10,7 @@ const updateUserSettings = async (req: NextApiRequest, res: NextApiResponse) => 
   const { userId, user } = await verifyUser(req, res)
   if (!userId || !user) return throwError(res, 401, 'Unauthorized')
 
-  if (userId === GUEST_ACCOUNT_ID) {
+  if (compareObjectIds(userId, GUEST_ACCOUNT_ID)) {
     return throwError(res, 401, 'This account is not allowed to modify settings')
   }
 
@@ -20,7 +19,7 @@ const updateUserSettings = async (req: NextApiRequest, res: NextApiResponse) => 
   const encrypedMapsAPIKey = mapsAPIKey ? cryptr.encrypt(mapsAPIKey) : ''
 
   const updateSettings = await collections.users?.updateOne(
-    { _id: new ObjectId(userId) },
+    { _id: userId },
     { $set: { distanceUnit: distanceUnit, mapsAPIKey: encrypedMapsAPIKey } }
   )
 

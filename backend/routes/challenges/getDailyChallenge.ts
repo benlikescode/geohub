@@ -1,4 +1,3 @@
-import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { collections, throwError, verifyUser } from '@backend/utils'
 
@@ -56,7 +55,7 @@ const getDailyChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
   const hasAlreadyPlayed = userId
     ? await collections.games?.findOne({
         challengeId: todaysChallenge._id,
-        userId: new ObjectId(userId),
+        userId,
       })
     : false
 

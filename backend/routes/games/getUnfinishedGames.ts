@@ -1,4 +1,3 @@
-import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { collections, throwError, verifyUser } from '@backend/utils'
 
@@ -9,7 +8,7 @@ const getUnfinishedGames = async (req: NextApiRequest, res: NextApiResponse) => 
   const page = req.query.page ? Number(req.query.page) : 0
   const gamesPerPage = 20
 
-  const query = { userId: new ObjectId(userId), state: { $ne: 'finished' } }
+  const query = { userId, state: { $ne: 'finished' } }
   const games = await collections.games
     ?.aggregate([
       { $match: query },

@@ -16,10 +16,10 @@ const getRecentSearches = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userId } = await verifyUser(req, res)
   if (!userId) return throwError(res, 401, 'Unauthorized')
 
-  const recentSearches = await collections.recentSearches?.findOne({ userId: new ObjectId(userId) })
+  const recentSearches = await collections.recentSearches?.findOne({ userId })
 
   if (!recentSearches || !recentSearches.searches) {
-    return throwError(res, 400, `Failed to find recent searches for user with id: ${userId}`)
+    return throwError(res, 400, 'Failed to get recent searches')
   }
 
   const result: Result[] = []

@@ -1,23 +1,16 @@
-import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { collections, throwError, verifyUser } from '@backend/utils'
+import { objectIdSchema } from '@backend/validations/objectIdSchema'
 
 const unlikeMap = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userId } = await verifyUser(req, res)
   if (!userId) return throwError(res, 401, 'Unauthorized')
 
-  const mapId = req.query.id as string
+  const mapId = objectIdSchema.parse(req.query.id)
 
-  if (!mapId) {
-    return throwError(res, 400, 'Missing map id')
-  }
+  const removeLike = await collections.mapLikes?.deleteMany({ mapId, userId })
 
-  const removedLike = await collections.mapLikes?.deleteMany({
-    mapId: new ObjectId(mapId),
-    userId: new ObjectId(userId),
-  })
-
-  if (!removedLike) {
+  if (!removeLike) {
     return throwError(res, 400, 'Failed to unlike map')
   }
 

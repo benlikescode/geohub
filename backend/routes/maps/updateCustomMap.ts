@@ -1,4 +1,3 @@
-import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import {
   calculateMapScoreFactor,
@@ -9,6 +8,7 @@ import {
   verifyUser,
 } from '@backend/utils'
 import { updateCustomMapSchema } from '@backend/validations/mapValidations'
+import { objectIdSchema } from '@backend/validations/objectIdSchema'
 
 type UpdatedMap = {
   name?: string
@@ -22,12 +22,10 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userId } = await verifyUser(req, res)
   if (!userId) return throwError(res, 401, 'Unauthorized')
 
-  const { name, description, previewImg, isPublished, locations, mapId } = updateCustomMapSchema.parse({
-    ...req.body,
-    ...req.query,
-  })
+  const mapId = objectIdSchema.parse(req.query.mapId)
+  const { name, description, previewImg, isPublished, locations } = updateCustomMapSchema.parse(req.body)
 
-  const mapDetails = await collections.maps?.findOne({ _id: new ObjectId(mapId) })
+  const mapDetails = await collections.maps?.findOne({ _id: mapId })
 
   if (!mapDetails) {
     return throwError(res, 400, `Failed to find map details`)
@@ -58,7 +56,7 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
 
   updatedMap.lastUpdatedAt = new Date()
 
-  const result = await collections.maps?.findOneAndUpdate({ _id: new ObjectId(mapId) }, { $set: updatedMap })
+  const result = await collections.maps?.findOneAndUpdate({ _id: mapId }, { $set: updatedMap })
 
   if (!result) {
     return throwError(res, 400, 'Could not update map details')
@@ -67,7 +65,7 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
   // HALP -> Really shouldn't be deleting locations and then inserting new
   if (locations) {
     // Removes old locations
-    const removeResult = await collections.userLocations?.deleteMany({ mapId: new ObjectId(mapId) })
+    const removeResult = await collections.userLocations?.deleteMany({ mapId })
 
     if (!removeResult) {
       return throwError(res, 400, 'Something went wrong updating locations')
@@ -75,7 +73,7 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
 
     // Attach mapId to each location
     locations.map((location) => {
-      location.mapId = new ObjectId(mapId)
+      location.mapId = mapId
     })
 
     // Finally insert the new locations (if not empty)
@@ -91,7 +89,7 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
       const newScoreFactor = calculateMapScoreFactor(newBounds)
 
       const updateMap = await collections.maps?.updateOne(
-        { _id: new ObjectId(mapId) },
+        { _id: mapId },
         { $set: { bounds: newBounds, scoreFactor: newScoreFactor } }
       )
 

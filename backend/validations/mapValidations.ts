@@ -1,6 +1,5 @@
 import { z } from 'zod'
 import { locationsSchema } from '@backend/validations/locationsSchema'
-import { objectIdSchema } from '@backend/validations/objectIdSchema'
 import { CUSTOM_MAP_AVATARS, MAX_ALLOWED_CUSTOM_LOCATIONS } from '@utils/constants/random'
 import { formatLargeNumber } from '@utils/helpers'
 
@@ -42,7 +41,6 @@ export const updateCustomMapSchema = z
     previewImg: previewImgSchema.optional(),
     isPublished: isPublishedSchema.optional(),
     locations: customLocationsSchema.optional(),
-    mapId: objectIdSchema,
   })
   .refine(({ name, description, previewImg, isPublished, locations }) => {
     return (

@@ -1,4 +1,3 @@
-import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { collections, throwError, verifyUser } from '@backend/utils'
 
@@ -10,7 +9,7 @@ const getUsersLikedMaps = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const likedMaps = await collections.mapLikes
     ?.aggregate([
-      { $match: { userId: new ObjectId(userId) } },
+      { $match: { userId } },
       {
         $lookup: {
           from: 'maps',

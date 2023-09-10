@@ -1,4 +1,3 @@
-import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Map } from '@backend/models'
 import { collections, throwError, verifyUser } from '@backend/utils'
@@ -14,7 +13,7 @@ const createCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
     name,
     description,
     previewImg: avatar,
-    creator: new ObjectId(userId),
+    creator: userId,
     createdAt: new Date(),
     isPublished: false,
   } as Map

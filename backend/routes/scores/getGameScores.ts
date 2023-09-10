@@ -2,12 +2,13 @@ import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { throwError, verifyUser } from '@backend/utils'
 import getHighscores from '@backend/utils/getHighscores'
+import { objectIdSchema } from '@backend/validations/objectIdSchema'
 
 const getGameScores = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userId } = await verifyUser(req, res)
-  const mapId = req.query.id as string
 
-  const query = { mapId: new ObjectId(mapId), state: 'finished' }
+  const mapId = objectIdSchema.parse(req.query.id)
+  const query = { mapId, state: 'finished' }
 
   const scores = await getHighscores(userId, query, 5, 'standard')
 

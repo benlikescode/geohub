@@ -1,4 +1,3 @@
-import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { collections, throwError, verifyUser } from '@backend/utils'
 
@@ -7,7 +6,7 @@ const getRecentlyPlayedMaps = async (req: NextApiRequest, res: NextApiResponse) 
 
   const games = await collections.games
     ?.aggregate([
-      { $match: { userId: new ObjectId(userId) } },
+      { $match: { userId } },
       { $sort: { createdAt: -1 } },
       {
         $group: {

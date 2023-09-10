@@ -1,12 +1,12 @@
-import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { collections } from '@backend/utils'
+import { objectIdSchema } from '@backend/validations/objectIdSchema'
 
 const getUserStats = async (req: NextApiRequest, res: NextApiResponse) => {
-  const userId = req.query.userId as string
+  const userId = objectIdSchema.parse(req.query.userId)
 
-  const queryFinishedGames = { userId: new ObjectId(userId), state: 'finished' }
-  const queryFinishedStreakGames = { userId: new ObjectId(userId), state: 'finished', mode: 'streak' }
+  const queryFinishedGames = { userId, state: 'finished' }
+  const queryFinishedStreakGames = { userId, state: 'finished', mode: 'streak' }
 
   const gamesPlayed = await collections.games?.find(queryFinishedGames).count()
   const bestGame = await collections.games?.findOne(queryFinishedGames, { sort: { totalPoints: -1 } })
@@ -25,9 +25,7 @@ const getUserStats = async (req: NextApiRequest, res: NextApiResponse) => {
   const streakGamesPlayed = await collections.games?.find(queryFinishedStreakGames).count()
   const bestStreakGame = await collections.games?.findOne(queryFinishedStreakGames, { sort: { totalPoints: -1 } })
 
-  const dailyChallengeWins = await collections.challenges
-    ?.find({ isDailyChallenge: true, winner: new ObjectId(userId) })
-    .count()
+  const dailyChallengeWins = await collections.challenges?.find({ isDailyChallenge: true, winner: userId }).count()
 
   const result = [
     { label: 'Completed Games', data: gamesPlayed || 0 },

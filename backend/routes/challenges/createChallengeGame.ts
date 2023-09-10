@@ -4,20 +4,17 @@ import { Game } from '@backend/models'
 import getMapFromGame from '@backend/queries/getMapFromGame'
 import { collections, throwError, verifyUser } from '@backend/utils'
 import createChallengeGameSchema from '@backend/validations/createChallengeGameSchema'
+import { objectIdSchema } from '@backend/validations/objectIdSchema'
 
 const createChallengeGame = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userId } = await verifyUser(req, res)
   if (!userId) return throwError(res, 401, 'Unauthorized')
 
-  const { mapId, mode, gameSettings, locations, isDailyChallenge, challengeId } = createChallengeGameSchema.parse({
-    ...req.body,
-    ...req.query,
-  })
+  const challengeId = objectIdSchema.parse(req.query.id)
+  const { mapId, mode, gameSettings, locations, isDailyChallenge } = createChallengeGameSchema.parse(req.body)
 
   // Ensure user has not already played this challenge
-  const hasAlreadyPlayed = await collections.games
-    ?.find({ challengeId: new ObjectId(challengeId), userId: new ObjectId(userId) })
-    .count()
+  const hasAlreadyPlayed = await collections.games?.find({ challengeId, userId }).count()
 
   if (hasAlreadyPlayed) {
     return throwError(res, 400, 'You have already played this challenge')
@@ -25,8 +22,8 @@ const createChallengeGame = async (req: NextApiRequest, res: NextApiResponse) =>
 
   const newGame = {
     mapId: mode === 'standard' ? new ObjectId(mapId) : mapId,
-    userId: new ObjectId(userId),
-    challengeId: new ObjectId(challengeId),
+    userId,
+    challengeId,
     mode,
     gameSettings,
     guesses: [],

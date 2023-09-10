@@ -3,7 +3,7 @@ import { collections, compareObjectIds } from '@backend/utils'
 import { GameType } from '@types'
 
 const getHighscores = async (
-  userId: string | undefined,
+  userId: ObjectId | undefined,
   query: Object,
   limit: number | undefined,
   mode: GameType['mode']
@@ -31,7 +31,7 @@ const getHighscores = async (
   }
 
   // If not in highscores -> add our best score to the end
-  const thisUserQuery = { userId: new ObjectId(userId), ...query }
+  const thisUserQuery = { userId, ...query }
   const thisUserData =
     mode === 'standard' ? await queryTopScores(thisUserQuery, 1) : await queryTopStreaks(thisUserQuery, 1)
 

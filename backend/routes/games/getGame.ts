@@ -1,27 +1,18 @@
-import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Game } from '@backend/models'
 import getMapFromGame from '@backend/queries/getMapFromGame'
-import {
-  collections,
-  compareObjectIds,
-  throwError,
-  verifyUser
-} from '@backend/utils'
+import { collections, compareObjectIds, throwError, verifyUser } from '@backend/utils'
 import { userProject } from '@backend/utils/dbProjects'
+import { objectIdSchema } from '@backend/validations/objectIdSchema'
 
 const getGame = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userId } = await verifyUser(req, res)
 
-  const gameId = req.query.id as string
-
-  if (gameId.length !== 24) {
-    return throwError(res, 404, 'Failed to find game')
-  }
+  const gameId = objectIdSchema.parse(req.query.id)
 
   const gameQuery = await collections.games
     ?.aggregate([
-      { $match: { _id: new ObjectId(gameId) } },
+      { $match: { _id: gameId } },
       {
         $lookup: {
           from: 'users',

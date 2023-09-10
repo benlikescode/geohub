@@ -1,4 +1,3 @@
-import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Game } from '@backend/models'
 import getMapFromGame from '@backend/queries/getMapFromGame'
@@ -9,17 +8,17 @@ import {
   compareObjectIds,
   getLocations,
   throwError,
-  verifyUser
+  verifyUser,
 } from '@backend/utils'
+import { objectIdSchema } from '@backend/validations/objectIdSchema'
 import { ChallengeType, DistanceType, GuessType } from '@types'
 
 const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userId } = await verifyUser(req, res)
   if (!userId) return throwError(res, 401, 'Unauthorized')
 
-  const gameId = req.query.id as string
-  const getGameQuery = { _id: new ObjectId(gameId) }
-  const game = (await collections.games?.findOne(getGameQuery)) as Game
+  const gameId = objectIdSchema.parse(req.query.id)
+  const game = (await collections.games?.findOne({ _id: gameId })) as Game
 
   if (!game) {
     return throwError(res, 500, 'Failed to save your recent guess')
@@ -61,8 +60,7 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
 
     // Standard 5 round games get created with 5 locations -> Streak games may require more locations
     if (isStreakGame && game.challengeId) {
-      const query = { _id: new ObjectId(game.challengeId) }
-      const challenge = (await collections.challenges?.findOne(query)) as ChallengeType
+      const challenge = (await collections.challenges?.findOne({ _id: game.challengeId })) as ChallengeType
 
       if (localRound >= challenge.locations.length) {
         const newLocations = await getLocations(game.mapId, NEW_LOCATIONS_COUNT)
@@ -73,7 +71,10 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
 
         challenge.locations = challenge.locations.concat(newLocations)
 
-        const updatedChallenge = await collections.challenges?.findOneAndUpdate(query, { $set: challenge })
+        const updatedChallenge = await collections.challenges?.findOneAndUpdate(
+          { _id: game.challengeId },
+          { $set: challenge }
+        )
 
         if (!updatedChallenge) {
           return throwError(res, 500, 'Failed to get next round')
@@ -137,7 +138,7 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
   game.totalDistance.imperial += distance.imperial
   game.totalTime += Math.floor(guessTime)
 
-  const updatedGame = await collections.games?.findOneAndUpdate(getGameQuery, { $set: game })
+  const updatedGame = await collections.games?.findOneAndUpdate({ _id: gameId }, { $set: game })
 
   if (!updatedGame) {
     return throwError(res, 500, 'Failed to save your recent guess')
