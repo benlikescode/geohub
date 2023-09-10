@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { Game } from '@backend/models'
+import { GameModel } from '@backend/models'
 import getMapFromGame from '@backend/queries/getMapFromGame'
 import {
   calculateDistance,
@@ -18,7 +18,7 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
   if (!userId) return throwError(res, 401, 'Unauthorized')
 
   const gameId = objectIdSchema.parse(req.query.id)
-  const game = (await collections.games?.findOne({ _id: gameId })) as Game
+  const game = (await collections.games?.findOne({ _id: gameId })) as GameModel
 
   if (!game) {
     return throwError(res, 500, 'Failed to save your recent guess')

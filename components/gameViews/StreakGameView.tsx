@@ -1,14 +1,13 @@
 import { FC } from 'react'
-import Game from '@backend/models/Game'
 import { StreakContinueCard, StreakEndedCard } from '@components/resultCards'
 import { StreaksResultMap } from '@components/StreaksResultMap'
 import { StreetView } from '@components/StreetView'
-import { GameViewType } from '@types'
+import { GameType, GameViewType } from '@types'
 import { StyledGameView } from './'
 
 type Props = {
-  gameData: Game
-  setGameData: (gameData: Game) => void
+  gameData: GameType
+  setGameData: (gameData: GameType) => void
   view: GameViewType
   setView: (view: GameViewType) => void
 }

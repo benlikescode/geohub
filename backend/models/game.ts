@@ -1,9 +1,8 @@
 import { ObjectId } from 'mongodb'
 import { DistanceType, GameSettingsType, GuessType, LocationType, MapType } from '@types'
-import User from './User'
 
 type Game = {
-  _id: ObjectId
+  _id?: ObjectId
   mapId: ObjectId
   userId: ObjectId
   challengeId?: ObjectId

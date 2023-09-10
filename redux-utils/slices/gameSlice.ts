@@ -1,8 +1,8 @@
-import { Game } from '@backend/models'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { GameType } from '@types'
 
 type InitialState = {
-  gameData: Game | null
+  gameData: GameType | null
   startTime: number | null // I believe this is the only old value im using as of 5/12/2023
   endTime: number | null
   currView: 'Game' | 'Result' | 'FinalResults'

@@ -1,20 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
 import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
-import Game from '@backend/models/Game'
 import { StreakCountryList } from '@components/StreakCountryList'
 import { Button } from '@components/system'
 import { useAppDispatch, useAppSelector } from '@redux/hook'
 import { updateStartTime } from '@redux/slices'
-import { GameViewType } from '@types'
+import { GameType, GameViewType } from '@types'
 import countries from '@utils/constants/countries'
 import { KEY_CODES } from '@utils/constants/keyCodes'
 import { mailman, showToast } from '@utils/helpers'
 import { StyledStreakEndedCard } from './'
 
 type Props = {
-  gameData: Game
-  setGameData: (gameData: Game) => void
+  gameData: GameType
+  setGameData: (gameData: GameType) => void
   view: GameViewType
   setView: (view: GameViewType) => void
 }
@@ -60,7 +59,6 @@ const StreakEndedCard: FC<Props> = ({ gameData, setGameData, view, setView }) =>
 
     const newGameData = {
       mapId: gameData.mapId,
-      mapName: gameData.mapName,
       gameSettings: gameData.gameSettings,
       mode: gameData.mode,
     }

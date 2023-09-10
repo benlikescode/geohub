@@ -1,15 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 import { FC, useEffect } from 'react'
-import Game from '@backend/models/Game'
 import { useAppDispatch } from '@redux/hook'
 import { updateStartTime } from '@redux/slices'
-import { GameViewType } from '@types'
+import { GameType, GameViewType } from '@types'
 import countries from '@utils/constants/countries'
 import { KEY_CODES } from '@utils/constants/keyCodes'
 import { StyledStreakContinueCard } from './'
 
 type Props = {
-  gameData: Game
+  gameData: GameType
   view: GameViewType
   setView: (view: GameViewType) => void
 }

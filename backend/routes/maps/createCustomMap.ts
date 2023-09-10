@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { Map } from '@backend/models'
+import { MapModel } from '@backend/models'
 import { collections, throwError, verifyUser } from '@backend/utils'
 import { createCustomMapSchema } from '@backend/validations/mapValidations'
 
@@ -16,7 +16,7 @@ const createCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
     creator: userId,
     createdAt: new Date(),
     isPublished: false,
-  } as Map
+  } as MapModel
 
   const result = await collections.maps?.insertOne(newMap)
 

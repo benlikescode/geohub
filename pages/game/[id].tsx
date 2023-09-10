@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import Game from '@backend/models/Game'
 import { NotFound } from '@components/errorViews'
 import { StandardGameView, StreakGameView } from '@components/gameViews'
 import { Head } from '@components/Head'
@@ -8,12 +7,12 @@ import { LoadingPage } from '@components/layout'
 import { useAppDispatch } from '@redux/hook'
 import { updateRecentlyPlayed } from '@redux/slices'
 import StyledGamePage from '@styles/GamePage.Styled'
-import { GameViewType, PageType } from '@types'
+import { GameType, GameViewType, PageType } from '@types'
 import { mailman } from '@utils/helpers'
 
 const GamePage: PageType = () => {
   const [view, setView] = useState<GameViewType>('Game')
-  const [gameData, setGameData] = useState<Game | null>()
+  const [gameData, setGameData] = useState<GameType | null>()
   const [prevGameId, setPrevGameId] = useState('')
   const router = useRouter()
   const gameId = router.query.id as string

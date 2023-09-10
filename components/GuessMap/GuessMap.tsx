@@ -1,11 +1,10 @@
 import GoogleMapReact from 'google-map-react'
-import { FC, useEffect, useRef, useState } from 'react'
-import Game from '@backend/models/Game'
+import { FC, useEffect, useState } from 'react'
 import { Marker } from '@components/Marker'
 import { Button } from '@components/system'
 import { ArrowRightIcon, XIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
-import { GoogleMapsConfigType, LocationType } from '@types'
+import { GameType, GoogleMapsConfigType, LocationType } from '@types'
 import { GUESS_MAP_OPTIONS } from '@utils/constants/googleMapOptions'
 import useGuessMap from '@utils/hooks/useGuessMap'
 import getMapsKey from '../../utils/helpers/getMapsKey'
@@ -20,7 +19,7 @@ type Props = {
   googleMapsConfig: GoogleMapsConfigType | undefined
   setGoogleMapsConfig: (googleMapsConfig: GoogleMapsConfigType) => void
   resetMap?: boolean
-  gameData: Game
+  gameData: GameType
 }
 
 const GuessMap: FC<Props> = ({

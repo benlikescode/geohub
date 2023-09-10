@@ -1,4 +1,4 @@
-import Game from '@backend/models/Game'
+import { GameType } from '@types'
 
 // This is the best way I found to enable POIs
 const showPOIs = [
@@ -55,7 +55,7 @@ export const PREVIEW_MAP_OPTIONS = {
   motionTrackingControl: false,
 }
 
-export const getStreetviewOptions = (gameData: Game) => {
+export const getStreetviewOptions = (gameData: GameType) => {
   return {
     addressControl: false, // hide address
     panControl: true, // compass

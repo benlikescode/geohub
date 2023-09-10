@@ -1,9 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import GoogleMapReact from 'google-map-react'
 import { FC, useEffect, useRef, useState } from 'react'
-import Game from '@backend/models/Game'
 import { Marker } from '@components/Marker'
-import { LocationType } from '@types'
+import { GameType, LocationType } from '@types'
 import { RESULT_MAP_OPTIONS } from '@utils/constants/googleMapOptions'
 import { POLYGON_STYLES } from '@utils/constants/polygonStyles'
 import { formatPolygon } from '@utils/helpers'
@@ -12,7 +11,7 @@ import getMapsKey from '../../utils/helpers/getMapsKey'
 import { StyledStreaksResultMap } from './'
 
 type Props = {
-  gameData: Game
+  gameData: GameType
   resetMap?: boolean
 }
 

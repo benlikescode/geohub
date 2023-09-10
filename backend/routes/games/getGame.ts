@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { Game } from '@backend/models'
+import { GameModel } from '@backend/models'
 import getMapFromGame from '@backend/queries/getMapFromGame'
 import { collections, compareObjectIds, throwError, verifyUser } from '@backend/utils'
 import { userProject } from '@backend/utils/dbProjects'
@@ -30,7 +30,7 @@ const getGame = async (req: NextApiRequest, res: NextApiResponse) => {
     return throwError(res, 404, 'Failed to find game')
   }
 
-  const game = gameQuery[0] as Game
+  const game = gameQuery[0] as GameModel
   const gameBelongsToUser = compareObjectIds(userId, game.userId)
   const mapDetails = await getMapFromGame(game)
 

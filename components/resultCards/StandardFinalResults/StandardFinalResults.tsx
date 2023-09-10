@@ -1,18 +1,17 @@
 import router from 'next/router'
 import { FC, useEffect, useState } from 'react'
-import { Game } from '@backend/models'
 import { Button, ProgressBar } from '@components/system'
 import { ChartPieIcon, MapIcon } from '@heroicons/react/outline'
 import { useAppDispatch, useAppSelector } from '@redux/hook'
 import { updateStartTime } from '@redux/slices'
-import { GameViewType } from '@types'
+import { GameType, GameViewType } from '@types'
 import { KEY_CODES } from '@utils/constants/keyCodes'
 import { formatLargeNumber, mailman, showToast } from '@utils/helpers'
 import { StyledStandardFinalResults } from './'
 
 type Props = {
-  gameData: Game
-  setGameData: (gameData: any) => void
+  gameData: GameType
+  setGameData: (gameData: GameType) => void
   view: GameViewType
   setView: (view: GameViewType) => void
 }
@@ -57,7 +56,6 @@ const StandardFinalResults: FC<Props> = ({ gameData, setGameData, view, setView 
 
     const newGameData = {
       mapId: gameData.mapId,
-      mapName: gameData.mapName,
       gameSettings: gameData.gameSettings,
       mode: gameData.mode,
     }

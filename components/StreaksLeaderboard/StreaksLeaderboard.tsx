@@ -1,12 +1,12 @@
 import { FC } from 'react'
-import { Game } from '@backend/models'
 import { StreakCountryList } from '@components/StreakCountryList'
 import { Avatar } from '@components/system'
+import { GameType } from '@types'
 import { formatRoundTime } from '@utils/helpers'
 import { StyledStreaksLeaderboard } from './'
 
 type Props = {
-  gameData: Game[]
+  gameData: GameType[]
   selectedGameIndex?: number
   setSelectedGameIndex?: (newIndex: number) => void
 }

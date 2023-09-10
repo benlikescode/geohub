@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { Challenge, Game } from '@backend/models'
+import { ChallengeModel, GameModel } from '@backend/models'
 import getMapFromGame from '@backend/queries/getMapFromGame'
 import { collections, throwError, verifyUser } from '@backend/utils'
 import { objectIdSchema } from '@backend/validations/objectIdSchema'
@@ -17,7 +17,7 @@ const createChallengeGame = async (req: NextApiRequest, res: NextApiResponse) =>
     return throwError(res, 400, 'You have already played this challenge')
   }
 
-  const challenge = (await collections.challenges?.findOne({ _id: challengeId })) as Challenge
+  const challenge = (await collections.challenges?.findOne({ _id: challengeId })) as ChallengeModel
 
   if (!challenge) {
     return throwError(res, 500, 'Failed to find challenge')
@@ -41,7 +41,7 @@ const createChallengeGame = async (req: NextApiRequest, res: NextApiResponse) =>
     state: 'started',
     isDailyChallenge,
     createdAt: new Date(),
-  } as Game
+  } as GameModel
 
   // Create game that is associated with this challenge
   const result = await collections.games?.insertOne(newGame)

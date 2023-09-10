@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import Game from '@backend/models/Game'
+import { GameModel } from '@backend/models'
 import { collections, getLocations, throwError, verifyUser } from '@backend/utils'
 import { createGameSchema } from '@backend/validations/gameValidations'
 
@@ -29,7 +29,7 @@ const createGame = async (req: NextApiRequest, res: NextApiResponse) => {
     streak: 0,
     state: 'started',
     createdAt: new Date(),
-  } as Game
+  } as GameModel
 
   // Create game
   const result = await collections.games?.insertOne(newGame)

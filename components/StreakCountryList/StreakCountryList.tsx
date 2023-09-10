@@ -1,10 +1,10 @@
 import { FC, useEffect, useState } from 'react'
-import Game from '@backend/models/Game'
+import { GameType } from '@types'
 import countries from '../../utils/constants/countries'
 import { StyledStreakCountryList } from './'
 
 type Props = {
-  gameData: Game
+  gameData: GameType
 }
 
 type Round = {

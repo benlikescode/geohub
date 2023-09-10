@@ -1,9 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import GoogleMapReact from 'google-map-react'
 import { FC, useEffect, useRef, useState } from 'react'
-import Game from '@backend/models/Game'
 import { Marker } from '@components/Marker'
-import { LocationType } from '@types'
+import { GameType, LocationType } from '@types'
 import { RESULT_MAP_OPTIONS } from '@utils/constants/googleMapOptions'
 import { POLYGON_STYLES } from '@utils/constants/polygonStyles'
 import { formatPolygon, getMapsKey } from '@utils/helpers'
@@ -11,7 +10,7 @@ import { useAppSelector } from '../../redux-utils'
 import { StyledStreaksSummaryMap } from './'
 
 type Props = {
-  gameData: Game
+  gameData: GameType
 }
 
 const StreaksSummaryMap: FC<Props> = ({ gameData }) => {

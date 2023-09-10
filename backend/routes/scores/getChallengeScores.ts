@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { Game } from '@backend/models'
+import { GameModel } from '@backend/models'
 import { collections, compareObjectIds, throwError, verifyUser } from '@backend/utils'
 import { userProject } from '@backend/utils/dbProjects'
 import { objectIdSchema } from '@backend/validations/objectIdSchema'
@@ -25,7 +25,7 @@ const getChallengeScores = async (req: NextApiRequest, res: NextApiResponse) => 
       { $project: { userDetails: userProject } },
     ])
     .limit(100)
-    .toArray()) as Game[]
+    .toArray()) as GameModel[]
 
   if (!gamesData || gamesData.length < 1) {
     return throwError(res, 404, `Failed to get scores for challenged with id: ${challengeId}`)

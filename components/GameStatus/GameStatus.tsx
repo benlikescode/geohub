@@ -1,11 +1,11 @@
 import { FC, useEffect, useState } from 'react'
-import { Game } from '@backend/models'
 import { LightningBoltIcon } from '@heroicons/react/solid'
+import { GameType } from '@types'
 import { formatLargeNumber, formatStatusTimer } from '@utils/helpers'
 import { StyledGameStatus } from './'
 
 type Props = {
-  gameData: Game
+  gameData: GameType
   handleSubmitGuess: (timedOut?: boolean) => void
   hasCustomRoundLength?: boolean
 }
