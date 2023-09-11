@@ -6,7 +6,7 @@ import { objectIdSchema } from '@backend/validations/objectIdSchema'
 const getCustomMaps = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userId } = await verifyUser(req, res)
 
-  const queryUserId = objectIdSchema.parse(req.query.userId)
+  const queryUserId = objectIdSchema.optional().parse(req.query.userId)
 
   if (queryUserId) {
     const customMaps = await collections.maps
