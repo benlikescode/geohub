@@ -35,7 +35,7 @@ const createGame = async (req: NextApiRequest, res: NextApiResponse) => {
   const result = await collections.games?.insertOne(newGame)
 
   if (!result) {
-    return res.status(500).send('Failed to create a new game.')
+    return throwError(res, 500, 'Failed to create a new game')
   }
 
   res.status(201).send({ _id: result.insertedId, ...newGame })

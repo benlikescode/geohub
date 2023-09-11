@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections } from '@backend/utils'
+import { collections, throwError } from '@backend/utils'
 import { objectIdSchema } from '@backend/validations/objectIdSchema'
 
 const getUserScores = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -36,7 +36,7 @@ const getUserScores = async (req: NextApiRequest, res: NextApiResponse) => {
     .toArray()
 
   if (!games) {
-    return res.status(404).send(`Failed to find games for user with id: ${userId}`)
+    return throwError(res, 500, `Failed to get user's games`)
   }
 
   const data = games.slice(0, gamesPerPage).map((item) => ({
