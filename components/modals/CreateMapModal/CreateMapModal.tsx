@@ -131,7 +131,7 @@ const CreateMapModal: FC<Props> = ({ isOpen, closeModal, mapDetails, setMapDetai
 
         <div className="map-preview-section">
           <MapPreviewCard
-            map={{ _id: mapDetails?._id, name: name || 'Map Name' || '', previewImg: avatar || '', description }}
+            map={{ _id: mapDetails?._id || '', name: name || 'Map Name' || '', previewImg: avatar || '', description }}
             isForDisplayOnly
           />
         </div>

@@ -14,12 +14,12 @@ import { TextWithLinks } from '@components/TextWithLinks'
 import { VerifiedBadge } from '@components/VerifiedBadge'
 import { useAppSelector } from '@redux/hook'
 import StyledMapPage from '@styles/MapPage.Styled'
-import { MapLeaderboardType, MapType } from '@types'
+import { MapLeaderboardType, MapType, MapWithStatsType } from '@types'
 import { mailman, showToast } from '@utils/helpers'
 
 const MapPage: FC = () => {
   const [settingsModalOpen, setSettingsModalOpen] = useState(false)
-  const [mapDetails, setMapDetails] = useState<MapType | null>()
+  const [mapDetails, setMapDetails] = useState<MapWithStatsType | null>()
   const [leaderboardData, setLeaderboardData] = useState<MapLeaderboardType[] | null>()
   const [otherMaps, setOtherMaps] = useState<MapType[] | null>()
 

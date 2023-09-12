@@ -3,13 +3,13 @@ import { AuthModal } from '@components/modals'
 import { HeartIcon as HeartIconOutline, LocationMarkerIcon, ScaleIcon, UserIcon } from '@heroicons/react/outline'
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/solid'
 import { useAppSelector } from '@redux/hook'
-import { MapType } from '@types'
+import { MapWithStatsType } from '@types'
 import { formatLargeNumber, mailman } from '@utils/helpers'
 import { StyledMapStats } from './'
 
 type Props = {
-  map: MapType
-  setMap: (map: MapType) => void
+  map: MapWithStatsType
+  setMap: (map: MapWithStatsType) => void
 }
 
 const MapStats: FC<Props> = ({ map, setMap }) => {
@@ -17,28 +17,24 @@ const MapStats: FC<Props> = ({ map, setMap }) => {
   const [isHoveringLike, setIsHoveringLike] = useState(false)
   const user = useAppSelector((state) => state.user)
 
-  // modalOpen ? disableBodyScroll(document as any) : enableBodyScroll(document as any)
-
   const handleLike = async () => {
     if (!user.id) {
       return setModalOpen(true)
     }
 
-    if (map.likes?.likedByUser === true) {
+    if (map.likes.likedByUser) {
       await mailman(`likes/${map._id}`, 'DELETE')
+      setMap({ ...map, likes: { likedByUser: false, numLikes: map.likes.numLikes - 1 } })
 
-      setMap({ ...map, likes: { likedByUser: false, numLikes: map.likes?.numLikes - 1 } })
-      setIsHoveringLike(false)
+      return setIsHoveringLike(false)
     }
 
-    if (map.likes?.likedByUser === false) {
-      await mailman(`likes/${map._id}`, 'POST')
-      setMap({ ...map, likes: { likedByUser: true, numLikes: map.likes?.numLikes + 1 } })
-    }
+    await mailman(`likes/${map._id}`, 'POST')
+    setMap({ ...map, likes: { likedByUser: true, numLikes: map.likes.numLikes + 1 } })
   }
 
   return (
-    <StyledMapStats isLiked={map.likes?.likedByUser}>
+    <StyledMapStats isLiked={map.likes.likedByUser}>
       <div className="stat-item">
         <div className="stat-icon">
           <ScaleIcon />
@@ -46,7 +42,7 @@ const MapStats: FC<Props> = ({ map, setMap }) => {
 
         <div className="textWrapper">
           <span className="mainLabel">Average Score</span>
-          <span className="subLabel">{formatLargeNumber(map.avgScore || 0)}</span>
+          <span className="subLabel">{formatLargeNumber(map.avgScore)}</span>
         </div>
       </div>
 
@@ -68,11 +64,7 @@ const MapStats: FC<Props> = ({ map, setMap }) => {
 
         <div className="textWrapper">
           <span className="mainLabel">Locations</span>
-          <span className="subLabel">
-            {formatLargeNumber(
-              (typeof map.locationCount !== 'undefined' ? map.locationCount : map.locations?.length) || 0
-            )}
-          </span>
+          <span className="subLabel">{formatLargeNumber(map.locationCount)}</span>
         </div>
       </div>
 
@@ -84,13 +76,13 @@ const MapStats: FC<Props> = ({ map, setMap }) => {
           onMouseLeave={() => setIsHoveringLike(false)}
         >
           <div className="stat-icon">
-            {map.likes?.likedByUser || isHoveringLike ? <HeartIconSolid /> : <HeartIconOutline />}
+            {map.likes.likedByUser || isHoveringLike ? <HeartIconSolid /> : <HeartIconOutline />}
           </div>
         </button>
 
         <div className="textWrapper">
           <span className="mainLabel">Likes</span>
-          <span className="subLabel">{map.likes?.numLikes}</span>
+          <span className="subLabel">{map.likes.numLikes}</span>
         </div>
       </div>
 
