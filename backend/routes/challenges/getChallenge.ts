@@ -1,8 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import getMapFromGame from '@backend/queries/getMapFromGame'
-import { collections, compareObjectIds, throwError, verifyUser } from '@backend/utils'
+import { ChallengeModel } from '@backend/models'
+import { collections, compareObjectIds, getMapFromGame, throwError, verifyUser } from '@backend/utils'
 import { objectIdSchema } from '@backend/validations/objectIdSchema'
-import { ChallengeType } from '@types'
 
 const getChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userId } = await verifyUser(req, res)
@@ -27,7 +26,7 @@ const getChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const playersGame = await collections.games?.findOne({ userId, challengeId })
 
-  const mapDetails = await getMapFromGame(challenge as ChallengeType)
+  const mapDetails = await getMapFromGame(challenge as ChallengeModel)
 
   if (!mapDetails) {
     return throwError(res, 404, 'Failed to find challenge')

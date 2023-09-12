@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { GameModel } from '@backend/models'
-import getMapFromGame from '@backend/queries/getMapFromGame'
-import { collections, compareObjectIds, throwError, verifyUser } from '@backend/utils'
+import { collections, compareObjectIds, getMapFromGame, throwError, verifyUser } from '@backend/utils'
 import { userProject } from '@backend/utils/dbProjects'
 import { objectIdSchema } from '@backend/validations/objectIdSchema'
 

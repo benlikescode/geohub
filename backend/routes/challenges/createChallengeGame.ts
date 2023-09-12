@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { ChallengeModel, GameModel } from '@backend/models'
-import getMapFromGame from '@backend/queries/getMapFromGame'
-import { collections, throwError, verifyUser } from '@backend/utils'
+import { collections, getMapFromGame, throwError, verifyUser } from '@backend/utils'
 import { objectIdSchema } from '@backend/validations/objectIdSchema'
 
 const createChallengeGame = async (req: NextApiRequest, res: NextApiResponse) => {

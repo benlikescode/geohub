@@ -7,16 +7,11 @@ type Map = {
   description?: string
   previewImg: string
   creator: 'GeoHub' | ObjectId
-  usersPlayed: number
-  avgScore?: number
-  likes?: { numLikes: number; likedByUser: boolean }
   isPublished?: boolean
   isDeleted?: boolean
   createdAt?: Date
   lastUpdatedAt?: Date
   locations?: LocationType[]
-  // backwards compatibility
-  locationCount: number
   bounds?: { min: { lat: number; lng: number }; max: { lat: number; lng: number } }
   scoreFactor?: number
 }

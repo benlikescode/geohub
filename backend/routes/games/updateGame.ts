@@ -1,18 +1,18 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { GameModel } from '@backend/models'
-import getMapFromGame from '@backend/queries/getMapFromGame'
+import { ChallengeModel, GameModel } from '@backend/models'
 import {
   calculateDistance,
   calculateRoundScore,
   collections,
   compareObjectIds,
   getLocations,
+  getMapFromGame,
   throwError,
   verifyUser,
 } from '@backend/utils'
 import { updateGameSchema } from '@backend/validations/gameValidations'
 import { objectIdSchema } from '@backend/validations/objectIdSchema'
-import { ChallengeType, DistanceType, GuessType } from '@types'
+import { DistanceType, GuessType } from '@types'
 
 const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userId } = await verifyUser(req, res)
@@ -63,7 +63,7 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
       const NEW_LOCATION_COUNT = 10
 
       if (game.challengeId) {
-        const challenge = (await collections.challenges?.findOne({ _id: game.challengeId })) as ChallengeType
+        const challenge = (await collections.challenges?.findOne({ _id: game.challengeId })) as ChallengeModel
 
         if (localRound >= challenge.locations.length) {
           const newLocations = await getLocations(game.mapId, game.mode, NEW_LOCATION_COUNT)
