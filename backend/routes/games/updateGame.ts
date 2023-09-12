@@ -10,6 +10,7 @@ import {
   throwError,
   verifyUser,
 } from '@backend/utils'
+import { updateGameSchema } from '@backend/validations/gameValidations'
 import { objectIdSchema } from '@backend/validations/objectIdSchema'
 import { ChallengeType, DistanceType, GuessType } from '@types'
 
@@ -28,80 +29,78 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
     return throwError(res, 401, 'You are not authorized to modify this game')
   }
 
-  const { guess, guessTime, localRound, timedOut, timedOutWithGuess, adjustedLocation, streakLocationCode } = req.body
+  const { guess, guessTime, localRound, timedOut, timedOutWithGuess, streakLocationCode } = updateGameSchema.parse(
+    req.body
+  )
 
-  // Checking if guess has already been submitted for this round
+  // Check if guess has already been submitted for this round
   if (game.guesses.length === localRound) {
     return throwError(res, 400, 'You have already made a guess for this round. Please refresh your browser')
   }
 
-  // Determine if game is finished
-  let isGameFinished = false
+  // Check if game is already finished
+  if (game.state === 'finished') {
+    return throwError(res, 400, 'This game has already been completed')
+  }
 
   if (game.mode === 'standard') {
-    isGameFinished = game.round === 5
+    const isLastRound = game.round === 5
+
+    game.state = isLastRound ? 'finished' : 'started'
   }
 
   if (game.mode === 'streak') {
     const actualLocation = game.rounds[localRound - 1]
 
-    if (streakLocationCode.toLowerCase() !== actualLocation.countryCode?.toLowerCase()) {
-      isGameFinished = true
-    } else {
+    const isLastRound = streakLocationCode.toLowerCase() !== actualLocation.countryCode?.toLowerCase()
+
+    game.state = isLastRound ? 'finished' : 'started'
+
+    if (!isLastRound) {
       game.streak++
-    }
-  }
 
-  game.state = isGameFinished ? 'finished' : 'started'
+      // Streak games may require more locations
+      const NEW_LOCATION_COUNT = 10
 
-  if (!isGameFinished) {
-    const isStreakGame = game.mode === 'streak'
-    const NEW_LOCATIONS_COUNT = 10
+      if (game.challengeId) {
+        const challenge = (await collections.challenges?.findOne({ _id: game.challengeId })) as ChallengeType
 
-    // Standard 5 round games get created with 5 locations -> Streak games may require more locations
-    if (isStreakGame && game.challengeId) {
-      const challenge = (await collections.challenges?.findOne({ _id: game.challengeId })) as ChallengeType
+        if (localRound >= challenge.locations.length) {
+          const newLocations = await getLocations(game.mapId, game.mode, NEW_LOCATION_COUNT)
 
-      if (localRound >= challenge.locations.length) {
-        const newLocations = await getLocations(game.mapId, game.mode, NEW_LOCATIONS_COUNT)
+          if (!newLocations) {
+            return throwError(res, 400, 'Failed to get new location')
+          }
 
-        if (!newLocations) {
-          return throwError(res, 400, 'Failed to get new location')
+          challenge.locations = challenge.locations.concat(newLocations)
+
+          const updatedChallenge = await collections.challenges?.findOneAndUpdate(
+            { _id: game.challengeId },
+            { $set: challenge }
+          )
+
+          if (!updatedChallenge) {
+            return throwError(res, 500, 'Failed to get next round')
+          }
+
+          game.rounds = game.rounds.concat(newLocations)
         }
 
-        challenge.locations = challenge.locations.concat(newLocations)
-
-        const updatedChallenge = await collections.challenges?.findOneAndUpdate(
-          { _id: game.challengeId },
-          { $set: challenge }
-        )
-
-        if (!updatedChallenge) {
-          return throwError(res, 500, 'Failed to get next round')
-        }
-
-        game.rounds = game.rounds.concat(newLocations)
+        // Every round, sync the user's game rounds with the challenge locations
+        game.rounds = challenge.locations
       }
 
-      // Every round, sync the user's game rounds with the challenge locations
-      game.rounds = challenge.locations
-    }
+      if (!game.challengeId) {
+        if (localRound >= game.rounds.length) {
+          const newLocations = await getLocations(game.mapId, game.mode, NEW_LOCATION_COUNT)
 
-    if (isStreakGame && !game.challengeId) {
-      if (localRound >= game.rounds.length) {
-        const newLocations = await getLocations(game.mapId, game.mode, NEW_LOCATIONS_COUNT)
+          if (!newLocations) {
+            return throwError(res, 400, 'Failed to get new location')
+          }
 
-        if (!newLocations) {
-          return throwError(res, 400, 'Failed to get new location')
+          game.rounds = game.rounds.concat(newLocations)
         }
-
-        game.rounds = game.rounds.concat(newLocations)
       }
-    }
-
-    // Updates the previously generated round to the coordinates returned by the Google SV Pano
-    if (adjustedLocation) {
-      game.rounds[localRound - 1] = adjustedLocation
     }
   }
 
