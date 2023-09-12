@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from 'react'
 import { CreateMapDropdown } from '@components/dropdowns/CreateMapDropdown'
 import { NotFound } from '@components/errorViews'
 import { GoogleMapsSearch } from '@components/GoogleMapsSearch'
-import { Head } from '@components/Head'
+import { Meta } from '@components/Meta'
 import { CreateMapModal, SaveMapModal } from '@components/modals'
 import { SelectMapLayers } from '@components/selects/SelectMapLayers'
 import { Avatar, Button, Skeleton } from '@components/system'
@@ -250,7 +250,7 @@ const CreateMapPage: PageType = () => {
   return (
     <>
       <StyledCreateMapPage showPreviewMap={showPreviewMap}>
-        <Head title="Map Editor" />
+        <Meta title="Map Editor" />
 
         <Allotment vertical={isBreakpoint}>
           <Allotment.Pane className="allotment-item border">

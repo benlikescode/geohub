@@ -2,8 +2,8 @@ import type { NextPage } from 'next'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { GamemodeCard } from '@components/GamemodeCard'
-import { Head } from '@components/Head'
 import { MapPreviewCard } from '@components/MapPreviewCard'
+import { Meta } from '@components/Meta'
 import { Pill } from '@components/system'
 import StyledHomePage from '@styles/HomePage.Styled'
 import { GeoTipType, MapType } from '@types'
@@ -21,7 +21,7 @@ const Home: NextPage = () => {
 
   return (
     <StyledHomePage>
-      <Head title="GeoHub - The free geography guessing game" />
+      <Meta title="GeoHub - The free geography guessing game" />
       <div className="hero-section">
         <Image
           src="/images/backgrounds/hero.jpg"

@@ -8,24 +8,24 @@ For those unfamilar with Geoguessr, it uses Google Streetview to place you in a 
 
 ## How do I play?
 
-Go to the website: [GeoHub](https://geohub.vercel.app) and create an account, it is free and takes 15 seconds. If you don't want to create your own account, you can login to the guest account using the credentials below:
+Go to the website: [GeoHub](https://www.geohub.gg) and create an account, it is free and takes 15 seconds. If you don't want to create your own account, you can login to the guest account using the credentials below:
 
 - Email: `guest@geohub.com`
 - Password: `geohub`
 
 Once you have an account, you are ready to play! You can click play on any of the offical maps on the home page such as:
 
-- [World](https://geohub.vercel.app/map/6185df7a7b54baf63473a53e)
-- [Famous Landmarks](https://geohub.vercel.app/map/6185dfd47b54baf63473a540)
-- [Canada](https://geohub.vercel.app/map/6185dff27b54baf63473a541)
-- [United States](https://geohub.vercel.app/map/6185e0077b54baf63473a542)
+- [World](https://www.geohub.gg/map/6185df7a7b54baf63473a53e)
+- [Famous Landmarks](https://www.geohub.gg/map/6185dfd47b54baf63473a540)
+- [Canada](https://www.geohub.gg/map/6185dff27b54baf63473a541)
+- [United States](https://www.geohub.gg/map/6185e0077b54baf63473a542)
 
 Or you can click on the `Find Maps` link on the sidebar to navigate between all the different supported country maps and community favorites!
 
 If you get bored of playing the standard gamemodes, you can try out the other gamemodes available:
 
-- [Country Streaks](https://geohub.vercel.app/streaks) Tired of trying to pinpoin the exact location? Try this gamemode where you only have to guess the correct country!
-- [The Daily Challenge](https://geohub.vercel.app/daily-challenge) Want to compete against others? Try out the daily challenge which has new rounds every single day!
+- [Country Streaks](https://www.geohub.gg/streaks) Tired of trying to pinpoin the exact location? Try this gamemode where you only have to guess the correct country!
+- [The Daily Challenge](https://www.geohub.gg/daily-challenge) Want to compete against others? Try out the daily challenge which has new rounds every single day!
 
 Want to play with friends? Create a challenge link by following the steps below:
 
@@ -54,12 +54,12 @@ Tired of having the locations picked for you? Create your own map by following t
 
 2. How do I add my own Google Maps API key?
 
-   - Go to your profile page and click on the settings button on the far right (alternatively you can go to this URL: [Settings](https://geohub.vercel.app/user/settings)).
+   - Go to your profile page and click on the settings button on the far right (alternatively you can go to this URL: [Settings](https://www.geohub.gg/user/settings)).
    - You then simply paste your key into the `Custom API Key` field and click `Save Changes`. Now all you have to do is refresh the page and enojoy playing as much as you want!
 
 3. How do I create my own Google Maps API key?
 
-   - Follow the steps outlined in this [PDF](https://geohub.vercel.app/custom-key-instructions.pdf)
+   - Follow the steps outlined in this [PDF](https://www.geohub.gg/custom-key-instructions.pdf)
 
 4. Will it cost me money to create my own Google Maps API key?
 

@@ -2,8 +2,8 @@ import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
-import { Head } from '@components/Head'
 import { WidthController } from '@components/layout'
+import { Meta } from '@components/Meta'
 import { Avatar, Skeleton, Tab, Tabs } from '@components/system'
 import StyledSearchPage from '@styles/SearchPage.Styled'
 import { MapType, UserType } from '@types'
@@ -85,7 +85,7 @@ const SearchResultsPage: NextPage = () => {
   return (
     <StyledSearchPage>
       <WidthController customWidth="800px">
-        <Head title={`Search Results - ${q}`} />
+        <Meta title={`Search Results - ${q}`} />
 
         <div className="tabs-wrapper">
           <h1 className="page-title">Search Results</h1>

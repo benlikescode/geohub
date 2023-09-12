@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react'
-import { Head } from '@components/Head'
 import { WidthController } from '@components/layout'
 import { MapPreviewCard } from '@components/MapPreviewCard'
+import { Meta } from '@components/Meta'
 import { SkeletonCards } from '@components/skeletons'
 import StyledMapsPage from '@styles/MapsPage.Styled'
 import { MapType } from '@types'
@@ -53,7 +53,7 @@ const MapsPage: FC = () => {
   return (
     <StyledMapsPage>
       <WidthController>
-        <Head title="Browse Maps" />
+        <Meta title="Browse Maps" />
 
         <div className="page-wrapper">
           <div>

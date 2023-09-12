@@ -2,8 +2,8 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Game } from '@backend/models'
 import { NotFound } from '@components/errorViews'
-import { Head } from '@components/Head'
 import { Navbar } from '@components/layout'
+import { Meta } from '@components/Meta'
 import { ResultMap } from '@components/ResultMap'
 import { LeaderboardCard } from '@components/Results'
 import { SkeletonGameResults } from '@components/skeletons'
@@ -65,7 +65,7 @@ const ResultsPage: PageType = () => {
   if (gameData?.mode === 'streak') {
     return (
       <StyledResultPage>
-        <Head title="Challenge Results" />
+        <Meta title="Challenge Results" />
 
         {!gameData ? (
           <SkeletonGameResults />
@@ -86,7 +86,7 @@ const ResultsPage: PageType = () => {
 
   return (
     <StyledResultPage>
-      <Head title="Game Results" />
+      <Meta title="Game Results" />
 
       {!gameData || !mapData ? (
         <SkeletonGameResults />

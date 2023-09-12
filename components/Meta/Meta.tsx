@@ -8,11 +8,11 @@ type Props = {
   ogImage?: string
 }
 
-const Head: FC<Props> = ({ title, description, ogUrl, ogImage }) => {
+const Meta: FC<Props> = ({ title, description, ogUrl, ogImage }) => {
   const defaultTitle = 'GeoHub'
   const defaultDescription =
-    'GeoHub is a free to play geography game that tests your ability to recognize where you are in the world. The free alternative to geoguessr.'
-  const defaultOGURL = 'https://geohub.vercel.app/'
+    'GeoHub is a free to play geography game that tests your ability to recognize where you are in the world.'
+  const defaultOGURL = 'https://www.geohub.gg'
   const defaultOGImage = '/images/og-image.png'
 
   return (
@@ -46,4 +46,4 @@ const Head: FC<Props> = ({ title, description, ogUrl, ogImage }) => {
   )
 }
 
-export default Head
+export default Meta
