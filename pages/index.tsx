@@ -5,13 +5,13 @@ import { GamemodeCard } from '@components/GamemodeCard'
 import { MapPreviewCard } from '@components/MapPreviewCard'
 import { Pill } from '@components/system'
 import StyledHomePage from '@styles/HomePage.Styled'
-import { GeoTipType, MapType } from '@types'
+import { MapType } from '@types'
 import geoTips from '@utils/constants/geotips.json'
 import officialMaps from '@utils/constants/officialMaps.json'
 import { COUNTRY_STREAK_DETAILS, DAILY_CHALLENGE_DETAILS } from '@utils/constants/otherGameModeDetails'
 
 const Home: NextPage = () => {
-  const [geoTip, setGeoTip] = useState<GeoTipType>(geoTips[22])
+  const [geoTip, setGeoTip] = useState(geoTips[22])
 
   useEffect(() => {
     const day = new Date().getDate()
