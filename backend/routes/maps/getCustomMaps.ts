@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections, throwError, verifyUser } from '@backend/utils'
+import { collections, compareObjectIds, throwError, verifyUser } from '@backend/utils'
 import { objectIdSchema } from '@backend/validations/objectIdSchema'
 
 // HALP -> likely want to paginate in future
@@ -8,7 +8,8 @@ const getCustomMaps = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const queryUserId = objectIdSchema.optional().parse(req.query.userId)
 
-  if (queryUserId) {
+  // Gets another user's maps
+  if (queryUserId && !compareObjectIds(userId, queryUserId)) {
     const customMaps = await collections.maps
       ?.find({ creator: queryUserId, isDeleted: { $exists: false }, isPublished: true })
       .sort({ createdAt: -1 })
