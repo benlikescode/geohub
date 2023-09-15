@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
 import { useEffect, useState } from 'react'
-import toast from 'react-hot-toast'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { NoResults } from '@components/errorViews'
 import { Head } from '@components/Head'
@@ -12,9 +11,7 @@ import { TrashIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
 import StyledOngoingGamesPage from '@styles/OngoingGamesPage.Styled'
 import { GameType, MapType } from '@types'
-import { formatMonthDayYear } from '@utils/dateHelpers'
-import { formatOngoingScore, mailman, showToast } from '@utils/helpers'
-import formatMapDetails from '@utils/helpers/formatMapDetails'
+import { formatMapDetails, formatMonthDayYear, formatOngoingScore, mailman, showToast } from '@utils/helpers'
 import { useBreakpoint } from '@utils/hooks'
 
 type OngoingGame = GameType & {
@@ -70,12 +67,12 @@ const OngoingGamesPage: NextPage = () => {
     const res = await mailman(`games/${deletingGameId}`, 'DELETE')
 
     if (res?.error) {
-      toast.error(res.error.message)
+      showToast('error', res.error.message)
     }
 
     if (res.message) {
       setDeleteModalOpen(false)
-      toast.success(res.message)
+      showToast('success', res.message)
 
       // Remove deleted game from state
       const filtered = games.filter((game) => game._id != deletingGameId)

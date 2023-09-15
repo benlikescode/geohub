@@ -1,7 +1,15 @@
 export { default as createMapMarker } from './createMapMarker'
 export { default as createMapPolyline } from './createMapPolyline'
+export {
+  formatMonthDay,
+  formatMonthDayYear,
+  formatMonthDayYearTime,
+  formatMonthYear,
+  formatTimeAgo,
+} from './formatDates'
 export { default as formatDistance } from './formatDistance'
 export { default as formatLargeNumber } from './formatLargeNumber'
+export { default as formatMapDetails } from './formatMapDetails'
 export { default as formatOngoingScore } from './formatOngoingScore'
 export { default as formatPolygon } from './formatPolygon'
 export { default as formatRoundTime } from './formatRoundTime'

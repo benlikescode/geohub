@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import toast from 'react-hot-toast'
 import { Head } from '@components/Head'
 import { PageHeader, WidthController } from '@components/layout'
 import { MapPreviewCard } from '@components/MapPreviewCard'
@@ -9,7 +8,7 @@ import { PlusIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
 import StyledMyMapsPage from '@styles/MyMapsPage.Styled'
 import { MapType } from '@types'
-import { mailman } from '@utils/helpers'
+import { mailman, showToast } from '@utils/helpers'
 
 import type { NextPage } from 'next'
 const MyMapsPage: NextPage = () => {
@@ -21,8 +20,6 @@ const MyMapsPage: NextPage = () => {
   const [deletingMapId, setDeletingMapId] = useState('')
   const [isDeleting, setIsDeleting] = useState(false)
   const user = useAppSelector((state) => state.user)
-
-  // createMapModalOpen ? disableBodyScroll(document as any) : enableBodyScroll(document as any)
 
   const handleCreateMapClick = () => {
     if (user.id) {
@@ -38,7 +35,7 @@ const MyMapsPage: NextPage = () => {
     const res = await mailman('maps/custom')
 
     if (res.error) {
-      return toast.error(res.error.message)
+      return showToast('error', res.error.message)
     }
 
     setMaps(res)
@@ -51,12 +48,12 @@ const MyMapsPage: NextPage = () => {
     const res = await mailman(`maps/custom/${deletingMapId}`, 'DELETE')
 
     if (res.error) {
-      toast.error('Something went wrong')
+      return showToast('error', 'Something went wrong')
     }
 
     if (res.message) {
       setDeleteModalOpen(false)
-      toast.success(res.message)
+      showToast('success', res.message)
 
       // Remove deleted map from state
       const filteredMaps = maps.filter((map) => map._id !== deletingMapId)

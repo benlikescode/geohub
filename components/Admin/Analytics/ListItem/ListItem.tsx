@@ -2,8 +2,7 @@ import Link from 'next/link'
 import { FC } from 'react'
 import { Avatar } from '@components/system'
 import { AnalyticsType } from '@types'
-import { formatMonthDayYearTime } from '@utils/dateHelpers'
-import formatMapDetails from '@utils/helpers/formatMapDetails'
+import { formatMapDetails, formatMonthDayYearTime } from '@utils/helpers'
 import { StyledListItem } from './'
 
 type Props = {

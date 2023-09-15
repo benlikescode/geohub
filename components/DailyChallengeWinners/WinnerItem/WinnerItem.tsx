@@ -2,8 +2,7 @@ import Link from 'next/link'
 import { FC } from 'react'
 import { Avatar } from '@components/system'
 import { MapLeaderboardType } from '@types'
-import { formatMonthDay } from '@utils/dateHelpers'
-import { formatLargeNumber } from '@utils/helpers'
+import { formatLargeNumber, formatMonthDay } from '@utils/helpers'
 import { StyledWinnerItem } from './'
 
 type Props = {
