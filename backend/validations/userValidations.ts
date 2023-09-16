@@ -98,5 +98,6 @@ export const updateUserSettingsSchema = z.object({
   mapsAPIKey: z
     .string()
     .length(GOOGLE_MAPS_KEY_LEN, `Google Maps API keys should be ${GOOGLE_MAPS_KEY_LEN} characters`)
+    .or(z.string().length(0))
     .optional(),
 })
