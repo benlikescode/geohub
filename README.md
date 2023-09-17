@@ -27,7 +27,7 @@ If you still want to help support GeoHub but aren't able to donate, you can also
 
 ## 🎉 How do I play?
 
-Go to the website: [GeoHub](https://www.geohub.gg) and create an account, it is free and takes 15 seconds. If you don't want to create your own account, you can login to the guest account using the credentials below:
+Go to the [website](https://www.geohub.gg) and create an account, it is free and takes 15 seconds. If you don't want to create your own account, you can login to the guest account using the credentials below:
 
 - Email: `guest@geohub.com`
 - Password: `geohub`
@@ -47,8 +47,8 @@ Or you can click on the `Find Maps` link on the sidebar to navigate between all 
 
 If you get bored of playing the standard gamemodes, you can try out the other gamemodes available:
 
-- [Country Streaks](https://www.geohub.gg/streaks) Tired of trying to pinpoin the exact location? Try this gamemode where you only have to guess the correct country!
-- [The Daily Challenge](https://www.geohub.gg/daily-challenge) Want to compete against others? Try out the daily challenge which has new rounds every single day!
+- [Country Streaks](https://www.geohub.gg/streaks) 
+- [The Daily Challenge](https://www.geohub.gg/daily-challenge)
 
 <br />
 
@@ -94,7 +94,7 @@ Tired of having the locations picked for you? Create your own map by following t
 1. Clone this repository
 2. Create a Google Maps billing account and save the API key
 3. Create a MongoDB database and save the connection string and name of the database you create
-4. Create random secrets for NextAuth & Cryptr -> you can generate a secret by running the following in your Linux/Windows terminal: `openssl rand -base64 32`
+4. Create random secrets for NextAuth & Cryptr. On Linux/Windows run the following command in a terminal `openssl rand -base64 32`
 5. In the root of the app, create a .env file and add the values below (replacing with your created credentials)
 
 ```
