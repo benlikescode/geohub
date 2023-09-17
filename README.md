@@ -1,10 +1,29 @@
-# GeoHub
+<!-- markdownlint-disable-next-line -->
+<p align="center">
+  <a href="https://www.geohub.gg"><img src="public/og-image.png" alt="GeoHub logo"></a>
+</p>
 
-## What is GeoHub?
 
-GeoHub is my own version of the popular geography guessing game: Geoguessr.
+<div align="center">
+  <a href="https://www.geohub.gg">Website</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="https://discord.gg/9qdXWqgbrH">Discord</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="https://www.buymeacoffee.com/geohubgame">Donate</a>
+  <hr />
+</div>
+
+GeoHub is a free and open source geography guessing game inspired by Geoguessr.
 
 For those unfamilar with Geoguessr, it uses Google Streetview to place you in a random location and you have to guess where you think you are in the world. You can move around and use clues around you such as Language, Architecture, Road Signs, etc... to make your guess. The objective is clear, the closer you are to the correct location, the more points you get.
+
+## How can I support?
+
+Even though you don't need to pay to play GeoHub, the game still costs money to run and relies on community support to stay running while it grows. If you enjoy playing, please support by donating as all donations will go towards paying for more Google Maps API credits + server costs.
+
+<a href="https://www.buymeacoffee.com/geohubgame"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="42" width="170"></a>
+
+If you still want to help support GeoHub but aren't able to donate, you can also create your own Google Maps API key which gives you $200 USD worth of credit every month. Unless you are playing 24/7 this will be more than enough credits for a single person, meaning you won't have to pay. See the [FAQ](#faq) section for instructions on how to setup your own key.
 
 ## How do I play?
 
@@ -44,7 +63,7 @@ Tired of having the locations picked for you? Create your own map by following t
 4. Click `Next` to setup your custom map
 5. Once on the map editor page, you can start adding locations to your map
 6. Click anywhere on the map to preview the streetview location
-7. Once you have added all the locations you want, click on the `Save Map` button which will save and publish your map
+7. Once you have added all the locations you want, click on the `Save Map` button which will let you save and optionally publish your map
 
 ## FAQ
 
