@@ -2,30 +2,38 @@
 
 ## What is GeoHub?
 
-GeoHub is my own version of the popular geography guessing game: Geoguessr.
+GeoHub is a free and open source geography guessing game inspired by Geoguessr.
 
 For those unfamilar with Geoguessr, it uses Google Streetview to place you in a random location and you have to guess where you think you are in the world. You can move around and use clues around you such as Language, Architecture, Road Signs, etc... to make your guess. The objective is clear, the closer you are to the correct location, the more points you get.
 
+## How can I support?
+
+Even though you don't need to pay to play GeoHub, the game still costs money to run and relies on community support to stay running while it grows. If you enjoy playing, please support by donating as all donations will go towards paying for more Google Maps API credits + server costs.
+
+<a href="https://www.buymeacoffee.com/geohubgame"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="42" width="170"></a>
+
+If you still want to help support GeoHub but aren't able to donate, you can also create your own Google Maps API key which gives you $200 USD worth of credit every month. Unless you are playing 24/7 this will be more than enough credits for a single person, meaning you won't have to pay. See the [FAQ](#faq) section for instructions on how to setup your own key.
+
 ## How do I play?
 
-Go to the website: [GeoHub](https://geohub.vercel.app) and create an account, it is free and takes 15 seconds. If you don't want to create your own account, you can login to the guest account using the credentials below:
+Go to the website: [GeoHub](https://www.geohub.gg) and create an account, it is free and takes 15 seconds. If you don't want to create your own account, you can login to the guest account using the credentials below:
 
 - Email: `guest@geohub.com`
 - Password: `geohub`
 
 Once you have an account, you are ready to play! You can click play on any of the offical maps on the home page such as:
 
-- [World](https://geohub.vercel.app/map/6185df7a7b54baf63473a53e)
-- [Famous Landmarks](https://geohub.vercel.app/map/6185dfd47b54baf63473a540)
-- [Canada](https://geohub.vercel.app/map/6185dff27b54baf63473a541)
-- [United States](https://geohub.vercel.app/map/6185e0077b54baf63473a542)
+- [World](https://www.geohub.gg/map/6185df7a7b54baf63473a53e)
+- [Famous Landmarks](https://www.geohub.gg/map/6185dfd47b54baf63473a540)
+- [Canada](https://www.geohub.gg/map/6185dff27b54baf63473a541)
+- [United States](https://www.geohub.gg/map/6185e0077b54baf63473a542)
 
 Or you can click on the `Find Maps` link on the sidebar to navigate between all the different supported country maps and community favorites!
 
 If you get bored of playing the standard gamemodes, you can try out the other gamemodes available:
 
-- [Country Streaks](https://geohub.vercel.app/streaks) Tired of trying to pinpoin the exact location? Try this gamemode where you only have to guess the correct country!
-- [The Daily Challenge](https://geohub.vercel.app/daily-challenge) Want to compete against others? Try out the daily challenge which has new rounds every single day!
+- [Country Streaks](https://www.geohub.gg/streaks) Tired of trying to pinpoin the exact location? Try this gamemode where you only have to guess the correct country!
+- [The Daily Challenge](https://www.geohub.gg/daily-challenge) Want to compete against others? Try out the daily challenge which has new rounds every single day!
 
 Want to play with friends? Create a challenge link by following the steps below:
 
@@ -44,7 +52,7 @@ Tired of having the locations picked for you? Create your own map by following t
 4. Click `Next` to setup your custom map
 5. Once on the map editor page, you can start adding locations to your map
 6. Click anywhere on the map to preview the streetview location
-7. Once you have added all the locations you want, click on the `Save Map` button which will save and publish your map
+7. Once you have added all the locations you want, click on the `Save Map` button which will let you save and optionally publish your map
 
 ## FAQ
 
@@ -54,12 +62,12 @@ Tired of having the locations picked for you? Create your own map by following t
 
 2. How do I add my own Google Maps API key?
 
-   - Go to your profile page and click on the settings button on the far right (alternatively you can go to this URL: [Settings](https://geohub.vercel.app/user/settings)).
+   - Go to your profile page and click on the settings button on the far right (alternatively you can go to this URL: [Settings](https://www.geohub.gg/user/settings)).
    - You then simply paste your key into the `Custom API Key` field and click `Save Changes`. Now all you have to do is refresh the page and enojoy playing as much as you want!
 
 3. How do I create my own Google Maps API key?
 
-   - Follow the steps outlined in this [PDF](https://geohub.vercel.app/custom-key-instructions.pdf)
+   - Follow the steps outlined in this [PDF](https://www.geohub.gg/custom-key-instructions.pdf)
 
 4. Will it cost me money to create my own Google Maps API key?
 
