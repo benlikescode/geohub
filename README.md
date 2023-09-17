@@ -17,7 +17,7 @@ GeoHub is a free and open source geography guessing game inspired by Geoguessr.
 
 For those unfamilar with Geoguessr, it uses Google Streetview to place you in a random location and you have to guess where you think you are in the world. You can move around and use clues around you such as Language, Architecture, Road Signs, etc... to make your guess. The objective is clear, the closer you are to the correct location, the more points you get.
 
-## How can I support?
+## 💜 How can I support?
 
 Even though you don't need to pay to play GeoHub, the game still costs money to run and relies on community support to stay running while it grows. If you enjoy playing, please support by donating as all donations will go towards paying for more Google Maps API credits + server costs.
 
@@ -25,12 +25,14 @@ Even though you don't need to pay to play GeoHub, the game still costs money to 
 
 If you still want to help support GeoHub but aren't able to donate, you can also create your own Google Maps API key which gives you $200 USD worth of credit every month. Unless you are playing 24/7 this will be more than enough credits for a single person, meaning you won't have to pay. See the [FAQ](#faq) section for instructions on how to setup your own key.
 
-## How do I play?
+## 🎉 How do I play?
 
 Go to the website: [GeoHub](https://www.geohub.gg) and create an account, it is free and takes 15 seconds. If you don't want to create your own account, you can login to the guest account using the credentials below:
 
 - Email: `guest@geohub.com`
 - Password: `geohub`
+
+<br />
 
 Once you have an account, you are ready to play! You can click play on any of the offical maps on the home page such as:
 
@@ -41,10 +43,14 @@ Once you have an account, you are ready to play! You can click play on any of th
 
 Or you can click on the `Find Maps` link on the sidebar to navigate between all the different supported country maps and community favorites!
 
+<br />
+
 If you get bored of playing the standard gamemodes, you can try out the other gamemodes available:
 
 - [Country Streaks](https://www.geohub.gg/streaks) Tired of trying to pinpoin the exact location? Try this gamemode where you only have to guess the correct country!
 - [The Daily Challenge](https://www.geohub.gg/daily-challenge) Want to compete against others? Try out the daily challenge which has new rounds every single day!
+
+<br />
 
 Want to play with friends? Create a challenge link by following the steps below:
 
@@ -54,6 +60,8 @@ Want to play with friends? Create a challenge link by following the steps below:
 4. Choose the game play settings you want to enforce for the challenge
 5. Click start and copy the challenge link
 6. Share this link with friends and see how you compare
+   
+<br />
 
 Tired of having the locations picked for you? Create your own map by following the steps below:
 
@@ -65,27 +73,23 @@ Tired of having the locations picked for you? Create your own map by following t
 6. Click anywhere on the map to preview the streetview location
 7. Once you have added all the locations you want, click on the `Save Map` button which will let you save and optionally publish your map
 
-## FAQ
+## ❓ FAQ
 
-1. Why are the colors inverted on google maps?
-
+#### Why are the colors inverted on google maps?
    - This means the daily quota for the google maps API has been reached since the game is currently running on the Google Maps free tier. The daily quota resets at midnight Pacific Time (PT). If you want to play unlimited games without hitting the daily quota, see below for how to add/create your own Google Maps API key.
 
-2. How do I add my own Google Maps API key?
-
+#### How do I add my own Google Maps API key?
    - Go to your profile page and click on the settings button on the far right (alternatively you can go to this URL: [Settings](https://www.geohub.gg/user/settings)).
    - You then simply paste your key into the `Custom API Key` field and click `Save Changes`. Now all you have to do is refresh the page and enojoy playing as much as you want!
 
-3. How do I create my own Google Maps API key?
-
+#### How do I create my own Google Maps API key?
    - Follow the steps outlined in this [PDF](https://www.geohub.gg/custom-key-instructions.pdf)
 
-4. Will it cost me money to create my own Google Maps API key?
-
+#### Will it cost me money to create my own Google Maps API key?
    - Short answer: No, it is nearly impossible to exceed the $200 USD credit per month on your own. To put it into perspective, you would have to play atleast 100 games every day of the month to even come close to exceeding the free tier.
    - If you are still concerned about getting billed, you can monitor your current billing period usage at any time by going to the Billing page on your Google Cloud account.
 
-## Steps to run locally
+## 💻 Steps to run locally
 
 1. Clone this repository
 2. Create a Google Maps billing account and save the API key
@@ -111,15 +115,16 @@ yarn dev
 
 Now, you should be able to see the site running locally at [http://localhost:3000](http://localhost:3000)
 
-## Technologies Used
+## 🚀 Tech Stack
 
-- NextJS
-- TypeScript
-- MongoDB
-- Google Maps API
-- NextAuth
+- ✅ **Framework**: [Nextjs + Typescript](https://nextjs.org)
+- ✅ **Auth**: [Next-Auth.js](https://next-auth.js.org)
+- ✅ **Database**: [MongoDB](https://www.mongodb.com).
+- ✅ **Styling**: [Styled Components](https://styled-components.com).
+- ✅ **Schema Validation**: [Zod](https://github.com/colinhacks/zod).
+- ✅ **Maps**: [Google Maps API](https://developers.google.com/maps) + [DeckGL](https://deck.gl).
 
-## Screenshots
+## 📷 Screenshots
 
 ![geohub-home](https://github.com/benlikescode/geohub/assets/63207900/f055667d-10e3-4b22-8a01-9aeb3fa86716)
 ![geohub-map-page](https://github.com/benlikescode/geohub/assets/63207900/51c88624-f82b-4b03-a9eb-326966460f4c)
