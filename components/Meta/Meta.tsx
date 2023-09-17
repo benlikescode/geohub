@@ -13,7 +13,7 @@ const Meta: FC<Props> = ({ title, description, ogUrl, ogImage }) => {
   const defaultDescription =
     'GeoHub is a free to play geography game that tests your ability to recognize where you are in the world.'
   const defaultOGURL = 'https://www.geohub.gg'
-  const defaultOGImage = '/images/og-image.png'
+  const defaultOGImage = 'og-image.png'
 
   return (
     <NextHead>
