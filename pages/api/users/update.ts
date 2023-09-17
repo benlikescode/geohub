@@ -3,6 +3,7 @@ import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { collections, dbConnect, getUserId, throwError } from '@backend/utils'
 import { BACKGROUND_COLORS, EMOJIS } from '@utils/constants/avatarOptions'
+import { GUEST_ACCOUNT_ID } from '@utils/constants/random'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -12,8 +13,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const { _id, name, bio, avatar } = req.body
       const userId = await getUserId(req, res)
 
-      if (userId !== _id.toString()) {
-        return throwError(res, 401, 'You are not allowed to update this user')
+      if (!userId || userId !== _id.toString()) {
+        return throwError(res, 401, 'Unauthorized')
+      }
+
+      if (userId === GUEST_ACCOUNT_ID) {
+        return throwError(res, 401, 'This account is not allowed to modify profile values')
       }
 
       // Validate avatar

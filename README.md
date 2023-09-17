@@ -3,7 +3,6 @@
   <a href="https://www.geohub.gg"><img src="public/og-image.png" alt="GeoHub logo"></a>
 </p>
 
-
 <div align="center">
   <a href="https://www.geohub.gg">Website</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
@@ -47,7 +46,7 @@ Or you can click on the `Find Maps` link on the sidebar to navigate between all 
 
 If you get bored of playing the standard gamemodes, you can try out the other gamemodes available:
 
-- [Country Streaks](https://www.geohub.gg/streaks) 
+- [Country Streaks](https://www.geohub.gg/streaks)
 - [The Daily Challenge](https://www.geohub.gg/daily-challenge)
 
 <br />
@@ -60,7 +59,7 @@ Want to play with friends? Create a challenge link by following the steps below:
 4. Choose the game play settings you want to enforce for the challenge
 5. Click start and copy the challenge link
 6. Share this link with friends and see how you compare
-   
+
 <br />
 
 Tired of having the locations picked for you? Create your own map by following the steps below:
@@ -76,18 +75,22 @@ Tired of having the locations picked for you? Create your own map by following t
 ## ❓ FAQ
 
 #### Why are the colors inverted on google maps?
-   - This means the daily quota for the google maps API has been reached since the game is currently running on the Google Maps free tier. The daily quota resets at midnight Pacific Time (PT). If you want to play unlimited games without hitting the daily quota, see below for how to add/create your own Google Maps API key.
+
+- This means the daily quota for the google maps API has been reached since the game is currently running on the Google Maps free tier. The daily quota resets at midnight Pacific Time (PT). If you want to play unlimited games without hitting the daily quota, see below for how to add/create your own Google Maps API key.
 
 #### How do I add my own Google Maps API key?
-   - Go to your profile page and click on the settings button on the far right (alternatively you can go to this URL: [Settings](https://www.geohub.gg/user/settings)).
-   - You then simply paste your key into the `Custom API Key` field and click `Save Changes`. Now all you have to do is refresh the page and enojoy playing as much as you want!
+
+- Go to your profile page and click on the settings button on the far right (alternatively you can go to this URL: [Settings](https://www.geohub.gg/user/settings)).
+- You then simply paste your key into the `Custom API Key` field and click `Save Changes`. Now all you have to do is refresh the page and enojoy playing as much as you want!
 
 #### How do I create my own Google Maps API key?
-   - Follow the steps outlined in this [PDF](https://www.geohub.gg/custom-key-instructions.pdf)
+
+- Follow the steps outlined in this [PDF](https://www.geohub.gg/custom-key-instructions.pdf)
 
 #### Will it cost me money to create my own Google Maps API key?
-   - Short answer: No, it is nearly impossible to exceed the $200 USD credit per month on your own. To put it into perspective, you would have to play atleast 100 games every day of the month to even come close to exceeding the free tier.
-   - If you are still concerned about getting billed, you can monitor your current billing period usage at any time by going to the Billing page on your Google Cloud account.
+
+- Short answer: No, it is nearly impossible to exceed the $200 USD credit per month on your own. To put it into perspective, you would have to play atleast 100 games every day of the month to even come close to exceeding the free tier.
+- If you are still concerned about getting billed, you can monitor your current billing period usage at any time by going to the Billing page on your Google Cloud account.
 
 ## 💻 Steps to run locally
 
