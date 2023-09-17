@@ -4,8 +4,8 @@ import Game from '@backend/models/game'
 import { ChallengeStart } from '@components/ChallengeStart'
 import { NotFound } from '@components/errorViews'
 import { StandardGameView, StreakGameView } from '@components/gameViews'
-import { Head } from '@components/Head'
 import { LoadingPage } from '@components/layout'
+import { Meta } from '@components/Meta'
 import { useAppDispatch } from '@redux/hook'
 import { updateStartTime } from '@redux/slices'
 import StyledGamePage from '@styles/GamePage.Styled'
@@ -92,7 +92,7 @@ const ChallengePage: PageType = () => {
 
   return (
     <StyledGamePage>
-      <Head title={`Challenge - GeoHub`} />
+      <Meta title={`Challenge - GeoHub`} />
 
       {gameData.mode === 'standard' && (
         <StandardGameView gameData={gameData} setGameData={setGameData} view={view} setView={setView} />

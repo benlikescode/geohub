@@ -4,9 +4,9 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { CountItem } from '@components/Admin/Analytics/CountItem'
-import { Head } from '@components/Head'
 import { MapLeaderboard } from '@components/MapLeaderboard'
 import { MapPreviewCard } from '@components/MapPreviewCard'
+import { Meta } from '@components/Meta'
 import { AvatarPickerModal } from '@components/modals'
 import { SkeletonCards, SkeletonLeaderboard, SkeletonProfile } from '@components/skeletons'
 import { Tab, Tabs } from '@components/system'
@@ -144,7 +144,7 @@ const ProfilePage: NextPage = () => {
 
   return (
     <StyledProfilePage isEditing={isEditing}>
-      <Head title={userDetails ? userDetails.name : 'GeoHub'} />
+      <Meta title={userDetails ? userDetails.name : 'GeoHub'} />
 
       {loading || !userStats ? (
         <SkeletonProfile />

@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import GoogleMapReact from 'google-map-react'
-import { Head } from '@components/Head'
 import { WidthController } from '@components/layout'
+import { Meta } from '@components/Meta'
 import StyledPuzzlesPage from '@styles/PuzzlesPage.Styled'
 
 const PuzzlesPage: NextPage = () => {
@@ -366,7 +366,7 @@ const PuzzlesPage: NextPage = () => {
   return (
     <StyledPuzzlesPage>
       <WidthController>
-        <Head title="Play - Puzzles" />
+        <Meta title="Play - Puzzles" />
         <div id="map">
           <GoogleMapReact
             bootstrapURLKeys={GoogleMapConfig}

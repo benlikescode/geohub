@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react'
 import { StyledAnalytics } from '@components/Admin/Analytics/Analytics.Styled'
 import { CountItem } from '@components/Admin/Analytics/CountItem'
 import { ListItem } from '@components/Admin/Analytics/ListItem'
-import { Head } from '@components/Head'
 import { PageHeader, WidthController } from '@components/layout'
+import { Meta } from '@components/Meta'
 import { Skeleton } from '@components/system'
 import { AnalyticsType } from '@types'
 import { mailman, showToast } from '@utils/helpers'
@@ -29,7 +29,7 @@ const AnalyticsPage: NextPage = () => {
   return (
     <StyledAnalytics>
       <WidthController>
-        <Head title="Admin - Analytics" />
+        <Meta title="Admin - Analytics" />
         <PageHeader>Analytics</PageHeader>
 
         <div className="analytics-grid">

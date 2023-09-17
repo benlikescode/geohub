@@ -65,7 +65,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         text: `No worries, it happens! Click the link below to reset your password. If you didn't make this request, please disregard this email and the link will expire in 24 hours.`,
         button: 'Reset your password',
         siteName: 'GeoHub',
-        siteUrl: 'https://geohub.vercel.app',
+        siteUrl: 'https://www.geohub.gg',
       }
 
       const html = `

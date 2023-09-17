@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { Head } from '@components/Head'
 import { PageHeader, WidthController } from '@components/layout'
 import { MapPreviewCard } from '@components/MapPreviewCard'
+import { Meta } from '@components/Meta'
 import { AuthModal, CreateMapModal, DestroyModal } from '@components/modals'
 import { SkeletonCards } from '@components/skeletons'
 import { PlusIcon } from '@heroicons/react/outline'
@@ -80,7 +80,7 @@ const MyMapsPage: NextPage = () => {
   return (
     <StyledMyMapsPage>
       <WidthController>
-        <Head title="My Maps" />
+        <Meta title="My Maps" />
         <PageHeader>My Maps</PageHeader>
 
         {loading ? (

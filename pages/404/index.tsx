@@ -1,11 +1,11 @@
 import { NotFound } from '@components/errorViews'
-import { Head } from '@components/Head'
+import { Meta } from '@components/Meta'
 import { PageType } from '@types'
 
 const Custom404: PageType = () => {
   return (
     <>
-      <Head title="Page Not Found" />
+      <Meta title="Page Not Found" />
       <NotFound />
     </>
   )
