@@ -25,7 +25,9 @@ const getUserStats = async (req: NextApiRequest, res: NextApiResponse) => {
   const streakGamesPlayed = await collections.games?.find(queryFinishedStreakGames).count()
   const bestStreakGame = await collections.games?.findOne(queryFinishedStreakGames, { sort: { totalPoints: -1 } })
 
-  const dailyChallengeWins = await collections.challenges?.find({ isDailyChallenge: true, winner: userId }).count()
+  const dailyChallengeWins = await collections.challenges
+    ?.find({ isDailyChallenge: true, 'winner.userId': userId })
+    .count()
 
   const result = [
     { label: 'Completed Games', data: gamesPlayed || 0 },
