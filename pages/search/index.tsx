@@ -2,20 +2,21 @@ import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
-import { Head } from '@components/Head'
 import { WidthController } from '@components/layout'
+import { Meta } from '@components/Meta'
 import { Avatar, Skeleton, Tab, Tabs } from '@components/system'
 import StyledSearchPage from '@styles/SearchPage.Styled'
 import { MapType, UserType } from '@types'
 import { mailman } from '@utils/helpers'
 
 type SearchResults = {
+  all: (UserType | MapType)[]
   users: UserType[]
   maps: MapType[]
 }
 
 const SearchResultsPage: NextPage = () => {
-  const [allSearchResults, setAllSearchResults] = useState<any[]>([])
+  const [allSearchResults, setAllSearchResults] = useState<(UserType | MapType)[]>([])
   const [userSearchResults, setUserSearchResults] = useState<UserType[]>([])
   const [mapSearchResults, setMapSearchResults] = useState<MapType[]>([])
   const [loading, setLoading] = useState(false)
@@ -33,9 +34,9 @@ const SearchResultsPage: NextPage = () => {
   const getSearchResults = async (query: string) => {
     setLoading(true)
 
-    const res: SearchResults = await mailman(`search?q=${query}&count=10`)
+    const res = (await mailman(`search?q=${query}&count=10`)) as SearchResults
 
-    setAllSearchResults([...res.users, ...res.maps])
+    setAllSearchResults(res.all)
     setUserSearchResults(res.users)
     setMapSearchResults(res.maps)
 
@@ -52,9 +53,11 @@ const SearchResultsPage: NextPage = () => {
         )
       }
 
-      return allSearchResults.map((result, idx) =>
-        result.avatar ? <UserResultJSX key={idx} result={result} /> : <MapResultJSX key={idx} result={result} />
-      )
+      return allSearchResults.map((result, idx) => {
+        const isUser = typeof result === 'object' && 'avatar' in result
+
+        return isUser ? <UserResultJSX key={idx} result={result} /> : <MapResultJSX key={idx} result={result} />
+      })
     }
 
     if (selectedFilter === 'users') {
@@ -85,7 +88,7 @@ const SearchResultsPage: NextPage = () => {
   return (
     <StyledSearchPage>
       <WidthController customWidth="800px">
-        <Head title={`Search Results - ${q}`} />
+        <Meta title={`Search Results - ${q}`} />
 
         <div className="tabs-wrapper">
           <h1 className="page-title">Search Results</h1>

@@ -2,9 +2,9 @@ import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
 import { DailyChallengeMapStats } from '@components/DailyChallengeMapStats'
 import { DailyChallengeWinners } from '@components/DailyChallengeWinners'
-import { Head } from '@components/Head'
 import { WidthController } from '@components/layout'
 import { MapLeaderboard } from '@components/MapLeaderboard'
+import { Meta } from '@components/Meta'
 import { SkeletonLeaderboard, SkeletonMapInfo } from '@components/skeletons'
 import { Avatar, Button } from '@components/system'
 import { VerifiedBadge } from '@components/VerifiedBadge'
@@ -76,7 +76,7 @@ const DailyChallengePage: FC = () => {
   return (
     <StyledDailyChallengePage>
       <WidthController customWidth="1400px" mobilePadding="0px">
-        <Head title={`Play - ${DAILY_CHALLENGE_DETAILS.name}`} />
+        <Meta title={`Play - ${DAILY_CHALLENGE_DETAILS.name}`} />
 
         <div className="daily-challenge-wrapper">
           <div>

@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { GamemodeCard } from '@components/GamemodeCard'
 import { MapPreviewCard } from '@components/MapPreviewCard'
+import { Meta } from '@components/Meta'
 import { Pill } from '@components/system'
 import StyledHomePage from '@styles/HomePage.Styled'
 import { MapType } from '@types'
@@ -20,6 +21,7 @@ const Home: NextPage = () => {
 
   return (
     <StyledHomePage>
+      <Meta title="GeoHub - The free geography guessing game" />
       <div className="hero-section">
         <Image
           src="/images/backgrounds/hero.jpg"

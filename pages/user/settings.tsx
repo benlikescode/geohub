@@ -2,8 +2,8 @@ import type { NextPage } from 'next'
 import { signOut } from 'next-auth/react'
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
-import { Head } from '@components/Head'
 import { WidthController } from '@components/layout'
+import { Meta } from '@components/Meta'
 import { Button, Input, Select, Spinner } from '@components/system'
 import { ArrowRightIcon } from '@heroicons/react/outline'
 import { useAppDispatch } from '@redux/hook'
@@ -78,7 +78,7 @@ const SettingsPage: NextPage = () => {
   return (
     <StyledSettingsPage>
       <WidthController customWidth="650px">
-        <Head title="Account Settings" />
+        <Meta title="Account Settings" />
 
         <div className="header">
           <div className="header-details">

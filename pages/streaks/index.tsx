@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { Head } from '@components/Head'
 import { WidthController } from '@components/layout'
 import { MapLeaderboard } from '@components/MapLeaderboard'
+import { Meta } from '@components/Meta'
 import { GameSettingsModal } from '@components/modals'
 import { SkeletonLeaderboard, SkeletonMapInfo } from '@components/skeletons'
 import { StreakMapStats } from '@components/StreakMapStats'
@@ -57,7 +57,7 @@ const StreaksPage = () => {
   return (
     <StyledPlayStreaksPage>
       <WidthController customWidth="1100px" mobilePadding="0px">
-        <Head title="Country Streaks" />
+        <Meta title="Country Streaks" />
 
         {streakStats ? (
           <div className="mapDetailsSection">

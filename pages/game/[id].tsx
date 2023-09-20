@@ -2,8 +2,8 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { NotFound } from '@components/errorViews'
 import { StandardGameView, StreakGameView } from '@components/gameViews'
-import { Head } from '@components/Head'
 import { LoadingPage } from '@components/layout'
+import { Meta } from '@components/Meta'
 import { useAppDispatch } from '@redux/hook'
 import { updateRecentlyPlayed } from '@redux/slices'
 import StyledGamePage from '@styles/GamePage.Styled'
@@ -69,7 +69,7 @@ const GamePage: PageType = () => {
 
   return (
     <StyledGamePage>
-      <Head title={`Game - GeoHub`} />
+      <Meta title={`Game - GeoHub`} />
 
       {gameData.mode === 'standard' && (
         <StandardGameView gameData={gameData} setGameData={setGameData} view={view} setView={setView} />

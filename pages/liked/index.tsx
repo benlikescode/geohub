@@ -1,9 +1,9 @@
 import type { NextPage } from 'next'
 import { useEffect, useState } from 'react'
 import { NoResults } from '@components/errorViews'
-import { Head } from '@components/Head'
 import { PageHeader, WidthController } from '@components/layout'
 import { LikedMapCard } from '@components/MapCards/LikedMapCard'
+import { Meta } from '@components/Meta'
 import { SkeletonCards } from '@components/skeletons'
 import { useAppSelector } from '@redux/hook'
 import StyledLikedMapsPage from '@styles/LikedMapsPage.Styled'
@@ -41,7 +41,7 @@ const LikedMapsPage: NextPage = () => {
   return (
     <StyledLikedMapsPage>
       <WidthController>
-        <Head title="Liked Maps" />
+        <Meta title="Liked Maps" />
         <PageHeader>Liked Maps</PageHeader>
 
         {loading && <SkeletonCards numCards={8} />}

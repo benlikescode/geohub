@@ -2,11 +2,11 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
 import { NotFound } from '@components/errorViews'
-import { Head } from '@components/Head'
 import { WidthController } from '@components/layout'
 import { MapLeaderboard } from '@components/MapLeaderboard'
 import { MapPreviewCard } from '@components/MapPreviewCard'
 import { MapStats } from '@components/MapStats'
+import { Meta } from '@components/Meta'
 import { GameSettingsModal } from '@components/modals'
 import { SkeletonCards, SkeletonLeaderboard, SkeletonMapInfo } from '@components/skeletons'
 import { Avatar, Button } from '@components/system'
@@ -88,7 +88,7 @@ const MapPage: FC = () => {
   return (
     <StyledMapPage>
       <WidthController customWidth="1100px" mobilePadding="0px">
-        <Head title={mapDetails?.name ? `Play - ${mapDetails.name}` : 'GeoHub'} />
+        <Meta title={mapDetails?.name ? `Play - ${mapDetails.name}` : 'GeoHub'} />
 
         {mapDetails ? (
           <div className="mapDetailsSection">

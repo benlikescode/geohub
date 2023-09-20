@@ -8,11 +8,12 @@ type Props = {
   ogImage?: string
 }
 
-const Head: FC<Props> = ({ title, description, ogUrl, ogImage }) => {
+const Meta: FC<Props> = ({ title, description, ogUrl, ogImage }) => {
   const defaultTitle = 'GeoHub'
-  const defaultDescription = 'A fun geography guessing game'
-  const defaultOGURL = 'https://geohub.vercel.app/'
-  const defaultOGImage = '/images/og-image.png'
+  const defaultDescription =
+    'GeoHub is a free to play geography game that tests your ability to recognize where you are in the world.'
+  const defaultOGURL = 'https://www.geohub.gg'
+  const defaultOGImage = '/og-image.png'
 
   return (
     <NextHead>
@@ -22,12 +23,10 @@ const Head: FC<Props> = ({ title, description, ogUrl, ogImage }) => {
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta name="theme-color" content="#0e0e0e" />
 
-      <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-      <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-      <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-      <link rel="manifest" href="/site.webmanifest" />
-      <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
-      <meta name="msapplication-TileColor" content="#9f00a7" />
+      <link rel="icon" href="/favicon.ico" sizes="32x32" />
+      <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+      <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+      <link rel="manifest" href="/manifest.json" />
 
       <meta property="og:url" content={ogUrl || defaultOGURL} />
       <meta property="og:title" content={title || defaultTitle} />
@@ -47,4 +46,4 @@ const Head: FC<Props> = ({ title, description, ogUrl, ogImage }) => {
   )
 }
 
-export default Head
+export default Meta

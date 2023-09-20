@@ -2,8 +2,8 @@ import type { NextPage } from 'next'
 import { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { NoResults } from '@components/errorViews'
-import { Head } from '@components/Head'
 import { PageHeader, WidthController } from '@components/layout'
+import { Meta } from '@components/Meta'
 import { DestroyModal } from '@components/modals'
 import { SkeletonOngoingGames } from '@components/skeletons'
 import { Avatar, Pill, Spinner } from '@components/system'
@@ -85,7 +85,7 @@ const OngoingGamesPage: NextPage = () => {
   return (
     <StyledOngoingGamesPage>
       <WidthController customWidth="1160px">
-        <Head title="Ongoing Games" />
+        <Meta title="Ongoing Games" />
         <PageHeader>Ongoing Games</PageHeader>
 
         {!loading && (!user.id || games.length === 0) ? (
