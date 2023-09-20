@@ -8,7 +8,7 @@ const getChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
   if (!userId) return throwError(res, 401, 'Unauthorized')
 
   const challengeId = objectIdSchema.parse(req.query.id)
-  const challenge = await collections.challenges?.findOne({ _id: challengeId })
+  const challenge = (await collections.challenges?.findOne({ _id: challengeId })) as ChallengeModel
 
   if (!challenge) {
     return throwError(res, 404, 'Failed to find challenge')
@@ -16,6 +16,7 @@ const getChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
 
   // Get user details of challenge creator (if not the daily challenge)
   let challengeCreator = null
+
   if (!challenge.isDailyChallenge) {
     challengeCreator = await collections.users?.findOne({ _id: challenge.creatorId })
 
@@ -26,7 +27,7 @@ const getChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const playersGame = await collections.games?.findOne({ userId, challengeId })
 
-  const mapDetails = await getMapFromGame(challenge as ChallengeModel)
+  const mapDetails = await getMapFromGame(challenge)
 
   if (!mapDetails) {
     return throwError(res, 404, 'Failed to find challenge')

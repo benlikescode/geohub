@@ -39,19 +39,19 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
   let updatedMap: UpdatedMap = {}
 
   if (name) {
-    updatedMap['name'] = name
+    updatedMap.name = name
   }
 
   if (description) {
-    updatedMap['description'] = description
+    updatedMap.description = description
   }
 
   if (previewImg) {
-    updatedMap['previewImg'] = previewImg
+    updatedMap.previewImg = previewImg
   }
 
   if (isPublished !== undefined) {
-    updatedMap['isPublished'] = isPublished
+    updatedMap.isPublished = isPublished
   }
 
   updatedMap.lastUpdatedAt = new Date()

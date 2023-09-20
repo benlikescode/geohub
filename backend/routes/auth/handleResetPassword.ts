@@ -21,8 +21,6 @@ const handleResetPassword = async (req: NextApiRequest, res: NextApiResponse) =>
   // Update user password
   const hashedPassword = bcrypt.hashSync(password, 10)
 
-  // HALP -> would be nice to send a confirmation email to let user know
-  // their password has been changed
   const updatedUser = await collections.users?.findOneAndUpdate(
     { _id: resetData.userId },
     { $set: { password: hashedPassword } }
