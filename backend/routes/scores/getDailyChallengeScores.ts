@@ -1,11 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { throwError, todayEnd, todayStart, verifyUser } from '@backend/utils'
+import { getQueryLimit, throwError, todayEnd, todayStart, verifyUser } from '@backend/utils'
 import getHighscores from '@backend/utils/getHighscores'
 
 const getDailyChallengeScores = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userId } = await verifyUser(req, res)
 
-  const limit = req.query.limit ? parseInt(req.query.limit as string) : undefined
+  const limit = getQueryLimit(req.query.limit, 5)
 
   const allTimeQuery = { isDailyChallenge: true, state: 'finished' }
   const todayQuery = { isDailyChallenge: true, state: 'finished', createdAt: { $gte: todayStart, $lt: todayEnd } }
