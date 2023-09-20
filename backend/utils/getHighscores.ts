@@ -2,15 +2,8 @@ import { ObjectId } from 'mongodb'
 import { collections, compareObjectIds } from '@backend/utils'
 import { GameType } from '@types'
 
-const getHighscores = async (
-  userId: ObjectId | undefined,
-  query: Object,
-  limit: number | undefined,
-  mode: GameType['mode']
-) => {
-  const numberOfScores = limit ? Math.min(limit, 50) : 5
-  const scores =
-    mode === 'standard' ? await queryTopScores(query, numberOfScores) : await queryTopStreaks(query, numberOfScores)
+const getHighscores = async (userId: ObjectId | undefined, query: Object, limit: number, mode: GameType['mode']) => {
+  const scores = mode === 'standard' ? await queryTopScores(query, limit) : await queryTopStreaks(query, limit)
 
   if (!scores) {
     return null

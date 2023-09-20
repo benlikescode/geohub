@@ -5,7 +5,7 @@ import { collections, getQueryLimit } from '@backend/utils'
 
 const getSearchResults = async (req: NextApiRequest, res: NextApiResponse) => {
   const query = req.query.q as string
-  const limit = getQueryLimit(req.query.count as string, 3)
+  const limit = getQueryLimit(req.query.count, 3)
 
   const userResults = await collections.users
     ?.aggregate([
