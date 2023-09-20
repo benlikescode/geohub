@@ -22,7 +22,7 @@ const getUsersLikedMaps = async (req: NextApiRequest, res: NextApiResponse) => {
         $unwind: '$mapDetails',
       },
     ])
-    .limit(count || 10)
+    .limit(count || 28)
     .toArray()
 
   if (!likedMaps) {
