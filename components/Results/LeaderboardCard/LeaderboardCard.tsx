@@ -31,7 +31,7 @@ const LeaderboardCard: FC<Props> = ({ gameData, mapData, selectedGameIndex, setS
             <Avatar type="map" src={formatMapDetails(gameData[0], 'previewImg')} size={50} />
 
             <div className="gameInfoContent">
-              <span className="label1">{mapData.name}</span>
+              <span className="label1">{formatMapDetails(gameData[0], 'name')}</span>
               {(mapData.creator === 'GeoHub' || mapData.creatorDetails?.name) && (
                 <span className="label2">
                   Created by {mapData.creator === 'GeoHub' ? 'GeoHub' : mapData.creatorDetails?.name}
