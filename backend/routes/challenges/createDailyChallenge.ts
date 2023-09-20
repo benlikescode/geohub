@@ -17,10 +17,16 @@ const createDailyChallenge = async (req: NextApiRequest, res: NextApiResponse) =
     )
 
     if (winningGame) {
-      await collections.challenges?.findOneAndUpdate(
-        { _id: previousDailyChallenge._id },
-        { $set: { winner: new ObjectId(winningGame.userId) } }
-      )
+      const { _id, userId, totalPoints, totalTime } = winningGame
+
+      const winner = {
+        gameId: _id,
+        userId,
+        totalPoints,
+        totalTime,
+      }
+
+      await collections.challenges?.findOneAndUpdate({ _id: previousDailyChallenge._id }, { $set: { winner } })
     }
   }
 

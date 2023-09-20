@@ -1,55 +1,43 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections, dayAgo, throwError } from '@backend/utils'
+import { collections, throwError } from '@backend/utils'
 
 const getDailyChallengeWinners = async (req: NextApiRequest, res: NextApiResponse) => {
-  const games = []
-  const challenges = await collections.challenges
-    ?.find({ isDailyChallenge: true, createdAt: { $lte: dayAgo } })
-    .sort({ createdAt: -1 })
-    .limit(7)
+  const winners = await collections.challenges
+    ?.aggregate([
+      { $match: { isDailyChallenge: true, winner: { $exists: true } } },
+      { $sort: { createdAt: -1 } },
+      { $limit: 7 },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'winner.userId',
+          foreignField: '_id',
+          as: 'userDetails',
+        },
+      },
+      {
+        $unwind: '$userDetails',
+      },
+      {
+        $project: {
+          _id: '$winner.gameId',
+          totalPoints: '$winner.totalPoints',
+          totalTime: '$winner.totalTime',
+          gameId: '$winner.gameId',
+          createdAt: 1,
+          userId: '$userDetails._id',
+          userName: '$userDetails.name',
+          userAvatar: '$userDetails.avatar',
+        },
+      },
+    ])
     .toArray()
 
-  if (!challenges) {
-    return throwError(res, 400, 'Could not find recent challenges')
+  if (!winners) {
+    return throwError(res, 400, 'Failed to get recent winners')
   }
 
-  for (const challenge of challenges) {
-    const gamesData = await collections.games
-      ?.aggregate([
-        { $match: { challengeId: challenge._id } },
-        { $sort: { totalPoints: -1 } },
-        { $limit: 1 },
-        {
-          $lookup: {
-            from: 'users',
-            localField: 'userId',
-            foreignField: '_id',
-            as: 'userDetails',
-          },
-        },
-        {
-          $unwind: '$userDetails',
-        },
-        {
-          $project: {
-            gameId: '$_id',
-            totalPoints: 1,
-            totalTime: 1,
-            createdAt: 1,
-            userId: '$userDetails._id',
-            userName: '$userDetails.name',
-            userAvatar: '$userDetails.avatar',
-          },
-        },
-      ])
-      .toArray()
-
-    if (gamesData && gamesData?.length === 1) {
-      games.push(gamesData[0])
-    }
-  }
-
-  res.status(200).send(games)
+  res.status(200).send(winners)
 }
 
 export default getDailyChallengeWinners

@@ -26,7 +26,7 @@ const getUserStats = async (req: NextApiRequest, res: NextApiResponse) => {
   const bestStreakGame = await collections.games?.findOne(queryFinishedStreakGames, { sort: { totalPoints: -1 } })
 
   const dailyChallengeWins = await collections.challenges
-    ?.find({ isDailyChallenge: true, winner: new ObjectId(userId) })
+    ?.find({ isDailyChallenge: true, 'winner.userId': new ObjectId(userId) })
     .count()
 
   const result = [
