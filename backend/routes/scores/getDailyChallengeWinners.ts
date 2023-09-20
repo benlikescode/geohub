@@ -20,9 +20,10 @@ const getDailyChallengeWinners = async (req: NextApiRequest, res: NextApiRespons
       },
       {
         $project: {
-          gameId: '$_id',
-          totalPoints: 1,
-          totalTime: 1,
+          _id: '$winner.gameId',
+          totalPoints: '$winner.totalPoints',
+          totalTime: '$winner.totalTime',
+          gameId: '$winner.gameId',
           createdAt: 1,
           userId: '$userDetails._id',
           userName: '$userDetails.name',
