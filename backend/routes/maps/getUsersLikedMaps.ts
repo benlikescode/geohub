@@ -1,11 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections, throwError, verifyUser } from '@backend/utils'
+import { collections, getQueryLimit, throwError, verifyUser } from '@backend/utils'
 
 const getUsersLikedMaps = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userId } = await verifyUser(req, res)
   if (!userId) return throwError(res, 401, 'Unauthorized')
 
-  const count = Number(req.query.count as string)
+  const limit = getQueryLimit(req.query.count, 28)
 
   const likedMaps = await collections.mapLikes
     ?.aggregate([
@@ -22,7 +22,7 @@ const getUsersLikedMaps = async (req: NextApiRequest, res: NextApiResponse) => {
         $unwind: '$mapDetails',
       },
     ])
-    .limit(count || 28)
+    .limit(limit)
     .toArray()
 
   if (!likedMaps) {

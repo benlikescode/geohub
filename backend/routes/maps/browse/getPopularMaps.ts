@@ -1,12 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections, throwError } from '@backend/utils'
+import { collections, getQueryLimit, throwError } from '@backend/utils'
 import { objectIdSchema } from '@backend/validations/objectIdSchema'
 
 const getPopularMaps = async (req: NextApiRequest, res: NextApiResponse) => {
-  // HALP -> Sort maps by most liked -> going to need to query the mapLikes collection
-  const countQuery = req.query.count as string
-  const mapCount = Number(countQuery)
   const mapId = objectIdSchema.parse(req.query.mapId)
+  const limit = getQueryLimit(req.query.count, 3)
 
   const maps = await collections.maps
     ?.find({
@@ -14,7 +12,7 @@ const getPopularMaps = async (req: NextApiRequest, res: NextApiResponse) => {
       isPublished: true,
       isDeleted: { $exists: false },
     })
-    .limit(mapCount || 3)
+    .limit(limit)
     .toArray()
 
   if (!maps) {
