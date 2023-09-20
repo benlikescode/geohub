@@ -10,7 +10,7 @@ const getDailyChallengeWinners = async (req: NextApiRequest, res: NextApiRespons
       {
         $lookup: {
           from: 'users',
-          localField: 'userId',
+          localField: 'winner.userId',
           foreignField: '_id',
           as: 'userDetails',
         },
