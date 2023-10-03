@@ -1,11 +1,16 @@
-const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+const SHORT_MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+const LONG_MONTH_NAMES = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'
+]
 
 export const formatMonthDayYearTime = (dateRaw: Date | undefined) => {
   if (!dateRaw) return ''
 
   const date = new Date(dateRaw)
   const day = date.getDate()
-  const month = MONTH_NAMES[date.getMonth()]
+  const month = SHORT_MONTH_NAMES[date.getMonth()]
   const year = date.getFullYear()
   const hours = date.getHours()
   const formattedHours = hours > 12 ? hours - 12 : hours
@@ -20,7 +25,7 @@ export const formatMonthDayYear = (dateRaw: Date | undefined) => {
 
   const date = new Date(dateRaw)
   const day = date.getDate().toString().padStart(2, '0')
-  const month = MONTH_NAMES[date.getMonth()]
+  const month = SHORT_MONTH_NAMES[date.getMonth()]
   const year = date.getFullYear()
 
   return `${month} ${day}, ${year}`
@@ -29,9 +34,8 @@ export const formatMonthDayYear = (dateRaw: Date | undefined) => {
 export const formatMonthDay = (dateRaw: Date | undefined) => {
   if (!dateRaw) return ''
 
-  const utcDate = new Date(dateRaw).toUTCString()
-  const date = new Date(utcDate)
-  const month = date.toLocaleString('en-US', { month: 'short' })
+  const date = new Date(dateRaw)
+  const month = SHORT_MONTH_NAMES[date.getUTCMonth()]
   const day = date.getUTCDate()
 
   return `${month} ${day}`
@@ -40,9 +44,8 @@ export const formatMonthDay = (dateRaw: Date | undefined) => {
 export const formatMonthYear = (dateRaw: Date | undefined) => {
   if (!dateRaw) return ''
 
-  const utcDate = new Date(dateRaw).toUTCString()
-  const date = new Date(utcDate)
-  const month = date.toLocaleString('en-US', { month: 'long' })
+  const date = new Date(dateRaw)
+  const month = LONG_MONTH_NAMES[date.getUTCMonth()]
   const year = date.getFullYear()
 
   return `${month} ${year}`
