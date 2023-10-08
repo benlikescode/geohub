@@ -5,7 +5,7 @@ import { collections } from '@backend/utils'
 const getUserStats = async (req: NextApiRequest, res: NextApiResponse) => {
   const userId = req.query.userId as string
 
-  const queryFinishedGames = { userId: new ObjectId(userId), state: 'finished' }
+  const queryFinishedGames = { userId: new ObjectId(userId), state: 'finished', mode: 'standard' }
   const queryFinishedStreakGames = { userId: new ObjectId(userId), state: 'finished', mode: 'streak' }
 
   const gamesPlayed = await collections.games?.find(queryFinishedGames).count()
