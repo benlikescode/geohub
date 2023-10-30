@@ -16,7 +16,7 @@ const StreetViewControls: FC<Props> = ({ handleBackToStart }) => {
         <button className="control-button" onClick={handleBackToStart}>
           <FlagIcon />
         </button>
-        {showTip && <Tooltip label="Back To Start" position="left" />}
+        {showTip && <Tooltip label="Back To Start (R)" position="left" />}
       </div>
     </StyledStreetViewControls>
   )
