@@ -119,6 +119,24 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
     panoramaRef.current.setPov({ heading: location.heading || 0, pitch: location.pitch || 0 })
   }
 
+  const handleBackToStartKeys = (e: KeyboardEvent) => {
+    const backToStartKeys = ['r']
+
+    if (backToStartKeys.includes(e.key)) {
+      handleBackToStart()
+    }
+  }
+
+  useEffect(() => {
+    if (view !== 'Game') return
+
+    document.addEventListener('keydown', handleBackToStartKeys)
+
+    return () => {
+      document.removeEventListener('keydown', handleBackToStartKeys)
+    }
+  }, [view])
+
   const handleSubmitGuessKeys = async (e: KeyboardEvent) => {
     const submitGuessKeys = [KEY_CODES.SPACE, KEY_CODES.SPACE_IE11, KEY_CODES.ENTER]
 
