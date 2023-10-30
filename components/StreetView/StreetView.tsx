@@ -119,7 +119,7 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
     panoramaRef.current.setPov({ heading: location.heading || 0, pitch: location.pitch || 0 })
   }
 
-  const handleBackToStartKey = (e: KeyboardEvent) => {
+  const handleBackToStartKeys = (e: KeyboardEvent) => {
     const backToStartKeys = ['r']
 
     if (backToStartKeys.includes(e.key)) {
@@ -130,10 +130,10 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
   useEffect(() => {
     if (view !== 'Game') return
 
-    document.addEventListener('keydown', handleBackToStartKey)
+    document.addEventListener('keydown', handleBackToStartKeys)
 
     return () => {
-      document.removeEventListener('keydown', handleBackToStartKey)
+      document.removeEventListener('keydown', handleBackToStartKeys)
     }
   }, [view])
 
