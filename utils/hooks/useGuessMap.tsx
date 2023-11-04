@@ -7,6 +7,7 @@ const useGuessMap = () => {
   const [mapHeight, setMapHeight] = useState(15) // height in vh
   const [mapWidth, setMapWidth] = useState(15) // width in vw
   const [hovering, setHovering] = useState(false)
+  const [isPinned, setIsPinned] = useState(false)
 
   const hoverDelay = useRef<any>()
 
@@ -23,6 +24,8 @@ const useGuessMap = () => {
   }
 
   const handleMapLeave = () => {
+    if (isPinned) return
+
     hoverDelay.current = setTimeout(() => {
       setHovering(false)
       setMapHeight(15)
@@ -51,9 +54,11 @@ const useGuessMap = () => {
     mapHeight,
     mapWidth,
     hovering,
-    setHovering,
+    isPinned,
     setMapHeight,
     setMapWidth,
+    setHovering,
+    setIsPinned,
     handleMapHover,
     handleMapLeave,
     changeMapSize,
