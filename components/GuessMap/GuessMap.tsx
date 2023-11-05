@@ -10,6 +10,7 @@ import { GUESS_MAP_OPTIONS } from '@utils/constants/googleMapOptions'
 import useGuessMap from '@utils/hooks/useGuessMap'
 import getMapsKey from '../../utils/helpers/getMapsKey'
 import { StyledGuessMap } from './'
+import { LockOpenIcon, LockClosedIcon } from '@heroicons/react/solid'
 
 type Props = {
   currGuess: LocationType | null
@@ -40,9 +41,11 @@ const GuessMap: FC<Props> = ({
     mapHeight,
     mapWidth,
     hovering,
-    setHovering,
+    isPinned,
     setMapHeight,
     setMapWidth,
+    setHovering,
+    setIsPinned,
     handleMapHover,
     handleMapLeave,
     changeMapSize,
@@ -91,6 +94,7 @@ const GuessMap: FC<Props> = ({
     setHovering(false)
     setMapHeight(15)
     setMapWidth(15)
+    setIsPinned(false)
     setCurrGuess(null)
     setMarker(null)
     closeMobileMap()
@@ -124,6 +128,10 @@ const GuessMap: FC<Props> = ({
               disabled={user.guessMapSize === 1}
             >
               <ArrowRightIcon />
+            </button>
+
+            <button className="controlBtn" onClick={() => setIsPinned(!isPinned)}>
+              {isPinned ? <LockClosedIcon /> : <LockOpenIcon />}
             </button>
           </div>
         )}

@@ -13,6 +13,7 @@ import { POLYGON_STYLES } from '@utils/constants/polygonStyles'
 import { formatPolygon, getMapsKey } from '@utils/helpers'
 import useGuessMap from '@utils/hooks/useGuessMap'
 import { StyledStreaksGuessMap } from './'
+import { LockOpenIcon, LockClosedIcon } from '@heroicons/react/solid'
 
 type Props = {
   countryStreakGuess: string
@@ -41,9 +42,11 @@ const StreaksGuessMap: FC<Props> = ({
     mapHeight,
     mapWidth,
     hovering,
-    setHovering,
+    isPinned,
     setMapHeight,
     setMapWidth,
+    setHovering,
+    setIsPinned,
     handleMapHover,
     handleMapLeave,
     changeMapSize,
@@ -81,6 +84,7 @@ const StreaksGuessMap: FC<Props> = ({
     setHovering(false)
     setMapHeight(15)
     setMapWidth(15)
+    setIsPinned(false)
     setCountryStreakGuess('')
     removeCountryPolygons(map)
     closeMobileMap()
@@ -138,6 +142,10 @@ const StreaksGuessMap: FC<Props> = ({
               disabled={user.guessMapSize === 1}
             >
               <ArrowRightIcon />
+            </button>
+
+            <button className="controlBtn" onClick={() => setIsPinned(!isPinned)}>
+              {isPinned ? <LockClosedIcon /> : <LockOpenIcon />}
             </button>
           </div>
         )}
