@@ -1,49 +1,26 @@
-{
-  "maps": [
-    {
-      "_id": "6185df7a7b54baf63473a53e",
-      "name": "World",
-      "description": "The classic game mode we all love, any country is fair game!",
-      "previewImg": "official15.jpg",
-      "creator": "GeoHub",
-      "usersPlayed": 3,
-      "locationCount": 250,
-      "avgScore": 15000,
-      "likes": { "numLikes": 0, "likedByUser": false }
-    },
-
-    {
-      "_id": "6185dfd47b54baf63473a540",
-      "name": "Famous Landmarks",
-      "description": "Explore the greatest sights our world has to offer.",
-      "previewImg": "official24.jpg",
-      "creator": "GeoHub",
-      "usersPlayed": 8,
-      "locationCount": 20,
-      "avgScore": 20000,
-      "likes": { "numLikes": 0, "likedByUser": false }
-    },
-    {
-      "_id": "6185dff27b54baf63473a541",
-      "name": "Canada",
-      "description": "Good ol' Canada eh, explore The Great White North!",
-      "previewImg": "official23.jpg",
-      "creator": "GeoHub",
-      "usersPlayed": 2,
-      "locationCount": 100,
-      "avgScore": 12000,
-      "likes": { "numLikes": 0, "likedByUser": false }
-    },
-    {
-      "_id": "6185e0077b54baf63473a542",
-      "name": "United States",
-      "description": "The land of the free! 50 states of locations waiting for you.",
-      "previewImg": "official4.jpg",
-      "creator": "GeoHub",
-      "usersPlayed": 15,
-      "locationCount": 500,
-      "avgScore": 18000,
-      "likes": { "numLikes": 0, "likedByUser": false }
-    }
-  ]
-}
+[
+  {
+    "_id": "6185df7a7b54baf63473a53e",
+    "name": "World",
+    "description": "The classic game mode we all love, any country is fair game!",
+    "previewImg": "official15.jpg"
+  },
+  {
+    "_id": "6185dfd47b54baf63473a540",
+    "name": "Famous Landmarks",
+    "description": "Explore the greatest sights our world has to offer.",
+    "previewImg": "official24.jpg"
+  },
+  {
+    "_id": "6185dff27b54baf63473a541",
+    "name": "Canada",
+    "description": "Good ol' Canada eh, explore The Great White North!",
+    "previewImg": "official23.jpg"
+  },
+  {
+    "_id": "6185e0077b54baf63473a542",
+    "name": "United States",
+    "description": "The land of the free! 50 states of locations waiting for you.",
+    "previewImg": "official4.jpg"
+  }
+]
