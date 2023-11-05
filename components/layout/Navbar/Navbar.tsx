@@ -39,7 +39,7 @@ const Navbar: FC = () => {
                 <SearchIcon />
               </button>
 
-              {session ? (
+              {session && user.id ? (
                 <Link href={`/user/${user.id}`}>
                   <a className="userInfo">
                     <span className="username">{user.name}</span>
