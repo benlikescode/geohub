@@ -58,7 +58,17 @@ export const userSlice = createSlice({
       state.mapsAPIKey = action.payload
     },
     logOutUser: (state) => {
-      state.id = ''
+      state.id = initialState.id
+      state.name = initialState.name
+      state.email = initialState.email
+      state.avatar = initialState.avatar
+      state.guessMapSize = initialState.guessMapSize
+      state.gameSettings = initialState.gameSettings
+      state.recentlyPlayed = initialState.recentlyPlayed
+      state.bio = initialState.bio
+      state.isAdmin = initialState.isAdmin
+      state.distanceUnit = initialState.distanceUnit
+      state.mapsAPIKey = initialState.mapsAPIKey
     },
     resetGameSettings: (state) => {
       state.gameSettings = initialState.gameSettings
