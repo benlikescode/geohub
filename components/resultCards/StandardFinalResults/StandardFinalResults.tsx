@@ -69,9 +69,8 @@ const StandardFinalResults: FC<Props> = ({ gameData, setGameData, view, setView 
 
     const res = await mailman('games', 'POST', JSON.stringify(newGameData))
 
-    setIsLoading(false)
-
     if (res.error) {
+      setIsLoading(false)
       return showToast('error', res.error.message)
     }
 

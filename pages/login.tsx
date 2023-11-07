@@ -54,10 +54,9 @@ const LoginPage: PageType = () => {
 
     const res = await signIn('credentials', { redirect: false, ...{ email, password } })
 
-    setShowBtnSpinner(false)
-
     if (!res || res.error) {
-      return showToast('error', res?.error || '')
+      showToast('error', res?.error || '')
+      setShowBtnSpinner(false)
     }
   }
 

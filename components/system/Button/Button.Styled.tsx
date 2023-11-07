@@ -45,88 +45,80 @@ const StyledButton = styled.button<StyledProps>`
   ${({ size }) =>
     size === 'sm' &&
     `
-    height: 36px;
-    font-size: 16px;
-    border-radius: 3px;
-    padding: 0 12px;
+      height: 36px;
+      font-size: 16px;
+      border-radius: 3px;
+      padding: 0 12px;
   `}
 
   ${({ size }) =>
     size === 'md' &&
     `
-        height: 38px;
-        font-size: 15px;
-        padding: 0 16px;
+      height: 38px;
+      font-size: 15px;
+      padding: 0 16px;
 
-        .button-content {
-          position: relative;
-          top: 1px;
-        }
+      .button-content {
+        position: relative;
+        top: 1px;
+      }
     `}
 
-  ${({ variant, disabled }) =>
+  ${({ variant }) =>
     variant === 'primary' &&
-    !disabled &&
     `
-        background-color: var(--mediumPurple);
-        color: #fff;
-        min-width: 60px;
+      background-color: var(--mediumPurple);
+      color: #fff;
+      min-width: 60px;
 
-        :hover {
-          background-color: var(--indigo-600);
-        }
+      :hover {
+        background-color: var(--indigo-600);
+      }
     `}
 
-    ${({ variant, disabled }) =>
+  ${({ variant }) =>
     variant === 'solidGray' &&
-    !disabled &&
     `
-        background-color: rgb(255, 255, 255, 0.1);
-        color: #fff;
+      background-color: rgb(255, 255, 255, 0.1);
+      color: #fff;
 
-        &:hover {
-          background-color: rgb(255, 255, 255, 0.15);
-        }
+      &:hover {
+        background-color: rgb(255, 255, 255, 0.15);
+      }
     `}
 
-    ${({ variant, disabled }) =>
+  ${({ variant }) =>
     variant === 'destroy' &&
-    !disabled &&
     `     
-        color: #fff;
-        background-color: #7f1d1d;
-     
+      color: #fff;
+      background-color: #7f1d1d;
+    
 
-        &:hover {
-          background-color: #991b1b;
-        }
+      &:hover {
+        background-color: #991b1b;
+      }
     `}
 
-    ${({ color, backgroundColor, disabled }) =>
-    color &&
-    backgroundColor &&
-    !disabled &&
+  ${({ variant, color, backgroundColor }) =>
+    variant === 'solidCustom' &&
     `
-        background-color: ${backgroundColor};
-        color: ${color};
-    `}
+      color: ${color};
+      background-color: ${backgroundColor};
+  `}
 
-    ${({ hoverColor, disabled }) =>
+  ${({ hoverColor }) =>
     hoverColor &&
-    !disabled &&
     `
-        :hover {
-          background-color: ${hoverColor}
-        }
+      :hover {
+        background-color: ${hoverColor}
+      }
     `}
 
-    ${({ disabled }) =>
+  ${({ disabled }) =>
     disabled &&
     `
-        background-color: var(--background3);
-        color: var(--color2);
-        cursor: not-allowed !important;
-        opacity: 0.5;
+      cursor: not-allowed;
+      opacity: 0.5;
     `}
 `
 

@@ -29,9 +29,8 @@ const ResetPasswordPage: PageType = () => {
 
     const res = await mailman('auth/reset-password', 'POST', JSON.stringify({ password, confirmPassword, token }))
 
-    setShowBtnSpinner(false)
-
     if (res.error) {
+      setShowBtnSpinner(false)
       return showToast('error', res.error.message)
     }
 

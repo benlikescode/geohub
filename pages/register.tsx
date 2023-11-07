@@ -50,9 +50,10 @@ const RegisterPage: PageType = () => {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
-    setShowBtnSpinner(true)
 
     if (validateInputs()) {
+      setShowBtnSpinner(true)
+
       const user = { name, email, password }
       const res = await mailman('users/register', 'POST', JSON.stringify(user))
 
@@ -87,8 +88,6 @@ const RegisterPage: PageType = () => {
       const prevRoute = router.query.callback as string
       router.push(prevRoute ?? '/')
     }
-
-    setShowBtnSpinner(false)
   }
 
   return (

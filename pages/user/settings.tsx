@@ -86,7 +86,12 @@ const SettingsPage: NextPage = () => {
             <h2>Manage your settings</h2>
           </div>
 
-          <Button onClick={() => handleSaveChanges()} style={{ padding: '0 12px' }} disabled={!hasEdited}>
+          <Button
+            variant={hasEdited ? 'primary' : 'solidGray'}
+            onClick={() => handleSaveChanges()}
+            style={{ padding: '0 12px' }}
+            disabled={!hasEdited}
+          >
             Save Changes
           </Button>
         </div>
