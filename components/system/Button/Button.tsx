@@ -27,6 +27,7 @@ const Button: FC<Props> = ({
   height,
   spinnerSize,
   onClick,
+  disabled,
   ...rest
 }) => {
   return (
@@ -40,6 +41,7 @@ const Button: FC<Props> = ({
       height={height}
       isLoading={isLoading}
       onClick={isLoading ? undefined : onClick}
+      disabled={disabled || isLoading}
       {...rest}
     >
       <span className="button-content">{children}</span>

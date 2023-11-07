@@ -2,7 +2,7 @@ import saveAs from 'file-saver'
 import { useRouter } from 'next/router'
 import { ChangeEvent, FC, useState } from 'react'
 import { DestroyModal } from '@components/modals'
-import { DotsHorizontalIcon, MenuIcon } from '@heroicons/react/outline'
+import { DotsHorizontalIcon } from '@heroicons/react/outline'
 import { Content, Item, Portal, Root, Separator, Trigger } from '@radix-ui/react-dropdown-menu'
 import { LocationType } from '@types'
 import { mailman, parseJsonFile, showToast } from '@utils/helpers'
@@ -118,15 +118,12 @@ const CreateMapDropdown: FC<Props> = ({ locations, addNewLocations }) => {
     const res = await mailman(`maps/custom/${mapId}`, 'DELETE')
 
     if (res.error) {
+      setIsDeleting(false)
       return showToast('error', res.error.message, 'mapEditor')
     }
 
-    if (res.message) {
-      setDeleteModalOpen(false)
-      router.push('/my-maps')
-    }
-
-    setIsDeleting(false)
+    setDeleteModalOpen(false)
+    router.push('/my-maps')
   }
 
   return (

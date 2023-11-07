@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
 import { useEffect, useState } from 'react'
-import toast from 'react-hot-toast'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { NoResults } from '@components/errorViews'
 import { PageHeader, WidthController } from '@components/layout'
@@ -69,20 +68,18 @@ const OngoingGamesPage: NextPage = () => {
 
     const res = await mailman(`games/${deletingGameId}`, 'DELETE')
 
-    if (res?.error) {
-      toast.error(res.error.message)
-    }
-
-    if (res.message) {
-      setDeleteModalOpen(false)
-      toast.success(res.message)
-
-      // Remove deleted game from state
-      const filtered = games.filter((game) => game._id != deletingGameId)
-      setGames(filtered)
-    }
-
     setIsDeleting(false)
+
+    if (res?.error) {
+      return showToast('error', res.error.message)
+    }
+
+    setDeleteModalOpen(false)
+    showToast('success', res.message)
+
+    // Remove deleted game from state
+    const filtered = games.filter((game) => game._id != deletingGameId)
+    setGames(filtered)
   }
 
   return (

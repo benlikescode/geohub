@@ -156,7 +156,14 @@ const GuessMap: FC<Props> = ({
         </button>
 
         <div className="submit-button-wrapper">
-          <Button width="100%" disabled={currGuess === null} onClick={() => handleSubmitGuess()}>
+          <Button
+            variant={!currGuess ? 'solidCustom' : 'primary'}
+            backgroundColor="var(--background3)"
+            color="#fff"
+            width="100%"
+            disabled={!currGuess}
+            onClick={() => handleSubmitGuess()}
+          >
             Submit Guess
           </Button>
         </div>

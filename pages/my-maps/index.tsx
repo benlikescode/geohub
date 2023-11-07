@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import toast from 'react-hot-toast'
 import { PageHeader, WidthController } from '@components/layout'
 import { MapPreviewCard } from '@components/MapPreviewCard'
 import { Meta } from '@components/Meta'
@@ -9,7 +8,7 @@ import { PlusIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
 import StyledMyMapsPage from '@styles/MyMapsPage.Styled'
 import { MapType } from '@types'
-import { mailman } from '@utils/helpers'
+import { mailman, showToast } from '@utils/helpers'
 
 import type { NextPage } from 'next'
 const MyMapsPage: NextPage = () => {
@@ -38,7 +37,7 @@ const MyMapsPage: NextPage = () => {
     const res = await mailman('maps/custom')
 
     if (res.error) {
-      return toast.error(res.error.message)
+      return showToast('error', res.error.message)
     }
 
     setMaps(res)
@@ -50,20 +49,18 @@ const MyMapsPage: NextPage = () => {
 
     const res = await mailman(`maps/custom/${deletingMapId}`, 'DELETE')
 
-    if (res.error) {
-      toast.error('Something went wrong')
-    }
-
-    if (res.message) {
-      setDeleteModalOpen(false)
-      toast.success(res.message)
-
-      // Remove deleted map from state
-      const filteredMaps = maps.filter((map) => map._id !== deletingMapId)
-      setMaps(filteredMaps)
-    }
-
     setIsDeleting(false)
+
+    if (res.error) {
+      return showToast('error', res.error.message)
+    }
+
+    setDeleteModalOpen(false)
+    showToast('success', res.message)
+
+    // Remove deleted map from state
+    const filteredMaps = maps.filter((map) => map._id !== deletingMapId)
+    setMaps(filteredMaps)
   }
 
   const openDeleteModal = (mapId: string) => {

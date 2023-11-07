@@ -52,7 +52,7 @@ const CreateMapModal: FC<Props> = ({ isOpen, closeModal, mapDetails, setMapDetai
     setIsSubmitting(false)
 
     if (res.error) {
-      showToast('error', res.error.message)
+      return showToast('error', res.error.message)
     }
 
     setMapDetails && setMapDetails({ ...(mapDetails as MapType), name, description, previewImg: avatar })
@@ -75,10 +75,9 @@ const CreateMapModal: FC<Props> = ({ isOpen, closeModal, mapDetails, setMapDetai
 
     const res = await mailman('maps/custom', 'POST', JSON.stringify(reqBody))
 
-    setIsSubmitting(false)
-
     if (res.error || !res.mapId) {
-      showToast('error', res.error.message)
+      setIsSubmitting(false)
+      return showToast('error', res.error.message)
     }
 
     return router.push(`/create-map/${res.mapId}`)
@@ -92,7 +91,7 @@ const CreateMapModal: FC<Props> = ({ isOpen, closeModal, mapDetails, setMapDetai
       onAction={isEditMode ? handleEditMap : handleCreateMap}
       actionButtonText={isEditMode ? 'Update' : 'Next'}
       isSubmitting={isSubmitting}
-      maxWidth="768px"
+      maxWidth="770px"
     >
       <StyledCreateMapModal>
         <div className="map-details-section">
