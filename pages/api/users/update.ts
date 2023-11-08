@@ -26,6 +26,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return throwError(res, 400, 'You picked an invalid avatar')
       }
 
+      // Ensure new name is not already taken
+      const findUserWithName = await collections.users?.findOne({ name: name })
+
+      if (findUserWithName) {
+        return throwError(res, 400, `The name ${name} is already taken`)
+      }
+
       await collections.users?.updateOne({ _id: new ObjectId(_id) }, { $set: { name: name, bio: bio, avatar: avatar } })
 
       res.status(200).send({ status: 'ok' })

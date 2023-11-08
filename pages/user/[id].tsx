@@ -122,6 +122,12 @@ const ProfilePage: NextPage = () => {
   }
 
   const updateUserInfo = async () => {
+    const res = await mailman('users/update', 'POST', JSON.stringify({ _id: user.id, ...newProfileValues }))
+
+    if (res.error) {
+      return showToast('error', res.error.message)
+    }
+
     dispatch(updateBio(newProfileValues?.bio))
     dispatch(updateUsername(newProfileValues?.name))
     dispatch(updateAvatar(newProfileValues?.avatar))
@@ -132,9 +138,8 @@ const ProfilePage: NextPage = () => {
       bio: newProfileValues?.bio,
       avatar: newProfileValues?.avatar,
     })
-    setIsEditing(false)
 
-    await mailman('users/update', 'POST', JSON.stringify({ _id: user.id, ...newProfileValues }))
+    setIsEditing(false)
   }
 
   const cancelEditing = () => {
