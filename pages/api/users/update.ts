@@ -27,7 +27,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       // Ensure new name is not already taken
-      const findUserWithName = await collections.users?.findOne({ name: name })
+      const findUserWithName = await collections.users?.findOne({ _id: { $ne: new ObjectId(userId) }, name: name })
 
       if (findUserWithName) {
         return throwError(res, 400, `The name ${name} is already taken`)
