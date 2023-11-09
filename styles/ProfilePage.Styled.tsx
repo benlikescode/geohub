@@ -149,46 +149,21 @@ const StyledProfilePage = styled.div<StyledProps>`
         button {
           padding: 1px 14px 0 14px;
           font-weight: 500;
-          user-select: none;
-          height: 40px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border: none;
-          transition: 0.2s;
-          border-radius: 6px;
-          min-width: 75px;
-          background-color: rgb(255, 255, 255, 0.1);
           color: rgb(255, 255, 255, 0.7);
+          transition: 0.2s;
 
-          span {
-            position: relative;
-            top: 1px;
-          }
-
-          svg {
-            height: 20px;
-            position: relative;
-            top: -1px;
-            margin-right: 8px;
-          }
-
-          &:hover {
-            cursor: pointer;
-            background-color: rgb(255, 255, 255, 0.15);
+          &.cancel-btn {
+            color: #fee2e2;
           }
 
           &:not(:last-child) {
             margin-right: 10px;
           }
 
-          &.cancel-btn {
-            color: #fee2e2;
-            background-color: #7f1d1d;
-
-            &:hover {
-              background-color: #991b1b;
-            }
+          svg {
+            height: 20px;
+            position: relative;
+            top: -1px;
           }
         }
       }
