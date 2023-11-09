@@ -69,7 +69,7 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
 
     if (!svService || !svPanorama) return
 
-    await svService.getPanorama({ location, radius: 50 }, (data) => {
+    await svService.getPanorama({ location, radius: 50, sources: [google.maps.StreetViewSource.GOOGLE] }, (data) => {
       if (!data || !data.location) {
         return showToast('error', 'Could not load streetview for this location')
       }

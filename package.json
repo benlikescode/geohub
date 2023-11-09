@@ -20,7 +20,7 @@
     "@sendgrid/mail": "^7.7.0",
     "@turf/boolean-point-in-polygon": "^6.5.0",
     "@turf/turf": "^6.5.0",
-    "@types/google.maps": "^3.51.0",
+    "@types/google.maps": "^3.54.7",
     "@vercel/analytics": "^1.1.1",
     "allotment": "^1.19.2",
     "bcryptjs": "^2.4.3",
