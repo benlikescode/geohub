@@ -1,12 +1,19 @@
 import { FC } from 'react'
 import { Skeleton } from '@components/system'
-import { formatLargeNumber } from '../../../../utils/helpers'
 import { StyledCountItem } from './'
 
 type Props = {
   title: string
   count: number
   loading?: boolean
+}
+
+// TODO - Extract this into a helper to replace formatLargeNumber
+const formatCount = (n: number): string => {
+  const notation = n >= 100000 ? 'compact' : 'standard'
+  const formatter = new Intl.NumberFormat('en', { notation, compactDisplay: 'short' })
+
+  return formatter.format(n)
 }
 
 const CountItem: FC<Props> = ({ title, count, loading }) => {
@@ -19,7 +26,7 @@ const CountItem: FC<Props> = ({ title, count, loading }) => {
           <span className="analytics-heading-title">{title}</span>
         </div>
         <div className="analytics-data">
-          <span className="analytics-amount">{formatLargeNumber(count)}</span>
+          <span className="analytics-amount">{formatCount(count)}</span>
         </div>
       </div>
     </StyledCountItem>
