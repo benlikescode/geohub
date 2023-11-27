@@ -140,12 +140,24 @@ const countries = [
     name: 'Botswana',
   },
   {
+    code: 'bq',
+    name: 'Bonaire',
+  },
+  {
+    code: 'bv',
+    name: 'Bouvet Island',
+  },
+  {
     code: 'cf',
     name: 'Central African Republic',
   },
   {
     code: 'ca',
     name: 'Canada',
+  },
+  {
+    code: 'cc',
+    name: 'Cocos Islands',
   },
   {
     code: 'ch',
@@ -182,6 +194,10 @@ const countries = [
   {
     code: 'co',
     name: 'Colombia',
+  },
+  {
+    code: 'cx',
+    name: 'Christmas Island',
   },
   {
     code: 'km',
@@ -592,6 +608,10 @@ const countries = [
     name: 'Malaysia',
   },
   {
+    code: 'mo',
+    name: 'Macau',
+  },
+  {
     code: 'na',
     name: 'Namibia',
   },
@@ -680,6 +700,10 @@ const countries = [
     name: 'Puerto Rico',
   },
   {
+    code: 'ps',
+    name: 'Palestine',
+  },
+  {
     code: 'kp',
     name: 'North Korea',
   },
@@ -722,6 +746,10 @@ const countries = [
   {
     code: 'sd',
     name: 'Sudan',
+  },
+  {
+    code: 'sj',
+    name: 'Svalbard',
   },
   {
     code: 'ss',
