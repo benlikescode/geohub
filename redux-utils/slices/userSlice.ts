@@ -3,6 +3,7 @@ import { MapType, UserType } from '@types'
 
 type UserState = UserType & {
   recentlyPlayed: MapType[]
+  quotaModalDismissed: boolean
 }
 
 const initialState: UserState = {
@@ -13,6 +14,7 @@ const initialState: UserState = {
   guessMapSize: 2,
   gameSettings: { canMove: true, canPan: true, canZoom: true, timeLimit: 0 },
   recentlyPlayed: [],
+  quotaModalDismissed: false,
 }
 
 export const userSlice = createSlice({
@@ -69,9 +71,13 @@ export const userSlice = createSlice({
       state.isAdmin = initialState.isAdmin
       state.distanceUnit = initialState.distanceUnit
       state.mapsAPIKey = initialState.mapsAPIKey
+      state.quotaModalDismissed = initialState.quotaModalDismissed
     },
     resetGameSettings: (state) => {
       state.gameSettings = initialState.gameSettings
+    },
+    dismissQuotaModal: (state) => {
+      state.quotaModalDismissed = true
     },
   },
 })
@@ -89,6 +95,7 @@ export const {
   updateMapsAPIKey,
   logOutUser,
   resetGameSettings,
+  dismissQuotaModal,
 } = userSlice.actions
 
 export default userSlice.reducer

@@ -31,11 +31,14 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
 
   const location = gameData.rounds[gameData.round - 1]
   const game = useAppSelector((state) => state.game)
+  const user = useAppSelector((state) => state.user)
 
   const serviceRef = useRef<google.maps.StreetViewService | null>(null)
   const panoramaRef = useRef<google.maps.StreetViewPanorama | null>(null)
 
   useEffect(() => {
+    if (user.quotaModalDismissed) return
+
     getFeatureFlags()
   }, [])
 

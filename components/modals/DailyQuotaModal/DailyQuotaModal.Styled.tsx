@@ -95,6 +95,14 @@ const StyledDailyQuotaModal = styled.div<StyledProps>`
       }
     }
   }
+
+  .checkbox-wrapper {
+    margin-top: 20px;
+    color: #969696;
+    font-weight: 400;
+    user-select: none;
+    font-size: 15px;
+  }
 `
 
 export default StyledDailyQuotaModal

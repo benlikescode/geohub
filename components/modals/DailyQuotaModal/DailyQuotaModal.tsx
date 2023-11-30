@@ -1,8 +1,10 @@
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { StyledDailyQuotaModal } from '.'
-import { Button, Modal } from '@components/system'
+import { Checkbox, Modal } from '@components/system'
 import { XIcon } from '@heroicons/react/outline'
 import Link from 'next/link'
+import { useAppDispatch } from '@redux/hook'
+import { dismissQuotaModal } from '@redux/slices'
 
 type Props = {
   isOpen: boolean
@@ -10,6 +12,24 @@ type Props = {
 }
 
 const DailyQuotaModal: FC<Props> = ({ isOpen, closeModal }) => {
+  const [isChecked, setIsChecked] = useState(false)
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    if (!isChecked) return
+
+    const timeout = setTimeout(() => {
+      closeModal()
+    }, 250)
+
+    return () => clearTimeout(timeout)
+  }, [isChecked])
+
+  const handleCheck = () => {
+    setIsChecked(true)
+    dispatch(dismissQuotaModal())
+  }
+
   return (
     <Modal isOpen={isOpen} onClose={closeModal} maxWidth="500px">
       <StyledDailyQuotaModal>
@@ -44,6 +64,10 @@ const DailyQuotaModal: FC<Props> = ({ isOpen, closeModal }) => {
             >
               Donate
             </a>
+          </div>
+
+          <div className="checkbox-wrapper">
+            <Checkbox isChecked={isChecked} setChecked={() => handleCheck()} label="Do not show again" />
           </div>
         </div>
       </StyledDailyQuotaModal>
