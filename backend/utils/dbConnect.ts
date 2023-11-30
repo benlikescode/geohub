@@ -1,5 +1,6 @@
 import { Collection, Db, MongoClient } from 'mongodb'
 import { RecentSearch } from '@types'
+import { FeatureFlagsType } from '@types'
 
 export const collections: {
   users?: Collection
@@ -11,6 +12,7 @@ export const collections: {
   userLocations?: Collection
   recentSearches?: Collection<RecentSearch>
   passwordResets?: Collection
+  featureFlags?: Collection<FeatureFlagsType>
 } = {}
 
 const IS_PROD = process.env.NODE_ENV === 'production'
@@ -43,6 +45,7 @@ export const dbConnect = async () => {
     collections.userLocations = db.collection('userLocations')
     collections.recentSearches = db.collection('recentSearches')
     collections.passwordResets = db.collection('passwordResets')
+    collections.featureFlags = db.collection('featureFlags')
 
     return cachedDb
   } catch (err) {

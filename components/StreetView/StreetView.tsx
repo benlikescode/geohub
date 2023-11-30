@@ -7,11 +7,12 @@ import { StreaksGuessMap } from '@components/StreaksGuessMap'
 import { StreetViewControls } from '@components/StreetViewControls'
 import { MapIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
-import { GameViewType, GoogleMapsConfigType, LocationType } from '@types'
+import { FeatureFlagsType, GameViewType, GoogleMapsConfigType, LocationType } from '@types'
 import { getStreetviewOptions } from '@utils/constants/googleMapOptions'
 import { KEY_CODES } from '@utils/constants/keyCodes'
 import { mailman, showToast } from '@utils/helpers'
 import { StyledStreetView } from './'
+import { DailyQuotaModal } from '@components/modals/DailyQuotaModal'
 
 type Props = {
   gameData: Game
@@ -26,12 +27,17 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
   const [countryStreakGuess, setCountryStreakGuess] = useState('')
   const [mobileMapOpen, setMobileMapOpen] = useState(false)
   const [googleMapsConfig, setGoogleMapsConfig] = useState<GoogleMapsConfigType>()
+  const [showQuotaModal, setShowQuotaModal] = useState(false)
 
   const location = gameData.rounds[gameData.round - 1]
   const game = useAppSelector((state) => state.game)
 
   const serviceRef = useRef<google.maps.StreetViewService | null>(null)
   const panoramaRef = useRef<google.maps.StreetViewPanorama | null>(null)
+
+  useEffect(() => {
+    getFeatureFlags()
+  }, [])
 
   // Initializes Streetview & loads first pano
   useEffect(() => {
@@ -46,6 +52,16 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
 
     loadNewPano()
   }, [view])
+
+  const getFeatureFlags = async () => {
+    const res = await mailman('flags')
+
+    if (res.error) return
+
+    const flags = res.flags as FeatureFlagsType
+
+    setShowQuotaModal(flags.mapsQuotaReached)
+  }
 
   const initializeStreetView = () => {
     const svService = new google.maps.StreetViewService()
@@ -181,45 +197,49 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
   }, [view])
 
   return (
-    <StyledStreetView showMap={!loading}>
-      {loading && <LoadingPage />}
+    <>
+      <StyledStreetView showMap={!loading}>
+        {loading && <LoadingPage />}
 
-      <div id="streetview">
-        <StreetViewControls handleBackToStart={handleBackToStart} />
-        {view === 'Game' && <GameStatus gameData={gameData} handleSubmitGuess={handleSubmitGuess} />}
+        <div id="streetview">
+          <StreetViewControls handleBackToStart={handleBackToStart} />
+          {view === 'Game' && <GameStatus gameData={gameData} handleSubmitGuess={handleSubmitGuess} />}
 
-        {gameData.mode === 'standard' && (
-          <GuessMap
-            currGuess={currGuess}
-            setCurrGuess={setCurrGuess}
-            handleSubmitGuess={handleSubmitGuess}
-            mobileMapOpen={mobileMapOpen}
-            closeMobileMap={() => setMobileMapOpen(false)}
-            googleMapsConfig={googleMapsConfig}
-            setGoogleMapsConfig={setGoogleMapsConfig}
-            resetMap={view === 'Game'}
-            gameData={gameData}
-          />
-        )}
+          {gameData.mode === 'standard' && (
+            <GuessMap
+              currGuess={currGuess}
+              setCurrGuess={setCurrGuess}
+              handleSubmitGuess={handleSubmitGuess}
+              mobileMapOpen={mobileMapOpen}
+              closeMobileMap={() => setMobileMapOpen(false)}
+              googleMapsConfig={googleMapsConfig}
+              setGoogleMapsConfig={setGoogleMapsConfig}
+              resetMap={view === 'Game'}
+              gameData={gameData}
+            />
+          )}
 
-        {gameData.mode === 'streak' && (
-          <StreaksGuessMap
-            countryStreakGuess={countryStreakGuess}
-            setCountryStreakGuess={setCountryStreakGuess}
-            handleSubmitGuess={handleSubmitGuess}
-            mobileMapOpen={mobileMapOpen}
-            closeMobileMap={() => setMobileMapOpen(false)}
-            googleMapsConfig={googleMapsConfig}
-            setGoogleMapsConfig={setGoogleMapsConfig}
-            resetMap={view === 'Game'}
-          />
-        )}
+          {gameData.mode === 'streak' && (
+            <StreaksGuessMap
+              countryStreakGuess={countryStreakGuess}
+              setCountryStreakGuess={setCountryStreakGuess}
+              handleSubmitGuess={handleSubmitGuess}
+              mobileMapOpen={mobileMapOpen}
+              closeMobileMap={() => setMobileMapOpen(false)}
+              googleMapsConfig={googleMapsConfig}
+              setGoogleMapsConfig={setGoogleMapsConfig}
+              resetMap={view === 'Game'}
+            />
+          )}
 
-        <button className="toggle-map-button" onClick={() => setMobileMapOpen(true)}>
-          <MapIcon />
-        </button>
-      </div>
-    </StyledStreetView>
+          <button className="toggle-map-button" onClick={() => setMobileMapOpen(true)}>
+            <MapIcon />
+          </button>
+        </div>
+      </StyledStreetView>
+
+      <DailyQuotaModal isOpen={showQuotaModal} closeModal={() => setShowQuotaModal(false)} />
+    </>
   )
 }
 
