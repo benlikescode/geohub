@@ -37,7 +37,7 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
   const panoramaRef = useRef<google.maps.StreetViewPanorama | null>(null)
 
   useEffect(() => {
-    if (user.quotaModalDismissed) return
+    if (user.quotaModalDismissed || user.mapsAPIKey) return
 
     getFeatureFlags()
   }, [])
