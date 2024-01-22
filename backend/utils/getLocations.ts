@@ -2,6 +2,7 @@ import { ObjectId } from 'mongodb'
 import { collections } from '@backend/utils'
 import { LocationType } from '@types'
 import { COUNTRY_STREAKS_ID, OFFICIAL_WORLD_ID } from '@utils/constants/random'
+import { OFFICIAL_COUNTRIES } from '@utils/constants/officialCountries'
 
 const getLocations = async (mapId: string, count: number = 5) => {
   if (!mapId) return null
@@ -9,7 +10,7 @@ const getLocations = async (mapId: string, count: number = 5) => {
   if (mapId === COUNTRY_STREAKS_ID) {
     const locations = (await collections.locations
       ?.aggregate([
-        { $match: { mapId: new ObjectId(OFFICIAL_WORLD_ID), countryCode: { $ne: null } } },
+        { $match: { mapId: new ObjectId(OFFICIAL_WORLD_ID), countryCode: { $in: OFFICIAL_COUNTRIES } } },
         { $sample: { size: count } },
       ])
       .toArray()) as LocationType[]
