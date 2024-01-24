@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb'
 
 type Location = {
-  _id: any
+  _id?: any | null
   lat: number
   lng: number
   panoId?: string | null
