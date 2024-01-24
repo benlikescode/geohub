@@ -46,7 +46,7 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
   const { name, description, previewImg, isPublished, addedLocations, deletedLocations } = req.body as ReqBody
   const oldLocations = (await collections.userLocations?.find({ mapId: new ObjectId(mapId) }).toArray() || []).map(doc => doc as unknown as LocationType);
   console.log('oldLocations:', oldLocations[0], oldLocations.length);
-  console.log('deletedLocations:', deletedLocations?.[0], oldLocations.length); // Fix: Add nullish coalescing operator
+  console.log('deletedLocations:', deletedLocations?.[0], deletedLocations?.length); // Fix: Add nullish coalescing operator
   console.log('addedLocations:', addedLocations);
 
 
