@@ -12,7 +12,9 @@ type Props = {
   closeModal: () => void
   locations: LocationType[]
   addedLocations: LocationType[]
+  setAddedLocations: (addedLocations: LocationType[]) => void
   deletedLocations: LocationType[]
+  setDeletedLocations: (deletedLocations: LocationType[]) => void
   setLastSave: (lastSave: Date) => void
   initiallyPublished: boolean
   setInitiallyPublished: (initiallyPublished: boolean) => void
@@ -25,7 +27,9 @@ const SaveMapModal: FC<Props> = ({
   closeModal,
   locations,
   addedLocations,
+  setAddedLocations,
   deletedLocations,
+  setDeletedLocations,
   setLastSave,
   initiallyPublished,
   setInitiallyPublished,
@@ -70,6 +74,9 @@ const SaveMapModal: FC<Props> = ({
     setLastSave(new Date())
     setInitiallyPublished(isPublished)
     setHaveLocationsChanged(false)
+    setAddedLocations([])
+    setDeletedLocations([])
+
 
     closeModal()
 
