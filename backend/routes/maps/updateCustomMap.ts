@@ -89,6 +89,19 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
     return throwError(res, 400, 'Could not update map details')
   }
 
+
+  // Delete locations from database. Delete before add to handle possible modifications
+  if (deletedLocations && deletedLocations.length > 0) {
+    const result = await collections.userLocations?.deleteMany({
+      mapId: new ObjectId(mapId),
+      lat: { $in: deletedLocations.map(location => location.lat) }
+    })
+
+    if (!result) {
+      return throwError(res, 400, 'Could not delete locations')
+    }
+  }
+
   //Add locations to database
   if (addedLocations && addedLocations.length > 0) {
     if (newLocations.length > MAX_ALLOWED_CUSTOM_LOCATIONS) {
@@ -108,17 +121,7 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
     }
   }
 
-  // Delete locations from database
-  if (deletedLocations && deletedLocations.length > 0) {
-    const result = await collections.userLocations?.deleteMany({
-      mapId: new ObjectId(mapId),
-      lat: { $in: deletedLocations.map(location => location.lat) }
-    })
 
-    if (!result) {
-      return throwError(res, 400, 'Could not delete locations')
-    }
-  }
 
   // Update map's score factor (since locations have changed)
   if (addedLocations || deletedLocations) {

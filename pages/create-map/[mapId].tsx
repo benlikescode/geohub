@@ -230,6 +230,8 @@ const CreateMapPage: PageType = () => {
     }
 
     setLocations(updatedLocations)
+    setDeletedLocations(prevDeletedLocations => [...prevDeletedLocations, selectedLocation]);
+    setAddedLocations(prevAddedLocations => [...prevAddedLocations, updatedLocations[indexOfSelected]]);
     setSelectedLocation(null)
   }
 
