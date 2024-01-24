@@ -30,7 +30,7 @@ const CreateMapPage: PageType = () => {
 
   const [locations, setLocations] = useState<LocationType[]>([])
   const [addedLocations, setAddedLocations] = useState<LocationType[]>([])
-  const [deletedLocations, setDeletedLocations] = useState<LocationType[]>([])
+  const [deletedLocations, setDeletedLocations] = useState<string[]>([])
   const [selectedLocation, setSelectedLocation] = useState<LocationType | null>(null)
   const [haveLocationsChanged, setHaveLocationsChanged] = useState(false)
   const [initiallyPublished, setInitiallyPublished] = useState<boolean | null>(null)
@@ -230,7 +230,7 @@ const CreateMapPage: PageType = () => {
     }
 
     setLocations(updatedLocations)
-    setDeletedLocations(prevDeletedLocations => [...prevDeletedLocations, selectedLocation]);
+    setDeletedLocations(prevDeletedLocations => [...prevDeletedLocations, selectedLocation._id]);
     setAddedLocations(prevAddedLocations => [...prevAddedLocations, updatedLocations[indexOfSelected]]);
     setSelectedLocation(null)
   }
@@ -244,13 +244,29 @@ const CreateMapPage: PageType = () => {
       setLocations((prev: LocationType[]) => {
         const updatedLocations = prev.slice(0, -1);
         const deletedLocation = prev[prev.length - 1];
-        setDeletedLocations((prevDeleted: LocationType[]) => [...prevDeleted, deletedLocation]);
+        if (deletedLocation._id) {
+          setDeletedLocations((prevDeleted: string[]) => [...prevDeleted, deletedLocation._id]);
+        }
+        else {
+          setAddedLocations((prevAdded: LocationType[]) => prevAdded.filter(
+            (x) => !(x.lat === deletedLocation.lat && x.lng === deletedLocation.lng)
+          ));
+        }
         return updatedLocations;
       });
     } else {
       setLocations((prev: LocationType[]) => {
-        const updatedLocations = prev.filter((x) => x !== selectedLocation);
-        setDeletedLocations((prevDeleted: LocationType[]) => [...prevDeleted, selectedLocation]);
+        const updatedLocations = prev.filter(
+          (x) => !(x.lat === selectedLocation.lat && x.lng === selectedLocation.lng)
+        );
+        if (selectedLocation._id) {
+          setDeletedLocations((prevDeleted: string[]) => [...prevDeleted, selectedLocation._id]);
+        }
+        else {
+          setAddedLocations((prevAdded: LocationType[]) => prevAdded.filter(
+            (x) => !(x.lat === selectedLocation.lat && x.lng === selectedLocation.lng)
+          ));
+        }
         return updatedLocations;
       });
       setSelectedLocation(null);

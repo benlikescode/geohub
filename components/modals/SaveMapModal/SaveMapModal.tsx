@@ -13,8 +13,8 @@ type Props = {
   locations: LocationType[]
   addedLocations: LocationType[]
   setAddedLocations: (addedLocations: LocationType[]) => void
-  deletedLocations: LocationType[]
-  setDeletedLocations: (deletedLocations: LocationType[]) => void
+  deletedLocations: string[]
+  setDeletedLocations: (deletedLocations: string[]) => void
   setLastSave: (lastSave: Date) => void
   initiallyPublished: boolean
   setInitiallyPublished: (initiallyPublished: boolean) => void

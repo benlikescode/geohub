@@ -11,7 +11,7 @@ type ReqBody = {
   previewImg?: string
   isPublished?: boolean
   addedLocations?: LocationType[]
-  deletedLocations?: LocationType[]
+  deletedLocations?: string[]
 }
 
 type UpdatedMap = {
@@ -45,21 +45,14 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const { name, description, previewImg, isPublished, addedLocations, deletedLocations } = req.body as ReqBody
   const oldLocations = (await collections.userLocations?.find({ mapId: new ObjectId(mapId) }).toArray() || []).map(doc => doc as unknown as LocationType);
-  console.log('oldLocations:', oldLocations[0], oldLocations.length);
-  console.log('deletedLocations:', deletedLocations?.[0], deletedLocations?.length); // Fix: Add nullish coalescing operator
-  console.log('addedLocations:', addedLocations);
-
 
   const newLocations = oldLocations
     .filter(location => {
-      const isDeleted = deletedLocations?.some(deletedLocation => deletedLocation.lat === location.lat);
-      // console.log('location:', location, 'isDeleted:', isDeleted);
-      // console.log(' location.panoId - ' + location.panoId);
+      const isDeleted = deletedLocations?.some(deletedLocation => deletedLocation === location._id);
       return !isDeleted;
     })
     .concat(addedLocations || []);
 
-  console.log('newLocations:', newLocations.length);
 
   if (name) {
     updatedMap['name'] = name
@@ -94,7 +87,7 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
   if (deletedLocations && deletedLocations.length > 0) {
     const result = await collections.userLocations?.deleteMany({
       mapId: new ObjectId(mapId),
-      lat: { $in: deletedLocations.map(location => location.lat) }
+      _id: { $in: deletedLocations }
     })
 
     if (!result) {
