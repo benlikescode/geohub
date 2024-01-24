@@ -112,7 +112,7 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
   if (deletedLocations && deletedLocations.length > 0) {
     const result = await collections.userLocations?.deleteMany({
       mapId: new ObjectId(mapId),
-      panoId: { $in: deletedLocations.map(location => location.panoId) }
+      lat: { $in: deletedLocations.map(location => location.lat) }
     })
 
     if (!result) {
