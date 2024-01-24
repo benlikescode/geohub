@@ -45,12 +45,21 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const { name, description, previewImg, isPublished, addedLocations, deletedLocations } = req.body as ReqBody
   const oldLocations: LocationType[] = (await collections.userLocations?.find({ mapId: new ObjectId(mapId) }).toArray() || []).map(doc => doc as unknown as LocationType);
-  const newLocations: LocationType[] = oldLocations
-  .filter(location => !deletedLocations?.some(deletedLocation => deletedLocation.panoId === location.panoId))
-  .concat(addedLocations || []); // The new locations after adding and deleting
+  console.log('oldLocations:', oldLocations);
+  console.log('deletedLocations:', deletedLocations);
+  console.log('addedLocations:', addedLocations);
 
-  console.log("oldLocations", oldLocations.length)
-  console.log("newLocations", newLocations.length)
+
+  const newLocations: LocationType[] = oldLocations
+    .filter(location => {
+      const isDeleted = deletedLocations?.some(deletedLocation => deletedLocation.panoId === location.panoId);
+      console.log('location:', location, 'isDeleted:', isDeleted);
+      console.log(' location.panoId - ' + location.panoId);
+      return !isDeleted;
+    })
+    .concat(addedLocations || []);
+
+  console.log('newLocations:', newLocations);
 
   if (name) {
     updatedMap['name'] = name
