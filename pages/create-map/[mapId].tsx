@@ -387,7 +387,9 @@ const CreateMapPage: PageType = () => {
           closeModal={() => setSaveModalOpen(false)}
           locations={locations}
           addedLocations={addedLocations}
+          setAddedLocations={setAddedLocations}
           deletedLocations={deletedLocations}
+          setDeletedLocations={setDeletedLocations}
           setLastSave={setLastSave}
           initiallyPublished={initiallyPublished}
           setInitiallyPublished={setInitiallyPublished}
