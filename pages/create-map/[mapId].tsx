@@ -29,8 +29,8 @@ const CreateMapPage: PageType = () => {
   const mapId = router.query.mapId as string
 
   const [locations, setLocations] = useState<LocationType[]>([])
-  const [addedLocations, setAddedLocations] = useState<LocationType | null>(null)
-  const [deletedLocations, setDeletedLocations] = useState<LocationType | null>(null)
+  const [addedLocations, setAddedLocations] = useState<LocationType[]>([])
+  const [deletedLocations, setDeletedLocations] = useState<LocationType[]>([])
   const [selectedLocation, setSelectedLocation] = useState<LocationType | null>(null)
   const [haveLocationsChanged, setHaveLocationsChanged] = useState(false)
   const [initiallyPublished, setInitiallyPublished] = useState<boolean | null>(null)
@@ -94,12 +94,11 @@ const CreateMapPage: PageType = () => {
     setHaveLocationsChanged(true)
 
     if (Array.isArray(newLocations)) {
-      setLocations((prevLocations: LocationType[]) => [...prevLocations, ...newLocations]);
-      setAddedLocations((prevLocations: LocationType[]) => [...prevLocations, ...newLocations]);
-    } else {
-      setLocations((prevLocations: LocationType[]) => [...prevLocations, newLocations]);
-      setAddedLocations((prevLocations: LocationType[]) => [...prevLocations, newLocations]);
+      setAddedLocations((prevLocations) => [...prevLocations, ...newLocations]);
+      return setLocations((prevLocations) => [...prevLocations, ...newLocations]);
     }
+    setLocations((prevLocations) => [...prevLocations, newLocations]);
+    setAddedLocations((prevLocations) => [...prevLocations, newLocations]);
     setSelectedLocation(newLocations)
   }
 
