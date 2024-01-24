@@ -49,6 +49,9 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
   .filter(location => !deletedLocations?.some(deletedLocation => deletedLocation.panoId === location.panoId))
   .concat(addedLocations || []); // The new locations after adding and deleting
 
+  console.log("oldLocations", oldLocations.length)
+  console.log("newLocations", newLocations.length)
+
   if (name) {
     updatedMap['name'] = name
   }
