@@ -44,22 +44,22 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
   let updatedMap: UpdatedMap = {}
 
   const { name, description, previewImg, isPublished, addedLocations, deletedLocations } = req.body as ReqBody
-  const oldLocations: LocationType[] = (await collections.userLocations?.find({ mapId: new ObjectId(mapId) }).toArray() || []).map(doc => doc as unknown as LocationType);
-  console.log('oldLocations:', oldLocations);
-  console.log('deletedLocations:', deletedLocations);
+  const oldLocations = (await collections.userLocations?.find({ mapId: new ObjectId(mapId) }).toArray() || []).map(doc => doc as unknown as LocationType);
+  console.log('oldLocations:', oldLocations[0], oldLocations.length);
+  console.log('deletedLocations:', deletedLocations?.[0], oldLocations.length); // Fix: Add nullish coalescing operator
   console.log('addedLocations:', addedLocations);
 
 
-  const newLocations: LocationType[] = oldLocations
+  const newLocations = oldLocations
     .filter(location => {
       const isDeleted = deletedLocations?.some(deletedLocation => deletedLocation.panoId === location.panoId);
-      console.log('location:', location, 'isDeleted:', isDeleted);
-      console.log(' location.panoId - ' + location.panoId);
+      // console.log('location:', location, 'isDeleted:', isDeleted);
+      // console.log(' location.panoId - ' + location.panoId);
       return !isDeleted;
     })
     .concat(addedLocations || []);
 
-  console.log('newLocations:', newLocations);
+  console.log('newLocations:', newLocations.length);
 
   if (name) {
     updatedMap['name'] = name
