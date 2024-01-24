@@ -238,6 +238,7 @@ const CreateMapPage: PageType = () => {
   const handleRemoveLocation = () => {
     setHaveLocationsChanged(true)
     setShowPreviewMap(false)
+    console.log("handleremoveloc");
 
     // If we have not selected a location, we remove the most recently added
     if (!selectedLocation) {
@@ -255,6 +256,7 @@ const CreateMapPage: PageType = () => {
         return updatedLocations;
       });
     } else {
+      console.log("selected", selectedLocation);
       setLocations((prev: LocationType[]) => {
         const updatedLocations = prev.filter(
           (x) => !(x.lat === selectedLocation.lat && x.lng === selectedLocation.lng)
