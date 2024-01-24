@@ -29,6 +29,8 @@ const CreateMapPage: PageType = () => {
   const mapId = router.query.mapId as string
 
   const [locations, setLocations] = useState<LocationType[]>([])
+  const [addedLocations, setAddedLocations] = useState<LocationType | null>(null)
+  const [deletedLocations, setDeletedLocations] = useState<LocationType | null>(null)
   const [selectedLocation, setSelectedLocation] = useState<LocationType | null>(null)
   const [haveLocationsChanged, setHaveLocationsChanged] = useState(false)
   const [initiallyPublished, setInitiallyPublished] = useState<boolean | null>(null)
@@ -92,10 +94,12 @@ const CreateMapPage: PageType = () => {
     setHaveLocationsChanged(true)
 
     if (Array.isArray(newLocations)) {
-      return setLocations((prev) => [...prev, ...newLocations])
+      setLocations((prevLocations: LocationType[]) => [...prevLocations, ...newLocations]);
+      setAddedLocations((prevLocations: LocationType[]) => [...prevLocations, ...newLocations]);
+    } else {
+      setLocations((prevLocations: LocationType[]) => [...prevLocations, newLocations]);
+      setAddedLocations((prevLocations: LocationType[]) => [...prevLocations, newLocations]);
     }
-
-    setLocations((prev) => [...prev, newLocations])
     setSelectedLocation(newLocations)
   }
 
@@ -236,11 +240,20 @@ const CreateMapPage: PageType = () => {
 
     // If we have not selected a location, we remove the most recently added
     if (!selectedLocation) {
-      return setLocations((prev) => prev.slice(0, -1))
+      setLocations((prev: LocationType[]) => {
+        const updatedLocations = prev.slice(0, -1);
+        const deletedLocation = prev[prev.length - 1];
+        setDeletedLocations((prevDeleted: LocationType[]) => [...prevDeleted, deletedLocation]);
+        return updatedLocations;
+      });
+    } else {
+      setLocations((prev: LocationType[]) => {
+        const updatedLocations = prev.filter((x) => x !== selectedLocation);
+        setDeletedLocations((prevDeleted: LocationType[]) => [...prevDeleted, selectedLocation]);
+        return updatedLocations;
+      });
+      setSelectedLocation(null);
     }
-
-    setLocations((prev) => prev.filter((x) => x !== selectedLocation))
-    setSelectedLocation(null)
   }
 
   if (showErrorPage) {
@@ -374,6 +387,8 @@ const CreateMapPage: PageType = () => {
           isOpen={saveModalOpen}
           closeModal={() => setSaveModalOpen(false)}
           locations={locations}
+          addedLocations={addedLocations}
+          deletedLocations={deletedLocations}
           setLastSave={setLastSave}
           initiallyPublished={initiallyPublished}
           setInitiallyPublished={setInitiallyPublished}

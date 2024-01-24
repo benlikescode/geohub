@@ -10,7 +10,8 @@ type ReqBody = {
   description?: string
   previewImg?: string
   isPublished?: boolean
-  locations?: LocationType[]
+  addedLocations?: LocationType[]
+  deletedLocations?: LocationType[]
 }
 
 type UpdatedMap = {
@@ -42,7 +43,11 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
 
   let updatedMap: UpdatedMap = {}
 
-  const { name, description, previewImg, isPublished, locations } = req.body as ReqBody
+  const { name, description, previewImg, isPublished, addedLocations, deletedLocations } = req.body as ReqBody
+  const oldLocations: LocationType[] = (await collections.userLocations?.find({ mapId: new ObjectId(mapId) }).toArray() || []).map(doc => doc as unknown as LocationType);
+  const newLocations: LocationType[] = oldLocations
+  .filter(location => !deletedLocations?.some(deletedLocation => deletedLocation.panoId === location.panoId))
+  .concat(addedLocations || []); // The new locations after adding and deleting
 
   if (name) {
     updatedMap['name'] = name
@@ -56,7 +61,7 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
     updatedMap['previewImg'] = previewImg
   }
 
-  if (locations && locations.length < 5) {
+  if (newLocations && newLocations.length < 5) {
     return throwError(res, 400, 'Maps must have a minimum of 5 locations')
   }
 
@@ -72,44 +77,49 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
     return throwError(res, 400, 'Could not update map details')
   }
 
-  // HALP -> Really shouldn't be deleting locations and then inserting new
-  if (locations) {
-    if (locations.length > MAX_ALLOWED_CUSTOM_LOCATIONS) {
+  //Add locations to database
+  if (addedLocations && addedLocations.length > 0) {
+    if (newLocations.length > MAX_ALLOWED_CUSTOM_LOCATIONS) {
       return throwError(res, 400, `The max locations allowed is ${formatLargeNumber(MAX_ALLOWED_CUSTOM_LOCATIONS)}`)
     }
 
-    // Removes old locations
-    const removeResult = await collections.userLocations?.deleteMany({ mapId: new ObjectId(mapId) })
-
-    if (!removeResult) {
-      return throwError(res, 400, 'Something went wrong updating locations')
-    }
-
     // Attach mapId to each location
-    locations.map((location) => {
+    addedLocations.map((location) => {
       location.mapId = new ObjectId(mapId)
     })
 
     // Finally insert the new locations (if not empty)
-    if (locations.length > 0) {
-      const result = await collections.userLocations?.insertMany(locations)
+    const result = await collections.userLocations?.insertMany(addedLocations)
 
-      if (!result) {
-        return throwError(res, 400, 'Could not add locations')
-      }
+    if (!result) {
+      return throwError(res, 400, 'Could not add locations')
+    }
+  }
 
-      // Update map's score factor (since locations have changed)
-      const newBounds = getMapBounds(locations)
-      const newScoreFactor = calculateMapScoreFactor(newBounds)
+  // Delete locations from database
+  if (deletedLocations && deletedLocations.length > 0) {
+    const result = await collections.userLocations?.deleteMany({
+      mapId: new ObjectId(mapId),
+      panoId: { $in: deletedLocations.map(location => location.panoId) }
+    })
 
-      const updateMap = await collections.maps?.updateOne(
-        { _id: new ObjectId(mapId) },
-        { $set: { bounds: newBounds, scoreFactor: newScoreFactor } }
-      )
+    if (!result) {
+      return throwError(res, 400, 'Could not delete locations')
+    }
+  }
 
-      if (!updateMap) {
-        return throwError(res, 400, 'Failed to save new map score factor')
-      }
+  // Update map's score factor (since locations have changed)
+  if (addedLocations || deletedLocations) {
+    const newBounds = getMapBounds(newLocations)
+    const newScoreFactor = calculateMapScoreFactor(newBounds)
+
+    const updateMap = await collections.maps?.updateOne(
+      { _id: new ObjectId(mapId) },
+      { $set: { bounds: newBounds, scoreFactor: newScoreFactor } }
+    )
+
+    if (!updateMap) {
+      return throwError(res, 400, 'Failed to save new map score factor')
     }
   }
 

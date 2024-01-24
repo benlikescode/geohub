@@ -11,6 +11,8 @@ type Props = {
   isOpen: boolean
   closeModal: () => void
   locations: LocationType[]
+  addedLocations: LocationType[]
+  deletedLocations: LocationType[]
   setLastSave: (lastSave: Date) => void
   initiallyPublished: boolean
   setInitiallyPublished: (initiallyPublished: boolean) => void
@@ -22,6 +24,8 @@ const SaveMapModal: FC<Props> = ({
   isOpen,
   closeModal,
   locations,
+  addedLocations,
+  deletedLocations,
   setLastSave,
   initiallyPublished,
   setInitiallyPublished,
@@ -51,7 +55,11 @@ const SaveMapModal: FC<Props> = ({
 
     setIsSaving(true)
 
-    const res = await mailman(`maps/custom/${mapId}`, 'PUT', JSON.stringify({ locations, isPublished }))
+    const res = await mailman(`maps/custom/${mapId}`, 'PUT', JSON.stringify({
+      addedLocations,
+      deletedLocations,
+      isPublished
+    }));
 
     setIsSaving(false)
 
