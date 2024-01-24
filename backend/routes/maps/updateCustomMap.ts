@@ -52,7 +52,7 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const newLocations = oldLocations
     .filter(location => {
-      const isDeleted = deletedLocations?.some(deletedLocation => deletedLocation.panoId === location.panoId);
+      const isDeleted = deletedLocations?.some(deletedLocation => deletedLocation.lat === location.lat);
       // console.log('location:', location, 'isDeleted:', isDeleted);
       // console.log(' location.panoId - ' + location.panoId);
       return !isDeleted;
