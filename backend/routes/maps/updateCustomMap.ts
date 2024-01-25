@@ -86,9 +86,10 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
   // Delete locations from database. Delete before add to handle possible modifications
   if (deletedLocations && deletedLocations.length > 0) {
     console.log("deleting: ", deletedLocations);
+    const objectIdArray = deletedLocations.map(id => new ObjectId(id));
     const result = await collections.userLocations?.deleteMany({
       mapId: new ObjectId(mapId),
-      _id: { $in: deletedLocations }
+      _id: { $in: objectIdArray }
     })
 
     if (!result) {
