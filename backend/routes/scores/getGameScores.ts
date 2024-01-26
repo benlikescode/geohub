@@ -35,6 +35,7 @@ const getGameScores = async (req: NextApiRequest, res: NextApiResponse) => {
 
   data.push({ ...thisUserData[0], highlight: true })
 
+  res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=60')
   res.status(200).send(data)
 }
 
