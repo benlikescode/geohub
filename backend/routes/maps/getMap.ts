@@ -105,6 +105,7 @@ const getMap = async (req: NextApiRequest, res: NextApiResponse) => {
     usersPlayed: explorers.length,
   }
 
+  res.setHeader('Cache-Control', 'public, s-maxage=30, stale-while-revalidate=60')
   res.status(200).send(result)
 }
 
