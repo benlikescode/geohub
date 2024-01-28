@@ -36,6 +36,8 @@ const getScoresHelper = async (
 }
 
 const getDailyChallengeScores = async (req: NextApiRequest, res: NextApiResponse) => {
+  res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=60')
+
   const limit = req.query.limit ? parseInt(req.query.limit as string) : undefined
   const userId = await getUserId(req, res)
 
@@ -50,7 +52,6 @@ const getDailyChallengeScores = async (req: NextApiRequest, res: NextApiResponse
     today: todayData,
   }
 
-  res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=60')
   res.status(200).send(result)
 }
 

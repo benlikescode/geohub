@@ -4,6 +4,8 @@ import queryTopScores from '@backend/queries/topScores'
 import { getUserId, throwError } from '@backend/utils'
 
 const getGameScores = async (req: NextApiRequest, res: NextApiResponse) => {
+  res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=60')
+
   const userId = await getUserId(req, res)
   const mapId = req.query.id as string
 
@@ -35,7 +37,6 @@ const getGameScores = async (req: NextApiRequest, res: NextApiResponse) => {
 
   data.push({ ...thisUserData[0], highlight: true })
 
-  res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=60')
   res.status(200).send(data)
 }
 
