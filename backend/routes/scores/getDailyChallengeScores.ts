@@ -3,8 +3,13 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import queryTopScores from '@backend/queries/topScores'
 import { getUserId, throwError, todayEnd, todayStart } from '@backend/utils'
 
-const getScoresHelper = async (userId: string | undefined, query: any, res: NextApiResponse, limit: number | undefined) => {
-  const data = await queryTopScores(query, limit ? Math.min(limit, 200): 5);
+const getScoresHelper = async (
+  userId: string | undefined,
+  query: any,
+  res: NextApiResponse,
+  limit: number | undefined
+) => {
+  const data = await queryTopScores(query, limit ? Math.min(limit, 200) : 5)
 
   if (!data) {
     return throwError(res, 404, 'Failed to get scores for The Daily Challenge')
@@ -31,7 +36,7 @@ const getScoresHelper = async (userId: string | undefined, query: any, res: Next
 }
 
 const getDailyChallengeScores = async (req: NextApiRequest, res: NextApiResponse) => {
-  const limit = req.query.limit ? parseInt(req.query.limit as string) : undefined;
+  const limit = req.query.limit ? parseInt(req.query.limit as string) : undefined
   const userId = await getUserId(req, res)
 
   const allTimeQuery = { isDailyChallenge: true, state: 'finished' }
@@ -45,6 +50,7 @@ const getDailyChallengeScores = async (req: NextApiRequest, res: NextApiResponse
     today: todayData,
   }
 
+  res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=60')
   res.status(200).send(result)
 }
 
