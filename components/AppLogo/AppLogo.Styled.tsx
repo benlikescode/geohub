@@ -12,8 +12,8 @@ const StyledAppLogo = styled.div<StyledProps>`
 
     .earth {
       position: absolute;
-      left: 28px;
-      top: -7.5px;
+      left: 29px;
+      top: -7px;
       pointer-events: none;
       transition: 0.2s;
     }
@@ -24,7 +24,6 @@ const StyledAppLogo = styled.div<StyledProps>`
     }
 
     &:hover {
-      cursor: pointer;
       opacity: 0.7;
 
       .earth {

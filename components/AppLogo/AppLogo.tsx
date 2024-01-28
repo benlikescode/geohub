@@ -9,7 +9,7 @@ const AppLogo: FC = () => {
       <Link href="/" className="logo-link">
         <a className="logo">
           <div className="earth">
-            <Image src="/images/earth-spinning.gif" height={34} width={34} alt="Spinning Earth" />
+            <Image src="/images/earth-spinning.gif" height={32} width={32} alt="Spinning Earth" />
           </div>
           <svg viewBox="0 0 545 93" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
