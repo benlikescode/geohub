@@ -1,5 +1,5 @@
 // Primarily used for displaying round points & number of locations
-const formatLargeNumber = (number: number) => {
+const formatLargeNumber = (number: number | undefined) => {
   if (typeof number === 'undefined') return
 
   const numberAsString = number.toString()

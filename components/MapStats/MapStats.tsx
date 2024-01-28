@@ -17,8 +17,6 @@ const MapStats: FC<Props> = ({ map, setMap }) => {
   const [isHoveringLike, setIsHoveringLike] = useState(false)
   const user = useAppSelector((state) => state.user)
 
-  // modalOpen ? disableBodyScroll(document as any) : enableBodyScroll(document as any)
-
   const handleLike = async () => {
     if (!user.id) {
       return setModalOpen(true)
@@ -57,7 +55,7 @@ const MapStats: FC<Props> = ({ map, setMap }) => {
 
         <div className="textWrapper">
           <span className="mainLabel">Explorers</span>
-          <span className="subLabel">{map.usersPlayed}</span>
+          <span className="subLabel">{formatLargeNumber(map.usersPlayed)}</span>
         </div>
       </div>
 
@@ -90,7 +88,7 @@ const MapStats: FC<Props> = ({ map, setMap }) => {
 
         <div className="textWrapper">
           <span className="mainLabel">Likes</span>
-          <span className="subLabel">{map.likes?.numLikes}</span>
+          <span className="subLabel">{formatLargeNumber(map.likes?.numLikes)}</span>
         </div>
       </div>
 
