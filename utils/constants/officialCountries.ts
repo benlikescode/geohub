@@ -97,4 +97,6 @@ export const OFFICIAL_COUNTRIES = [
   'ug',
   'gh',
   'mp',
+  'pa',
+  'qa',
 ]
