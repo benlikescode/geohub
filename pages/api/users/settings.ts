@@ -43,23 +43,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return throwError(res, 401, 'This account is not allowed to modify settings')
       }
 
-      if (!distanceUnit) {
-        return throwError(res, 400, 'Missing distance unit.')
-      }
-
       if (mapsAPIKey && (typeof mapsAPIKey !== 'string' || mapsAPIKey.length !== GOOGLE_MAPS_KEY_LENGTH)) {
         return throwError(res, 400, `The Google Maps API key should be ${GOOGLE_MAPS_KEY_LENGTH} characters in length.`)
       }
 
-      if (typeof distanceUnit !== 'string' || !ALLOWED_DISTANCE_UNITS.includes(distanceUnit)) {
+      if (distanceUnit && !ALLOWED_DISTANCE_UNITS.includes(distanceUnit)) {
         return throwError(res, 400, 'This distance unit is not allowed.')
       }
 
-      const encrypedMapsAPIKey = mapsAPIKey ? cryptr.encrypt(mapsAPIKey) : ''
+      const safeDistance = distanceUnit ?? 'metric'
+      const safeMapsKey = mapsAPIKey ? cryptr.encrypt(mapsAPIKey) : ''
 
       const updateSettings = await collections.users?.updateOne(
         { _id: new ObjectId(userId) },
-        { $set: { distanceUnit: distanceUnit, mapsAPIKey: encrypedMapsAPIKey } }
+        { $set: { distanceUnit: safeDistance, mapsAPIKey: safeMapsKey } }
       )
 
       if (!updateSettings) {
