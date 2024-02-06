@@ -10,7 +10,6 @@ import { Meta } from '@components/Meta'
 import { persistor, store } from '@redux/store'
 import { PageType } from '@types'
 import { theme } from '@utils/theme'
-import { Analytics } from '@vercel/analytics/react'
 
 import type { AppProps } from 'next/app'
 type AppPropsWithLayout = AppProps & {
@@ -38,8 +37,6 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
                   },
                 }}
               />
-
-              <Analytics />
             </ThemeProvider>
           </PersistGate>
         </RedudxProvider>
