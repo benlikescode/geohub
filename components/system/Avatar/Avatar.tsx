@@ -28,7 +28,7 @@ const Avatar: FC<Props> = ({ type, size, backgroundColor, src, alt, className, .
           alt={alt || 'Map Avatar'}
           layout="fill"
           objectFit="cover"
-          sizes="200px"
+          sizes="96px"
         />
       </div>
     </StyledAvatar>

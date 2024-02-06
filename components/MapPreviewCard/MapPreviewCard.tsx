@@ -20,7 +20,7 @@ const MapPreviewCard: FC<Props> = ({ map, showDescription, type = 'large', openD
       {type === 'large' && (
         <div className="large-card-wrapper">
           <div className="map-avatar">
-            <Image src={`${MAP_AVATAR_PATH}/${map.previewImg}`} alt="" layout="fill" objectFit="cover" sizes="720px" />
+            <Image src={`${MAP_AVATAR_PATH}/${map.previewImg}`} alt="" layout="fill" objectFit="cover" sizes="384px" />
             <div className="image-gradient"></div>
           </div>
           <div className="contentWrapper">
@@ -44,7 +44,7 @@ const MapPreviewCard: FC<Props> = ({ map, showDescription, type = 'large', openD
       {type === 'small' && (
         <div className="small-card-wrapper">
           <div className="preview-image">
-            <Image src={`${MAP_AVATAR_PATH}/${map.previewImg}`} alt="" layout="fill" objectFit="cover" sizes="720px" />
+            <Image src={`${MAP_AVATAR_PATH}/${map.previewImg}`} alt="" layout="fill" objectFit="cover" sizes="384px" />
             <div className="mapNameWrapper">
               <div className="mapName">{map.name}</div>
             </div>
