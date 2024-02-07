@@ -10,7 +10,7 @@ const getGameScores = async (req: NextApiRequest, res: NextApiResponse) => {
   const mapId = req.query.id as string
 
   // Get the top 5 user scores
-  const query = { mapId: new ObjectId(mapId), round: 6 }
+  const query = { mapId: new ObjectId(mapId), state: 'finished' }
   const data = await queryTopScores(query, 5)
 
   if (!data) {
@@ -33,7 +33,7 @@ const getGameScores = async (req: NextApiRequest, res: NextApiResponse) => {
         $match: {
           userId: new ObjectId(userId),
           mapId: new ObjectId(mapId),
-          round: 6,
+          state: 'finished',
         },
       },
       {
