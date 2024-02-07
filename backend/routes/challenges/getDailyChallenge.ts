@@ -5,40 +5,32 @@ import { collections, getUserId, throwError } from '@backend/utils'
 const getDailyChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
   const userId = await getUserId(req, res)
 
-  // Get average score
-  const todaysAvgScore = await collections.games
+  const gameStats = await collections.games
     ?.aggregate([
       { $match: { isDailyChallenge: true, state: 'finished' } },
       {
         $group: {
           _id: null,
           avgScore: { $avg: '$totalPoints' },
+          uniquePlayers: { $addToSet: '$userId' },
         },
       },
-    ])
-    .toArray()
-
-  if (!todaysAvgScore) {
-    return throwError(res, 404, `Failed to get today's average score`)
-  }
-
-  const adjustedAvgScore = todaysAvgScore.length ? Math.ceil(todaysAvgScore[0].avgScore) : 0
-
-  // Get number of explorers
-  const explorers = await collections.games
-    ?.aggregate([
-      { $match: { isDailyChallenge: true, state: 'finished' } },
       {
-        $group: {
-          _id: '$userId',
+        $project: {
+          _id: 0,
+          avgScore: 1,
+          explorers: { $size: '$uniquePlayers' },
         },
       },
     ])
     .toArray()
 
-  if (!explorers) {
-    return throwError(res, 400, 'Failed to get the number of explorers')
+  if (!gameStats) {
+    return throwError(res, 500, 'Failed to get explorers and average score')
   }
+
+  const { explorers, avgScore } = gameStats?.length ? gameStats[0] : { explorers: 0, avgScore: 0 }
+  const roundedAvgScore = Math.ceil(avgScore)
 
   const todaysChallengeQuery = await collections.challenges
     ?.find({ isDailyChallenge: true })
@@ -60,8 +52,8 @@ const getDailyChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const result = {
     stats: {
-      avgScore: adjustedAvgScore,
-      usersPlayed: explorers.length,
+      avgScore: roundedAvgScore,
+      usersPlayed: explorers,
       locationCount: 250000,
       countryCount: 98,
     },

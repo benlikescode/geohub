@@ -17,6 +17,9 @@ const queryTopScores = async (query: any, limit: number) => {
           totalPoints: { $first: '$totalPoints' },
         },
       },
+      // Re-sort the resulting documents
+      { $sort: { totalPoints: -1, totalTime: 1 } },
+      { $limit: limit },
       // Query the user's details
       {
         $lookup: {
@@ -41,10 +44,7 @@ const queryTopScores = async (query: any, limit: number) => {
           totalTime: 1,
         },
       },
-      // Re-sort the resulting documents
-      { $sort: { totalPoints: -1, totalTime: 1 } },
     ])
-    .limit(limit)
     .toArray()
 
   return data
