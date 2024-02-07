@@ -58,43 +58,35 @@ const getMap = async (req: NextApiRequest, res: NextApiResponse) => {
     return like.userId.toString() === userId?.toString()
   })
 
-  // Get Map's average score
-  const avgScore = await collections.games
+  const gameStats = await collections.games
     ?.aggregate([
       { $match: { mapId: new ObjectId(mapId), state: 'finished' } },
       {
         $group: {
           _id: null,
           avgScore: { $avg: '$totalPoints' },
+          uniquePlayers: { $addToSet: '$userId' },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          avgScore: 1,
+          explorers: { $size: '$uniquePlayers' },
         },
       },
     ])
     .toArray()
 
-  if (!avgScore) {
-    return throwError(res, 404, `Failed to get average score for map with id: ${mapId}`)
+  if (!gameStats) {
+    return throwError(res, 500, 'Failed to get explorers and average score')
   }
 
-  const adjustedAvgScore = avgScore.length ? Math.ceil(avgScore[0].avgScore) : 0
+  const { explorers, avgScore } = gameStats?.length ? gameStats[0] : { explorers: 0, avgScore: 0 }
+  const roundedAvgScore = Math.ceil(avgScore)
 
-  // Get Map's location count
   const locationCollection = mapDetails.creator === 'GeoHub' ? 'locations' : 'userLocations'
-
   const locationCount = await collections[locationCollection]?.find({ mapId: new ObjectId(mapId) }).count()
-
-  // Get Map's explorers count
-  const explorers = await collections.games
-    ?.aggregate([
-      { $match: { mapId: new ObjectId(mapId), state: 'finished' } },
-      {
-        $group: {
-          _id: '$userId',
-        },
-      },
-    ])
-    .toArray()
-
-  if (!explorers) return throwError(res, 400, 'Failed to get the number of explorers')
 
   const result = {
     ...mapDetails,
@@ -102,9 +94,9 @@ const getMap = async (req: NextApiRequest, res: NextApiResponse) => {
       numLikes: likes.length,
       likedByUser,
     },
-    avgScore: adjustedAvgScore,
+    avgScore: roundedAvgScore,
     locationCount,
-    usersPlayed: explorers.length,
+    usersPlayed: explorers,
   }
 
   res.status(200).send(result)
