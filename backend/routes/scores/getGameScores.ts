@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import queryTopScores from '@backend/queries/topScores'
-import { getUserId, throwError } from '@backend/utils'
+import { collections, getUserId, throwError } from '@backend/utils'
 
 const getGameScores = async (req: NextApiRequest, res: NextApiResponse) => {
   res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=60')
@@ -27,15 +27,56 @@ const getGameScores = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   // If this user is not in the top 5 -> Get their top score and mark them as highlight: true
-  const thisUserQuery = { userId: new ObjectId(userId), mapId: new ObjectId(mapId), round: 6 }
-  const thisUserData = await queryTopScores(thisUserQuery, 1)
+  const thisUserQuery = await collections.games
+    ?.aggregate([
+      {
+        $match: {
+          userId: new ObjectId(userId),
+          mapId: new ObjectId(mapId),
+          round: 6,
+        },
+      },
+      {
+        $sort: { totalPoints: -1 },
+      },
+      // Query the user's details
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'userId',
+          foreignField: '_id',
+          as: 'userDetails',
+        },
+      },
+      // Unwind the user details from an array into an object
+      {
+        $unwind: '$userDetails',
+      },
+      // Format the result
+      {
+        $project: {
+          _id: '$_id',
+          userId: '$userDetails._id',
+          userName: '$userDetails.name',
+          userAvatar: '$userDetails.avatar',
+          totalPoints: 1,
+          totalTime: 1,
+        },
+      },
+      {
+        $limit: 1,
+      },
+    ])
+    .toArray()
+
+  console.log(thisUserQuery)
 
   // If this user has not played the map -> return early
-  if (!thisUserData || thisUserData.length !== 1) {
+  if (!thisUserQuery || thisUserQuery.length !== 1) {
     return res.status(200).send(data)
   }
 
-  data.push({ ...thisUserData[0], highlight: true })
+  data.push({ ...thisUserQuery[0], highlight: true })
 
   res.status(200).send(data)
 }
