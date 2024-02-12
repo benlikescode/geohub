@@ -1,5 +1,4 @@
-import { GetServerSidePropsContext } from 'next'
-import { getSession, signIn, useSession } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
