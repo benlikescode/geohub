@@ -29,6 +29,8 @@ const CreateMapPage: PageType = () => {
   const mapId = router.query.mapId as string
 
   const [locations, setLocations] = useState<LocationType[]>([])
+  const [addedLocations, setAddedLocations] = useState<LocationType[]>([])
+  const [deletedLocations, setDeletedLocations] = useState<string[]>([])
   const [selectedLocation, setSelectedLocation] = useState<LocationType | null>(null)
   const [haveLocationsChanged, setHaveLocationsChanged] = useState(false)
   const [initiallyPublished, setInitiallyPublished] = useState<boolean | null>(null)
@@ -92,10 +94,11 @@ const CreateMapPage: PageType = () => {
     setHaveLocationsChanged(true)
 
     if (Array.isArray(newLocations)) {
-      return setLocations((prev) => [...prev, ...newLocations])
+      setAddedLocations((prevLocations) => [...prevLocations, ...newLocations]);
+      return setLocations((prevLocations) => [...prevLocations, ...newLocations]);
     }
-
-    setLocations((prev) => [...prev, newLocations])
+    setLocations((prevLocations) => [...prevLocations, newLocations]);
+    setAddedLocations((prevLocations) => [...prevLocations, newLocations]);
     setSelectedLocation(newLocations)
   }
 
@@ -227,20 +230,49 @@ const CreateMapPage: PageType = () => {
     }
 
     setLocations(updatedLocations)
+    setDeletedLocations(prevDeletedLocations => [...prevDeletedLocations, selectedLocation._id]);
+    setAddedLocations(prevAddedLocations => [...prevAddedLocations, updatedLocations[indexOfSelected]]);
     setSelectedLocation(null)
   }
 
   const handleRemoveLocation = () => {
     setHaveLocationsChanged(true)
     setShowPreviewMap(false)
+    console.log("handleremoveloc");
 
     // If we have not selected a location, we remove the most recently added
     if (!selectedLocation) {
-      return setLocations((prev) => prev.slice(0, -1))
+      setLocations((prev: LocationType[]) => {
+        const updatedLocations = prev.slice(0, -1);
+        const deletedLocation = prev[prev.length - 1];
+        if (deletedLocation._id) {
+          setDeletedLocations((prevDeleted: string[]) => [...prevDeleted, deletedLocation._id]);
+        }
+        else {
+          setAddedLocations((prevAdded: LocationType[]) => prevAdded.filter(
+            (x) => !(x.lat === deletedLocation.lat && x.lng === deletedLocation.lng)
+          ));
+        }
+        return updatedLocations;
+      });
+    } else {
+      console.log("selected", selectedLocation);
+      setLocations((prev: LocationType[]) => {
+        const updatedLocations = prev.filter(
+          (x) => !(x.lat === selectedLocation.lat && x.lng === selectedLocation.lng)
+        );
+        if (selectedLocation._id) {
+          setDeletedLocations((prevDeleted: string[]) => [...prevDeleted, selectedLocation._id]);
+        }
+        else {
+          setAddedLocations((prevAdded: LocationType[]) => prevAdded.filter(
+            (x) => !(x.lat === selectedLocation.lat && x.lng === selectedLocation.lng)
+          ));
+        }
+        return updatedLocations;
+      });
+      setSelectedLocation(null);
     }
-
-    setLocations((prev) => prev.filter((x) => x !== selectedLocation))
-    setSelectedLocation(null)
   }
 
   if (showErrorPage) {
@@ -374,6 +406,10 @@ const CreateMapPage: PageType = () => {
           isOpen={saveModalOpen}
           closeModal={() => setSaveModalOpen(false)}
           locations={locations}
+          addedLocations={addedLocations}
+          setAddedLocations={setAddedLocations}
+          deletedLocations={deletedLocations}
+          setDeletedLocations={setDeletedLocations}
           setLastSave={setLastSave}
           initiallyPublished={initiallyPublished}
           setInitiallyPublished={setInitiallyPublished}
