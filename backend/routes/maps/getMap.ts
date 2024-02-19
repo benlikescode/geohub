@@ -4,7 +4,7 @@ import { collections, getUserId, throwError } from '@backend/utils'
 import { userProject } from '@backend/utils/dbProjects'
 
 const getMap = async (req: NextApiRequest, res: NextApiResponse) => {
-  res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=60')
+  // res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=60')
 
   const userId = await getUserId(req, res)
   const mapId = req.query.id as string
@@ -58,48 +58,13 @@ const getMap = async (req: NextApiRequest, res: NextApiResponse) => {
     return like.userId.toString() === userId?.toString()
   })
 
-  const gameStats = await collections.games
-    ?.aggregate([
-      { $match: { mapId: new ObjectId(mapId), state: 'finished' } },
-      {
-        $group: {
-          _id: null,
-          avgScore: { $avg: '$totalPoints' },
-          uniquePlayers: { $addToSet: '$userId' },
-        },
-      },
-      {
-        $project: {
-          _id: 0,
-          avgScore: 1,
-          explorers: { $size: '$uniquePlayers' },
-        },
-      },
-    ])
-    .toArray()
-
-  if (!gameStats) {
-    return throwError(res, 500, 'Failed to get explorers and average score')
-  }
-
-  const { explorers, avgScore } = gameStats?.length ? gameStats[0] : { explorers: 0, avgScore: 0 }
-  const roundedAvgScore = Math.ceil(avgScore)
-
-  const locationCollection = mapDetails.creator === 'GeoHub' ? 'locations' : 'userLocations'
-  const locationCount = await collections[locationCollection]?.find({ mapId: new ObjectId(mapId) }).count()
-
-  const result = {
+  res.status(200).send({
     ...mapDetails,
     likes: {
       numLikes: likes.length,
       likedByUser,
     },
-    avgScore: roundedAvgScore,
-    locationCount,
-    usersPlayed: explorers,
-  }
-
-  res.status(200).send(result)
+  })
 }
 
 export default getMap

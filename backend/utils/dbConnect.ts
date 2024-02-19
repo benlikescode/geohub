@@ -13,6 +13,7 @@ export const collections: {
   recentSearches?: Collection<RecentSearch>
   passwordResets?: Collection
   featureFlags?: Collection<FeatureFlagsType>
+  mapLeaderboard?: Collection
 } = {}
 
 const IS_PROD = process.env.NODE_ENV === 'production'
@@ -46,6 +47,7 @@ export const dbConnect = async () => {
     collections.recentSearches = db.collection('recentSearches')
     collections.passwordResets = db.collection('passwordResets')
     collections.featureFlags = db.collection('featureFlags')
+    collections.mapLeaderboard = db.collection('mapLeaderboard')
 
     return cachedDb
   } catch (err) {

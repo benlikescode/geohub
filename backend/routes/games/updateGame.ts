@@ -11,6 +11,7 @@ import {
   throwError,
 } from '@backend/utils'
 import { ChallengeType, DistanceType, GuessType } from '@types'
+import queryTopScores from '@backend/queries/topScores'
 
 const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
   const gameId = req.query.id as string
@@ -54,7 +55,13 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
 
   game.state = isGameFinished ? 'finished' : 'started'
 
-  if (!isGameFinished) {
+  if (isGameFinished) {
+    await updateMapStats(game)
+    await updateMapLeaderboard(game)
+  }
+
+  // Check if streak games need more locations
+  else {
     const isStreakGame = game.mode === 'streak'
     const NEW_LOCATIONS_COUNT = 10
 
@@ -143,6 +150,50 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   res.status(200).send({ game, mapDetails })
+}
+
+const updateMapStats = async (game: Game) => {
+  const mapId = new ObjectId(game.mapId)
+
+  const gameStats = await collections.games
+    ?.aggregate([
+      { $match: { mapId, state: 'finished' } },
+      {
+        $group: {
+          _id: null,
+          avgScore: { $avg: '$totalPoints' },
+          uniquePlayers: { $addToSet: '$userId' },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          avgScore: 1,
+          explorers: { $size: '$uniquePlayers' },
+        },
+      },
+    ])
+    .toArray()
+
+  if (!gameStats) {
+    return null
+  }
+
+  const { explorers, avgScore } = gameStats?.length ? gameStats[0] : { explorers: 0, avgScore: 0 }
+  const roundedAvgScore = Math.ceil(avgScore)
+
+  await collections.maps?.updateOne({ _id: mapId }, { $set: { avgScore: roundedAvgScore, usersPlayed: explorers } })
+}
+
+const updateMapLeaderboard = async (game: Game) => {
+  const mapId = new ObjectId(game.mapId)
+
+  // const topScores = await collections.mapLeaderboard?.find({ mapId }).toArray()
+
+  const query = { mapId, round: 6 }
+  const newTopScores = await queryTopScores(query, 5)
+
+  await collections.mapLeaderboard?.findOneAndUpdate({ mapId }, { $set: { scores: newTopScores } }, { upsert: true })
 }
 
 export default updateGame
