@@ -23,7 +23,7 @@ const queryTopScores = async (query: any, limit: number) => {
       // Format the result
       {
         $project: {
-          _id: '$gameId',
+          gameId: '$gameId',
           userId: '$_id',
           totalPoints: 1,
           totalTime: 1,
