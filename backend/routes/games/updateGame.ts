@@ -188,10 +188,15 @@ const updateMapStats = async (game: Game) => {
 const updateMapLeaderboard = async (game: Game) => {
   const mapId = new ObjectId(game.mapId)
 
-  // const topScores = await collections.mapLeaderboard?.find({ mapId }).toArray()
+  // const mapLeaderboard = await collections.mapLeaderboard?.findOne({ mapId })
+  // const topScores = mapLeaderboard?.scores as any[] // UPDATE THIS TYPE
 
   const query = { mapId, round: 6 }
   const newTopScores = await queryTopScores(query, 5)
+
+  // const updatedScores = [...topScores, ].sort((a, b) => {
+  //   return b.totalPoints - a.totalPoints || a.totalTime - b.totalTime;
+  // }).slice(0, MAX_TOP_SCORES);
 
   await collections.mapLeaderboard?.findOneAndUpdate({ mapId }, { $set: { scores: newTopScores } }, { upsert: true })
 }
