@@ -55,13 +55,8 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
 
   game.state = isGameFinished ? 'finished' : 'started'
 
-  if (isGameFinished) {
-    await updateMapStats(game)
-    await updateMapLeaderboard(game)
-  }
-
   // Check if streak games need more locations
-  else {
+  if (!isGameFinished) {
     const isStreakGame = game.mode === 'streak'
     const NEW_LOCATIONS_COUNT = 10
 
@@ -150,6 +145,12 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   res.status(200).send({ game, mapDetails })
+
+  // In the background, update map stats and top scores
+  if (isGameFinished) {
+    await updateMapStats(game)
+    await updateMapLeaderboard(game)
+  }
 }
 
 const updateMapStats = async (game: Game) => {
@@ -188,17 +189,21 @@ const updateMapStats = async (game: Game) => {
 const updateMapLeaderboard = async (game: Game) => {
   const mapId = new ObjectId(game.mapId)
 
-  // const mapLeaderboard = await collections.mapLeaderboard?.findOne({ mapId })
-  // const topScores = mapLeaderboard?.scores as any[] // UPDATE THIS TYPE
+  const mapLeaderboard = await collections.mapLeaderboard?.findOne({ mapId })
 
-  const query = { mapId, round: 6 }
-  const newTopScores = await queryTopScores(query, 5)
+  if (!mapLeaderboard) {
+    return null
+  }
 
-  // const updatedScores = [...topScores, ].sort((a, b) => {
-  //   return b.totalPoints - a.totalPoints || a.totalTime - b.totalTime;
-  // }).slice(0, MAX_TOP_SCORES);
+  const topScores = mapLeaderboard.scores
+  const lowestTopScore = topScores.reduce((min, score) => Math.min(min, score.totalPoints), Infinity)
 
-  await collections.mapLeaderboard?.findOneAndUpdate({ mapId }, { $set: { scores: newTopScores } }, { upsert: true })
+  if (game.totalPoints >= lowestTopScore) {
+    const query = { mapId, round: 6 }
+    const newTopScores = await queryTopScores(query, 5)
+
+    await collections.mapLeaderboard?.findOneAndUpdate({ mapId }, { $set: { scores: newTopScores } }, { upsert: true })
+  }
 }
 
 export default updateGame

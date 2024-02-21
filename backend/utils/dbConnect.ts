@@ -1,6 +1,7 @@
 import { Collection, Db, MongoClient } from 'mongodb'
 import { RecentSearch } from '@types'
 import { FeatureFlagsType } from '@types'
+import { MapLeaderboard } from '@backend/models'
 
 export const collections: {
   users?: Collection
@@ -13,7 +14,7 @@ export const collections: {
   recentSearches?: Collection<RecentSearch>
   passwordResets?: Collection
   featureFlags?: Collection<FeatureFlagsType>
-  mapLeaderboard?: Collection
+  mapLeaderboard?: Collection<MapLeaderboard>
 } = {}
 
 const IS_PROD = process.env.NODE_ENV === 'production'

@@ -1,3 +1,4 @@
+import { TopScores } from '@backend/models'
 import { collections } from '@backend/utils'
 
 const queryTopScores = async (query: any, limit: number) => {
@@ -23,6 +24,7 @@ const queryTopScores = async (query: any, limit: number) => {
       // Format the result
       {
         $project: {
+          _id: 0,
           gameId: '$gameId',
           userId: '$_id',
           totalPoints: 1,
@@ -32,7 +34,7 @@ const queryTopScores = async (query: any, limit: number) => {
     ])
     .toArray()
 
-  return data
+  return data as TopScores[] | undefined
 }
 
 export default queryTopScores
