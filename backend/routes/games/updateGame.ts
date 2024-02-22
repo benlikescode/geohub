@@ -12,6 +12,8 @@ import {
 } from '@backend/utils'
 import { ChallengeType, DistanceType, GuessType } from '@types'
 import queryTopScores from '@backend/queries/topScores'
+import { COUNTRY_STREAKS_ID } from '@utils/constants/random'
+import queryTopStreaks from '@backend/queries/topStreaks'
 
 const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
   const gameId = req.query.id as string
@@ -147,9 +149,14 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
   res.status(200).send({ game, mapDetails })
 
   // In the background, update map stats and top scores
-  if (isGameFinished) {
+  if (isGameFinished && game.mode === 'standard') {
     await updateMapStats(game)
     await updateMapLeaderboard(game)
+  }
+
+  if (isGameFinished && game.mode === 'streak') {
+    await updateStreakStats()
+    await updateStreakLeaderboard(game)
   }
 }
 
@@ -186,17 +193,69 @@ const updateMapStats = async (game: Game) => {
   await collections.maps?.updateOne({ _id: mapId }, { $set: { avgScore: roundedAvgScore, usersPlayed: explorers } })
 }
 
+const updateStreakStats = async () => {
+  const gameStats = await collections.games
+    ?.aggregate([
+      { $match: { mode: 'streak', state: 'finished' } },
+      {
+        $group: {
+          _id: null,
+          avgStreak: { $avg: '$streak' },
+          uniquePlayers: { $addToSet: '$userId' },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          avgStreak: 1,
+          explorers: { $size: '$uniquePlayers' },
+        },
+      },
+    ])
+    .toArray()
+
+  if (!gameStats) {
+    return null
+  }
+
+  const { explorers, avgStreak } = gameStats?.length ? gameStats[0] : { explorers: 0, avgStreak: 0 }
+  const roundedAvgStreak = Math.ceil(avgStreak)
+
+  await collections.maps?.updateOne(
+    { _id: COUNTRY_STREAKS_ID },
+    { $set: { avgStreak: roundedAvgStreak, usersPlayed: explorers } }
+  )
+}
+
 const updateMapLeaderboard = async (game: Game) => {
   const mapId = new ObjectId(game.mapId)
-
   const mapLeaderboard = await collections.mapLeaderboard?.findOne({ mapId })
 
   const topScores = mapLeaderboard?.scores
-  const lowestTopScore = topScores ? topScores.reduce((min, score) => Math.min(min, score.totalPoints), Infinity) : 0
+  const lowestTopScore = topScores?.length
+    ? topScores.reduce((min, score) => Math.min(min, score.totalPoints), Infinity)
+    : 0
 
   if (game.totalPoints >= lowestTopScore) {
     const query = { mapId, round: 6 }
     const newTopScores = await queryTopScores(query, 5)
+
+    await collections.mapLeaderboard?.findOneAndUpdate({ mapId }, { $set: { scores: newTopScores } }, { upsert: true })
+  }
+}
+
+const updateStreakLeaderboard = async (game: Game) => {
+  const mapId = COUNTRY_STREAKS_ID
+  const mapLeaderboard = await collections.mapLeaderboard?.findOne({ mapId: COUNTRY_STREAKS_ID })
+
+  const topScores = mapLeaderboard?.scores
+  const lowestTopScore = topScores?.length
+    ? topScores.reduce((min, score) => Math.min(min, score.totalPoints), Infinity)
+    : 0
+
+  if (game.streak >= lowestTopScore) {
+    const query = { mode: 'streak', state: 'finished' }
+    const newTopScores = await queryTopStreaks(query, 5)
 
     await collections.mapLeaderboard?.findOneAndUpdate({ mapId }, { $set: { scores: newTopScores } }, { upsert: true })
   }
