@@ -191,12 +191,8 @@ const updateMapLeaderboard = async (game: Game) => {
 
   const mapLeaderboard = await collections.mapLeaderboard?.findOne({ mapId })
 
-  if (!mapLeaderboard) {
-    return null
-  }
-
-  const topScores = mapLeaderboard.scores
-  const lowestTopScore = topScores.reduce((min, score) => Math.min(min, score.totalPoints), Infinity)
+  const topScores = mapLeaderboard?.scores
+  const lowestTopScore = topScores ? topScores.reduce((min, score) => Math.min(min, score.totalPoints), Infinity) : 0
 
   if (game.totalPoints >= lowestTopScore) {
     const query = { mapId, round: 6 }

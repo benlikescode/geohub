@@ -53,8 +53,9 @@ const getGameScores = async (req: NextApiRequest, res: NextApiResponse) => {
     ])
     .toArray()
 
+  // No scores yet for this map
   if (!mapLeaderboard?.length) {
-    return throwError(res, 404, 'Failed to get scores for this map')
+    return res.status(200).send([])
   }
 
   const topScores = mapLeaderboard[0].scores as TopScore[]
