@@ -5,9 +5,22 @@ import { collections, getUserId, throwError } from '@backend/utils'
 const getDailyChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
   const userId = await getUserId(req, res)
 
+  const dailyChallengeQuery = await collections.challenges
+    ?.find({ isDailyChallenge: true })
+    .sort({ createdAt: -1 })
+    .limit(1)
+    .toArray()
+
+  if (!dailyChallengeQuery || !dailyChallengeQuery.length) {
+    return throwError(res, 500, `Could not find today's challenge`)
+  }
+
+  const dailyChallenge = dailyChallengeQuery[0]
+  const dailyChallengeId = new ObjectId(dailyChallenge._id)
+
   const gameStats = await collections.games
     ?.aggregate([
-      { $match: { isDailyChallenge: true, state: 'finished' } },
+      { $match: { challengeId: dailyChallengeId, state: 'finished' } },
       {
         $group: {
           _id: null,
@@ -32,21 +45,9 @@ const getDailyChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
   const { explorers, avgScore } = gameStats?.length ? gameStats[0] : { explorers: 0, avgScore: 0 }
   const roundedAvgScore = Math.ceil(avgScore)
 
-  const todaysChallengeQuery = await collections.challenges
-    ?.find({ isDailyChallenge: true })
-    .sort({ createdAt: -1 })
-    .limit(1)
-    .toArray()
-
-  if (!todaysChallengeQuery || !todaysChallengeQuery.length) {
-    return throwError(res, 500, `Could not find today's challenge`)
-  }
-
-  const todaysChallenge = todaysChallengeQuery[0]
-
   // Check if user has already played today's challenge
   const hasAlreadyPlayed = await collections.games?.findOne({
-    challengeId: todaysChallenge._id,
+    challengeId: dailyChallengeId,
     userId: new ObjectId(userId),
   })
 
@@ -58,8 +59,8 @@ const getDailyChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
       countryCount: 98,
     },
     usersGameState: hasAlreadyPlayed ? hasAlreadyPlayed.state : 'notStarted',
-    challengeId: todaysChallenge._id,
-    date: todaysChallenge.createdAt,
+    challengeId: dailyChallenge._id,
+    date: dailyChallenge.createdAt,
   }
 
   res.status(200).send(result)
