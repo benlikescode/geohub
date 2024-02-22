@@ -11,6 +11,8 @@ type MapLeaderboard = {
   _id: ObjectId
   mapId: ObjectId | string
   scores: TopScore[]
+  avgStreak?: number
+  usersPlayed?: number
 }
 
 export default MapLeaderboard

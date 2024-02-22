@@ -221,8 +221,8 @@ const updateStreakStats = async () => {
   const { explorers, avgStreak } = gameStats?.length ? gameStats[0] : { explorers: 0, avgStreak: 0 }
   const roundedAvgStreak = Math.ceil(avgStreak)
 
-  await collections.maps?.updateOne(
-    { _id: COUNTRY_STREAKS_ID },
+  await collections.mapLeaderboard?.updateOne(
+    { mapId: COUNTRY_STREAKS_ID },
     { $set: { avgStreak: roundedAvgStreak, usersPlayed: explorers } }
   )
 }
