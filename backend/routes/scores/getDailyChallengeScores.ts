@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import queryTopScores from '@backend/queries/topScores'
+import { queryTopScoresWithJoin } from '@backend/queries/topScores'
 import { getUserId, throwError, todayEnd, todayStart } from '@backend/utils'
 
 const getScoresHelper = async (
@@ -9,7 +9,7 @@ const getScoresHelper = async (
   res: NextApiResponse,
   limit: number | undefined
 ) => {
-  const data = await queryTopScores(query, limit ? Math.min(limit, 200) : 5)
+  const data = await queryTopScoresWithJoin(query, limit ? Math.min(limit, 200) : 5)
 
   if (!data) {
     return throwError(res, 404, 'Failed to get scores for The Daily Challenge')
@@ -26,7 +26,7 @@ const getScoresHelper = async (
 
   // If this user is not in the top list -> Get their top score and mark them as highlight: true
   const thisUserQuery = { userId: new ObjectId(userId), ...query }
-  const thisUserData = await queryTopScores(thisUserQuery, 1)
+  const thisUserData = await queryTopScoresWithJoin(thisUserQuery, 1)
 
   if (thisUserData && thisUserData.length === 1) {
     data.push({ ...thisUserData[0], highlight: true })
@@ -36,8 +36,6 @@ const getScoresHelper = async (
 }
 
 const getDailyChallengeScores = async (req: NextApiRequest, res: NextApiResponse) => {
-  res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=60')
-
   const limit = req.query.limit ? parseInt(req.query.limit as string) : undefined
   const userId = await getUserId(req, res)
 
