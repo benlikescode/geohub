@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb'
 
-export type TopScores = {
+export type TopScore = {
   gameId: ObjectId
   userId: ObjectId
   totalPoints: number
@@ -9,8 +9,8 @@ export type TopScores = {
 
 type MapLeaderboard = {
   _id: ObjectId
-  mapId: ObjectId
-  scores: TopScores[]
+  mapId: ObjectId | string
+  scores: TopScore[]
 }
 
 export default MapLeaderboard
