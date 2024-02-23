@@ -84,8 +84,8 @@ const getGameScores = async (req: NextApiRequest, res: NextApiResponse) => {
         },
         {
           $project: {
-            _id: '$gameId',
-            userId: '$_id',
+            gameId: '$_id',
+            userId: 1,
             userName: '$userDetails.name',
             userAvatar: '$userDetails.avatar',
             totalPoints: 1,
