@@ -86,7 +86,7 @@ const LeaderboardItem: FC<Props> = ({ finishPlace, row, removeResults }) => {
           {row.totalTime && <span className="totalTime">{formatRoundTime(row.totalTime)}</span>}
 
           {!removeResults && (
-            <Link href={`/results/${row._id}`}>
+            <Link href={`/results/${row.gameId}`}>
               <a className="results-link">
                 <ChartBarIcon />
               </a>
