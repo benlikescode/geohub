@@ -102,15 +102,15 @@ const getStreakStats = async (req: NextApiRequest, res: NextApiResponse) => {
     }
   }
 
-  const result = {
-    avgStreak: streakStats.avgStreak,
-    usersPlayed: streakStats.usersPlayed,
-    locationCount: LOCATION_COUNT,
-    countryCount: COUNTRY_COUNT,
+  res.status(200).send({
+    stats: {
+      avgScore: streakStats.avgScore,
+      usersPlayed: streakStats.usersPlayed,
+      locationCount: LOCATION_COUNT,
+      countryCount: COUNTRY_COUNT,
+    },
     scores: topScores,
-  }
-
-  res.status(200).send(result)
+  })
 }
 
 export default getStreakStats

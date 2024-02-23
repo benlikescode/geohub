@@ -17,8 +17,7 @@ import { mailman, showToast } from '@utils/helpers'
 
 const DailyChallengePage: FC = () => {
   const [mapStats, setMapStats] = useState<DailyChallengeStatsType | null>()
-  const [allTimeScores, setAllTimeScores] = useState<MapLeaderboardType[] | null>()
-  const [todayScores, setTodayScores] = useState<MapLeaderboardType[] | null>()
+  const [scores, setScores] = useState<MapLeaderboardType[] | null>()
   const [usersGameState, setUsersGameState] = useState<'started' | 'finished' | 'notStarted'>('notStarted')
   const [previousWinners, setPreviousWinners] = useState([])
   const [challengeId, setChallengeId] = useState()
@@ -28,7 +27,6 @@ const DailyChallengePage: FC = () => {
 
   useEffect(() => {
     fetchDailyChallenge()
-    fetchMapScores()
     fetchPreviousWinners()
   }, [])
 
@@ -40,19 +38,9 @@ const DailyChallengePage: FC = () => {
     }
 
     setMapStats(res.stats)
+    setScores(res.scores)
     setUsersGameState(res.usersGameState)
     setChallengeId(res.challengeId)
-  }
-
-  const fetchMapScores = async () => {
-    const res = await mailman(`scores/challenges/daily/leaderboard`)
-
-    if (res.error) {
-      return showToast('error', res.error.message)
-    }
-
-    setAllTimeScores(res.allTime)
-    setTodayScores(res.today)
   }
 
   const fetchPreviousWinners = async () => {
@@ -121,21 +109,13 @@ const DailyChallengePage: FC = () => {
               <SkeletonMapInfo />
             )}
 
-            {allTimeScores && todayScores ? (
-              <div className="leaderboards-wrapper">
-                <MapLeaderboard
-                  leaderboard={todayScores}
-                  title="Today's Leaderboard"
-                  noResultsMessage="Play now to be the first on the leaderboard!"
-                  removeResults={usersGameState !== 'finished'}
-                />
-
-                <MapLeaderboard
-                  leaderboard={allTimeScores}
-                  title="All Time Leaderboard"
-                  removeResults={usersGameState !== 'finished'}
-                />
-              </div>
+            {scores ? (
+              <MapLeaderboard
+                leaderboard={scores}
+                title="Leaderboard"
+                noResultsMessage="Play now to be the first on the leaderboard!"
+                removeResults={usersGameState !== 'finished'}
+              />
             ) : (
               <SkeletonLeaderboard />
             )}
