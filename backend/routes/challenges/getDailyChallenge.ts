@@ -100,7 +100,7 @@ const getDailyChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
   } else {
     const usersTopScore = (await collections.games
       ?.aggregate([
-        { $match: { challengeId: dailyChallengeId, state: 'finished' } },
+        { $match: { challengeId: dailyChallengeId, userId: new ObjectId(userId), state: 'finished' } },
         { $sort: { totalPoints: -1 } },
         { $limit: 1 },
         {
