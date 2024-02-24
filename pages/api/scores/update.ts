@@ -58,7 +58,7 @@ const updateDailyChallenge = async (game: Game) => {
   let updateFields = {}
 
   if (stats) {
-    updateFields = { ...updateFields, stats }
+    updateFields = { ...updateFields, ...stats }
   }
 
   if (scores) {
