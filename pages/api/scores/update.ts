@@ -31,6 +31,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       await updateStreakStats()
       await updateStreakLeaderboard(game)
     }
+
+    res.status(200).send('Success')
   } catch (err) {
     console.error(err)
     res.status(500).json({ success: false })
