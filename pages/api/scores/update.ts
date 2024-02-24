@@ -18,18 +18,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { game } = req.body
 
     if (game.mode === 'standard' && !game.isDailyChallenge) {
-      updateMapStats(game)
-      updateMapLeaderboard(game)
+      await updateMapStats(game)
+      await updateMapLeaderboard(game)
     }
 
     if (game.mode === 'standard' && game.isDailyChallenge) {
-      updateDailyChallengeStats()
-      updateDailyChallengeLeaderboard(game)
+      await updateDailyChallengeStats()
+      await updateDailyChallengeLeaderboard(game)
     }
 
     if (game.mode === 'streak') {
-      updateStreakStats()
-      updateStreakLeaderboard(game)
+      await updateStreakStats()
+      await updateStreakLeaderboard(game)
     }
   } catch (err) {
     console.error(err)
