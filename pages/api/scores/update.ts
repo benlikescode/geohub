@@ -23,8 +23,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     if (game.mode === 'standard' && game.isDailyChallenge) {
-      await updateDailyChallengeStats()
-      await updateDailyChallengeLeaderboard(game)
+      await updateDailyChallenge(game)
     }
 
     if (game.mode === 'streak') {
@@ -39,7 +38,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-const updateDailyChallengeStats = async () => {
+const updateDailyChallenge = async (game: Game) => {
   const dailyChallengeQuery = await collections.challenges
     ?.find({ isDailyChallenge: true })
     .sort({ createdAt: -1 })
@@ -53,6 +52,27 @@ const updateDailyChallengeStats = async () => {
   const dailyChallenge = dailyChallengeQuery[0]
   const dailyChallengeId = new ObjectId(dailyChallenge._id)
 
+  const stats = await getDailyChallengeStats(dailyChallengeId)
+  const scores = await getDailyChallengeScores(dailyChallengeId, game)
+
+  let updateFields = {}
+
+  if (stats) {
+    updateFields = { ...updateFields, stats }
+  }
+
+  if (scores) {
+    updateFields = { ...updateFields, scores }
+  }
+
+  await collections.mapLeaderboard?.findOneAndUpdate(
+    { mapId: DAILY_CHALLENGE_ID, dailyChallengeId },
+    { $set: updateFields },
+    { upsert: true }
+  )
+}
+
+const getDailyChallengeStats = async (dailyChallengeId: ObjectId) => {
   const gameStats = await collections.games
     ?.aggregate([
       { $match: { challengeId: dailyChallengeId, state: 'finished' } },
@@ -78,13 +98,30 @@ const updateDailyChallengeStats = async () => {
   }
 
   const { explorers, avgScore } = gameStats?.length ? gameStats[0] : { explorers: 0, avgScore: 0 }
-  const roundedAvgScore = Math.ceil(avgScore)
 
-  await collections.mapLeaderboard?.findOneAndUpdate(
-    { mapId: DAILY_CHALLENGE_ID, dailyChallengeId },
-    { $set: { avgScore: roundedAvgScore, usersPlayed: explorers } },
-    { upsert: true }
-  )
+  return {
+    usersPlayed: explorers,
+    avgScore: Math.ceil(avgScore),
+  }
+}
+
+const getDailyChallengeScores = async (dailyChallengeId: ObjectId, game: Game) => {
+  const mapId = DAILY_CHALLENGE_ID
+  const mapLeaderboard = await collections.mapLeaderboard?.findOne({ mapId, dailyChallengeId })
+
+  const topScores = mapLeaderboard?.scores
+  const lowestTopScore = topScores?.length
+    ? topScores.reduce((min, score) => Math.min(min, score.totalPoints), Infinity)
+    : 0
+
+  if (game.totalPoints < lowestTopScore) {
+    return
+  }
+
+  const query = { challengeId: dailyChallengeId, state: 'finished' }
+  const newTopScores = await queryTopScores(query, 5)
+
+  return newTopScores
 }
 
 const updateMapStats = async (game: Game) => {
@@ -118,6 +155,23 @@ const updateMapStats = async (game: Game) => {
   const roundedAvgScore = Math.ceil(avgScore)
 
   await collections.maps?.updateOne({ _id: mapId }, { $set: { avgScore: roundedAvgScore, usersPlayed: explorers } })
+}
+
+const updateMapLeaderboard = async (game: Game) => {
+  const mapId = new ObjectId(game.mapId)
+  const mapLeaderboard = await collections.mapLeaderboard?.findOne({ mapId })
+
+  const topScores = mapLeaderboard?.scores
+  const lowestTopScore = topScores?.length
+    ? topScores.reduce((min, score) => Math.min(min, score.totalPoints), Infinity)
+    : 0
+
+  if (game.totalPoints >= lowestTopScore) {
+    const query = { mapId, round: 6 }
+    const newTopScores = await queryTopScores(query, 5)
+
+    await collections.mapLeaderboard?.findOneAndUpdate({ mapId }, { $set: { scores: newTopScores } }, { upsert: true })
+  }
 }
 
 const updateStreakStats = async () => {
@@ -155,23 +209,6 @@ const updateStreakStats = async () => {
   )
 }
 
-const updateMapLeaderboard = async (game: Game) => {
-  const mapId = new ObjectId(game.mapId)
-  const mapLeaderboard = await collections.mapLeaderboard?.findOne({ mapId })
-
-  const topScores = mapLeaderboard?.scores
-  const lowestTopScore = topScores?.length
-    ? topScores.reduce((min, score) => Math.min(min, score.totalPoints), Infinity)
-    : 0
-
-  if (game.totalPoints >= lowestTopScore) {
-    const query = { mapId, round: 6 }
-    const newTopScores = await queryTopScores(query, 5)
-
-    await collections.mapLeaderboard?.findOneAndUpdate({ mapId }, { $set: { scores: newTopScores } }, { upsert: true })
-  }
-}
-
 const updateStreakLeaderboard = async (game: Game) => {
   const mapId = COUNTRY_STREAKS_ID
   const mapLeaderboard = await collections.mapLeaderboard?.findOne({ mapId })
@@ -184,23 +221,6 @@ const updateStreakLeaderboard = async (game: Game) => {
   if (game.streak >= lowestTopScore) {
     const query = { mode: 'streak', state: 'finished' }
     const newTopScores = await queryTopStreaks(query, 5)
-
-    await collections.mapLeaderboard?.findOneAndUpdate({ mapId }, { $set: { scores: newTopScores } }, { upsert: true })
-  }
-}
-
-const updateDailyChallengeLeaderboard = async (game: Game) => {
-  const mapId = DAILY_CHALLENGE_ID
-  const mapLeaderboard = await collections.mapLeaderboard?.findOne({ mapId })
-
-  const topScores = mapLeaderboard?.scores
-  const lowestTopScore = topScores?.length
-    ? topScores.reduce((min, score) => Math.min(min, score.totalPoints), Infinity)
-    : 0
-
-  if (game.totalPoints >= lowestTopScore) {
-    const query = { challengeId: game.challengeId, state: 'finished' }
-    const newTopScores = await queryTopScores(query, 5)
 
     await collections.mapLeaderboard?.findOneAndUpdate({ mapId }, { $set: { scores: newTopScores } }, { upsert: true })
   }
