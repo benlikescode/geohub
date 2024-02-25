@@ -38,6 +38,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
+// DAILY CHALLENGE
 const updateDailyChallenge = async (game: Game) => {
   const dailyChallengeQuery = await collections.challenges
     ?.find({ isDailyChallenge: true })
@@ -124,6 +125,7 @@ const getDailyChallengeScores = async (dailyChallengeId: ObjectId, game: Game) =
   return newTopScores
 }
 
+// REGULAR MAPS
 const updateMapStats = async (game: Game) => {
   const mapId = new ObjectId(game.mapId)
 
@@ -174,6 +176,7 @@ const updateMapLeaderboard = async (game: Game) => {
   }
 }
 
+// COUNTRY STREAKS
 const updateStreakStats = async () => {
   const gameStats = await collections.games
     ?.aggregate([
@@ -181,14 +184,14 @@ const updateStreakStats = async () => {
       {
         $group: {
           _id: null,
-          avgStreak: { $avg: '$streak' },
+          avgScore: { $avg: '$streak' },
           uniquePlayers: { $addToSet: '$userId' },
         },
       },
       {
         $project: {
           _id: 0,
-          avgStreak: 1,
+          avgScore: 1,
           explorers: { $size: '$uniquePlayers' },
         },
       },
@@ -199,12 +202,12 @@ const updateStreakStats = async () => {
     return null
   }
 
-  const { explorers, avgStreak } = gameStats?.length ? gameStats[0] : { explorers: 0, avgStreak: 0 }
-  const roundedAvgStreak = Math.ceil(avgStreak)
+  const { explorers, avgScore } = gameStats?.length ? gameStats[0] : { explorers: 0, avgScore: 0 }
+  const roundedAvgScore = Math.ceil(avgScore)
 
   await collections.mapLeaderboard?.findOneAndUpdate(
     { mapId: COUNTRY_STREAKS_ID },
-    { $set: { avgStreak: roundedAvgStreak, usersPlayed: explorers } },
+    { $set: { avgScore: roundedAvgScore, usersPlayed: explorers } },
     { upsert: true }
   )
 }
