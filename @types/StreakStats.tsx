@@ -1,7 +1,7 @@
 import { TopScore } from '@backend/models'
 
 type StreakStats = {
-  avgStreak: number
+  avgScore: number
   locationCount: number
   countryCount: number
   usersPlayed: number

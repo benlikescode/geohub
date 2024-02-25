@@ -18,7 +18,7 @@ const StreakMapStats: FC<Props> = ({ streakStats }) => {
 
         <div className="textWrapper">
           <span className="mainLabel">Average Streak</span>
-          <span className="subLabel">{formatLargeNumber(streakStats.avgStreak || 0)}</span>
+          <span className="subLabel">{formatLargeNumber(streakStats.avgScore || 0)}</span>
         </div>
       </div>
 
