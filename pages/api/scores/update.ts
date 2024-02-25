@@ -24,8 +24,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { game } = req.body
 
     if (game.mode === 'standard' && !game.isDailyChallenge) {
-      await updateMapStats(game)
       await updateMapLeaderboard(game)
+      await updateMapStats(game)
     }
 
     if (game.mode === 'standard' && game.isDailyChallenge) {
@@ -33,8 +33,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     if (game.mode === 'streak') {
-      await updateStreakStats()
       await updateStreakLeaderboard(game)
+      await updateStreakStats()
     }
 
     res.status(200).send('Success')
