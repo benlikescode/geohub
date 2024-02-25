@@ -51,7 +51,7 @@ const StyledStreakMapStats = styled.div<StyledProps>`
   .stat-icon {
     svg {
       height: 30px;
-      color: var(--lightPurple);
+      color: #9b9b9b;
       transition: transform 200ms ease 0ms;
       position: relative;
 
