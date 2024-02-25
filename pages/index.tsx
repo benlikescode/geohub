@@ -1,23 +1,17 @@
 import type { NextPage } from 'next'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
 import { GamemodeCard } from '@components/GamemodeCard'
 import { MapPreviewCard } from '@components/MapPreviewCard'
 import { Meta } from '@components/Meta'
 import { Pill } from '@components/system'
 import StyledHomePage from '@styles/HomePage.Styled'
-import { GeoTipType } from '@types'
 import geoTips from '@utils/constants/geotips.json'
 import officialMaps from '@utils/constants/officialMaps.json'
 import { COUNTRY_STREAK_DETAILS, DAILY_CHALLENGE_DETAILS } from '@utils/constants/random'
 
 const Home: NextPage = () => {
-  const [geoTip, setGeoTip] = useState<GeoTipType>(geoTips[22])
-
-  useEffect(() => {
-    const day = new Date().getDate()
-    setGeoTip(geoTips[day - 1])
-  }, [])
+  const day = new Date().getDate()
+  const geoTip = geoTips[day - 1] ?? geoTips[0]
 
   return (
     <StyledHomePage>
