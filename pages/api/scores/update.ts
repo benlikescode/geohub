@@ -21,8 +21,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     await dbConnect()
 
-    console.log('WE MADE IT FAMAAAALY')
-
     const { game } = req.body
 
     if (game.mode === 'standard' && !game.isDailyChallenge) {
