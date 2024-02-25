@@ -2,12 +2,9 @@ import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { collections, compareObjectIds, getUserId, throwError } from '@backend/utils'
 import { DAILY_CHALLENGE_ID } from '@utils/constants/random'
+import { TopScore } from '@backend/models'
 
-type TopScore = {
-  gameId: ObjectId
-  userId: ObjectId
-  totalPoints: number
-  totalTime: number
+type TopScoreType = TopScore & {
   highlight?: boolean
 }
 
@@ -90,7 +87,7 @@ const getDailyChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const dailyChallengeStats = mapLeaderboard[0]
-  const topScores = dailyChallengeStats.scores as TopScore[]
+  const topScores = dailyChallengeStats.scores as TopScoreType[]
 
   const thisUserIndex = topScores.findIndex((topScore) => compareObjectIds(topScore.userId, userId))
   const isUserInTopFive = thisUserIndex !== -1
@@ -125,7 +122,7 @@ const getDailyChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
           },
         },
       ])
-      .toArray()) as TopScore[]
+      .toArray()) as TopScoreType[]
 
     if (usersTopScore?.length) {
       topScores.push({ ...usersTopScore[0], highlight: true })

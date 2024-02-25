@@ -2,18 +2,13 @@ import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { collections, getUserId, throwError } from '@backend/utils'
 import compareObjectIds from '@backend/utils/compareObjectIds'
+import { TopScore } from '@backend/models'
 
-type TopScore = {
-  gameId: ObjectId
-  userId: ObjectId
-  totalPoints: number
-  totalTime: number
+type TopScoreType = TopScore & {
   highlight?: boolean
 }
 
 const getGameScores = async (req: NextApiRequest, res: NextApiResponse) => {
-  // res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=60')
-
   const userId = await getUserId(req, res)
   const mapId = req.query.id as string
 
@@ -58,7 +53,7 @@ const getGameScores = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(200).send([])
   }
 
-  const topScores = mapLeaderboard[0].scores as TopScore[]
+  const topScores = mapLeaderboard[0].scores as TopScoreType[]
 
   const thisUserIndex = topScores.findIndex((topScore) => compareObjectIds(topScore.userId, userId))
   const isUserInTopFive = thisUserIndex !== -1
@@ -93,7 +88,7 @@ const getGameScores = async (req: NextApiRequest, res: NextApiResponse) => {
           },
         },
       ])
-      .toArray()) as TopScore[]
+      .toArray()) as TopScoreType[]
 
     if (usersTopScore?.length) {
       topScores.push({ ...usersTopScore[0], highlight: true })

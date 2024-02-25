@@ -150,7 +150,10 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
 
     fetch(`${baseUrl}/api/scores/update`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: process.env.INTERNAL_API_SECRET ?? '',
+      },
       body: JSON.stringify({ game }),
     })
   }

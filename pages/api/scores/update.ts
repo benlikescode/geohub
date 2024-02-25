@@ -1,7 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { collections, dbConnect } from '@backend/utils'
+import { collections, dbConnect, throwError } from '@backend/utils'
 import queryTopScores from '@backend/queries/topScores'
 import { COUNTRY_STREAKS_ID, DAILY_CHALLENGE_ID } from '@utils/constants/random'
 import queryTopStreaks from '@backend/queries/topStreaks'
@@ -9,11 +9,19 @@ import { Game } from '@backend/models'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    await dbConnect()
-
     if (req.method !== 'POST') {
       return res.status(405).end(`Method ${req.method} Not Allowed`)
     }
+
+    const authHeader = req.headers.authorization
+
+    if (!authHeader || authHeader !== process.env.INTERNAL_API_SECRET) {
+      return throwError(res, 401, 'Unauthorized')
+    }
+
+    await dbConnect()
+
+    console.log('WE MADE IT FAMAAAALY')
 
     const { game } = req.body
 

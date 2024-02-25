@@ -2,12 +2,9 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { collections, compareObjectIds, getUserId, throwError } from '@backend/utils'
 import { COUNTRY_STREAKS_ID } from '@utils/constants/random'
 import { ObjectId } from 'mongodb'
+import { TopScore } from '@backend/models'
 
-type TopScore = {
-  gameId: ObjectId
-  userId: ObjectId
-  totalPoints: number
-  totalTime: number
+type TopScoreType = TopScore & {
   highlight?: boolean
 }
 
@@ -66,7 +63,7 @@ const getStreakStats = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const streakStats = mapLeaderboard[0]
-  const topScores = streakStats.scores as TopScore[]
+  const topScores = streakStats.scores as TopScoreType[]
 
   const thisUserIndex = topScores.findIndex((topScore) => compareObjectIds(topScore.userId, userId))
   const isUserInTopFive = thisUserIndex !== -1
@@ -101,7 +98,7 @@ const getStreakStats = async (req: NextApiRequest, res: NextApiResponse) => {
           },
         },
       ])
-      .toArray()) as TopScore[]
+      .toArray()) as TopScoreType[]
 
     if (usersTopScore?.length) {
       topScores.push({ ...usersTopScore[0], highlight: true })

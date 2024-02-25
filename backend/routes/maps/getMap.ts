@@ -4,8 +4,6 @@ import { collections, getUserId, throwError } from '@backend/utils'
 import { userProject } from '@backend/utils/dbProjects'
 
 const getMap = async (req: NextApiRequest, res: NextApiResponse) => {
-  // res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=60')
-
   const userId = await getUserId(req, res)
   const mapId = req.query.id as string
   const includeStats = req.query.stats as string // true or false
