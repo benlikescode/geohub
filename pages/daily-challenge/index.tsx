@@ -18,8 +18,8 @@ import { mailman, showToast } from '@utils/helpers'
 const DailyChallengePage: FC = () => {
   const [mapStats, setMapStats] = useState<DailyChallengeStatsType | null>()
   const [scores, setScores] = useState<MapLeaderboardType[] | null>()
+  const [previousWinners, setPreviousWinners] = useState()
   const [usersGameState, setUsersGameState] = useState<'started' | 'finished' | 'notStarted'>('notStarted')
-  const [previousWinners, setPreviousWinners] = useState([])
   const [challengeId, setChallengeId] = useState()
 
   const user = useAppSelector((state) => state.user)
@@ -63,67 +63,63 @@ const DailyChallengePage: FC = () => {
 
   return (
     <StyledDailyChallengePage>
-      <WidthController customWidth="1400px" mobilePadding="0px">
+      <WidthController customWidth="1100px" mobilePadding="0px">
         <Meta title={`Play - ${DAILY_CHALLENGE_DETAILS.name}`} />
 
         <div className="daily-challenge-wrapper">
-          <div>
-            {mapStats && challengeId ? (
-              <div className="mapDetailsSection">
-                <div className="mapDescriptionWrapper">
-                  <div className="descriptionColumnWrapper">
-                    <div className="descriptionColumn">
-                      <Avatar type="map" src={DAILY_CHALLENGE_DETAILS.previewImg} size={50} />
-                      <div className="map-details">
-                        <div className="name-container">
-                          <div className="name-wrapper">
-                            <span className="name">{DAILY_CHALLENGE_DETAILS.name}</span>
-                          </div>
-                          <VerifiedBadge size={20} />
+          {mapStats && challengeId ? (
+            <div className="mapDetailsSection">
+              <div className="mapDescriptionWrapper">
+                <div className="descriptionColumnWrapper">
+                  <div className="descriptionColumn">
+                    <Avatar type="map" src={DAILY_CHALLENGE_DETAILS.previewImg} size={50} />
+                    <div className="map-details">
+                      <div className="name-container">
+                        <div className="name-wrapper">
+                          <span className="name">{DAILY_CHALLENGE_DETAILS.name}</span>
                         </div>
-
-                        <span className="description">{DAILY_CHALLENGE_DETAILS.description}</span>
+                        <VerifiedBadge size={20} />
                       </div>
+
+                      <span className="description">{DAILY_CHALLENGE_DETAILS.description}</span>
                     </div>
-
-                    <Button className="play-button" onClick={() => startDailyChallenge()}>
-                      {usersGameState === 'started' && 'Continue'}
-                      {usersGameState === 'notStarted' && 'Play Now'}
-                      {usersGameState === 'finished' && (
-                        <div className="completed-wrapper">
-                          <div className="completed-check">
-                            <CheckIcon />
-                          </div>
-                          <div className="completed-text">View Results</div>
-                        </div>
-                      )}
-                    </Button>
                   </div>
-                </div>
 
-                <div className="statsWrapper">
-                  <DailyChallengeMapStats dailyChallengeStats={mapStats} />
+                  <Button className="play-button" onClick={() => startDailyChallenge()}>
+                    {usersGameState === 'started' && 'Continue'}
+                    {usersGameState === 'notStarted' && 'Play Now'}
+                    {usersGameState === 'finished' && (
+                      <div className="completed-wrapper">
+                        <div className="completed-check">
+                          <CheckIcon />
+                        </div>
+                        <div className="completed-text">View Results</div>
+                      </div>
+                    )}
+                  </Button>
                 </div>
               </div>
-            ) : (
-              <SkeletonMapInfo />
-            )}
 
-            {scores ? (
-              <MapLeaderboard
-                leaderboard={scores}
-                title="Leaderboard"
-                noResultsMessage="Play now to be the first on the leaderboard!"
-                removeResults={usersGameState !== 'finished'}
-              />
-            ) : (
-              <SkeletonLeaderboard />
-            )}
-          </div>
+              <div className="statsWrapper">
+                <DailyChallengeMapStats dailyChallengeStats={mapStats} />
+              </div>
+            </div>
+          ) : (
+            <SkeletonMapInfo />
+          )}
 
-          <div className="previous-winners-container">
-            {previousWinners ? <DailyChallengeWinners prevWinners={previousWinners} /> : <SkeletonLeaderboard />}
-          </div>
+          {scores ? (
+            <MapLeaderboard
+              leaderboard={scores}
+              title="Leaderboard"
+              noResultsMessage="Play now to be the first on the leaderboard!"
+              removeResults={usersGameState !== 'finished'}
+            />
+          ) : (
+            <SkeletonLeaderboard />
+          )}
+
+          {previousWinners ? <DailyChallengeWinners prevWinners={previousWinners} /> : <SkeletonLeaderboard />}
         </div>
       </WidthController>
     </StyledDailyChallengePage>
