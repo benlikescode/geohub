@@ -38,7 +38,7 @@ const getStreakStats = async (req: NextApiRequest, res: NextApiResponse) => {
         $group: {
           _id: '$_id',
           mapId: { $first: '$mapId' },
-          avgStreak: { $first: '$avgStreak' },
+          avgScore: { $first: '$avgScore' },
           usersPlayed: { $first: '$usersPlayed' },
           scores: {
             $push: {
@@ -56,7 +56,13 @@ const getStreakStats = async (req: NextApiRequest, res: NextApiResponse) => {
     .toArray()
 
   if (!mapLeaderboard?.length) {
-    return throwError(res, 500, 'Failed to get streak stats')
+    return res.status(200).send({
+      avgScore: 0,
+      usersPlayed: 0,
+      locationCount: LOCATION_COUNT,
+      countryCount: COUNTRY_COUNT,
+      scores: [],
+    })
   }
 
   const streakStats = mapLeaderboard[0]
@@ -103,12 +109,10 @@ const getStreakStats = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   res.status(200).send({
-    stats: {
-      avgScore: streakStats.avgScore,
-      usersPlayed: streakStats.usersPlayed,
-      locationCount: LOCATION_COUNT,
-      countryCount: COUNTRY_COUNT,
-    },
+    avgScore: streakStats.avgScore,
+    usersPlayed: streakStats.usersPlayed,
+    locationCount: LOCATION_COUNT,
+    countryCount: COUNTRY_COUNT,
     scores: topScores,
   })
 }
