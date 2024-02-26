@@ -1,5 +1,6 @@
 export const OFFICIAL_WORLD_ID = '6185df7a7b54baf63473a53e'
 export const COUNTRY_STREAKS_ID = 'country-streaks'
+export const DAILY_CHALLENGE_ID = 'daily-challenge'
 
 export const GUEST_ACCOUNT_ID = '636ed6784ec6f85e6f18591e'
 

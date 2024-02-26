@@ -1,43 +1,101 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import queryTopScores from '@backend/queries/topScores'
-import { getUserId, throwError } from '@backend/utils'
+import { collections, getUserId, throwError } from '@backend/utils'
+import compareObjectIds from '@backend/utils/compareObjectIds'
+import { TopScore } from '@backend/models'
+
+type TopScoreType = TopScore & {
+  highlight?: boolean
+}
 
 const getGameScores = async (req: NextApiRequest, res: NextApiResponse) => {
-  res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=60')
-
   const userId = await getUserId(req, res)
   const mapId = req.query.id as string
 
-  // Get the top 5 user scores
-  const query = { mapId: new ObjectId(mapId), round: 6 }
-  const data = await queryTopScores(query, 5)
+  const mapLeaderboard = await collections.mapLeaderboard
+    ?.aggregate([
+      { $match: { mapId: new ObjectId(mapId) } },
+      {
+        $unwind: '$scores',
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'scores.userId',
+          foreignField: '_id',
+          as: 'userDetails',
+        },
+      },
+      {
+        $unwind: '$userDetails',
+      },
+      {
+        $group: {
+          _id: '$_id',
+          mapId: { $first: '$mapId' },
+          scores: {
+            $push: {
+              gameId: '$scores.gameId',
+              userId: '$scores.userId',
+              totalPoints: '$scores.totalPoints',
+              totalTime: '$scores.totalTime',
+              userName: '$userDetails.name',
+              userAvatar: '$userDetails.avatar',
+            },
+          },
+        },
+      },
+    ])
+    .toArray()
 
-  if (!data) {
-    return throwError(res, 404, 'Failed to get scores for this map')
+  // No scores yet for this map
+  if (!mapLeaderboard?.length) {
+    return res.status(200).send([])
   }
 
-  // Determine if this user is in the top 5 (If yes -> mark them as highlight: true)
-  const thisUserIndex = data.findIndex((user) => user?.userId?.toString() === userId)
+  const topScores = mapLeaderboard[0].scores as TopScoreType[]
+
+  const thisUserIndex = topScores.findIndex((topScore) => compareObjectIds(topScore.userId, userId))
   const isUserInTopFive = thisUserIndex !== -1
 
   if (isUserInTopFive) {
-    data[thisUserIndex] = { ...data[thisUserIndex], highlight: true }
-    return res.status(200).send(data)
+    topScores[thisUserIndex] = { ...topScores[thisUserIndex], highlight: true }
+  } else {
+    const usersTopScore = (await collections.games
+      ?.aggregate([
+        { $match: { mapId: new ObjectId(mapId), userId: new ObjectId(userId), state: 'finished' } },
+        { $sort: { totalPoints: -1 } },
+        { $limit: 1 },
+        {
+          $lookup: {
+            from: 'users',
+            localField: 'userId',
+            foreignField: '_id',
+            as: 'userDetails',
+          },
+        },
+        {
+          $unwind: '$userDetails',
+        },
+        {
+          $project: {
+            gameId: '$_id',
+            userId: 1,
+            userName: '$userDetails.name',
+            userAvatar: '$userDetails.avatar',
+            totalPoints: 1,
+            totalTime: 1,
+          },
+        },
+      ])
+      .toArray()) as TopScoreType[]
+
+    if (usersTopScore?.length) {
+      topScores.push({ ...usersTopScore[0], highlight: true })
+    }
   }
 
-  // If this user is not in the top 5 -> Get their top score and mark them as highlight: true
-  const thisUserQuery = { userId: new ObjectId(userId), mapId: new ObjectId(mapId), round: 6 }
-  const thisUserData = await queryTopScores(thisUserQuery, 1)
-
-  // If this user has not played the map -> return early
-  if (!thisUserData || thisUserData.length !== 1) {
-    return res.status(200).send(data)
-  }
-
-  data.push({ ...thisUserData[0], highlight: true })
-
-  res.status(200).send(data)
+  res.status(200).send(topScores)
 }
 
 export default getGameScores

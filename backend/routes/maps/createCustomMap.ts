@@ -18,6 +18,9 @@ const createCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
     creator: new ObjectId(creatorId),
     createdAt: new Date(),
     isPublished: false,
+    avgScore: 0,
+    locationCount: 0,
+    usersPlayed: 0,
   } as Map
 
   const result = await collections.maps?.insertOne(newMap)

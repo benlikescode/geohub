@@ -1,3 +1,4 @@
+import { TopScore } from '@backend/models'
 import { collections } from '@backend/utils'
 
 const queryTopStreaks = async (query: any, limit: number) => {
@@ -20,34 +21,20 @@ const queryTopStreaks = async (query: any, limit: number) => {
       // Re-sort the resulting documents
       { $sort: { streak: -1, totalTime: 1 } },
       { $limit: limit },
-      // Query the user's details
-      {
-        $lookup: {
-          from: 'users',
-          localField: '_id',
-          foreignField: '_id',
-          as: 'userDetails',
-        },
-      },
-      // Unwind the user details from an array into an object
-      {
-        $unwind: '$userDetails',
-      },
       // Format the result
       {
         $project: {
-          _id: '$gameId',
+          _id: 0,
+          gameId: '$gameId',
           userId: '$_id',
-          userName: '$userDetails.name',
-          userAvatar: '$userDetails.avatar',
-          streak: 1,
+          totalPoints: '$streak',
           totalTime: 1,
         },
       },
     ])
     .toArray()
 
-  return data
+  return data as TopScore[] | undefined
 }
 
 export default queryTopStreaks

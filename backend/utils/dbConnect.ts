@@ -1,6 +1,7 @@
 import { Collection, Db, MongoClient } from 'mongodb'
 import { RecentSearch } from '@types'
 import { FeatureFlagsType } from '@types'
+import { MapLeaderboard } from '@backend/models'
 
 export const collections: {
   users?: Collection
@@ -13,6 +14,7 @@ export const collections: {
   recentSearches?: Collection<RecentSearch>
   passwordResets?: Collection
   featureFlags?: Collection<FeatureFlagsType>
+  mapLeaderboard?: Collection<MapLeaderboard>
 } = {}
 
 const IS_PROD = process.env.NODE_ENV === 'production'
@@ -46,6 +48,7 @@ export const dbConnect = async () => {
     collections.recentSearches = db.collection('recentSearches')
     collections.passwordResets = db.collection('passwordResets')
     collections.featureFlags = db.collection('featureFlags')
+    collections.mapLeaderboard = db.collection('mapLeaderboard')
 
     return cachedDb
   } catch (err) {

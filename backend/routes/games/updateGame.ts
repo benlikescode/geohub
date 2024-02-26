@@ -54,6 +54,7 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
 
   game.state = isGameFinished ? 'finished' : 'started'
 
+  // Check if streak games need more locations
   if (!isGameFinished) {
     const isStreakGame = game.mode === 'streak'
     const NEW_LOCATIONS_COUNT = 10
@@ -140,6 +141,21 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (!updatedGame) {
     return throwError(res, 500, 'Failed to save your recent guess')
+  }
+
+  if (isGameFinished) {
+    const host = req.headers.host
+    const protocol = req.headers['x-forwarded-proto'] || 'http'
+    const baseUrl = `${protocol}://${host}`
+
+    fetch(`${baseUrl}/api/scores/update`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: process.env.INTERNAL_API_SECRET ?? '',
+      },
+      body: JSON.stringify({ game }),
+    })
   }
 
   res.status(200).send({ game, mapDetails })

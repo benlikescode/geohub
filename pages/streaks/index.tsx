@@ -17,13 +17,11 @@ import { mailman, showToast } from '@utils/helpers'
 const StreaksPage = () => {
   const [streakStats, setStreakStats] = useState<StreakStatsType>()
   const [settingsModalOpen, setSettingsModalOpen] = useState(false)
-  const [leaderboardData, setLeaderboardData] = useState<MapLeaderboardType[] | null>()
   const user = useAppSelector((state) => state.user)
   const router = useRouter()
 
   useEffect(() => {
     getStreakStats()
-    fetchMapScores()
   }, [])
 
   const getStreakStats = async () => {
@@ -34,16 +32,6 @@ const StreaksPage = () => {
     }
 
     setStreakStats(res)
-  }
-
-  const fetchMapScores = async () => {
-    const res = await mailman(`scores/streaks`)
-
-    if (res.error) {
-      return setLeaderboardData(null)
-    }
-
-    setLeaderboardData(res)
   }
 
   const handleClickPlay = () => {
@@ -89,7 +77,11 @@ const StreaksPage = () => {
           <SkeletonMapInfo />
         )}
 
-        {leaderboardData ? <MapLeaderboard leaderboard={leaderboardData} /> : <SkeletonLeaderboard />}
+        {streakStats ? (
+          <MapLeaderboard leaderboard={streakStats.scores as MapLeaderboardType[]} />
+        ) : (
+          <SkeletonLeaderboard />
+        )}
       </WidthController>
 
       <GameSettingsModal

@@ -3,9 +3,10 @@ import styled from 'styled-components'
 type StyledProps = {}
 
 const StyledWinnerItem = styled.div<StyledProps>`
-  display: grid;
-  gap: 12px;
-  padding: 16px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
 
   &:not(:first-child) {
     border-top: var(--border);
@@ -15,17 +16,12 @@ const StyledWinnerItem = styled.div<StyledProps>`
     padding: 1rem;
   }
 
-  .challenge-day {
-    font-size: 12px;
-    color: #dcdcdc;
-    font-weight: 400;
-  }
-
-  .winner-info {
+  .user-wrapper {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 16px;
+    gap: 15px;
+    user-select: none;
+    font-weight: 400;
 
     .user-info {
       display: flex;
@@ -36,18 +32,60 @@ const StyledWinnerItem = styled.div<StyledProps>`
         display: grid;
 
         .username {
-          font-size: 15px;
+          font-size: 1rem;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+          display: block;
+
+          @media (max-width: 850px) {
+            font-size: 14px;
+          }
         }
+      }
+    }
+  }
+
+  .winner-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+
+    .challenge-day {
+      color: var(--color3);
+      font-size: 14px;
+      width: 80px;
+      font-weight: 400;
+
+      @media (max-width: 650px) {
+        display: none;
       }
     }
 
     .total-points {
-      font-size: 15px;
-      color: #dcdcdc;
-      flex-shrink: 0;
+      width: 120px;
+      font-size: 16px;
+
+      @media (max-width: 850px) {
+        width: 100px;
+        font-size: 14px;
+      }
+    }
+
+    .results-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      svg {
+        height: 20px;
+        color: #a0a0a0;
+
+        path {
+          stroke-width: 1.5;
+        }
+      }
     }
   }
 `

@@ -104,7 +104,7 @@ const updateCustomMap = async (req: NextApiRequest, res: NextApiResponse) => {
 
       const updateMap = await collections.maps?.updateOne(
         { _id: new ObjectId(mapId) },
-        { $set: { bounds: newBounds, scoreFactor: newScoreFactor } }
+        { $set: { bounds: newBounds, scoreFactor: newScoreFactor, locationCount: locations.length } }
       )
 
       if (!updateMap) {
