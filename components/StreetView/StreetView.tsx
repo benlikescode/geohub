@@ -59,13 +59,23 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
       return
     }
 
-    const streetViewDiv = document.getElementById('streetview')
+    const QUOTA_EXCEEDED_MSG = 'For development purposes only'
 
-    if (!streetViewDiv) {
+    const googleMapRootDivs = document.getElementsByClassName('gm-style')
+
+    if (!googleMapRootDivs?.length) {
       return
     }
 
-    setShowQuotaModal(streetViewDiv.children.length === 6)
+    Array.from(googleMapRootDivs).map((mapRootDiv) => {
+      const innerDivs = mapRootDiv.querySelectorAll('div')
+
+      Array.from(innerDivs).map((innerDiv) => {
+        if (innerDiv.innerText.includes(QUOTA_EXCEEDED_MSG)) {
+          return setShowQuotaModal(true)
+        }
+      })
+    })
   }
 
   const initializeStreetView = () => {
