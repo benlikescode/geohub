@@ -7,7 +7,7 @@ import { StreaksGuessMap } from '@components/StreaksGuessMap'
 import { StreetViewControls } from '@components/StreetViewControls'
 import { MapIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
-import { FeatureFlagsType, GameViewType, GoogleMapsConfigType, LocationType } from '@types'
+import { GameViewType, GoogleMapsConfigType, LocationType } from '@types'
 import { getStreetviewOptions } from '@utils/constants/googleMapOptions'
 import { KEY_CODES } from '@utils/constants/keyCodes'
 import { mailman, showToast } from '@utils/helpers'
@@ -36,17 +36,15 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
   const serviceRef = useRef<google.maps.StreetViewService | null>(null)
   const panoramaRef = useRef<google.maps.StreetViewPanorama | null>(null)
 
-  useEffect(() => {
-    if (user.quotaModalDismissed || user.mapsAPIKey) return
-
-    getFeatureFlags()
-  }, [])
-
   // Initializes Streetview & loads first pano
   useEffect(() => {
     if (!googleMapsConfig) return
 
     initializeStreetView()
+
+    const timeoutId = setTimeout(checkForQuotaExceeded, 300)
+
+    return () => clearTimeout(timeoutId)
   }, [googleMapsConfig])
 
   // Loads all subsequent panos
@@ -56,14 +54,18 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
     loadNewPano()
   }, [view])
 
-  const getFeatureFlags = async () => {
-    const res = await mailman('flags')
+  const checkForQuotaExceeded = () => {
+    if (user.quotaModalDismissed || user.mapsAPIKey) {
+      return
+    }
 
-    if (res.error) return
+    const streetViewDiv = document.getElementById('streetview')
 
-    const flags = res.flags as FeatureFlagsType
+    if (!streetViewDiv) {
+      return
+    }
 
-    setShowQuotaModal(flags.mapsQuotaReached)
+    setShowQuotaModal(streetViewDiv.children.length === 6)
   }
 
   const initializeStreetView = () => {
