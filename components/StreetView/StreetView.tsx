@@ -36,17 +36,15 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
   const serviceRef = useRef<google.maps.StreetViewService | null>(null)
   const panoramaRef = useRef<google.maps.StreetViewPanorama | null>(null)
 
-  useEffect(() => {
-    if (user.quotaModalDismissed || user.mapsAPIKey) return
-
-    checkForQuotaExceeded()
-  }, [])
-
   // Initializes Streetview & loads first pano
   useEffect(() => {
     if (!googleMapsConfig) return
 
     initializeStreetView()
+
+    const timeoutId = setTimeout(checkForQuotaExceeded, 300)
+
+    return () => clearTimeout(timeoutId)
   }, [googleMapsConfig])
 
   // Loads all subsequent panos
@@ -57,11 +55,17 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
   }, [view])
 
   const checkForQuotaExceeded = () => {
-    const sv = document.getElementById('streetview')
+    if (user.quotaModalDismissed || user.mapsAPIKey) {
+      return
+    }
 
-    if (!sv) return
+    const streetViewDiv = document.getElementById('streetview')
 
-    setShowQuotaModal(sv.children.length === 6)
+    if (!streetViewDiv) {
+      return
+    }
+
+    setShowQuotaModal(streetViewDiv.children.length === 6)
   }
 
   const initializeStreetView = () => {
