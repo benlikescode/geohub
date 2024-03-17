@@ -99,6 +99,13 @@ const CreateMapPage: PageType = () => {
     setSelectedLocation(newLocations)
   }
 
+  const clearLocations = () => {
+    setHaveLocationsChanged(true)
+    setLocations([])
+    setSelectedLocation(null)
+    setShowPreviewMap(false)
+  }
+
   const handleLoadPreviewMap = () => {
     const svService = new google.maps.StreetViewService()
 
@@ -324,7 +331,7 @@ const CreateMapPage: PageType = () => {
 
                 <CreateMapDropdown
                   locations={locations}
-                  setLocations={setLocations}
+                  clearLocations={clearLocations}
                   addNewLocations={addNewLocations}
                 />
               </div>
