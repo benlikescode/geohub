@@ -322,7 +322,11 @@ const CreateMapPage: PageType = () => {
                   </Button>
                 </div>
 
-                <CreateMapDropdown locations={locations} addNewLocations={addNewLocations} />
+                <CreateMapDropdown
+                  locations={locations}
+                  setLocations={setLocations}
+                  addNewLocations={addNewLocations}
+                />
               </div>
             </div>
 

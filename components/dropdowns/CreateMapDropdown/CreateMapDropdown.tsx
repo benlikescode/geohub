@@ -10,10 +10,11 @@ import { StyledCreateMapDropdown } from './'
 
 type Props = {
   locations: LocationType[]
+  setLocations: (locations: LocationType[]) => void
   addNewLocations: (locations: LocationType[]) => void
 }
 
-const CreateMapDropdown: FC<Props> = ({ locations, addNewLocations }) => {
+const CreateMapDropdown: FC<Props> = ({ locations, setLocations, addNewLocations }) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
 
@@ -151,6 +152,10 @@ const CreateMapDropdown: FC<Props> = ({ locations, addNewLocations }) => {
                 </Item>
 
                 <Separator className="DropdownMenuSeparator" />
+
+                <Item className="new-item-wrapper destructive" onClick={() => setLocations([])}>
+                  Clear Locations
+                </Item>
 
                 {mapId && (
                   <Item className="new-item-wrapper destructive" onClick={() => setDeleteModalOpen(true)}>
