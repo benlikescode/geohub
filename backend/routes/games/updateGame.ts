@@ -8,6 +8,7 @@ import {
   collections,
   getLocations,
   getUserId,
+  isUserBanned,
   throwError,
 } from '@backend/utils'
 import { ChallengeType, DistanceType, GuessType } from '@types'
@@ -15,6 +16,16 @@ import { ChallengeType, DistanceType, GuessType } from '@types'
 const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
   const gameId = req.query.id as string
   const userId = await getUserId(req, res)
+
+  if (!userId) {
+    return throwError(res, 401, 'Unauthorized')
+  }
+
+  const { isBanned } = await isUserBanned(userId)
+
+  if (isBanned) {
+    return throwError(res, 401, 'You are currently banned from playing games')
+  }
 
   const getGameQuery = { _id: new ObjectId(gameId) }
   const { guess, guessTime, localRound, timedOut, timedOutWithGuess, adjustedLocation, streakLocationCode } = req.body

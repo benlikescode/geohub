@@ -5,7 +5,7 @@ const queryTopScores = async (query: any, limit: number) => {
   const data = await collections.games
     ?.aggregate([
       // Match the documents
-      { $match: query },
+      { $match: { ...query, notForLeaderboard: { $ne: true } } },
       // Sort the matches in descending order
       { $sort: { totalPoints: -1, totalTime: 1 } },
       // Group by unique userId, getting the first document

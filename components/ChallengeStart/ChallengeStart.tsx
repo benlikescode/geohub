@@ -18,10 +18,9 @@ import { StyledChallengeStart } from './'
 type Props = {
   challengeData: ChallengeType
   handleStartChallenge: (challengeData: ChallengeType) => void
-  setView: (view: GameViewType) => void
 }
 
-const ChallengeStart: FC<Props> = ({ challengeData, handleStartChallenge, setView }) => {
+const ChallengeStart: FC<Props> = ({ challengeData, handleStartChallenge }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(true)
   const user = useAppSelector((state) => state.user)
   const router = useRouter()
@@ -38,10 +37,9 @@ const ChallengeStart: FC<Props> = ({ challengeData, handleStartChallenge, setVie
     }
   }, [])
 
-  const handleButtonClick = async () => {
+  const handleButtonClick = () => {
     if (isLoggedIn) {
       handleStartChallenge(challengeData)
-      setView('Game')
     } else {
       redirectToRegister(router)
     }

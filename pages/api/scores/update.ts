@@ -82,7 +82,7 @@ const updateDailyChallenge = async (game: Game) => {
 const getDailyChallengeStats = async (dailyChallengeId: ObjectId) => {
   const gameStats = await collections.games
     ?.aggregate([
-      { $match: { challengeId: dailyChallengeId, state: 'finished' } },
+      { $match: { challengeId: dailyChallengeId, state: 'finished', notForLeaderboard: { $ne: true } } },
       {
         $group: {
           _id: null,
@@ -137,7 +137,7 @@ const updateMapStats = async (game: Game) => {
 
   const gameStats = await collections.games
     ?.aggregate([
-      { $match: { mapId, state: 'finished' } },
+      { $match: { mapId, state: 'finished', notForLeaderboard: { $ne: true } } },
       {
         $group: {
           _id: null,
@@ -186,7 +186,7 @@ const updateMapLeaderboard = async (game: Game) => {
 const updateStreakStats = async () => {
   const gameStats = await collections.games
     ?.aggregate([
-      { $match: { mode: 'streak', state: 'finished' } },
+      { $match: { mode: 'streak', state: 'finished', notForLeaderboard: { $ne: true } } },
       {
         $group: {
           _id: null,

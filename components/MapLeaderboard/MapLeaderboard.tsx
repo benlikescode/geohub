@@ -69,7 +69,7 @@ const MapLeaderboard: FC<Props> = ({
 
       {leaderboard.length <= 0 && (
         <span className="notPlayedMsg">
-          {noResultsMessage ?? 'This map has not been played yet. Be the first one on the leaderboard!'}
+          {noResultsMessage ?? 'This leaderboard is empty. Play now and navigate your way to the top!'}
         </span>
       )}
     </StyledMapLeaderboard>
