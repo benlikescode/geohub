@@ -7,6 +7,8 @@ import { COUNTRY_STREAKS_ID, DAILY_CHALLENGE_ID } from '@utils/constants/random'
 import queryTopStreaks from '@backend/queries/topStreaks'
 import { Game } from '@backend/models'
 
+export const LEADERBOARD_LENGTH = 5
+
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     if (req.method !== 'POST') {
@@ -117,16 +119,17 @@ const getDailyChallengeScores = async (dailyChallengeId: ObjectId, game: Game) =
   const mapLeaderboard = await collections.mapLeaderboard?.findOne({ mapId, dailyChallengeId })
 
   const topScores = mapLeaderboard?.scores
+  const leaderboardNeedsMoreScores = topScores?.length && topScores.length < LEADERBOARD_LENGTH
   const lowestTopScore = topScores?.length
     ? topScores.reduce((min, score) => Math.min(min, score.totalPoints), Infinity)
     : 0
 
-  if (game.totalPoints < lowestTopScore) {
+  if (game.totalPoints < lowestTopScore && !leaderboardNeedsMoreScores) {
     return
   }
 
   const query = { challengeId: dailyChallengeId, state: 'finished' }
-  const newTopScores = await queryTopScores(query, 5)
+  const newTopScores = await queryTopScores(query, LEADERBOARD_LENGTH)
 
   return newTopScores
 }
@@ -170,13 +173,14 @@ const updateMapLeaderboard = async (game: Game) => {
   const mapLeaderboard = await collections.mapLeaderboard?.findOne({ mapId })
 
   const topScores = mapLeaderboard?.scores
+  const leaderboardNeedsMoreScores = topScores?.length && topScores.length < LEADERBOARD_LENGTH
   const lowestTopScore = topScores?.length
     ? topScores.reduce((min, score) => Math.min(min, score.totalPoints), Infinity)
     : 0
 
-  if (game.totalPoints >= lowestTopScore) {
+  if (game.totalPoints >= lowestTopScore || leaderboardNeedsMoreScores) {
     const query = { mapId, round: 6 }
-    const newTopScores = await queryTopScores(query, 5)
+    const newTopScores = await queryTopScores(query, LEADERBOARD_LENGTH)
 
     await collections.mapLeaderboard?.findOneAndUpdate({ mapId }, { $set: { scores: newTopScores } }, { upsert: true })
   }
@@ -223,13 +227,14 @@ const updateStreakLeaderboard = async (game: Game) => {
   const mapLeaderboard = await collections.mapLeaderboard?.findOne({ mapId })
 
   const topScores = mapLeaderboard?.scores
+  const leaderboardNeedsMoreScores = topScores?.length && topScores.length < LEADERBOARD_LENGTH
   const lowestTopScore = topScores?.length
     ? topScores.reduce((min, score) => Math.min(min, score.totalPoints), Infinity)
     : 0
 
-  if (game.streak >= lowestTopScore) {
+  if (game.streak >= lowestTopScore || leaderboardNeedsMoreScores) {
     const query = { mode: 'streak', state: 'finished' }
-    const newTopScores = await queryTopStreaks(query, 5)
+    const newTopScores = await queryTopStreaks(query, LEADERBOARD_LENGTH)
 
     await collections.mapLeaderboard?.findOneAndUpdate({ mapId }, { $set: { scores: newTopScores } }, { upsert: true })
   }
