@@ -13,6 +13,30 @@ const StyledLayout = styled.div`
     overflow: hidden;
   }
 
+  .ban-message {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 20px;
+    padding: 20px;
+    border-radius: 20px;
+    background-color: #14073a;
+    background-color: #7f1d1d;
+    background-color: #450a0a;
+    z-index: 99999;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    font-weight: 400;
+    width: fit-content;
+
+    p {
+      margin-top: 4px;
+      font-size: 15px;
+      color: #fca5a5;
+      color: #fecaca;
+    }
+  }
+
   main {
     width: 100% !important;
     height: calc(100vh - var(--navbarHeight));

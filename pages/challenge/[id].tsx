@@ -66,6 +66,7 @@ const ChallengePage: PageType = () => {
     }
 
     setGameData(res)
+    setView('Game')
   }
 
   useEffect(() => {
@@ -79,7 +80,7 @@ const ChallengePage: PageType = () => {
   }, [challengeId])
 
   if (view === 'Start' && challengeData) {
-    return <ChallengeStart challengeData={challengeData} handleStartChallenge={createGame} setView={setView} />
+    return <ChallengeStart challengeData={challengeData} handleStartChallenge={createGame} />
   }
 
   if (challengeData === null || gameData === null) {

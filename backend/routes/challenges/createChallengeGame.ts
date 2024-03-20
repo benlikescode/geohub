@@ -2,12 +2,22 @@ import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Game } from '@backend/models'
 import getMapFromGame from '@backend/queries/getMapFromGame'
-import { collections, getUserId, throwError } from '@backend/utils'
+import { collections, getUserId, isUserBanned, throwError } from '@backend/utils'
 
 const createChallengeGame = async (req: NextApiRequest, res: NextApiResponse) => {
   const userId = await getUserId(req, res)
   const challengeId = req.query.id as string
   const { mapId, mode, gameSettings, locations, isDailyChallenge } = req.body
+
+  if (!userId) {
+    return throwError(res, 401, 'Unauthorized')
+  }
+
+  const { isBanned } = await isUserBanned(userId)
+
+  if (isBanned) {
+    return throwError(res, 401, 'You are currently banned from playing games')
+  }
 
   // Ensure user has not already played this challenge
   const hasAlreadyPlayed = await collections.games

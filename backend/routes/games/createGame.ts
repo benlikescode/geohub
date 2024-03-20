@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import Game from '@backend/models/game'
-import { collections, getLocations, getUserId, throwError } from '@backend/utils'
+import { collections, getLocations, getUserId, isUserBanned, throwError } from '@backend/utils'
 
 const createGame = async (req: NextApiRequest, res: NextApiResponse) => {
   const userId = await getUserId(req, res)
@@ -9,6 +9,12 @@ const createGame = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (!userId) {
     return throwError(res, 401, 'Unauthorized')
+  }
+
+  const { isBanned } = await isUserBanned(userId)
+
+  if (isBanned) {
+    return throwError(res, 401, 'You are currently banned from playing games')
   }
 
   const locations = await getLocations(mapId)
