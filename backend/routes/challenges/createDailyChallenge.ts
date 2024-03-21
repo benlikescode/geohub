@@ -6,7 +6,7 @@ import { OFFICIAL_WORLD_ID } from '@utils/constants/random'
 const createDailyChallenge = async (req: NextApiRequest, res: NextApiResponse) => {
   // First set winner for previous daily challenge
   const previousDailyChallenge = await collections.challenges?.findOne(
-    { isDailyChallenge: true },
+    { isDailyChallenge: true, notForLeaderboard: { $ne: true } },
     { sort: { createdAt: -1 } }
   )
 
