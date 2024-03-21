@@ -1,6 +1,7 @@
 export { default as calculateDistance } from './calculateDistance'
 export { default as calculateMapScoreFactor } from './calculateMapScoreFactor'
 export { default as calculateRoundScore } from './calculateRoundScore'
+export { default as catchErrors } from './catchErrors'
 export { default as compareObjectIds } from './compareObjectIds'
 export { collections, dbConnect } from './dbConnect'
 export { default as getLocations } from './getLocations'
