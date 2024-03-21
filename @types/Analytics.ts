@@ -1,4 +1,4 @@
-import { GameType, UserType } from './'
+import { GameType, UserType } from '.'
 
 type Analytics = {
   counts: [{ title: string; count: number }]
