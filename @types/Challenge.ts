@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb'
-import { GameSettingsType, LocationType, MapType } from './'
+import { GameSettingsType, LocationType, MapType } from '.'
 
 type Challenge = {
   id: ObjectId | string

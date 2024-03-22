@@ -1,4 +1,4 @@
-import { DistanceType } from './'
+import { DistanceType } from '.'
 
 type Guess = {
   lat: number

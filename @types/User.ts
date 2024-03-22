@@ -1,4 +1,4 @@
-import { GameSettingsType } from './'
+import { GameSettingsType } from '.'
 
 type User = {
   id: string
