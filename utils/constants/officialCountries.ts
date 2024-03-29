@@ -99,4 +99,5 @@ export const OFFICIAL_COUNTRIES = [
   'mp',
   'pa',
   'qa',
+  'kz',
 ]
