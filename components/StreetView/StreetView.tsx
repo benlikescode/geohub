@@ -13,6 +13,7 @@ import { KEY_CODES } from '@utils/constants/keyCodes'
 import { mailman, showToast } from '@utils/helpers'
 import { StyledStreetView } from './'
 import { DailyQuotaModal } from '@components/modals/DailyQuotaModal'
+import { doc } from 'prettier'
 
 type Props = {
   gameData: Game
@@ -182,15 +183,6 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
     }
   }
 
-  const handleUndoLastMove = () => {
-    if (!panoramaRef.current) return
-
-    if (undoLocRef.current.length > 1) {
-      undoLocRef.current.pop() // drop current location
-      panoramaRef.current.setPosition(undoLocRef.current[undoLocRef.current.length-1]); // set to last location
-    }
-  }
-
   useEffect(() => {
     if (view !== 'Game') return
 
@@ -200,6 +192,31 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
       document.removeEventListener('keydown', handleBackToStartKeys)
     }
   }, [view])
+
+  const handleUndoLastMove = () => {
+    if (!panoramaRef.current) return
+
+    if (undoLocRef.current.length > 1) {
+      undoLocRef.current.pop() // drop current location
+      panoramaRef.current.setPosition(undoLocRef.current[undoLocRef.current.length-1]); // set to last location
+    }
+  }
+
+  const handleUndoLastMoveKeys = (e: KeyboardEvent) => {
+    if (e.ctrlKey && e.key === 'z' && gameData.gameSettings.canMove) {
+      handleUndoLastMove()
+    }
+  }
+
+  useEffect(() => {
+    if (view !== 'Game') return
+
+    document.addEventListener('keydown', handleUndoLastMoveKeys)
+
+    return () => {
+      document.removeEventListener('keydown', handleUndoLastMoveKeys)
+    }
+  }, [])
 
   const handleSubmitGuessKeys = async (e: KeyboardEvent) => {
     const submitGuessKeys = [KEY_CODES.SPACE, KEY_CODES.SPACE_IE11, KEY_CODES.ENTER]
