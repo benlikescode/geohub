@@ -13,7 +13,6 @@ import { KEY_CODES } from '@utils/constants/keyCodes'
 import { mailman, showToast } from '@utils/helpers'
 import { StyledStreetView } from './'
 import { DailyQuotaModal } from '@components/modals/DailyQuotaModal'
-import { doc } from 'prettier'
 
 type Props = {
   gameData: Game
