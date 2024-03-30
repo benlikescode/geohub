@@ -5,7 +5,7 @@ import { StyledStreetViewControls } from './'
 
 type Props = {
   handleBackToStart: () => void,
-  handleUndoLastMove: () => void
+  handleUndoLastMove: (() => void) | undefined
 }
 
 const StreetViewControls: FC<Props> = ({ handleBackToStart, handleUndoLastMove }) => {
@@ -20,12 +20,14 @@ const StreetViewControls: FC<Props> = ({ handleBackToStart, handleUndoLastMove }
         </button>
         {showStartTip && <Tooltip label="Back To Start (R)" position="left" />}
       </div>
-      <div className="control-button-wrapper" onMouseOver={() => setShowBackTip(true)} onMouseOut={() => setShowBackTip(false)}>
-        <button className="control-button" onClick={handleUndoLastMove}>
-          <ArrowLeftIcon />
-        </button>
-        {showBackTip && <Tooltip label="Undo Last Move" position="left" />}
-      </div>
+      {handleUndoLastMove ? (
+        <div className="control-button-wrapper" onMouseOver={() => setShowBackTip(true)} onMouseOut={() => setShowBackTip(false)}>
+          <button className="control-button" onClick={handleUndoLastMove}>
+            <ArrowLeftIcon />
+          </button>
+          {showBackTip && <Tooltip label="Undo Last Move" position="left" />}
+        </div>
+      ) : null}
     </StyledStreetViewControls>
   )
 }
