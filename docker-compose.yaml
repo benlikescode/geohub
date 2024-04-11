@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   geohub:
-    image: docker pull ghcr.io/benlikescode/geohub:main
+    image: ghcr.io/benlikescode/geohub:main
     env_file:
       - .env
     environment:
