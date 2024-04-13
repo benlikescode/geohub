@@ -36,7 +36,7 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
   const serviceRef = useRef<google.maps.StreetViewService | null>(null)
   const panoramaRef = useRef<google.maps.StreetViewPanorama | null>(null)
 
-  const undoLocRef = useRef<Array<LocationType>>([])
+  const undoLocRef = useRef<LocationType[]>([])
 
   // Initializes Streetview & loads first pano
   useEffect(() => {
@@ -202,7 +202,9 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
   }
 
   const handleUndoLastMoveKeys = (e: KeyboardEvent) => {
-    if (e.ctrlKey && e.key === 'z' && gameData.gameSettings.canMove) {
+    const undoMoveKeys = ['z']
+
+    if (undoMoveKeys.includes(e.key) && gameData.gameSettings.canMove) {
       handleUndoLastMove()
     }
   }
