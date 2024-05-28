@@ -118,6 +118,26 @@ yarn dev
 
 Now, you should be able to see the site running locally at [http://localhost:3000](http://localhost:3000)
 
+## 🐳 Docker
+
+You can also easily run the app using Docker and Docker Compose. To do this, first clone the repository. Get your Google Maps API key as explained above. Generate two random secrets for NextAuth and Cryptr with the `openssl rand -base64 32` command. Then, create a `.env` file in the root of the project with the following content:
+
+```env
+NEXT_PUBLIC_GOOGLE_API_KEY="your-google-maps-key"
+MONGO_INITDB_ROOT_USERNAME="root"
+MONGO_INITDB_ROOT_PASSWORD="example" # Change this to a strong password
+DB_NAME="geohub"
+NEXTAUTH_SECRET="your-first-random-secret"
+CRYPTR_SECRET="your-second-random-secret"
+```
+
+Then, run the following command to start the app:
+```bash
+sudo docker compose up # Add -d flag to run in headless mode
+```
+
+Now, you should be able to see the site running locally at [http://localhost:3000](http://localhost:3000)
+
 ## 🚀 Tech Stack
 
 - ✅ **Framework**: [Nextjs + Typescript](https://nextjs.org)

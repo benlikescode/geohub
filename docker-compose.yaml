@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  geohub:
+    image: ghcr.io/benlikescode/geohub:main
+    env_file:
+      - .env
+    environment:
+      MONGO_URI: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo:27017
+    volumes:
+      - .env:/usr/src/app/.env
+    ports:
+      - "3000:3000"
+  mongo:
+    image: mongo
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./database:/data/db
