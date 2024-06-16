@@ -13,6 +13,27 @@ const StyledLayout = styled.div`
     overflow: hidden;
   }
 
+  .banner-message {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 20px;
+    padding: 20px;
+    border-radius: 20px;
+    background-color: #14073a;
+    z-index: 99999;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    font-weight: 400;
+    width: fit-content;
+
+    p {
+      margin-top: 4px;
+      font-size: 15px;
+      color: #fff;
+    }
+  }
+
   .ban-message {
     position: absolute;
     left: 50%;
