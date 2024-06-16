@@ -54,13 +54,6 @@ const Layout: FC<Props> = ({ children }) => {
 
         <MobileNav />
 
-        <div className="banner-message">
-          <p>
-            We are growing! There will be up to 10 minutes of downtime while we increase our server size. Sorry for the
-            inconvenience.
-          </p>
-        </div>
-
         {banMessage && (
           <div className="ban-message">
             {banMessage}
