@@ -71,7 +71,7 @@ const SelectionMap: FC<Props> = ({
       id: 'icon-layer',
       data: data,
       pickable: true,
-      sizeScale: 30,
+      sizeScale: 26,
       onHover: (d) => handleMarkerHover(d),
       onClick: (d) => handleMarkerClick(d),
       getIcon: (d) => ({
