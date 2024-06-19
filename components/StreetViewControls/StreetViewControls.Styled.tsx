@@ -9,6 +9,8 @@ const StyledStreetViewControls = styled.div`
   gap: 15px;
 
   .control-button-wrapper {
+    position: relative;
+
     .control-button {
       display: flex;
       align-items: center;

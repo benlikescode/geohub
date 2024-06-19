@@ -36,6 +36,8 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
   const serviceRef = useRef<google.maps.StreetViewService | null>(null)
   const panoramaRef = useRef<google.maps.StreetViewPanorama | null>(null)
 
+  const undoLocRef = useRef<LocationType[]>([])
+
   // Initializes Streetview & loads first pano
   useEffect(() => {
     if (!googleMapsConfig) return
@@ -86,6 +88,8 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
       getStreetviewOptions(gameData)
     )
 
+    svPanorama.addListener("position_changed", trackLocations)
+
     serviceRef.current = svService
     panoramaRef.current = svPanorama
 
@@ -112,9 +116,29 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
       })
       svPanorama.setZoom(location.zoom || 0)
       svPanorama.setVisible(true)
+
+      undoLocRef.current = []
     })
 
     setLoading(false)
+  }
+
+  const trackLocations = () => {
+    if (!panoramaRef.current) return
+
+    let pos = panoramaRef.current.getPosition()
+
+    if (pos == null) return
+    const undo = undoLocRef.current
+    const loc: LocationType = {'lat': pos.lat(), 'lng': pos.lng()}
+    const compareLocs = (loc1?: LocationType, loc2?: LocationType): boolean => {
+      if (!loc1 || !loc2 ) return false
+
+      return loc1.lat === loc2.lat && loc1.lng === loc2.lng;
+    }
+
+    // don't store repeated movements (e.g. return to start)
+    if (undo.length < 1 || !compareLocs(loc, undo.at(-1))) undo.push(loc)
   }
 
   const handleSubmitGuess = async (timedOut?: boolean) => {
@@ -168,6 +192,33 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
     }
   }, [view])
 
+  const handleUndoLastMove = () => {
+    if (!panoramaRef.current) return
+
+    if (undoLocRef.current.length > 1) {
+      undoLocRef.current.pop() // drop current location
+      panoramaRef.current.setPosition(undoLocRef.current[undoLocRef.current.length-1]); // set to last location
+    }
+  }
+
+  const handleUndoLastMoveKeys = (e: KeyboardEvent) => {
+    const undoMoveKeys = ['z']
+
+    if (undoMoveKeys.includes(e.key) && gameData.gameSettings.canMove) {
+      handleUndoLastMove()
+    }
+  }
+
+  useEffect(() => {
+    if (view !== 'Game') return
+
+    document.addEventListener('keydown', handleUndoLastMoveKeys)
+
+    return () => {
+      document.removeEventListener('keydown', handleUndoLastMoveKeys)
+    }
+  }, [])
+
   const handleSubmitGuessKeys = async (e: KeyboardEvent) => {
     const submitGuessKeys = [KEY_CODES.SPACE, KEY_CODES.SPACE_IE11, KEY_CODES.ENTER]
 
@@ -217,7 +268,7 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
         {loading && <LoadingPage />}
 
         <div id="streetview">
-          <StreetViewControls handleBackToStart={handleBackToStart} />
+          <StreetViewControls handleBackToStart={handleBackToStart} handleUndoLastMove={gameData.gameSettings.canMove ? handleUndoLastMove : undefined} />
           {view === 'Game' && <GameStatus gameData={gameData} handleSubmitGuess={handleSubmitGuess} />}
 
           {gameData.mode === 'standard' && (
