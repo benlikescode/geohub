@@ -36,6 +36,8 @@ const StyledDailyChallengeWinners = styled.div<StyledProps>`
   .notPlayedMsg {
     color: var(--color4);
     font-weight: 400;
+    display: block;
+    padding: 0px 20px 20px;
   }
 `
 
