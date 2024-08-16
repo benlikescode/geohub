@@ -13,4 +13,11 @@ todayStart.setHours(0, 0, 0, 0)
 const todayEnd = new Date()
 todayEnd.setHours(23, 59, 59, 999)
 
-export { monthAgo, dayAgo, weekAgo, todayStart, todayEnd }
+const daysAgo = (numDays: number) => {
+  const date = new Date()
+  date.setDate(date.getDate() - numDays)
+
+  return date
+}
+
+export { monthAgo, dayAgo, weekAgo, todayStart, todayEnd, daysAgo }
