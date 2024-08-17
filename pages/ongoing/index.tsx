@@ -7,7 +7,7 @@ import { Meta } from '@components/Meta'
 import { DestroyModal } from '@components/modals'
 import { SkeletonOngoingGames } from '@components/skeletons'
 import { Avatar, Pill, Spinner } from '@components/system'
-import { TrashIcon } from '@heroicons/react/outline'
+import { ExclamationCircleIcon, TrashIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@redux/hook'
 import StyledOngoingGamesPage from '@styles/OngoingGamesPage.Styled'
 import { GameType, MapType } from '@types'
@@ -87,6 +87,13 @@ const OngoingGamesPage: NextPage = () => {
       <WidthController customWidth="1160px">
         <Meta title="Ongoing Games" />
         <PageHeader>Ongoing Games</PageHeader>
+
+        <div className="ongoing-banner">
+          <div className="message">
+            <ExclamationCircleIcon />
+            <span>Ongoing games are only saved for 30 days after they are created</span>
+          </div>
+        </div>
 
         {!loading && (!user.id || games.length === 0) ? (
           <NoResults message="You can find your unfinished games here." />

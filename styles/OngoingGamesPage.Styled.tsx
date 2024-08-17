@@ -3,6 +3,35 @@ import styled from 'styled-components'
 const StyledOngoingGamesPage = styled.div`
   height: 100%;
 
+  .ongoing-banner {
+    background-color: #181818;
+    color: var(--color2);
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+
+    .message {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 400;
+
+      span {
+        position: relative;
+        top: 1px;
+      }
+
+      svg {
+        height: 20px;
+      }
+    }
+  }
+
   .ongoing-table {
     background-color: var(--background2);
     border: 1px solid rgb(30 30 30);

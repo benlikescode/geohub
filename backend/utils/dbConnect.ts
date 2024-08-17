@@ -15,6 +15,7 @@ export const collections: {
   featureFlags?: Collection<FeatureFlagsType>
   mapLeaderboard?: Collection<MapLeaderboard>
   userBans?: Collection<UserBansType>
+  analytics?: Collection
 } = {}
 
 const IS_PROD = process.env.NODE_ENV === 'production'
@@ -50,6 +51,7 @@ export const dbConnect = async () => {
     collections.featureFlags = db.collection('featureFlags')
     collections.mapLeaderboard = db.collection('mapLeaderboard')
     collections.userBans = db.collection('userBans')
+    collections.analytics = db.collection('analytics')
 
     return cachedDb
   } catch (err) {
