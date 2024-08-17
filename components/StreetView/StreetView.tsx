@@ -337,7 +337,7 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
         {loading && <LoadingPage />}
 
         <div id="streetview">
-          <StreetViewControls handleBackToStart={handleBackToStart} handleUndoLastMove={gameData.gameSettings.canMove ? handleUndoLastMove : undefined} />
+          {gameData.gameSettings.canMove && <StreetViewControls handleBackToStart={handleBackToStart} handleUndoLastMove={gameData.gameSettings.canMove ? handleUndoLastMove : undefined} />}
           {view === 'Game' && <GameStatus gameData={gameData} handleSubmitGuess={handleSubmitGuess} />}
 
           {gameData.mode === 'standard' && (
