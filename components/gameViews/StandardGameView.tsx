@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import Game from '@backend/models/game'
 import { StandardFinalResults, StandardResults } from '@components/resultCards'
 import { ResultMap } from '@components/ResultMap'
@@ -7,6 +7,9 @@ import { StreetView } from '@components/StreetView'
 import { ChevronLeftIcon } from '@heroicons/react/outline'
 import { GameViewType, MapType } from '@types'
 import { StyledGameView } from './'
+import { StreetViewLite } from '@components/index'
+import { useAppDispatch, useAppSelector } from '@redux/hook'
+import { toggleUseGoogleApi } from '@redux/slices'
 
 type Props = {
   gameData: Game
@@ -18,11 +21,26 @@ type Props = {
 const RESULT_VIEWS = ['Result', 'FinalResults', 'Leaderboard']
 
 const StandardGameView: FC<Props> = ({ gameData, setGameData, view, setView }) => {
+  const user = useAppSelector((state) => state.user)
+  const dispatch = useAppDispatch()
+
   return (
     <StyledGameView>
-      <div className="play-wrapper" style={{ display: view === 'Game' ? 'block' : 'none' }}>
-        <StreetView gameData={gameData} setGameData={setGameData} view={view} setView={setView} />
-      </div>
+      {view === 'Game' && (
+        <button className="toggle-streetview-btn" onClick={() => dispatch(toggleUseGoogleApi())}>
+          Toggle Steetview Type
+        </button>
+      )}
+
+      {user.useGoogleApi && (
+        <div className="play-wrapper" style={{ display: view === 'Game' ? 'block' : 'none' }}>
+          <StreetView gameData={gameData} setGameData={setGameData} view={view} setView={setView} />
+        </div>
+      )}
+
+      {!user.useGoogleApi && view === 'Game' && (
+        <StreetViewLite gameData={gameData} setGameData={setGameData} view={view} setView={setView} />
+      )}
 
       <div className="results-wrapper" style={{ display: RESULT_VIEWS.includes(view) ? 'grid' : 'none' }}>
         <ResultMap

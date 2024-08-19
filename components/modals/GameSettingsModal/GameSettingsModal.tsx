@@ -19,7 +19,7 @@ type Props = {
 }
 
 const GameSettingsModal: FC<Props> = ({ isOpen, closeModal, mapDetails, gameMode }) => {
-  const user: UserType = useAppSelector((state) => state.user)
+  const user = useAppSelector((state) => state.user)
 
   const [showDetailedChecked, setShowDetailedChecked] = useState(
     typeof user.gameSettings === 'undefined' ||
@@ -222,17 +222,19 @@ const GameSettingsModal: FC<Props> = ({ isOpen, closeModal, mapDetails, gameMode
                         <Slider value={sliderVal} min={0} max={60} onChange={setSliderVal} />
                       </div>
 
-                      <div className="movementOptions">
-                        <div className="movementOption">
-                          <ToggleSwitch isActive={canMove} setIsActive={setCanMove} />
-                          <div className="movementOptionLabel">Move</div>
-                        </div>
+                      {user.useGoogleApi && (
+                        <div className="movementOptions">
+                          <div className="movementOption">
+                            <ToggleSwitch isActive={canMove} setIsActive={setCanMove} />
+                            <div className="movementOptionLabel">Move</div>
+                          </div>
 
-                        <div className="movementOption">
-                          <ToggleSwitch isActive={canZoom} setIsActive={setCanZoom} />
-                          <div className="movementOptionLabel">Zoom</div>
+                          <div className="movementOption">
+                            <ToggleSwitch isActive={canZoom} setIsActive={setCanZoom} />
+                            <div className="movementOptionLabel">Zoom</div>
+                          </div>
                         </div>
-                      </div>
+                      )}
                     </div>
                   </div>
                 )}

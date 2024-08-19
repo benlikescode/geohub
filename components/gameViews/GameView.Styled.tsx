@@ -47,6 +47,18 @@ const StyledGameView = styled.div`
       margin-left: -4px;
     }
   }
+
+  .toggle-streetview-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 2;
+    padding: 12px;
+    background-color: #282828;
+    color: #fff;
+    border-radius: 6px;
+    font-size: 14px;
+  }
 `
 
 export default StyledGameView

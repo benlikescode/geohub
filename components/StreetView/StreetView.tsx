@@ -13,6 +13,7 @@ import { KEY_CODES } from '@utils/constants/keyCodes'
 import { mailman, showToast } from '@utils/helpers'
 import { StyledStreetView } from './'
 import { DailyQuotaModal } from '@components/modals/DailyQuotaModal'
+import { useStreetView } from '@utils/hooks/useStreetView'
 
 type Props = {
   gameData: Game
@@ -37,6 +38,8 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
   const panoramaRef = useRef<google.maps.StreetViewPanorama | null>(null)
 
   const undoLocRef = useRef<LocationType[]>([])
+
+  const { handleSubmitGuess } = useStreetView({ gameData, view, setGameData, setView })
 
   // Initializes Streetview & loads first pano
   useEffect(() => {
@@ -88,7 +91,7 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
       getStreetviewOptions(gameData)
     )
 
-    svPanorama.addListener("position_changed", trackLocations)
+    svPanorama.addListener('position_changed', trackLocations)
 
     serviceRef.current = svService
     panoramaRef.current = svPanorama
@@ -130,41 +133,15 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
 
     if (pos == null) return
     const undo = undoLocRef.current
-    const loc: LocationType = {'lat': pos.lat(), 'lng': pos.lng()}
+    const loc: LocationType = { lat: pos.lat(), lng: pos.lng() }
     const compareLocs = (loc1?: LocationType, loc2?: LocationType): boolean => {
-      if (!loc1 || !loc2 ) return false
+      if (!loc1 || !loc2) return false
 
-      return loc1.lat === loc2.lat && loc1.lng === loc2.lng;
+      return loc1.lat === loc2.lat && loc1.lng === loc2.lng
     }
 
     // don't store repeated movements (e.g. return to start)
     if (undo.length < 1 || !compareLocs(loc, undo.at(-1))) undo.push(loc)
-  }
-
-  const handleSubmitGuess = async (timedOut?: boolean) => {
-    if (currGuess || countryStreakGuess || timedOut) {
-      if (!game.startTime) {
-        return showToast('error', 'Something went wrong')
-      }
-
-      const body = {
-        guess: currGuess || { lat: 0, lng: 0 },
-        guessTime: (new Date().getTime() - game.startTime) / 1000,
-        localRound: gameData.round,
-        timedOut,
-        timedOutWithGuess: currGuess !== null,
-        streakLocationCode: countryStreakGuess.toLowerCase(),
-      }
-
-      const res = await mailman(`games/${gameData._id}`, 'PUT', JSON.stringify(body))
-
-      if (res.error) {
-        return showToast('error', res.error.message)
-      }
-
-      setGameData({ ...res.game, mapDetails: res.mapDetails, userDetails: gameData.userDetails })
-      setView('Result')
-    }
   }
 
   const handleBackToStart = () => {
@@ -197,7 +174,7 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
 
     if (undoLocRef.current.length > 1) {
       undoLocRef.current.pop() // drop current location
-      panoramaRef.current.setPosition(undoLocRef.current[undoLocRef.current.length-1]); // set to last location
+      panoramaRef.current.setPosition(undoLocRef.current[undoLocRef.current.length - 1]) // set to last location
     }
   }
 
@@ -219,56 +196,16 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
     }
   }, [])
 
-  const handleSubmitGuessKeys = async (e: KeyboardEvent) => {
-    const submitGuessKeys = [KEY_CODES.SPACE, KEY_CODES.SPACE_IE11, KEY_CODES.ENTER]
-
-    if (submitGuessKeys.includes(e.key)) {
-      await handleSubmitGuess()
-    }
-  }
-
-  useEffect(() => {
-    if (view !== 'Game') return
-
-    document.addEventListener('keydown', handleSubmitGuessKeys, { once: true })
-
-    return () => {
-      document.removeEventListener('keydown', handleSubmitGuessKeys)
-    }
-  }, [currGuess, countryStreakGuess, view])
-
-  const handleMovingArrowKeys = (e: KeyboardEvent) => {
-    const movingArrowKeys = [
-      KEY_CODES.ARROW_DOWN,
-      KEY_CODES.ARROW_DOWN_IE11,
-      KEY_CODES.ARROW_UP,
-      KEY_CODES.ARROW_UP_IE11,
-      'w',
-      's',
-    ]
-
-    if (!gameData.gameSettings.canMove && movingArrowKeys.includes(e.key)) {
-      e.stopPropagation()
-    }
-  }
-
-  useEffect(() => {
-    if (view !== 'Game') return
-
-    document.addEventListener('keydown', handleMovingArrowKeys, { capture: true })
-
-    return () => {
-      document.removeEventListener('keydown', handleMovingArrowKeys, { capture: true })
-    }
-  }, [view])
-
   return (
     <>
       <StyledStreetView showMap={!loading}>
         {loading && <LoadingPage />}
 
         <div id="streetview">
-          <StreetViewControls handleBackToStart={handleBackToStart} handleUndoLastMove={gameData.gameSettings.canMove ? handleUndoLastMove : undefined} />
+          <StreetViewControls
+            handleBackToStart={handleBackToStart}
+            handleUndoLastMove={gameData.gameSettings.canMove ? handleUndoLastMove : undefined}
+          />
           {view === 'Game' && <GameStatus gameData={gameData} handleSubmitGuess={handleSubmitGuess} />}
 
           {gameData.mode === 'standard' && (

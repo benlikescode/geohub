@@ -4,6 +4,7 @@ import { MapType, UserType } from '@types'
 type UserState = UserType & {
   recentlyPlayed: MapType[]
   quotaModalDismissed: boolean
+  useGoogleApi: boolean
 }
 
 const initialState: UserState = {
@@ -15,6 +16,7 @@ const initialState: UserState = {
   gameSettings: { canMove: true, canPan: true, canZoom: true, timeLimit: 0 },
   recentlyPlayed: [],
   quotaModalDismissed: false,
+  useGoogleApi: false,
 }
 
 export const userSlice = createSlice({
@@ -79,6 +81,9 @@ export const userSlice = createSlice({
     dismissQuotaModal: (state) => {
       state.quotaModalDismissed = true
     },
+    toggleUseGoogleApi: (state) => {
+      state.useGoogleApi = !state.useGoogleApi
+    },
   },
 })
 
@@ -96,6 +101,7 @@ export const {
   logOutUser,
   resetGameSettings,
   dismissQuotaModal,
+  toggleUseGoogleApi,
 } = userSlice.actions
 
 export default userSlice.reducer
