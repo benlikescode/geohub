@@ -54,6 +54,10 @@ const StyledGuessMap = styled.div<StyledProps>`
     }
   }
 
+  .map > div > div > div:nth-child(2) {
+    display: none;
+  }
+
   .controls {
     display: flex;
     align-items: center;

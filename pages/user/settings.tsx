@@ -4,10 +4,10 @@ import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 import { WidthController } from '@components/layout'
 import { Meta } from '@components/Meta'
-import { Button, Input, Select, Spinner } from '@components/system'
+import { Button, Input, Select, Spinner, ToggleSwitch } from '@components/system'
 import { ArrowRightIcon } from '@heroicons/react/outline'
 import { useAppDispatch } from '@redux/hook'
-import { logOutUser, updateDistanceUnit, updateMapsAPIKey } from '@redux/slices'
+import { logOutUser, updateDistanceUnit, updateMapsAPIKey, updateUseGoogleApi } from '@redux/slices'
 import StyledSettingsPage from '@styles/SettingsPage.Styled'
 import { mailman, showToast } from '@utils/helpers'
 
@@ -19,19 +19,24 @@ const DISTANCE_UNIT_OPTIONS = [
 type SettingsType = {
   distanceUnit: 'metric' | 'imperial'
   mapsAPIKey: string
+  useGoogleApi: boolean
 }
 
 const SettingsPage: NextPage = () => {
   const [distanceUnit, setDistanceUnit] = useState('metric')
   const [mapsAPIKey, setMapsAPIKey] = useState('')
+  const [useGoogleApi, setUseGoogleApi] = useState(false)
   const [loading, setLoading] = useState(false)
   const [initialSettings, setInitialSettings] = useState<SettingsType>()
   const dispatch = useAppDispatch()
 
   const hasEdited = useMemo(
     () =>
-      initialSettings && (distanceUnit !== initialSettings?.distanceUnit || mapsAPIKey !== initialSettings?.mapsAPIKey),
-    [distanceUnit, mapsAPIKey, initialSettings]
+      initialSettings &&
+      (distanceUnit !== initialSettings?.distanceUnit ||
+        mapsAPIKey !== initialSettings?.mapsAPIKey ||
+        useGoogleApi !== initialSettings?.useGoogleApi),
+    [distanceUnit, mapsAPIKey, useGoogleApi, initialSettings]
   )
 
   useEffect(() => {
@@ -51,10 +56,11 @@ const SettingsPage: NextPage = () => {
     setInitialSettings(res)
     setDistanceUnit(res.distanceUnit)
     setMapsAPIKey(res.mapsAPIKey)
+    setUseGoogleApi(res.useGoogleApi)
   }
 
   const handleSaveChanges = async () => {
-    const newSettings = { distanceUnit, mapsAPIKey } as SettingsType
+    const newSettings = { distanceUnit, mapsAPIKey, useGoogleApi } as SettingsType
 
     const res = await mailman('users/settings', 'POST', JSON.stringify(newSettings))
 
@@ -66,6 +72,7 @@ const SettingsPage: NextPage = () => {
 
     dispatch(updateDistanceUnit(distanceUnit))
     dispatch(updateMapsAPIKey(mapsAPIKey))
+    dispatch(updateUseGoogleApi(useGoogleApi))
 
     showToast('success', 'Successfully updated user settings')
   }
@@ -109,6 +116,7 @@ const SettingsPage: NextPage = () => {
                 callback={setDistanceUnit}
                 value={distanceUnit}
               />
+
               <Input
                 id="maps-key"
                 label="Custom API Key"
@@ -147,6 +155,27 @@ const SettingsPage: NextPage = () => {
                 </Button>
               </div>
             )}
+
+            <div className="streetview-selection-wrapper">
+              <div className="streetview-selection">
+                Use Google Maps API
+                <ToggleSwitch isActive={useGoogleApi} setIsActive={setUseGoogleApi} />
+              </div>
+              <p>
+                Using the Google Maps API allows more features such as customizing game settings and removing road
+                labels.
+              </p>
+
+              <p>
+                However, the Google Maps API is very expensive and so there is a daily cap on how many times it can be
+                used. You will know this limit has been reached when the colors appear inverted.
+              </p>
+
+              <p>
+                To prevent this, you can either upload your own Google Maps API key or toggle this setting off which
+                will restore the map back to normal colors.
+              </p>
+            </div>
 
             <button className="logout-btn" onClick={() => handleLogout()}>
               Log Out

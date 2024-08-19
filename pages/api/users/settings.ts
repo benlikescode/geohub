@@ -28,11 +28,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(200).send({
         distanceUnit: user.distanceUnit,
         mapsAPIKey: decrypedMapsAPIKey,
+        useGoogleApi: user.useGoogleApi,
       })
     }
 
     if (req.method === 'POST') {
-      const { distanceUnit, mapsAPIKey } = req.body
+      const { distanceUnit, mapsAPIKey, useGoogleApi } = req.body
       const userId = await getUserId(req, res)
 
       if (!userId) {
@@ -51,12 +52,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return throwError(res, 400, 'This distance unit is not allowed.')
       }
 
+      if (typeof useGoogleApi !== 'boolean') {
+        return throwError(res, 400, 'Invalid type for "Use Google Maps API"')
+      }
+
       const safeDistance = distanceUnit ?? 'metric'
       const safeMapsKey = mapsAPIKey ? cryptr.encrypt(mapsAPIKey) : ''
 
       const updateSettings = await collections.users?.updateOne(
         { _id: new ObjectId(userId) },
-        { $set: { distanceUnit: safeDistance, mapsAPIKey: safeMapsKey } }
+        { $set: { distanceUnit: safeDistance, mapsAPIKey: safeMapsKey, useGoogleApi } }
       )
 
       if (!updateSettings) {

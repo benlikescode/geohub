@@ -107,6 +107,26 @@ const StyledSettingsPage = styled.div`
     }
   }
 
+  .streetview-selection-wrapper {
+    padding: 16px;
+    border-radius: 6px;
+    border: 1px solid ${({ theme }) => theme.color.gray[800]};
+    background-color: #181818;
+
+    .streetview-selection {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    p {
+      color: #919191;
+      font-weight: 400;
+      font-size: 15px;
+      margin-top: 16px;
+    }
+  }
+
   @media (max-width: 600px) {
     .settings-body {
       .maps-key-cta {

@@ -61,6 +61,9 @@ export const userSlice = createSlice({
     updateMapsAPIKey: (state, action) => {
       state.mapsAPIKey = action.payload
     },
+    updateUseGoogleApi: (state, action) => {
+      state.useGoogleApi = action.payload
+    },
     logOutUser: (state) => {
       state.id = initialState.id
       state.name = initialState.name
@@ -81,9 +84,6 @@ export const userSlice = createSlice({
     dismissQuotaModal: (state) => {
       state.quotaModalDismissed = true
     },
-    toggleUseGoogleApi: (state) => {
-      state.useGoogleApi = !state.useGoogleApi
-    },
   },
 })
 
@@ -98,10 +98,10 @@ export const {
   updateRecentlyPlayed,
   updateDistanceUnit,
   updateMapsAPIKey,
+  updateUseGoogleApi,
   logOutUser,
   resetGameSettings,
   dismissQuotaModal,
-  toggleUseGoogleApi,
 } = userSlice.actions
 
 export default userSlice.reducer

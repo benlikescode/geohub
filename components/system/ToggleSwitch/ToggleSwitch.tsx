@@ -10,19 +10,10 @@ type Props = {
 }
 
 const ToggleSwitch: FC<Props> = ({ activeColor, inActiveColor, circleColor, isActive, setIsActive }) => {
-  const [active, setActive] = useState(isActive)
-
-  const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newVal = e.currentTarget.checked
-
-    setActive(newVal)
-    setIsActive(newVal)
-  }
-
   return (
     <StyledToggleSwitch activeColor={activeColor} inActiveColor={inActiveColor} circleColor={circleColor}>
       <label className="switch">
-        <input type="checkbox" checked={active} onChange={(e) => onInputChange(e)} />
+        <input type="checkbox" checked={isActive} onChange={(e) => setIsActive(e.currentTarget.checked)} />
         <span className="slider"></span>
       </label>
     </StyledToggleSwitch>

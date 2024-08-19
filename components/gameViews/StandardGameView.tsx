@@ -8,8 +8,7 @@ import { ChevronLeftIcon } from '@heroicons/react/outline'
 import { GameViewType, MapType } from '@types'
 import { StyledGameView } from './'
 import { StreetViewLite } from '@components/index'
-import { useAppDispatch, useAppSelector } from '@redux/hook'
-import { toggleUseGoogleApi } from '@redux/slices'
+import { useAppSelector } from '@redux/hook'
 
 type Props = {
   gameData: Game
@@ -22,16 +21,9 @@ const RESULT_VIEWS = ['Result', 'FinalResults', 'Leaderboard']
 
 const StandardGameView: FC<Props> = ({ gameData, setGameData, view, setView }) => {
   const user = useAppSelector((state) => state.user)
-  const dispatch = useAppDispatch()
 
   return (
     <StyledGameView>
-      {view === 'Game' && (
-        <button className="toggle-streetview-btn" onClick={() => dispatch(toggleUseGoogleApi())}>
-          Toggle Steetview Type
-        </button>
-      )}
-
       {user.useGoogleApi && (
         <div className="play-wrapper" style={{ display: view === 'Game' ? 'block' : 'none' }}>
           <StreetView gameData={gameData} setGameData={setGameData} view={view} setView={setView} />
