@@ -10,7 +10,7 @@ import { StyledGameView } from './'
 import { StreetViewLite } from '@components/index'
 import Link from 'next/link'
 import { useAppDispatch, useAppSelector } from '@redux/hook'
-import { hideSVChangesLink } from '@redux/slices'
+import { dismissSVChanges } from '@redux/slices'
 
 type Props = {
   gameData: Game
@@ -27,8 +27,8 @@ const StandardGameView: FC<Props> = ({ gameData, setGameData, view, setView }) =
 
   return (
     <StyledGameView>
-      {user.showSVChangesLink && (
-        <Link href="/updates/streetview-changes" onClick={() => dispatch(hideSVChangesLink())}>
+      {!user.svChangesDismissed && (
+        <Link href="/updates/streetview-changes" onClick={() => dispatch(dismissSVChanges())}>
           <a className="news-btn">
             Changes to StreetView
             <ExternalLinkIcon />

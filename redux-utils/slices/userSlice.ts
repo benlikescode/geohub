@@ -5,7 +5,7 @@ type UserState = UserType & {
   recentlyPlayed: MapType[]
   quotaModalDismissed: boolean
   useGoogleApi: boolean
-  showSVChangesLink: boolean
+  svChangesDismissed: boolean
 }
 
 const initialState: UserState = {
@@ -18,7 +18,7 @@ const initialState: UserState = {
   recentlyPlayed: [],
   quotaModalDismissed: false,
   useGoogleApi: false,
-  showSVChangesLink: true,
+  svChangesDismissed: false,
 }
 
 export const userSlice = createSlice({
@@ -79,6 +79,7 @@ export const userSlice = createSlice({
       state.distanceUnit = initialState.distanceUnit
       state.mapsAPIKey = initialState.mapsAPIKey
       state.quotaModalDismissed = initialState.quotaModalDismissed
+      state.svChangesDismissed = initialState.svChangesDismissed
     },
     resetGameSettings: (state) => {
       state.gameSettings = initialState.gameSettings
@@ -86,8 +87,8 @@ export const userSlice = createSlice({
     dismissQuotaModal: (state) => {
       state.quotaModalDismissed = true
     },
-    hideSVChangesLink: (state) => {
-      state.showSVChangesLink = false
+    dismissSVChanges: (state) => {
+      state.svChangesDismissed = true
     },
   },
 })
@@ -107,7 +108,7 @@ export const {
   logOutUser,
   resetGameSettings,
   dismissQuotaModal,
-  hideSVChangesLink,
+  dismissSVChanges,
 } = userSlice.actions
 
 export default userSlice.reducer
