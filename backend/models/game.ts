@@ -27,6 +27,7 @@ type Game = {
   mode: 'standard' | 'streak'
   streak: number
   isDailyChallenge?: boolean
+  isUsingApi?: boolean
 }
 
 export default Game

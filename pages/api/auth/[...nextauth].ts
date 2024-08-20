@@ -49,6 +49,7 @@ export const authOptions: NextAuthOptions = {
           isAdmin: user.isAdmin,
           distanceUnit: user.distanceUnit,
           mapsAPIKey: decrypedMapsAPIKey,
+          useGoogleApi: user.useGoogleApi,
         }
       },
     }),

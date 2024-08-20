@@ -60,16 +60,18 @@ const StreetViewLite: FC<Props> = ({ gameData, setGameData, view, setView }) => 
       )}
 
       {gameData.mode === 'streak' && (
-        <StreaksGuessMap
-          countryStreakGuess={countryStreakGuess}
-          setCountryStreakGuess={setCountryStreakGuess}
-          handleSubmitGuess={handleSubmitGuess}
-          mobileMapOpen={mobileMapOpen}
-          closeMobileMap={() => setMobileMapOpen(false)}
-          googleMapsConfig={googleMapsConfig}
-          setGoogleMapsConfig={setGoogleMapsConfig}
-          resetMap={view === 'Game'}
-        />
+        <div style={{ position: 'absolute', bottom: 4, right: 50 }}>
+          <StreaksGuessMap
+            countryStreakGuess={countryStreakGuess}
+            setCountryStreakGuess={setCountryStreakGuess}
+            handleSubmitGuess={handleSubmitGuess}
+            mobileMapOpen={mobileMapOpen}
+            closeMobileMap={() => setMobileMapOpen(false)}
+            googleMapsConfig={googleMapsConfig}
+            setGoogleMapsConfig={setGoogleMapsConfig}
+            resetMap={view === 'Game'}
+          />
+        </div>
       )}
       <button className="toggle-map-button" onClick={() => setMobileMapOpen(true)}>
         <MapIcon />

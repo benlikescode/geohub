@@ -28,6 +28,8 @@ const createChallengeGame = async (req: NextApiRequest, res: NextApiResponse) =>
     return throwError(res, 400, 'You have already played this challenge')
   }
 
+  const user = await collections.users?.findOne({ _id: new ObjectId(userId) })
+
   const newGame = {
     mapId: mode === 'standard' ? new ObjectId(mapId) : mapId,
     userId: new ObjectId(userId),
@@ -44,6 +46,7 @@ const createChallengeGame = async (req: NextApiRequest, res: NextApiResponse) =>
     state: 'started',
     isDailyChallenge,
     createdAt: new Date(),
+    isUsingApi: user?.useGoogleApi,
   }
 
   // Create game that is associated with this challenge

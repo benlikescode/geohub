@@ -13,6 +13,7 @@ declare module 'next-auth' {
       isAdmin: boolean
       distanceUnit: 'metric' | 'imperial'
       mapsAPIKey: string
+      useGoogleApi: boolean
     } & DefaultSession['user']
   }
 }

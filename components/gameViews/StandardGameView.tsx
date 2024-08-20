@@ -1,14 +1,16 @@
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import Game from '@backend/models/game'
 import { StandardFinalResults, StandardResults } from '@components/resultCards'
 import { ResultMap } from '@components/ResultMap'
 import { LeaderboardCard } from '@components/Results'
 import { StreetView } from '@components/StreetView'
-import { ChevronLeftIcon } from '@heroicons/react/outline'
+import { ChevronLeftIcon, ExternalLinkIcon } from '@heroicons/react/outline'
 import { GameViewType, MapType } from '@types'
 import { StyledGameView } from './'
 import { StreetViewLite } from '@components/index'
-import { useAppSelector } from '@redux/hook'
+import Link from 'next/link'
+import { useAppDispatch, useAppSelector } from '@redux/hook'
+import { hideSVChangesLink } from '@redux/slices'
 
 type Props = {
   gameData: Game
@@ -21,16 +23,26 @@ const RESULT_VIEWS = ['Result', 'FinalResults', 'Leaderboard']
 
 const StandardGameView: FC<Props> = ({ gameData, setGameData, view, setView }) => {
   const user = useAppSelector((state) => state.user)
+  const dispatch = useAppDispatch()
 
   return (
     <StyledGameView>
-      {user.useGoogleApi && (
+      {user.showSVChangesLink && (
+        <Link href="/updates/streetview-changes" onClick={() => dispatch(hideSVChangesLink())}>
+          <a className="news-btn">
+            Changes to StreetView
+            <ExternalLinkIcon />
+          </a>
+        </Link>
+      )}
+
+      {gameData.isUsingApi && (
         <div className="play-wrapper" style={{ display: view === 'Game' ? 'block' : 'none' }}>
           <StreetView gameData={gameData} setGameData={setGameData} view={view} setView={setView} />
         </div>
       )}
 
-      {!user.useGoogleApi && view === 'Game' && (
+      {!gameData.isUsingApi && view === 'Game' && (
         <StreetViewLite gameData={gameData} setGameData={setGameData} view={view} setView={setView} />
       )}
 

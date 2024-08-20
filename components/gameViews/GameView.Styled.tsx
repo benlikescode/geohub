@@ -4,6 +4,27 @@ const StyledGameView = styled.div`
   height: 100%;
   width: 100%;
 
+  .news-btn {
+    position: absolute;
+    z-index: 2;
+    top: 20px;
+    left: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 16px;
+    border-radius: 50rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+
+    svg {
+      height: 20px;
+      margin-left: 8px;
+      position: relative;
+      top: -1px;
+    }
+  }
+
   .play-wrapper {
     height: 100%;
     width: 100%;

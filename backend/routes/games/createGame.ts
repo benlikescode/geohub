@@ -17,6 +17,8 @@ const createGame = async (req: NextApiRequest, res: NextApiResponse) => {
     return throwError(res, 401, 'You are currently banned from playing games')
   }
 
+  const user = await collections.users?.findOne({ _id: new ObjectId(userId) })
+
   const locations = await getLocations(mapId)
 
   if (!locations) {
@@ -36,6 +38,7 @@ const createGame = async (req: NextApiRequest, res: NextApiResponse) => {
     streak: 0,
     state: 'started',
     createdAt: new Date(),
+    isUsingApi: user?.useGoogleApi,
   } as Game
 
   // Create game
