@@ -28,8 +28,8 @@ const StandardGameView: FC<Props> = ({ gameData, setGameData, view, setView }) =
   return (
     <StyledGameView>
       {!user.svChangesDismissed && (
-        <Link href="/updates/streetview-changes" onClick={() => dispatch(dismissSVChanges())}>
-          <a className="news-btn">
+        <Link href="/updates/streetview-changes">
+          <a className="news-btn" onClick={() => dispatch(dismissSVChanges())}>
             Changes to StreetView
             <ExternalLinkIcon />
           </a>
