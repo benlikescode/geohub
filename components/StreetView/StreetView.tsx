@@ -24,14 +24,11 @@ type Props = {
 
 const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
   const [loading, setLoading] = useState(true)
-  const [currGuess, setCurrGuess] = useState<LocationType | null>(null)
-  const [countryStreakGuess, setCountryStreakGuess] = useState('')
   const [mobileMapOpen, setMobileMapOpen] = useState(false)
   const [googleMapsConfig, setGoogleMapsConfig] = useState<GoogleMapsConfigType>()
   const [showQuotaModal, setShowQuotaModal] = useState(false)
 
   const location = gameData.rounds[gameData.round - 1]
-  const game = useAppSelector((state) => state.game)
   const user = useAppSelector((state) => state.user)
 
   const serviceRef = useRef<google.maps.StreetViewService | null>(null)
@@ -39,7 +36,12 @@ const Streetview: FC<Props> = ({ gameData, setGameData, view, setView }) => {
 
   const undoLocRef = useRef<LocationType[]>([])
 
-  const { handleSubmitGuess } = useStreetView({ gameData, view, setGameData, setView })
+  const { currGuess, setCurrGuess, countryStreakGuess, setCountryStreakGuess, handleSubmitGuess } = useStreetView({
+    gameData,
+    view,
+    setGameData,
+    setView,
+  })
 
   // Initializes Streetview & loads first pano
   useEffect(() => {
