@@ -9,6 +9,7 @@ import { POLYGON_STYLES } from '@utils/constants/polygonStyles'
 import { formatPolygon, getMapsKey } from '@utils/helpers'
 import { useAppSelector } from '../../redux-utils'
 import { StyledStreaksSummaryMap } from './'
+import { getRealCountryCode } from '@utils/helpers/getRealCountryCode'
 
 type Props = {
   gameData: Game
@@ -43,13 +44,14 @@ const StreaksSummaryMap: FC<Props> = ({ gameData }) => {
     const seen = new Set()
 
     const uniqueLocations = actualLocations.filter((loc) => {
-      const duplicate = seen.has(loc.countryCode)
-      seen.add(loc.countryCode)
+      const countryCode = getRealCountryCode(loc.countryCode)
+      const duplicate = seen.has(countryCode)
+      seen.add(countryCode)
       return !duplicate
     })
 
     uniqueLocations.map((actualLocation) => {
-      const { countryCode } = actualLocation
+      const countryCode = getRealCountryCode(actualLocation.countryCode)
 
       if (!countryCode) return
 

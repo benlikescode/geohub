@@ -7,6 +7,7 @@ import { GameViewType } from '@types'
 import countries from '@utils/constants/countries'
 import { KEY_CODES } from '@utils/constants/keyCodes'
 import { StyledStreakContinueCard } from './'
+import { getRealCountryCode } from '@utils/helpers/getRealCountryCode'
 
 type Props = {
   gameData: Game
@@ -45,14 +46,14 @@ const StreakContinueCard: FC<Props> = ({ gameData, view, setView }) => {
 
     const correctCountryCode = gameData.rounds[gameData.round - 2].countryCode
 
-    return correctCountryCode?.toUpperCase()
+    return getRealCountryCode(correctCountryCode)?.toUpperCase()
   }
 
   const getCorrectCountryName = () => {
     if (gameData.round < 2) return ''
 
     const correctCountryCode = gameData.rounds[gameData.round - 2].countryCode
-    const correctCountry = countries.find((x) => x.code === correctCountryCode)?.name
+    const correctCountry = countries.find((x) => x.code === getRealCountryCode(correctCountryCode))?.name
 
     return correctCountry
   }

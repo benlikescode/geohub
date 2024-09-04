@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from 'react'
 import Game from '@backend/models/game'
 import countries from '../../utils/constants/countries'
 import { StyledStreakCountryList } from './'
+import { getRealCountryCode } from '@utils/helpers/getRealCountryCode'
 
 type Props = {
   gameData: Game
@@ -22,9 +23,10 @@ const StreakCountryList: FC<Props> = ({ gameData }) => {
     gameData.rounds.map((round, idx) => {
       if (idx > gameData.streak) return
 
-      const name = countries.find((x) => x.code === round.countryCode)?.name || ''
-      const flag = `https://purecatamphetamine.github.io/country-flag-icons/3x2/${round.countryCode?.toUpperCase()}.svg`
-      // const flag = `https://flagcdn.com/24x18/${round.countryCode?.toLowerCase()}.png`
+      const roundCountryCode = getRealCountryCode(round.countryCode)
+
+      const name = countries.find((x) => x.code === roundCountryCode)?.name || ''
+      const flag = `https://purecatamphetamine.github.io/country-flag-icons/3x2/${roundCountryCode?.toUpperCase()}.svg`
       const guessedWrong = idx === gameData.streak
       const guessedCountryCode = guessedWrong ? gameData.guesses[idx]?.streakLocationCode : ''
       const guessedCountry = countries.find((x) => x.code === guessedCountryCode)?.name || ''
@@ -45,7 +47,6 @@ const StreakCountryList: FC<Props> = ({ gameData }) => {
         <li key={idx} className="streak-result-item">
           <div className="result-number">{idx + 1}.</div>
           <div className="result-flag">
-            {/* <Image src={round.flag} alt="" height={20} width={20} /> */}
             <img src={round.flag} alt="" />
           </div>
           <div className="result-name">

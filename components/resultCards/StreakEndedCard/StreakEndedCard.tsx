@@ -11,6 +11,7 @@ import countries from '@utils/constants/countries'
 import { KEY_CODES } from '@utils/constants/keyCodes'
 import { mailman, showToast } from '@utils/helpers'
 import { StyledStreakEndedCard } from './'
+import { getRealCountryCode } from '@utils/helpers/getRealCountryCode'
 
 type Props = {
   gameData: Game
@@ -28,7 +29,7 @@ const StreakEndedCard: FC<Props> = ({ gameData, setGameData, view, setView }) =>
   const router = useRouter()
 
   const guessedCountryCode = gameData.guesses[gameData.guesses.length - 1].streakLocationCode
-  const correctCountryCode = gameData.rounds[gameData.round - 2].countryCode
+  const correctCountryCode = getRealCountryCode(gameData.rounds[gameData.round - 2].countryCode)
 
   const guessedCountry = countries.find((x) => x.code === guessedCountryCode)?.name
   const correctCountry = countries.find((x) => x.code === correctCountryCode)?.name

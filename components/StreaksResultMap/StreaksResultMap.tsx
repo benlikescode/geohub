@@ -10,6 +10,7 @@ import { formatPolygon } from '@utils/helpers'
 import { useAppSelector } from '../../redux-utils'
 import getMapsKey from '../../utils/helpers/getMapsKey'
 import { StyledStreaksResultMap } from './'
+import { getRealCountryCode } from '@utils/helpers/getRealCountryCode'
 
 type Props = {
   gameData: Game
@@ -57,7 +58,7 @@ const ResultMap: FC<Props> = ({ gameData, resetMap }) => {
   }
 
   const loadCountryGeojson = async (map: google.maps.Map) => {
-    const { countryCode } = actualCountry
+    const countryCode = getRealCountryCode(actualCountry.countryCode)
 
     if (!countryCode) return
 
