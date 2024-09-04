@@ -63,7 +63,6 @@ const ResultMap: FC<Props> = ({ gameData, resetMap }) => {
     if (!countryCode) return
 
     const countryCodeLowerCase = countryCode.toLowerCase()
-    console.log(countryCodeLowerCase)
     const polygon = formatPolygon(countryBounds[countryCodeLowerCase], { code: countryCodeLowerCase })
 
     const isCorrect = gameData.state !== 'finished'
