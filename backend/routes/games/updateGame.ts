@@ -12,6 +12,7 @@ import {
   throwError,
 } from '@backend/utils'
 import { ChallengeType, DistanceType, GuessType } from '@types'
+import { getRealCountryCode } from '@utils/helpers/getRealCountryCode'
 
 const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
   const gameId = req.query.id as string
@@ -56,7 +57,7 @@ const updateGame = async (req: NextApiRequest, res: NextApiResponse) => {
   if (game.mode === 'streak') {
     const actualLocation = game.rounds[localRound - 1]
 
-    if (streakLocationCode.toLowerCase() !== actualLocation.countryCode?.toLowerCase()) {
+    if (streakLocationCode.toLowerCase() !== getRealCountryCode(actualLocation?.countryCode).toLowerCase()) {
       isGameFinished = true
     } else {
       game.streak++

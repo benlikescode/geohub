@@ -10,7 +10,7 @@ const getLocations = async (mapId: string, count: number = 5) => {
   if (mapId === COUNTRY_STREAKS_ID) {
     const locations = (await collections.locations
       ?.aggregate([
-        { $match: { mapId: new ObjectId(OFFICIAL_WORLD_ID), countryCode: { $in: OFFICIAL_COUNTRIES } } },
+        { $match: { mapId: new ObjectId(OFFICIAL_WORLD_ID), countryCode: { $in: ['fo', 'gl', 'hk'] } } },
         { $sample: { size: count } },
       ])
       .toArray()) as LocationType[]
