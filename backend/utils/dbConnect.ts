@@ -18,8 +18,7 @@ export const collections: {
   analytics?: Collection
 } = {}
 
-const IS_PROD = process.env.NODE_ENV === 'production'
-const MONGO_URI = IS_PROD ? (process.env.MONGO_URI as string) : (process.env.LOCAL_MONGO as string)
+const MONGO_URI = process.env.MONGO_URI as string
 
 let cachedDb: Db | null = null
 
@@ -27,7 +26,7 @@ const client = new MongoClient(MONGO_URI)
 
 export const dbConnect = async () => {
   if (cachedDb) {
-    console.log(`Using existing DB connection: ${IS_PROD ? 'Prod DB' : 'Local DB'}`)
+    console.log('Using existing DB connection')
     return cachedDb
   }
 
@@ -35,7 +34,7 @@ export const dbConnect = async () => {
     const dbConnection = await client.connect()
     const db = dbConnection.db(process.env.DB_NAME)
 
-    console.log(`Using new DB connection: ${IS_PROD ? 'Prod DB' : 'Local DB'}`)
+    console.log('Using new DB connection')
 
     cachedDb = db
 
