@@ -28,6 +28,10 @@ const ChallengeResultsPage: PageType = () => {
   const fetchGames = async () => {
     const res = await mailman(`scores/challenges/${challengeId}`)
 
+    if (res.notPlayed) {
+      return setNotAuthorized(true)
+    }
+
     if (res.error) {
       if (res.error.code === 401) {
         return setNotAuthorized(true)
