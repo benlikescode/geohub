@@ -33,10 +33,6 @@ const ChallengeResultsPage: PageType = () => {
     }
 
     if (res.error) {
-      if (res.error.code === 401) {
-        return setNotAuthorized(true)
-      }
-
       return setGamesFromChallenge(null)
     }
 
