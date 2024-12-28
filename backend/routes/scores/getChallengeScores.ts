@@ -3,6 +3,9 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { collections, getUserId, throwError } from '@backend/utils'
 import { userProject } from '@backend/utils/dbProjects'
 import { COUNTRY_STREAK_DETAILS, COUNTRY_STREAKS_ID } from '@utils/constants/random'
+import { GameType } from '@types';
+
+const SENSITIVE_GAME_FIELDS: (keyof GameType)[] = ["guesses", "rounds"]
 
 const getChallengeScores = async (req: NextApiRequest, res: NextApiResponse) => {
   const userId = await getUserId(req, res)
@@ -32,10 +35,18 @@ const getChallengeScores = async (req: NextApiRequest, res: NextApiResponse) => 
     return throwError(res, 404, `Failed to get scores for challenged with id: ${challengeId}`)
   }
 
-  // If user has not yet played challenge -> they cant see results
+  let notPlayed = false;
+
+  // If user has not yet played challenge -> they cant see the locations or guesses, only scores and meta info
   if (!gamesData.find((x) => x?.userId?.toString() === userId)) {
-    return throwError(res, 401, `You haven't finished this challenge yet`)
+    notPlayed = true;
+    for (const game of gamesData) {
+      for (const field of SENSITIVE_GAME_FIELDS) {
+        delete game[field];
+      }
+    }
   }
+
 
   // Get Map
   const mapId = gamesData[0].mapId
@@ -53,6 +64,7 @@ const getChallengeScores = async (req: NextApiRequest, res: NextApiResponse) => 
   res.status(200).send({
     games: gamesData,
     map,
+    notPlayed,
   })
 }
 
