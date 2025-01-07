@@ -1,6 +1,6 @@
 services:
   geohub-dev:
-    image: geohub-dev
+    image: ghcr.io/benlikescode/geohub-dev:main
     restart: unless-stopped
     env_file:
       - .env

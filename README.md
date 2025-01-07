@@ -121,6 +121,8 @@ Now, you should be able to see the site running locally at [http://localhost:300
 ## 🐳 Docker
 
 You can also easily use Docker and Docker Compose to run or contribute to the app.
+For this, you need to have [Docker installed](https://docs.docker.com/engine/install/).
+This guide assumes you're using Linux.
 
 1. Clone the repository
 2. Get your Google Maps API key as explained above
@@ -139,19 +141,14 @@ NEXTAUTH_SECRET="random-secret"
 CRYPTR_SECRET="other-random-secret"
 ```
 
-If you only want to run the app, you are now done and can simply do so by executing
+You are now done.
+To just start the website, you can execute
 ```bash
-sudo docker compose up # Add -d flag to run in headless mode
+sudo docker compose up # Add -d flag to run in the background
 ```
 Then, you should be able to see the site running locally at [http://localhost:3000](http://localhost:3000)
 
-### Develop geohub in a development container
-To use a dev container you for now have to build it yourself.
-To build it, from the root of the repository execute
-```bash
-sudo docker build -f Docker-dev -t geohub-dev .
-```
-Using this docker image, you can now use the `docker-dev.yaml` compose file:
+To get a version that reflects your changes to the code, you can use
 ```bash
 sudo docker compose -f docker-dev.yaml up
 ```

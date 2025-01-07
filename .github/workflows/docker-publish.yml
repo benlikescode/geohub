@@ -25,6 +25,15 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    # To also build dev image (According to https://github.com/docker/build-push-action/issues/561#issuecomment-1054596444)
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - dockerfile: ./Dockerfile
+            image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          - dockerfile: ./Dockerfile-dev
+            image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-dev
     permissions:
       contents: read
       packages: write
@@ -48,12 +57,12 @@ jobs:
       # https://github.com/docker/setup-buildx-action
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-  
+
       # Login against a Docker registry except on PR
       # https://github.com/docker/login-action
       - name: Log into registry ${{ env.REGISTRY }}
         if: github.event_name != 'pull_request'
-        uses: docker/login-action@v3        
+        uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -65,7 +74,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ matrix.image }}
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
