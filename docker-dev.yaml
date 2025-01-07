@@ -1,0 +1,40 @@
+services:
+  geohub-dev:
+    image: geohub-dev
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      MONGO_URI: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@geohub-db:27017
+    volumes:
+      - .env:/usr/src/app/.env
+      - ./@types:/usr/src/app/@types
+      - ./backend:/usr/src/app/backend
+      - ./components:/usr/src/app/components
+      - ./fonts:/usr/src/app/fonts
+      - ./pages:/usr/src/app/pages
+      - ./public:/usr/src/app/public
+      - ./redux-utils:/usr/src/app/redux-utils
+      - ./styles:/usr/src/app/styles
+      - ./tests:/usr/src/app/tests
+      - ./utils:/usr/src/app/utils
+    ports:
+      - "3000:3000"
+    networks:
+      - geohub
+
+  geohub-db:
+    image: mongo
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./database:/data/db
+    ports:
+      - "31017:27017"
+    networks:
+      - geohub
+
+networks:
+  geohub:
+    driver: bridge
