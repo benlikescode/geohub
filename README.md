@@ -120,23 +120,42 @@ Now, you should be able to see the site running locally at [http://localhost:300
 
 ## 🐳 Docker
 
-You can also easily run the app using Docker and Docker Compose. To do this, first clone the repository. Get your Google Maps API key as explained above. Generate two random secrets for NextAuth and Cryptr with the `openssl rand -base64 32` command. Then, create a `.env` file in the root of the project with the following content:
+You can also easily use Docker and Docker Compose to run or contribute to the app.
 
+1. Clone the repository
+2. Get your Google Maps API key as explained above
+3. Create a `.env` file based on `.env.example`
+   1. Remove the `NEXTAUTH_URL` and `MONGO_URI` lines as you are using a container
+   2. Choose a new password for the database
+   3. Generate two random secrets for NextAuth and Cryptr with the `openssl rand -base64 32` command.
+
+Your `.env` file should now look like this
 ```env
-NEXT_PUBLIC_GOOGLE_API_KEY="your-google-maps-key"
+NEXT_PUBLIC_GOOGLE_API_KEY="AIza{manyrandomletters}"
 MONGO_INITDB_ROOT_USERNAME="root"
-MONGO_INITDB_ROOT_PASSWORD="example" # Change this to a strong password
+MONGO_INITDB_ROOT_PASSWORD="very-secure-password"
 DB_NAME="geohub"
-NEXTAUTH_SECRET="your-first-random-secret"
-CRYPTR_SECRET="your-second-random-secret"
+NEXTAUTH_SECRET="random-secret"
+CRYPTR_SECRET="other-random-secret"
 ```
 
-Then, run the following command to start the app:
+If you only want to run the app, you are now done and can simply do so by executing
 ```bash
 sudo docker compose up # Add -d flag to run in headless mode
 ```
+Then, you should be able to see the site running locally at [http://localhost:3000](http://localhost:3000)
 
-Now, you should be able to see the site running locally at [http://localhost:3000](http://localhost:3000)
+### Develop geohub in a development container
+To use a dev container you for now have to build it yourself.
+To build it, from the root of the repository execute
+```bash
+sudo docker build -f Docker-dev -t geohub-dev .
+```
+Using this docker image, you can now use the `docker-dev.yaml` compose file:
+```bash
+sudo docker compose -f docker-dev.yaml up
+```
+Now changes you make will immediately be reflected on the page running at [http://localhost:3000](http://localhost:3000).
 
 ## 🚀 Tech Stack
 
