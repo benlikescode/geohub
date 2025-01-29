@@ -232,6 +232,11 @@ const GameSettingsModal: FC<Props> = ({ isOpen, closeModal, mapDetails, gameMode
                           <ToggleSwitch isActive={canZoom} setIsActive={setCanZoom} />
                           <div className="movementOptionLabel">Zoom</div>
                         </div>
+
+                        <div className="movementOption">
+                          <ToggleSwitch isActive={canPan} setIsActive={setCanPan} />
+                          <div className="movementOptionLabel">Pan</div>
+                        </div>
                       </div>
                     </div>
                   </div>
