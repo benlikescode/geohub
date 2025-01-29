@@ -14,7 +14,7 @@
 
 GeoHub is a free and open source geography guessing game inspired by Geoguessr.
 
-For those unfamilar with Geoguessr, it uses Google Streetview to place you in a random location and you have to guess where you think you are in the world. You can move around and use clues around you such as Language, Architecture, Road Signs, etc... to make your guess. The objective is clear, the closer you are to the correct location, the more points you get.
+For those unfamiliar with Geoguessr, it uses Google Street View to place you in a random location, and you have to guess where you think you are in the world. You can move around and use clues around you such as Language, Architecture, Road Signs, etc... to make your guess. The objective is clear, the closer you are to the correct location, the more points you get.
 
 ## 💜 How can I support?
 
@@ -22,18 +22,18 @@ Even though you don't need to pay to play GeoHub, the game still costs money to 
 
 <a href="https://www.buymeacoffee.com/geohubgame"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="42" width="170"></a>
 
-If you still want to help support GeoHub but aren't able to donate, you can also create your own Google Maps API key which gives you $200 USD worth of credit every month. Unless you are playing 24/7 this will be more than enough credits for a single person, meaning you won't have to pay. See the [FAQ](#faq) section for instructions on how to setup your own key.
+If you still want to help support GeoHub but aren't able to donate, you can also create your own Google Maps API key which gives you $200 USD worth of credit every month. Unless you are playing 24/7 this will be more than enough credits for a single person, meaning you won't have to pay. See the [FAQ](#faq) section for instructions on how to set up your own key.
 
 ## 🎉 How do I play?
 
-Go to the [website](https://www.geohub.gg) and create an account, it is free and takes 15 seconds. If you don't want to create your own account, you can login to the guest account using the credentials below:
+Go to the [website](https://www.geohub.gg) and create an account, it is free and takes 15 seconds. If you don't want to create your own account, you can log in to the guest account using the credentials below:
 
 - Email: `guest@geohub.com`
 - Password: `geohub`
 
 <br />
 
-Once you have an account, you are ready to play! You can click play on any of the offical maps on the home page such as:
+Once you have an account, you are ready to play! You can click play on any of the official maps on the home page such as:
 
 - [World](https://www.geohub.gg/map/6185df7a7b54baf63473a53e)
 - [Famous Landmarks](https://www.geohub.gg/map/6185dfd47b54baf63473a540)
@@ -44,7 +44,7 @@ Or you can click on the `Find Maps` link on the sidebar to navigate between all 
 
 <br />
 
-If you get bored of playing the standard gamemodes, you can try out the other gamemodes available:
+If you get bored of playing the standard game modes, you can try out the other game modes available:
 
 - [Country Streaks](https://www.geohub.gg/streaks)
 - [The Daily Challenge](https://www.geohub.gg/daily-challenge)
@@ -67,21 +67,21 @@ Tired of having the locations picked for you? Create your own map by following t
 1. Click on the `My Maps` link on the sidebar
 2. Click the `Create New Map` button
 3. Choose a name for your map, and optionally a description and map avatar
-4. Click `Next` to setup your custom map
+4. Click `Next` to set up your custom map
 5. Once on the map editor page, you can start adding locations to your map
-6. Click anywhere on the map to preview the streetview location
+6. Click anywhere on the map to preview the Street View location
 7. Once you have added all the locations you want, click on the `Save Map` button which will let you save and optionally publish your map
 
 ## ❓ FAQ
 
-#### Why are the colors inverted on google maps?
+#### Why are the colors inverted on Google Maps?
 
-- This means the daily quota for the google maps API has been reached since the game is currently running on the Google Maps free tier. The daily quota resets at midnight Pacific Time (PT). If you want to play unlimited games without hitting the daily quota, see below for how to add/create your own Google Maps API key.
+- This means the daily quota for the Google Maps API has been reached since the game is currently running on the Google Maps free tier. The daily quota resets at midnight Pacific Time (PT). If you want to play unlimited games without hitting the daily quota, see below for how to add/create your own Google Maps API key.
 
 #### How do I add my own Google Maps API key?
 
 - Go to your profile page and click on the settings button on the far right (alternatively you can go to this URL: [Settings](https://www.geohub.gg/user/settings)).
-- You then simply paste your key into the `Custom API Key` field and click `Save Changes`. Now all you have to do is refresh the page and enojoy playing as much as you want!
+- You then simply paste your key into the `Custom API Key` field and click `Save Changes`. Now all you have to do is refresh the page and enjoy playing as much as you want!
 
 #### How do I create my own Google Maps API key?
 
@@ -89,7 +89,7 @@ Tired of having the locations picked for you? Create your own map by following t
 
 #### Will it cost me money to create my own Google Maps API key?
 
-- Short answer: No, it is nearly impossible to exceed the $200 USD credit per month on your own. To put it into perspective, you would have to play atleast 100 games every day of the month to even come close to exceeding the free tier.
+- Short answer: No, it is nearly impossible to exceed the $200 USD credit per month on your own. To put it into perspective, you would have to play at least 100 games every day of the month to even come close to exceeding the free tier.
 - If you are still concerned about getting billed, you can monitor your current billing period usage at any time by going to the Billing page on your Google Cloud account.
 
 ## 💻 Steps to run locally
@@ -120,23 +120,39 @@ Now, you should be able to see the site running locally at [http://localhost:300
 
 ## 🐳 Docker
 
-You can also easily run the app using Docker and Docker Compose. To do this, first clone the repository. Get your Google Maps API key as explained above. Generate two random secrets for NextAuth and Cryptr with the `openssl rand -base64 32` command. Then, create a `.env` file in the root of the project with the following content:
+You can also easily use Docker and Docker Compose to run or contribute to the app.
+For this, you need to have [Docker installed](https://docs.docker.com/engine/install/).
+This guide assumes you're using Linux.
 
+1. Clone the repository
+2. Get your Google Maps API key as explained in the FAQ above
+3. Create a `.env` file based on `.env.example`
+   1. Remove the `NEXTAUTH_URL` and `MONGO_URI` lines as you are using a container
+   2. Choose a new password for the database
+   3. Generate two random secrets for NextAuth and Cryptr with the `openssl rand -base64 32` command.
+
+Your `.env` file should now look like this
 ```env
-NEXT_PUBLIC_GOOGLE_API_KEY="your-google-maps-key"
+NEXT_PUBLIC_GOOGLE_API_KEY="AIza{manyrandomletters}"
 MONGO_INITDB_ROOT_USERNAME="root"
-MONGO_INITDB_ROOT_PASSWORD="example" # Change this to a strong password
+MONGO_INITDB_ROOT_PASSWORD="very-secure-password"
 DB_NAME="geohub"
-NEXTAUTH_SECRET="your-first-random-secret"
-CRYPTR_SECRET="your-second-random-secret"
+NEXTAUTH_SECRET="random-secret"
+CRYPTR_SECRET="other-random-secret"
 ```
 
-Then, run the following command to start the app:
+You are now done.
+To just start the website, you can execute
 ```bash
-sudo docker compose up # Add -d flag to run in headless mode
+sudo docker compose up # Add -d flag to run in the background
 ```
+Then, you should be able to see the site running locally at [http://localhost:3000](http://localhost:3000)
 
-Now, you should be able to see the site running locally at [http://localhost:3000](http://localhost:3000)
+To get a version that reflects your changes to the code, you can use
+```bash
+sudo docker compose -f docker-dev.yaml up
+```
+Now changes you make will immediately be reflected on the page running at [http://localhost:3000](http://localhost:3000).
 
 ## 🚀 Tech Stack
 
