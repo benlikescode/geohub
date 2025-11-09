@@ -1,103 +1,55 @@
+// European countries only
 export const OFFICIAL_COUNTRIES = [
-  'us',
-  'gb',
-  'co',
-  'ie',
-  'ua',
-  'al',
-  'ph',
-  'ro',
-  'pe',
-  'sn',
-  'bo',
-  'lv',
-  'rw',
-  'ec',
-  'fi',
-  'ar',
-  'pr',
-  'id',
-  'mt',
-  'bm',
-  'im',
-  'fo',
-  'de',
-  'hu',
-  'vi',
-  'is',
-  'cl',
-  'tr',
-  'it',
-  'il',
-  'jp',
-  'gr',
-  'ru',
-  'je',
-  'th',
-  'br',
-  'ng',
-  'gt',
-  'la',
-  'gl',
-  'hr',
-  'ch',
-  'fr',
-  'cx',
-  'in',
-  'mx',
-  'me',
-  'ee',
-  'do',
-  'ls',
-  'ae',
-  'jo',
-  'mn',
-  'bt',
-  'ca',
-  'my',
-  'lk',
-  'no',
-  'ad',
-  'nz',
-  'bd',
-  'lu',
-  'se',
-  'sz',
-  'ke',
-  'be',
-  'si',
-  'pl',
-  'gu',
-  'cw',
-  'au',
-  'dk',
-  'bg',
-  'bw',
-  'kr',
-  'mg',
-  'lt',
-  'mc',
-  'sm',
-  'rs',
-  'kh',
-  'nl',
-  'mk',
-  'cz',
-  'pt',
-  'es',
-  'uy',
-  'pk',
-  'tn',
-  'sk',
-  'at',
-  'za',
-  'kg',
-  'tw',
-  'sg',
-  'ug',
-  'gh',
-  'mp',
-  'pa',
-  'qa',
-  'kz',
+  'ad', // Andorra
+  'al', // Albania
+  'at', // Austria
+  'ax', // Åland Islands
+  'ba', // Bosnia and Herzegovina
+  'be', // Belgium
+  'bg', // Bulgaria
+  'by', // Belarus
+  'ch', // Switzerland
+  'cy', // Cyprus
+  'cz', // Czech Republic
+  'de', // Germany
+  'dk', // Denmark
+  'ee', // Estonia
+  'es', // Spain
+  'fi', // Finland
+  'fo', // Faroe Islands
+  'fr', // France
+  'gb', // United Kingdom
+  'gg', // Guernsey
+  'gi', // Gibraltar
+  'gr', // Greece
+  'hr', // Croatia
+  'hu', // Hungary
+  'ie', // Ireland
+  'im', // Isle of Man
+  'is', // Iceland
+  'it', // Italy
+  'je', // Jersey
+  'li', // Liechtenstein
+  'lt', // Lithuania
+  'lu', // Luxembourg
+  'lv', // Latvia
+  'mc', // Monaco
+  'md', // Moldova
+  'me', // Montenegro
+  'mk', // North Macedonia
+  'mt', // Malta
+  'nl', // Netherlands
+  'no', // Norway
+  'pl', // Poland
+  'pt', // Portugal
+  'ro', // Romania
+  'rs', // Serbia
+  'ru', // Russia
+  'se', // Sweden
+  'si', // Slovenia
+  'sj', // Svalbard and Jan Mayen
+  'sk', // Slovakia
+  'sm', // San Marino
+  'ua', // Ukraine
+  'va', // Vatican City
 ]
