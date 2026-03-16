@@ -100,4 +100,15 @@ export const OFFICIAL_COUNTRIES = [
   'pa',
   'qa',
   'kz',
+  // added Mar 16, 2026
+  'ba',
+  'cr',
+  'lb',
+  'li',
+  'na',
+  'np',
+  'om',
+  'py',
+  'cy',
+  'st',
 ]
